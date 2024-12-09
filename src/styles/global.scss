@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+/* Base styles */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-dark-bg text-base-200;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-medium tracking-tight text-base-200;
+}
+
+.h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+.h2 { @apply text-3xl md:text-4xl lg:text-5xl; }
+.h3 { @apply text-2xl md:text-3xl; }
+.h4 { @apply text-xl md:text-2xl; }
+
+p {
+  @apply text-base-300 leading-relaxed;
+}
+
+/* Interactive elements */
+.interactive-card {
+  @apply relative rounded-lg border border-primary-500/30 bg-dark-bg p-6 transition-all;
+  @apply shadow-[0_0_25px_rgba(0,0,255,0.15)];
+  
+  &:hover {
+    @apply border-primary-500/50 shadow-[0_0_35px_rgba(0,0,255,0.3)];
+  }
+
+  &::before {
+    content: "";
+    @apply absolute inset-0 -z-10 rounded-lg bg-gradient-to-b from-primary-500/5 to-transparent opacity-50;
+  }
+}
+
+/* Custom code styling */
+code,
+pre code {
+  @apply rounded-md bg-gray-900 px-2 py-1 text-gray-100;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+/* Enhanced Hover Border Glow effect */
+.hover-border-glow {
+  @apply relative rounded-lg border border-primary-500/30 bg-dark-bg p-6 transition-all;
+  @apply shadow-[0_0_25px_rgba(0,0,255,0.15)];
+  
+  &:hover {
+    @apply border-primary-500/50 shadow-[0_0_35px_rgba(0,0,255,0.3)];
+  }
+
+  &::before {
+    content: "";
+    @apply absolute inset-0 -z-10 rounded-lg bg-gradient-to-b from-primary-500/5 to-transparent opacity-50;
+  }
+}
+
+/* Buttons */
+.btn {
+  @apply relative rounded-lg border border-primary-500/30 bg-dark-bg px-6 py-3;
+  @apply text-base-200 shadow-[0_0_25px_rgba(0,0,255,0.15)] transition-all;
+  @apply hover:border-primary-500/50 hover:shadow-[0_0_35px_rgba(0,0,255,0.3)];
+
+  &::before {
+    content: "";
+    @apply absolute inset-0 -z-10 rounded-lg bg-gradient-to-b from-primary-500/5 to-transparent opacity-50;
+  }
+}
+
+/* Navigation */
+.nav-link {
+  @apply text-base-200 transition-colors hover:text-primary-400;
+}
+
+/* Section spacing */
+section {
+  @apply py-16 md:py-24;
+}
+
+.section-container {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Card text */
+.text-base-300 {
+  color: rgba(209, 213, 219, 0.8);
+}
+
+/* Dark mode specific styles */
+.dark {
+  .interactive-card,
+  .hover-border-glow,
+  .btn {
+    @apply bg-dark-bg text-base-200;
+  }
+
+  input, textarea, select {
+    @apply bg-dark-bg text-base-200;
+  }
+}

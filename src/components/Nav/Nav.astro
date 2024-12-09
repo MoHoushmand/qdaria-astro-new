@@ -1,0 +1,297 @@
+---
+import NavLink from "@components/Nav/NavLink.astro";
+import NavDropdown from "@components/Nav/NavDropdown/NavDropdown.astro";
+import NavDropdownToggle from "./NavDropdown/NavDropdownToggle.astro";
+import MobileNav from "@components/Nav/MobileNav.astro";
+import Button from "@components/Button/Button.astro";
+import ThemeToggle from "@components/ThemeToggle/ThemeToggle.astro";
+
+const navData = [
+  {
+    text: "Company",
+    dropdown: [
+      { text: "About", link: "/about", description: "Our mission and vision" },
+      { text: "Intro", link: "/intro", description: "Introduction to QDaria" },
+      { text: "Careers", link: "/careers", description: "Join our team" }
+    ]
+  },
+  {
+    text: "Solutions",
+    dropdown: [
+      {
+        text: "Products",
+        children: [
+          { text: "Zipminator", link: "/solutions/products/zipminator", description: "Quantum-Safe Cybersecurity" },
+          { text: "QDiana", link: "/solutions/products/qdiana", description: "Quantum Education Platform" },
+          { text: "Qm9", link: "/solutions/products/qm9", description: "Quantum Financial Technology" }
+        ]
+      },
+      {
+        text: "Quantum Solutions",
+        children: [
+          { text: "Quantum Computing", link: "/quantum-computing", description: "Topological Quantum Computing" },
+          { text: "Quantum Lab", link: "/quantum-lab", description: "Experimental Research Facilities" },
+          { text: "Quantum Security", link: "/quantum-security", description: "Post-Quantum Cryptography" }
+        ]
+      }
+    ]
+  },
+  {
+    text: "Ecosystem",
+    dropdown: [
+      { text: "Team", link: "/team", description: "Meet our team" },
+      { text: "Collaborators", link: "/collaborators", description: "Our partners" },
+      { text: "Investors", link: "/investors", description: "Investment opportunities" }
+    ]
+  },
+  {
+    text: "Resources",
+    dropdown: [
+      { text: "Blog", link: "/blog", description: "Latest updates" },
+      { text: "News", link: "/news", description: "Company news" },
+      { text: "Media", link: "/media", description: "Press and news" },
+      { text: "Contact", link: "/contact", description: "Get in touch" }
+    ]
+  }
+];
+---
+
+<div
+  id="nav__container"
+  class="navbar--initial fixed left-0 top-0 z-30 flex w-full flex-col border-b transition-all duration-300"
+  transition:name={`nav`}
+>
+  <div class="mx-auto flex w-full">
+    <div class="site-container flex h-14 w-full items-center">
+      <header class="relative flex w-full items-center gap-2">
+        <div class="flex justify-start lg:min-w-[220px]">
+          <a href="/" class="nav-logo">
+            <img src="/icons/qdaria/QDlogomark.svg" alt="QDaria" class="h-8 w-auto text-base-200" />
+          </a>
+        </div>
+
+        <div class="flex flex-auto justify-center">
+          <nav class="hidden items-center md:flex">
+            <ul class="flex h-fit items-center gap-4 px-4">
+              {
+                navData.map((navItem) => (
+                  <li class="nav-item-wrapper group">
+                    {
+                      "dropdown" in navItem ? (
+                        <div class="nav-button">
+                          <NavDropdownToggle navItem={navItem} />
+                        </div>
+                      ) : (
+                        <div class="nav-button">
+                          <NavLink navItem={navItem} />
+                        </div>
+                      )
+                    }
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+        </div>
+
+        <div class="flex justify-end gap-4">
+          <ThemeToggle class="my-auto hidden md:block" />
+
+          <Button
+            variant="primary"
+            class="nav-button hidden rounded-lg bg-primary-500 px-4 py-1.5 text-white shadow-lg transition-all hover:bg-primary-600 md:flex"
+            href="/whitepaper"
+          >
+            Whitepaper
+          </Button>
+
+          <Button
+            variant="primary"
+            class="nav-button hidden rounded-lg border border-primary-500 bg-transparent px-4 py-1.5 text-primary-500 transition-all hover:bg-primary-500 hover:text-white md:flex"
+            href="/pitch"
+          >
+            Pitch
+          </Button>
+
+          <button
+            type="button"
+            class="mobile-nav-toggle inline-flex items-center justify-center rounded-lg p-2.5 text-base-200 hover:bg-base-800 md:hidden"
+            aria-label="Toggle menu"
+            data-toggle-nav
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-16 6h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <MobileNav navData={navData} />
+</div>
+
+<style>
+  .navbar--scrolled {
+    @apply border-b-base-800 bg-dark-bg/50 backdrop-blur;
+  }
+
+  .navbar--initial {
+    @apply border-b-transparent bg-transparent;
+  }
+
+  .nav-logo {
+    @apply relative rounded-lg border border-primary-500/30 bg-dark-bg px-3 py-1.5 transition-all;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 35px rgba(4, 163, 255, 0.6);
+    }
+
+    &::before {
+      content: '';
+      @apply absolute inset-0 rounded-lg;
+      background: radial-gradient(
+        600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.2),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .nav-button {
+    @apply relative rounded-lg border border-primary-500/30 bg-dark-bg px-3 py-1.5 transition-all;
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.2);
+
+    &:hover {
+      box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    }
+
+    &::before {
+      content: '';
+      @apply absolute inset-0 rounded-lg;
+      background: radial-gradient(
+        600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.1),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .nav-item-wrapper {
+    @apply relative;
+
+    .nav-item-underline {
+      @apply absolute -bottom-1 left-0 h-0.5 w-0 bg-primary-500 transition-all duration-300;
+    }
+
+    &:hover .nav-item-underline {
+      @apply w-full;
+    }
+  }
+
+  :global(.nav-item) {
+    @apply text-base-200 transition-all;
+  }
+
+  :global(.nav-dropdown-item) {
+    @apply rounded-lg px-3 py-1.5 text-base-200 transition-all hover:bg-primary-500/10;
+  }
+
+  .mobile-nav-toggle {
+    @apply transition-colors duration-200;
+
+    &[aria-expanded="true"] {
+      @apply bg-base-800;
+    }
+  }
+</style>
+
+<script>
+  let navbar: HTMLElement | null;
+  let mobileNav: HTMLElement | null;
+  let mobileToggle: HTMLElement | null;
+
+  function updateMousePosition(e: MouseEvent) {
+    const target = e.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    target.style.setProperty('--mouse-x', `${x}px`);
+    target.style.setProperty('--mouse-y', `${y}px`);
+  }
+
+  function toggleMobileNav() {
+    if (!mobileNav || !mobileToggle) return;
+    
+    const isExpanded = mobileToggle.getAttribute("aria-expanded") === "true";
+    mobileToggle.setAttribute("aria-expanded", (!isExpanded).toString());
+    mobileNav.classList.toggle("show");
+
+    // Prevent body scroll when mobile nav is open
+    document.body.style.overflow = !isExpanded ? 'hidden' : '';
+  }
+
+  function initNav() {
+    navbar = document.getElementById("nav__container");
+    mobileNav = document.getElementById("mobile-nav");
+    mobileToggle = document.querySelector("[data-toggle-nav]");
+
+    window.addEventListener("scroll", scrollHandler, { passive: true });
+
+    // Add mouse move listeners for glowing effects
+    document.querySelectorAll('.nav-logo, .nav-button').forEach((el) => {
+      el.addEventListener('mousemove', updateMousePosition);
+    });
+
+    // Add mobile nav toggle listener
+    if (mobileToggle) {
+      mobileToggle.addEventListener("click", toggleMobileNav);
+    }
+
+    // Reset body overflow on page change
+    document.body.style.overflow = '';
+  }
+
+  function scrollHandler() {
+    if (navbar) {
+      if (window.scrollY > 50) {
+        navbar.classList.add("navbar--scrolled");
+        navbar.classList.remove("navbar--initial");
+      } else {
+        navbar.classList.add("navbar--initial");
+        navbar.classList.remove("navbar--scrolled");
+      }
+    }
+  }
+
+  // Initialize on page load
+  initNav();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener("astro:after-swap", initNav);
+</script>

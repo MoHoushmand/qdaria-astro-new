@@ -1,0 +1,91 @@
+---
+/**
+ * * Logo cloud section for quantum computing partners
+ */
+
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon";
+
+//components
+import Badge from "@components/Badge/Badge.astro";
+
+// Import partner logos
+import blueforsLogo from "../../assets/QD-logo/bluefors.png";
+import rigettiLogo from "../../assets/QD-logo/rigetti-logo.svg";
+import typeOneSystemsLogo from "../../assets/QD-logo/type_one_systems_logo.jpeg";
+
+interface Props {
+  class?: string;
+  rest?: any;
+}
+
+const { class: Classname, ...rest } = Astro.props as Props;
+---
+
+<section
+  id="logo-cloud-static"
+  class="flex items-end justify-center py-10"
+  class:list={Classname}
+>
+  <div class="site-container relative">
+    <div class="mx-auto mb-12 text-center md:max-w-2xl" data-aos="fade-up">
+      <Badge>Partners</Badge>
+      <div class="flex justify-center">
+        <h2 class="h2 mb-4">Strategic Quantum Technology Partners</h2>
+      </div>
+      <p class="description text-pretty text-lg md:text-xl">
+        Collaborating with industry leaders to advance the field of Topological Quantum Computing
+      </p>
+    </div>
+
+    <div
+      class="mx-4 grid grow gap-y-8 text-base-800 md:max-w-5xl md:grid-cols-3 dark:text-base-400"
+      {...rest}
+      data-aos="fade-up"
+      data-aos-delay=".1"
+    >
+      <div class="partner-logo flex items-center justify-center px-8">
+        <Image
+          src={rigettiLogo}
+          alt="Rigetti Computing"
+          class="logo"
+          height={60}
+          width={200}
+        />
+        <p class="mt-2 text-center text-sm">Advanced Quantum Hardware Partner</p>
+      </div>
+
+      <div class="partner-logo flex items-center justify-center px-8">
+        <Image
+          src={blueforsLogo}
+          alt="Bluefors"
+          class="logo"
+          height={60}
+          width={200}
+        />
+        <p class="mt-2 text-center text-sm">Cryogenic Systems Partner</p>
+      </div>
+
+      <div class="partner-logo flex items-center justify-center px-8">
+        <Image
+          src={typeOneSystemsLogo}
+          alt="Type One Systems"
+          class="logo"
+          height={60}
+          width={200}
+        />
+        <p class="mt-2 text-center text-sm">Quantum Instruments Partner</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .partner-logo {
+    @apply flex flex-col items-center;
+    
+    .logo {
+      @apply mx-auto h-auto max-h-16 w-auto object-contain;
+    }
+  }
+</style>

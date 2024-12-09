@@ -1,0 +1,101 @@
+---
+import { Image } from "astro:assets";
+import Profile from "../components/Profile/Profile.astro";
+import Badge from "../components/Badge/Badge.astro";
+
+// Import team member images
+import moImage from "../assets/images/team/mo.jpg";
+import nickImage from "../assets/images/team/nick.jpg";
+import jonnaImage from "../assets/images/team/jonna.jpg";
+import fredrikImage from "../assets/images/team/fredrik.jpg";
+import milenImage from "../assets/images/team/milen.jpg";
+import emanueleImage from "../assets/images/team/Emanuele.jpg";
+import carolineImage from "../assets/images/team/caroline.jpeg";
+import martinImage from "../assets/images/team/martin.jpg";
+import dariaImage from "../assets/images/team/daria.jpg";
+import nilsImage from "../assets/images/team/nils.jpg";
+
+const teamMembers = [
+  {
+    image: moImage,
+    name: "Daniel Mo Houshmand",
+    title: "CEO & Founder",
+    bio: "Leading QDaria with expertise in Applied Mathematics, Physics, and Engineering. Spearheading advancements in Topological Quantum Hardware R&D and Q-AI integration."
+  },
+  {
+    image: milenImage,
+    name: "Milen Kouylekov",
+    title: "Chief AI Research Officer",
+    bio: "Expert in Natural Language Processing and Machine Learning, leading QDaria's AI research initiatives and quantum computing applications."
+  },
+  {
+    image: emanueleImage,
+    name: "Emanuele Lapponi",
+    title: "Chief Technology Officer",
+    bio: "PhD in Natural Language Processing, leading QDaria's technological development and quantum computing innovations."
+  },
+  {
+    image: carolineImage,
+    name: "Caroline Woie",
+    title: "Chief Communication Officer",
+    bio: "Award-winning media professional with over 20 years of experience, leading QDaria's communication strategy and media presence."
+  },
+  {
+    image: nickImage,
+    name: "Nick Saaf",
+    title: "Chief Sales Officer",
+    bio: "Expert in customer relations and entrepreneurship, driving QDaria's market growth and strategic partnerships in quantum computing."
+  },
+  {
+    image: jonnaImage,
+    name: "John Kristiansen",
+    title: "Chief Operating Officer",
+    bio: "Experienced operations executive with over two decades of leadership, optimizing QDaria's operations and strategic growth."
+  },
+  {
+    image: fredrikImage,
+    name: "Fredrik Krey Stubberud",
+    title: "Chief Information Officer",
+    bio: "IT specialist with expertise in service management and operations, overseeing QDaria's IT infrastructure and technology integration."
+  },
+  {
+    image: martinImage,
+    name: "Martin Potestas",
+    title: "Chief Cybersecurity Officer",
+    bio: "Over two decades of IT security experience, ensuring QDaria's infrastructure and cybersecurity measures are cutting-edge."
+  },
+  {
+    image: nilsImage,
+    name: "Nils Bjelland Grønvold",
+    title: "Chief Creative Officer",
+    bio: "Renowned creative professional with extensive experience in performance and media production. Leading QDaria's creative initiatives and brand innovation."
+  },
+  {
+    image: dariaImage,
+    name: "Daria Houshmand",
+    title: "Junior Full Stack Developer",
+    bio: "Aspiring technologist and innovator, developing applications and contributing to QDaria's quantum computing platform."
+  }
+];
+---
+
+<section id="team" class="py-16 md:py-20">
+  <div class="site-container relative">
+    <div class="mx-auto mb-16 text-center md:max-w-2xl" data-aos="fade-up">
+      <Badge>Our Team</Badge>
+      <div class="flex justify-center">
+        <h2 class="h2 mb-4">Leaders in Quantum Innovation</h2>
+      </div>
+      <p class="description text-pretty text-lg md:text-xl">
+        Our team combines expertise in quantum computing, AI, and technology development to pioneer advancements in Topological Quantum Computing.
+      </p>
+    </div>
+    <div
+      class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
+      data-aos="fade-up"
+      data-aos-delay=".1"
+    >
+      {teamMembers.map((member) => <Profile {...member} />)}
+    </div>
+  </div>
+</section>

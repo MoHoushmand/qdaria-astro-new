@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import HeroSideElectric from "@components/Hero/HeroSideElectric.astro";
+import FeatureCardsSmall from "@components/Feature/FeatureCardsSmall.astro";
+import LogoCloudMarquee from "@components/LogoCloud/LogoCloudMarquee.astro";
+import CtaLightning from "@components/Cta/CtaLightning.astro";
+import Nav from "@components/Nav/Nav.astro";
+
+const title = "QDaria - Pioneering Fault-Tolerant Topological Quantum Computing";
+const description = "QDaria is at the forefront of topological quantum computing, harnessing the power of Fibonacci anyons to create inherently stable qubits. Our breakthrough technology achieves unprecedented error resistance through topological protection, making large-scale quantum computing a reality.";
+---
+
+<BaseLayout {title} {description}>
+  <Nav />
+  <main class="relative">
+    <div class="relative z-10">
+      <HeroSideElectric />
+    </div>
+    
+    <div class="relative z-20 bg-dark-bg">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-dark-bg"></div>
+      <div class="relative">
+        <LogoCloudMarquee />
+        <FeatureCardsSmall />
+        <CtaLightning />
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  main {
+    @apply min-h-screen overflow-hidden;
+  }
+</style>

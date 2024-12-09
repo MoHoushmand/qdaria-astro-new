@@ -1,0 +1,228 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Collaborators | QDaria Quantum Technologies";
+const description = "Discover QDaria's strategic partnerships and collaborations advancing the field of quantum computing.";
+
+const collaborators = [
+  {
+    name: "Rigetti Computing",
+    logo: "/src/icons/logos/rigetti0.svg",
+    role: "Advanced Quantum Hardware Partner",
+    description: "Collaborating on the development of next-generation quantum computing hardware and integration solutions.",
+    contributions: [
+      "Joint hardware development",
+      "System integration expertise",
+      "Technical knowledge exchange",
+      "Research collaboration"
+    ],
+    achievements: [
+      "Successful hardware integration",
+      "Performance improvements",
+      "Joint publications",
+      "Technical breakthroughs"
+    ]
+  },
+  {
+    name: "Bluefors",
+    logo: "/src/icons/logos/bluefors.svg",
+    role: "Cryogenic Systems Partner",
+    description: "Providing advanced cryogenic systems essential for quantum computing operations and research.",
+    contributions: [
+      "Cryogenic expertise",
+      "System optimization",
+      "Technical support",
+      "Custom solutions"
+    ],
+    achievements: [
+      "Enhanced system stability",
+      "Improved cooling efficiency",
+      "Innovative designs",
+      "Reliable operation"
+    ]
+  },
+  {
+    name: "CTD",
+    logo: "/src/icons/logos/CTD_logo_white.svg",
+    role: "Strategic Technology Partner",
+    description: "Partnering to advance quantum computing solutions and technological innovation.",
+    contributions: [
+      "Technology development",
+      "Innovation partnership",
+      "Strategic collaboration",
+      "Joint research initiatives"
+    ],
+    achievements: [
+      "Strategic alliance formed",
+      "Joint development projects",
+      "Technology integration",
+      "Market expansion"
+    ]
+  }
+];
+
+const researchPartners = [
+  {
+    name: "University of Oslo",
+    type: "Academic",
+    focus: "Theoretical quantum physics and algorithm development",
+    projects: [
+      "Quantum algorithm optimization",
+      "Error correction research",
+      "Theoretical frameworks",
+      "Student engagement"
+    ]
+  },
+  {
+    name: "Norwegian Institute of Technology",
+    type: "Research Institution",
+    focus: "Applied quantum computing and system integration",
+    projects: [
+      "Hardware testing",
+      "System validation",
+      "Performance analysis",
+      "Technical documentation"
+    ]
+  },
+  {
+    name: "Quantum Research Alliance",
+    type: "Industry Consortium",
+    focus: "Standards development and industry collaboration",
+    projects: [
+      "Industry standards",
+      "Best practices",
+      "Knowledge sharing",
+      "Market development"
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Collaborators</Badge>
+          <h1 class="h1 mb-8">Strategic Partnerships</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Working together with industry leaders and research institutions to advance quantum computing technology.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Industry Partners -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Industry Partners</Badge>
+          <h2 class="h2 mb-4">Technology Partners</h2>
+          <p class="description text-lg md:text-xl">
+            Collaborating with leading technology providers to build the future of quantum computing.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {collaborators.map((partner) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <div class="mb-6 flex h-16 items-center justify-center">
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  class="h-full w-auto object-contain filter brightness-0 invert"
+                />
+              </div>
+              <h3 class="h4 mb-2">{partner.name}</h3>
+              <p class="mb-4 text-sm text-blue-400">{partner.role}</p>
+              <p class="description mb-6">
+                {partner.description}
+              </p>
+              
+              <div class="mb-6">
+                <h4 class="text-sm font-medium text-blue-400">Key Contributions</h4>
+                <ul class="mt-2 space-y-2">
+                  {partner.contributions.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Joint Achievements</h4>
+                <ul class="mt-2 space-y-2">
+                  {partner.achievements.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Partners -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Research Partners</Badge>
+          <h2 class="h2 mb-4">Academic & Research Collaboration</h2>
+          <p class="description text-lg md:text-xl">
+            Working with leading institutions to advance quantum computing research and development.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {researchPartners.map((partner) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <h3 class="h4 mb-2">{partner.name}</h3>
+              <p class="mb-4 text-sm text-blue-400">{partner.type}</p>
+              <p class="description mb-6">
+                {partner.focus}
+              </p>
+              
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Active Projects</h4>
+                <ul class="mt-2 space-y-2">
+                  {partner.projects.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Partner with QDaria</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            Interested in collaborating with us? Contact us to explore partnership opportunities.
+          </p>
+          <Button
+            variant="primary"
+            href="/contact"
+            class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+          >
+            Contact Us
+          </Button>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

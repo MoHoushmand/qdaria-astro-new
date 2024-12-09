@@ -1,0 +1,265 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+// Import team member images
+import moImage from "../assets/images/team/mo.jpg";
+import nickImage from "../assets/images/team/nick.jpg";
+import jonnaImage from "../assets/images/team/jonna.jpg";
+import fredrikImage from "../assets/images/team/fredrik.jpg";
+import milenImage from "../assets/images/team/milen.jpg";
+import emanueleImage from "../assets/images/team/Emanuele.jpg";
+import carolineImage from "../assets/images/team/caroline.jpeg";
+import martinImage from "../assets/images/team/martin.jpg";
+
+const pageTitle = "Our Team | QDaria Quantum Technologies";
+const description = "Meet the innovative minds behind QDaria's quantum computing revolution.";
+
+const teamMembers = [
+  {
+    image: moImage,
+    name: "Daniel Mo Houshmand",
+    title: "CEO & Founder",
+    bio: "Visionary leader with deep expertise in Topological Quantum Computing and Fibonacci anyons. Pioneering the development of fault-tolerant quantum systems.",
+    expertise: [
+      "Quantum Computing Architecture",
+      "Topological Quantum Systems",
+      "Quantum Business Strategy",
+      "Technology Innovation"
+    ],
+    achievements: [
+      "Founded QDaria to revolutionize quantum computing",
+      "Led development of novel quantum architectures",
+      "Established key industry partnerships",
+      "Secured significant research funding"
+    ]
+  },
+  {
+    image: nickImage,
+    name: "Nick Saaf",
+    title: "Chief Technology Officer",
+    bio: "Expert in quantum hardware architecture and topological quantum error correction. Leading the development of our next-generation quantum systems.",
+    expertise: [
+      "Quantum Hardware Design",
+      "Error Correction Systems",
+      "System Architecture",
+      "Technical Leadership"
+    ],
+    achievements: [
+      "Developed breakthrough error correction methods",
+      "Led quantum hardware innovations",
+      "Published influential research papers",
+      "Established technical roadmap"
+    ]
+  },
+  {
+    image: jonnaImage,
+    name: "Jonna Kristiansen",
+    title: "Chief Operating Officer",
+    bio: "Experienced operations executive driving company growth and strategic partnerships. Expertise in scaling quantum technology ventures.",
+    expertise: [
+      "Operations Management",
+      "Strategic Planning",
+      "Partnership Development",
+      "Business Growth"
+    ],
+    achievements: [
+      "Scaled company operations",
+      "Established key partnerships",
+      "Optimized business processes",
+      "Led successful funding rounds"
+    ]
+  },
+  {
+    image: fredrikImage,
+    name: "Fredrik Carlsson",
+    title: "Head of Research",
+    bio: "Leading research initiatives in quantum computing algorithms and applications. Specializing in quantum optimization and machine learning.",
+    expertise: [
+      "Quantum Algorithms",
+      "Machine Learning",
+      "Research Direction",
+      "Academic Collaboration"
+    ],
+    achievements: [
+      "Advanced quantum algorithm development",
+      "Led research partnerships",
+      "Published groundbreaking papers",
+      "Developed novel applications"
+    ]
+  },
+  {
+    image: milenImage,
+    name: "Milen Bozhilov",
+    title: "Senior Quantum Engineer",
+    bio: "Expert in quantum circuit design and implementation. Developing novel approaches to quantum error correction and fault tolerance.",
+    expertise: [
+      "Circuit Design",
+      "Error Correction",
+      "System Implementation",
+      "Hardware Testing"
+    ],
+    achievements: [
+      "Improved quantum circuit efficiency",
+      "Developed testing frameworks",
+      "Enhanced system reliability",
+      "Led engineering initiatives"
+    ]
+  },
+  {
+    image: emanueleImage,
+    name: "Emanuele Dalla Torre",
+    title: "Principal Scientist",
+    bio: "Pioneering research in topological quantum computing and quantum materials. Leading theoretical developments in Fibonacci anyons.",
+    expertise: [
+      "Theoretical Physics",
+      "Quantum Materials",
+      "Mathematical Modeling",
+      "Research Leadership"
+    ],
+    achievements: [
+      "Advanced theoretical frameworks",
+      "Led research breakthroughs",
+      "Published influential papers",
+      "Developed new methodologies"
+    ]
+  },
+  {
+    image: carolineImage,
+    name: "Caroline Smith",
+    title: "Head of Business Development",
+    bio: "Driving strategic partnerships and market expansion. Expertise in quantum technology commercialization and industry applications.",
+    expertise: [
+      "Business Strategy",
+      "Market Development",
+      "Partnership Building",
+      "Technology Commercialization"
+    ],
+    achievements: [
+      "Expanded market presence",
+      "Secured major partnerships",
+      "Developed new markets",
+      "Led commercialization efforts"
+    ]
+  },
+  {
+    image: martinImage,
+    name: "Martin Anderson",
+    title: "Lead Software Engineer",
+    bio: "Developing quantum software infrastructure and tools. Specializing in quantum-classical integration and control systems.",
+    expertise: [
+      "Software Architecture",
+      "System Integration",
+      "Development Leadership",
+      "Technical Innovation"
+    ],
+    achievements: [
+      "Built software platforms",
+      "Led development teams",
+      "Improved system performance",
+      "Developed key tools"
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Our Team</Badge>
+          <h1 class="h1 mb-8">Meet Our Quantum Innovators</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Our team combines deep expertise in quantum physics, engineering, and business to drive the advancement of quantum computing technology.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Grid -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {teamMembers.map((member) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <div class="flex flex-col md:flex-row md:gap-8">
+                <div class="mb-6 md:mb-0 md:w-1/3">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    class="rounded-lg"
+                    width={200}
+                    height={200}
+                  />
+                </div>
+                <div class="md:w-2/3">
+                  <h2 class="h3 mb-1">{member.name}</h2>
+                  <p class="mb-4 text-blue-400">{member.title}</p>
+                  <p class="description mb-6">
+                    {member.bio}
+                  </p>
+                  
+                  <div class="mb-6">
+                    <h3 class="text-sm font-medium text-blue-400">Areas of Expertise</h3>
+                    <ul class="mt-2 space-y-2">
+                      {member.expertise.map((item) => (
+                        <li class="flex items-start gap-2">
+                          <span class="mt-1 text-blue-400">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 class="text-sm font-medium text-blue-400">Key Achievements</h3>
+                    <ul class="mt-2 space-y-2">
+                      {member.achievements.map((item) => (
+                        <li class="flex items-start gap-2">
+                          <span class="mt-1 text-blue-400">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Join Our Team</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            We're always looking for talented individuals passionate about quantum computing and innovation.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/careers"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              View Opportunities
+            </Button>
+            <Button
+              variant="ghost"
+              href="/contact"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Contact Us
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,138 @@
+---
+import NavLink from "@components/Nav/NavLink.astro";
+
+interface Props {
+  navData: any[];
+}
+
+const { navData } = Astro.props;
+---
+
+<div
+  id="mobile-nav"
+  class="mobile-nav fixed left-0 top-14 z-20 h-[calc(100vh-3.5rem)] w-full overflow-y-auto bg-dark-bg/95 backdrop-blur md:hidden"
+>
+  <nav class="site-container py-8">
+    <ul class="flex flex-col gap-4">
+      {
+        navData.map((navItem) => (
+          <li>
+            {!("dropdown" in navItem) ? (
+              <NavLink navItem={navItem} />
+            ) : (
+              <div class="mobile-dropdown">
+                <button
+                  type="button"
+                  class="mobile-dropdown-toggle flex w-full items-center justify-between rounded-lg px-3 py-2 text-base-200 transition-all hover:bg-base-800"
+                  aria-expanded="false"
+                >
+                  <span>{navItem.text}</span>
+                  <svg
+                    class="h-5 w-5 transform transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div class="mobile-dropdown-content mt-2 hidden pl-4">
+                  {navItem.dropdown.map((dropdownItem: any) =>
+                    !("children" in dropdownItem) ? (
+                      <a
+                        href={dropdownItem.link}
+                        class="block rounded-lg px-3 py-2 text-base-200 transition-all hover:bg-base-800"
+                      >
+                        {dropdownItem.text}
+                      </a>
+                    ) : (
+                      <div class="mb-2">
+                        <div class="px-3 py-2 text-sm font-semibold text-base-400">
+                          {dropdownItem.text}
+                        </div>
+                        <div class="pl-4">
+                          {dropdownItem.children.map((child: any) => (
+                            <a
+                              href={child.link}
+                              class="block rounded-lg px-3 py-2 text-base-200 transition-all hover:bg-base-800"
+                            >
+                              {child.text}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .mobile-nav {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-1rem);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-nav.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobile-dropdown-toggle svg {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-dropdown-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .mobile-dropdown-content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-dropdown-content.show {
+    display: block;
+  }
+</style>
+
+<script>
+  function initMobileNav() {
+    const dropdownToggles = document.querySelectorAll(".mobile-dropdown-toggle");
+
+    dropdownToggles.forEach((toggle) => {
+      toggle.addEventListener("click", (e) => {
+        const dropdown = (e.currentTarget as HTMLElement).closest(".mobile-dropdown");
+        const content = dropdown?.querySelector(".mobile-dropdown-content");
+        const button = e.currentTarget as HTMLElement;
+        
+        if (content) {
+          const isExpanded = button.getAttribute("aria-expanded") === "true";
+          button.setAttribute("aria-expanded", (!isExpanded).toString());
+          content.classList.toggle("hidden");
+          content.classList.toggle("show");
+        }
+      });
+    });
+  }
+
+  // Initialize on page load
+  initMobileNav();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener("astro:page-load", initMobileNav);
+  document.addEventListener("astro:after-swap", initMobileNav);
+</script>

@@ -1,0 +1,67 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Icon } from "astro-icon";
+
+const solutions = [
+  {
+    title: "Quantum Computing",
+    description: "Pioneering topological quantum computing with unparalleled stability and scalability.",
+    icon: "quantum-computing",
+    color: "#00ff88",
+    link: "/solutions/quantum-solutions/quantum-computing"
+  },
+  {
+    title: "Quantum Lab",
+    description: "State-of-the-art research facilities pushing the boundaries of quantum mechanics.",
+    icon: "quantum-lab",
+    color: "#00ccff",
+    link: "/solutions/quantum-solutions/quantum-lab"
+  },
+  {
+    title: "Quantum Security",
+    description: "Next-generation cryptographic protection for the quantum era.",
+    icon: "quantum-security",
+    color: "#ff3366",
+    link: "/solutions/quantum-solutions/quantum-security"
+  }
+];
+---
+
+<BaseLayout title="Quantum Solutions - QDaria" description="Explore our comprehensive quantum technology solutions">
+  <div class="bg-dark min-h-screen">
+    <div class="container mx-auto px-4 py-24">
+      <h1 class="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600 mb-8">
+        Quantum Solutions
+      </h1>
+      
+      <p class="text-xl text-base-300 mb-12 max-w-3xl">
+        Discover our cutting-edge quantum technology solutions, designed to revolutionize 
+        computing, research, and security in the quantum era.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {solutions.map(solution => (
+          <a href={solution.link} 
+             class="group relative overflow-hidden rounded-2xl bg-dark-800 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
+             style={`--card-color: ${solution.color}`}>
+            <div class="absolute inset-0 bg-gradient-to-br from-[var(--card-color)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            
+            <div class="relative z-10">
+              <div class="mb-4 inline-block rounded-xl bg-[var(--card-color)]/10 p-3">
+                <Icon name={solution.icon} class="h-6 w-6 text-[var(--card-color)]" />
+              </div>
+              
+              <h3 class="text-2xl font-bold text-white mb-3">{solution.title}</h3>
+              <p class="text-base-300">{solution.description}</p>
+              
+              <div class="mt-6 flex items-center text-[var(--card-color)] font-medium">
+                Learn more
+                <Icon name="tabler:arrow-right" class="ml-2 h-4 w-4" />
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

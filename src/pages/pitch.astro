@@ -1,0 +1,18 @@
+---
+import PitchDeckLayout from '../layouts/PitchDeckLayout.astro';
+import PitchDeckApp from '../components/pitch-deck/PitchDeckApp';
+---
+
+<PitchDeckLayout title="QDaria Pitch Deck">
+  <div class="relative h-screen w-screen overflow-hidden bg-gray-900">
+    <PitchDeckApp client:only="react" />
+  </div>
+</PitchDeckLayout>
+
+<style>
+  /* Ensure full viewport coverage */
+  :root {
+    height: 100%;
+    overflow: hidden;
+  }
+</style>

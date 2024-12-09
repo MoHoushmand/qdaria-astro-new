@@ -1,0 +1,69 @@
+---
+import { Icon } from "astro-icon";
+
+// components
+import FeatureCard from "@components/FeatureCard/FeatureCardSideImage.astro";
+import Badge from "@components/Badge/Badge.astro";
+
+// images
+import image1 from "@images/storm-1.webp";
+import image2 from "@images/storm-2.webp";
+
+interface FeatureItem {
+  badge: string;
+  image: ImageMetadata;
+  title: string;
+  description: string;
+  href: string;
+  buttonText: string;
+}
+
+// data
+const featureData: FeatureItem[] = [
+  {
+    badge: "Topological Quantum Computing",
+    image: image1,
+    title: "Harnessing the Power of Fibonacci Anyons",
+    description:
+      "Our groundbreaking platform utilizes Fibonacci anyons - exotic quasiparticles that emerge in two-dimensional systems. Through their non-Abelian braiding statistics, these anyons create topologically protected qubits that are inherently immune to local perturbations. This fundamental advantage eliminates the need for complex error correction schemes, achieving error rates below 0.01% while maintaining quantum coherence up to 1000x longer than traditional approaches.",
+    href: "/technology",
+    buttonText: "Explore Our Quantum Technology",
+  },
+  {
+    badge: "Quantum Applications",
+    image: image2,
+    title: "Universal Quantum Computation",
+    description:
+      "Fibonacci anyons are uniquely powerful as they support universal quantum computation through braiding operations alone. This enables our platform to tackle the most challenging computational problems in quantum chemistry, materials science, and financial optimization. Our cloud-based quantum computing service provides seamless access to this revolutionary technology, allowing organizations to achieve quantum advantage while maintaining their existing workflows and security requirements.",
+    href: "/solutions",
+    buttonText: "Discover Quantum Applications",
+  },
+];
+---
+
+<section id="feature-side-image" class="my-12 overflow-hidden py-12">
+  <div class="site-container">
+    <div class="mx-auto mb-16 text-center md:max-w-4xl" data-aos="fade-up">
+      <Badge>Revolutionary Technology</Badge>
+      <h2 class="h2 mb-4">Topological Quantum Computing</h2>
+      <p class="description text-pretty text-lg md:text-xl">
+        Our platform harnesses the unique properties of Fibonacci anyons to achieve stable, scalable quantum computation through topological protection - a fundamental breakthrough in quantum computing technology.
+      </p>
+    </div>
+    <div class="flex flex-col gap-16 md:gap-24">
+      {
+        featureData.map((feature, idx) => (
+          <FeatureCard
+            badge={feature.badge}
+            title={feature.title}
+            description={feature.description}
+            image={feature.image}
+            imageSide={idx % 2 === 0 ? "right" : "left"}
+            href={feature.href}
+            buttonText={feature.buttonText}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

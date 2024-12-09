@@ -1,0 +1,72 @@
+---
+// components
+import FeatureCard from "@components/FeatureCard/FeatureCardMedium.astro";
+import Badge from "@components/Badge/Badge.astro";
+
+interface FeatureData {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+// data
+const featureData: FeatureData[] = [
+  {
+    icon: "tabler/molecule",
+    title: "Quantum Chemistry",
+    text: "Leverage Fibonacci anyons for exact simulation of molecular interactions. Our topological qubits enable precise modeling of electron correlations and reaction dynamics, revolutionizing drug discovery and materials science.",
+  },
+  {
+    icon: "tabler/cpu",
+    title: "Quantum Error Correction",
+    text: "Experience built-in quantum error protection through topological braiding operations. Our Fibonacci anyon platform achieves stable quantum computation without the overhead of traditional error correction schemes.",
+  },
+  {
+    icon: "tabler/chart-arrows",
+    title: "Quantum Optimization",
+    text: "Solve complex optimization problems with unprecedented efficiency. Our braiding-based quantum gates enable rapid exploration of solution spaces for logistics, portfolio management, and machine learning applications.",
+  },
+  {
+    icon: "qdaria/shield-lock",
+    title: "Post-Quantum Security",
+    text: "Future-proof your cryptographic infrastructure with topologically protected quantum operations. Our platform's inherent stability makes it naturally resistant to both classical and quantum attacks.",
+  },
+  {
+    icon: "qdaria/chart-dots",
+    title: "Quantum Machine Learning",
+    text: "Accelerate AI training and inference through topological quantum circuits. Our platform enables quantum neural networks and feature mapping with unmatched stability and scalability.",
+  },
+  {
+    icon: "qdaria/school",
+    title: "Quantum Development",
+    text: "Access our quantum platform through intuitive development tools and APIs. Build and deploy quantum applications with our comprehensive SDK, featuring high-level abstractions for braiding operations.",
+  },
+];
+---
+
+<section id="feature-cards-medium" class="overflow-hidden py-12 md:py-16">
+  <div class="site-container">
+    <div class="mx-auto mb-16 text-center md:max-w-2xl" data-aos="fade-up">
+      <Badge>Quantum Applications</Badge>
+      <h2 class="h2 mb-4">Revolutionary Solutions</h2>
+      <p class="description text-pretty text-lg md:text-xl">
+        Our Fibonacci anyon-based quantum computing platform enables breakthrough applications across industries, delivering stable and scalable quantum advantage through topological protection.
+      </p>
+    </div>
+    <div
+      id="trigger-medium-cards"
+      class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      data-aos="fade-up"
+    >
+      {
+        featureData.map((feature, idx) => (
+          <FeatureCard
+            title={feature.title}
+            text={feature.text}
+            icon={feature.icon}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+---
+// This is a standalone layout for the pitch deck only
+// It doesn't include the main site's navbar or other components
+import '../components/pitch-deck/styles.css'; // Only pitch deck specific styles
+
+interface Props {
+  title?: string;
+}
+
+const { title = "QDaria Pitch Deck" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="pitch-deck">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <style is:global>
+      /* Reset styles to prevent inheritance from main site */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Ensure the pitch deck takes full viewport */
+      .pitch-deck-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pitch-deck-container">
+      <slot />
+    </div>
+  </body>
+</html>

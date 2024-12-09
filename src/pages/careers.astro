@@ -1,0 +1,160 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import { Icon } from "astro-icon";
+
+const openPositions = [
+  {
+    title: "Quantum Hardware Engineer",
+    department: "R&D",
+    location: "Oslo, Norway",
+    type: "Full-time",
+    description: "Join our core team developing next-generation topological quantum computers using Fibonacci anyons. You'll work on quantum gate operations, error correction, and scaling our quantum architecture.",
+    requirements: [
+      "PhD in Physics, Engineering, or related field",
+      "Experience with quantum computing hardware",
+      "Strong background in quantum mechanics and condensed matter physics",
+      "Programming experience in Python, C++, or similar"
+    ]
+  },
+  {
+    title: "Machine Learning Research Scientist",
+    department: "AI Research",
+    location: "Oslo, Norway",
+    type: "Full-time",
+    description: "Research and develop quantum-classical hybrid algorithms for machine learning applications. Focus on leveraging our topological quantum platform for AI acceleration.",
+    requirements: [
+      "PhD in Computer Science, Physics, or related field",
+      "Strong background in machine learning and quantum computing",
+      "Experience with quantum algorithms and quantum machine learning",
+      "Proficiency in Python, PyTorch/TensorFlow"
+    ]
+  },
+  {
+    title: "Quantum Software Developer",
+    department: "Software",
+    location: "Oslo, Norway",
+    type: "Full-time",
+    description: "Build the software stack for our quantum computing platform, from low-level control systems to high-level APIs and development tools.",
+    requirements: [
+      "MSc/PhD in Computer Science or related field",
+      "Strong programming skills in Python, C++",
+      "Experience with quantum computing software",
+      "Knowledge of quantum algorithms and quantum circuit design"
+    ]
+  },
+  {
+    title: "Quantum Applications Engineer",
+    department: "Applications",
+    location: "Oslo, Norway",
+    type: "Full-time",
+    description: "Work with our partners to develop quantum applications in finance, chemistry, and optimization. Help translate real-world problems into quantum solutions.",
+    requirements: [
+      "MSc/PhD in Physics, Computer Science, or related field",
+      "Experience with quantum algorithms and applications",
+      "Strong programming and problem-solving skills",
+      "Excellent communication and collaboration abilities"
+    ]
+  }
+];
+---
+
+<BaseLayout title="Careers at QDaria" description="Join us in building the future of quantum computing">
+  <div class="bg-dark min-h-screen">
+    <div class="site-container py-24">
+      <!-- Hero Section -->
+      <div class="mb-20 text-center">
+        <h1 class="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600 mb-8">
+          Join the Quantum Revolution
+        </h1>
+        <p class="text-xl text-base-300 mb-12 max-w-3xl mx-auto">
+          Help us push the boundaries of quantum computing. We're looking for exceptional talent to join our team in developing groundbreaking quantum technologies.
+        </p>
+      </div>
+
+      <!-- Open Positions -->
+      <div class="mb-20">
+        <h2 class="text-3xl font-bold mb-12 text-center">Open Positions</h2>
+        <div class="grid gap-8 md:grid-cols-2">
+          {openPositions.map((position) => (
+            <div class="group relative overflow-hidden rounded-2xl border border-primary-500/30 bg-dark-900/50 p-8 backdrop-blur-sm transition-all duration-300 hover:border-primary-500/50 hover:shadow-[0_0_25px_rgba(0,0,255,0.2)]">
+              <div class="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="relative z-10">
+                <div class="mb-6">
+                  <h3 class="text-2xl font-bold mb-4">{position.title}</h3>
+                  <div class="flex flex-wrap gap-3">
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-primary-500/10 px-3 py-1 text-sm text-primary-400">
+                      <Icon name="tabler:building" class="h-4 w-4" />
+                      {position.department}
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-primary-500/10 px-3 py-1 text-sm text-primary-400">
+                      <Icon name="tabler:map-pin" class="h-4 w-4" />
+                      {position.location}
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-primary-500/10 px-3 py-1 text-sm text-primary-400">
+                      <Icon name="tabler:clock" class="h-4 w-4" />
+                      {position.type}
+                    </span>
+                  </div>
+                </div>
+                
+                <p class="mb-6 text-base-300">{position.description}</p>
+                
+                <div class="space-y-3">
+                  <h4 class="font-semibold flex items-center gap-2">
+                    <Icon name="tabler:list-check" class="h-5 w-5 text-primary-400" />
+                    Requirements
+                  </h4>
+                  <ul class="space-y-2 text-base-300">
+                    {position.requirements.map((req) => (
+                      <li class="flex items-start gap-2">
+                        <Icon name="tabler:point" class="h-5 w-5 text-primary-400 flex-shrink-0" />
+                        <span>{req}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <a
+                  href={`/careers/${position.title.toLowerCase().replace(/\s+/g, "-")}`}
+                  class="mt-8 inline-flex items-center gap-2 rounded-lg border border-primary-500/30 bg-dark-800/50 px-4 py-2 text-primary-400 transition-all hover:border-primary-500/50 hover:bg-primary-500/10"
+                >
+                  Apply Now
+                  <Icon name="tabler:arrow-right" class="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Benefits Section -->
+      <div class="bg-dark-800/50 rounded-2xl border border-primary-500/30 p-12">
+        <h2 class="text-3xl font-bold mb-8 text-center">Why Join QDaria?</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="mb-4 inline-block rounded-xl bg-primary-500/10 p-3">
+              <Icon name="tabler:brain" class="h-8 w-8 text-primary-400" />
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Cutting-edge Research</h3>
+            <p class="text-base-300">Work on groundbreaking quantum technologies that will shape the future of computing</p>
+          </div>
+          <div class="text-center">
+            <div class="mb-4 inline-block rounded-xl bg-primary-500/10 p-3">
+              <Icon name="tabler:growth" class="h-8 w-8 text-primary-400" />
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Career Growth</h3>
+            <p class="text-base-300">Continuous learning opportunities and career development in quantum computing</p>
+          </div>
+          <div class="text-center">
+            <div class="mb-4 inline-block rounded-xl bg-primary-500/10 p-3">
+              <Icon name="tabler:users" class="h-8 w-8 text-primary-400" />
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Global Impact</h3>
+            <p class="text-base-300">Join a diverse team of experts working to solve humanity's greatest computational challenges</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

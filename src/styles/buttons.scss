@@ -1,0 +1,46 @@
+/* buttons, 4 types "primary", "secondary", "outline", "ghost" */
+.button {
+  @apply relative flex items-center justify-center rounded-lg px-5 py-2.5 font-medium tracking-tight;
+  @apply focus:outline-none;
+  @apply disabled:pointer-events-none;
+  @apply border border-primary-500/30 bg-dark-bg text-base-200;
+  @apply shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all;
+  
+  &:hover {
+    @apply shadow-[0_0_25px_rgba(0,0,255,0.4)];
+  }
+
+  &:active::before {
+    content: "";
+    @apply absolute inset-0 -z-10 rounded-lg bg-primary-500 opacity-100 blur;
+  }
+}
+
+.button--primary {
+  @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00];
+  @apply text-black;
+  @apply border-primary-500/30;
+  @apply shadow-[0_0_15px_rgba(0,255,255,0.3)];
+  
+  &:hover {
+    @apply shadow-[0_0_25px_rgba(0,255,255,0.5)];
+  }
+}
+
+.button--secondary {
+  @apply bg-dark-bg text-base-200;
+  @apply hover:bg-primary-500/10;
+  @apply focus-visible:ring-4 focus-visible:ring-primary-500;
+}
+
+.button--outline {
+  @apply border-primary-500/30 bg-transparent text-primary-400;
+  @apply hover:bg-primary-500 hover:text-base-200;
+  @apply focus-visible:ring-4 focus-visible:ring-primary-500;
+}
+
+.button--ghost {
+  @apply bg-transparent text-base-300;
+  @apply hover:bg-primary-500/10 hover:text-base-200;
+  @apply focus-visible:ring-4 focus-visible:ring-primary-500;
+}

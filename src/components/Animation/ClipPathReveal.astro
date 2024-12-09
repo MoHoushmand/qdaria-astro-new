@@ -1,0 +1,118 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div class:list={["clip-path-reveal relative", className]}>
+  <div class="clip-path-content relative z-20">
+    <slot />
+  </div>
+  <div class="clip-path-overlay absolute inset-0 z-10 bg-dark-bg">
+    <div class="lightning-animation">
+      <svg class="lightning" viewBox="0 0 100 400" preserveAspectRatio="none">
+        <path class="lightning-path" d="M50,0 L50,400" stroke="#04a3ff" stroke-width="2" fill="none">
+          <animate
+            attributeName="d"
+            dur="1.5s"
+            begin="0s"
+            values="
+              M50,0 L50,400;
+              M50,0 L60,100 L40,200 L60,300 L50,400;
+              M50,0 L40,100 L60,200 L40,300 L50,400;
+              M50,0 L50,400
+            "
+            calcMode="spline"
+            keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1"
+            fill="freeze"
+          />
+        </path>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+  .clip-path-reveal {
+    @apply overflow-hidden;
+  }
+
+  .clip-path-content {
+    opacity: 0;
+    animation: fadeInContent 0.5s ease-out 1.5s forwards;
+  }
+
+  .clip-path-overlay {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    animation: revealContent 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    pointer-events: none;
+  }
+
+  .lightning-animation {
+    @apply absolute inset-0 flex items-center justify-center;
+    animation: fadeOut 0.3s ease-out 1.2s forwards;
+  }
+
+  .lightning {
+    @apply h-full w-32;
+  }
+
+  .lightning-path {
+    filter: url(#glow);
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: drawLightning 1.2s ease-out forwards;
+  }
+
+  @keyframes revealContent {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    100% {
+      clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    }
+  }
+
+  @keyframes drawLightning {
+    0% {
+      stroke-dashoffset: 400;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fadeInContent {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

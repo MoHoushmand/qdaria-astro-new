@@ -1,0 +1,167 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Whitepaper | QDaria Quantum Technologies";
+const description = "Technical whitepaper detailing QDaria's breakthrough approach to Topological Quantum Computing with Fibonacci anyons.";
+
+const sections = [
+  {
+    title: "Executive Summary",
+    content: "QDaria's revolutionary approach to quantum computing leverages Topological Quantum Computing with Fibonacci anyons to achieve unprecedented stability and scalability in quantum operations.",
+    highlights: [
+      "Breakthrough quantum architecture",
+      "Superior error correction",
+      "Scalable platform design",
+      "Industry applications"
+    ]
+  },
+  {
+    title: "Technical Innovation",
+    content: "Our quantum computing architecture utilizes the unique properties of Fibonacci anyons to create naturally protected quantum states.",
+    details: [
+      "Topological protection mechanisms",
+      "Quantum state manipulation",
+      "Error correction methods",
+      "System architecture"
+    ]
+  },
+  {
+    title: "Implementation",
+    content: "The practical implementation of our quantum computing system combines advanced hardware design with sophisticated control systems.",
+    aspects: [
+      "Hardware architecture",
+      "Control systems",
+      "Integration methods",
+      "Performance metrics"
+    ]
+  },
+  {
+    title: "Applications",
+    content: "Our quantum computing platform enables breakthrough applications across multiple industries.",
+    areas: [
+      "Cryptography and security",
+      "Financial modeling",
+      "Drug discovery",
+      "Materials science"
+    ]
+  },
+  {
+    title: "Performance Analysis",
+    content: "Comprehensive analysis demonstrates superior performance in key quantum computing metrics.",
+    metrics: [
+      "Error rates",
+      "Coherence times",
+      "Gate fidelity",
+      "Scalability factors"
+    ]
+  },
+  {
+    title: "Future Developments",
+    content: "Ongoing research and development initiatives focus on expanding capabilities and applications.",
+    roadmap: [
+      "Platform expansion",
+      "New applications",
+      "Performance improvements",
+      "Market adoption"
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Technical Whitepaper</Badge>
+          <h1 class="h1 mb-8">Topological Quantum Computing with Fibonacci Anyons</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            A comprehensive technical overview of QDaria's breakthrough approach to quantum computing.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="#download"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Download PDF
+            </Button>
+            <Button
+              variant="ghost"
+              href="/contact"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Request Full Version
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Sections -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto grid max-w-6xl gap-12">
+          {sections.map((section) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <h2 class="h3 mb-4">{section.title}</h2>
+              <p class="description mb-6">
+                {section.content}
+              </p>
+              <div class="grid gap-8 sm:grid-cols-2">
+                {Object.entries(section).map(([key, value]) => {
+                  if (Array.isArray(value) && key !== "content" && key !== "title") {
+                    return (
+                      <div>
+                        <h3 class="text-sm font-medium text-blue-400">{key.charAt(0).toUpperCase() + key.slice(1)}</h3>
+                        <ul class="mt-2 space-y-2">
+                          {value.map((item) => (
+                            <li class="flex items-start gap-2">
+                              <span class="mt-1 text-blue-400">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Download the Whitepaper</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            Get detailed insights into our quantum computing technology and its applications.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/contact"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Request Access
+            </Button>
+            <Button
+              variant="ghost"
+              href="/products"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              View Products
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

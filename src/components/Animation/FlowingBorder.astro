@@ -1,0 +1,134 @@
+---
+interface Props {
+  class?: string;
+  borderWidth?: number;
+  borderColor?: string;
+  shadowColor?: string;
+  flowDuration?: number;
+  shadowIntensity?: number;
+}
+
+const {
+  class: className = '',
+  borderWidth = 2,
+  borderColor = '#3b82f6',
+  shadowColor = 'rgba(59, 130, 246, 0.5)',
+  flowDuration = 2,
+  shadowIntensity = 20
+} = Astro.props;
+---
+
+<div 
+  class:list={["flowing-border-wrapper relative group", className]}
+  data-border-width={borderWidth}
+  data-border-color={borderColor}
+  data-shadow-color={shadowColor}
+  data-flow-duration={flowDuration}
+  data-shadow-intensity={shadowIntensity}
+>
+  <div class="content-wrapper relative z-10">
+    <slot />
+  </div>
+  
+  <!-- Animated border container -->
+  <div class="border-animation absolute inset-0 pointer-events-none">
+    <div class="border-line absolute inset-0"></div>
+  </div>
+</div>
+
+<style define:vars={{ 
+  borderWidth: `${borderWidth}px`,
+  borderColor,
+  shadowColor,
+  flowDuration: `${flowDuration}s`,
+  shadowIntensity: `${shadowIntensity}px`
+}}>
+  .flowing-border-wrapper {
+    transition: all 0.3s ease;
+  }
+
+  .border-line {
+    border: var(--borderWidth) solid transparent;
+    background: linear-gradient(90deg, transparent, var(--borderColor), transparent) border-box;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+
+  .flowing-border-wrapper:hover {
+    box-shadow: 0 0 var(--shadowIntensity) var(--shadowColor);
+  }
+
+  .border-animation {
+    overflow: hidden;
+  }
+
+  @keyframes flowingBorder {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const initFlowingBorders = () => {
+    const elements = document.querySelectorAll('.flowing-border-wrapper');
+
+    elements.forEach((wrapper) => {
+      const borderLine = wrapper.querySelector('.border-line');
+      const flowDuration = parseFloat(wrapper.getAttribute('data-flow-duration') || '2');
+
+      gsap.to(borderLine, {
+        backgroundPosition: '200% 50%',
+        duration: flowDuration,
+        repeat: -1,
+        ease: 'none'
+      });
+
+      // Dynamic shadow on hover
+      wrapper.addEventListener('mousemove', (e) => {
+        const rect = wrapper.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const deltaX = (x - centerX) / centerX;
+        const deltaY = (y - centerY) / centerY;
+        
+        const intensity = parseFloat(wrapper.getAttribute('data-shadow-intensity') || '20');
+        const shadowX = deltaX * (intensity / 2);
+        const shadowY = deltaY * (intensity / 2);
+        
+        gsap.to(wrapper, {
+          boxShadow: `${shadowX}px ${shadowY}px ${intensity}px ${wrapper.getAttribute('data-shadow-color')}`,
+          duration: 0.3
+        });
+      });
+
+      wrapper.addEventListener('mouseleave', () => {
+        gsap.to(wrapper, {
+          boxShadow: `0 0 ${wrapper.getAttribute('data-shadow-intensity')}px ${wrapper.getAttribute('data-shadow-color')}`,
+          duration: 0.3
+        });
+      });
+    });
+  };
+
+  // Initialize on page load
+  initFlowingBorders();
+
+  // Re-initialize when new content is added (for Astro view transitions)
+  document.addEventListener('astro:page-load', initFlowingBorders);
+</script>

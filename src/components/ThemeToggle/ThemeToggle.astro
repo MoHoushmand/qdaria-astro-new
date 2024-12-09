@@ -1,0 +1,62 @@
+---
+import { Icon } from "astro-icon";
+
+interface Props {
+  class?: string;
+  rest?: any;
+}
+
+const { class: className, ...rest } = Astro.props as Props;
+---
+
+<button
+  class:list={[
+    className,
+    "theme-toggle rounded-lg border border-primary-500/30 bg-dark-bg p-2 text-base-200 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]",
+  ]}
+  aria-label="Toggle color theme"
+  {...rest}
+>
+  <div class="theme-toggle__placeholder h-5 w-5"></div>
+  <Icon
+    name="tabler/moon-stars"
+    class="theme-toggle__dark-icon hidden h-5 w-5"
+  />
+  <Icon 
+    name="tabler/sun" 
+    class="theme-toggle__light-icon hidden h-5 w-5"
+  />
+</button>
+
+<script>
+  function initThemeToggle() {
+    const themeToggleLoaders = document.querySelectorAll(".theme-toggle__placeholder");
+    const themeToggleDarkIcons = document.querySelectorAll(".theme-toggle__dark-icon");
+    const themeToggleLightIcons = document.querySelectorAll(".theme-toggle__light-icon");
+    const themeToggleBtns = document.querySelectorAll(".theme-toggle");
+
+    // Default to dark theme
+    if (!document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Show dark icon by default
+    themeToggleLoaders.forEach((loader) => loader.classList.add("hidden"));
+    themeToggleDarkIcons.forEach((icon) => icon.classList.remove("hidden"));
+
+    // Add click handlers
+    themeToggleBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.documentElement.classList.toggle('dark');
+        themeToggleDarkIcons.forEach((icon) => icon.classList.toggle("hidden"));
+        themeToggleLightIcons.forEach((icon) => icon.classList.toggle("hidden"));
+      });
+    });
+  }
+
+  // Initialize on page load
+  initThemeToggle();
+
+  // Re-initialize after view transitions
+  document.addEventListener("astro:after-swap", initThemeToggle);
+</script>

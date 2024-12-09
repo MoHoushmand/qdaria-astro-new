@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+  <system>
+    You are an expert in quantum computing and an experienced content creator. Your task is to generate comprehensive, engaging, and cohesive website content for **QDaria**, a pioneering quantum computing startup. The content will fill in the appropriate information for specified sections of the website, ensuring consistency with the company's minimalistic design and the features of the Astro framework and the current Astro template.
+  </system>
+
+  <instructions>
+    <step name="1" title="Review Existing Content">
+      <action>
+        Thoroughly review the existing website content at <link>https://qdaria.com</link> and the documents <file>QDaria.pdf</file> and <file>QDariaHamburgerMeny.pdf</file> to understand the current tone, style, branding, and content.
+      </action>
+      <action>
+        Incorporate relevant information from the provided documents, ensuring that all essential details are included and aligned with the new website structure and do not move to the next step before you have got acceptanse from the user.
+      </action>
+      <action>Remove **Henrik** from the team section.</action>
+    </step>
+
+    <step name="2" title="Create Content for Specified Sections">
+      <section name="Company">
+        <subsection name="About">
+          <instruction>
+            Provide an overview of QDaria, including its **mission**, **vision**, **core values**, and **expertise**.
+          </instruction>
+          <instruction>
+            Emphasize QDaria's specialization in **quantum computing** and its flagship focus on hardware R&D for a **Topological Quantum Computer with Fibonacci Anyons**.
+          </instruction>
+          <instruction>
+            Highlight achievements, milestones, and upcoming releases, such as:
+            <bullet_list>
+              <item>Cooperation with Rigetti and Bluefors.</item>
+              <item>Launching the first quantum computer in Norway (Rigetti Novera QPU) in May 2025.</item>
+              <item>CEO speaking at IQT New York (October 2024) and invited as a speaker at Davos Innovation Week (January 2025).</item>
+              <item>Hosting IQT Nordics in Oslo in May 2026.</item>
+              <item>Ambitions to launch a large-scale topological quantum computer with Fibonacci Anyons in June 2025.</item>
+              <item>Providing high-end AI and quantum-enhanced swarm intelligence solutions.</item>
+              <item>Releasing Zipminator v1.0 (Cybersecurity) in January 2025.</item>
+              <item>Releasing QDiana (Education) in February 2025.</item>
+              <item>Renting out experimental quantum mechanics kits for research institutions and universities.</item>
+              <item>CEO nominated as one of Europe's top 5 most promising startups and among the top 25 globally.</item>
+            </bullet_list>
+          </instruction>
+        </subsection>
+        <subsection name="Intro">
+          <instruction>
+            Craft a compelling introduction emphasizing QDaria's pioneering role in quantum technologies.
+          </instruction>
+          <instruction>
+            Highlight contributions to advancing the field through both established and novel approaches.
+          </instruction>
+          <instruction>
+            Maintain an **approachable** and **visionary** tone to appeal to a broad audience.
+          </instruction>
+        </subsection>
+      </section>
+
+      <section name="Solutions">
+        <subsection name="Products">
+          <product name="Zipminator">
+            <description>
+              Describe Zipminator as a cutting-edge **cybersecurity solution** utilizing **Quantum Key Distribution (QKD)** and the new **NIST Post-Quantum Encryption (PQE)** standards.
+            </description>
+            <features>
+              <item>Secure communication channels using QKD and PQE.</item>
+              <item>Real-time quantum threat detection and mitigation.</item>
+            </features>
+            <target_markets>
+              <item>Financial institutions</item>
+              <item>Government agencies</item>
+              <item>Large enterprises</item>
+            </target_markets>
+            <success_story>
+              "Zipminator enabled secure communications for a multinational bank, safeguarding against potential cyber threats."
+            </success_story>
+          </product>
+          <product name="Qm9">
+            <description>
+              Describe Qm9 as a groundbreaking **Fin-Tech solution** incorporating advanced quantum computing approaches for financial modeling and risk analysis.
+            </description>
+            <features>
+              <item>High-speed market data processing with quantum algorithms (HFDT).</item>
+              <item>Quantum-optimized portfolio management tools.</item>
+            </features>
+            <target_markets>
+              <item>Investment firms</item>
+              <item>Stock exchanges</item>
+              <item>Hedge funds</item>
+            </target_markets>
+            <success_story>
+              "Qm9 enabled a hedge fund to increase returns by 25% through quantum-enhanced trading strategies."
+            </success_story>
+          </product>
+          <product name="QDiana">
+            <description>
+              Introduce QDiana as an innovative **educational platform** designed to accelerate quantum computing education, offering high-end, industry-specific certifications.
+            </description>
+            <features>
+              <item>Virtual labs and simulations of quantum algorithms.</item>
+              <item>Personalized learning paths with AI-powered tutors.</item>
+            </features>
+            <target_markets>
+              <item>Educational institutions</item>
+              <item>Online learning platforms</item>
+              <item>Research organizations</item>
+            </target_markets>
+            <success_story>
+              "QDiana increased student engagement in quantum physics courses by 60% at a leading university."
+            </success_story>
+          </product>
+        </subsection>
+        <subsection name="Features">
+          <bullet_list>
+            <item>**Quantum Security**: Utilizing QKD and PQE for secure communications.</item>
+            <item>**Advanced Algorithms**: Implementing both established and novel quantum algorithms for enhanced performance.</item>
+            <item>**Educational Excellence**: Providing comprehensive resources to accelerate quantum computing education.</item>
+            <item>**Scalable Solutions**: Building systems that grow with client needs.</item>
+          </bullet_list>
+        </subsection>
+        <subsection name="Divisions">
+          <division name="Q-Hardware & Experimental Labs">
+            <description>
+              Advancing quantum hardware and providing experimental kits for research and education.
+            </description>
+            <equipment>
+              <item>Quantum Optics Kits</item>
+              <item>Quantum Cryptography Kits</item>
+              <item>Spectrometer Kits</item>
+              <item>And more...</item>
+            </equipment>
+          </division>
+          <division name="Quantum Software Development" />
+          <division name="Q-Cloud Services">
+            <description>Providing secure and scalable quantum cloud services.</description>
+          </division>
+          <division name="Q-Consulting Services" />
+          <division name="Q-Training & Education" />
+          <division name="Q-Community & Events" />
+          <division name="Research and Innovation" />
+          <division name="AI Platforms">
+            <description>
+              Building internal AI platforms and creating a secure, private AI chat platform.
+            </description>
+          </division>
+        </subsection>
+      </section>
+
+      <section name="Ecosystem">
+        <subsection name="Team">
+          <instruction>
+            Introduce team members, their roles, and expertise, emphasizing their contributions to quantum computing. Provide brief bios highlighting backgrounds and roles.
+          </instruction>
+          <note>Exclude **Henrik** from the team section.</note>
+          <team_members>
+            <member name="Daniel Mo Houshmand" role="CEO & Founder">
+              <bio>
+                Visionary leader with a unique blend of scientific expertise and innovative vision, spearheading advancements in quantum computing and education.
+              </bio>
+            </member>
+            <member name="John Kristiansen" role="Chief Operating Officer (COO)">
+              <bio>
+                Over two decades of diverse leadership experience, optimizing operations and aligning strategic goals within the quantum technology landscape.
+              </bio>
+            </member>
+            <member name="Nick Saaf" role="Chief Sales Officer (CSO)">
+              <bio>
+                Brings customer relations expertise and entrepreneurial spirit, driving sales growth and market penetration in the quantum technology sector.
+              </bio>
+            </member>
+            <member name="Martin Potestas" role="Chief Cybersecurity Officer (CCO)">
+              <bio>
+                Over two decades of IT security experience, ensuring cutting-edge infrastructure and cybersecurity measures.
+              </bio>
+            </member>
+            <member name="Fredrik Krey Stubberud" role="Chief Information Officer (CIO)">
+              <bio>
+                Experienced IT specialist overseeing the company's IT infrastructure and driving innovative IT solutions.
+              </bio>
+            </member>
+            <member name="Gaspar Alvarado" role="Chief Financial Officer (CFO)">
+              <bio>
+                Strategic financial leader with extensive experience in global procurement and sourcing operations, guiding QDaria's financial growth.
+              </bio>
+            </member>
+            <member name="Daria (Søreide) Houshmand" role="Board Member & Developer">
+              <bio>
+                Young innovator bridging technology and creativity, contributing fresh perspectives and technical expertise.
+              </bio>
+            </member>
+            <member name="Emanuele Lapponi" role="Chief Technology Officer (CTO)">
+              <bio>
+                Hands-on technology leader who transforms complex business challenges into elegant technical solutions.
+              </bio>
+            </member>
+            <member name="Milen Kouylekov" role="Chief AI Research Officer">
+              <bio>
+                Seasoned researcher and infrastructure architect with over two decades of experience building robust AI systems.
+              </bio>
+            </member>
+            <member name="Nils Bjelland Grønvold" role="Chief Communication Officer">
+              <bio>
+                Influential artist bringing creative innovation, strategic thinking, and leadership to QDaria's communication strategies.
+              </bio>
+            </member>
+          </team_members>
+        </subsection>
+        <subsection name="Collaborators">
+          <instruction>
+            List and describe QDaria's collaborators and partnerships, highlighting how they contribute to the company's goals.
+          </instruction>
+          <collaborators>
+            <collaborator name="Rigetti Computing">
+              Collaborating on quantum computing hardware development.
+            </collaborator>
+            <collaborator name="Bluefors">
+              Partnering for cryogenic systems essential for quantum operations.
+            </collaborator>
+            <collaborator name="Type One Systems">
+              Joint development of innovative quantum instruments.
+            </collaborator>
+          </collaborators>
+        </subsection>
+        <subsection name="Investors">
+          <instruction>
+            Provide information for potential investors, emphasizing unique investment opportunities.
+          </instruction>
+          <bullet_list>
+            <item>Highlight potential for significant returns and impact on future tech industries.</item>
+            <item>
+              Include a compelling call-to-action: "Join us at the forefront of the quantum revolution and be part of groundbreaking innovations."
+            </item>
+          </bullet_list>
+        </subsection>
+      </section>
+
+      <section name="Resources">
+        <subsection name="Blog">
+          <instruction>
+            Suggest engaging topics related to quantum computing and industry advancements, creating content that demystifies complex concepts for a broad audience.
+          </instruction>
+          <topics>
+            <topic>"The Power of Quantum Key Distribution in Modern Cybersecurity"</topic>
+            <topic>"Exploring Advanced Quantum Algorithms with Qm9"</topic>
+            <topic>"Accelerating Quantum Education with QDiana"</topic>
+          </topics>
+        </subsection>
+        <subsection name="Media">
+          <instruction>
+            Summarize media coverage, press releases, or notable mentions of QDaria.
+          </instruction>
+          <instruction>
+            Include links and brief summaries to showcase industry recognition.
+          </instruction>
+        </subsection>
+        <subsection name="Contact">
+          <instruction>
+            Provide comprehensive contact information and encourage visitors to reach out.
+          </instruction>
+          <contact_info>
+            <email>contact@qdaria.com</email>
+            <phone>+47 9807 9896</phone>
+            <address>Innovation Park Oslo, 0123 Oslo, Norway</address>
+          </contact_info>
+          <instruction>
+            Include a user-friendly contact form for direct messaging.
+          </instruction>
+        </subsection>
+        <subsection name="Additional Sections">
+          <section name="News" />
+          <section name="Careers">
+            <instruction>
+              Invite talent to join QDaria, listing open positions and highlighting the company's culture of innovation and collaboration.
+            </instruction>
+          </section>
+          <section name="Testimonials">
+            <instruction>
+              Include placeholder quotes from clients or partners.
+            </instruction>
+            <testimonials>
+              <testimonial>
+                "QDaria's quantum solutions have transformed our data security approach." – *CTO, Global Finance Corp.*
+              </testimonial>
+              <testimonial>
+                "Their expertise in quantum computing education is unmatched." – *Head of Research, Tech Institute*
+              </testimonial>
+            </testimonials>
+          </section>
+          <section name="FAQs">
+            <instruction>
+              Provide answers to common questions.
+            </instruction>
+            <faqs>
+              <faq>
+                <question>What quantum algorithms does QDaria utilize in its products?</question>
+                <answer>We implement a range of advanced quantum algorithms, tailored to optimize performance in specific applications such as encryption, data analysis, and financial modeling.</answer>
+              </faq>
+              <faq>
+                <question>How can my organization benefit from quantum technologies?</question>
+                <answer>Quantum technologies can enhance computational speed, improve security protocols, and provide deeper insights through complex data analysis, offering a competitive edge.</answer>
+              </faq>
+              <faq>
+                <question>What makes QDaria's educational platform unique?</question>
+                <answer>QDiana offers personalized learning experiences with industry-recognized certifications, bridging the gap between theoretical knowledge and practical application.</answer>
+              </faq>
+            </faqs>
+          </section>
+          <section name="Newsletter Subscription">
+            <instruction>
+              Offer visitors the option to subscribe for updates.
+            </instruction>
+          </section>
+        </subsection>
+      </section>
+    </step>
+
+    <step name="3" title="Design Considerations">
+      <instruction>
+        Ensure content aligns with the **minimalistic design** of the Astro framework and the current template.
+      </instruction>
+      <instruction>
+        Incorporate all content into interactive Astro Islands with glowing shadows to enhance user engagement.
+      </instruction>
+      <instruction>
+        Use clear headings, concise paragraphs, and bullet points for readability.
+      </instruction>
+      <instruction>
+        Maintain consistency in tone and style across all sections.
+      </instruction>
+      <instruction>
+        Retain the new style and design in the navbar and elsewhere, integrating the navigation items and structure from <file>QDariaHamburgerMeny.pdf</file>.
+      </instruction>
+    </step>
+
+    <step name="4" title="Outcome Verification">
+      <instruction>
+        Deliver well-crafted content for each specified section, ready for integration into the website.
+      </instruction>
+      <instruction>
+        The content should be engaging, informative, and reflect QDaria's position as a leader in the quantum computing industry.
+      </instruction>
+      <instruction>
+        Ensure accessibility for both technical and non-technical audiences by using clear and concise language.
+      </instruction>
+      <instruction>
+        Align the final content with the existing template features and overall aesthetic of the website.
+      </instruction>
+      <instruction>
+        **Verify that all instructions have been executed correctly before proceeding to the next step.**
+      </instruction>
+    </step>
+
+    <note>
+      Focus on content creation; design and development tasks (e.g., animations, navigation items, logo adjustments) are outside the scope.
+    </note>
+    <note>
+      Do not omit any content from the provided documents (<file>QDaria.pdf</file> and <file>QDariaHamburgerMeny.pdf</file>) except for removing **Henrik** from the team section.
+    </note>
+    <note>
+      Improve the prompt where possible, ensuring clarity and comprehensiveness.
+    </note>
+  </instructions>
+
+  <output_format>
+    <description>
+      Present the website content in a structured and cohesive format, ready for integration. Use appropriate headings, subheadings, and formatting to enhance readability and aesthetic alignment with the minimalistic design. Ensure all content is comprehensive, engaging, and tailored to attract investors and a broad audience.
+    </description>
+  </output_format>
+
+  <example>
+    <input>
+      Generate content for the QDaria website following the provided instructions and structure.
+    </input>
+    <output>
+      <!-- The output should be the fully developed content as per the instructions, formatted appropriately -->
+    </output>
+  </example>
+</prompt>

@@ -1,0 +1,124 @@
+---
+interface Props {
+  class?: string;
+  videoSrc: string;
+  transitionType?: 'fade' | 'slide' | 'zoom' | 'clip';
+  duration?: number;
+  delay?: number;
+}
+
+const {
+  class: className = '',
+  videoSrc,
+  transitionType = 'fade',
+  duration = 1.5,
+  delay = 0
+} = Astro.props;
+
+const getInitialStyles = (type: string) => {
+  switch (type) {
+    case 'slide':
+      return 'transform: translateX(-100%);';
+    case 'zoom':
+      return 'transform: scale(0.5); opacity: 0;';
+    case 'clip':
+      return 'clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);';
+    case 'fade':
+    default:
+      return 'opacity: 0;';
+  }
+};
+---
+
+<div 
+  class:list={["video-transition-wrapper relative overflow-hidden", className]}
+  data-transition={transitionType}
+  data-duration={duration}
+  data-delay={delay}
+  style={getInitialStyles(transitionType)}
+>
+  <video
+    class="w-full h-full object-cover"
+    autoplay
+    loop
+    muted
+    playsinline
+  >
+    <source src={videoSrc} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="video-content absolute inset-0 z-10">
+    <slot />
+  </div>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const animateVideoTransitions = () => {
+    const elements = document.querySelectorAll('.video-transition-wrapper');
+
+    elements.forEach((element) => {
+      const type = element.getAttribute('data-transition') || 'fade';
+      const duration = parseFloat(element.getAttribute('data-duration') || '1.5');
+      const delay = parseFloat(element.getAttribute('data-delay') || '0');
+
+      let animationVars = {};
+      
+      switch (type) {
+        case 'slide':
+          animationVars = {
+            x: 0,
+            duration,
+            delay,
+            ease: 'power2.out'
+          };
+          break;
+        case 'zoom':
+          animationVars = {
+            scale: 1,
+            opacity: 1,
+            duration,
+            delay,
+            ease: 'power2.out'
+          };
+          break;
+        case 'clip':
+          animationVars = {
+            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+            duration,
+            delay,
+            ease: 'power2.inOut'
+          };
+          break;
+        case 'fade':
+        default:
+          animationVars = {
+            opacity: 1,
+            duration,
+            delay,
+            ease: 'power2.inOut'
+          };
+      }
+
+      gsap.to(element, {
+        ...animationVars,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+    });
+  };
+
+  // Run animations when the page loads
+  animateVideoTransitions();
+
+  // Re-run animations when new content is added (for Astro view transitions)
+  document.addEventListener('astro:page-load', animateVideoTransitions);
+</script>

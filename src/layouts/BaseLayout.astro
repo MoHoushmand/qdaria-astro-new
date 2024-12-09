@@ -1,0 +1,49 @@
+---
+import BaseHead from "@layouts/BaseHead.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <BaseHead {title} {description} />
+  </head>
+  <body class="bg-dark-bg min-h-screen">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen;
+  }
+
+  .site-container {
+    @apply mx-auto w-full max-w-7xl px-6 lg:px-8;
+  }
+
+  [data-scroll-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-scroll-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

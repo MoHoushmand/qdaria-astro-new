@@ -1,0 +1,113 @@
+---
+interface Props {
+  animation?: 'fade' | 'slide' | 'scale' | 'clip' | '3d';
+  duration?: number;
+  delay?: number;
+  class?: string;
+  direction?: 'up' | 'down' | 'left' | 'right';
+}
+
+const {
+  animation = 'fade',
+  duration = 1,
+  delay = 0,
+  class: className = '',
+  direction = 'up'
+} = Astro.props;
+
+const getInitialState = () => {
+  const base = { opacity: 0, duration };
+  switch (animation) {
+    case 'slide':
+      return {
+        ...base,
+        y: direction === 'up' ? 100 : direction === 'down' ? -100 : 0,
+        x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0
+      };
+    case 'scale':
+      return { ...base, scale: 0.5 };
+    case 'clip':
+      return { ...base, clipPath: 'polygon(0 0, 0 0, 0 100%, 0% 100%)' };
+    case '3d':
+      return { ...base, rotateX: 45, perspective: 1000 };
+    default:
+      return base;
+  }
+};
+---
+
+<div class={`reveal-element ${className}`} data-animation={animation} data-delay={delay}>
+  <slot />
+</div>
+
+<style>
+  .reveal-element {
+    visibility: hidden;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const setupAnimations = () => {
+    const elements = document.querySelectorAll('.reveal-element');
+
+    elements.forEach((element) => {
+      const animation = element.getAttribute('data-animation');
+      const delay = parseFloat(element.getAttribute('data-delay') || '0');
+
+      let animationConfig = {
+        opacity: 1,
+        duration: 1,
+        delay,
+        ease: 'power2.out'
+      };
+
+      switch (animation) {
+        case 'slide':
+          animationConfig = {
+            ...animationConfig,
+            y: 0,
+            x: 0
+          };
+          break;
+        case 'scale':
+          animationConfig = {
+            ...animationConfig,
+            scale: 1
+          };
+          break;
+        case 'clip':
+          animationConfig = {
+            ...animationConfig,
+            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
+          };
+          break;
+        case '3d':
+          animationConfig = {
+            ...animationConfig,
+            rotateX: 0
+          };
+          break;
+      }
+
+      gsap.from(element, {
+        ...animationConfig,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        },
+        onStart: () => {
+          element.style.visibility = 'visible';
+        }
+      });
+    });
+  };
+
+  // Setup on page load and after navigation
+  document.addEventListener('astro:page-load', setupAnimations);
+</script>

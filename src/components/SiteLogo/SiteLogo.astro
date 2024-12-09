@@ -1,0 +1,17 @@
+---
+import { Icon } from "astro-icon";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { getTranslatedData } from "@js/translationUtils";
+
+const currLocale = getLocaleFromUrl(Astro.url);
+const siteData = getTranslatedData("siteData", currLocale);
+---
+
+<a href={getRelativeLocaleUrl(currLocale)} class="flex items-center gap-2">
+  <Icon
+    name="qdaria/QDlogomark"
+    class="h-6 w-auto"
+    aria-hidden="true"
+  />
+</a>

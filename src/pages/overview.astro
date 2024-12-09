@@ -1,0 +1,184 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Solutions Overview | QDaria Quantum Technologies";
+const description = "Explore QDaria's innovative quantum computing solutions: Zipminator for cybersecurity, QDiana for education, and Qm9 for financial technology.";
+
+const solutions = [
+  {
+    name: "Zipminator",
+    icon: "tabler/shield-lock",
+    description: "Advanced quantum cybersecurity solution providing unparalleled protection through Fibonacci anyon-based encryption.",
+    features: [
+      "Quantum-resistant encryption algorithms",
+      "Real-time threat detection and mitigation",
+      "Secure multi-party quantum computation",
+      "Protected data storage and transmission",
+      "Enterprise-grade security infrastructure"
+    ],
+    benefits: [
+      "Future-proof security against quantum threats",
+      "Enhanced data protection compliance",
+      "Reduced security infrastructure costs",
+      "Seamless integration with existing systems"
+    ],
+    useCase: "A leading multinational bank implemented Zipminator to secure their global communications network, effectively protecting against current and future quantum threats while maintaining regulatory compliance.",
+    target: "Financial institutions, government agencies, large enterprises"
+  },
+  {
+    name: "QDiana",
+    icon: "tabler/school",
+    description: "Revolutionary quantum-enhanced educational platform transforming STEM learning through interactive experiences and AI-powered personalization.",
+    features: [
+      "Virtual quantum computing labs",
+      "Interactive visualization tools",
+      "Quantum-enhanced AI tutors",
+      "Personalized learning paths",
+      "Real-time progress tracking"
+    ],
+    benefits: [
+      "Increased student engagement",
+      "Improved learning outcomes",
+      "Enhanced understanding of complex concepts",
+      "Scalable education delivery"
+    ],
+    useCase: "A leading university integrated QDiana into their quantum physics curriculum, resulting in a 60% increase in student engagement and improved comprehension of complex quantum concepts.",
+    target: "Educational institutions, research organizations, online learning platforms"
+  },
+  {
+    name: "Qm9",
+    icon: "tabler/chart-dots",
+    description: "Cutting-edge financial technology solution leveraging quantum computing for advanced market analysis and portfolio optimization.",
+    features: [
+      "High-speed financial modeling",
+      "Quantum-optimized portfolio management",
+      "Real-time risk analysis",
+      "Predictive market analytics",
+      "Secure transaction processing"
+    ],
+    benefits: [
+      "Enhanced investment returns",
+      "Reduced operational risks",
+      "Faster transaction processing",
+      "Data-driven decision making"
+    ],
+    useCase: "A prominent hedge fund utilized Qm9 to optimize their trading strategies, achieving a 25% increase in returns through quantum-enhanced portfolio management and risk analysis.",
+    target: "Investment firms, stock exchanges, hedge funds"
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Our Solutions</Badge>
+          <h1 class="h1 mb-8">Quantum Solutions for Tomorrow's Challenges</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Harness the power of Topological Quantum Computing with our suite of innovative solutions designed to transform industries and solve complex challenges.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solutions Section -->
+    {solutions.map((solution, index) => (
+      <section class="py-16 md:py-20">
+        <div class="site-container">
+          <div class="mx-auto max-w-6xl">
+            <div class={`grid gap-12 lg:grid-cols-2 ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+              <!-- Content -->
+              <div class="space-y-8">
+                <div class="flex items-center gap-4">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
+                    <Icon name={solution.icon} class="h-6 w-6 text-blue-400" />
+                  </div>
+                  <h2 class="h2">{solution.name}</h2>
+                </div>
+                <p class="description text-lg">
+                  {solution.description}
+                </p>
+                <div class="space-y-6">
+                  <div>
+                    <h3 class="h4 mb-4">Key Features</h3>
+                    <ul class="space-y-2">
+                      {solution.features.map(feature => (
+                        <li class="flex items-start gap-2">
+                          <Icon name="tabler/circle-check" class="mt-1 h-4 w-4 flex-shrink-0 text-blue-400" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 class="h4 mb-4">Benefits</h3>
+                    <ul class="space-y-2">
+                      {solution.benefits.map(benefit => (
+                        <li class="flex items-start gap-2">
+                          <Icon name="tabler/circle-check" class="mt-1 h-4 w-4 flex-shrink-0 text-blue-400" />
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card -->
+              <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+                <div class="space-y-6">
+                  <div>
+                    <h3 class="h4 mb-4">Target Industries</h3>
+                    <p class="description">
+                      {solution.target}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 class="h4 mb-4">Success Story</h3>
+                    <p class="description">
+                      {solution.useCase}
+                    </p>
+                  </div>
+                  <div class="pt-4">
+                    <Button
+                      variant="primary"
+                      href="/contact"
+                      class="w-full rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-center text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Ready to Transform Your Organization?</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            Contact us to learn how our quantum solutions can address your specific needs and challenges.
+          </p>
+          <Button
+            variant="primary"
+            href="/contact"
+            class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+          >
+            Get Started
+          </Button>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

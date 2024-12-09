@@ -1,0 +1,136 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Icon } from "astro-icon";
+import Button from "@components/Button/Button.astro";
+
+const experimentalKits = [
+  {
+    title: "Quantum Optics Kit",
+    description: "Advanced optical equipment for quantum experiments including single-photon sources and detectors",
+    icon: "tabler:bulb"
+  },
+  {
+    title: "Quantum Entanglement Kit",
+    description: "Specialized equipment for creating and measuring entangled quantum states",
+    icon: "tabler:infinity"
+  },
+  {
+    title: "Quantum Measurement Kit",
+    description: "Precision instruments for quantum state measurement and analysis",
+    icon: "tabler:ruler-measure"
+  }
+];
+
+const researchAreas = [
+  {
+    title: "Quantum AI Research",
+    description: "Combining quantum computing with artificial intelligence for breakthrough discoveries",
+    icon: "tabler:brain"
+  },
+  {
+    title: "Experimental Quantum Mechanics",
+    description: "Hands-on quantum experiments with state-of-the-art equipment",
+    icon: "tabler:atom"
+  },
+  {
+    title: "Quantum Algorithm Development",
+    description: "Research and development of novel quantum algorithms",
+    icon: "tabler:code"
+  }
+];
+---
+
+<BaseLayout title="Quantum AI Lab - QDaria" description="State-of-the-art quantum research facilities">
+  <div class="bg-dark min-h-screen">
+    <div class="container mx-auto px-4 py-24">
+      <!-- Hero Section -->
+      <div class="mb-20">
+        <h1 class="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 mb-8">
+          Quantum AI Lab
+        </h1>
+        
+        <p class="text-xl text-base-300 mb-12 max-w-3xl">
+          Our state-of-the-art research facilities combine quantum computing expertise with experimental quantum mechanics. 
+          Access cutting-edge equipment and collaborate with leading researchers in quantum computing and AI.
+        </p>
+
+        <div class="flex gap-4">
+          <Button href="/careers" variant="primary" size="lg">
+            Join Our Team
+          </Button>
+          <Button href="/contact" variant="outline" size="lg">
+            Schedule a Visit
+          </Button>
+        </div>
+      </div>
+
+      <!-- Experimental Kits -->
+      <div class="mb-20">
+        <h2 class="text-3xl font-bold mb-8">Experimental Quantum Mechanics Kits</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {experimentalKits.map(kit => (
+            <div class="bg-dark-800 rounded-xl p-6 border border-cyan-500/20 hover:border-cyan-500/40 transition-all">
+              <div class="mb-4 inline-block rounded-xl bg-cyan-500/10 p-3">
+                <Icon name={kit.icon} class="h-6 w-6 text-cyan-400" />
+              </div>
+              <h3 class="text-xl font-semibold mb-2">{kit.title}</h3>
+              <p class="text-base-300">{kit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Research Areas -->
+      <div class="mb-20">
+        <h2 class="text-3xl font-bold mb-8">Research Areas</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {researchAreas.map(area => (
+            <div class="bg-dark-800 rounded-xl p-6 border border-blue-500/20 hover:border-blue-500/40 transition-all">
+              <div class="mb-4 inline-block rounded-xl bg-blue-500/10 p-3">
+                <Icon name={area.icon} class="h-6 w-6 text-blue-400" />
+              </div>
+              <h3 class="text-xl font-semibold mb-2">{area.title}</h3>
+              <p class="text-base-300">{area.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Lab Access -->
+      <div class="bg-dark-800 rounded-2xl p-8 border border-cyan-500/20">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 class="text-3xl font-bold mb-4">Lab Access & Collaboration</h2>
+            <p class="text-base-300 mb-6">
+              Our lab is open for collaboration with researchers, institutions, and industry partners. 
+              We offer flexible access options and support for quantum experiments and research projects.
+            </p>
+            <ul class="space-y-3 text-base-300 mb-6">
+              <li class="flex items-start gap-2">
+                <Icon name="tabler:circle-check" class="h-6 w-6 text-cyan-400 flex-shrink-0" />
+                <span>Access to experimental quantum mechanics kits</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <Icon name="tabler:circle-check" class="h-6 w-6 text-cyan-400 flex-shrink-0" />
+                <span>Expert guidance from quantum researchers</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <Icon name="tabler:circle-check" class="h-6 w-6 text-cyan-400 flex-shrink-0" />
+                <span>Flexible collaboration options</span>
+              </li>
+            </ul>
+            <Button href="/contact" variant="primary">
+              Inquire About Access
+            </Button>
+          </div>
+          <div class="aspect-video rounded-xl bg-dark-900 border border-cyan-500/20">
+            <!-- Placeholder for lab photo/virtual tour -->
+            <div class="w-full h-full flex items-center justify-center">
+              <Icon name="tabler:microscope" class="h-16 w-16 text-cyan-400/50" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

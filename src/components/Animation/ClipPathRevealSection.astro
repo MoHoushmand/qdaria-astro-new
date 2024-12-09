@@ -1,0 +1,112 @@
+---
+interface Props {
+  class?: string;
+  shape?: 'circle' | 'diamond' | 'triangle' | 'custom';
+  customPath?: string;
+  duration?: number;
+  delay?: number;
+}
+
+const {
+  class: className = '',
+  shape = 'circle',
+  customPath,
+  duration = 1.5,
+  delay = 0
+} = Astro.props;
+
+const getClipPath = (shape: string) => {
+  switch (shape) {
+    case 'circle':
+      return 'circle(0% at 50% 50%)';
+    case 'diamond':
+      return 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)';
+    case 'triangle':
+      return 'polygon(50% 50%, 50% 50%, 50% 50%)';
+    case 'custom':
+      return customPath || 'circle(0% at 50% 50%)';
+    default:
+      return 'circle(0% at 50% 50%)';
+  }
+};
+
+const getFinalClipPath = (shape: string) => {
+  switch (shape) {
+    case 'circle':
+      return 'circle(150% at 50% 50%)';
+    case 'diamond':
+      return 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+    case 'triangle':
+      return 'polygon(50% 0%, 100% 100%, 0% 100%)';
+    case 'custom':
+      return customPath || 'circle(150% at 50% 50%)';
+    default:
+      return 'circle(150% at 50% 50%)';
+  }
+};
+---
+
+<div 
+  class:list={["clip-path-reveal overflow-hidden", className]}
+  data-shape={shape}
+  data-duration={duration}
+  data-delay={delay}
+  style={`clip-path: ${getClipPath(shape)}; -webkit-clip-path: ${getClipPath(shape)};`}
+>
+  <slot />
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const animateClipPath = () => {
+    const elements = document.querySelectorAll('.clip-path-reveal');
+
+    elements.forEach((element) => {
+      const shape = element.getAttribute('data-shape') || 'circle';
+      const duration = parseFloat(element.getAttribute('data-duration') || '1.5');
+      const delay = parseFloat(element.getAttribute('data-delay') || '0');
+
+      let finalClipPath;
+      switch (shape) {
+        case 'circle':
+          finalClipPath = 'circle(150% at 50% 50%)';
+          break;
+        case 'diamond':
+          finalClipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+          break;
+        case 'triangle':
+          finalClipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+          break;
+        case 'custom':
+          finalClipPath = element.getAttribute('data-custom-path') || 'circle(150% at 50% 50%)';
+          break;
+        default:
+          finalClipPath = 'circle(150% at 50% 50%)';
+      }
+
+      gsap.to(element, {
+        clipPath: finalClipPath,
+        webkitClipPath: finalClipPath,
+        duration,
+        delay,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+    });
+  };
+
+  // Run animations when the page loads
+  animateClipPath();
+
+  // Re-run animations when new content is added (for Astro view transitions)
+  document.addEventListener('astro:page-load', animateClipPath);
+</script>

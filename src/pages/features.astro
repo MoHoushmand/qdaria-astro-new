@@ -1,0 +1,194 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Features | QDaria Quantum Technologies";
+const description = "Explore the advanced features of QDaria's quantum computing technology, from fault-tolerant quantum operations to scalable quantum architectures.";
+
+const features = [
+  {
+    category: "Core Technology",
+    items: [
+      {
+        title: "Topological Protection",
+        description: "Our quantum states are naturally protected from errors through the topological properties of Fibonacci anyons, ensuring stable and reliable quantum computations.",
+        benefits: [
+          "Reduced error rates",
+          "Longer coherence times",
+          "Improved quantum gate fidelity",
+          "Scalable error correction"
+        ]
+      },
+      {
+        title: "Quantum Gate Operations",
+        description: "Advanced braiding operations enable precise control of quantum states, allowing for universal quantum computation with unprecedented accuracy.",
+        benefits: [
+          "Universal gate set",
+          "High-fidelity operations",
+          "Efficient quantum circuits",
+          "Reduced overhead"
+        ]
+      },
+      {
+        title: "Scalable Architecture",
+        description: "Our modular quantum architecture allows for seamless scaling of quantum operations while maintaining coherence and control.",
+        benefits: [
+          "Linear scaling",
+          "Modular design",
+          "Flexible configuration",
+          "Future-proof expansion"
+        ]
+      }
+    ]
+  },
+  {
+    category: "Software & Control",
+    items: [
+      {
+        title: "Quantum Control System",
+        description: "Advanced control software enables precise manipulation of quantum states and real-time error correction.",
+        benefits: [
+          "Real-time monitoring",
+          "Adaptive control",
+          "Automated calibration",
+          "Performance optimization"
+        ]
+      },
+      {
+        title: "Development Tools",
+        description: "Comprehensive suite of development tools for quantum algorithm design and optimization.",
+        benefits: [
+          "Intuitive programming",
+          "Circuit optimization",
+          "Performance analysis",
+          "Debugging tools"
+        ]
+      },
+      {
+        title: "Cloud Integration",
+        description: "Seamless cloud integration for remote access and distributed quantum computing.",
+        benefits: [
+          "Remote access",
+          "Resource sharing",
+          "Collaborative development",
+          "Hybrid computing"
+        ]
+      }
+    ]
+  },
+  {
+    category: "Applications",
+    items: [
+      {
+        title: "Quantum Algorithms",
+        description: "Optimized implementation of quantum algorithms for various applications across industries.",
+        benefits: [
+          "Cryptography",
+          "Optimization",
+          "Machine learning",
+          "Simulation"
+        ]
+      },
+      {
+        title: "Industry Solutions",
+        description: "Tailored quantum solutions for specific industry needs and challenges.",
+        benefits: [
+          "Financial modeling",
+          "Drug discovery",
+          "Materials science",
+          "Supply chain"
+        ]
+      },
+      {
+        title: "Integration Services",
+        description: "Professional services for seamless integration with existing systems and workflows.",
+        benefits: [
+          "Custom solutions",
+          "Technical support",
+          "Training programs",
+          "Ongoing optimization"
+        ]
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Features</Badge>
+          <h1 class="h1 mb-8">Advanced Quantum Capabilities</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Discover the cutting-edge features that make QDaria's quantum computing technology revolutionary.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Sections -->
+    {features.map((section) => (
+      <section class="py-16 md:py-20">
+        <div class="site-container">
+          <div class="mx-auto mb-16 text-center md:max-w-2xl">
+            <Badge>{section.category}</Badge>
+            <h2 class="h2 mb-4">{section.category} Features</h2>
+          </div>
+          <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {section.items.map((feature) => (
+              <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+                <h3 class="h4 mb-4">{feature.title}</h3>
+                <p class="description mb-6">
+                  {feature.description}
+                </p>
+                <div>
+                  <h4 class="text-sm font-medium text-blue-400">Benefits</h4>
+                  <ul class="mt-2 space-y-2">
+                    {feature.benefits.map((benefit) => (
+                      <li class="flex items-start gap-2">
+                        <span class="mt-1 text-blue-400">•</span>
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Ready to Experience Our Technology?</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            Contact us to learn how our quantum features can benefit your organization.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/contact"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Schedule a Demo
+            </Button>
+            <Button
+              variant="ghost"
+              href="/products"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              View Products
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

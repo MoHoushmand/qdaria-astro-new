@@ -1,0 +1,60 @@
+---
+/**
+ * * These are medium sized cards with icons, titles, and text
+ *
+ * ! I copy all icons into the src/icons folder and recommend you do the same
+ * ! If the icon is at src/icons/tabler/paint.svg then you put in "tabler/paint"
+ */
+
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { Icon } from "astro-icon";
+
+// components
+import Button from "@components/Button/Button.astro";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+
+interface Props {
+  icon: string;
+  title: string;
+  text: string;
+  rest?: any;
+}
+
+const { icon, title, text, ...rest } = Astro.props as Props;
+
+const currLocale = getLocaleFromUrl(Astro.url);
+---
+
+<div {...rest}>
+  <div
+    class="mx-auto flex h-full max-w-md flex-col rounded-lg border border-primary-500/30 bg-dark-bg p-6 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)] md:p-8"
+  >
+    <div class="flex justify-center">
+      <div
+        class="rounded-lg border border-primary-500/30 bg-dark-bg p-2 shadow-[0_0_15px_rgba(0,0,255,0.1)] md:p-4"
+      >
+        <Icon
+          name={icon}
+          class="size-8 text-primary-400"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+
+    <h3
+      class="mt-4 text-lg font-medium tracking-tight text-base-200"
+    >
+      {title}
+    </h3>
+
+    <p class="mt-2 text-base-300">{text}</p>
+  </div>
+</div>
+
+<style>
+  .text-base-300 {
+    color: rgba(209, 213, 219, 0.8);
+  }
+</style>

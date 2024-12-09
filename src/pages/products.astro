@@ -1,0 +1,189 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Products | QDaria Quantum Technologies";
+const description = "Explore QDaria's suite of quantum computing products: Zipminator for cybersecurity, QDiana for education, and Qm9 for financial technology.";
+
+const products = [
+  {
+    name: "Zipminator",
+    tagline: "Advanced Quantum Cybersecurity",
+    description: "Quantum-resistant encryption and security solutions powered by Fibonacci anyons.",
+    features: [
+      "Quantum-resistant encryption algorithms",
+      "Real-time threat detection",
+      "Secure multi-party computation",
+      "Protected data storage",
+      "Enterprise security infrastructure"
+    ],
+    benefits: [
+      "Future-proof security",
+      "Enhanced compliance",
+      "Reduced infrastructure costs",
+      "Seamless integration"
+    ],
+    target: "Financial institutions, government agencies, enterprises",
+    cta: "Secure Your Future"
+  },
+  {
+    name: "QDiana",
+    tagline: "Revolutionary Quantum Education",
+    description: "Interactive quantum computing education platform with AI-powered personalization.",
+    features: [
+      "Virtual quantum labs",
+      "Interactive visualizations",
+      "AI-powered tutoring",
+      "Personalized learning paths",
+      "Progress tracking"
+    ],
+    benefits: [
+      "Increased engagement",
+      "Improved outcomes",
+      "Enhanced understanding",
+      "Scalable delivery"
+    ],
+    target: "Educational institutions, research organizations, online platforms",
+    cta: "Transform Learning"
+  },
+  {
+    name: "Qm9",
+    tagline: "Quantum-Powered Finance",
+    description: "Advanced financial modeling and optimization using topological quantum computing.",
+    features: [
+      "High-speed modeling",
+      "Portfolio optimization",
+      "Risk analysis",
+      "Market analytics",
+      "Secure transactions"
+    ],
+    benefits: [
+      "Enhanced returns",
+      "Reduced risks",
+      "Faster processing",
+      "Data-driven decisions"
+    ],
+    target: "Investment firms, stock exchanges, hedge funds",
+    cta: "Optimize Performance"
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Our Products</Badge>
+          <h1 class="h1 mb-8">Quantum Solutions for Tomorrow</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Our suite of quantum computing products delivers unprecedented capabilities through the power of Topological Quantum Computing with Fibonacci anyons.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    {products.map((product, index) => (
+      <section class="py-16 md:py-20">
+        <div class="site-container">
+          <div class="mx-auto max-w-6xl">
+            <div class={`grid gap-12 lg:grid-cols-2 ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+              <!-- Content -->
+              <div class="space-y-8">
+                <div>
+                  <Badge>{product.tagline}</Badge>
+                  <h2 class="h2 mb-4">{product.name}</h2>
+                  <p class="description text-lg">
+                    {product.description}
+                  </p>
+                </div>
+
+                <div class="space-y-6">
+                  <div>
+                    <h3 class="h4 mb-4">Key Features</h3>
+                    <ul class="space-y-2">
+                      {product.features.map(feature => (
+                        <li class="flex items-start gap-2">
+                          <span class="mt-1 text-blue-400">•</span>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 class="h4 mb-4">Benefits</h3>
+                    <ul class="space-y-2">
+                      {product.benefits.map(benefit => (
+                        <li class="flex items-start gap-2">
+                          <span class="mt-1 text-blue-400">•</span>
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Button
+                    variant="primary"
+                    href="/contact"
+                    class="mt-4 w-full rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-center text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+                  >
+                    {product.cta}
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Card -->
+              <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+                <div class="space-y-6">
+                  <div>
+                    <h3 class="h4 mb-4">Target Industries</h3>
+                    <p class="description">
+                      {product.target}
+                    </p>
+                  </div>
+
+                  <div class="space-y-4">
+                    <h3 class="h4">Ready to Get Started?</h3>
+                    <p class="description">
+                      Contact us to learn how {product.name} can transform your organization.
+                    </p>
+                    <Button
+                      variant="primary"
+                      href="/contact"
+                      class="w-full rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-center text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+                    >
+                      Schedule a Demo
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Ready to Transform Your Organization?</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            Contact us to learn how our quantum solutions can address your specific needs and challenges.
+          </p>
+          <Button
+            variant="primary"
+            href="/contact"
+            class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+          >
+            Get Started
+          </Button>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,133 @@
+---
+const partners = [
+  { name: "Zipminator", logo: "/icons/logos/zipminator.svg", scale: 1 },
+  { name: "Bluefors", logo: "/icons/logos/bluefors.svg", scale: 1 },
+  { name: "QM9", logo: "/icons/logos/qm9.svg", scale: 1 },
+  { name: "Rigetti", logo: "/icons/logos/rigetti0.svg", scale: 2.5 }
+];
+---
+
+<div class="bg-dark-bg py-24">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-gradient-blue text-3xl font-bold tracking-tight sm:text-4xl">
+        Pioneering the Future of Quantum Computing
+      </h2>
+      <p class="mt-6 text-lg leading-8 text-base-400">
+        Trusted by the world's most innovative companies
+      </p>
+    </div>
+    <div class="marquee-container mt-16 overflow-hidden">
+      <div class="marquee">
+        <div class="marquee-content flex items-center justify-around gap-8">
+          {partners.map((partner) => (
+            <div 
+              class="flex min-w-[200px] items-center justify-center" 
+              style={`transform: scale(${partner.scale})`}
+            >
+              <img
+                class="max-h-12 w-full object-contain transition-opacity duration-300 hover:opacity-100"
+                src={partner.logo}
+                alt={partner.name}
+                width={158}
+                height={48}
+                style="opacity: 0.75;"
+              />
+            </div>
+          ))}
+        </div>
+        <div class="marquee-content flex items-center justify-around gap-8" aria-hidden="true">
+          {partners.map((partner) => (
+            <div 
+              class="flex min-w-[200px] items-center justify-center" 
+              style={`transform: scale(${partner.scale})`}
+            >
+              <img
+                class="max-h-12 w-full object-contain transition-opacity duration-300 hover:opacity-100"
+                src={partner.logo}
+                alt={partner.name}
+                width={158}
+                height={48}
+                style="opacity: 0.75;"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+
+  .marquee-container {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
+  .marquee {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .marquee-content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    min-width: 100%;
+    gap: 2rem;
+    animation: scroll 30s linear infinite;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .marquee:hover .marquee-content {
+    animation-play-state: paused;
+  }
+
+  img {
+    filter: brightness(0) invert(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-content {
+      animation: none;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  function initMarquee() {
+    const marquee = document.querySelector('.marquee');
+    if (!marquee) return;
+
+    const content = marquee.querySelector('.marquee-content');
+    if (!content) return;
+
+    const clone = content.cloneNode(true);
+    marquee.appendChild(clone);
+  }
+
+  // Initialize on page load
+  initMarquee();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:after-swap', initMarquee);
+</script>

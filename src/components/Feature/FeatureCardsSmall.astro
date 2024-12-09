@@ -1,0 +1,111 @@
+---
+const features = [
+  {
+    title: "Topological Protection",
+    description: "Our qubits leverage Fibonacci anyons for inherent stability, dramatically reducing error rates through topological protection.",
+    icon: "shield-lock"
+  },
+  {
+    title: "Advanced Research Lab",
+    description: "State-of-the-art research facilities equipped with advanced cryogenic systems and precision control electronics.",
+    icon: "chart-dots"
+  },
+  {
+    title: "Quantum Security",
+    description: "Post-quantum cryptographic solutions ensuring data security in the quantum computing era.",
+    icon: "shield-lock"
+  }
+];
+---
+
+<div class="relative z-10 bg-dark-bg py-24">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-gradient-blue text-3xl font-bold tracking-tight sm:text-4xl">
+        Pioneering the Future of Quantum Computing
+      </h2>
+      <p class="mt-6 text-lg leading-8 text-base-400">
+        Our breakthrough technology combines topological protection with advanced quantum control systems, making large-scale quantum computing a reality.
+      </p>
+    </div>
+
+    <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+      <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div class="feature-card">
+              <div class="relative flex flex-col gap-6 p-6">
+                <dt class="flex items-center gap-4">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-500/10">
+                    <img 
+                      src={`/icons/qdaria/${feature.icon}.svg`} 
+                      alt={feature.title}
+                      class="h-8 w-8 invert opacity-75"
+                    />
+                  </div>
+                  <h3 class="text-xl font-semibold leading-7 text-base-200">{feature.title}</h3>
+                </dt>
+                <dd class="text-base leading-7 text-base-400">{feature.description}</dd>
+              </div>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</div>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+
+  .feature-card {
+    @apply relative rounded-lg border border-primary-500/30 bg-dark-bg transition-all;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 35px rgba(4, 163, 255, 0.6);
+    }
+
+    &::before {
+      content: '';
+      @apply absolute inset-0 rounded-lg;
+      background: radial-gradient(
+        600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.2),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  function updateMousePosition(e: MouseEvent) {
+    const target = e.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    target.style.setProperty('--mouse-x', `${x}px`);
+    target.style.setProperty('--mouse-y', `${y}px`);
+  }
+
+  function initFeatures() {
+    document.querySelectorAll('.feature-card').forEach((el) => {
+      el.addEventListener('mousemove', updateMousePosition);
+    });
+  }
+
+  // Initialize on page load
+  initFeatures();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:page-load', initFeatures);
+  document.addEventListener('astro:after-swap', initFeatures);
+</script>

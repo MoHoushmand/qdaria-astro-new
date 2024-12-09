@@ -1,0 +1,192 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Divisions | QDaria Quantum Technologies";
+const description = "Explore QDaria's specialized divisions, from Quantum Hardware R&D to Educational Outreach, driving innovation in quantum computing.";
+
+const divisions = [
+  {
+    name: "Quantum Hardware R&D",
+    description: "Leading the development of next-generation quantum computing hardware based on Fibonacci anyons.",
+    focus: [
+      "Topological qubit development",
+      "Quantum error correction",
+      "Hardware scalability",
+      "System integration"
+    ],
+    achievements: [
+      "Stable qubit operations",
+      "Novel braiding protocols",
+      "Scalable architectures",
+      "Error reduction"
+    ]
+  },
+  {
+    name: "Software Development",
+    description: "Creating advanced quantum software solutions and development tools for quantum applications.",
+    focus: [
+      "Quantum algorithms",
+      "Development frameworks",
+      "System optimization",
+      "Cloud integration"
+    ],
+    achievements: [
+      "Quantum SDK release",
+      "Cloud platform launch",
+      "Algorithm optimization",
+      "Developer tools"
+    ]
+  },
+  {
+    name: "Educational Outreach",
+    description: "Making quantum computing accessible through innovative educational programs and resources.",
+    focus: [
+      "Educational platforms",
+      "Training programs",
+      "Research collaboration",
+      "Community building"
+    ],
+    achievements: [
+      "QDiana platform",
+      "University partnerships",
+      "Training workshops",
+      "Research grants"
+    ]
+  },
+  {
+    name: "Consulting Services",
+    description: "Providing expert guidance for organizations adopting quantum technologies.",
+    focus: [
+      "Technology assessment",
+      "Implementation strategy",
+      "Integration support",
+      "Performance optimization"
+    ],
+    achievements: [
+      "Industry partnerships",
+      "Successful deployments",
+      "Client satisfaction",
+      "Innovation awards"
+    ]
+  },
+  {
+    name: "Cloud Computing",
+    description: "Delivering quantum computing resources through secure, scalable cloud platforms.",
+    focus: [
+      "Cloud infrastructure",
+      "Resource management",
+      "Security protocols",
+      "API development"
+    ],
+    achievements: [
+      "Platform launch",
+      "Enterprise adoption",
+      "Security certification",
+      "Performance metrics"
+    ]
+  },
+  {
+    name: "AI Platforms",
+    description: "Developing quantum-enhanced AI solutions and secure private AI platforms.",
+    focus: [
+      "Quantum ML algorithms",
+      "AI optimization",
+      "Private AI systems",
+      "Integration tools"
+    ],
+    achievements: [
+      "ML acceleration",
+      "Privacy preservation",
+      "Model optimization",
+      "Industry adoption"
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Divisions</Badge>
+          <h1 class="h1 mb-8">Specialized Quantum Expertise</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Our specialized divisions work together to advance quantum computing technology and its applications across industries.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Divisions Grid -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {divisions.map((division) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <h2 class="h3 mb-4">{division.name}</h2>
+              <p class="description mb-6">
+                {division.description}
+              </p>
+              
+              <div class="mb-6">
+                <h3 class="text-sm font-medium text-blue-400">Focus Areas</h3>
+                <ul class="mt-2 space-y-2">
+                  {division.focus.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h3 class="text-sm font-medium text-blue-400">Key Achievements</h3>
+                <ul class="mt-2 space-y-2">
+                  {division.achievements.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Work with Our Experts</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            Connect with our specialized divisions to explore how we can help your organization leverage quantum computing.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/contact"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Contact Us
+            </Button>
+            <Button
+              variant="ghost"
+              href="/careers"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Join Our Team
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

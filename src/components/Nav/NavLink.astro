@@ -1,0 +1,48 @@
+---
+interface NavItem {
+  text: string;
+  link: string;
+  highlight?: boolean;
+}
+
+interface Props {
+  navItem: NavItem;
+  class?: string;
+}
+
+const { navItem, class: className = "" } = Astro.props;
+---
+
+<div class="nav-link-wrapper group">
+  <a
+    href={navItem.link}
+    class:list={[
+      "nav-item inline-flex items-center gap-2",
+      navItem.highlight
+        ? "text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+        : "text-base-200 hover:text-primary-400",
+      className
+    ]}
+  >
+    {navItem.text}
+  </a>
+  <div class="nav-link-underline"></div>
+</div>
+
+<style>
+  .nav-link-wrapper {
+    @apply relative;
+  }
+
+  .nav-link-underline {
+    @apply absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 transition-all duration-300;
+  }
+
+  .nav-link-wrapper:hover .nav-link-underline {
+    @apply w-full;
+  }
+
+  .nav-item {
+    @apply rounded-lg px-3 py-1.5 text-base-200 transition-all;
+  }
+</style>

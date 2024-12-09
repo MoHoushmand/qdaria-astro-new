@@ -1,0 +1,313 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ClipPathReveal from "../components/Animation/ClipPathReveal.astro";
+import ScrollReveal from "../components/Animation/ScrollReveal.astro";
+import Hover3DEffect from "../components/Animation/Hover3DEffect.astro";
+import FlowingBorder from "../components/Animation/FlowingBorder.astro";
+
+const features = [
+  {
+    title: "Quantum Key Distribution",
+    description: "Secure communication channels protected by quantum mechanics principles, ensuring unbreakable encryption.",
+    icon: "key"
+  },
+  {
+    title: "Post-Quantum Cryptography",
+    description: "Implementation of NIST-approved algorithms resistant to both classical and quantum attacks.",
+    icon: "shield"
+  },
+  {
+    title: "Quantum Random Number Generation",
+    description: "True random number generation using quantum processes for enhanced security.",
+    icon: "random"
+  },
+  {
+    title: "Quantum-Safe Protocols",
+    description: "Communication protocols designed to withstand quantum computing attacks.",
+    icon: "protocol"
+  }
+];
+
+const applications = [
+  {
+    sector: "Financial Services",
+    solutions: [
+      "Secure transaction processing",
+      "Customer data protection",
+      "Inter-bank communications",
+      "Trading system security"
+    ]
+  },
+  {
+    sector: "Government",
+    solutions: [
+      "Classified communications",
+      "Infrastructure protection",
+      "Secure data storage",
+      "Agency interconnections"
+    ]
+  },
+  {
+    sector: "Healthcare",
+    solutions: [
+      "Patient data security",
+      "Telemedicine protection",
+      "Research data safeguarding",
+      "Compliance management"
+    ]
+  }
+];
+
+const technologies = [
+  {
+    name: "Quantum Key Distribution",
+    features: [
+      "Real-time key generation",
+      "Intrusion detection",
+      "Automatic key rotation",
+      "Multi-point distribution"
+    ]
+  },
+  {
+    name: "Post-Quantum Algorithms",
+    features: [
+      "Lattice-based cryptography",
+      "Hash-based signatures",
+      "Multivariate cryptography",
+      "Code-based encryption"
+    ]
+  },
+  {
+    name: "Hybrid Security",
+    features: [
+      "Classical-quantum integration",
+      "Backward compatibility",
+      "Flexible deployment",
+      "Seamless transition"
+    ]
+  }
+];
+
+const benefits = [
+  {
+    title: "Future-Proof Security",
+    description: "Protection against both current and future quantum computing threats.",
+    icon: "future"
+  },
+  {
+    title: "Regulatory Compliance",
+    description: "Meet and exceed emerging quantum security standards and regulations.",
+    icon: "compliance"
+  },
+  {
+    title: "Seamless Integration",
+    description: "Easy integration with existing security infrastructure and systems.",
+    icon: "integration"
+  },
+  {
+    title: "Scalable Protection",
+    description: "Security solutions that grow with your organization's needs.",
+    icon: "scale"
+  }
+];
+---
+
+<BaseLayout title="Quantum Security - QDaria">
+  <main class="relative">
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-base-950 to-base-900">
+      <div class="max-w-7xl mx-auto">
+        <ClipPathReveal>
+          <h1 class="text-5xl md:text-6xl font-bold text-white mb-8">
+            Quantum Security
+          </h1>
+        </ClipPathReveal>
+        
+        <ScrollReveal>
+          <p class="text-2xl text-base-200 max-w-3xl mb-12">
+            Protecting your data against quantum threats with advanced quantum-resistant cryptography and security solutions.
+          </p>
+        </ScrollReveal>
+
+        <ScrollReveal delay={200}>
+          <div class="flex gap-6">
+            <Hover3DEffect>
+              <FlowingBorder>
+                <a href="/contact" class="inline-block px-8 py-4 text-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition">
+                  Get Protected
+                </a>
+              </FlowingBorder>
+            </Hover3DEffect>
+            <Hover3DEffect>
+              <FlowingBorder>
+                <a href="#features" class="inline-block px-8 py-4 text-lg font-semibold text-white border-2 border-white hover:bg-white hover:text-base-950 rounded-lg transition">
+                  Learn More
+                </a>
+              </FlowingBorder>
+            </Hover3DEffect>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section id="features" class="py-20 bg-base-50 dark:bg-base-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ScrollReveal>
+          <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+            Security Features
+          </h2>
+        </ScrollReveal>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          {features.map((feature, index) => (
+            <ScrollReveal delay={index * 100}>
+              <Hover3DEffect>
+                <FlowingBorder>
+                  <div class="p-8 rounded-xl bg-white dark:bg-base-800">
+                    <h3 class="text-2xl font-bold text-base-950 dark:text-white mb-4">
+                      {feature.title}
+                    </h3>
+                    <p class="text-base-700 dark:text-base-300">
+                      {feature.description}
+                    </p>
+                  </div>
+                </FlowingBorder>
+              </Hover3DEffect>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Industry Applications -->
+    <section class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ScrollReveal>
+          <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+            Industry Solutions
+          </h2>
+        </ScrollReveal>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          {applications.map((app, index) => (
+            <ScrollReveal delay={index * 100}>
+              <Hover3DEffect>
+                <FlowingBorder>
+                  <div class="p-8 rounded-xl bg-white dark:bg-base-800 h-full">
+                    <h3 class="text-2xl font-bold text-base-950 dark:text-white mb-6">
+                      {app.sector}
+                    </h3>
+                    <ul class="space-y-4">
+                      {app.solutions.map((solution) => (
+                        <li class="flex items-start">
+                          <span class="text-primary-600 dark:text-primary-400 mr-2">•</span>
+                          <span class="text-base-700 dark:text-base-300">{solution}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FlowingBorder>
+              </Hover3DEffect>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Technologies -->
+    <section class="py-20 bg-base-50 dark:bg-base-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ScrollReveal>
+          <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+            Core Technologies
+          </h2>
+        </ScrollReveal>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          {technologies.map((tech, index) => (
+            <ScrollReveal delay={index * 100}>
+              <Hover3DEffect>
+                <FlowingBorder>
+                  <div class="p-8 rounded-xl bg-white dark:bg-base-800 h-full">
+                    <h3 class="text-2xl font-bold text-base-950 dark:text-white mb-6">
+                      {tech.name}
+                    </h3>
+                    <ul class="space-y-4">
+                      {tech.features.map((feature) => (
+                        <li class="flex items-start">
+                          <span class="text-primary-600 dark:text-primary-400 mr-2">•</span>
+                          <span class="text-base-700 dark:text-base-300">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FlowingBorder>
+              </Hover3DEffect>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ScrollReveal>
+          <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+            Key Benefits
+          </h2>
+        </ScrollReveal>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          {benefits.map((benefit, index) => (
+            <ScrollReveal delay={index * 100}>
+              <Hover3DEffect>
+                <FlowingBorder>
+                  <div class="p-8 rounded-xl bg-white dark:bg-base-800">
+                    <h3 class="text-2xl font-bold text-base-950 dark:text-white mb-4">
+                      {benefit.title}
+                    </h3>
+                    <p class="text-base-700 dark:text-base-300">
+                      {benefit.description}
+                    </p>
+                  </div>
+                </FlowingBorder>
+              </Hover3DEffect>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-base-50 dark:bg-base-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <ScrollReveal>
+          <h2 class="text-4xl font-bold text-base-950 dark:text-white mb-8">
+            Secure Your Future Today
+          </h2>
+          <p class="text-xl text-base-700 dark:text-base-300 mb-12 max-w-3xl mx-auto">
+            Don't wait for quantum threats to emerge. Protect your organization with quantum-safe security solutions from QDaria.
+          </p>
+          <div class="flex justify-center gap-6">
+            <Hover3DEffect>
+              <FlowingBorder>
+                <a href="/contact" class="inline-block px-8 py-4 text-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition">
+                  Contact Us
+                </a>
+              </FlowingBorder>
+            </Hover3DEffect>
+            <Hover3DEffect>
+              <FlowingBorder>
+                <a href="/solutions/products/zipminator" class="inline-block px-8 py-4 text-lg font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 rounded-lg transition">
+                  Explore Zipminator
+                </a>
+              </FlowingBorder>
+            </Hover3DEffect>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

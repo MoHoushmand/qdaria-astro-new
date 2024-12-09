@@ -1,0 +1,239 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Investors | QDaria Quantum Technologies";
+const description = "Learn about investment opportunities in QDaria's quantum computing technology and our vision for the future.";
+
+const investmentHighlights = [
+  {
+    title: "Market Leadership",
+    description: "Pioneering position in Topological Quantum Computing with Fibonacci anyons, offering unique competitive advantages.",
+    points: [
+      "First-mover advantage in key markets",
+      "Protected intellectual property",
+      "Strong industry partnerships",
+      "Growing market presence"
+    ]
+  },
+  {
+    title: "Technology Innovation",
+    description: "Breakthrough quantum computing technology offering superior stability and scalability.",
+    points: [
+      "Patented quantum architecture",
+      "Fault-tolerant systems",
+      "Scalable platform",
+      "Continuous innovation"
+    ]
+  },
+  {
+    title: "Market Opportunity",
+    description: "Addressing a rapidly growing global quantum computing market with diverse applications.",
+    points: [
+      "Expanding market size",
+      "Multiple revenue streams",
+      "Cross-industry applications",
+      "Global reach"
+    ]
+  }
+];
+
+const growthMetrics = [
+  {
+    title: "Research & Development",
+    metrics: [
+      "Multiple patent applications",
+      "Regular technical breakthroughs",
+      "Growing R&D team",
+      "Research partnerships"
+    ]
+  },
+  {
+    title: "Market Expansion",
+    metrics: [
+      "Increasing customer base",
+      "New market entries",
+      "Strategic partnerships",
+      "Product line expansion"
+    ]
+  },
+  {
+    title: "Financial Performance",
+    metrics: [
+      "Strong revenue growth",
+      "Efficient capital utilization",
+      "Strategic investments",
+      "Sustainable business model"
+    ]
+  }
+];
+
+const investmentAreas = [
+  {
+    title: "Hardware Development",
+    description: "Investment in next-generation quantum computing hardware and infrastructure.",
+    focus: [
+      "Quantum processor development",
+      "System integration",
+      "Manufacturing capabilities",
+      "Testing facilities"
+    ]
+  },
+  {
+    title: "Software Platform",
+    description: "Development of quantum software solutions and development tools.",
+    focus: [
+      "Algorithm development",
+      "Cloud platform",
+      "Development tools",
+      "Application frameworks"
+    ]
+  },
+  {
+    title: "Market Expansion",
+    description: "Expanding market presence and customer base globally.",
+    focus: [
+      "Sales infrastructure",
+      "Marketing initiatives",
+      "Customer support",
+      "Market research"
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Investors</Badge>
+          <h1 class="h1 mb-8">Investment Opportunities</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Join us in revolutionizing computing through groundbreaking quantum technology.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Investment Highlights -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Why Invest</Badge>
+          <h2 class="h2 mb-4">Investment Highlights</h2>
+          <p class="description text-lg md:text-xl">
+            Key factors driving QDaria's growth and market leadership.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {investmentHighlights.map((highlight) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <h3 class="h4 mb-4">{highlight.title}</h3>
+              <p class="description mb-6">
+                {highlight.description}
+              </p>
+              <ul class="space-y-2">
+                {highlight.points.map((point) => (
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1 text-blue-400">•</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Growth Metrics -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Growth</Badge>
+          <h2 class="h2 mb-4">Growth & Performance</h2>
+          <p class="description text-lg md:text-xl">
+            Key metrics demonstrating our progress and potential.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {growthMetrics.map((metric) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <h3 class="h4 mb-4">{metric.title}</h3>
+              <ul class="space-y-2">
+                {metric.metrics.map((item) => (
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1 text-blue-400">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Investment Areas -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Opportunities</Badge>
+          <h2 class="h2 mb-4">Investment Areas</h2>
+          <p class="description text-lg md:text-xl">
+            Strategic areas for investment and growth.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {investmentAreas.map((area) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <h3 class="h4 mb-4">{area.title}</h3>
+              <p class="description mb-6">
+                {area.description}
+              </p>
+              <ul class="space-y-2">
+                {area.focus.map((item) => (
+                  <li class="flex items-start gap-2">
+                    <span class="mt-1 text-blue-400">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 text-center shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+          <h2 class="h2 mb-4">Interested in Investing?</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
+            Contact us to learn more about investment opportunities and our vision for the future.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/contact"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              Contact Us
+            </Button>
+            <Button
+              variant="ghost"
+              href="/pitch"
+              class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+            >
+              View Pitch Deck
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,62 @@
+---
+import { Icon } from "astro-icon";
+import { Image } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// components
+import Button from "@components/Button/Button.astro";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+
+// take a look at the actual image to see recommended dimensions
+import bgImage from "@images/storm-bg-crop.webp";
+
+const currLocale = getLocaleFromUrl(Astro.url);
+---
+
+<section id="cta-center" class="site-container overflow-hidden py-16 md:py-20">
+  <div
+    class="dark relative overflow-hidden rounded-2xl border border-base-800 bg-base-900 px-8 py-16 md:px-10 md:py-24 dark:bg-base-950"
+  >
+    <!-- bg image -->
+    <div class="absolute inset-0 h-full overflow-hidden">
+      <Image
+        src={bgImage}
+        alt="Quantum computing background"
+        loading="lazy"
+        width={1170}
+        densities={[1, 1.5, 2]}
+        class="h-full w-full transform object-cover brightness-50"
+        aria-hidden="true"
+      />
+    </div>
+
+    <div class="relative">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="h2 text-base-50">Ready to Enter the Quantum Era?</h2>
+        <p
+          class="mx-auto mb-16 max-w-xl tracking-tight text-base-200 md:text-lg"
+        >
+          Download our technical whitepaper to learn how our topological quantum computing platform can transform your organization's capabilities with unprecedented computational power and stability.
+        </p>
+        <div class="relative flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <Button
+            variant="primary"
+            href={getRelativeLocaleUrl(currLocale, "/whitepaper")}
+            class="rounded-lg border border-blue-500/30 bg-gray-950 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+          >
+            Download Whitepaper
+          </Button>
+          <Button
+            variant="outline"
+            href={getRelativeLocaleUrl(currLocale, "/contact")}
+            class="rounded-lg border border-blue-500/30 bg-gray-950/50 px-6 py-3 text-gray-300 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]"
+          >
+            Schedule a Demo
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

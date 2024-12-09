@@ -1,0 +1,141 @@
+---
+interface Props {
+  src: string;           // Video source URL
+  placeholder?: string;  // Placeholder image URL
+  class?: string;       
+  autoplay?: boolean;    
+  loop?: boolean;        
+  muted?: boolean;       
+  playOnScroll?: boolean;// Play video when scrolled into view
+  threshold?: number;    // Scroll threshold for playback (0-1)
+}
+
+const {
+  src,
+  placeholder,
+  class: className = '',
+  autoplay = true,
+  loop = true,
+  muted = true,
+  playOnScroll = false,
+  threshold = 0.5
+} = Astro.props;
+---
+
+<div class={`video-transition ${className}`} data-threshold={threshold}>
+  {placeholder && (
+    <div class="placeholder-image">
+      <img src={placeholder} alt="Video placeholder" loading="lazy" />
+    </div>
+  )}
+  <video
+    class="transition-video"
+    playsinline
+    {autoplay}
+    {loop}
+    {muted}
+    data-play-on-scroll={playOnScroll}
+  >
+    <source src={src} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<style>
+  .video-transition {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .placeholder-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: var(--background-color, #000);
+    transition: opacity 0.5s ease-out;
+  }
+
+  .placeholder-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .transition-video {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .video-loaded .transition-video {
+    opacity: 1;
+  }
+
+  .video-loaded .placeholder-image {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  class VideoTransition {
+    constructor(element) {
+      this.container = element;
+      this.video = element.querySelector('video');
+      this.playOnScroll = this.video.dataset.playOnScroll === 'true';
+      this.threshold = parseFloat(element.dataset.threshold || '0.5');
+      
+      this.init();
+    }
+
+    init() {
+      // Handle video loading
+      this.video.addEventListener('loadeddata', () => {
+        this.container.classList.add('video-loaded');
+      });
+
+      if (this.playOnScroll) {
+        this.setupScrollTrigger();
+      }
+    }
+
+    setupScrollTrigger() {
+      ScrollTrigger.create({
+        trigger: this.container,
+        start: `top ${this.threshold * 100}%`,
+        end: `bottom ${this.threshold * 100}%`,
+        onEnter: () => this.video.play(),
+        onLeave: () => this.video.pause(),
+        onEnterBack: () => this.video.play(),
+        onLeaveBack: () => this.video.pause(),
+      });
+    }
+
+    destroy() {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    }
+  }
+
+  // Initialize on page load
+  const initVideoTransitions = () => {
+    const videos = document.querySelectorAll('.video-transition');
+    videos.forEach(video => new VideoTransition(video));
+  };
+
+  // Setup on initial load and after navigation
+  document.addEventListener('astro:page-load', initVideoTransitions);
+</script>

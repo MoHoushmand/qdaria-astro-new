@@ -1,0 +1,106 @@
+---
+interface Props {
+  class?: string;
+  perspective?: number;
+  scale?: number;
+  rotateIntensity?: number;
+}
+
+const {
+  class: className = '',
+  perspective = 1000,
+  scale = 1.05,
+  rotateIntensity = 10
+} = Astro.props;
+---
+
+<div 
+  class:list={["hover-3d-wrapper", className]}
+  data-perspective={perspective}
+  data-scale={scale}
+  data-rotate-intensity={rotateIntensity}
+>
+  <slot />
+</div>
+
+<style>
+  .hover-3d-wrapper {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+  }
+</style>
+
+<script>
+  class Hover3DEffect {
+    element: HTMLElement;
+    perspective: number;
+    scale: number;
+    rotateIntensity: number;
+    bounds: DOMRect;
+    centerX: number;
+    centerY: number;
+
+    constructor(element: HTMLElement) {
+      this.element = element;
+      this.perspective = parseFloat(element.getAttribute('data-perspective') || '1000');
+      this.scale = parseFloat(element.getAttribute('data-scale') || '1.05');
+      this.rotateIntensity = parseFloat(element.getAttribute('data-rotate-intensity') || '10');
+      
+      this.bounds = this.element.getBoundingClientRect();
+      this.centerX = this.bounds.left + this.bounds.width / 2;
+      this.centerY = this.bounds.top + this.bounds.height / 2;
+
+      this.addEventListeners();
+    }
+
+    addEventListeners() {
+      this.element.addEventListener('mousemove', this.handleMouseMove.bind(this));
+      this.element.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+      this.element.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+    }
+
+    handleMouseMove(e: MouseEvent) {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      const rotateX = (this.centerY - mouseY) / (this.bounds.height / 2) * this.rotateIntensity;
+      const rotateY = (mouseX - this.centerX) / (this.bounds.width / 2) * this.rotateIntensity;
+
+      this.element.style.transform = `
+        perspective(${this.perspective}px)
+        scale3d(${this.scale}, ${this.scale}, ${this.scale})
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+      `;
+    }
+
+    handleMouseLeave() {
+      this.element.style.transform = `
+        perspective(${this.perspective}px)
+        scale3d(1, 1, 1)
+        rotateX(0deg)
+        rotateY(0deg)
+      `;
+    }
+
+    handleMouseEnter() {
+      this.bounds = this.element.getBoundingClientRect();
+      this.centerX = this.bounds.left + this.bounds.width / 2;
+      this.centerY = this.bounds.top + this.bounds.height / 2;
+    }
+  }
+
+  const initHover3DEffects = () => {
+    const elements = document.querySelectorAll('.hover-3d-wrapper');
+    elements.forEach(element => {
+      new Hover3DEffect(element as HTMLElement);
+    });
+  };
+
+  // Initialize on page load
+  initHover3DEffects();
+
+  // Re-initialize when new content is added (for Astro view transitions)
+  document.addEventListener('astro:page-load', initHover3DEffects);
+</script>

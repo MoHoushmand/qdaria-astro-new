@@ -1,0 +1,113 @@
+---
+interface DropdownItem {
+  text: string;
+  link?: string;
+  description?: string;
+  children?: DropdownItem[];
+}
+
+interface Props {
+  items: DropdownItem[];
+  class?: string;
+}
+
+const { items, class: className = "" } = Astro.props;
+---
+
+<div class:list={["nav-dropdown-panel absolute left-0 top-full z-10 mt-1 hidden w-max min-w-[240px] origin-top-left opacity-0 transition-all duration-200 group-hover:block group-hover:opacity-100", className]}>
+  <div class="rounded-xl border border-primary-500/30 bg-dark-bg/95 p-2 shadow-lg backdrop-blur-sm ring-1 ring-black ring-opacity-5 focus:outline-none">
+    <div class="py-1">
+      {items.map((item) => (
+        <div class="relative group/sub">
+          {item.children ? (
+            <>
+              <button
+                type="button"
+                class="nav-dropdown-item flex w-full items-center justify-between"
+                aria-expanded="false"
+              >
+                <div>
+                  <div class="font-medium">{item.text}</div>
+                  {item.description && (
+                    <div class="text-xs text-base-400">{item.description}</div>
+                  )}
+                </div>
+                <svg
+                  class="ml-2 h-4 w-4 text-base-400 transition-transform group-hover/sub:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+              <div class="nav-dropdown-sub absolute left-full top-0 hidden min-w-[240px] pl-2 group-hover/sub:block">
+                <div class="rounded-xl border border-primary-500/30 bg-dark-bg/95 p-2 shadow-lg backdrop-blur-sm ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div class="py-1">
+                    {item.children.map((child) => (
+                      <a
+                        href={child.link}
+                        class="nav-dropdown-item flex w-full items-start"
+                      >
+                        <div>
+                          <div class="font-medium">{child.text}</div>
+                          {child.description && (
+                            <div class="text-xs text-base-400">{child.description}</div>
+                          )}
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <a
+              href={item.link}
+              class="nav-dropdown-item flex w-full items-start"
+            >
+              <div>
+                <div class="font-medium">{item.text}</div>
+                {item.description && (
+                  <div class="text-xs text-base-400">{item.description}</div>
+                )}
+              </div>
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .nav-dropdown-panel {
+    @apply transform;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .nav-dropdown-sub {
+    @apply transform;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .nav-dropdown-item {
+    @apply rounded-lg px-4 py-2 text-sm text-base-200 transition-all hover:bg-primary-500/10;
+  }
+</style>

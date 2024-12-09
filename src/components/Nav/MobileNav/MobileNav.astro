@@ -1,0 +1,167 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { Icon } from "astro-icon";
+
+// components
+import MobileNavDropdown from "@components/Nav/MobileNav/MobileNavDropdown.astro";
+import NavLink from "@components/Nav/NavLink.astro";
+import Button from "@components/Button/Button.astro";
+import ThemeToggle from "@components/ThemeToggle/ThemeToggle.astro";
+import SiteLogo from "@components/SiteLogo/SiteLogo.astro";
+
+const navData = [
+  {
+    text: "COMPANY",
+    dropdown: [
+      { text: "About", link: "/about" },
+      { text: "Intro", link: "/intro" }
+    ]
+  },
+  {
+    text: "SOLUTIONS",
+    dropdown: [
+      { text: "Products", link: "/products" },
+      { text: "Features", link: "/features" },
+      { text: "Divisions", link: "/divisions" }
+    ]
+  },
+  {
+    text: "ECOSYSTEM",
+    dropdown: [
+      { text: "Team", link: "/team" },
+      { text: "Collaborators", link: "/collaborators" },
+      { text: "Investors", link: "/investors" }
+    ]
+  },
+  {
+    text: "RESOURCES",
+    dropdown: [
+      { text: "Blog", link: "/blog" },
+      { text: "Media", link: "/media" },
+      { text: "Contact", link: "/contact" }
+    ]
+  }
+];
+---
+
+<mobile-nav-menu>
+  <button
+    data-open-modal
+    id="mobile-nav__open-btn"
+    disabled
+    class="primary-focus relative my-auto flex h-10 w-10 items-center justify-center rounded-md"
+  >
+    <Icon
+      name="tabler/menu-2"
+      class="absolute inline-block h-8 w-8 transition-all"
+      aria-label="open navigation menu"
+    />
+  </button>
+
+  <dialog
+    aria-label="mobile navigation menu"
+    id="mobile-nav__content"
+    class="fixed inset-x-0 top-0 z-20 m-0 h-[100dvh] max-h-screen w-screen max-w-[100vw] items-center overflow-auto bg-black px-4 pb-4 pt-2 text-lg font-normal text-white"
+  >
+    <div class="dialog-frame">
+      <div class="flex items-center justify-between">
+        <SiteLogo />
+        <button
+          data-close-modal
+          id="mobile-nav__close-btn"
+          class="primary-focus relative my-auto inline-flex h-10 w-10 items-center justify-center rounded-md"
+        >
+          <Icon
+            name="tabler/x"
+            class="absolute inline-block h-8 w-8 transition-all text-white"
+            aria-label="close navigation menu"
+          />
+        </button>
+      </div>
+
+      <nav>
+        <ul class="mt-8 flex flex-col gap-6 text-xl">
+          {
+            navData.map((navItem) => (
+              <div class="flex flex-col gap-2">
+                <h2 class="text-base font-light tracking-wider text-gray-500">
+                  {navItem.text}
+                </h2>
+                {navItem.dropdown.map((item) => (
+                  <a href={item.link} class="text-lg text-blue-400 hover:text-blue-300">
+                    {item.text}
+                  </a>
+                ))}
+              </div>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="mt-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between">
+          <ThemeToggle />
+        </div>
+
+        <Button
+          variant="primary"
+          class="bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] text-black"
+          href="/whitepaper"
+        >
+          Whitepaper
+        </Button>
+
+        <Button
+          variant="primary"
+          class="border border-[#04a3ff] bg-transparent text-[#04a3ff] hover:bg-[#04a3ff] hover:text-white"
+          href="/pitch"
+        >
+          Pitch
+        </Button>
+      </div>
+    </div>
+  </dialog>
+</mobile-nav-menu>
+
+<script>
+  class MobileNavigationMenu extends HTMLElement {
+    constructor() {
+      super();
+      const openBtn = this.querySelector<HTMLButtonElement>("button[data-open-modal]")!;
+      const closeBtn = this.querySelector<HTMLButtonElement>("button[data-close-modal]")!;
+      const dialog = this.querySelector("dialog")!;
+      const dialogFrame = this.querySelector(".dialog-frame")!;
+
+      const onClick = (event: MouseEvent) => {
+        const isLink = "href" in (event.target || {});
+        if (
+          isLink ||
+          (document.body.contains(event.target as Node) &&
+            !dialogFrame.contains(event.target as Node))
+        ) {
+          closeModal();
+        }
+      };
+
+      const openModal = (event?: MouseEvent) => {
+        dialog.showModal();
+        document.body.toggleAttribute("data-mobile-nav-open", true);
+        event?.stopPropagation();
+        window.addEventListener("click", onClick);
+      };
+
+      const closeModal = () => dialog.close();
+
+      openBtn.addEventListener("click", openModal);
+      openBtn.disabled = false;
+      closeBtn.addEventListener("click", closeModal);
+
+      dialog.addEventListener("close", () => {
+        document.body.toggleAttribute("data-mobile-nav-open", false);
+        window.removeEventListener("click", onClick);
+      });
+    }
+  }
+
+  customElements.define("mobile-nav-menu", MobileNavigationMenu);
+</script>

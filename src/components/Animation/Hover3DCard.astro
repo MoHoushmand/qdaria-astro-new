@@ -1,0 +1,132 @@
+---
+interface Props {
+  class?: string;
+  intensity?: number; // Controls the intensity of the 3D effect
+  glare?: boolean;    // Enable/disable glare effect
+  scale?: number;     // Hover scale factor
+}
+
+const {
+  class: className = '',
+  intensity = 15,
+  glare = true,
+  scale = 1.02
+} = Astro.props;
+---
+
+<div class={`hover-3d-card ${className}`} data-intensity={intensity} data-scale={scale}>
+  <div class="card-content">
+    {glare && <div class="glare-effect"></div>}
+    <slot />
+  </div>
+</div>
+
+<style>
+  .hover-3d-card {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+  }
+
+  .glare-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 60%
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+</style>
+
+<script>
+  class Hover3DCard {
+    constructor(element) {
+      this.element = element;
+      this.content = element.querySelector('.card-content');
+      this.glare = element.querySelector('.glare-effect');
+      this.bounds = element.getBoundingClientRect();
+      this.intensity = parseFloat(element.dataset.intensity || '15');
+      this.scale = parseFloat(element.dataset.scale || '1.02');
+      
+      this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+      this.element.addEventListener('mousemove', this.handleMouseMove.bind(this));
+      this.element.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+      this.element.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+    }
+
+    handleMouseMove(e) {
+      const { clientX, clientY } = e;
+      const { left, top, width, height } = this.bounds;
+      
+      const x = (clientX - left) / width;
+      const y = (clientY - top) / height;
+      
+      const rotateX = (y - 0.5) * this.intensity * -1;
+      const rotateY = (x - 0.5) * this.intensity;
+      
+      this.content.style.transform = `
+        scale3d(${this.scale}, ${this.scale}, 1)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+      `;
+
+      if (this.glare) {
+        this.glare.style.opacity = '1';
+        this.glare.style.transform = `
+          translateX(${x * 100}%)
+          translateY(${y * 100}%)
+        `;
+      }
+    }
+
+    handleMouseLeave() {
+      this.content.style.transform = `
+        scale3d(1, 1, 1)
+        rotateX(0deg)
+        rotateY(0deg)
+      `;
+      
+      if (this.glare) {
+        this.glare.style.opacity = '0';
+      }
+    }
+
+    handleMouseEnter() {
+      this.bounds = this.element.getBoundingClientRect();
+    }
+
+    destroy() {
+      this.element.removeEventListener('mousemove', this.handleMouseMove);
+      this.element.removeEventListener('mouseleave', this.handleMouseLeave);
+      this.element.removeEventListener('mouseenter', this.handleMouseEnter);
+    }
+  }
+
+  // Initialize on page load
+  const initHover3DCards = () => {
+    const cards = document.querySelectorAll('.hover-3d-card');
+    cards.forEach(card => new Hover3DCard(card));
+  };
+
+  // Setup on initial load and after navigation
+  document.addEventListener('astro:page-load', initHover3DCards);
+</script>

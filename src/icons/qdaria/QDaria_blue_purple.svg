@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <defs>
+    <linearGradient id="qd-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(4,163,255)" />
+      <stop offset="32%" style="stop-color:rgb(0,255,211)" />
+      <stop offset="62%" style="stop-color:rgb(101,255,0)" />
+      <stop offset="99%" style="stop-color:rgb(0,161,255)" />
+    </linearGradient>
+  </defs>
+  <text x="10" y="35" fill="url(#qd-gradient)" font-family="Audiowide" font-size="30">QDaria</text>
+</svg>

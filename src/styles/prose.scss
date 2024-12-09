@@ -1,0 +1,99 @@
+/* Markdown and MDX Styling for blog posts, using @tailwind/typography with `prose` */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prose {
+  @apply break-words;
+  @apply prose-h1:text-3xl prose-h1:font-medium md:prose-h1:text-4xl;
+  @apply prose-h2:text-2xl prose-h2:font-medium md:prose-h2:text-3xl;
+  @apply prose-h3:text-xl prose-h3:font-medium md:prose-h3:text-2xl;
+  @apply prose-h4:text-lg prose-h4:font-medium md:prose-h4:text-xl;
+  @apply prose-headings:mb-5 prose-headings:mt-7 prose-headings:text-base-900 dark:prose-headings:text-base-200;
+  @apply prose-p:my-2 prose-p:leading-normal prose-p:text-base-800 dark:prose-p:text-base-300;
+  @apply prose-strong:font-medium dark:prose-strong:text-base-300;
+  @apply prose-code:rounded-md prose-code:border prose-code:border-blue-500/30 prose-code:bg-gray-950 prose-code:px-[.1rem] prose-code:font-mono prose-code:text-gray-100 sm:prose-code:text-base;
+
+  code::before {
+    content: "";
+  }
+  code::after {
+    content: "";
+  }
+
+  @apply prose-li:text-base-500 dark:prose-li:text-base-300;
+  @apply prose-a:text-base-900 prose-a:underline prose-a:decoration-primary-600 prose-a:transition hover:prose-a:text-primary-700 dark:prose-a:text-base-200 dark:prose-a:decoration-primary-400 dark:hover:prose-a:text-primary-400;
+  @apply prose-img:mx-auto prose-img:h-auto prose-img:w-full prose-img:max-w-[800px] prose-img:rounded-lg;
+  @apply prose-video:mr-auto prose-video:min-w-0 prose-video:max-w-full;
+  @apply prose-blockquote:border-l-primary-500;
+  @apply prose-hr:my-8 prose-hr:border-base-200 dark:prose-hr:border-base-800;
+  @apply prose-thead:border-b-base-400 prose-thead:text-left dark:prose-thead:border-b-base-700;
+  @apply prose-tr:border-b-base-200 dark:text-base-300 dark:prose-tr:border-b-base-800;
+}
+
+/* Custom code styling for better readability */
+.prose code,
+.prose pre {
+  font-family: 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  color: #f3f4f6; /* Light font color */
+  background-color: #1f2937; /* Dark background */
+  -webkit-user-select: text; /* Allow text selection on Safari */
+  user-select: text; /* Allow text selection */
+}
+
+.prose pre code {
+  @apply font-mono text-gray-100;
+  color: #f3f4f6;
+  background-color: transparent;
+}
+
+.prose pre {
+  @apply rounded-lg border border-blue-500/30 bg-gray-950 p-4 shadow-[0_0_15px_rgba(0,0,255,0.2)];
+}
+
+.prose .astro-code {
+  @apply rounded-lg border border-blue-500/30 bg-gray-950 p-4 shadow-[0_0_15px_rgba(0,0,255,0.2)];
+
+  code {
+    @apply border-none bg-transparent font-mono text-gray-100;
+  }
+}
+
+/* Enable text selection in code blocks */
+.prose code,
+.prose pre {
+  -webkit-user-select: text; /* Allow text selection on Safari */
+  user-select: text;
+}
+
+/* Markdown Styling for admonitions in posts */
+.admonition {
+  @apply mt-0 prose-headings:mb-0;
+  @apply prose-p:mb-0 prose-p:mt-0;
+  @apply prose-code:rounded-md prose-code:border-none prose-code:px-1 prose-code:font-mono;
+  @apply prose-a:text-inherit prose-a:underline prose-a:transition hover:prose-a:text-inherit hover:prose-a:opacity-80;
+}
+
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child,
+.prose h4:first-child,
+.prose h5:first-child,
+.prose h6:first-child,
+.prose p:first-child,
+.prose a:first-child,
+.prose code:first-child,
+.prose blockquote:first-child,
+.prose .astro-code:first-child {
+  @apply mt-0;
+}
+
+/* YouTube embed */
+.prose iframe {
+  @apply mr-auto min-w-0 max-w-full;
+}
+
+/* Custom styling for code toggle feature section */
+.code-toggle .prose .astro-code {
+  @apply mb-0 h-full rounded-none border-none;
+}
