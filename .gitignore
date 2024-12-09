@@ -9,6 +9,7 @@
 # Production
 /build
 /dist
+/.astro
 
 # Misc
 .DS_Store
@@ -17,16 +18,47 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
 
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
-.vscode
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Only include files from current directory
+/*
+!/.gitignore
+!/src
+!/public
+!/package.json
+!/package-lock.json
+!/tsconfig.json
+!/astro.config.mjs
+!/tailwind.config.cjs
+!/README.md
+!/.prettierrc.mjs
+!/keystatic.config.tsx
+!/netlify.toml
+!/aider.conf.yml
+!/prompt.md
+!/prompt.xml
+!/prompt2.md
+!/QDaria.pdf
+!/olaf.md
+!/yonas.md
