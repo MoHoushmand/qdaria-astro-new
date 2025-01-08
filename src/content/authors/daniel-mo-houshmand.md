@@ -1,7 +1,8 @@
 ---
 name: "Daniel Mo Houshmand"
-avatar: "/src/assets/images/team/mo.jpg"
-about: "CEO & Founder of QDaria. Visionary leader with deep expertise in Topological Quantum Computing and Fibonacci anyons. Pioneering the development of fault-tolerant quantum systems."
+role: "Software Engineer"
+bio: "Experienced software engineer with expertise in quantum computing and AI technologies."
+image: "/icons/logos/QD.svg"
 email: "daniel@qdaria.com"
-authorLink: "/about"
+linkedin: "https://www.linkedin.com/in/danielmohoushmand/"
 ---

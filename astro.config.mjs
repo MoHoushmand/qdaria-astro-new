@@ -1,32 +1,59 @@
 import { defineConfig } from 'astro/config';
-import tailwind from "@astrojs/tailwind";
-import react from "@astrojs/react";
-import partytown from "@astrojs/partytown";
+import tailwind from '@astrojs/tailwind';
+import react from '@astrojs/react';
+import mdx from '@astrojs/mdx';
+import { fileURLToPath } from 'url';
 
-// https://astro.build/config
 export default defineConfig({
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }), 
-    react(), 
-    partytown()
-  ],
+  redirects: {
+    '/pitch': '/404',
+    '/pitch/*': '/404',
+    '/pitch-deck': '/404', 
+    '/pitch-deck/*': '/404',
+    '/company/media': '/404',
+    '/company/media/*': '/404',
+    '/company/blog': '/404',
+    '/company/blog/*': '/404'
+  },
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
     routing: {
-      prefixDefaultLocale: false
+      prefixDefaultLocale: false,
+      strategy: 'prefix-except-default'
     }
   },
+  integrations: [
+    tailwind(),
+    react({
+      include: ['**/react/*', '**/components/**/*.tsx', '**/components/**/*.jsx']
+    }),
+    mdx(),
+  ],
   vite: {
     ssr: {
-      noExternal: ['@astrojs/tailwind']
+      noExternal: ['@astrojs/prism']
+    },
+    esbuild: {
+      loader: 'ts'
     },
     resolve: {
       alias: {
-        '@icons': '/src/icons'
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
+        '@layouts': fileURLToPath(new URL('./src/layouts', import.meta.url)),
+        '@config': fileURLToPath(new URL('./src/config', import.meta.url)),
+        '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
+        '@styles': fileURLToPath(new URL('./src/styles', import.meta.url)),
+        '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
+        '@js': fileURLToPath(new URL('./src/js', import.meta.url))
       }
+    },
+    optimizeDeps: {
+      include: ['astro/jsx-runtime']
     }
+  },
+  jsx: {
+    runtime: 'automatic'
   }
 });

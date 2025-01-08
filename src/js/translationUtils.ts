@@ -1,59 +1,65 @@
-import { getRelativeLocaleUrl } from "astro:i18n";
 
 // data
 import {
   textTranslations,
   dataTranslations,
   routeTranslations,
-} from "@config/translationData.json";
-import { locales, defaultLocale } from "@config/siteSettings.json";
+} from "../config/translationData.json";
+import { locales, defaultLocale } from "../config/siteSettings.json";
+
+interface AstroProps {
+  url: URL;
+  locals: {
+    locale?: string;
+  };
+}
+
+type TextTranslations = typeof textTranslations;
+type Locale = keyof TextTranslations;
+type TextKey<T extends Locale> = keyof TextTranslations[T];
+
+type DataTranslations = typeof dataTranslations;
+type DataKey<T extends Locale> = keyof DataTranslations[T];
 
 /**
  * * text translation helper function
- * @param locale: Language to use for translation, one of the locales
+ * @param Astro: Astro props containing the URL
  * @returns function you can use to translate strings according to the src/config/translations.json file
  *
  * ## Example
  *
  * ```ts
- * import { useTranslations, getLocaleFromUrl } from "@js/i18nUtils";
- * const currLocale = getLocaleFromUrl(Astro.url);
- * const t = useTranslations(currLocale);
+ * import { useTranslations } from "@js/i18nUtils";
+ * const t = useTranslations(Astro);
  * t("hero_text"); // translated string for key "hero_text" in the current locale
  * ```
  */
-export function useTranslations(locale: keyof typeof textTranslations) {
-  return function t(key: keyof (typeof textTranslations)[typeof locale]) {
-    return (
-      textTranslations[locale][key] || textTranslations[defaultLocale][key]
-    );
+export function useTranslations(Astro: AstroProps) {
+  const locale = Astro.locals.locale || defaultLocale;
+  return function t<T extends Locale>(key: TextKey<T>) {
+    const translations = textTranslations[locale as T] || textTranslations[defaultLocale as T];
+    return translations[key] as string;
   };
 }
-
-type Locale = keyof typeof dataTranslations;
-type DataKey<T extends Locale> = keyof (typeof dataTranslations)[T];
 /**
  * * data file translation helper function
  * @param data: key in the data file to translate, like "siteData" or "navData"
- * @param locale: Language to use for translation, one of the locales
+ * @param Astro: Astro props containing the URL
  * @returns appropriate data file as specified in src/config/translationData.json.ts
  *
  * ## Example
  *
  * ```ts
- * import { getLocaleFromUrl } from "@js/i18nUtils";
  * import { getTranslatedData } from "@js/translations";
- * const currLocale = getLocaleFromUrl(Astro.url);
- * const siteData = getTranslatedData("siteData", currLocale);
+ * const siteData = getTranslatedData("siteData", Astro);
  * ```
  */
-export function getTranslatedData<T extends Locale, K extends DataKey<T>>(
+export function getTranslatedData<K extends keyof DataTranslations[Locale]>(
   data: K,
-  locale: T,
-): (typeof dataTranslations)[T][K] {
-  return (
-    dataTranslations[locale][data] || dataTranslations[defaultLocale as T][data]
-  );
+  locale: Locale,
+): DataTranslations[Locale][K] {
+  const translations = dataTranslations[locale] || dataTranslations[defaultLocale];
+  return translations[data];
 }
 
 /**
@@ -68,46 +74,7 @@ export function getLocalizedPathname(
   locale: (typeof locales)[number],
   url: URL,
 ): string {
-  // figure out if the current URL has a language in it's path
-  const [, lang, ...rest] = url.pathname.split("/");
-
-  const getKeyByValue = (
-    obj: Record<string, string>,
-    value: string,
-  ): string | undefined => {
-    return Object.keys(obj).find(
-      (key) => obj[key] === value.replace(/\/$/, "").replace(/^\//, ""),
-    );
-  };
-
-  let oldPath: string, currLocale: (typeof locales)[number];
-  //@ts-ignore
-  if (locales.includes(lang)) {
-    // remove locale from URL if it's already there
-    oldPath = rest.join("/");
-    currLocale = lang as (typeof locales)[number];
-    // newPath = getRelativeLocaleUrl(locale, rest.join("/"));
-  } else {
-    // otherwise, just create the URL from the existing path
-    // this is the case if default locale and Astro config has `prefixDefaultLocale: false`
-    oldPath = url.pathname;
-    currLocale = defaultLocale;
-    // newPath = getRelativeLocaleUrl(locale, url.pathname);
-  }
-
-  // trim any starting and ending slashes for comparison
-  const routeStringTrimmed = oldPath.replace(/\/$/, "").replace(/^\//, "");
-
-  // first find out if the passed value maps to a key for route translations
-  const routeTranslationsKey = getKeyByValue(
-    routeTranslations[currLocale],
-    routeStringTrimmed,
-  );
-
-  // if there is a key, then use that key to get the translated route
-  const translatedRoute = routeTranslationsKey
-    ? routeTranslations[locale][routeTranslationsKey]
-    : routeStringTrimmed;
-
-  return getRelativeLocaleUrl(locale, translatedRoute);
+  // Remove any existing locale prefix
+  const pathWithoutLocale = url.pathname.replace(/^\/(en|fr)/, '');
+  return `/${locale}${pathWithoutLocale}`;
 }

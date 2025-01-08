@@ -10,8 +10,8 @@ import LightningAnimation from "@components/Canvas/LightningAnimation.astro";
         <div class="mb-8 flex justify-center">
           <img src="/src/icons/qdaria/QDaria_logo_teal.png" alt="QDaria" class="h-40 w-auto transform scale-150" />
         </div>
-        <h1 class="hero-title mb-8 text-6xl font-bold leading-tight tracking-tight text-base-200 lg:text-7xl">
-          Pioneering Fault-Tolerant Topological Quantum Computing in the Heart of Norway
+        <h1 class="hero-title mb-8 text-6xl font-bold leading-tight tracking-tight text-gradient-blue lg:text-7xl">
+          Pioneering Quantum in the Heart of Norway
         </h1>
         <p class="hero-description mx-auto mb-12 max-w-2xl text-xl text-base-400">
           QDaria is at the forefront of topological quantum computing, harnessing the power of Fibonacci anyons to create inherently stable qubits. Our breakthrough technology achieves unprecedented error resistance through topological protection, making large-scale quantum computing a reality.
@@ -180,7 +180,7 @@ import LightningAnimation from "@components/Canvas/LightningAnimation.astro";
 
   function initHero() {
     document.querySelectorAll('.nav-button, .stat-card').forEach((el) => {
-      el.addEventListener('mousemove', updateMousePosition);
+      el.addEventListener('mousemove', updateMousePosition as EventListener);
     });
   }
 

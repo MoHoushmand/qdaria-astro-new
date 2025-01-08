@@ -1,21 +1,28 @@
 {
   "extends": "astro/tsconfigs/base",
   "compilerOptions": {
-    "strictNullChecks": true,
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@config/*": ["src/config/*"],
-      "@js/*": ["src/js/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@components/*": ["src/components/*"],
-      "@assets/*": ["src/assets/*"],
-      "@images/*": ["src/assets/images/*"],
-      "@videos/*": ["src/assets/videos/*"],
-      "@/*": ["src/*"]
+      "*": ["src/*"],
+      "@config/*": ["src/config/*"]
     },
-    "jsxImportSource": "react"
-  }
+    "jsx": "preserve",
+    "jsxImportSource": "astro",
+    "types": ["astro/client"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "esnext"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro", "src/types/*.d.ts"],
+  "exclude": ["node_modules"]
 }

@@ -1,58 +1,145 @@
 ---
 import NavLink from "@components/Nav/NavLink.astro";
 import NavDropdown from "@components/Nav/NavDropdown/NavDropdown.astro";
-import NavDropdownToggle from "./NavDropdown/NavDropdownToggle.astro";
+import NavDropdownToggle from "@components/Nav/NavDropdown/NavDropdownToggle.astro";
 import MobileNav from "@components/Nav/MobileNav.astro";
 import Button from "@components/Button/Button.astro";
 import ThemeToggle from "@components/ThemeToggle/ThemeToggle.astro";
 
-const navData = [
+/** Example navData (customize to your needs) */
+import type { navItem } from "../../config/types/configDataTypes";
+
+const navData: navItem[] = [
+  {
+    text: "Technology",
+    dropdown: [
+      {
+        text: "Core Research",
+        dropdown: [
+          {
+            text: "Topological Quantum AI Lab",
+            link: "/technology/core-research/tqc-he-rd",
+            description: "Fibonacci Anyon-based Qubits & HPC",
+          },
+          {
+            text: "Experimental Qm Lab",
+            link: "/technology/core-research/experimental-qm-lab",
+            description: "Cutting-edge Quantum Facilities & Hardware",
+          },
+        ],
+      },
+      {
+        text: "Products",
+        dropdown: [
+          {
+            text: "Zipminator (Cybersecurity)",
+            link: "/technology/products/zipminator",
+            description: "Next-gen Post-Quantum Encryption",
+          },
+          {
+            text: "Qm9 (FinTech)",
+            link: "/technology/products/qm9",
+            description: "Quantum-Accelerated Finance",
+          },
+          {
+            text: "QDiana (Education)",
+            link: "/technology/products/qdiana",
+            description: "Quantum Ed & Experimental Kits",
+          },
+          {
+            text: "QNilaya (HealthTech)",
+            link: "/technology/products/qnilaya",
+            description: "AI & Quantum in Healthcare",
+          },
+          {
+            text: "QMikeAI (Weather Forecast)",
+            link: "/technology/products/qmikeai",
+            description: "Quantum-Enhanced CFD & HPC",
+          },
+          {
+            text: "QIoT (IoT Infrastructure)",
+            link: "/technology/products/qiot",
+            description: "Quantum-Ready IoT Solutions",
+          },
+        ],
+      },
+      {
+        text: "Solutions",
+        dropdown: [
+          {
+            text: "AI Solutions",
+            link: "/technology/solutions/ai-solutions",
+            description: "Classical HPC & Advanced AI Offerings",
+          },
+          {
+            text: "Quantum AI Solutions",
+            link: "/technology/solutions/qai-solutions",
+            description: "Topological QC for AI & Swarm Intelligence",
+          },
+        ],
+      },
+    ],
+  },
   {
     text: "Company",
     dropdown: [
-      { text: "About", link: "/about", description: "Our mission and vision" },
-      { text: "Intro", link: "/intro", description: "Introduction to QDaria" },
-      { text: "Careers", link: "/careers", description: "Join our team" }
-    ]
-  },
-  {
-    text: "Solutions",
-    dropdown: [
       {
-        text: "Products",
-        children: [
-          { text: "Zipminator", link: "/solutions/products/zipminator", description: "Quantum-Safe Cybersecurity" },
-          { text: "QDiana", link: "/solutions/products/qdiana", description: "Quantum Education Platform" },
-          { text: "Qm9", link: "/solutions/products/qm9", description: "Quantum Financial Technology" }
-        ]
+        text: "About",
+        link: "/company/about",
+        description: "Our Mission & Vision",
       },
       {
-        text: "Quantum Solutions",
-        children: [
-          { text: "Quantum Computing", link: "/quantum-computing", description: "Topological Quantum Computing" },
-          { text: "Quantum Lab", link: "/quantum-lab", description: "Experimental Research Facilities" },
-          { text: "Quantum Security", link: "/quantum-security", description: "Post-Quantum Cryptography" }
-        ]
-      }
-    ]
+        text: "Team",
+        link: "/company/team",
+        description: "Meet Our Leadership",
+      },
+      {
+        text: "Careers",
+        link: "/company/careers",
+        description: "Join Our Mission",
+      },
+      {
+        text: "News & Media",
+        link: "/company/media",
+        description: "Latest Updates & Press",
+      },
+      {
+        text: "Blog",
+        link: "/company/blog",
+        description: "Insights & Articles",
+      },
+    ],
   },
   {
     text: "Ecosystem",
     dropdown: [
-      { text: "Team", link: "/team", description: "Meet our team" },
-      { text: "Collaborators", link: "/collaborators", description: "Our partners" },
-      { text: "Investors", link: "/investors", description: "Investment opportunities" }
-    ]
+      {
+        text: "Collaborators",
+        link: "/ecosystem/collaborators",
+        description: "Academic & Industry Partnerships",
+      },
+      {
+        text: "Investors",
+        link: "/ecosystem/investors",
+        description: "Investment Opportunities",
+      },
+      {
+        text: "Developer Hub",
+        link: "/ecosystem/developers",
+        description: "Documentation & Resources",
+      },
+    ],
   },
   {
-    text: "Resources",
-    dropdown: [
-      { text: "Blog", link: "/blog", description: "Latest updates" },
-      { text: "News", link: "/news", description: "Company news" },
-      { text: "Media", link: "/media", description: "Press and news" },
-      { text: "Contact", link: "/contact", description: "Get in touch" }
-    ]
-  }
+    text: "Whitepaper",
+    link: "/whitepaper",
+    description: "Technical Overview",
+  },
+  {
+    text: "Pitch",
+    link: "/pitch",
+    description: "Pitch Deck",
+  },
 ];
 ---
 
@@ -64,29 +151,33 @@ const navData = [
   <div class="mx-auto flex w-full">
     <div class="site-container flex h-14 w-full items-center">
       <header class="relative flex w-full items-center gap-2">
+        <!-- Logo -->
         <div class="flex justify-start lg:min-w-[220px]">
           <a href="/" class="nav-logo">
-            <img src="/icons/qdaria/QDlogomark.svg" alt="QDaria" class="h-8 w-auto text-base-200" />
+            <img
+              src="/icons/qdaria/QDlogomark.svg"
+              alt="QDaria"
+              class="h-8 w-auto text-base-200"
+            />
           </a>
         </div>
 
+        <!-- Desktop Nav -->
         <div class="flex flex-auto justify-center">
           <nav class="hidden items-center md:flex">
             <ul class="flex h-fit items-center gap-4 px-4">
               {
                 navData.map((navItem) => (
                   <li class="nav-item-wrapper group">
-                    {
-                      "dropdown" in navItem ? (
-                        <div class="nav-button">
-                          <NavDropdownToggle navItem={navItem} />
-                        </div>
-                      ) : (
-                        <div class="nav-button">
-                          <NavLink navItem={navItem} />
-                        </div>
-                      )
-                    }
+                    {"dropdown" in navItem ? (
+                      <div class="nav-button">
+                        <NavDropdownToggle navItem={navItem} />
+                      </div>
+                    ) : (
+                      <div class="nav-button">
+                        <NavLink navItem={navItem} />
+                      </div>
+                    )}
                   </li>
                 ))
               }
@@ -94,25 +185,20 @@ const navData = [
           </nav>
         </div>
 
+        <!-- Right-side Actions -->
         <div class="flex justify-end gap-4">
           <ThemeToggle class="my-auto hidden md:block" />
 
-          <Button
-            variant="primary"
-            class="nav-button hidden rounded-lg bg-primary-500 px-4 py-1.5 text-white shadow-lg transition-all hover:bg-primary-600 md:flex"
-            href="/whitepaper"
-          >
-            Whitepaper
-          </Button>
-
+          <!-- Contact Button -->
           <Button
             variant="primary"
             class="nav-button hidden rounded-lg border border-primary-500 bg-transparent px-4 py-1.5 text-primary-500 transition-all hover:bg-primary-500 hover:text-white md:flex"
-            href="/pitch"
+            href="/contact"
           >
-            Pitch
+            Contact Us
           </Button>
 
+          <!-- Mobile Nav Toggle -->
           <button
             type="button"
             class="mobile-nav-toggle inline-flex items-center justify-center rounded-lg p-2.5 text-base-200 hover:bg-base-800 md:hidden"
@@ -131,8 +217,7 @@ const navData = [
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M4 6h16M4 12h16m-16 6h16"
-              />
+                d="M4 6h16M4 12h16m-16 6h16"></path>
             </svg>
           </button>
         </div>
@@ -140,6 +225,7 @@ const navData = [
     </div>
   </div>
 
+  <!-- Mobile Navigation -->
   <MobileNav navData={navData} />
 </div>
 
@@ -161,7 +247,7 @@ const navData = [
     }
 
     &::before {
-      content: '';
+      content: "";
       @apply absolute inset-0 rounded-lg;
       background: radial-gradient(
         600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
@@ -186,7 +272,7 @@ const navData = [
     }
 
     &::before {
-      content: '';
+      content: "";
       @apply absolute inset-0 rounded-lg;
       background: radial-gradient(
         600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
@@ -230,68 +316,3 @@ const navData = [
     }
   }
 </style>
-
-<script>
-  let navbar: HTMLElement | null;
-  let mobileNav: HTMLElement | null;
-  let mobileToggle: HTMLElement | null;
-
-  function updateMousePosition(e: MouseEvent) {
-    const target = e.currentTarget as HTMLElement;
-    const rect = target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    target.style.setProperty('--mouse-x', `${x}px`);
-    target.style.setProperty('--mouse-y', `${y}px`);
-  }
-
-  function toggleMobileNav() {
-    if (!mobileNav || !mobileToggle) return;
-    
-    const isExpanded = mobileToggle.getAttribute("aria-expanded") === "true";
-    mobileToggle.setAttribute("aria-expanded", (!isExpanded).toString());
-    mobileNav.classList.toggle("show");
-
-    // Prevent body scroll when mobile nav is open
-    document.body.style.overflow = !isExpanded ? 'hidden' : '';
-  }
-
-  function initNav() {
-    navbar = document.getElementById("nav__container");
-    mobileNav = document.getElementById("mobile-nav");
-    mobileToggle = document.querySelector("[data-toggle-nav]");
-
-    window.addEventListener("scroll", scrollHandler, { passive: true });
-
-    // Add mouse move listeners for glowing effects
-    document.querySelectorAll('.nav-logo, .nav-button').forEach((el) => {
-      el.addEventListener('mousemove', updateMousePosition);
-    });
-
-    // Add mobile nav toggle listener
-    if (mobileToggle) {
-      mobileToggle.addEventListener("click", toggleMobileNav);
-    }
-
-    // Reset body overflow on page change
-    document.body.style.overflow = '';
-  }
-
-  function scrollHandler() {
-    if (navbar) {
-      if (window.scrollY > 50) {
-        navbar.classList.add("navbar--scrolled");
-        navbar.classList.remove("navbar--initial");
-      } else {
-        navbar.classList.add("navbar--initial");
-        navbar.classList.remove("navbar--scrolled");
-      }
-    }
-  }
-
-  // Initialize on page load
-  initNav();
-
-  // Re-initialize after Astro page transitions
-  document.addEventListener("astro:after-swap", initNav);
-</script>

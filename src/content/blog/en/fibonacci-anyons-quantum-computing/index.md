@@ -2,7 +2,7 @@
 title: "Unlocking the Potential of Fibonacci Anyons in Quantum Computing"
 description: "Discover how Fibonacci anyons are revolutionizing quantum computing through topological protection and fault-tolerant quantum operations."
 authors: ["daniel-mo-houshmand"]
-pubDate: "2024-01-15"
+pubDate: new Date("2024-01-15")
 heroImage: "/src/assets/images/storm-bg.webp"
 categories: ["Research", "Technology", "Quantum Computing"]
 tags: ["Quantum Computing", "Fibonacci Anyons", "Topological Computing", "Research"]

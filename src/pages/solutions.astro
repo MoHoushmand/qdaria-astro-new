@@ -1,0 +1,262 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const industries = [
+  {
+    title: "Financial Services",
+    description: "Quantum-powered solutions for portfolio optimization, risk analysis, and high-frequency trading.",
+    features: [
+      "Real-time portfolio optimization",
+      "Quantum-enhanced risk assessment",
+      "High-frequency trading algorithms",
+      "Market prediction models"
+    ],
+    product: "Qm9",
+    availability: "Q2 2025"
+  },
+  {
+    title: "Cybersecurity",
+    description: "Next-generation security solutions protecting against both classical and quantum threats.",
+    features: [
+      "Post-quantum cryptography",
+      "Quantum key distribution",
+      "Real-time threat detection",
+      "Quantum-safe data protection"
+    ],
+    product: "Zipminator",
+    availability: "Q1 2025"
+  },
+  {
+    title: "Education",
+    description: "Advanced quantum computing education platform for institutions and professionals.",
+    features: [
+      "Interactive quantum simulations",
+      "AI-powered tutoring",
+      "Industry certifications",
+      "Virtual quantum labs"
+    ],
+    product: "QDiana",
+    availability: "Q3 2025"
+  },
+  {
+    title: "Healthcare",
+    description: "Quantum computing solutions for drug discovery and medical research.",
+    features: [
+      "Molecular simulation",
+      "Drug interaction analysis",
+      "Protein folding optimization",
+      "Clinical trial optimization"
+    ],
+    product: "Coming Soon",
+    availability: "2026"
+  },
+  {
+    title: "Manufacturing",
+    description: "Quantum-enhanced solutions for supply chain and process optimization.",
+    features: [
+      "Supply chain optimization",
+      "Quality control analysis",
+      "Resource allocation",
+      "Production scheduling"
+    ],
+    product: "Coming Soon",
+    availability: "2026"
+  },
+  {
+    title: "Research",
+    description: "Advanced quantum computing tools for scientific research and development.",
+    features: [
+      "Quantum simulation",
+      "Material design",
+      "Chemical reaction modeling",
+      "Research collaboration tools"
+    ],
+    product: "Coming Soon",
+    availability: "2026"
+  }
+];
+---
+
+<BaseLayout 
+  title="Industry Solutions - QDaria"
+  description="Transforming industries through quantum computing innovation. Discover how our quantum solutions can revolutionize your sector."
+>
+  <main class="relative">
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-base-950 to-base-900">
+      <div class="max-w-7xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-8">
+          Industry Solutions
+        </h1>
+        
+        <p class="text-2xl text-base-200 max-w-3xl mb-12">
+          Transforming industries through quantum computing innovation. Discover how our quantum solutions can revolutionize your sector.
+        </p>
+
+        <div class="flex gap-6">
+          <div class="nav-button">
+            <a href="/contact" class="inline-block px-8 py-4 text-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition">
+              Contact Us
+            </a>
+          </div>
+          <div class="nav-button">
+            <a href="#industries" class="inline-block px-8 py-4 text-lg font-semibold text-white border-2 border-white hover:bg-white hover:text-base-950 rounded-lg transition">
+              Explore Solutions
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Industry Solutions -->
+    <section id="industries" class="py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+          Solutions by Industry
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          {industries.map((industry) => (
+            <div class="feature-card p-8 rounded-xl bg-white dark:bg-base-800">
+              <div class="flex justify-between items-start mb-6">
+                <h3 class="text-2xl font-bold text-base-950 dark:text-white">
+                  {industry.title}
+                </h3>
+                <div class="text-right">
+                  <div class="text-primary-600 dark:text-primary-400 font-semibold">
+                    {industry.product}
+                  </div>
+                  <div class="text-sm text-base-500 dark:text-base-400">
+                    {industry.availability}
+                  </div>
+                </div>
+              </div>
+              <p class="text-base-700 dark:text-base-300 mb-6">
+                {industry.description}
+              </p>
+              <ul class="space-y-3">
+                {industry.features.map((feature) => (
+                  <li class="flex items-start">
+                    <span class="text-primary-600 dark:text-primary-400 mr-2">•</span>
+                    <span class="text-base-700 dark:text-base-300">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-base-50 dark:bg-base-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold text-base-950 dark:text-white mb-8">
+          Transform Your Industry
+        </h2>
+        <p class="text-xl text-base-700 dark:text-base-300 mb-12 max-w-3xl mx-auto">
+          Ready to explore how quantum computing can revolutionize your operations? Contact us to discuss your specific needs and discover the perfect solution for your industry.
+        </p>
+        <div class="flex justify-center gap-6">
+          <div class="nav-button">
+            <a href="/contact" class="inline-block px-8 py-4 text-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition">
+              Get Started
+            </a>
+          </div>
+          <div class="nav-button">
+            <a href="/whitepaper" class="inline-block px-8 py-4 text-lg font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 rounded-lg transition">
+              Read Whitepaper
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .nav-button {
+    @apply relative rounded-lg border border-primary-500/30 bg-dark-bg transition-all;
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.2);
+
+    &:hover {
+      box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    }
+
+    &::before {
+      content: '';
+      @apply absolute inset-0 rounded-lg;
+      background: radial-gradient(
+        600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.1),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .feature-card {
+    @apply relative transition-all duration-500;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%, 100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: '';
+      @apply absolute inset-0 rounded-xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  function updateMousePosition(e: MouseEvent) {
+    const target = e.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    target.style.setProperty('--mouse-x', `${x}px`);
+    target.style.setProperty('--mouse-y', `${y}px`);
+  }
+
+  function initCards() {
+    document.querySelectorAll('.nav-button, .feature-card').forEach((el) => {
+      el.addEventListener('mousemove', updateMousePosition);
+    });
+  }
+
+  // Initialize on page load
+  initCards();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:page-load', initCards);
+  document.addEventListener('astro:after-swap', initCards);
+</script>

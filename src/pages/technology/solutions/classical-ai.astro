@@ -1,0 +1,297 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "AI Solutions | QDaria";
+const description = "Advanced classical HPC and AI offerings for enterprise-scale computing needs.";
+
+const solutions = [
+  {
+    title: "Machine Learning",
+    description: "State-of-the-art machine learning solutions for complex data analysis and prediction.",
+    features: [
+      "Deep learning models",
+      "Neural networks",
+      "Transfer learning",
+      "Model optimization"
+    ]
+  },
+  {
+    title: "Natural Language Processing",
+    description: "Advanced NLP capabilities for text analysis and understanding.",
+    features: [
+      "Text classification",
+      "Sentiment analysis",
+      "Named entity recognition",
+      "Language generation"
+    ]
+  },
+  {
+    title: "Computer Vision",
+    description: "Sophisticated image and video processing solutions.",
+    features: [
+      "Object detection",
+      "Image classification",
+      "Video analysis",
+      "Pattern recognition"
+    ]
+  },
+  {
+    title: "Predictive Analytics",
+    description: "Data-driven insights and forecasting capabilities.",
+    features: [
+      "Time series analysis",
+      "Trend prediction",
+      "Anomaly detection",
+      "Risk assessment"
+    ]
+  }
+];
+
+const applications = [
+  {
+    title: "Financial Services",
+    description: "AI-powered solutions for financial analysis and risk management",
+    readiness: "Production Ready",
+    features: [
+      "Market analysis",
+      "Risk assessment",
+      "Fraud detection",
+      "Portfolio optimization"
+    ]
+  },
+  {
+    title: "Healthcare",
+    description: "Advanced diagnostic and patient care solutions",
+    readiness: "Beta Testing",
+    features: [
+      "Disease prediction",
+      "Medical imaging",
+      "Patient monitoring",
+      "Treatment planning"
+    ]
+  },
+  {
+    title: "Manufacturing",
+    description: "Smart manufacturing and quality control systems",
+    readiness: "Production Ready",
+    features: [
+      "Quality control",
+      "Process optimization",
+      "Predictive maintenance",
+      "Supply chain management"
+    ]
+  },
+  {
+    title: "Research & Development",
+    description: "AI tools for scientific research and development",
+    readiness: "Active Development",
+    features: [
+      "Data analysis",
+      "Experiment design",
+      "Pattern discovery",
+      "Research automation"
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>AI Solutions</Badge>
+          <h1 class="h1 mb-8 text-gradient-blue select-none">Classical HPC & Advanced AI</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl select-none">
+            Enterprise-grade classical computing solutions leveraging advanced AI and HPC capabilities.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solutions -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Solutions</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">AI Solutions</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Comprehensive AI capabilities for enterprise applications.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {solutions.map((solution) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="h4 mb-4 text-gradient-blue">{solution.title}</h3>
+              <p class="description mb-6 select-none">
+                {solution.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Key Features</h4>
+                <ul class="mt-2 space-y-2 select-none">
+                  {solution.features.map((feature) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Applications -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Applications</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Industry Applications</h2>
+          <p class="description text-lg md:text-xl select-none">
+            AI solutions tailored for specific industry needs.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {applications.map((app) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <div class="mb-4 flex items-start justify-between">
+                <h3 class="h4 text-gradient-blue">{app.title}</h3>
+                <span class="inline-block rounded-full bg-primary-900/20 px-3 py-1 text-sm font-medium text-primary-400">
+                  {app.readiness}
+                </span>
+              </div>
+              <p class="description mb-6 select-none">
+                {app.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Features</h4>
+                <ul class="mt-2 space-y-2 select-none">
+                  {app.features.map((feature) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="feature-card mx-auto max-w-4xl rounded-xl p-8 text-center">
+          <h2 class="h2 mb-4 text-gradient-blue select-none">Transform Your Business with AI</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg select-none">
+            Ready to leverage advanced AI capabilities for your organization? Contact us to discuss your needs and explore our solutions.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/contact"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              Get Started
+            </Button>
+            <Button
+              variant="ghost"
+              href="/whitepaper"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              Learn More
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const updateMousePosition = (event: MouseEvent & { currentTarget: HTMLElement }) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    event.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    event.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const initCards = () => {
+    document.querySelectorAll<HTMLElement>(".feature-card").forEach((el) => {
+      el.addEventListener("mousemove", updateMousePosition as EventListener);
+    });
+  };
+
+  // Initialize on page load
+  initCards();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener("astro:page-load", initCards);
+  document.addEventListener("astro:after-swap", initCards);
+</script>

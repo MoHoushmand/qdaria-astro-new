@@ -1,51 +1,52 @@
 ---
 const features = [
   {
-    title: "Topological Protection",
-    description: "Our qubits leverage Fibonacci anyons for inherent stability, dramatically reducing error rates through topological protection.",
-    icon: "shield-lock"
-  },
-  {
-    title: "Advanced Research Lab",
-    description: "State-of-the-art research facilities equipped with advanced cryogenic systems and precision control electronics.",
+    title: "Quantum Advantage",
+    description: "Our proprietary Fibonacci anyon architecture delivers quantum computations that outperform classical systems by orders of magnitude.",
     icon: "chart-dots"
   },
   {
-    title: "Quantum Security",
-    description: "Post-quantum cryptographic solutions ensuring data security in the quantum computing era.",
+    title: "Advanced Infrastructure",
+    description: "State-of-the-art facilities in Norway featuring precision-controlled environments and next-generation quantum systems.",
+    icon: "school"
+  },
+  {
+    title: "Enterprise Ready",
+    description: "Complete quantum computing solutions with industry-leading stability and comprehensive support for enterprise deployment.",
     icon: "shield-lock"
   }
 ];
 ---
 
-<div class="relative z-10 bg-dark-bg py-24">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-gradient-blue text-3xl font-bold tracking-tight sm:text-4xl">
-        Pioneering the Future of Quantum Computing
+<div class="relative z-10 bg-dark-bg py-32 overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-radial-dark opacity-50"></div>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="text-gradient-blue text-3xl font-bold tracking-tight sm:text-4xl mb-6">
+        Redefining What's Possible in Computing
       </h2>
-      <p class="mt-6 text-lg leading-8 text-base-400">
-        Our breakthrough technology combines topological protection with advanced quantum control systems, making large-scale quantum computing a reality.
+      <p class="text-lg leading-8 text-base-400 mb-16">
+        Our topological quantum technology enables computational breakthroughs that were previously impossible, creating new possibilities across industries.
       </p>
     </div>
 
     <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-      <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+      <dl class="grid max-w-xl grid-cols-1 gap-x-12 gap-y-16 lg:max-w-none lg:grid-cols-3">
         {
           features.map((feature) => (
             <div class="feature-card">
-              <div class="relative flex flex-col gap-6 p-6">
-                <dt class="flex items-center gap-4">
-                  <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-500/10">
+              <div class="relative flex flex-col gap-8 p-8">
+                <dt class="flex flex-col items-start gap-6">
+                  <div class="feature-icon flex h-20 w-20 items-center justify-center rounded-xl bg-primary-500/10">
                     <img 
                       src={`/icons/qdaria/${feature.icon}.svg`} 
                       alt={feature.title}
-                      class="h-8 w-8 invert opacity-75"
+                      class="feature-icon-img h-12 w-12 invert opacity-75 transition-all duration-300"
                     />
                   </div>
-                  <h3 class="text-xl font-semibold leading-7 text-base-200">{feature.title}</h3>
+                  <h3 class="text-2xl font-bold leading-7 text-base-200 transition-colors duration-300">{feature.title}</h3>
                 </dt>
-                <dd class="text-base leading-7 text-base-400">{feature.description}</dd>
+                <dd class="text-lg leading-7 text-base-400 transition-colors duration-300">{feature.description}</dd>
               </div>
             </div>
           ))
@@ -57,32 +58,93 @@ const features = [
 
 <style>
   .text-gradient-blue {
-    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    background: linear-gradient(to right, #04a3ff, #00ffd3, #65ff00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-shift 8s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      filter: hue-rotate(0deg) brightness(1.8) saturate(1.4);
+    }
+    50% {
+      filter: hue-rotate(15deg) brightness(2) saturate(1.6);
+    }
   }
 
   .feature-card {
-    @apply relative rounded-lg border border-primary-500/30 bg-dark-bg transition-all;
+    position: relative;
+    border-radius: 1rem;
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    background-color: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(8px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    user-select: none;
+  }
 
-    &:hover {
-      box-shadow: 0 0 35px rgba(4, 163, 255, 0.6);
-    }
+  .feature-card:hover {
+    box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(4, 163, 255, 0.5);
+    background-color: rgba(2, 6, 23, 0.9);
+    animation: pulse-card 2s ease-in-out infinite;
+  }
 
-    &::before {
-      content: '';
-      @apply absolute inset-0 rounded-lg;
-      background: radial-gradient(
-        600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
-        rgba(4, 163, 255, 0.2),
-        transparent 40%
-      );
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+  .feature-card:hover .feature-icon-img {
+    opacity: 1;
+    transform: scale(1.15) rotate(5deg);
+  }
 
-    &:hover::before {
-      opacity: 1;
+  .feature-card:hover h3 {
+    background: linear-gradient(to right, #04a3ff, #00ffd3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .feature-card:hover dd {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  @keyframes pulse-card {
+    0%, 100% {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
     }
+    50% {
+      box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+    }
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    background: radial-gradient(
+      800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+      rgba(4, 163, 255, 0.15),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+
+  .feature-icon {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.3);
+  }
+
+  .feature-card:hover .feature-icon {
+    box-shadow: 0 0 30px rgba(4, 163, 255, 0.5);
+    transform: scale(1.05);
+    background-color: rgba(4, 163, 255, 0.15);
   }
 </style>
 

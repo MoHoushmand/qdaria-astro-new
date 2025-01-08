@@ -1,13 +1,9 @@
 ---
-interface DropdownItem {
-  text: string;
-  link?: string;
-  description?: string;
-  children?: DropdownItem[];
-}
+import type { navItem } from "@config/types/configDataTypes";
+import { isNavDropdownItem } from "@config/types/configDataTypes";
 
 interface Props {
-  items: DropdownItem[];
+  items: navItem[];
   class?: string;
 }
 
@@ -19,7 +15,7 @@ const { items, class: className = "" } = Astro.props;
     <div class="py-1">
       {items.map((item) => (
         <div class="relative group/sub">
-          {item.children ? (
+          {isNavDropdownItem(item) ? (
             <>
               <button
                 type="button"
@@ -49,7 +45,7 @@ const { items, class: className = "" } = Astro.props;
               <div class="nav-dropdown-sub absolute left-full top-0 hidden min-w-[240px] pl-2 group-hover/sub:block">
                 <div class="rounded-xl border border-primary-500/30 bg-dark-bg/95 p-2 shadow-lg backdrop-blur-sm ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div class="py-1">
-                    {item.children.map((child) => (
+                    {item.dropdown.map((child) => (
                       <a
                         href={child.link}
                         class="nav-dropdown-item flex w-full items-start"

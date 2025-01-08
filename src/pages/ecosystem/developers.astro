@@ -1,0 +1,393 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const resources = [
+  {
+    title: "API Documentation",
+    description: "Comprehensive API references and integration guides",
+    details: [
+      "REST API endpoints",
+      "Authentication flows",
+      "Request/response examples",
+      "Rate limiting info"
+    ]
+  },
+  {
+    title: "SDKs & Libraries",
+    description: "Official SDKs and client libraries for multiple languages",
+    details: [
+      "Python SDK",
+      "JavaScript/TypeScript",
+      "Java libraries",
+      "C++ integration"
+    ]
+  },
+  {
+    title: "Code Examples",
+    description: "Sample implementations and starter projects",
+    details: [
+      "Quick start guides",
+      "Tutorial projects",
+      "Best practices",
+      "Common patterns"
+    ]
+  },
+  {
+    title: "Development Tools",
+    description: "Tools and utilities for quantum development",
+    details: [
+      "CLI tools",
+      "Testing frameworks",
+      "Debugging utilities",
+      "Performance profilers"
+    ]
+  }
+];
+
+const guides = [
+  {
+    title: "Getting Started",
+    description: "Essential guides for new developers",
+    status: "Updated Weekly",
+    details: [
+      "Platform overview",
+      "Setup instructions",
+      "First application",
+      "Basic concepts"
+    ]
+  },
+  {
+    title: "Integration Guides",
+    description: "Detailed integration tutorials and workflows",
+    status: "Updated Monthly",
+    details: [
+      "Authentication setup",
+      "API integration",
+      "Error handling",
+      "Best practices"
+    ]
+  },
+  {
+    title: "Advanced Topics",
+    description: "Deep dives into advanced features and optimizations",
+    status: "Latest",
+    details: [
+      "Performance tuning",
+      "Security measures",
+      "Advanced patterns",
+      "Architecture guides"
+    ]
+  },
+  {
+    title: "Reference Material",
+    description: "Comprehensive technical documentation",
+    status: "Complete",
+    details: [
+      "API reference",
+      "SDK documentation",
+      "Configuration options",
+      "Troubleshooting"
+    ]
+  }
+];
+
+const support = [
+  {
+    title: "Developer Forum",
+    description: "Community discussion and support platform",
+    details: [
+      "Technical Q&A",
+      "Code reviews",
+      "Best practices",
+      "Community support"
+    ]
+  },
+  {
+    title: "GitHub Repository",
+    description: "Open source projects and example code",
+    details: [
+      "Sample projects",
+      "Issue tracking",
+      "Pull requests",
+      "Documentation"
+    ]
+  },
+  {
+    title: "Technical Support",
+    description: "Direct support from our engineering team",
+    details: [
+      "Email support",
+      "Video calls",
+      "Bug reporting",
+      "Feature requests"
+    ]
+  },
+  {
+    title: "Learning Resources",
+    description: "Educational content and training materials",
+    details: [
+      "Video tutorials",
+      "Documentation",
+      "Code examples",
+      "Best practices"
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title="Developer Hub - QDaria"
+  description="Access comprehensive documentation, tools, and resources for quantum computing development."
+>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Developer Hub</Badge>
+          <h1 class="h1 mb-8 text-gradient-blue select-none">
+            Build with Quantum Technology
+          </h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl select-none">
+            Access comprehensive documentation, tools, and resources to integrate quantum computing capabilities into your applications.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="#resources"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              View Resources
+            </Button>
+            <Button
+              variant="ghost"
+              href="/contact"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              Get Support
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Developer Resources -->
+    <section id="resources" class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Resources</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Developer Resources</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Everything you need to build quantum-powered applications.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {resources.map((resource) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="h4 mb-4 text-gradient-blue">{resource.title}</h3>
+              <p class="description mb-6 select-none">
+                {resource.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Includes</h4>
+                <ul class="mt-2 space-y-2 select-none">
+                  {resource.details.map((detail) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Documentation -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Documentation</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Developer Guides</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Comprehensive guides and documentation for developers.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {guides.map((guide) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <div class="mb-4 flex items-start justify-between">
+                <h3 class="h4 text-gradient-blue">{guide.title}</h3>
+                <span class="inline-block rounded-full bg-primary-900/20 px-3 py-1 text-sm font-medium text-primary-400">
+                  {guide.status}
+                </span>
+              </div>
+              <p class="description mb-6 select-none">
+                {guide.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Contents</h4>
+                <ul class="mt-2 space-y-2 select-none">
+                  {guide.details.map((detail) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Support -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Support</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Developer Support</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Get help from our community and engineering team.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {support.map((item) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="h4 mb-4 text-gradient-blue">{item.title}</h3>
+              <p class="description mb-6 select-none">
+                {item.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Features</h4>
+                <ul class="mt-2 space-y-2 select-none">
+                  {item.details.map((detail) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="feature-card mx-auto max-w-4xl rounded-xl p-8 text-center">
+          <h2 class="h2 mb-4 text-gradient-blue select-none">Start Building Today</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg select-none">
+            Join our developer community and start building quantum-powered applications with our comprehensive tools and support.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/contact"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              Get Started
+            </Button>
+            <Button
+              variant="ghost"
+              href="#resources"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              View Resources
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const updateMousePosition = (event: MouseEvent & { currentTarget: HTMLElement }) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    event.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    event.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const initCards = () => {
+    document.querySelectorAll<HTMLElement>(".feature-card").forEach((el) => {
+      el.addEventListener("mousemove", updateMousePosition as EventListener);
+    });
+  };
+
+  // Initialize on page load
+  initCards();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener("astro:page-load", initCards);
+  document.addEventListener("astro:after-swap", initCards);
+</script>

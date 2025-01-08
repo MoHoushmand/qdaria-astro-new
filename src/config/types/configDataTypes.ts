@@ -24,20 +24,27 @@ export interface SiteDataProps {
 
 // --------------------------------------------------------
 // nav data types
-export interface navLinkItem {
+export interface BaseNavItem {
   text: string;
-  link: string;
   description?: string;
+}
+
+export interface navLinkItem extends BaseNavItem {
+  link: string;
   newTab?: boolean;
   icon?: string;
 }
 
-export interface navDropdownItem {
-  text: string;
+export interface navDropdownItem extends BaseNavItem {
+  link?: string;
   dropdown: (navLinkItem | navDropdownItem)[];
 }
 
 export type navItem = navLinkItem | navDropdownItem;
+
+export function isNavDropdownItem(item: navItem): item is navDropdownItem {
+  return 'dropdown' in item;
+}
 
 // --------------------------------------------------------
 // faq data types

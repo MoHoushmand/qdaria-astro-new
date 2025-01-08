@@ -2,7 +2,7 @@
 title: "How Topological Quantum Computers Will Transform Cybersecurity"
 description: "Explore how topological quantum computing is revolutionizing cybersecurity through quantum-resistant encryption and advanced threat detection."
 authors: ["daniel-mo-houshmand"]
-pubDate: "2024-01-20"
+pubDate: new Date("2024-01-20")
 heroImage: "/src/assets/images/lightning-1.jpg"
 categories: ["Security", "Technology", "Quantum Computing"]
 tags: ["Quantum Computing", "Cybersecurity", "Encryption", "Quantum Cryptography"]

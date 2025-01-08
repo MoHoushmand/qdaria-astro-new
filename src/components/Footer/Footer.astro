@@ -3,8 +3,8 @@ import { Icon } from "astro-icon";
 import FooterLink from "./FooterLink.astro";
 
 // utils
-import { getLocaleFromUrl } from "@js/localeUtils";
-import { getTranslatedData } from "@js/translationUtils";
+import { getLocaleFromUrl } from "../../js/localeUtils";
+import { getTranslatedData } from "../../js/translationUtils";
 import { footerData } from "@config/en/footerData.json";
 
 const currLocale = getLocaleFromUrl(Astro.url);

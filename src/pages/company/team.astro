@@ -1,0 +1,529 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+// Import team member images
+import moImage from "@assets/images/team/mo.jpg";
+import jonnaImage from "@assets/images/team/jonna.jpg";
+import nickImage from "@assets/images/team/nick.jpg";
+import fredrikImage from "@assets/images/team/fredrik.jpg";
+import emanueleImage from "@assets/images/team/emanuele.jpg";
+import gasparImage from "@assets/images/team/gaspar.jpg";
+import milenImage from "@assets/images/team/milen.jpg";
+import carolineImage from "@assets/images/team/caroline.jpg";
+import nilsImage from "@assets/images/team/nils.jpg";
+import dariaImage from "@assets/images/team/daria.jpg";
+import shararehImage from "@assets/images/team/sharareh.jpg";
+import lillianImage from "@assets/images/team/lillian.jpg";
+import gryImage from "@assets/images/team/gry.jpg";
+
+// Page metadata
+const pageTitle = "Our Team | QDaria Quantum Technologies";
+const description =
+  "Meet the innovative minds shaping the future of quantum computing in the heart of Norway.";
+
+// Team members in requested order
+const teamMembers = [
+  {
+    name: "Caroline Woie",
+    role: "Chief Content Officer (CCO)",
+    bio: `Caroline Woie, QDaria's Chief Content Officer, is a seasoned director, photographer, editor, 
+and journalist with over two decades of experience in film, television, and documentary sectors. 
+Her storied career includes notable collaborations with Norwegian broadcasters like NRK, where 
+she contributed to productions that garnered Emmy nominations and Gullruten awards. At QDaria, 
+Caroline applies her extensive media expertise to translate the often complex world of quantum 
+computing into captivating, easily digestible stories. She oversees the development of video content, 
+press materials, and strategic campaigns, ensuring that QDaria's breakthroughs resonate with both 
+technical audiences and the broader public. In building cross-platform narratives that span social 
+media, broadcast channels, and live events, Caroline highlights the transformative potential of 
+quantum research. Her knack for orchestrating large-scale productions dovetails with QDaria's 
+innovative culture, enabling her to guide creative teams in presenting quantum technology with 
+compelling clarity. With a passion for documentary storytelling and a drive to communicate the 
+significance of next-gen solutions, Caroline plays an integral role in shaping QDaria's brand 
+and amplifying its global impact.`,
+    image: carolineImage,
+    email: "caroline.woie@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/caroline-woie-5b3b5a25/",
+  },
+  {
+    name: "Milen Kouylekov",
+    role: "Chief AI Officer (CAIO)",
+    bio: `Milen Kouylekov, QDaria's Chief AI Officer, has built his career around pioneering research 
+in Natural Language Processing, Machine Learning, and large-scale computational infrastructures. 
+He has contributed significantly to multilingual service platforms and text analytics projects, 
+including Linguagrid and Galateas, which focused on understanding user behavior through language 
+analysis. At QDaria, Milen leverages his expertise to integrate advanced AI capabilities seamlessly 
+into the company's quantum initiatives. This includes spearheading projects where machine learning 
+models are optimized by quantum hardware, driving innovations in text mining, semantic technologies, 
+and knowledge extraction. Milen's dedication to collaborative research extends internally, where he 
+guides cross-functional teams to adapt academic breakthroughs into market-ready products. By fostering 
+an environment that values experimentation and data-driven iteration, he ensures that AI remains a 
+core pillar in QDaria's mission to revolutionize computing. In a world moving rapidly toward 
+quantum-enhanced solutions, Milen's leadership in NLP, ML, and large-scale system design not only 
+complements QDaria's hardware innovations but also lays the groundwork for transformative applications 
+across industries ranging from healthcare to finance, solidifying QDaria as a powerful force at 
+the nexus of AI and quantum technology.`,
+    image: milenImage,
+    email: "milen@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/milen-kouylekov-9b60a94/",
+  },
+  {
+    name: "Emanuele Lapponi",
+    role: "Chief Technology Officer (CTO)",
+    bio: `Emanuele Lapponi serves as QDaria's Chief Technology Officer, bringing extensive experience 
+in Machine Learning and Natural Language Processing to the rapidly evolving field of quantum 
+computing. Earning a PhD in NLP from the University of Oslo, Emanuele held pivotal leadership 
+roles including Lead Machine Learning Engineer at Fremtind, where he spearheaded R&D projects 
+in claim automation, fraud detection, and Retrieval-Augmented Generation (RAG) systems. 
+He also led a data science team at Kindly, developing a sophisticated NLU platform. At QDaria, 
+Emanuele's role is to ensure that quantum computing innovations integrate seamlessly with AI 
+infrastructures, maximizing their potential for finance, healthcare, and other critical industries. 
+His ability to translate complex business requirements into technically feasible solutions unites 
+stakeholders from corporate and academic realms. In addition, Emanuele promotes a culture of 
+collaboration, guiding multidisciplinary teams as they explore the frontiers of AI-quantum synergy. 
+His strategic oversight includes research roadmaps, platform development, and continuous evaluation 
+of emerging trends, guaranteeing that QDaria remains at the cutting edge of technological convergence. 
+By bridging classical machine learning with quantum breakthroughs, Emanuele helps forge new paradigms 
+that position QDaria as a global leader in quantum innovation.`,
+    image: emanueleImage,
+    email: "emanuele@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/emanuele-lapponi/",
+  },
+  {
+    name: "John Kristiansen",
+    role: "Chief Operating Officer (COO)",
+    bio: `John Kristiansen brings over two decades of diverse leadership experience to QDaria, 
+where he serves as Chief Operating Officer. With a notable background in real estate development, 
+entrepreneurship, and executive management—including 20 years as a prominent property developer 
+in Oslo—John offers a keen understanding of operational scalability in cutting-edge tech sectors. 
+He co-founded the mobile service provider Hello Com, sits on the Board of New Adventure AS, 
+and has excelled in guiding complex business environments to success. At QDaria, he aligns daily 
+operations with strategic objectives, ensuring that the company's quantum computing infrastructure 
+is robust, efficient, and ready to meet global demands. By emphasizing innovation and sustainable 
+growth, John has played a pivotal role in streamlining internal processes, enhancing cross-departmental 
+collaboration, and implementing frameworks that support QDaria's rapid expansion. His leadership 
+style is grounded in creating a culture that not only nurtures talent but encourages bold thought 
+and continuous learning—essential in attracting top professionals in the highly competitive quantum 
+field. As QDaria challenges the boundaries of quantum innovation, John's operational insights and 
+focus on strategic growth remain indispensable. His dedication to excellence has helped sustain 
+QDaria's momentum as a global quantum leader, ensuring that governance, resource allocation, 
+and process optimization keep pace with the company's visionary leaps forward.`,
+    image: jonnaImage,
+    email: "john@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/john-kristiansen/",
+  },
+  {
+    name: "Nick Saaf",
+    role: "Chief Sales Officer (CSO)",
+    bio: `Nick Saaf, Chief Sales Officer at QDaria, merges customer relations expertise with an 
+entrepreneurial spirit to excel in the quantum technology sphere. Initially honing his skills 
+in high-end hospitality as a Head Sommelier, Nick later founded Alfresco Cookery s.r.o., 
+diversifying his experience across both service and tech-focused ventures. At QDaria, he 
+develops and executes strategic sales initiatives that drive market penetration in an industry 
+known for its scientific complexity. His ability to communicate quantum solutions effectively 
+to stakeholders—ranging from corporate clients to academic researchers—ensures that groundbreaking 
+technology is both accessible and aligned with real-world business needs. Nick's approach pairs 
+deep client satisfaction with forward-looking market vision, identifying key opportunities in 
+sectors like finance, pharmaceuticals, and advanced data analytics. Under his leadership, QDaria 
+has successfully entered multiple new markets, forging high-value partnerships that bolster 
+the company's global reach. Beyond sales metrics, Nick fosters an environment where innovation 
+and client-centricity intersect, reinforcing QDaria's commitment to transforming quantum research 
+into tangible solutions. By staying abreast of industry trends and customer demands, he has 
+secured the company's foothold in emerging areas while maintaining longstanding client 
+relationships. Nick's overarching goal is to ensure that QDaria's quantum breakthroughs are 
+adopted worldwide, fueling the company's rise as a transformative force in the quantum 
+computing revolution.`,
+    image: nickImage,
+    email: "nick@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/nick-saaf-8a18b3314/",
+  },
+  {
+    name: "Gaspar Alvarado",
+    role: "Chief Financial Officer (CFO)",
+    bio: `Gaspar Alvarado is QDaria's Chief Financial Officer, commanding a robust portfolio in global 
+procurement, category management, and financial strategy. Prior to joining QDaria, he shaped 
+procurement frameworks for major tech companies like trivago, N26, and Accenture, consistently 
+demonstrating his aptitude for optimizing resource allocation and fostering cost-effective 
+innovations. In his role at QDaria, Gaspar ensures that the company's ambitious research 
+objectives are underpinned by sound financial planning and rigorous oversight. His approach 
+to budgeting and capital deployment balances fiscal responsibility with an entrepreneurial 
+drive, allowing QDaria to invest boldly in topological quantum hardware, AI integration, 
+and emergent R&D opportunities. With a keen eye for analyzing market risks and leveraging 
+partnerships, Gaspar plays a pivotal role in steering the organization toward sustainable 
+growth. He also collaborates closely with other C-level executives, aligning financial goals 
+with operational milestones to keep the company's quantum and AI innovations on track. 
+Ultimately, Gaspar's expertise in strategic sourcing and financial governance helps QDaria 
+navigate the competitive technology landscape, ensuring that breakthroughs in quantum 
+computing are matched by a solid foundation of financial stability.`,
+    image: gasparImage,
+    email: "gaspar@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/gaspar-alvarado-78204219/",
+  },
+  {
+    name: "Sharareh Movahed Shariat Panahi",
+    role: "Assistant Chief Executive Officer (ACEO)",
+    bio: `Sharareh Movahed Shariat Panahi serves as QDarias Assistant Chief Executive Officer (ACEO), 
+bridging the realms of legal acumen and project management to drive forward the companys quantum 
+ambitions. With a background that spans law, corporate strategy, and operational leadership, she 
+plays a pivotal role in ensuring that QDarias cutting-edge research aligns seamlessly with 
+regulatory compliance and long-term business objectives. Shararehs steadfast dedication to 
+organizational clarity has been instrumental in refining QDarias internal processes, offering 
+guidance that helps individual teams stay focused while balancing innovation with due diligence. 
+Her approach is at once humble—acknowledging the shared expertise of scientists, engineers, 
+and executives—and bold, championing audacious goals that keep QDaria at the forefront of quantum 
+discovery. Shararehs legal background enables her to anticipate potential hurdles in a rapidly 
+evolving industry, proactively shaping agreements and frameworks that preserve QDarias innovative 
+edge. Beyond her formal role, she cultivates an environment of mutual support and transparency, 
+bridging the gap between technical teams and executive stakeholders. By uniting diligence, strategic 
+vision, and a collaborative mindset, Sharareh fortifies QDarias ability to tackle emerging 
+challenges—both operational and regulatory—on the path toward quantum breakthroughs. In doing so, 
+she exemplifies QDarias core belief that transformative technology flourishes best under robust 
+yet flexible governance.`,
+    image: shararehImage,
+    email: "sharareh@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/sharareh/",
+  },
+  {
+    name: "Daniel Mo Houshmand",
+    role: "CEO & Founder",
+    bio: `Daniel Mo Houshmand leads QDaria with a distinctive fusion of scientific expertise 
+and visionary leadership. His strong background in Applied Mathematics, Physics, Engineering, 
+Fine Art, and Design underpins his ability to navigate the complexities of quantum computing 
+through an interdisciplinary lens. Specializing in Quantum Machine Learning and "AI Whispering," 
+Daniel aims to steer QDaria's research in Topological Quantum Hardware, Q-AI integration, and 
+Experimental Quantum Mechanics. Beyond day-to-day leadership, he champions quantum education and 
+collaborative initiatives that will expand industry-wide knowledge. Under his guidance, QDaria 
+aims to become Norway's foremost quantum computing company, translating cutting-edge theory into 
+real-world solutions for finance, healthcare, and more. Daniel's commitment to global discourse 
+is evident in his invitation to speak at IQT New York (October 2024), the exclusive Davos 
+Innovation Week (January 2025), and his vision for QDaria's ambitious roadmap to launch 7–12 
+independent, cutting-edge emerging companies by 2025–2030. His leadership has positioned QDaria 
+among the top 25 most promising startups worldwide (top 5 in Europe), earning nominations for 
+the Global Impact Award, Disruptive Technology Excellence Award, and Innovation Pioneer Award. 
+With a keen focus on Topological Quantum Computing and Fibonacci anyons, Daniel envisions a 
+future where quantum breakthroughs will fundamentally transform industries. His unrelenting 
+drive and passion for harnessing quantum technology underscore QDaria's dedication to solving 
+humanity's greatest challenges.`,
+    image: moImage,
+    email: "mo@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/mohoushmand/",
+  },
+  {
+    name: "Nils Bjelland Grønvold",
+    role: "Chief Culture Officer (CCO)",
+    bio: `Nils Bjelland Grønvold, widely recognized as "Nils m/Skils," serves as QDaria's Chief Culture 
+Officer. A renowned improvisational rapper and performer, Nils built a dynamic career leading groups 
+like RatPack, RIP Crew, and Stor Overraskelse, gracing stages such as the Roskilde Festival and 
+Norway's Fritt Ords Ærespris events. At QDaria, he leverages his creative energy and deep understanding 
+of audience engagement to cultivate a vibrant internal culture that inspires ingenuity and inclusivity. 
+Nils's hands-on experience in rapid ideation and collaboration—core aspects of successful 
+improvisation—translates into a corporate environment where risk-taking and out-of-the-box thinking 
+are both celebrated and structurally supported. He works closely with leadership and HR to develop 
+programs that encourage open dialogue, foster diversity of thought, and unify employees around 
+QDaria's mission to push the frontiers of quantum innovation. As the organization grows, Nils ensures 
+that each individual's creative potential is recognized, helping to sustain an environment that not 
+only attracts top talent but retains it through shared purpose and dynamic engagement. In fusing 
+artistic expression with groundbreaking science, he embodies QDaria's commitment to shaping the 
+future through collaborative, human-centered innovation.`,
+    image: nilsImage,
+    email: "nils@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/nils-bjelland-gr%C3%B8nvold-63815b19/",
+  },
+  {
+    name: "Daria (Søreide) Houshmand",
+    role: "Developer (Intern) & Board Member",
+    bio: `Daria (Søreide) Houshmand stands at the intersection of art, technology, and quantum innovation 
+as a Developer Intern and Board Member at QDaria. With a strong affinity for mathematics, physics, 
+and programming, she dove into the realm of generative AI at an early stage, embracing GPT-2 in 2019 
+to create novel AI-powered applications. Her portfolio spans autocoding, app development, and 
+e-commerce solutions, reflecting her fascination with how emerging technologies reshape everyday 
+experiences. At QDaria, Daria contributes to ongoing R&D efforts, focusing on ways to integrate AI 
+solutions into quantum computing platforms—a pursuit aligned with her broader vision of designing 
+tools that are both technologically advanced and human-centric. Whether shes assisting in code reviews, 
+prototyping new AI-driven features, or participating in strategic discussions at the Board level, 
+Darias multipronged approach pushes QDaria to explore untapped frontiers. Her inquisitive nature 
+and collaborative spirit enrich the organizational culture, demonstrating that the fusion of creative 
+perspectives and rigorous technical expertise can drive meaningful breakthroughs in quantum research. 
+As she continues developing her skillset, Daria embodies QDarias commitment to nurturing the next 
+generation of innovators who will pioneer the quantum revolution.`,
+    image: dariaImage,
+    email: "daria@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/dariasoreidehoushmand/",
+  },
+  {
+    name: "Lillian Kristiansen",
+    role: "Chief Human Resources Officer (CHRO)",
+    bio: `Lillian Kristiansen serves as QDarias Chief Human Resources Officer, bringing decades of 
+experience across HR management, payroll oversight, and organizational development. Having held 
+positions ranging from Lønningsansvarlig at Compass Group AS and Eurest AS to an HR Controller 
+role at 4Service AS, Lillian has honed a deep understanding of the complexities in workforce 
+administration and employee engagement. Her tenure spans critical phases of transformation in 
+the Norwegian service sector, enabling her to navigate fast-paced environments with confidence 
+and foresight. At QDaria, Lillian integrates her comprehensive background into innovative HR 
+strategies that empower cross-functional teams to excel in the demanding field of quantum R&D. 
+She focuses on creating an inclusive, supportive workplace where talent can flourish—ensuring 
+that every staff member understands their integral part in QDarias mission to reshape computing 
+through quantum technology. Lillians humble yet assertive leadership style fosters a culture 
+of transparency and continuous improvement, embracing feedback loops to refine processes 
+ranging from recruitment to professional development. By combining hands-on experience with 
+a forward-looking perspective, she aligns HR initiatives with the companys broader strategic 
+goals. Under her stewardship, QDarias human capital strategy drives the organizations bold 
+vision forward, proving that the right people and the right culture form the bedrock of 
+groundbreaking innovation.`,
+    image: lillianImage,
+    email: "lillian@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/lillian-kristiansen/",
+  },
+  {
+    name: "Gry Hirkjoelen",
+    role: "Head of Networking",
+    bio: `Gry Hirkjoelen, QDarias Head of Networking, excels at forging strategic alliances and 
+cultivating key relationships that propel the companys quantum initiatives to new heights. 
+With a background in social anthropology, administrative support, and service-oriented roles, 
+Gry embodies a unique blend of analytical thinking and people-centric engagement. Her early 
+experience as a service and administrative assistant at Asker Kommune and Adecco honed her 
+talent for multitasking and project coordination, while her academic focus on geography 
+and social sciences has sharpened her understanding of cultural and organizational dynamics. 
+At QDaria, Grys role is both humble and bold, emphasizing meticulous relationship-building 
+to strengthen QDarias internal cohesion and outward partnerships alike. She leverages her 
+natural enthusiasm and strong communication skills to connect with potential collaborators, 
+research institutions, and industry partners, ensuring that QDarias innovations are spotlighted 
+in the broader quantum ecosystem. Grys knack for structuring dialogues and fostering positive 
+interactions aligns perfectly with QDarias vision of collaborative advancement. By bridging the 
+gap between diverse stakeholders—be they technical experts, executive leaders, or external vendors— 
+she plays a key part in building the robust network that underpins QDarias pioneering work. 
+In orchestrating opportunities across corporate, academic, and governmental spheres, Gry 
+continues to define a networking strategy that drives mutual growth and helps shape the 
+companys next chapter of quantum discovery.`,
+    image: gryImage,
+    email: "gry@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/gry-hirkj%C3%B8len-984775342/",
+  },
+  {
+    name: "Fredrik Krey Stubberud",
+    role: "Chief Information Officer (CIO)",
+    bio: `Fredrik Krey Stubberud, Chief Information Officer at QDaria, is an accomplished IT professional 
+with a strong grounding in service management, systems integration, and operational excellence. 
+He holds a Bachelor's degree in Information Technology from the University of Oslo and has 
+contributed to forward-thinking IT solutions at prominent companies such as Squarehead 
+Technology and Olav Thon Gruppen. In his role at QDaria, Fredrik drives the adoption of 
+innovative tools and processes, ensuring the company's IT infrastructure remains both robust 
+and agile amidst the rapidly evolving landscape of quantum computing. By establishing secure 
+networks, seamless data pipelines, and effective knowledge-sharing platforms, he supports 
+cross-functional teams in leveraging quantum research to address real-world challenges. 
+Fredrik's commitment to operational efficiency extends beyond technical oversight; he fosters 
+inter-departmental collaboration to maintain alignment between business goals and IT strategy. 
+Under his stewardship, QDaria's technology backbone integrates next-generation computing hardware, 
+AI-driven analytics, and cloud-based services, all while adhering to the rigorous requirements 
+of a security-conscious industry. With a vision for scaling QDaria's infrastructure in sync 
+with the company's cutting-edge research, Fredrik ensures that the tech environment remains 
+a catalyst for innovation. His leadership style emphasizes adaptability, continuous learning, 
+and streamlined communication, laying a solid groundwork for QDaria's continued advancement 
+in the quantum domain.`,
+    image: fredrikImage,
+    email: "fredrik@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/fredrik-krey-stubberud",
+  },
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Our Team</Badge>
+          <h1 class="h1 mb-8 text-gradient-blue select-none">
+            Redefining What's Possible in Computing Through Topological Quantum Innovation
+          </h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            QDaria aims to lead the quantum revolution with breakthrough Fibonacci anyon technology, 
+            to deliver unmatched stability and scalability. Our fault-tolerant quantum computers will 
+            transform industries and solve humanity's greatest computational challenges.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Grid -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {
+            teamMembers.map((member) => (
+              <div class="feature-card group relative overflow-hidden rounded-xl p-8 transition-all duration-500 hover:scale-[1.02]">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-emerald-600/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                <div class="relative flex flex-col md:flex-row md:gap-8">
+                  <div class="mb-6 md:mb-0 md:w-1/3">
+                    <div class="relative w-40 h-40">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        class="rounded-full object-cover w-full h-full shadow-lg transition-transform duration-500 group-hover:scale-105"
+                        width={160}
+                        height={160}
+                      />
+                      <div class="absolute inset-0 rounded-full border-2 border-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                  </div>
+                  <div class="md:w-2/3">
+                    <h2 class="h3 mb-1 bg-gradient-to-r from-blue-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+                      {member.name}
+                    </h2>
+                    <p class="mb-4 text-blue-400">{member.role}</p>
+                    <div class="relative">
+                      <p class="description text-gray-300/90 transition-all duration-500 overflow-hidden" 
+                         style="max-height: 6rem; mask-image: linear-gradient(to bottom, black 50%, transparent 100%);"
+                         id={`bio-${member.name.replace(/\s+/g, '-').toLowerCase()}`}>
+                        {member.bio}
+                      </p>
+                      <button 
+                        class="mt-2 text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                        onclick={`toggleBio('${member.name.replace(/\s+/g, '-').toLowerCase()}')`}
+                        aria-expanded="false"
+                        aria-controls={`bio-${member.name.replace(/\s+/g, '-').toLowerCase()}`}>
+                        Read More
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600/20 via-transparent to-emerald-600/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"></div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="feature-card group relative mx-auto max-w-4xl overflow-hidden rounded-xl p-8 transition-all duration-500 hover:scale-[1.02]">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-emerald-600/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+          <div class="relative">
+            <h2 class="h2 mb-4 bg-gradient-to-r from-blue-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent select-none">
+              Join Our Team
+            </h2>
+            <p class="description mx-auto mb-8 max-w-2xl text-lg text-gray-300/90">
+              We're always looking for visionary minds who share our passion
+              for shaping the future of quantum computing.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+              <Button
+                variant="primary"
+                href="/careers"
+                class="relative overflow-hidden rounded-lg px-6 py-3 text-gray-300 transition-all duration-500 hover:scale-105"
+              >
+                View Opportunities
+              </Button>
+              <Button
+                variant="ghost"
+                href="/contact"
+                class="relative overflow-hidden rounded-lg px-6 py-3 text-gray-300 transition-all duration-500 hover:scale-105"
+              >
+                Contact Us
+              </Button>
+            </div>
+          </div>
+          <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600/20 via-transparent to-emerald-600/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-blue-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent;
+    filter: brightness(1.2) saturate(1.2);
+    text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%, 100% {
+      filter: brightness(1.2) saturate(1.2);
+      text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    }
+    50% {
+      filter: brightness(1.4) saturate(1.4);
+      text-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+    }
+  }
+
+  .feature-card {
+    @apply relative rounded-xl border border-blue-500/20 bg-gray-900/80 backdrop-blur-sm;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .feature-card:hover {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    @apply border-blue-500/30 bg-gray-900/90;
+  }
+
+  .feature-card::before {
+    content: "";
+    @apply absolute inset-0 rounded-xl;
+    background: radial-gradient(
+      800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+      rgba(59, 130, 246, 0.1),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const updateMousePosition = (event: MouseEvent & { currentTarget: HTMLElement }) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    event.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    event.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const initCards = () => {
+    document.querySelectorAll<HTMLElement>(".feature-card").forEach((el) => {
+      el.addEventListener("mousemove", updateMousePosition as EventListener);
+    });
+  };
+
+  // Initialize on page load
+  initCards();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener("astro:page-load", initCards);
+  document.addEventListener("astro:after-swap", initCards);
+
+  // Bio toggle functionality
+  function toggleBio(id: string) {
+    const bio = document.getElementById(`bio-${id}`);
+    if (!bio) return;
+    
+    const button = bio.nextElementSibling;
+    if (!button || !(button instanceof HTMLElement)) return;
+    
+    const isExpanded = bio.style.maxHeight === 'none';
+    
+    if (isExpanded) {
+      bio.style.maxHeight = '6rem';
+      bio.style.maskImage = 'linear-gradient(to bottom, black 50%, transparent 100%)';
+      button.textContent = 'Read More';
+      button.setAttribute('aria-expanded', 'false');
+    } else {
+      bio.style.maxHeight = 'none';
+      bio.style.maskImage = 'none';
+      button.textContent = 'Read Less';
+      button.setAttribute('aria-expanded', 'true');
+    }
+  }
+</script>

@@ -1,52 +1,49 @@
 ---
-import ClipPathReveal from "@components/Animation/ClipPathReveal.astro";
 import LightningAnimation from "@components/Canvas/LightningAnimation.astro";
 ---
 
 <section class="hero-section relative min-h-[calc(100vh-3.5rem)] overflow-hidden">
   <div class="site-container relative z-10 flex min-h-[calc(100vh-3.5rem)] items-center">
-    <div class="hero-content relative z-20 w-full max-w-4xl">
-      <ClipPathReveal>
-        <div class="mb-16 mt-16 flex items-start ml-16">
-          <img src="/icons/qdaria/QDwordmark3.svg" alt="QDaria" class="h-24 w-auto transform scale-125" />
-        </div>
-        <h1 class="hero-title mb-8 text-6xl font-bold leading-tight tracking-tight text-base-200 lg:text-7xl">
-          Pioneering Fault-Tolerant Topological Quantum Computing in the Heart of Norway
-        </h1>
-        <p class="hero-description mb-12 max-w-2xl text-xl text-base-400">
-          QDaria is at the forefront of topological quantum computing, harnessing the power of Fibonacci anyons to create inherently stable qubits. Our breakthrough technology achieves unprecedented error resistance through topological protection, making large-scale quantum computing a reality.
-        </p>
+      <div class="hero-content relative z-20 w-full max-w-4xl mx-auto text-center px-4">
+        <div class="mb-16 mt-16 flex justify-center">
+        <img src="/icons/qdaria/QDwordmark3.svg" alt="QDaria" class="h-24 w-auto transform scale-125" />
+      </div>
+      <h1 class="hero-title mb-8 text-6xl font-bold leading-tight tracking-tight bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent lg:text-7xl">
+        Pioneering Quantum in The Heart of Norway
+      </h1>
+      <p class="hero-description mb-12 max-w-2xl text-xl text-base-400">
+        QDaria is breaking ground through topology - the fingerprints of nature - Fibonacci sequences, developing the foundations for stable and scalable quantum systems. Our research in quantum error correction and topological quantum computing is paving the way for practical quantum applications that will transform industries and solve complex computational challenges.
+      </p>
 
-        <div class="mb-12 grid grid-cols-3 gap-8">
-          <div class="stat-card">
-            <div class="text-gradient-blue mb-2 text-4xl font-bold">99.99%</div>
-            <div class="text-base-400">Error Protection</div>
-          </div>
-          <div class="stat-card">
-            <div class="text-gradient-blue mb-2 text-4xl font-bold">1000x</div>
-            <div class="text-base-400">Coherence Time</div>
-          </div>
-          <div class="stat-card">
-            <div class="text-gradient-blue mb-2 text-4xl font-bold">100+</div>
-            <div class="text-base-400">Logical Qubits</div>
-          </div>
+      <div class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="stat-card">
+          <div class="text-gradient-blue mb-2 text-4xl font-bold">99.999%</div>
+          <div class="text-base-400">Qubit Fidelity</div>
         </div>
+        <div class="stat-card">
+          <div class="text-gradient-blue mb-2 text-4xl font-bold">10,000x</div>
+          <div class="text-base-400">Performance Gain</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-gradient-blue mb-2 text-4xl font-bold">1000+</div>
+          <div class="text-base-400">AI Software Solutions</div>
+        </div>
+      </div>
 
-        <div class="hero-cta flex flex-wrap gap-4">
-          <a
-            href="/whitepaper"
-            class="nav-button inline-flex items-center justify-center rounded-lg bg-primary-500 px-6 py-3 text-lg font-medium text-white shadow-lg transition-all hover:bg-primary-600"
-          >
-            Read Our Whitepaper
-          </a>
-          <a
-            href="/quantum-computing"
-            class="nav-button inline-flex items-center justify-center rounded-lg border border-primary-500 bg-transparent px-6 py-3 text-lg font-medium text-primary-500 transition-all hover:bg-primary-500 hover:text-white"
-          >
-            Explore Technology
-          </a>
-        </div>
-      </ClipPathReveal>
+      <div class="hero-cta flex flex-wrap gap-4 justify-center">
+        <a
+          href="/whitepaper"
+          class="nav-button inline-flex items-center justify-center rounded-lg bg-primary-500 px-6 py-3 text-lg font-medium text-white shadow-lg transition-all hover:bg-primary-600"
+        >
+          Read Our Whitepaper
+        </a>
+        <a
+          href="/quantum-computing"
+          class="nav-button inline-flex items-center justify-center rounded-lg border border-primary-500 bg-transparent px-6 py-3 text-lg font-medium text-primary-500 transition-all hover:bg-primary-500 hover:text-white"
+        >
+          Explore Technology
+        </a>
+      </div>
     </div>
   </div>
 
@@ -87,36 +84,6 @@ import LightningAnimation from "@components/Canvas/LightningAnimation.astro";
     @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
   }
 
-  .hero-title,
-  .hero-description,
-  .hero-cta {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  .hero-title {
-    animation: fadeInUp 0.8s ease-out 0.2s forwards;
-  }
-
-  .hero-description {
-    animation: fadeInUp 0.8s ease-out 0.4s forwards;
-  }
-
-  .hero-cta {
-    animation: fadeInUp 0.8s ease-out 0.6s forwards;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   .nav-button {
     @apply relative;
     box-shadow: 0 0 15px rgba(4, 163, 255, 0.2);
@@ -142,12 +109,14 @@ import LightningAnimation from "@components/Canvas/LightningAnimation.astro";
     }
   }
 
-  .stat-card {
-    @apply relative rounded-lg border border-primary-500/30 bg-dark-bg p-4 text-center transition-all;
-    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    .stat-card {
+      @apply relative rounded-lg border border-primary-500/30 bg-dark-bg p-4 text-center transition-all;
+      box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+      user-select: text;
 
     &:hover {
       box-shadow: 0 0 35px rgba(4, 163, 255, 0.6);
+      transform: translateY(-2px);
     }
 
     &::before {
@@ -169,18 +138,19 @@ import LightningAnimation from "@components/Canvas/LightningAnimation.astro";
 </style>
 
 <script>
-  function updateMousePosition(e: MouseEvent) {
-    const target = e.currentTarget as HTMLElement;
+  function updateMousePosition(e: Event) {
+    const mouseEvent = e as MouseEvent;
+    const target = mouseEvent.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = mouseEvent.clientX - rect.left;
+    const y = mouseEvent.clientY - rect.top;
     target.style.setProperty('--mouse-x', `${x}px`);
     target.style.setProperty('--mouse-y', `${y}px`);
   }
 
   function initHero() {
     document.querySelectorAll('.nav-button, .stat-card').forEach((el) => {
-      el.addEventListener('mousemove', updateMousePosition);
+      el.addEventListener('mousemove', updateMousePosition as EventListener);
     });
   }
 

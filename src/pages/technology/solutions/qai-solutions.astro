@@ -1,0 +1,212 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "Quantum AI Solutions | QDaria";
+const description = "Advanced quantum computing solutions for AI and machine learning applications, powered by topological quantum computing with Fibonacci anyons.";
+
+const quantumAIFeatures = [
+  {
+    title: "Quantum Machine Learning",
+    description: "Accelerate ML workflows with topological qubits for faster training, improved accuracy, and robust model performance.",
+    details: [
+      "Quantum neural networks",
+      "Quantum feature mapping",
+      "Quantum kernel methods",
+      "Quantum optimization"
+    ]
+  },
+  {
+    title: "Real-Time Processing",
+    description: "Leverage quantum-accelerated inference for streaming data in finance, healthcare, and IoT applications.",
+    details: [
+      "High-speed inference",
+      "Real-time analytics",
+      "Stream processing",
+      "Low-latency results"
+    ]
+  }
+];
+
+const applications = [
+  {
+    title: "Quantum-Enhanced NLP",
+    description: "Improve language models, chatbots, and sentiment analysis using quantum-enhanced embeddings.",
+    readiness: "Early Access",
+    category: "AI"
+  },
+  {
+    title: "Computer Vision",
+    description: "Accelerate object detection and image classification with quantum-trained neural networks.",
+    readiness: "Beta",
+    category: "AI"
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Quantum AI Solutions</Badge>
+          <h1 class="h1 mb-8 text-gradient-blue select-none">Topological QC for AI & Swarm Intelligence</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl select-none">
+            Harness the power of topological quantum computing with Fibonacci anyons for breakthrough advances in artificial intelligence and swarm systems.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Quantum AI</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Quantum-Enhanced AI</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Transform your AI capabilities with quantum computing advantages.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {quantumAIFeatures.map((feature) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="h4 mb-4 text-gradient-blue">{feature.title}</h3>
+              <p class="description mb-6 select-none">
+                {feature.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Key Features</h4>
+                <ul class="mt-2 space-y-2 select-none">
+                  {feature.details.map((detail) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Applications</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Real-World Applications</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Discover how our quantum solutions transform industries.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {applications.map((app) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <div class="mb-4 flex items-start justify-between">
+                <h3 class="h4 text-gradient-blue">{app.title}</h3>
+                <div class="flex gap-2">
+                  <span class="inline-block rounded-full bg-primary-900/20 px-3 py-1 text-sm font-medium text-primary-400">
+                    {app.readiness}
+                  </span>
+                  <span class="inline-block rounded-full bg-blue-900/20 px-3 py-1 text-sm font-medium text-blue-400">
+                    {app.category}
+                  </span>
+                </div>
+              </div>
+              <p class="description select-none">
+                {app.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const updateMousePosition = (event: MouseEvent & { currentTarget: HTMLElement }) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    event.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    event.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const initCards = () => {
+    document.querySelectorAll<HTMLElement>(".feature-card").forEach((el) => {
+      el.addEventListener("mousemove", updateMousePosition as EventListener);
+    });
+  };
+
+  // Initialize on page load
+  initCards();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener("astro:page-load", initCards);
+  document.addEventListener("astro:after-swap", initCards);
+</script>

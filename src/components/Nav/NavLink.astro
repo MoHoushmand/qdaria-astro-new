@@ -1,7 +1,7 @@
 ---
-interface NavItem {
-  text: string;
-  link: string;
+import type { navLinkItem } from "@config/types/configDataTypes";
+
+interface NavItem extends navLinkItem {
   highlight?: boolean;
 }
 
@@ -21,7 +21,7 @@ const { navItem, class: className = "" } = Astro.props;
       navItem.highlight
         ? "text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
         : "text-base-200 hover:text-primary-400",
-      className
+      className,
     ]}
   >
     {navItem.text}

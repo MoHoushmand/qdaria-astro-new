@@ -1,0 +1,63 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const pageTitle = "AI Solutions | QDaria";
+const description = "Advanced classical HPC and AI offerings for enterprise-scale computing needs.";
+
+const solutions = [
+  {
+    title: "High Performance Computing",
+    description: "Enterprise-grade HPC solutions for computationally intensive tasks.",
+    features: [
+      "Distributed computing architecture",
+      "Scalable processing capabilities",
+      "Advanced resource management",
+      "Real-time monitoring and analytics"
+    ]
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <main class="flex-1">
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>AI Solutions</Badge>
+          <h1 class="h1 mb-8">Classical HPC & Advanced AI</h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+            Enterprise-grade classical computing solutions leveraging advanced AI and HPC capabilities.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {solutions.map((solution) => (
+            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
+              <h3 class="h4 mb-4">{solution.title}</h3>
+              <p class="description mb-6">
+                {solution.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Key Features</h4>
+                <ul class="mt-2 space-y-2">
+                  {solution.features.map((feature) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

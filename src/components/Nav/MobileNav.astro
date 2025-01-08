@@ -1,8 +1,9 @@
 ---
 import NavLink from "@components/Nav/NavLink.astro";
+import type { navItem } from "@config/types/configDataTypes";
 
 interface Props {
-  navData: any[];
+  navData: navItem[];
 }
 
 const { navData } = Astro.props;
@@ -17,9 +18,8 @@ const { navData } = Astro.props;
       {
         navData.map((navItem) => (
           <li>
-            {!("dropdown" in navItem) ? (
-              <NavLink navItem={navItem} />
-            ) : (
+            {/* If navItem has a dropdown, treat it as a parent menu item */}
+            {"dropdown" in navItem ? (
               <div class="mobile-dropdown">
                 <button
                   type="button"
@@ -41,28 +41,21 @@ const { navData } = Astro.props;
                     />
                   </svg>
                 </button>
+
                 <div class="mobile-dropdown-content mt-2 hidden pl-4">
-                  {navItem.dropdown.map((dropdownItem: any) =>
+                  {navItem.dropdown?.map((dropdownItem) =>
                     !("children" in dropdownItem) ? (
-                      <a
-                        href={dropdownItem.link}
-                        class="block rounded-lg px-3 py-2 text-base-200 transition-all hover:bg-base-800"
-                      >
-                        {dropdownItem.text}
-                      </a>
+                      // If it's a direct link
+                      <NavLink navItem={dropdownItem} />
                     ) : (
+                      // If there's a sub-layer of children
                       <div class="mb-2">
                         <div class="px-3 py-2 text-sm font-semibold text-base-400">
                           {dropdownItem.text}
                         </div>
                         <div class="pl-4">
-                          {dropdownItem.children.map((child: any) => (
-                            <a
-                              href={child.link}
-                              class="block rounded-lg px-3 py-2 text-base-200 transition-all hover:bg-base-800"
-                            >
-                              {child.text}
-                            </a>
+                          {dropdownItem.children?.map((child) => (
+                            <NavLink navItem={child} />
                           ))}
                         </div>
                       </div>
@@ -70,6 +63,9 @@ const { navData } = Astro.props;
                   )}
                 </div>
               </div>
+            ) : (
+              // If navItem has no dropdown, just a direct link
+              <NavLink navItem={navItem} />
             )}
           </li>
         ))
@@ -111,14 +107,16 @@ const { navData } = Astro.props;
 
 <script>
   function initMobileNav() {
-    const dropdownToggles = document.querySelectorAll(".mobile-dropdown-toggle");
+    const dropdownToggles = document.querySelectorAll(
+      ".mobile-dropdown-toggle"
+    );
 
     dropdownToggles.forEach((toggle) => {
       toggle.addEventListener("click", (e) => {
-        const dropdown = (e.currentTarget as HTMLElement).closest(".mobile-dropdown");
+        const dropdown = e.currentTarget.closest(".mobile-dropdown");
         const content = dropdown?.querySelector(".mobile-dropdown-content");
-        const button = e.currentTarget as HTMLElement;
-        
+        const button = e.currentTarget;
+
         if (content) {
           const isExpanded = button.getAttribute("aria-expanded") === "true";
           button.setAttribute("aria-expanded", (!isExpanded).toString());
@@ -129,10 +127,9 @@ const { navData } = Astro.props;
     });
   }
 
-  // Initialize on page load
   initMobileNav();
 
-  // Re-initialize after Astro page transitions
+  // Re-init after Astro page transitions
   document.addEventListener("astro:page-load", initMobileNav);
   document.addEventListener("astro:after-swap", initMobileNav);
 </script>

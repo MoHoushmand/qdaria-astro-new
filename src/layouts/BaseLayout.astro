@@ -1,49 +1,25 @@
 ---
-import BaseHead from "@layouts/BaseHead.astro";
+import BaseHead from './BaseHead.astro';
+import Nav from '@components/Nav/Nav.astro';
+import Footer from '@components/Footer/Footer.astro';
 
-interface Props {
-  title: string;
-  description: string;
+export interface Props {
+  title?: string;
+  description?: string;
+  children?: any;
 }
 
 const { title, description } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en" class="dark">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
   <head>
-    <BaseHead {title} {description} />
+    <BaseHead title={title} description={description} />
   </head>
-  <body class="bg-dark-bg min-h-screen">
+  <body class="min-h-screen bg-background font-sans antialiased">
+    <Nav />
     <slot />
+    <Footer />
   </body>
 </html>
-
-<style is:global>
-  :root {
-    color-scheme: dark;
-  }
-
-  html {
-    @apply scroll-smooth;
-  }
-
-  body {
-    @apply min-h-screen;
-  }
-
-  .site-container {
-    @apply mx-auto w-full max-w-7xl px-6 lg:px-8;
-  }
-
-  [data-scroll-reveal] {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  }
-
-  [data-scroll-reveal].revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>

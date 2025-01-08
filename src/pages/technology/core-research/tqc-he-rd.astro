@@ -1,0 +1,323 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Badge from "@components/Badge/Badge.astro";
+import Button from "@components/Button/Button.astro";
+
+const advantages = [
+  {
+    title: "Topological Protection",
+    description: "Our Fibonacci anyons provide inherent error protection through topological properties, achieving 99.99% error resistance.",
+    details: [
+      "Error-resistant qubits",
+      "Topological shielding",
+      "Stable quantum states",
+      "Robust operations"
+    ]
+  },
+  {
+    title: "Extended Coherence",
+    description: "1000x longer coherence times compared to traditional qubits, enabling complex quantum computations.",
+    details: [
+      "Long-lived qubits",
+      "Stable computations",
+      "Reduced decoherence",
+      "Extended operation time"
+    ]
+  },
+  {
+    title: "Scalable Architecture",
+    description: "Designed for seamless scaling to 100+ logical qubits while maintaining stability and performance.",
+    details: [
+      "Modular design",
+      "Linear scaling",
+      "Efficient coupling",
+      "Flexible expansion"
+    ]
+  },
+  {
+    title: "Quantum Error Correction",
+    description: "Built-in error correction through topological protection, reducing overhead and complexity.",
+    details: [
+      "Native error protection",
+      "Reduced overhead",
+      "Simplified correction",
+      "High fidelity"
+    ]
+  }
+];
+
+const applications = [
+  {
+    title: "Financial Modeling",
+    description: "Quantum algorithms for portfolio optimization and risk analysis",
+    readiness: "Production Ready",
+    availability: "Q2 2025"
+  },
+  {
+    title: "Drug Discovery",
+    description: "Molecular simulation for pharmaceutical research",
+    readiness: "Beta Testing",
+    availability: "Q3 2025"
+  },
+  {
+    title: "Climate Modeling",
+    description: "Complex environmental system simulations",
+    readiness: "Development",
+    availability: "Q4 2025"
+  },
+  {
+    title: "Cryptography",
+    description: "Post-quantum encryption and security solutions",
+    readiness: "Production Ready",
+    availability: "Q1 2025"
+  }
+];
+
+const milestones = [
+  {
+    date: "May 2025",
+    title: "First Quantum Computer in Norway",
+    description: "Launch of the Rigetti Novera QPU, marking Norway's entry into quantum computing infrastructure."
+  },
+  {
+    date: "June 2025",
+    title: "Topological Quantum Computer",
+    description: "Unveiling of our large-scale topological quantum computer featuring Fibonacci anyons."
+  },
+  {
+    date: "October 2024",
+    title: "IQT New York",
+    description: "CEO presentation on breakthrough achievements in topological quantum computing."
+  },
+  {
+    date: "May 2026",
+    title: "IQT Nordics",
+    description: "Hosting the prestigious quantum technology conference in Oslo."
+  }
+];
+---
+
+<BaseLayout
+  title="Topological Quantum AI Lab - QDaria"
+  description="QDaria is revolutionizing quantum computing through topological protection with Fibonacci anyons, achieving unprecedented error resistance and scalability."
+>
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto max-w-4xl text-center">
+          <Badge>Core Research</Badge>
+          <h1 class="h1 mb-8 text-gradient-blue select-none">
+            Pioneering Fault-Tolerant Quantum Computing
+          </h1>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl select-none">
+            QDaria is revolutionizing quantum computing through topological protection with Fibonacci anyons, achieving unprecedented error resistance and scalability.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Advantages -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Advantages</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Technological Advantages</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Our breakthrough approach delivers unmatched stability and scalability.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {advantages.map((advantage) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="h4 mb-4 text-gradient-blue">{advantage.title}</h3>
+              <p class="description mb-6 select-none">
+                {advantage.description}
+              </p>
+              <div>
+                <h4 class="text-sm font-medium text-blue-400">Key Features</h4>
+                <ul class="mt-2 space-y-2 select-none">
+                  {advantage.details.map((detail) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 text-blue-400">•</span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Applications -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Applications</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Industry Applications</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Transforming industries through quantum innovation.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {applications.map((app) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <div class="mb-4 flex items-start justify-between">
+                <h3 class="h4 text-gradient-blue">{app.title}</h3>
+                <span class="inline-block rounded-full bg-primary-900/20 px-3 py-1 text-sm font-medium text-primary-400">
+                  {app.readiness}
+                </span>
+              </div>
+              <p class="description mb-4 select-none">
+                {app.description}
+              </p>
+              <p class="text-sm text-blue-400">
+                Available: {app.availability}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Milestones -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="mx-auto mb-16 text-center md:max-w-2xl">
+          <Badge>Roadmap</Badge>
+          <h2 class="h2 mb-4 text-gradient-blue">Upcoming Milestones</h2>
+          <p class="description text-lg md:text-xl select-none">
+            Our journey to quantum supremacy.
+          </p>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
+          {milestones.map((milestone) => (
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <div class="mb-4">
+                <span class="inline-block rounded-full bg-primary-900/20 px-3 py-1 text-sm font-medium text-primary-400">
+                  {milestone.date}
+                </span>
+              </div>
+              <h3 class="h4 mb-4 text-gradient-blue">{milestone.title}</h3>
+              <p class="description select-none">
+                {milestone.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 md:py-20">
+      <div class="site-container">
+        <div class="feature-card mx-auto max-w-4xl rounded-xl p-8 text-center">
+          <h2 class="h2 mb-4 text-gradient-blue select-none">Join the Quantum Revolution</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg select-none">
+            Ready to explore the possibilities of quantum computing? Contact us to learn how our technology can transform your organization.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <Button
+              variant="primary"
+              href="/contact"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              Contact Us
+            </Button>
+            <Button
+              variant="ghost"
+              href="/whitepaper"
+              class="feature-card rounded-lg px-6 py-3 text-gray-300"
+            >
+              Read Whitepaper
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const updateMousePosition = (event: MouseEvent & { currentTarget: HTMLElement }) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    event.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    event.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const initCards = () => {
+    document.querySelectorAll<HTMLElement>(".feature-card").forEach((el) => {
+      el.addEventListener("mousemove", updateMousePosition as EventListener);
+    });
+  };
+
+  // Initialize on page load
+  initCards();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener("astro:page-load", initCards);
+  document.addEventListener("astro:after-swap", initCards);
+</script>

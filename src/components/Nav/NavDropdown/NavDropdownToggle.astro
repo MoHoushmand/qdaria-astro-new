@@ -1,20 +1,11 @@
 ---
 import NavDropdown from "./NavDropdown.astro";
 
-interface DropdownItem {
-  text: string;
-  link?: string;
-  description?: string;
-  children?: DropdownItem[];
-}
-
-interface NavItem {
-  text: string;
-  dropdown: DropdownItem[];
-}
+import type { navItem } from "@config/types/configDataTypes";
+import { isNavDropdownItem } from "@config/types/configDataTypes";
 
 interface Props {
-  navItem: NavItem;
+  navItem: navItem;
 }
 
 const { navItem } = Astro.props;
@@ -45,9 +36,9 @@ const { navItem } = Astro.props;
   <div class="nav-dropdown-panel absolute left-0 top-full z-10 mt-1 hidden w-max min-w-[240px] origin-top-left opacity-0 transition-all duration-200 group-hover:block group-hover:opacity-100">
     <div class="rounded-xl border border-primary-500/30 bg-dark-bg p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
       <div class="py-1">
-        {navItem.dropdown.map((item) => (
+        {isNavDropdownItem(navItem) && navItem.dropdown.map((item) => (
           <div class="relative group/sub">
-            {item.children ? (
+            {isNavDropdownItem(item) ? (
               <>
                 <button
                   type="button"
@@ -77,7 +68,7 @@ const { navItem } = Astro.props;
                 <div class="nav-dropdown-sub absolute left-full top-0 hidden min-w-[240px] pl-2 group-hover/sub:block">
                   <div class="rounded-xl border border-primary-500/30 bg-dark-bg p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="py-1">
-                      {item.children.map((child) => (
+                      {isNavDropdownItem(item) && item.dropdown.map((child) => (
                         <a
                           href={child.link}
                           class="nav-dropdown-item flex w-full items-start"
