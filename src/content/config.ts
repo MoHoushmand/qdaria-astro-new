@@ -1,15 +1,14 @@
 import { defineCollection, z } from 'astro:content';
-import { Image } from 'astro:assets';
 
 const blog = defineCollection({
   type: 'content',
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string().optional(),
-    pubDate: z.date(),
+    pubDate: z.coerce.date(),
     categories: z.array(z.string()),
     authors: z.array(z.string()).optional(),
-    heroImage: z.string().transform((str) => new URL(str, import.meta.url)),
+    heroImage: image(),
     draft: z.boolean().optional(),
   }),
 });
