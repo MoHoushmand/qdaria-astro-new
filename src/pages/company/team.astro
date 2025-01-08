@@ -1,23 +1,44 @@
 ---
-import { Image } from "astro:assets";
+declare global {
+  interface Window {
+    toggleBio: (id: string) => void;
+  }
+}
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Badge from "@components/Badge/Badge.astro";
 import Button from "@components/Button/Button.astro";
 
-// Import team member images
-import moImage from "@assets/images/team/mo.jpg";
-import jonnaImage from "@assets/images/team/jonna.jpg";
-import nickImage from "@assets/images/team/nick.jpg";
-import fredrikImage from "@assets/images/team/fredrik.jpg";
-import emanueleImage from "@assets/images/team/emanuele.jpg";
-import gasparImage from "@assets/images/team/gaspar.jpg";
-import milenImage from "@assets/images/team/milen.jpg";
-import carolineImage from "@assets/images/team/caroline.jpg";
-import nilsImage from "@assets/images/team/nils.jpg";
-import dariaImage from "@assets/images/team/daria.jpg";
-import shararehImage from "@assets/images/team/sharareh.jpg";
-import lillianImage from "@assets/images/team/lillian.jpg";
-import gryImage from "@assets/images/team/gry.jpg";
+// Team member image paths
+const moImage = "/images/team/mo.jpg";
+const johnImage = "/images/team/john.jpg";
+const nickImage = "/images/team/nick.jpg";
+const fredrikImage = "/images/team/fredrik.jpg";
+const emanueleImage = "/images/team/emanuele.jpg";
+const gasparImage = "/images/team/gaspar.jpg";
+const milenImage = "/images/team/milen.jpg";
+const carolineImage = "/images/team/caroline.jpg";
+const nilsImage = "/images/team/nils.jpg";
+const dariaImage = "/images/team/daria.jpg";
+const shararehImage = "/images/team/sharareh.jpg";
+const lillianImage = "/images/team/lillian.jpg";
+const gryImage = "/images/team/gry.jpg";
+
+// Debug logging
+console.log('Team images loaded:', {
+  moImage,
+  johnImage,
+  nickImage,
+  fredrikImage,
+  emanueleImage,
+  gasparImage,
+  milenImage,
+  carolineImage,
+  nilsImage,
+  dariaImage,
+  shararehImage,
+  lillianImage,
+  gryImage
+});
 
 // Page metadata
 const pageTitle = "Our Team | QDaria Quantum Technologies";
@@ -110,7 +131,7 @@ field. As QDaria challenges the boundaries of quantum innovation, John's operati
 focus on strategic growth remain indispensable. His dedication to excellence has helped sustain 
 QDaria's momentum as a global quantum leader, ensuring that governance, resource allocation, 
 and process optimization keep pace with the company's visionary leaps forward.`,
-    image: jonnaImage,
+    image: johnImage,
     email: "john@qdaria.com",
     linkedin: "https://www.linkedin.com/in/john-kristiansen/",
   },
@@ -354,17 +375,18 @@ in the quantum domain.`,
         <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2">
           {
             teamMembers.map((member) => (
-              <div class="feature-card group relative overflow-hidden rounded-xl p-8 transition-all duration-500 hover:scale-[1.02]">
+                <div class="feature-card group relative overflow-hidden rounded-xl p-8 transition-all duration-500 hover:scale-[1.02] cursor-pointer" onclick="toggleBio('${member.name.replace(/\s+/g, '-').toLowerCase()}')">
                 <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-emerald-600/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 <div class="relative flex flex-col md:flex-row md:gap-8">
                   <div class="mb-6 md:mb-0 md:w-1/3">
                     <div class="relative w-40 h-40">
-                      <Image
+                      <img
                         src={member.image}
                         alt={member.name}
                         class="rounded-full object-cover w-full h-full shadow-lg transition-transform duration-500 group-hover:scale-105"
                         width={160}
                         height={160}
+                        loading="lazy"
                       />
                       <div class="absolute inset-0 rounded-full border-2 border-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
@@ -376,20 +398,23 @@ in the quantum domain.`,
                     <p class="mb-4 text-blue-400">{member.role}</p>
                     <div class="relative">
                       <div class="relative">
-                        <div class="description text-gray-300/90 transition-all duration-500 overflow-hidden" 
+                        <div class="description text-gray-300/90 transition-all duration-500 overflow-hidden relative" 
                              style="max-height: 6rem;"
                              id={`bio-${member.name.replace(/\s+/g, '-').toLowerCase()}`}>
-                          <div class="absolute inset-0 bg-gradient-to-b from-gray-900/0 via-gray-900/50 to-gray-900 transition-opacity duration-500"
+                          <div class="absolute inset-0 bg-gradient-to-b from-gray-900/0 via-gray-900/50 to-gray-900 transition-opacity duration-500 pointer-events-none"
                                id={`gradient-${member.name.replace(/\s+/g, '-').toLowerCase()}`}></div>
-                          <p>{member.bio}</p>
+                          <p class="transition-opacity duration-300">{member.bio}</p>
                         </div>
-                        <button 
-                          class="mt-2 text-blue-400 hover:text-blue-300 transition-colors duration-200"
-                          onclick={`toggleBio('${member.name.replace(/\s+/g, '-').toLowerCase()}')`}
-                          aria-expanded="false"
-                          aria-controls={`bio-${member.name.replace(/\s+/g, '-').toLowerCase()}`}>
-                          Read More
-                        </button>
+                        <div class="mt-2">
+                          <button 
+                            class="text-blue-400 hover:text-blue-300 transition-colors duration-200 group-hover:underline"
+                            onclick="event.stopPropagation(); toggleBio('${member.name.replace(/\s+/g, '-').toLowerCase()}')"
+                            aria-expanded="false"
+                            aria-controls={`bio-${member.name.replace(/\s+/g, '-').toLowerCase()}`}>
+                            Read More
+                            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">↓</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -435,8 +460,51 @@ in the quantum domain.`,
           <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600/20 via-transparent to-emerald-600/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"></div>
         </div>
       </div>
-    </section>
-  </main>
+</section>
+</main>
+
+<script>
+// Toggle bio visibility
+function toggleBio(id: string): void {
+  const bio = document.getElementById(`bio-${id}`);
+  const gradient = document.getElementById(`gradient-${id}`);
+  
+  if (!bio || !gradient) {
+    console.error(`Could not find bio elements for id: ${id}`);
+    return;
+  }
+
+  const isExpanded = bio.style.maxHeight !== '6rem';
+  bio.style.maxHeight = isExpanded ? '6rem' : `${bio.scrollHeight}px`;
+  gradient.style.opacity = isExpanded ? '1' : '0';
+}
+
+// Initialize event listeners after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.feature-card');
+  
+  cards.forEach(card => {
+    const heading = card.querySelector('h2');
+    if (!heading) {
+      console.error('Could not find heading element in card');
+      return;
+    }
+    
+    const name = heading.textContent?.trim().toLowerCase().replace(/\s+/g, '-') ?? '';
+    if (!name) {
+      console.error('Could not get name from heading');
+      return;
+    }
+    
+    card.setAttribute('onclick', `toggleBio('${name}')`);
+    
+    const readMoreBtn = card.querySelector('button');
+    if (readMoreBtn) {
+      readMoreBtn.setAttribute('onclick', `event.stopPropagation(); toggleBio('${name}')`);
+    }
+  });
+});
+</script>
 </BaseLayout>
 
 <style>
@@ -486,8 +554,8 @@ in the quantum domain.`,
   }
 </style>
 
-<script>
-  const updateMousePosition = (event: MouseEvent & { currentTarget: HTMLElement }) => {
+<script type="module">
+  const updateMousePosition = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -496,53 +564,184 @@ in the quantum domain.`,
   };
 
   const initCards = () => {
-    document.querySelectorAll<HTMLElement>(".feature-card").forEach((el) => {
-      el.addEventListener("mousemove", updateMousePosition as EventListener);
+    document.querySelectorAll(".feature-card").forEach((el) => {
+      el.addEventListener("mousemove", updateMousePosition);
     });
   };
 
-  // Initialize on page load
-  initCards();
+  // Initialize cards and bios on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    initCards();
+    console.log('Initialized team page interactions');
+  });
 
   // Re-initialize after Astro page transitions
-  document.addEventListener("astro:page-load", initCards);
-  document.addEventListener("astro:after-swap", initCards);
+  document.addEventListener("astro:page-load", () => {
+    initCards();
+    console.log('Re-initialized after Astro page load');
+  });
+  document.addEventListener("astro:after-swap", () => {
+    initCards();
+    console.log('Re-initialized after Astro swap');
+  });
 
-  // Declare toggleBio on Window interface
-  declare global {
-    interface Window {
-      toggleBio: (id: string) => void;
-    }
-  }
-
-  // Make toggleBio globally accessible
-  window.toggleBio = function(id: string) {
-    const bio = document.getElementById(`bio-${id}`);
-    const gradient = document.getElementById(`gradient-${id}`);
-    if (!bio || !gradient) return;
-    
-    const button = bio.parentElement?.nextElementSibling;
-    if (!button || !(button instanceof HTMLElement)) return;
-    
-    const isExpanded = bio.style.maxHeight === 'none';
-    
-    if (isExpanded) {
-      bio.style.maxHeight = '6rem';
-      gradient.style.opacity = '1';
-      button.textContent = 'Read More';
-      button.setAttribute('aria-expanded', 'false');
-    } else {
-      bio.style.maxHeight = `${bio.scrollHeight}px`;
-      gradient.style.opacity = '0';
-      button.textContent = 'Read Less';
-      button.setAttribute('aria-expanded', 'true');
+  // Enhanced toggleBio function with smooth transitions and accessibility
+  function toggleBio(id) {
+    console.log('toggleBio called for:', id);
+    try {
+      const bio = document.getElementById(`bio-${id}`);
+      const gradient = document.getElementById(`gradient-${id}`);
+      const button = document.querySelector(`[aria-controls="bio-${id}"]`);
       
-      // Remove max-height after transition completes
-      setTimeout(() => {
-        if (bio.style.maxHeight !== '6rem') {
-          bio.style.maxHeight = 'none';
-        }
-      }, 500);
+      console.log('Elements found:', {bio, gradient, button});
+      
+      if (!bio || !gradient || !button) {
+        console.error('Could not find bio elements for:', id);
+        console.log('Available elements:', {
+          bios: document.querySelectorAll('[id^="bio-"]'),
+          gradients: document.querySelectorAll('[id^="gradient-"]'),
+          buttons: document.querySelectorAll('[aria-controls^="bio-"]')
+        });
+        return;
+      }
+
+      const card = bio.closest('.feature-card');
+      if (!card) {
+        console.error('Could not find card element for:', id);
+        return;
+      }
+
+      const isExpanded = bio.getAttribute('aria-expanded') === 'true';
+      
+      // Add transition properties
+      bio.style.transition = 'max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+      gradient.style.transition = 'opacity 0.3s ease';
+      
+      if (isExpanded) {
+        // Collapse
+        const currentHeight = bio.scrollHeight;
+        bio.style.maxHeight = `${currentHeight}px`;
+        // Force reflow
+        void bio.offsetHeight;
+        bio.style.maxHeight = '6rem';
+        gradient.style.opacity = '1';
+        button.innerHTML = 'Read More <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">↓</span>';
+        button.setAttribute('aria-label', `Expand bio for ${id.replace(/-/g, ' ')}`);
+        bio.setAttribute('aria-expanded', 'false');
+        card.classList.remove('expanded');
+      } else {
+        // Expand
+        const fullHeight = bio.scrollHeight + 'px';
+        bio.style.maxHeight = fullHeight;
+        gradient.style.opacity = '0';
+        button.innerHTML = 'Read Less <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">↑</span>';
+        button.setAttribute('aria-label', `Collapse bio for ${id.replace(/-/g, ' ')}`);
+        bio.setAttribute('aria-expanded', 'true');
+        card.classList.add('expanded');
+        
+        // Remove max-height after transition
+        bio.addEventListener('transitionend', () => {
+          if (bio.style.maxHeight !== '6rem') {
+            bio.style.maxHeight = 'none';
+          }
+        }, { once: true });
+      }
+    } catch (error) {
+      console.error('Error toggling bio:', error);
     }
   }
-</script>
+
+  // Initialize bios to show full content if short enough
+  function initBioHeights() {
+    document.querySelectorAll<HTMLElement>('[id^="bio-"]').forEach(bio => {
+      if (bio.scrollHeight <= 96) { // 6rem = 96px
+        bio.style.maxHeight = 'none';
+        bio.setAttribute('aria-expanded', 'true');
+        const button = document.querySelector(`[aria-controls="${bio.id}"]`);
+        if (button) {
+          button.textContent = 'Read Less';
+          button.setAttribute('aria-label', `Collapse bio for ${bio.id.replace('bio-', '').replace(/-/g, ' ')}`);
+        }
+      }
+    });
+  }
+
+  // Initialize all functionality
+  function initializePage() {
+    console.log('Initializing page functionality...');
+    
+    // Initialize card hover effects
+    initCards();
+    
+    // Initialize bio heights and click handlers
+    document.querySelectorAll<HTMLElement>('[id^="bio-"]').forEach(bio => {
+      console.log(`Initializing bio: ${bio.id}`);
+      
+      // Show full bio if content is short
+      if (bio.scrollHeight <= 96) {
+        bio.style.maxHeight = 'none';
+        bio.setAttribute('aria-expanded', 'true');
+        const button = document.querySelector(`[aria-controls="${bio.id}"]`);
+        if (button) {
+          button.textContent = 'Read Less';
+          button.setAttribute('aria-label', `Collapse bio for ${bio.id.replace('bio-', '').replace(/-/g, ' ')}`);
+        }
+      }
+      
+      // Add click handlers to bio buttons
+      const buttons = document.querySelectorAll('[aria-controls^="bio-"]');
+      buttons.forEach(button => {
+        console.log(`Adding click handler for button: ${button.getAttribute('aria-controls')}`);
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          console.log(`Button clicked: ${button.getAttribute('aria-controls')}`);
+          const id = button.getAttribute('aria-controls')?.replace('bio-', '');
+          if (id) {
+            console.log(`Toggling bio for: ${id}`);
+            toggleBio(id);
+          }
+        });
+      });
+    });
+    
+    // Add click handler to cards
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const bioId = card.querySelector('[id^="bio-"]')?.id.replace('bio-', '');
+        if (bioId) {
+          console.log(`Card clicked, toggling bio: ${bioId}`);
+          toggleBio(bioId);
+        }
+      });
+    });
+  }
+
+  // Attach toggleBio to window
+  window.toggleBio = toggleBio;
+
+  // Initialize on page load and Astro navigation
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded event fired');
+    initializePage();
+  });
+  document.addEventListener('astro:page-load', () => {
+    console.log('astro:page-load event fired');
+    initializePage();
+  });
+  document.addEventListener('astro:after-swap', () => {
+    console.log('astro:after-swap event fired');
+    initializePage();
+  });
+
+  // Initialize immediately if DOM is already loaded
+  if (document.readyState === 'complete') {
+    console.log('Document already loaded, initializing immediately');
+    initializePage();
+  }
+
+  // Debug logging for initialization
+  console.log('Team page script loaded');
+  console.log('Window.toggleBio exists:', typeof window.toggleBio === 'function');
+  console.log('Initial cards:', document.querySelectorAll('.feature-card').length);
+  console.log('Initial bios:', document.querySelectorAll('[id^="bio-"]').length);
+  console.log('Initial buttons:', document.querySelectorAll('[aria-controls^="bio-"]').length);

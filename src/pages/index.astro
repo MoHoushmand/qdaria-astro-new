@@ -319,6 +319,29 @@ const timeline = [
     <!-- Hero Section with electric background -->
     <HeroSideElectric />
 
+    <!-- Centered QDaria Logo with floating animation -->
+    <div class="flex justify-center py-24">
+      <img 
+        src="/icons/qdaria/QDaria_logo_teal.png" 
+        alt="QDaria Logo"
+        class="w-[420px] h-auto animate-float"
+      />
+    </div>
+
+    <style>
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      .animate-float {
+        animation: float 4s ease-in-out infinite;
+      }
+    </style>
+
     <!-- Logos / Collaborators carousel -->
     <LogoCloudMarquee />
 
@@ -484,18 +507,19 @@ const timeline = [
 
   gsap.registerPlugin(ScrollTrigger);
 
-  function updateMousePosition(e: MouseEvent) {
+  function updateMousePosition(e: Event) {
     const target = e.currentTarget as HTMLElement;
+    const mouseEvent = e as MouseEvent;
     const rect = target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = mouseEvent.clientX - rect.left;
+    const y = mouseEvent.clientY - rect.top;
     target.style.setProperty("--mouse-x", `${x}px`);
     target.style.setProperty("--mouse-y", `${y}px`);
   }
 
   function initCards() {
     document.querySelectorAll(".feature-card").forEach((el) => {
-      el.addEventListener("mousemove", updateMousePosition);
+      el.addEventListener("mousemove", updateMousePosition as EventListener);
     });
   }
 
