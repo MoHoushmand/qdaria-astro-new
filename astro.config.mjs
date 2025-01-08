@@ -50,6 +50,7 @@ export default defineConfig({
         '@config': fileURLToPath(new URL('./src/config', import.meta.url)),
         '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
         '@images': fileURLToPath(new URL('./src/assets/images', import.meta.url)),
+        '@videos': fileURLToPath(new URL('./src/assets/videos', import.meta.url)),
         '@styles': fileURLToPath(new URL('./src/styles', import.meta.url)),
         '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
         '@js': fileURLToPath(new URL('./src/js', import.meta.url))
