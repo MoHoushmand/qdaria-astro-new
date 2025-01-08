@@ -1,17 +1,18 @@
-// const blog = defineCollection({
-//   type: 'content',
-//   schema: z.object({
-//     title: z.string(),
-//     description: z.string().optional(),
-//     pubDate: z.date(),
-//     author: z.string().optional(),
-//     image: z.string().optional(),
-//     tags: z.array(z.string()).optional(),
-//     draft: z.boolean().optional(),
-//   }),
-// });
-
 import { defineCollection, z } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const blog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    pubDate: z.date(),
+    categories: z.array(z.string()),
+    authors: z.array(z.string()).optional(),
+    heroImage: z.string().transform((str) => new URL(str, import.meta.url)),
+    draft: z.boolean().optional(),
+  }),
+});
 
 const authors = defineCollection({
   type: 'content',
@@ -27,4 +28,5 @@ const authors = defineCollection({
 
 export const collections = {
   authors,
+  blog,
 }
