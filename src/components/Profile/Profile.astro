@@ -1,70 +1,60 @@
 ---
-import { useState, MouseEvent } from 'react';
-
-declare const Astro: {
-  props: {
-    image: string;
-    name: string;
-    title: string;
-    bio: string;
-  };
-};
+interface Props {
+  image: string;
+  name: string;
+  title: string;
+  bio: string;
+}
 
 const { image, name, title, bio } = Astro.props;
-
-const ProfileComponent = () => {
-  console.log('Profile props:', { image, name, title, bio });
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpand = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    console.log('Toggling expand:', !isExpanded);
-    setIsExpanded(!isExpanded);
-  };
-
-  return (
-    <div class="w-full">
-      <div
-        class="hover-border-glow h-full rounded-xl border border-base-200 bg-base-100 p-6 dark:border dark:border-base-800 dark:bg-base-950"
-      >
-        <img
-          src={image}
-          alt={name}
-          height={112}
-          width={112}
-          class="mb-6 mr-auto aspect-square size-20 rounded-full border border-base-200 object-cover md:size-28 dark:border-base-800"
-          loading="lazy"
-          onError={(e) => console.error('Image failed to load:', image)}
-          style={{ border: '2px solid red' }} // Temporary debug border
-        />
-        <h3 class="main-text-gradient mb-2 text-2xl font-medium leading-tight tracking-tight md:text-3xl md:leading-tight">
-          {name}
-        </h3>
-        <span class="mb-4 inline-block text-primary-600 dark:text-primary-400">
-          {title}
-        </span>
-        <div class="relative">
-          <p
-            class={`description transition-all duration-300 ${
-              isExpanded ? 'max-h-[500px]' : 'max-h-[100px] overflow-hidden'
-            }`}
-          >
-            {bio}
-          </p>
-          {!isExpanded && (
-            <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-base-100 to-transparent dark:from-base-950"></div>
-          )}
-        </div>
-        <button
-          class="mt-4 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
-          onClick={toggleExpand}
-        >
-          {isExpanded ? 'Read less' : 'Read more'}
-        </button>
-      </div>
-    </div>
-  );
-};
 ---
 
-<ProfileComponent />
+<div class="w-full">
+  <div class="hover-border-glow h-full rounded-xl border border-base-200 bg-base-100 p-6 dark:border dark:border-base-800 dark:bg-base-950">
+    <img
+      src={image}
+      alt={name}
+      height={112}
+      width={112}
+      class="mb-6 mr-auto aspect-square size-20 rounded-full border border-base-200 object-cover md:size-28 dark:border-base-800"
+      loading="lazy"
+    />
+    <h3 class="main-text-gradient mb-2 text-2xl font-medium leading-tight tracking-tight md:text-3xl md:leading-tight">
+      {name}
+    </h3>
+    <span class="mb-4 inline-block text-primary-600 dark:text-primary-400">
+      {title}
+    </span>
+    <div class="relative">
+      <p class="description max-h-[100px] overflow-hidden transition-all duration-300" id="bio">
+        {bio}
+      </p>
+      <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-base-100 to-transparent dark:from-base-950"></div>
+    </div>
+    <button
+      class="mt-4 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+      data-expand
+    >
+      Read more
+    </button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-expand]').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const bio = (e.target as HTMLElement).closest('div')?.querySelector('#bio');
+      if (bio) {
+        if (bio.classList.contains('max-h-[100px]')) {
+          bio.classList.remove('max-h-[100px]');
+          bio.classList.add('max-h-[500px]');
+          (e.target as HTMLElement).textContent = 'Read less';
+        } else {
+          bio.classList.remove('max-h-[500px]');
+          bio.classList.add('max-h-[100px]');
+          (e.target as HTMLElement).textContent = 'Read more';
+        }
+      }
+    });
+  });
+</script>
