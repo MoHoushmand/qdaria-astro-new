@@ -16,7 +16,7 @@ const { navData } = Astro.props;
   <nav class="site-container py-8">
     <ul class="flex flex-col gap-4">
       {
-        navData.map((navItem) => (
+        navData.map((navItem: navItem) => (
           <li>
             {/* If navItem has a dropdown, treat it as a parent menu item */}
             {"dropdown" in navItem ? (
@@ -43,8 +43,8 @@ const { navData } = Astro.props;
                 </button>
 
                 <div class="mobile-dropdown-content mt-2 hidden pl-4">
-                  {navItem.dropdown?.map((dropdownItem) =>
-                    !("children" in dropdownItem) ? (
+                  {navItem.dropdown?.map((dropdownItem: navItem) =>
+                    !("dropdown" in dropdownItem) ? (
                       // If it's a direct link
                       <NavLink navItem={dropdownItem} />
                     ) : (
@@ -54,7 +54,7 @@ const { navData } = Astro.props;
                           {dropdownItem.text}
                         </div>
                         <div class="pl-4">
-                          {dropdownItem.children?.map((child) => (
+                          {dropdownItem.dropdown?.map((child: navItem) => (
                             <NavLink navItem={child} />
                           ))}
                         </div>
@@ -80,12 +80,14 @@ const { navData } = Astro.props;
     pointer-events: none;
     transform: translateY(-1rem);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
   }
 
   .mobile-nav.show {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
+    display: block;
   }
 
   .mobile-dropdown-toggle svg {
@@ -107,23 +109,27 @@ const { navData } = Astro.props;
 
 <script>
   function initMobileNav() {
-    const dropdownToggles = document.querySelectorAll(
-      ".mobile-dropdown-toggle"
-    );
-
-    dropdownToggles.forEach((toggle) => {
-      toggle.addEventListener("click", (e) => {
-        const dropdown = e.currentTarget.closest(".mobile-dropdown");
-        const content = dropdown?.querySelector(".mobile-dropdown-content");
-        const button = e.currentTarget;
-
-        if (content) {
-          const isExpanded = button.getAttribute("aria-expanded") === "true";
-          button.setAttribute("aria-expanded", (!isExpanded).toString());
-          content.classList.toggle("hidden");
-          content.classList.toggle("show");
-        }
+    // Handle dropdown toggles
+    document.querySelectorAll<HTMLButtonElement>('.mobile-nav-dropdown-toggle').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        const dropdown = target.closest<HTMLElement>('.mobile-nav-dropdown');
+        if (!dropdown) return;
+        
+        const isExpanded = target.getAttribute('aria-expanded') === 'true';
+        target.setAttribute('aria-expanded', (!isExpanded).toString());
+        dropdown.classList.toggle('open');
       });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.mobile-nav-dropdown')) {
+        document.querySelectorAll<HTMLElement>('.mobile-nav-dropdown').forEach(dropdown => {
+          dropdown.classList.remove('open');
+        });
+      }
     });
   }
 

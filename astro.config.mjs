@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: netlify(),
   security: {
     headers: {
-      "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+      "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' blob:; font-src 'self' data:;"
     }
   },
   redirects: {
