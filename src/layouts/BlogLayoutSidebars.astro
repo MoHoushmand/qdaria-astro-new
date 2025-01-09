@@ -1,27 +1,37 @@
 ---
 import { type CollectionEntry, getEntries } from "astro:content";
 import { Image } from "astro:assets";
+import { getImage } from "astro:assets";
 import { Icon } from "astro-icon";
 
 // main layout
 import BaseLayout from "./BaseLayout.astro";
 
 // components
-import Category from "@components/Category/Category.astro";
-import Button from "@components/Button/Button.astro";
-import TableOfContents from "@components/TableOfContents/TableOfContents.astro";
+import Category from "../components/Category/Category.astro";
+import Button from "../components/Button/Button.astro";
+import TableOfContents from "../components/TableOfContents/TableOfContents.astro";
 
 // utils
-import { formatDate, humanize, slugify } from "@js/textUtils";
-import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
+import { formatDate, humanize, slugify } from "../js/textUtils";
+import { getLocaleFromUrl } from "../js/localeUtils";
+import { useTranslations } from "../js/translationUtils";
+
+interface Author {
+  name: string;
+  role?: string;
+  bio?: string;
+  avatar: ImageMetadata;
+  email?: string;
+  linkedin?: string;
+}
 
 interface Props {
   post: CollectionEntry<"blog">;
-  headings: import("astro").MarkdownHeading[];
+  headings: { depth: number; slug: string; text: string }[];
 }
 
-const { post, headings } = Astro.props as Props;
+const { post, headings } = Astro.props;
 const {
   title,
   description,
@@ -33,8 +43,18 @@ const {
 } = post.data;
 
 const currLocale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(currLocale);
-const authorsData = await getEntries(authors);
+const t = useTranslations({ url: Astro.url, locals: { locale: currLocale } });
+interface AuthorEntry {
+  collection: "authors";
+  id: string;
+}
+
+const authorEntries = authors 
+  ? await getEntries(authors.map((author: string): AuthorEntry => ({ 
+      collection: "authors", 
+      id: author 
+    }))) as CollectionEntry<"authors">[]
+  : [];
 ---
 
 <BaseLayout
@@ -42,7 +62,7 @@ const authorsData = await getEntries(authors);
   title={title}
   description={description}
   image={heroImage}
-  authorsData={authorsData}
+  authorsData={authorEntries}
   postFrontmatter={post.data}
 >
   <article class="site-container mt-20 md:mt-28">
@@ -50,42 +70,32 @@ const authorsData = await getEntries(authors);
     <div class="flex w-full flex-col items-center">
       <div class="mx-auto flex w-full max-w-[800px]">
         <div class="mx-auto text-center">
-          <!-- categories -->
-          <div class="flex w-full justify-center gap-3 md:text-lg">
-            {categories.map((category) => <Category category={category} />)}
-          </div>
+          <nav class="flex w-full justify-center gap-3 md:text-lg">
+            {categories.map((category: string) => (
+              <Category category={category} />
+            ))}
+          </nav>
 
-          <!-- title -->
-          <div class="flex justify-center">
-            <h1 class="h2 mt-4">{title}</h1>
-          </div>
-          <div
-            class="description mt-2 flex w-full flex-wrap justify-center gap-3"
-          >
-            <!-- author info -->
-            {
-              authorsData.map((authorData) => (
-                <div class="mb-auto flex">
-                  <figure>
-                    <Image
-                      src={authorData.data.avatar}
-                      alt={`${authorData.data.name} avatar`}
-                      width={100}
-                      quality="high"
-                      loading="eager"
-                      class="h-7 w-7 rounded-full border border-base-300 object-cover dark:border-base-700"
-                    />
-                  </figure>
-                  <div class="my-auto ml-2">{authorData.data.name}</div>
-                </div>
-              ))
-            }
+          <h1 class="h2 mt-4">{title}</h1>
 
-            <span>&bull;</span>
-
-            <!-- Date -->
-            <time class="my-auto h-full" datetime={pubDate.toISOString()}
-              >{formatDate(pubDate, currLocale)}
+          <div class="mt-2 flex w-full flex-wrap justify-center gap-3">
+            {authorEntries.map((authorData) => (
+              <div class="mb-auto flex">
+                <figure>
+                  <img
+                    src={authorData.data.avatar}
+                    alt={`${authorData.data.name} avatar`}
+                    width="100"
+                    height="100"
+                    class="h-7 w-7 rounded-full border border-base-300 object-cover dark:border-base-700"
+                  />
+                </figure>
+                <div class="my-auto ml-2">{authorData.data.name}</div>
+              </div>
+            ))}
+            <div class="my-auto">&bull;</div>
+            <time class="my-auto h-full" datetime={pubDate.toISOString()}>
+              {formatDate(pubDate, currLocale)}
             </time>
           </div>
         </div>

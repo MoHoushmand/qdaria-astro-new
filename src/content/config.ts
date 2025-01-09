@@ -1,8 +1,9 @@
 import { defineCollection, z } from 'astro:content';
+import type { SchemaContext } from 'astro:content';
 
 const blog = defineCollection({
   type: 'content',
-  schema: ({ image }) => z.object({
+  schema: ({ image }: SchemaContext) => z.object({
     title: z.string(),
     description: z.string().optional(),
     pubDate: z.coerce.date(),
@@ -15,11 +16,11 @@ const blog = defineCollection({
 
 const authors = defineCollection({
   type: 'content',
-  schema: z.object({
+  schema: ({ image }: SchemaContext) => z.object({
     name: z.string(),
     role: z.string().optional(),
     bio: z.string().optional(),
-    image: z.string().optional(),
+    avatar: z.string(),
     email: z.string().optional(),
     linkedin: z.string().optional(),
   }),

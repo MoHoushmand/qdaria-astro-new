@@ -1,0 +1,30 @@
+---
+import { type CollectionEntry } from "astro:content";
+
+// layout
+import BlogLayoutSidebars from "../../layouts/BlogLayoutSidebars.astro";
+
+// components
+import ExternalLink from "../../components/MarkdownComponents/ExternalLink.astro";
+import Admonition from "../../components/Admonition/Admonition.astro";
+
+// utils
+import { getAllPosts } from "../../js/blogUtils";
+import { defaultLocale } from "../../config/siteSettings.json";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts(defaultLocale);
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content, headings } = await post.render();
+---
+
+<BlogLayoutSidebars post={post} headings={headings}>
+  <Content components={{ a: ExternalLink, Admonition }} />
+</BlogLayoutSidebars>

@@ -8,7 +8,7 @@
     },
     "jsx": "preserve",
     "jsxImportSource": "astro",
-    "types": ["astro/client"],
+    "types": ["astro/client", "astro/jsx-runtime"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

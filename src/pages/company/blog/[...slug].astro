@@ -1,31 +1,31 @@
 ---
-import { type InferGetStaticPropsType } from "astro";
+import { type CollectionEntry } from "astro:content";
 
 // layout
-import BlogLayoutCenter from "@layouts/BlogLayoutCenter.astro";
-import BlogLayoutSidebars from "@layouts/BlogLayoutSidebars.astro";
+import BlogLayoutSidebars from "../../../layouts/BlogLayoutSidebars.astro";
 
 // components
-import ExternalLink from "@components/MarkdownComponents/ExternalLink.astro";
+import ExternalLink from "../../../components/MarkdownComponents/ExternalLink.astro";
+import Admonition from "../../../components/Admonition/Admonition.astro";
 
 // utils
-import { getAllPosts } from "@js/blogUtils";
-import { defaultLocale } from "@config/siteSettings.json";
+import { getAllPosts } from "../../../js/blogUtils";
+import { defaultLocale } from "../../../config/siteSettings.json";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts(defaultLocale);
 
-  return posts.map((post) => ({
+  return posts.map((post: CollectionEntry<"blog">) => ({
     params: { slug: post.slug },
     props: post,
   }));
 }
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+type Props = CollectionEntry<"blog">;
 
 const post = Astro.props as Props;
 const { Content, headings } = await post.render();
 ---
 
 <BlogLayoutSidebars post={post} headings={headings}>
-  <Content components={{ a: ExternalLink }} />
+  <Content components={{ a: ExternalLink, Admonition }} />
 </BlogLayoutSidebars>

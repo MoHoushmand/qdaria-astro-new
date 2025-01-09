@@ -17,8 +17,8 @@ export default defineConfig({
     '/pitch-deck/*': '/404',
     '/company/media': '/404',
     '/company/media/*': '/404',
-    '/company/blog': '/404',
-    '/company/blog/*': '/404'
+    '/company/blog': '/blog',
+    '/company/blog/*': '/blog/*'
   },
   i18n: {
     defaultLocale: 'en',
