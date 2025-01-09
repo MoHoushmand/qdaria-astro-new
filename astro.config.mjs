@@ -2,10 +2,13 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
+import netlify from '@astrojs/netlify';
 import { fileURLToPath } from 'url';
 
 export default defineConfig({
   site: 'https://qdaria.com',
+  output: 'server',
+  adapter: netlify(),
   security: {
     headers: {
       "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
