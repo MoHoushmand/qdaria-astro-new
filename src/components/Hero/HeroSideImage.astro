@@ -7,16 +7,16 @@ import { Image } from "astro:assets";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 // components
-import Button from "@components/Button/Button.astro";
+import Button from "../Button/Button.astro";
 
 // utils
-import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
+import { getLocaleFromUrl } from "../../js/localeUtils";
+import { useTranslations } from "../../js/translationUtils";
 
-import heroImage from "@images/storm-2.webp";
+import heroImage from "../../assets/images/storm-2.webp";
 
 const currLocale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(currLocale);
+const t = useTranslations({ url: Astro.url, locals: { locale: currLocale } });
 ---
 
 <!-- "dark" class forces dark mode for this section -->

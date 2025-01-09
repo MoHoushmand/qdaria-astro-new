@@ -9,12 +9,12 @@ import { Image } from "astro:assets";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 // components
-import Button from "@components/Button/Button.astro";
-import Badge from "@components/Badge/Badge.astro";
+import Button from "../Button/Button.astro";
+import Badge from "../Badge/Badge.astro";
 
 // utils
-import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
+import { getLocaleFromUrl } from "../../js/localeUtils";
+import { useTranslations } from "../../js/translationUtils";
 
 interface pricingItem {
   name: string; // plan name
@@ -99,7 +99,7 @@ const pricingData: pricingItem[] = [
 ];
 
 const currLocale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(currLocale);
+const t = useTranslations({ url: Astro.url, locals: { locale: currLocale } });
 ---
 
 <section id="pricing" class="py-16 md:py-20">

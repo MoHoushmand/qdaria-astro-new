@@ -5,6 +5,7 @@ import mdx from '@astrojs/mdx';
 import { fileURLToPath } from 'url';
 
 export default defineConfig({
+  site: 'https://qdaria.com',
   security: {
     headers: {
       "Content-Security-Policy": "default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"

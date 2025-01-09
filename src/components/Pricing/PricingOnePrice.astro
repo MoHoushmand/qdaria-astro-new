@@ -8,15 +8,15 @@ import { Icon } from "astro-icon";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 // components
-import Button from "@components/Button/Button.astro";
-import Badge from "@components/Badge/Badge.astro";
+import Button from "../Button/Button.astro";
+import Badge from "../Badge/Badge.astro";
 
 // utils
-import { getLocaleFromUrl } from "@js/localeUtils";
-import { useTranslations } from "@js/translationUtils";
+import { getLocaleFromUrl } from "../../js/localeUtils";
+import { useTranslations } from "../../js/translationUtils";
 
 const currLocale = getLocaleFromUrl(Astro.url);
-const t = useTranslations(currLocale);
+const t = useTranslations({ url: Astro.url, locals: { locale: currLocale } });
 
 interface pricingItem {
   name: string; // plan name
