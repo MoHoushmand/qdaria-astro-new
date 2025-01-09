@@ -62,3 +62,6 @@ Thumbs.db
 !/QDaria.pdf
 !/olaf.md
 !/yonas.md
+
+# Local Netlify folder
+.netlify

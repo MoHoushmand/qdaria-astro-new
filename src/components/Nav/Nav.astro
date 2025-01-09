@@ -328,11 +328,8 @@ const navData: navItem[] = [
       const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
       mobileNavToggle.setAttribute('aria-expanded', (!isExpanded).toString());
       
-      // Toggle both opacity and display properties
-      mobileNav.style.opacity = isExpanded ? '0' : '1';
-      mobileNav.style.pointerEvents = isExpanded ? 'none' : 'auto';
-      mobileNav.style.transform = isExpanded ? 'translateY(-1rem)' : 'translateY(0)';
-      mobileNav.style.display = isExpanded ? 'none' : 'block';
+      // Toggle mobile nav visibility using CSS classes
+      mobileNav.classList.toggle('show', !isExpanded);
 
       // Prevent body scroll when menu is open
       document.body.style.overflow = isExpanded ? 'auto' : 'hidden';

@@ -109,27 +109,50 @@ const { navData } = Astro.props;
 
 <script>
   function initMobileNav() {
-    // Handle dropdown toggles
-    document.querySelectorAll<HTMLButtonElement>('.mobile-nav-dropdown-toggle').forEach(button => {
-      button.addEventListener('click', (e) => {
-        const target = e.currentTarget as HTMLButtonElement;
-        const dropdown = target.closest<HTMLElement>('.mobile-nav-dropdown');
-        if (!dropdown) return;
-        
-        const isExpanded = target.getAttribute('aria-expanded') === 'true';
-        target.setAttribute('aria-expanded', (!isExpanded).toString());
-        dropdown.classList.toggle('open');
-      });
+    // Remove existing event listeners to prevent duplicates
+    document.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-toggle').forEach(button => {
+      button.removeEventListener('click', handleDropdownToggle);
+    });
+
+    // Add new event listeners
+    document.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-toggle').forEach(button => {
+      button.addEventListener('click', handleDropdownToggle);
     });
 
     // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      if (!target.closest('.mobile-nav-dropdown')) {
-        document.querySelectorAll<HTMLElement>('.mobile-nav-dropdown').forEach(dropdown => {
-          dropdown.classList.remove('open');
-        });
+      if (!target.closest('.mobile-dropdown')) {
+        closeAllDropdowns();
       }
+    });
+  }
+
+  function handleDropdownToggle(e: Event) {
+    const button = e.currentTarget as HTMLButtonElement;
+    const dropdown = button.closest<HTMLElement>('.mobile-dropdown');
+    if (!dropdown) return;
+
+    e.stopPropagation();
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    
+    // Close all other dropdowns first
+    if (!isExpanded) {
+      closeAllDropdowns();
+    }
+
+    // Toggle current dropdown
+    button.setAttribute('aria-expanded', (!isExpanded).toString());
+    button.nextElementSibling?.classList.toggle('show');
+  }
+
+  function closeAllDropdowns() {
+    document.querySelectorAll<HTMLElement>('.mobile-dropdown').forEach(dropdown => {
+      const toggle = dropdown.querySelector('.mobile-dropdown-toggle');
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+      dropdown.querySelector('.mobile-dropdown-content')?.classList.remove('show');
     });
   }
 
