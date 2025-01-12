@@ -1,66 +1,163 @@
 ---
 const partners = [
-  { name: "Zipminator", logo: "/icons/logos/zipminator.svg", scale: 1 },
-  { name: "Bluefors", logo: "/icons/logos/bluefors.svg", scale: 1 },
-  { name: "QM9", logo: "/icons/logos/qm9.svg", scale: 1 },
-  { name: "Rigetti", logo: "/icons/logos/rigetti0.svg", scale: 2.5 }
+  {
+    name: "QMikeAI",
+    logo: "/icons/logos/QMikeAI.svg",
+    scale: 1,
+    margin: "mx-8",
+  },
+  {
+    name: "Rigetti",
+    logo: "/icons/logos/RGTI_BIGD.svg",
+    scale: 0.8,
+    margin: "mx-12",
+  },
+  {
+    name: "Zipminator",
+    logo: "/icons/logos/zipminator.svg",
+    scale: 1,
+    margin: "mx-8",
+  },
+  {
+    name: "QDiana",
+    logo: "/icons/logos/QDiana.svg",
+    scale: 1,
+    margin: "mx-8",
+  },
+  {
+    name: "Bluefors",
+    logo: "/icons/logos/bluefors.svg",
+    scale: 1,
+    margin: "mx-8",
+  },
+  {
+    name: "QM9",
+    logo: "/icons/logos/qm9.svg",
+    scale: 1,
+    margin: "mx-8",
+  },
+  {
+    name: "QNilaya",
+    logo: "/icons/logos/QNilaya.svg",
+    scale: 1,
+    margin: "mx-8",
+  },
+  {
+    name: "Z",
+    logo: "/icons/logos/Z.svg",
+    scale: 1,
+    margin: "mx-8",
+  }
 ];
 ---
 
-<div class="bg-dark-bg py-24">
+<section class="relative z-20 overflow-visible bg-dark-bg py-24">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-gradient-blue text-3xl font-bold tracking-tight sm:text-4xl">
-        Trusted by the world's most innovative companies
-      </h2>
+    <div class="mx-auto max-w-2xl text-center relative z-50">
+      <div class="reveal-element" data-animation="fade">
+        <h2
+          class="text-gradient-blue mb-16 text-center text-3xl font-bold tracking-tight sm:text-4xl"
+          style="
+            opacity: 1 !important;
+            visibility: visible !important;
+            background: linear-gradient(to right, #04a3ff, #00ffd3, #65ff00) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+            filter: brightness(1.8) saturate(1.4) !important;
+            text-shadow: 0 0 30px rgba(4, 163, 255, 0.4) !important;
+          "
+        >
+          Trusted by the worlds most innovative companies
+        </h2>
+      </div>
       <p class="mt-6 text-lg leading-8 text-base-400">
-        Leading the quantum revolution through breakthrough technology
+        Partnering with industry leaders to advance quantum computing
       </p>
     </div>
     <div class="marquee-container mt-16 overflow-hidden">
       <div class="marquee">
-        <div class="marquee-content flex items-center justify-around gap-8">
-          {partners.map((partner) => (
-            <div 
-              class="flex min-w-[200px] items-center justify-center" 
-              style={`transform: scale(${partner.scale})`}
-            >
-              <img
-                class="max-h-12 w-full object-contain transition-opacity duration-300 hover:opacity-100"
-                src={partner.logo}
-                alt={partner.name}
-                width={158}
-                height={48}
-                style="opacity: 0.75;"
-              />
-            </div>
-          ))}
+        <div class="marquee-content flex items-center justify-around gap-24">
+          {
+            partners.map((partner) => (
+              <div
+                class={`flex min-w-[200px] items-center justify-center ${partner.margin}`}
+                style={`transform: scale(${partner.scale})`}
+              >
+                <div class="relative">
+                  <img
+                    class="max-h-12 w-full object-contain transition-opacity duration-300 hover:opacity-100"
+                    src={partner.logo}
+                    alt={partner.name}
+                    width={158}
+                    height={48}
+                    style="opacity: 0.75;"
+                    onerror="this.style.display='none'"
+                  />
+                  <div
+                    class="absolute inset-0 flex items-center justify-center bg-gray-800 text-sm text-white"
+                    style="display: none;"
+                  >
+                    {partner.name}
+                  </div>
+                </div>
+              </div>
+            ))
+          }
         </div>
-        <div class="marquee-content flex items-center justify-around gap-8" aria-hidden="true">
-          {partners.map((partner) => (
-            <div 
-              class="flex min-w-[200px] items-center justify-center" 
-              style={`transform: scale(${partner.scale})`}
-            >
-              <img
-                class="max-h-12 w-full object-contain transition-opacity duration-300 hover:opacity-100"
-                src={partner.logo}
-                alt={partner.name}
-                width={158}
-                height={48}
-                style="opacity: 0.75;"
-              />
-            </div>
-          ))}
+        <div
+          class="marquee-content flex items-center justify-around gap-8"
+          aria-hidden="true"
+        >
+          {
+            partners.map((partner) => (
+              <div
+                class={`flex min-w-[200px] items-center justify-center ${partner.margin}`}
+                style={`transform: scale(${partner.scale})`}
+              >
+                <img
+                  class="max-h-12 w-full object-contain transition-opacity duration-300 hover:opacity-100"
+                  src={partner.logo}
+                  alt={partner.name}
+                  width={158}
+                  height={48}
+                  style="opacity: 0.75;"
+                />
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+<style>
+  section {
+    position: relative;
+    z-index: 20;
+    background: transparent !important;
+  }
+</style>
 
 <style>
   .text-gradient-blue {
     @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
   }
 
   .marquee-container {
@@ -84,8 +181,8 @@ const partners = [
     display: flex;
     justify-content: space-around;
     min-width: 100%;
-    gap: 2rem;
-    animation: scroll 30s linear infinite;
+    gap: 8rem;
+    animation: scroll 40s linear infinite;
   }
 
   @keyframes scroll {
@@ -101,8 +198,81 @@ const partners = [
     animation-play-state: paused;
   }
 
+  * {
+    background: transparent !important;
+  }
+
   img {
+    max-height: 12rem;
+    width: auto;
+    opacity: 1;
+    display: block !important;
+    visibility: visible !important;
+    position: relative;
+    z-index: 1;
     filter: brightness(0) invert(1);
+    background: transparent !important;
+    pointer-events: none;
+  }
+
+
+  .marquee-container {
+    color: #00ffd3;
+    background: black !important;
+  }
+
+  .marquee-content img {
+    mix-blend-mode: lighten;
+    background: transparent !important;
+  }
+
+  .fallback-text {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+
+  /* Ensure all SVG text is hidden */
+  svg text,
+  svg tspan {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  /* Hide any text content from SVGs */
+  svg text {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .marquee-container {
+    visibility: visible !important;
+    display: block !important;
+    position: relative;
+    z-index: 10;
+    min-height: 200px;
+    background: transparent !important;
+  }
+
+  .marquee {
+    visibility: visible !important;
+    display: flex !important;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fallback-text {
+    display: none;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  img:not([src]) + .fallback-text,
+  img[src=""] + .fallback-text {
+    display: block;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -111,14 +281,24 @@ const partners = [
       width: 100%;
     }
   }
+
+  @media (max-width: 768px) {
+    .marquee-content {
+      gap: 4rem;
+    }
+
+    img {
+      max-height: 12rem;
+    }
+  }
 </style>
 
 <script>
   function initMarquee() {
-    const marquee = document.querySelector('.marquee');
+    const marquee = document.querySelector(".marquee");
     if (!marquee) return;
 
-    const content = marquee.querySelector('.marquee-content');
+    const content = marquee.querySelector(".marquee-content");
     if (!content) return;
 
     const clone = content.cloneNode(true);
@@ -129,5 +309,5 @@ const partners = [
   initMarquee();
 
   // Re-initialize after Astro page transitions
-  document.addEventListener('astro:after-swap', initMarquee);
+  document.addEventListener("astro:after-swap", initMarquee);
 </script>
