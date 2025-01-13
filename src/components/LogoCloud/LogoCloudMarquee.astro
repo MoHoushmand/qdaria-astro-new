@@ -3,50 +3,50 @@ const partners = [
   {
     name: "QMikeAI",
     logo: "/icons/logos/QMikeAI.svg",
-    scale: 1,
-    margin: "mx-8",
+    scale: 0.8,
+    margin: "mx-4",
   },
   {
     name: "Rigetti",
     logo: "/icons/logos/RGTI_BIGD.svg",
-    scale: 0.8,
-    margin: "mx-12",
+    scale: 0.6,
+    margin: "mx-3",
   },
   {
     name: "Zipminator",
     logo: "/icons/logos/zipminator.svg",
-    scale: 1,
-    margin: "mx-8",
+    scale: 0.8,
+    margin: "mx-3",
   },
   {
     name: "QDiana",
-    logo: "/icons/logos/QDiana.svg",
-    scale: 1,
-    margin: "mx-8",
+    logo: "/icons/logos/QDianA0.svg",
+    scale: 0.8,
+    margin: "mx-3",
   },
   {
     name: "Bluefors",
     logo: "/icons/logos/bluefors.svg",
-    scale: 1,
-    margin: "mx-8",
+    scale: 0.8,
+    margin: "mx-3",
   },
   {
     name: "QM9",
     logo: "/icons/logos/qm9.svg",
-    scale: 1,
-    margin: "mx-8",
+    scale: 0.8,
+    margin: "mx-3",
   },
   {
     name: "QNilaya",
-    logo: "/icons/logos/QNilaya.svg",
-    scale: 1,
-    margin: "mx-8",
+    logo: "/icons/logos/QNilayA0.svg",
+    scale: 0.8,
+    margin: "mx-3",
   },
   {
     name: "Z",
     logo: "/icons/logos/Z.svg",
-    scale: 1,
-    margin: "mx-8",
+    scale: 0.8,
+    margin: "mx-3",
   }
 ];
 ---
@@ -77,11 +77,11 @@ const partners = [
     </div>
     <div class="marquee-container mt-16 overflow-hidden">
       <div class="marquee">
-        <div class="marquee-content flex items-center justify-around gap-24">
+        <div class="marquee-content flex items-center justify-around gap-4">
           {
             partners.map((partner) => (
               <div
-                class={`flex min-w-[200px] items-center justify-center ${partner.margin}`}
+                class={`flex min-w-[150px] items-center justify-center`}
                 style={`transform: scale(${partner.scale})`}
               >
                 <div class="relative">
@@ -106,13 +106,13 @@ const partners = [
           }
         </div>
         <div
-          class="marquee-content flex items-center justify-around gap-8"
+          class="marquee-content flex items-center justify-around gap-4"
           aria-hidden="true"
         >
           {
             partners.map((partner) => (
               <div
-                class={`flex min-w-[200px] items-center justify-center ${partner.margin}`}
+                class={`flex min-w-[150px] items-center justify-center`}
                 style={`transform: scale(${partner.scale})`}
               >
                 <img
@@ -181,7 +181,7 @@ const partners = [
     display: flex;
     justify-content: space-around;
     min-width: 100%;
-    gap: 8rem;
+    gap: 2rem;
     animation: scroll 40s linear infinite;
   }
 
@@ -215,7 +215,6 @@ const partners = [
     pointer-events: none;
   }
 
-
   .marquee-container {
     color: #00ffd3;
     background: black !important;
@@ -230,7 +229,6 @@ const partners = [
     display: none !important;
     visibility: hidden !important;
   }
-
 
   /* Ensure all SVG text is hidden */
   svg text,
@@ -250,6 +248,8 @@ const partners = [
     visibility: visible !important;
     display: block !important;
     position: relative;
+    z-index: 10;
+    min-height: 200px;
     z-index: 10;
     min-height: 200px;
     background: transparent !important;
@@ -284,7 +284,7 @@ const partners = [
 
   @media (max-width: 768px) {
     .marquee-content {
-      gap: 4rem;
+      gap: 1rem;
     }
 
     img {

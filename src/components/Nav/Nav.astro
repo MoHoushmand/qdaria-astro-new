@@ -1,4 +1,4 @@
----
+I st---
 import NavLink from "@components/Nav/NavLink.astro";
 import NavDropdown from "@components/Nav/NavDropdown/NavDropdown.astro";
 import NavDropdownToggle from "@components/Nav/NavDropdown/NavDropdownToggle.astro";
@@ -198,14 +198,14 @@ const navData: navItem[] = [
             Contact Us
           </Button>
 
-          <!-- Mobile Nav Toggle -->
           <button
+            id="mobile-nav-toggle"
             type="button"
             class="mobile-nav-toggle inline-flex items-center justify-center rounded-lg p-2.5 text-base-200 hover:bg-base-800 md:hidden"
             aria-label="Toggle menu"
-            data-toggle-nav
             aria-expanded="false"
             aria-controls="mobile-nav"
+            onclick="document.getElementById('mobile-nav').setAttribute('aria-hidden', this.getAttribute('aria-expanded') === 'true' ? 'true' : 'false'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');"
           >
             <svg
               class="h-6 w-6"
@@ -217,9 +217,12 @@ const navData: navItem[] = [
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M4 6h16M4 12h16m-16 6h16"></path>
+                d="M4 6h16M4 12h16m-16 6h16"
+              ></path>
             </svg>
           </button>
+          </button>
+          </script>
         </div>
       </header>
     </div>
@@ -318,28 +321,58 @@ const navData: navItem[] = [
 </style>
 
 <script>
-  function initMobileNavToggle() {
-    const mobileNavToggle = document.querySelector<HTMLButtonElement>('.mobile-nav-toggle');
-    const mobileNav = document.querySelector<HTMLElement>('#mobile-nav');
-
-    if (!mobileNavToggle || !mobileNav) return;
-
-    mobileNavToggle.addEventListener('click', () => {
-      const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
-      mobileNavToggle.setAttribute('aria-expanded', (!isExpanded).toString());
-      
-      // Toggle mobile nav visibility using CSS classes
-      mobileNav.classList.toggle('show', !isExpanded);
-
-      // Prevent body scroll when menu is open
-      document.body.style.overflow = isExpanded ? 'auto' : 'hidden';
-    });
+  function toggleMobileNav() {
+    const mobileNav = document.getElementById('mobile-nav');
+    const toggle = document.getElementById('mobile-nav-toggle');
+    
+    if (!mobileNav || !toggle) return;
+    
+    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    const newState = !isExpanded;
+    
+    toggle.setAttribute('aria-expanded', newState.toString());
+    mobileNav.setAttribute('aria-hidden', (!newState).toString());
+    
+    // Toggle body scroll
+    document.body.style.overflow = newState ? 'hidden' : '';
+    
+    // Toggle backdrop
+    if (newState) {
+      document.body.classList.add('overflow-hidden', 'backdrop-blur');
+    } else {
+      document.body.classList.remove('overflow-hidden', 'backdrop-blur');
+    }
   }
 
-  // Initialize on page load
-  initMobileNavToggle();
+  // Handle outside clicks
+  document.addEventListener('click', (e) => {
+    const mobileNav = document.getElementById('mobile-nav');
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const target = e.target as HTMLElement;
+    
+    if (toggle?.getAttribute('aria-expanded') === 'true' &&
+        !mobileNav?.contains(target) &&
+        !toggle?.contains(target)) {
+      toggleMobileNav();
+    }
+  });
+
+  // Handle escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' &&
+        document.getElementById('mobile-nav-toggle')?.getAttribute('aria-expanded') === 'true') {
+      toggleMobileNav();
+    }
+  });
 
   // Re-initialize after Astro page transitions
-  document.addEventListener('astro:page-load', initMobileNavToggle);
-  document.addEventListener('astro:after-swap', initMobileNavToggle);
+  document.addEventListener('astro:page-load', () => {
+    const toggle = document.getElementById('mobile-nav-toggle');
+    if (toggle) {
+      toggle.onclick = (e) => {
+        e.stopPropagation();
+        toggleMobileNav();
+      };
+    }
+  });
 </script>

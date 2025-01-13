@@ -161,9 +161,9 @@ const timeline = [
   },
   {
     date: "October 2025",
-    title: "TeHå v1.0 — Quantum-Enhanced LLM",
+    title: "TeHaA v1.0 — Quantum-Enhanced LLM",
     description: `
-      We expect to release TeHå v1.0, a large language model enhanced by quantum-inspired 
+      We expect to release TeHaA v1.0, a large language model enhanced by quantum-inspired 
       methods running on the Novera QPU. By combining quantum hardware with cutting-edge NLP, 
       we aim for improved language understanding and faster model training using LPU inference 
       and a high-performance programming language like Mojo.
@@ -328,6 +328,48 @@ const timeline = [
       />
     </div>
 
+    <!-- Mission & Vision Section -->
+    <section class="relative overflow-hidden bg-dark-bg py-24">
+      <div class="bg-gradient-radial-dark absolute inset-0 opacity-50"></div>
+      <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="reveal-element" data-animation="fade">
+          <h2 class="text-gradient-blue mb-16 text-center text-3xl font-bold tracking-tight sm:text-4xl">
+            Our Mission & Vision
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+            <h3 class="mb-4 text-2xl font-bold text-white">Mission</h3>
+            <p class="text-base-300">
+              To revolutionize industries through topological quantum computing, delivering 
+              innovative solutions that solve complex challenges and shape the future of 
+              technology. We aim to make quantum computing accessible and impactful across 
+              cybersecurity, finance, education, and healthcare.
+            </p>
+          </div>
+
+          <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+            <h3 class="mb-4 text-2xl font-bold text-white">Vision</h3>
+            <p class="text-base-300">
+              To be the global leader in topological quantum computing, driving the quantum 
+              revolution through cutting-edge research, innovative products, and strategic 
+              partnerships. We envision a future where quantum computing transforms every 
+              aspect of society, from secure communications to personalized medicine.
+            </p>
+          </div>
+
+          <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+            <h3 class="mb-4 text-2xl font-bold text-white">Core Values</h3>
+            <p class="text-base-300">
+              Integrity, Innovation, Collaboration, Excellence, and Impact. These values 
+              guide our work and define our culture.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <style>
       @keyframes float {
         0%, 100% {
@@ -343,7 +385,9 @@ const timeline = [
     </style>
 
     <!-- Logos / Collaborators carousel -->
-    <LogoCloudMarquee />
+    <div class="relative z-10 py-24">
+      <LogoCloudMarquee />
+    </div>
 
     <!-- Quick Feature Cards -->
     <FeatureCardsSmall />
@@ -356,7 +400,7 @@ const timeline = [
           <h2
             class="text-gradient-blue mb-24 text-center text-3xl font-bold tracking-tight sm:text-4xl"
           >
-            Our Journey &amp; Vision
+            Our Journey
           </h2>
         </div>
 
@@ -384,7 +428,14 @@ const timeline = [
                         <h3 class="mb-4 mt-2 text-2xl font-bold text-white">
                           {item.title}
                         </h3>
-                        <p class="text-base-300">{item.description}</p>
+                        <p class="text-base-300 line-clamp-3">{item.description}</p>
+                        <div class="relative">
+                          <button
+                            class="read-more-btn mt-4 text-primary-400 hover:text-primary-300 transition-colors duration-200 z-10 pointer-events-auto"
+                          >
+                            Read More ↓
+                          </button>
+                        </div>
                       </div>
                     </div>
                     <div class="timeline-dot" />
@@ -424,7 +475,7 @@ const timeline = [
   }
 
   .feature-card {
-    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
     box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
 
     &:hover {
@@ -521,6 +572,24 @@ const timeline = [
     document.querySelectorAll(".feature-card").forEach((el) => {
       el.addEventListener("mousemove", updateMousePosition as EventListener);
     });
+
+    document.querySelectorAll(".read-more-btn").forEach((btn) => {
+      console.log('Adding event listener to button:', btn);
+      btn.addEventListener("click", (e) => {
+        console.log('Button clicked:', btn);
+        const parent = btn.parentElement;
+        const description = parent ? parent.previousElementSibling : null;
+        console.log('Description element:', description);
+        if (description) {
+          description.classList.toggle('line-clamp-3');
+          btn.textContent = description.classList.contains('line-clamp-3')
+            ? 'Read More ↓'
+            : 'Read Less ↑';
+        } else {
+          console.error('Could not find description element');
+        }
+      });
+    });
   }
 
   function initAnimations() {
@@ -544,17 +613,28 @@ const timeline = [
     });
   }
 
-  // Initialize on page load
-  initCards();
-  initAnimations();
+  // Initialize after DOM is fully loaded
+  if (document.readyState === 'complete') {
+    initCards();
+    initAnimations();
+  } else {
+    window.addEventListener('load', () => {
+      initCards();
+      initAnimations();
+    });
+  }
 
   // Re-initialize after Astro page transitions
   document.addEventListener("astro:page-load", () => {
-    initCards();
-    initAnimations();
+    setTimeout(() => {
+      initCards();
+      initAnimations();
+    }, 100);
   });
   document.addEventListener("astro:after-swap", () => {
-    initCards();
-    initAnimations();
+    setTimeout(() => {
+      initCards();
+      initAnimations();
+    }, 100);
   });
 </script>

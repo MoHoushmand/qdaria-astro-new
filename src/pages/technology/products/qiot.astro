@@ -3,28 +3,89 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 const pageTitle = "QIoT - Quantum-Ready IoT Solutions";
 const pageDescription = "Our quantum-ready IoT infrastructure solutions for seamless integration and enhanced security";
+
+const features = [
+  {
+    title: "Quantum-Secure Communication",
+    description: "Protect IoT devices with quantum-resistant encryption protocols.",
+    icon: "shield"
+  },
+  {
+    title: "Edge Computing Optimization",
+    description: "Enhance edge computing with quantum-inspired algorithms.",
+    icon: "cpu"
+  },
+  {
+    title: "Real-Time Data Processing",
+    description: "Process IoT data in real-time using quantum-enhanced methods.",
+    icon: "clock"
+  },
+  {
+    title: "Scalable Architecture",
+    description: "Support massive IoT deployments with a scalable quantum-ready infrastructure.",
+    icon: "scale"
+  }
+];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
-  <main class="site-container py-16">
+  <main class="relative bg-dark-bg py-16">
     <h1 class="text-4xl font-bold mb-8">QIoT</h1>
     <p class="text-lg mb-8">
       Quantum-Ready IoT Solutions for next-generation infrastructure
     </p>
-    
-    <div class="prose max-w-none">
-      <h2>Overview</h2>
-      <p>
-        QIoT provides quantum-ready IoT infrastructure solutions that enable seamless integration
-        with existing systems while preparing for the quantum future. Our platform offers:
-      </p>
-      
-      <ul>
-        <li>Quantum-secure communication protocols</li>
-        <li>Edge computing with quantum-enhanced optimization</li>
-        <li>Real-time data processing with quantum-inspired algorithms</li>
-        <li>Scalable architecture for massive IoT deployments</li>
-      </ul>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      {features.map((feature) => (
+        <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+          <h3 class="text-2xl font-bold text-white mb-4">
+            {feature.title}
+          </h3>
+          <p class="text-base-300">
+            {feature.description}
+          </p>
+        </div>
+      ))}
     </div>
   </main>
 </BaseLayout>
+
+<style>
+  .feature-card {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>

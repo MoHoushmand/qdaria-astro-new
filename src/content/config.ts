@@ -26,7 +26,17 @@ const authors = defineCollection({
   }),
 });
 
+const otherPages = defineCollection({
+  type: 'content',
+  schema: {
+    title: z.string(),
+    description: z.string().optional(),
+    draft: z.boolean().optional(),
+  },
+});
+
 export const collections = {
   authors,
   blog,
+  otherPages,
 }

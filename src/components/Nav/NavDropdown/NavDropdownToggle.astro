@@ -1,6 +1,4 @@
 ---
-import NavDropdown from "./NavDropdown.astro";
-
 import type { navItem } from "@config/types/configDataTypes";
 import { isNavDropdownItem } from "@config/types/configDataTypes";
 
@@ -14,12 +12,13 @@ const { navItem } = Astro.props;
 <div class="nav-dropdown relative group">
   <button
     type="button"
-    class="nav-item inline-flex items-center gap-2"
+    class="nav-item inline-flex items-center gap-2 nav-dropdown-toggle"
     aria-expanded="false"
+    data-dropdown-toggle
   >
     <span>{navItem.text}</span>
     <svg
-      class="h-4 w-4 text-base-400 transition-transform group-hover:rotate-180"
+      class="h-4 w-4 text-base-400 transition-transform md:group-hover:rotate-180"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -33,7 +32,7 @@ const { navItem } = Astro.props;
     </svg>
   </button>
 
-  <div class="nav-dropdown-panel absolute left-0 top-full z-10 mt-1 hidden w-max min-w-[240px] origin-top-left opacity-0 transition-all duration-200 group-hover:block group-hover:opacity-100">
+  <div class="nav-dropdown-panel absolute left-0 top-full z-10 mt-1 hidden w-max min-w-[240px] origin-top-left opacity-0 transition-all duration-200 md:group-hover:block md:group-hover:opacity-100" aria-hidden="true">
     <div class="rounded-xl border border-primary-500/30 bg-dark-bg p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
       <div class="py-1">
         {isNavDropdownItem(navItem) && navItem.dropdown.map((item) => (
@@ -42,8 +41,9 @@ const { navItem } = Astro.props;
               <>
                 <button
                   type="button"
-                  class="nav-dropdown-item flex w-full items-center justify-between"
+                  class="nav-dropdown-item flex w-full items-center justify-between nav-dropdown-toggle"
                   aria-expanded="false"
+                  data-dropdown-toggle
                 >
                   <div>
                     <div class="font-medium">{item.text}</div>
@@ -65,7 +65,7 @@ const { navItem } = Astro.props;
                     />
                   </svg>
                 </button>
-                <div class="nav-dropdown-sub absolute left-full top-0 hidden min-w-[240px] pl-2 group-hover/sub:block">
+                <div class="nav-dropdown-sub absolute left-full top-0 hidden min-w-[240px] pl-2 md:group-hover/sub:block" aria-hidden="true">
                   <div class="rounded-xl border border-primary-500/30 bg-dark-bg p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="py-1">
                       {isNavDropdownItem(item) && item.dropdown.map((child) => (
@@ -106,14 +106,37 @@ const { navItem } = Astro.props;
 </div>
 
 <style>
-  .nav-dropdown-panel {
-    @apply transform;
-    animation: fadeIn 0.2s ease-out;
+  /* Desktop styles */
+  @media (min-width: 768px) {
+    .nav-dropdown-panel {
+      @apply transform;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .nav-dropdown-sub {
+      @apply transform;
+      animation: fadeIn 0.2s ease-out;
+    }
   }
 
-  .nav-dropdown-sub {
-    @apply transform;
-    animation: fadeIn 0.2s ease-out;
+  /* Mobile styles */
+  @media (max-width: 767px) {
+    .nav-dropdown-panel,
+    .nav-dropdown-sub {
+      @apply block transform opacity-0;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .nav-dropdown-panel[aria-hidden="false"],
+    .nav-dropdown-sub[aria-hidden="false"] {
+      @apply opacity-100;
+    }
+
+    /* Position sub-dropdowns below on mobile instead of to the side */
+    .nav-dropdown-sub {
+      @apply left-0 top-full pl-4;
+      position: relative !important;
+    }
   }
 
   @keyframes fadeIn {
@@ -131,3 +154,85 @@ const { navItem } = Astro.props;
     @apply rounded-lg px-4 py-2 text-sm text-base-200 transition-all hover:bg-primary-500/10;
   }
 </style>
+
+<script>
+  function handleDropdownToggle(e: Event) {
+    if (window.innerWidth >= 768) return; // Only handle clicks on mobile
+    
+    const button = e.currentTarget as HTMLButtonElement;
+    const panel = button.nextElementSibling as HTMLElement;
+    if (!panel) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    
+    // Close other dropdowns at the same level
+    const parent = button.closest('.nav-dropdown')?.parentElement;
+    if (parent) {
+      parent.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle][aria-expanded="true"]').forEach(otherButton => {
+        if (otherButton !== button) {
+          otherButton.setAttribute('aria-expanded', 'false');
+          const otherPanel = otherButton.nextElementSibling as HTMLElement;
+          if (otherPanel) {
+            otherPanel.setAttribute('aria-hidden', 'true');
+          }
+        }
+      });
+    }
+
+    // Toggle current dropdown
+    button.setAttribute('aria-expanded', (!isExpanded).toString());
+    panel.setAttribute('aria-hidden', isExpanded.toString());
+
+    // Handle sub-dropdowns
+    if (isExpanded) {
+      panel.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle][aria-expanded="true"]').forEach(subButton => {
+        subButton.setAttribute('aria-expanded', 'false');
+        const subPanel = subButton.nextElementSibling as HTMLElement;
+        if (subPanel) {
+          subPanel.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
+  }
+
+  // Initialize dropdowns
+  function initDropdowns() {
+    document.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle]').forEach(button => {
+      button.addEventListener('click', handleDropdownToggle);
+    });
+  }
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', (e: MouseEvent) => {
+    if (window.innerWidth >= 768) return; // Only handle clicks on mobile
+    
+    const target = e.target as HTMLElement;
+    if (!target.closest('.nav-dropdown')) {
+      document.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle]').forEach(button => {
+        button.setAttribute('aria-expanded', 'false');
+        const panel = button.nextElementSibling as HTMLElement;
+        if (panel) {
+          panel.setAttribute('aria-hidden', 'true');
+          // Also close any open sub-dropdowns
+          panel.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle][aria-expanded="true"]').forEach(subButton => {
+            subButton.setAttribute('aria-expanded', 'false');
+            const subPanel = subButton.nextElementSibling as HTMLElement;
+            if (subPanel) {
+              subPanel.setAttribute('aria-hidden', 'true');
+            }
+          });
+        }
+      });
+    }
+  });
+
+  // Initialize on page load
+  initDropdowns();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:page-load', initDropdowns);
+  document.addEventListener('astro:after-swap', initDropdowns);
+</script>

@@ -89,12 +89,16 @@ const specifications = [
   title="Zipminator - Quantum-Safe Cybersecurity Solution"
   description="The next generation of cybersecurity, combining Quantum Key Distribution with NIST Post-Quantum Encryption standards for unbreakable protection."
 >
-  <main class="relative">
+  <main class="relative bg-dark-bg">
     <!-- Hero Section -->
     <section class="pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-base-950 to-base-900">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-5xl md:text-6xl font-bold text-white mb-8">
-          Zipminator
+        <h1 class="mb-8 flex justify-center md:justify-start">
+          <img
+            src="/icons/logos/zipminator.svg"
+            alt="Zipminator"
+            class="w-[300px] md:w-[400px] h-auto brightness-0 invert"
+          />
         </h1>
         
         <p class="text-2xl text-base-200 max-w-3xl mb-12">
@@ -115,17 +119,17 @@ const specifications = [
     <!-- Key Features -->
     <section id="features" class="py-20 bg-base-50 dark:bg-base-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+        <h2 class="text-4xl font-bold text-white text-center mb-16">
           Advanced Security Features
         </h2>
 
         <div class="grid md:grid-cols-2 gap-8">
           {features.map((feature) => (
-            <div class="p-8 rounded-xl bg-white dark:bg-base-800">
-              <h3 class="text-2xl font-bold text-base-950 dark:text-white mb-4">
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="text-2xl font-bold text-white mb-4">
                 {feature.title}
               </h3>
-              <p class="text-base-700 dark:text-base-300">
+              <p class="text-base-300">
                 {feature.description}
               </p>
             </div>
@@ -137,21 +141,21 @@ const specifications = [
     <!-- Industry Benefits -->
     <section class="py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+        <h2 class="text-4xl font-bold text-white text-center mb-16">
           Industry Solutions
         </h2>
 
         <div class="grid md:grid-cols-3 gap-8">
           {benefits.map((benefit) => (
-            <div class="p-8 rounded-xl bg-white dark:bg-base-800 h-full">
-              <h3 class="text-2xl font-bold text-base-950 dark:text-white mb-6">
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="text-2xl font-bold text-white mb-6">
                 {benefit.title}
               </h3>
               <ul class="space-y-4">
                 {benefit.points.map((point) => (
                   <li class="flex items-start">
-                    <span class="text-primary-600 dark:text-primary-400 mr-2">•</span>
-                    <span class="text-base-700 dark:text-base-300">{point}</span>
+                    <span class="text-primary-400 mr-2">•</span>
+                    <span class="text-base-300">{point}</span>
                   </li>
                 ))}
               </ul>
@@ -164,21 +168,21 @@ const specifications = [
     <!-- Technical Specifications -->
     <section class="py-20 bg-base-50 dark:bg-base-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-bold text-base-950 dark:text-white text-center mb-16">
+        <h2 class="text-4xl font-bold text-white text-center mb-16">
           Technical Specifications
         </h2>
 
         <div class="grid md:grid-cols-3 gap-8">
           {specifications.map((spec) => (
-            <div class="p-8 rounded-xl bg-white dark:bg-base-800 h-full">
-              <h3 class="text-2xl font-bold text-base-950 dark:text-white mb-6">
+            <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
+              <h3 class="text-2xl font-bold text-white mb-6">
                 {spec.category}
               </h3>
               <ul class="space-y-4">
                 {spec.details.map((detail) => (
                   <li class="flex items-start">
-                    <span class="text-primary-600 dark:text-primary-400 mr-2">•</span>
-                    <span class="text-base-700 dark:text-base-300">{detail}</span>
+                    <span class="text-primary-400 mr-2">•</span>
+                    <span class="text-base-300">{detail}</span>
                   </li>
                 ))}
               </ul>
@@ -192,13 +196,13 @@ const specifications = [
     <section class="py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto text-center">
-          <h2 class="text-4xl font-bold text-base-950 dark:text-white mb-8">
+          <h2 class="text-4xl font-bold text-white mb-8">
             Success Story
           </h2>
-          <blockquote class="text-xl text-base-700 dark:text-base-300 mb-12">
+          <blockquote class="text-xl text-base-300 mb-12">
             "Zipminator enabled secure communications for our multinational banking operations, providing unmatched protection against both current and future cyber threats."
           </blockquote>
-          <p class="text-base-600 dark:text-base-400 italic">
+          <p class="text-base-400 italic">
             - Coming January 2025
           </p>
         </div>
@@ -208,17 +212,17 @@ const specifications = [
     <!-- Call to Action -->
     <section class="py-20 bg-base-50 dark:bg-base-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-bold text-base-950 dark:text-white mb-8">
+        <h2 class="text-4xl font-bold text-white mb-8">
           Secure Your Future Today
         </h2>
-        <p class="text-xl text-base-700 dark:text-base-300 mb-12 max-w-3xl mx-auto">
+        <p class="text-xl text-base-300 mb-12 max-w-3xl mx-auto">
           Ready to protect your organization with quantum-safe security? Contact us to schedule a demo and learn how Zipminator can safeguard your critical data.
         </p>
         <div class="flex justify-center gap-6">
           <a href="/contact" class="inline-block px-8 py-4 text-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition">
             Schedule Demo
           </a>
-          <a href="/contact#sales" class="inline-block px-8 py-4 text-lg font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 rounded-lg transition">
+          <a href="/contact#sales" class="inline-block px-8 py-4 text-lg font-semibold text-primary-400 hover:text-primary-300 rounded-lg transition">
             Contact Sales
           </a>
         </div>
@@ -226,3 +230,43 @@ const specifications = [
     </section>
   </main>
 </BaseLayout>
+
+<style>
+  .feature-card {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+</style>

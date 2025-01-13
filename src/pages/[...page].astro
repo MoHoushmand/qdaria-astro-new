@@ -24,18 +24,28 @@ export async function getStaticPaths() {
   // get rid of pages from other languages and remove locale from slug
   const filteredPages = filterCollectionByLanguage(otherPages, defaultLocale);
 
-  return filteredPages.map((page) => ({
-    params: { page: page.slug },
-    props: page,
-  }));
+  return Promise.all(
+    filteredPages.map(async (page) => {
+      const { Content } = await page.render();
+      const renderedContent = await renderToString(Content, { components: { a: ExternalLink } });
+      return {
+        params: { page: page.slug },
+        props: {
+          ...page.data,
+          renderedContent,
+        },
+      };
+    })
+  );
+}
+
+async function renderToString(Content: any, options: any = {}) {
+  const { components } = options;
+  return await Content.render(components);
 }
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-const page = Astro.props as Props;
-
-// convert markdown to html
-const { Content } = await page.render();
-const { title, description } = page.data;
+const { title, description, renderedContent } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -47,7 +57,7 @@ const { title, description } = page.data;
       <div
         class="text-base-content prose mt-12 max-w-none text-sm md:text-base"
       >
-        <Content components={{ a: ExternalLink }} />
+        <Fragment set:html={renderedContent} />
       </div>
     </div>
   </section>

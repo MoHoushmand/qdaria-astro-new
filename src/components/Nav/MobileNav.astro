@@ -12,9 +12,10 @@ const { navData } = Astro.props;
 <div
   id="mobile-nav"
   class="mobile-nav fixed left-0 top-14 z-20 h-[calc(100vh-3.5rem)] w-full overflow-y-auto bg-dark-bg/95 backdrop-blur md:hidden"
+  aria-hidden="true"
 >
   <nav class="site-container py-8">
-    <ul class="flex flex-col gap-4">
+    <ul class="flex flex-col">
       {
         navData.map((navItem: navItem) => (
           <li>
@@ -42,18 +43,35 @@ const { navData } = Astro.props;
                   </svg>
                 </button>
 
-                <div class="mobile-dropdown-content mt-2 hidden pl-4">
+                <div class="mobile-dropdown-content pl-4" aria-hidden="true">
                   {navItem.dropdown?.map((dropdownItem: navItem) =>
                     !("dropdown" in dropdownItem) ? (
                       // If it's a direct link
                       <NavLink navItem={dropdownItem} />
                     ) : (
                       // If there's a sub-layer of children
-                      <div class="mb-2">
-                        <div class="px-3 py-2 text-sm font-semibold text-base-400">
-                          {dropdownItem.text}
-                        </div>
-                        <div class="pl-4">
+                      <div class="mobile-dropdown">
+                        <button
+                          type="button"
+                          class="mobile-dropdown-toggle flex w-full items-center justify-between px-3 py-2 text-sm font-semibold text-base-400"
+                          aria-expanded="false"
+                        >
+                          <span>{dropdownItem.text}</span>
+                          <svg
+                            class="h-4 w-4 transform transition-transform"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        <div class="mobile-dropdown-content pl-4" aria-hidden="true">
                           {dropdownItem.dropdown?.map((child: navItem) => (
                             <NavLink navItem={child} />
                           ))}
@@ -80,14 +98,19 @@ const { navData } = Astro.props;
     pointer-events: none;
     transform: translateY(-1rem);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: none;
+    visibility: hidden;
   }
 
-  .mobile-nav.show {
+  .mobile-nav[aria-hidden="false"] {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
-    display: block;
+    visibility: visible;
+  }
+
+  .mobile-dropdown-toggle {
+    width: 100%;
+    text-align: left;
   }
 
   .mobile-dropdown-toggle svg {
@@ -99,66 +122,112 @@ const { navData } = Astro.props;
   }
 
   .mobile-dropdown-content {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out, opacity 0.3s ease-out;
   }
 
-  .mobile-dropdown-content.show {
-    display: block;
+  .mobile-dropdown-content[aria-hidden="false"] {
+    height: auto;
+    opacity: 1;
   }
 </style>
 
 <script>
   function initMobileNav() {
-    // Remove existing event listeners to prevent duplicates
-    document.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-toggle').forEach(button => {
-      button.removeEventListener('click', handleDropdownToggle);
-    });
+    const mobileNav = document.getElementById('mobile-nav');
+    if (!mobileNav) return;
 
-    // Add new event listeners
-    document.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-toggle').forEach(button => {
-      button.addEventListener('click', handleDropdownToggle);
-    });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest('.mobile-dropdown')) {
-        closeAllDropdowns();
+    function handleDropdownToggle(event: Event) {
+      // Prevent default for touch events
+      if (event.type === 'touchstart') {
+        event.preventDefault();
       }
-    });
-  }
 
-  function handleDropdownToggle(e: Event) {
-    const button = e.currentTarget as HTMLButtonElement;
-    const dropdown = button.closest<HTMLElement>('.mobile-dropdown');
-    if (!dropdown) return;
+      const button = event.currentTarget as HTMLButtonElement;
+      const content = button.nextElementSibling as HTMLElement;
+      if (!content) return;
 
-    e.stopPropagation();
-    const isExpanded = button.getAttribute('aria-expanded') === 'true';
-    
-    // Close all other dropdowns first
-    if (!isExpanded) {
-      closeAllDropdowns();
+      event.stopPropagation();
+
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      
+      // Close siblings
+      const parent = button.closest('.mobile-dropdown')?.parentElement;
+      if (parent) {
+        parent.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(otherButton => {
+          if (otherButton !== button) {
+            otherButton.setAttribute('aria-expanded', 'false');
+            otherButton.nextElementSibling?.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }
+
+      // Toggle current dropdown
+      button.setAttribute('aria-expanded', (!isExpanded).toString());
+      content.setAttribute('aria-hidden', isExpanded.toString());
+
+      // If closing, also close any open children
+      if (isExpanded) {
+        content.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(childButton => {
+          childButton.setAttribute('aria-expanded', 'false');
+          childButton.nextElementSibling?.setAttribute('aria-hidden', 'true');
+        });
+      }
     }
 
-    // Toggle current dropdown
-    button.setAttribute('aria-expanded', (!isExpanded).toString());
-    button.nextElementSibling?.classList.toggle('show');
-  }
-
-  function closeAllDropdowns() {
-    document.querySelectorAll<HTMLElement>('.mobile-dropdown').forEach(dropdown => {
-      const toggle = dropdown.querySelector('.mobile-dropdown-toggle');
-      if (toggle) {
-        toggle.setAttribute('aria-expanded', 'false');
-      }
-      dropdown.querySelector('.mobile-dropdown-content')?.classList.remove('show');
+    // Add click and touch handlers
+    mobileNav.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
+      button.addEventListener('click', handleDropdownToggle);
+      button.addEventListener('touchstart', handleDropdownToggle, { passive: false });
+      
+      // Prevent double-firing on touch devices
+      button.addEventListener('touchend', (e) => {
+        e.preventDefault();
+      });
     });
+
+    // Close all dropdowns when mobile nav closes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden') {
+          if (mobileNav.getAttribute('aria-hidden') === 'true') {
+            mobileNav.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(button => {
+              button.setAttribute('aria-expanded', 'false');
+              button.nextElementSibling?.setAttribute('aria-hidden', 'true');
+            });
+          }
+        }
+      });
+    });
+
+    observer.observe(mobileNav, { attributes: true });
+
+    // Return cleanup function
+    return () => {
+      observer.disconnect();
+      // Remove all event listeners
+      mobileNav.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
+        button.removeEventListener('click', handleDropdownToggle);
+        button.removeEventListener('touchstart', handleDropdownToggle);
+        button.removeEventListener('touchend', (e) => e.preventDefault());
+      });
+    };
   }
 
-  initMobileNav();
+  // Initialize on page load
+  let cleanup: (() => void) | undefined;
+  cleanup = initMobileNav();
 
-  // Re-init after Astro page transitions
-  document.addEventListener("astro:page-load", initMobileNav);
-  document.addEventListener("astro:after-swap", initMobileNav);
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    if (cleanup) cleanup();
+    cleanup = initMobileNav();
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    if (cleanup) cleanup();
+    cleanup = initMobileNav();
+  });
 </script>
