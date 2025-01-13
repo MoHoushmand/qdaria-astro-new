@@ -43,14 +43,14 @@ const { navData } = Astro.props;
                   </svg>
                 </button>
 
-                <div class="mobile-dropdown-content pl-4" aria-hidden="true">
+                <div class="mobile-dropdown-content hidden pl-4">
                   {navItem.dropdown?.map((dropdownItem: navItem) =>
                     !("dropdown" in dropdownItem) ? (
                       // If it's a direct link
                       <NavLink navItem={dropdownItem} />
                     ) : (
                       // If there's a sub-layer of children
-                      <div class="mobile-dropdown">
+                      <div class="mb-2">
                         <button
                           type="button"
                           class="mobile-dropdown-toggle flex w-full items-center justify-between px-3 py-2 text-sm font-semibold text-base-400"
@@ -71,7 +71,7 @@ const { navData } = Astro.props;
                             />
                           </svg>
                         </button>
-                        <div class="mobile-dropdown-content pl-4" aria-hidden="true">
+                        <div class="mobile-dropdown-content hidden pl-4">
                           {dropdownItem.dropdown?.map((child: navItem) => (
                             <NavLink navItem={child} />
                           ))}
@@ -108,11 +108,6 @@ const { navData } = Astro.props;
     visibility: visible;
   }
 
-  .mobile-dropdown-toggle {
-    width: 100%;
-    text-align: left;
-  }
-
   .mobile-dropdown-toggle svg {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -122,15 +117,11 @@ const { navData } = Astro.props;
   }
 
   .mobile-dropdown-content {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: height 0.3s ease-out, opacity 0.3s ease-out;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .mobile-dropdown-content[aria-hidden="false"] {
-    height: auto;
-    opacity: 1;
+  .mobile-dropdown-content.show {
+    display: block;
   }
 </style>
 
@@ -139,54 +130,36 @@ const { navData } = Astro.props;
     const mobileNav = document.getElementById('mobile-nav');
     if (!mobileNav) return;
 
-    function handleDropdownToggle(event: Event) {
-      // Prevent default for touch events
-      if (event.type === 'touchstart') {
-        event.preventDefault();
-      }
+    function handleClick(e: Event) {
+      const button = e.currentTarget as HTMLButtonElement;
+      if (!button.classList.contains('mobile-dropdown-toggle')) return;
 
-      const button = event.currentTarget as HTMLButtonElement;
+      e.preventDefault();
+      e.stopPropagation();
+
       const content = button.nextElementSibling as HTMLElement;
       if (!content) return;
 
-      event.stopPropagation();
-
       const isExpanded = button.getAttribute('aria-expanded') === 'true';
-      
-      // Close siblings
-      const parent = button.closest('.mobile-dropdown')?.parentElement;
+
+      // Close other dropdowns at same level
+      const parent = button.closest('li');
       if (parent) {
         parent.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(otherButton => {
           if (otherButton !== button) {
             otherButton.setAttribute('aria-expanded', 'false');
-            otherButton.nextElementSibling?.setAttribute('aria-hidden', 'true');
+            (otherButton.nextElementSibling as HTMLElement)?.classList.remove('show');
           }
         });
       }
 
       // Toggle current dropdown
       button.setAttribute('aria-expanded', (!isExpanded).toString());
-      content.setAttribute('aria-hidden', isExpanded.toString());
-
-      // If closing, also close any open children
-      if (isExpanded) {
-        content.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(childButton => {
-          childButton.setAttribute('aria-expanded', 'false');
-          childButton.nextElementSibling?.setAttribute('aria-hidden', 'true');
-        });
-      }
+      content.classList.toggle('show');
     }
 
-    // Add click and touch handlers
-    mobileNav.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
-      button.addEventListener('click', handleDropdownToggle);
-      button.addEventListener('touchstart', handleDropdownToggle, { passive: false });
-      
-      // Prevent double-firing on touch devices
-      button.addEventListener('touchend', (e) => {
-        e.preventDefault();
-      });
-    });
+    // Add click handlers
+    mobileNav.addEventListener('click', handleClick);
 
     // Close all dropdowns when mobile nav closes
     const observer = new MutationObserver((mutations) => {
@@ -195,7 +168,7 @@ const { navData } = Astro.props;
           if (mobileNav.getAttribute('aria-hidden') === 'true') {
             mobileNav.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(button => {
               button.setAttribute('aria-expanded', 'false');
-              button.nextElementSibling?.setAttribute('aria-hidden', 'true');
+              (button.nextElementSibling as HTMLElement)?.classList.remove('show');
             });
           }
         }
@@ -204,15 +177,9 @@ const { navData } = Astro.props;
 
     observer.observe(mobileNav, { attributes: true });
 
-    // Return cleanup function
     return () => {
+      mobileNav.removeEventListener('click', handleClick);
       observer.disconnect();
-      // Remove all event listeners
-      mobileNav.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
-        button.removeEventListener('click', handleDropdownToggle);
-        button.removeEventListener('touchstart', handleDropdownToggle);
-        button.removeEventListener('touchend', (e) => e.preventDefault());
-      });
     };
   }
 
