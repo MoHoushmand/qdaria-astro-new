@@ -15,7 +15,7 @@ const { navData } = Astro.props;
   aria-hidden="true"
 >
   <nav class="site-container py-8">
-    <ul class="flex flex-col">
+    <ul class="flex flex-col gap-2">
       {
         navData.map((navItem: navItem) => (
           <li>
@@ -26,6 +26,7 @@ const { navData } = Astro.props;
                   type="button"
                   class="mobile-dropdown-toggle flex w-full items-center justify-between rounded-lg px-3 py-2 text-base-200 transition-all hover:bg-base-800"
                   aria-expanded="false"
+                  onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); this.nextElementSibling.classList.toggle('show')"
                 >
                   <span>{navItem.text}</span>
                   <svg
@@ -55,6 +56,7 @@ const { navData } = Astro.props;
                           type="button"
                           class="mobile-dropdown-toggle flex w-full items-center justify-between px-3 py-2 text-sm font-semibold text-base-400"
                           aria-expanded="false"
+                          onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); this.nextElementSibling.classList.toggle('show')"
                         >
                           <span>{dropdownItem.text}</span>
                           <svg
@@ -124,77 +126,3 @@ const { navData } = Astro.props;
     display: block;
   }
 </style>
-
-<script>
-  function initMobileNav() {
-    const mobileNav = document.getElementById('mobile-nav');
-    if (!mobileNav) return;
-
-    function handleClick(e: Event) {
-      const button = e.currentTarget as HTMLButtonElement;
-      if (!button.classList.contains('mobile-dropdown-toggle')) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const content = button.nextElementSibling as HTMLElement;
-      if (!content) return;
-
-      const isExpanded = button.getAttribute('aria-expanded') === 'true';
-
-      // Close other dropdowns at same level
-      const parent = button.closest('li');
-      if (parent) {
-        parent.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(otherButton => {
-          if (otherButton !== button) {
-            otherButton.setAttribute('aria-expanded', 'false');
-            (otherButton.nextElementSibling as HTMLElement)?.classList.remove('show');
-          }
-        });
-      }
-
-      // Toggle current dropdown
-      button.setAttribute('aria-expanded', (!isExpanded).toString());
-      content.classList.toggle('show');
-    }
-
-    // Add click handlers
-    mobileNav.addEventListener('click', handleClick);
-
-    // Close all dropdowns when mobile nav closes
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden') {
-          if (mobileNav.getAttribute('aria-hidden') === 'true') {
-            mobileNav.querySelectorAll('.mobile-dropdown-toggle[aria-expanded="true"]').forEach(button => {
-              button.setAttribute('aria-expanded', 'false');
-              (button.nextElementSibling as HTMLElement)?.classList.remove('show');
-            });
-          }
-        }
-      });
-    });
-
-    observer.observe(mobileNav, { attributes: true });
-
-    return () => {
-      mobileNav.removeEventListener('click', handleClick);
-      observer.disconnect();
-    };
-  }
-
-  // Initialize on page load
-  let cleanup: (() => void) | undefined;
-  cleanup = initMobileNav();
-
-  // Re-initialize after Astro page transitions
-  document.addEventListener('astro:page-load', () => {
-    if (cleanup) cleanup();
-    cleanup = initMobileNav();
-  });
-
-  document.addEventListener('astro:after-swap', () => {
-    if (cleanup) cleanup();
-    cleanup = initMobileNav();
-  });
-</script>

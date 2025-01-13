@@ -206,6 +206,7 @@ const navData: navItem[] = [
             aria-label="Toggle menu"
             aria-expanded="false"
             aria-controls="mobile-nav"
+            onclick="const nav=document.getElementById('mobile-nav');const expanded=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',(!expanded).toString());nav.setAttribute('aria-hidden',expanded.toString());document.body.style.overflow=expanded?'':'hidden'"
           >
             <svg
               class="h-6 w-6"
@@ -317,79 +318,3 @@ const navData: navItem[] = [
     }
   }
 </style>
-
-<script>
-  function initMobileNav() {
-    const mobileNav = document.getElementById('mobile-nav');
-    const toggle = document.getElementById('mobile-nav-toggle');
-    
-    if (!mobileNav || !toggle) return;
-
-    function handleToggle(e: Event) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const isExpanded = toggle?.getAttribute('aria-expanded') === 'true';
-      const newState = !isExpanded;
-      
-      toggle?.setAttribute('aria-expanded', newState.toString());
-      mobileNav?.setAttribute('aria-hidden', (!newState).toString());
-      
-      // Toggle body scroll
-      document.body.style.overflow = newState ? 'hidden' : '';
-      
-      // Toggle backdrop
-      if (newState) {
-        document.body.classList.add('overflow-hidden', 'backdrop-blur');
-      } else {
-        document.body.classList.remove('overflow-hidden', 'backdrop-blur');
-      }
-    }
-
-    // Add click and touch handlers
-    toggle?.addEventListener('click', handleToggle);
-    toggle?.addEventListener('touchend', handleToggle);
-
-    // Handle outside clicks
-    const handleOutsideClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (toggle?.getAttribute('aria-expanded') === 'true' &&
-          !mobileNav?.contains(target) &&
-          !toggle?.contains(target)) {
-        handleToggle(e);
-      }
-    };
-
-    // Handle escape key
-    const handleEscapeKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
-        handleToggle(e);
-      }
-    };
-
-    document.addEventListener('click', handleOutsideClick);
-    document.addEventListener('keydown', handleEscapeKey);
-
-    return () => {
-      toggle?.removeEventListener('click', handleToggle);
-      toggle?.removeEventListener('touchend', handleToggle);
-      document.removeEventListener('click', handleOutsideClick);
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }
-
-  // Initialize on page load
-  let cleanup: (() => void) | undefined;
-  cleanup = initMobileNav();
-
-  // Re-initialize after Astro page transitions
-  document.addEventListener('astro:page-load', () => {
-    if (cleanup) cleanup();
-    cleanup = initMobileNav();
-  });
-
-  document.addEventListener('astro:after-swap', () => {
-    if (cleanup) cleanup();
-    cleanup = initMobileNav();
-  });
-</script>
