@@ -1,0 +1,22 @@
+{
+  "name": "QDaria",
+  "short_name": "QDaria",
+  "description": "QDaria is pioneering fault-tolerant topological quantum computing through breakthrough Fibonacci anyon technology.",
+  "icons": [
+    {
+      "src": "/favicons/QD-browser-thumbnail.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000212",
+  "background_color": "#000212",
+  "display": "standalone",
+  "start_url": "/"
+}
