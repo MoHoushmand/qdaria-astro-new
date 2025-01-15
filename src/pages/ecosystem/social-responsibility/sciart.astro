@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Nav from "@components/Nav/Nav.astro";
+import { Image } from "astro:assets";
+import sciartImage from "@assets/images/social-responsibility/sciart/1Mcolors0.avif";
 import Button from "@components/Button/Button.astro";
 ---
 
@@ -16,19 +18,26 @@ import Button from "@components/Button/Button.astro";
       </h1>
       
       <div class="prose prose-invert mx-auto">
-        <p class="text-lg">
+        <p class="text-lg text-center max-w-3xl mx-auto">
           Our SciArt project represents a unique intersection of science, art, and social responsibility. A significant portion of the art sold through this initiative is donated to various humanitarian projects worldwide that we actively support.
         </p>
 
-        <p class="text-lg mt-6">
-          Currently, our focus is directed towards two critical causes:
+        <p class="text-lg mt-6 text-center max-w-3xl mx-auto">
+          Currently, our focus is directed towards three critical causes:
         </p>
 
         <div class="mt-6 space-y-8">
           <div class="feature-card rounded-xl p-8">
             <h2 class="text-2xl font-bold text-white mb-4">EcoMoyo Education Initiative</h2>
             <p class="text-base-300">
-              Supporting the EcoMoyo school in Kenya, which provides free education to 270 children. Through our contributions, we help create opportunities for underprivileged children to access quality education and build brighter futures.
+              Supporting the <a href="/ecosystem/social-responsibility/ecomoyo" class="text-primary-400 hover:text-primary-300 transition-colors duration-200">EcoMoyo school</a> in Kenya, which provides free education to 270 children. Through our contributions, we help create opportunities for underprivileged children to access quality education and build brighter futures.
+            </p>
+          </div>
+
+          <div class="feature-card rounded-xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-4">Art For Change (Affirmative Art)</h2>
+            <p class="text-base-300">
+              <a href="/ecosystem/social-responsibility/artforchange" class="text-primary-400 hover:text-primary-300 transition-colors duration-200">ART FOR CHANGE</a> connects socially conscious art collectors with in-demand contemporary artists and their work. The platform offers museum-quality prints and original works at approachable price points, ensuring artists receive 50% of net proceeds. This commitment supports a thriving cultural ecosystem while affecting positive change through donations to relevant non-profits.
             </p>
           </div>
 
@@ -38,23 +47,38 @@ import Button from "@components/Button/Button.astro";
               Combating child trafficking and exploitation in countries like Nepal, Bali, and India. We focus particularly on rescuing young girls, some as young as 5-8 years old, who are held captive in inhumane conditions. These children often face tragic circumstances, with many not surviving past their twenties due to malnutrition and abuse. The current cost to rescue each child ranges between $4,000-5,000.
             </p>
           </div>
+
+          <div class="feature-card rounded-xl p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h2 class="text-2xl font-bold text-white mb-4">Our Commitment</h2>
+                <p class="text-base-300 mb-6">
+                  QDaria is deeply committed to being more than just a passive donor. We are developing an active program to provide comprehensive support including:
+                </p>
+
+                <ul class="text-base-300 list-disc pl-6 space-y-2">
+                  <li>Safe shelter and accommodation</li>
+                  <li>Nutritious food and healthcare</li>
+                  <li>Quality education and skill development</li>
+                  <li>Psychological support and rehabilitation</li>
+                  <li>Long-term care and monitoring</li>
+                </ul>
+
+                <p class="text-base-300 mt-6">
+                  Our goal is to give these children the life they deserve and support them through the healing process. Every piece of art sold through SciArt contributes directly to these vital causes.
+                </p>
+              </div>
+              <div>
+                <Image
+                  src={sciartImage}
+                  alt="SciArt Project"
+                  class="rounded-lg w-full h-full object-cover"
+                  style="aspect-ratio: 4/3;"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-
-        <p class="text-lg mt-8">
-          QDaria is deeply committed to being more than just a passive donor. We are developing an active program to provide comprehensive support including:
-        </p>
-
-        <ul class="list-disc pl-6 mt-4 space-y-2">
-          <li>Safe shelter and accommodation</li>
-          <li>Nutritious food and healthcare</li>
-          <li>Quality education and skill development</li>
-          <li>Psychological support and rehabilitation</li>
-          <li>Long-term care and monitoring</li>
-        </ul>
-
-        <p class="text-lg mt-6">
-          Our goal is to give these children the life they deserve and support them through the healing process. Every piece of art sold through SciArt contributes directly to these vital causes.
-        </p>
 
         <div class="mt-12 text-center">
           <Button
@@ -92,12 +116,17 @@ import Button from "@components/Button/Button.astro";
   }
 
   .feature-card {
-    @apply relative border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
     box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
 
     &:hover {
       box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
       @apply border-primary-500/50 bg-dark-bg/90;
     }
+  }
+
+  .prose {
+    @apply max-w-4xl;
   }
 </style>
