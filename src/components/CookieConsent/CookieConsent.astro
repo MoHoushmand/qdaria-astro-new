@@ -83,9 +83,10 @@ const currLocale = getLocaleFromUrl(Astro.url);
       // let oneYear = new Date(d.getFullYear() + 1, d.getMonth(), d.getDate());
       // document.cookie = "cookie-consent=granted; expires=" + oneYear + "; path=/";
 
-      // call global function (head defined) to update GA4 or other analytics
-      // Example here https://webreaper.dev/posts/google-tag-manager-cookie-consent/
-      // consentGranted();
+      // Update GA4 consent
+      if (typeof window.consentGranted === 'function') {
+        window.consentGranted();
+      }
     });
 
     // If the user clicks the decline button, hide the banner and set a cookie

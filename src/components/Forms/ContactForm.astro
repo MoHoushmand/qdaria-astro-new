@@ -1,74 +1,93 @@
 ---
-/**
- * * Simple contact form to get you started
- *
- * See https://cosmicthemes.com/docs/contact-form/ for more information on how to set up a contact form
- *
- * Form inputs are styled in "global.scss" as form__input, so you can use them elsewhere on the site
- */
-
-// components
 import Button from "@components/Button/Button.astro";
 ---
 
-<section id="contact" class="ml-auto min-w-fit max-w-2xl md:max-w-md">
-  <form id="contact-form" name="contact" class="flex flex-col gap-4">
-    <input type="hidden" name="form-name" value="contact" />
+<section id="contact" class="h-full">
+  <form 
+    id="contact-form" 
+    name="contact" 
+    class="flex h-full flex-col gap-3"
+    action="https://formsubmit.co/042a629a7f867a5a5b5e4d0e83e4c418"
+    method="POST"
+  >
+    <input type="hidden" name="_subject" value="New Contact Form Submission" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_next" value="https://qdaria.com/thank-you" />
+
     <div>
       <div class="flex flex-col">
         <label for="contact-fname" class="form__label sr-only">Full Name</label>
         <input
           type="text"
-          class="form__input"
-          name="fname"
+          class="w-full rounded-lg border border-primary-500/30 bg-dark-bg/80 px-4 py-3 text-base-200 backdrop-blur-sm transition-all duration-300 placeholder:text-gray-500 hover:border-primary-500/40 hover:shadow-[0_0_25px_rgba(4,163,255,0.2)] focus:border-primary-500/50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:shadow-[0_0_35px_rgba(4,163,255,0.3)]"
+          name="name"
           id="contact-fname"
-          placeholder="first name"
+          placeholder="Full name"
           required
         />
       </div>
     </div>
     <div>
-      <label for="contact-email" class="form__label sr-only mb-1"
-        >Email Address</label
-      >
+      <label for="contact-email" class="form__label sr-only">Email Address</label>
       <input
         type="email"
-        class="form__input"
+        class="w-full rounded-lg border border-primary-500/30 bg-dark-bg/80 px-4 py-3 text-base-200 backdrop-blur-sm transition-all duration-300 placeholder:text-gray-500 hover:border-primary-500/40 hover:shadow-[0_0_25px_rgba(4,163,255,0.2)] focus:border-primary-500/50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:shadow-[0_0_35px_rgba(4,163,255,0.3)]"
         name="email"
         id="contact-email"
         inputmode="email"
-        placeholder="preferred contact email"
+        placeholder="Email address"
         required
       />
     </div>
-    <div>
-      <label for="contact-phone" class="form__label sr-only mb-1"
-        >Phone Number</label
-      >
-      <input
-        type="tel"
-        class="form__input"
-        name="phone"
-        id="contact-phone"
-        inputmode="tel"
-        placeholder="phone number"
-        required
-      />
+    <div class="grid grid-cols-3 gap-3">
+      <div>
+        <label for="contact-country-code" class="form__label sr-only">Country Code</label>
+        <select
+          name="country_code"
+          id="contact-country-code"
+          class="w-full rounded-lg border border-primary-500/30 bg-dark-bg/80 px-4 py-3 text-base-200 backdrop-blur-sm transition-all duration-300 placeholder:text-gray-500 hover:border-primary-500/40 hover:shadow-[0_0_25px_rgba(4,163,255,0.2)] focus:border-primary-500/50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:shadow-[0_0_35px_rgba(4,163,255,0.3)]"
+          required
+        >
+          <option value="+47">+47 (Norway)</option>
+          <option value="+1">+1 (US/Canada)</option>
+          <option value="+44">+44 (UK)</option>
+          <option value="+46">+46 (Sweden)</option>
+          <option value="+45">+45 (Denmark)</option>
+          <option value="+358">+358 (Finland)</option>
+          <option value="+49">+49 (Germany)</option>
+          <!-- Add more country codes as needed -->
+        </select>
+      </div>
+      <div class="col-span-2">
+        <label for="contact-phone" class="form__label sr-only">Phone Number</label>
+        <input
+          type="tel"
+          class="w-full rounded-lg border border-primary-500/30 bg-dark-bg/80 px-4 py-3 text-base-200 backdrop-blur-sm transition-all duration-300 placeholder:text-gray-500 hover:border-primary-500/40 hover:shadow-[0_0_25px_rgba(4,163,255,0.2)] focus:border-primary-500/50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:shadow-[0_0_35px_rgba(4,163,255,0.3)]"
+          name="phone"
+          id="contact-phone"
+          inputmode="tel"
+          placeholder="Phone number"
+          required
+        />
+      </div>
     </div>
     <div>
-      <label for="contact-services" class="form__label sr-only mb-1"
-        >Message</label
-      >
+      <label for="contact-services" class="form__label sr-only">Message</label>
       <textarea
-        name="services"
-        class="form__input"
+        name="message"
+        class="w-full rounded-lg border border-primary-500/30 bg-dark-bg/80 px-4 py-3 text-base-200 backdrop-blur-sm transition-all duration-300 placeholder:text-gray-500 hover:border-primary-500/40 hover:shadow-[0_0_25px_rgba(4,163,255,0.2)] focus:border-primary-500/50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:shadow-[0_0_35px_rgba(4,163,255,0.3)] resize-none"
         id="contact-services"
         rows="4"
-        placeholder="Reason for contacting us"
+        placeholder="How can we help you?"
         required></textarea>
     </div>
-    <Button variant="primary" type="submit" class="rounded-md before:rounded-md"
-      >Submit</Button
+    <Button 
+      variant="primary" 
+      type="submit" 
+      class="w-full rounded-lg bg-primary-500/10 border border-primary-500/30 px-6 py-3 text-base-200 font-medium hover:bg-primary-500/20 hover:border-primary-500/50 hover:shadow-[0_0_35px_rgba(4,163,255,0.3)] transition-all duration-300 before:rounded-lg"
     >
+      Send Message
+    </Button>
   </form>
 </section>

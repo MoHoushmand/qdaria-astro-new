@@ -4,112 +4,222 @@ import ContactForm from "./Forms/ContactForm.astro";
 import Badge from "./Badge/Badge.astro";
 
 const contactInfo = {
-  email: "contact@qdaria.com",
+  email: "mo@qdaria.com",
   phone: "+47 9807 9896",
-  address: "Innovation Park Oslo, 0123 Oslo, Norway"
+  address: "Colletts gate 60F, 0165 Oslo, Norway"
 };
 ---
 
-<section id="contact" class="py-16 md:py-20">
-  <div class="site-container relative">
-    <div class="mx-auto mb-16 text-center md:max-w-2xl" data-aos="fade-up">
+<section id="contact" class="relative z-10 bg-dark-bg py-32 overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-radial-dark opacity-50"></div>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+    <div class="mx-auto max-w-3xl text-center">
       <Badge>Contact Us</Badge>
-      <div class="flex justify-center">
-        <h2 class="h2 mb-4">Get in Touch</h2>
-      </div>
-      <p class="description text-pretty text-lg md:text-xl">
+      <h2 class="text-gradient-blue text-3xl font-bold tracking-tight sm:text-4xl mb-6 select-text">
+        Get in Touch
+      </h2>
+      <p class="text-lg leading-8 text-base-400 mb-16 select-text">
         Interested in our quantum solutions? Contact us to discuss how we can help transform your organization with Topological Quantum Computing.
       </p>
     </div>
 
-    <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2">
-      <!-- Contact Information Card with Glow Effect -->
-      <div 
-        class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]" 
-        data-aos="fade-up" 
-        data-aos-delay=".1"
-      >
-        <div class="space-y-8">
-          <div>
-            <h3 class="mb-6 text-2xl font-medium text-gray-100">Contact Information</h3>
-            <div class="space-y-4">
-              <div class="flex items-center gap-3 transition-transform hover:translate-x-2">
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-                  <Icon name="tabler/mail" class="h-5 w-5 text-blue-400" />
-                </div>
-                <a href={`mailto:${contactInfo.email}`} class="text-gray-300 hover:text-blue-400">
-                  {contactInfo.email}
-                </a>
+    <div class="mx-auto mt-16 grid max-w-7xl gap-8 lg:grid-cols-3">
+      <!-- Contact Information Card -->
+      <div class="feature-card h-full">
+        <div class="relative p-6">
+          <h3 class="mb-3 text-xl font-bold text-white select-text">Contact Information</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 transition-all duration-300 hover:translate-x-2">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-500/10">
+                <Icon name="tabler/mail" class="h-5 w-5 text-primary-400" />
               </div>
-              <div class="flex items-center gap-3 transition-transform hover:translate-x-2">
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-                  <Icon name="tabler/phone" class="h-5 w-5 text-blue-400" />
-                </div>
-                <a href={`tel:${contactInfo.phone}`} class="text-gray-300 hover:text-blue-400">
-                  {contactInfo.phone}
-                </a>
-              </div>
-              <div class="flex items-center gap-3 transition-transform hover:translate-x-2">
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
-                  <Icon name="tabler/map-pin" class="h-5 w-5 text-blue-400" />
-                </div>
-                <span class="text-gray-300">{contactInfo.address}</span>
-              </div>
+              <a href={`mailto:${contactInfo.email}`} class="text-base-300 hover:text-primary-400 transition-colors duration-200 select-text">
+                {contactInfo.email}
+              </a>
             </div>
-          </div>
-
-          <div>
-            <h3 class="mb-6 text-2xl font-medium text-gray-100">Connect With Us</h3>
-            <div class="rounded-lg bg-blue-500/5 p-6">
-              <p class="mb-4 text-gray-300">
-                Reach out for:
-              </p>
-              <ul class="space-y-2 text-gray-400">
-                <li class="flex items-center gap-2">
-                  <Icon name="tabler/circle-check" class="h-4 w-4 text-blue-400" />
-                  Quantum computing solutions and consulting
-                </li>
-                <li class="flex items-center gap-2">
-                  <Icon name="tabler/circle-check" class="h-4 w-4 text-blue-400" />
-                  Partnership opportunities
-                </li>
-                <li class="flex items-center gap-2">
-                  <Icon name="tabler/circle-check" class="h-4 w-4 text-blue-400" />
-                  Investment inquiries
-                </li>
-                <li class="flex items-center gap-2">
-                  <Icon name="tabler/circle-check" class="h-4 w-4 text-blue-400" />
-                  Career opportunities in quantum technology
-                </li>
-                <li class="flex items-center gap-2">
-                  <Icon name="tabler/circle-check" class="h-4 w-4 text-blue-400" />
-                  Media and press inquiries
-                </li>
-              </ul>
+            <div class="flex items-center gap-3 transition-all duration-300 hover:translate-x-2">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-500/10">
+                <Icon name="tabler/phone" class="h-5 w-5 text-primary-400" />
+              </div>
+              <a href={`tel:${contactInfo.phone}`} class="text-base-300 hover:text-primary-400 transition-colors duration-200 select-text">
+                {contactInfo.phone}
+              </a>
+            </div>
+            <div class="flex items-center gap-3 transition-all duration-300 hover:translate-x-2">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-500/10">
+                <Icon name="tabler/map-pin" class="h-5 w-5 text-primary-400" />
+              </div>
+              <span class="text-base-300 select-text">{contactInfo.address}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Contact Form Card with Glow Effect -->
-      <div 
-        class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]" 
-        data-aos="fade-up" 
-        data-aos-delay=".2"
-      >
-        <ContactForm />
+      <!-- Services Card -->
+      <div class="feature-card h-full">
+        <div class="relative p-6">
+          <h3 class="mb-3 text-xl font-bold text-white select-text">Reach Out For:</h3>
+          <div class="rounded-lg bg-primary-500/5 p-4">
+            <p class="mb-3 text-sm text-base-300 select-text">
+              We are your all-in-one Digitization of Analog and Analogization of your Digital needs
+            </p>
+            <ul class="space-y-1.5 text-sm text-base-300">
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Quantum + AI & Quantum Technology Solutions</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Company Tailored Consultancy</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Industry Certifications</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Data Science & Analytics</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">SciArt & Design</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Partnerships</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Investments</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Careers</span>
+              </li>
+              <li class="flex items-center gap-2 transition-all duration-300 hover:translate-x-2">
+                <Icon name="tabler/circle-check" class="h-4 w-4 text-primary-400" />
+                <span class="select-text">Press & Media</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form Card -->
+      <div class="feature-card h-full">
+        <div class="relative p-6">
+          <h3 class="mb-3 text-xl font-bold text-white select-text">Send Us a Message</h3>
+          <ContactForm />
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .hover-glow {
-    transition: all 0.3s ease-in-out;
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
   }
-  
-  .hover-glow:hover {
-    box-shadow: 0 0 25px rgba(0, 0, 255, 0.4);
-    transform: translateY(-2px);
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    position: relative;
+    border-radius: 1rem;
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    background-color: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(8px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    user-select: none;
+  }
+
+  .feature-card:hover {
+    box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(4, 163, 255, 0.5);
+    background-color: rgba(2, 6, 23, 0.9);
+    animation: pulse-card 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-card {
+    0%,
+    100% {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+    }
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    background: radial-gradient(
+      800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+      rgba(4, 163, 255, 0.15),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+
+  .select-text {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
 </style>
+
+<script>
+  function handleMouseMove(event: MouseEvent) {
+    const card = event.currentTarget as HTMLElement;
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  }
+
+  function initializeCards() {
+    const cards = document.querySelectorAll('.feature-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', handleMouseMove as EventListener);
+    });
+  }
+
+  // Initialize when the DOM is ready
+  if (document.readyState === 'complete') {
+    initializeCards();
+  } else {
+    window.addEventListener('load', initializeCards);
+  }
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    setTimeout(initializeCards, 0);
+  });
+  document.addEventListener('astro:after-swap', () => {
+    setTimeout(initializeCards, 0);
+  });
+</script>

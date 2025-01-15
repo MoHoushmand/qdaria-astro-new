@@ -1,0 +1,103 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Nav from "@components/Nav/Nav.astro";
+import Button from "@components/Button/Button.astro";
+---
+
+<BaseLayout
+  title="SciArt - Art for Social Impact | QDaria"
+  description="QDaria's SciArt project combines art and social responsibility to support various humanitarian causes worldwide."
+>
+  <Nav />
+  <main class="relative bg-dark-bg">
+    <div class="site-container py-24">
+      <h1 class="text-gradient-blue mb-12 text-center text-4xl font-bold tracking-tight sm:text-5xl">
+        SciArt
+      </h1>
+      
+      <div class="prose prose-invert mx-auto">
+        <p class="text-lg">
+          Our SciArt project represents a unique intersection of science, art, and social responsibility. A significant portion of the art sold through this initiative is donated to various humanitarian projects worldwide that we actively support.
+        </p>
+
+        <p class="text-lg mt-6">
+          Currently, our focus is directed towards two critical causes:
+        </p>
+
+        <div class="mt-6 space-y-8">
+          <div class="feature-card rounded-xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-4">EcoMoyo Education Initiative</h2>
+            <p class="text-base-300">
+              Supporting the EcoMoyo school in Kenya, which provides free education to 270 children. Through our contributions, we help create opportunities for underprivileged children to access quality education and build brighter futures.
+            </p>
+          </div>
+
+          <div class="feature-card rounded-xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-4">Anti-Child Trafficking Campaign</h2>
+            <p class="text-base-300">
+              Combating child trafficking and exploitation in countries like Nepal, Bali, and India. We focus particularly on rescuing young girls, some as young as 5-8 years old, who are held captive in inhumane conditions. These children often face tragic circumstances, with many not surviving past their twenties due to malnutrition and abuse. The current cost to rescue each child ranges between $4,000-5,000.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-lg mt-8">
+          QDaria is deeply committed to being more than just a passive donor. We are developing an active program to provide comprehensive support including:
+        </p>
+
+        <ul class="list-disc pl-6 mt-4 space-y-2">
+          <li>Safe shelter and accommodation</li>
+          <li>Nutritious food and healthcare</li>
+          <li>Quality education and skill development</li>
+          <li>Psychological support and rehabilitation</li>
+          <li>Long-term care and monitoring</li>
+        </ul>
+
+        <p class="text-lg mt-6">
+          Our goal is to give these children the life they deserve and support them through the healing process. Every piece of art sold through SciArt contributes directly to these vital causes.
+        </p>
+
+        <div class="mt-12 text-center">
+          <Button
+            variant="primary"
+            class="inline-flex items-center justify-center rounded-lg px-6 py-3 text-lg font-semibold text-white transition-all hover:scale-105"
+            disabled={true}
+          >
+            Donate Now
+            <span class="ml-2 text-sm">(Coming Soon)</span>
+          </Button>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    @apply relative border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      @apply border-primary-500/50 bg-dark-bg/90;
+    }
+  }
+</style>

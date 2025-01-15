@@ -1,10 +1,155 @@
 ---
-export async function GET() {
-  return new Response(null, {
-    status: 302,
-    headers: {
-      'Location': '/404'
-    }
-  });
-}
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Nav from "@components/Nav/Nav.astro";
+import { Image } from "astro:assets";
+
+const mediaItems = [
+  {
+    title: "QDaria invited as keynote speaker and panel moderator at the prestigious Davos Innovation Week January 2025",
+    source: "Davos Innovation Week",
+    date: "January 21-23, 2025",
+    description: "QDaria joins global innovators and leaders at Davos Innovation Week 2025, showcasing quantum computing breakthroughs and future technologies.",
+    link: "https://www.davosinnovationweek.com",
+    thumbnail: "/images/media/16.avif",
+  },
+  {
+    title: "QDaria CEO Honored as Special Guest at UK-Pakistan Business Summit in Davos",
+    source: "Pakistan Business Summit",
+    date: "January 20, 2025",
+    description: "Daniel 'Mo' Houshmand, CEO of QDaria, invited as Guest of Honor by the UK-Pakistan Trade & Investment Board to discuss quantum computing innovations and cross-border technology partnerships at the prestigious Pakistan Business Summit during Davos week.",
+    link: "https://www.uk-pakistan-trade.org/summit-2025",
+    thumbnail: "/images/media/UK-Pakistan-Summit-Davos25.avif",
+  },
+  {
+    title: "Revolutionizing the Quantum Frontier: An Interview with Daniel 'Mo' Houshmand",
+    source: "xRaised",
+    date: "October 15, 2024",
+    description: "An exclusive interview with QDaria's CEO discussing the company's vision, technological breakthroughs, and the future of quantum computing.",
+    link: "https://xraised.com/videos/revolutionizing-the-quantum-frontier-an-interview-with-daniel-mo-houshmand-ceo-of-qdaria/",
+    thumbnail: "/images/media/xraised-e1-qdaria.avif",
+  },
+  {
+    title: "The Quantum Leap: How QDaria's Topological Quantum Computing Will Revolutionize the World",
+    source: "xRaised",
+    date: "September 1, 2024",
+    description: "An in-depth exploration of QDaria's innovative approach to topological quantum computing and its potential impact on various industries.",
+    link: "https://xraised.com/videos/the-quantum-leap-how-qdarias-topological-quantum-computing-will-revolutionize-the-world/",
+    thumbnail: "/images/media/xraised-e2-qm9.avif",
+  },
+  {
+    title: "IQT Quantum + AI Conference",
+    source: "Inside Quantum Technology",
+    date: "August 15, 2024",
+    description: "QDaria featured at IQT's premier conference bringing together quantum computing and AI leaders for state-of-the-art discussions and innovations.",
+    link: "https://iqtevent.com/quantumai-2024/",
+    thumbnail: "/images/media/iqt.avif",
+  },
+  {
+    title: "Daniel 'Mo' Houshmand, CEO of QDaria, Will Speak at IQT Quantum + AI",
+    source: "Inside Quantum Technology",
+    date: "July 25, 2024",
+    description: "Daniel Mo Houshmand, CEO of QDaria, will share insights on quantum computing and the company's work on developing a large-scale Topological Quantum Computer using Fibonacci Anyons.",
+    link: "https://www.insidequantumtechnology.com/news-archive/daniel-mo-houshmand-ceo-of-qdaria-will-speak-at-iqt-quantum-ai-in-nyc-october-29-30-3/",
+    thumbnail: "/images/media/Q+AI24_1200x1200_hms_houshmand.avif",
+  },
+  {
+    title: "QDaria CEO to Present at IQT Quantum + AI Conference",
+    source: "Plato Data Intelligence",
+    date: "July 18, 2024",
+    description: "Coverage of QDaria CEO's presentation at the IQT Quantum + AI Conference in New York City, discussing quantum computing breakthroughs and practical applications.",
+    link: "https://platodata.network/platowire/daniel-mo-houshmand-ceo-of-qdaria-to-present-at-iqt-quantum-ai-conference-in-new-york-city-on-october-29-30-inside-quantum-technology/",
+    thumbnail: "/images/media/plato.avif",
+  },
+  {
+    title: "QDaria Featured in Daily Dev",
+    source: "Daily Dev",
+    date: "July 15, 2024",
+    description: "Comprehensive coverage of QDaria's quantum computing innovations and future plans in the technology sector.",
+    link: "https://platodata.network/platowire/daniel-mo-houshmand-ceo-of-qdaria-to-present-at-iqt-quantum-ai-conference-in-new-york-city-on-october-29-30-inside-quantum-technology/",
+    thumbnail: "/images/media/dailydev.avif",
+  },
+];
 ---
+
+<BaseLayout
+  title="QDaria in Media"
+  description="Explore QDaria's media presence and coverage in leading technology publications and events."
+>
+  <Nav />
+  <main class="relative bg-dark-bg">
+    <div class="site-container mx-auto max-w-7xl px-6 py-24 lg:px-8">
+      <h1
+        class="text-gradient-blue mb-16 text-center text-4xl font-bold tracking-tight sm:text-5xl"
+      >
+        QDaria in Media
+      </h1>
+
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-2">
+        {
+          mediaItems.map((item) => (
+            <div class="feature-card group overflow-hidden rounded-xl">
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block h-full"
+              >
+                <div class="relative aspect-[16/9] overflow-hidden">
+                  <img
+                    src={item.thumbnail}
+                    alt={item.title}
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    width={800}
+                    height={450}
+                  />
+                </div>
+                <div class="p-8">
+                  <h3 class="mb-3 text-xl font-semibold text-base-200 transition-colors duration-300 group-hover:text-primary-400">
+                    {item.title}
+                  </h3>
+                  <p class="mb-4 text-sm text-base-300 opacity-80">
+                    {item.source} • {item.date}
+                  </p>
+                  <p class="text-sm leading-relaxed text-base-200">
+                    {item.description}
+                  </p>
+                </div>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    @apply relative border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.2);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.4);
+      @apply scale-[1.02] transform border-primary-500/50 bg-dark-bg/90;
+    }
+  }
+</style>

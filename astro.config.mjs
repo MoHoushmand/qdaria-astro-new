@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: netlify(),
   security: {
     headers: {
-      "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' blob:; font-src 'self' data:;"
+      "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; connect-src 'self' blob: https://www.google-analytics.com; font-src 'self' data:;"
     }
   },
   redirects: {
@@ -19,8 +19,6 @@ export default defineConfig({
     '/pitch/*': '/404',
     '/pitch-deck': '/404', 
     '/pitch-deck/*': '/404',
-    '/company/media': '/404',
-    '/company/media/*': '/404',
     '/company/blog': '/blog',
     '/company/blog/*': '/blog/*'
   },

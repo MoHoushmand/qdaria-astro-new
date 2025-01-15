@@ -80,11 +80,50 @@ const ogImage = "/icons/qdaria/QDlogomark.svg"; // Updated to use QDaria logo
 <meta name="format-detection" content="telephone=no" />
 <meta name="mobile-web-app-capable" content="yes" />
 
+<!-- Google Analytics -->
+<script is:inline>
+  // Default consent to denied
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+
+  // Initialize GA4 with consent mode
+  function initGA() {
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-E9TWMXPSW3';
+    script.async = true;
+    document.head.appendChild(script);
+    
+    gtag('js', new Date());
+    gtag('config', 'G-E9TWMXPSW3', {
+      'consent': 'default',
+      'analytics_storage': 'denied'
+    });
+  }
+
+  // Function to grant consent
+  window.consentGranted = function() {
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted'
+    });
+  };
+
+  // Check initial consent
+  const consent = document.cookie.match(/cookie-consent=([^;]+)/)?.[1];
+  if (consent === 'accept') {
+    window.consentGranted();
+  }
+
+  // Initialize GA
+  initGA();
+</script>
+
 <!-- Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
 <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
 <meta
   http-equiv="Content-Security-Policy"
-  content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob: ws:;"
+  content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob: ws:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com;"
 />

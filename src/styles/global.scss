@@ -91,6 +91,22 @@ section {
   color: rgba(209, 213, 219, 0.8);
 }
 
+/* Form styles */
+.form__input {
+  @apply w-full rounded-lg border border-primary-500/30 bg-dark-bg/80 px-4 py-3 text-base-200;
+  @apply shadow-[0_0_15px_rgba(0,0,255,0.1)] backdrop-blur-sm transition-all;
+  @apply placeholder:text-gray-500;
+  @apply focus:border-primary-500/50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:shadow-[0_0_25px_rgba(0,0,255,0.2)];
+}
+
+textarea.form__input {
+  @apply resize-none;
+}
+
+.form__label {
+  @apply mb-2 block text-sm font-medium text-base-200;
+}
+
 /* Dark mode specific styles */
 .dark {
   .interactive-card,
