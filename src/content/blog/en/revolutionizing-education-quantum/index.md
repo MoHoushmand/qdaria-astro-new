@@ -3,7 +3,7 @@ title: "Revolutionizing Education with Quantum Technologies"
 description: "Discover how QDiana is transforming STEM education through quantum computing and interactive learning experiences."
 authors: ["daniel-mo-houshmand"]
 pubDate: "2024-01-25"
-heroImage: "/src/assets/images/lightning-2.jpg"
+heroImage: "/images/blog/lightning-2.jpg"
 categories: ["Education", "Technology", "Quantum Computing"]
 tags: ["Quantum Computing", "Education", "STEM", "EdTech"]
 ---

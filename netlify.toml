@@ -7,10 +7,17 @@
   publish = "dist"
   functions = "netlify/functions/"
 
+# Remove the SPA redirect that's causing 404s
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
+
+# Add a fallback for 404 pages
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/404.html"
+  status = 404
 
 [[redirects]]
   from = "/api/*"
