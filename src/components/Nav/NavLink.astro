@@ -1,12 +1,8 @@
 ---
-import type { navLinkItem } from "@config/types/configDataTypes";
-
-interface NavItem extends navLinkItem {
-  highlight?: boolean;
-}
+import type { navItem } from "../../config/types/configDataTypes";
 
 interface Props {
-  navItem: NavItem;
+  navItem: navItem;
   class?: string;
 }
 

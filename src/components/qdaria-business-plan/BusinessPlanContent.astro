@@ -1,0 +1,126 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  children: any;
+  sectionNumber?: number;
+}
+
+const { title, description, sectionNumber } = Astro.props;
+---
+
+<div class="content-section mb-12">
+  <h2 class="text-gradient-blue mb-6 text-3xl font-bold">
+    {sectionNumber && <span class="section-number">{sectionNumber}.</span>} {title}
+  </h2>
+  {description && <p class="text-base-300 mb-6">{description}</p>}
+  <div class="prose prose-invert max-w-none numbered-headings">
+    <slot />
+  </div>
+</div>
+
+<script>
+  // Add automatic numbering to h3 and h4 elements
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.content-section');
+    
+    sections.forEach((section, sectionIndex) => {
+      const sectionNumber = sectionIndex + 1;
+      const h3Elements = section.querySelectorAll('h3');
+      const h4Elements = section.querySelectorAll('h4');
+      
+      // Number h3 elements (subsections)
+      h3Elements.forEach((h3, h3Index) => {
+        const subsectionNumber = h3Index + 1;
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'subsection-number';
+        numberSpan.textContent = `${sectionNumber}.${subsectionNumber} `;
+        h3.prepend(numberSpan);
+      });
+      
+      // Number h4 elements (sub-subsections)
+      let currentH3Index = 0;
+      h4Elements.forEach((h4) => {
+        // Find the preceding h3 for this h4
+        const h3s = Array.from(h3Elements);
+        for (let i = h3s.length - 1; i >= 0; i--) {
+          if (h3s[i].compareDocumentPosition(h4) & Node.DOCUMENT_POSITION_FOLLOWING) {
+            currentH3Index = i;
+            break;
+          }
+        }
+        
+        // Count how many h4s are under this h3
+        const h4sUnderSameH3 = Array.from(h4Elements).filter(el => {
+          return h3s[currentH3Index].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING &&
+                 (currentH3Index === h3s.length - 1 || 
+                  !(h3s[currentH3Index + 1].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING));
+        });
+        
+        const h4Index = h4sUnderSameH3.indexOf(h4) + 1;
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'subsubsection-number';
+        numberSpan.textContent = `${sectionNumber}.${currentH3Index + 1}.${h4Index} `;
+        h4.prepend(numberSpan);
+      });
+    });
+  });
+</script>
+
+<style>
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+  }
+
+  :global(.prose h3) {
+    @apply text-2xl font-bold mt-8 mb-4;
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.6) saturate(1.2);
+    text-shadow: 0 0 20px rgba(4, 163, 255, 0.3);
+  }
+
+  :global(.prose h4) {
+    @apply text-xl font-semibold mt-6 mb-3;
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.4) saturate(1.1);
+    text-shadow: 0 0 15px rgba(4, 163, 255, 0.2);
+  }
+
+  :global(.prose ul) {
+    @apply list-disc list-inside;
+  }
+
+  :global(.prose li) {
+    @apply text-base-300 mb-2;
+  }
+
+  :global(.prose strong) {
+    @apply text-white;
+  }
+
+  :global(.prose em) {
+    @apply text-primary-400;
+  }
+</style>

@@ -1,0 +1,645 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Market size data in billions USD for different scenarios
+const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035];
+
+// Different scenarios
+const scenarios = {
+  conservative: {
+    name: "Conservative",
+    color: "#04a3ff",
+    hoverColor: "#0487d9",
+    fillColor: "rgba(4, 163, 255, 0.1)",
+    data: [1.5, 2.5, 4, 6, 8, 10, 12, 13, 14, 15, 16]
+  },
+  base: {
+    name: "Base Case",
+    color: "#00ffd3",
+    hoverColor: "#00d9b3",
+    fillColor: "rgba(0, 255, 211, 0.1)",
+    data: [2, 3.5, 5.5, 8, 11, 14, 15.5, 16.5, 17, 17.5, 18]
+  },
+  optimistic: {
+    name: "Optimistic",
+    color: "#65ff00",
+    hoverColor: "#54d600",
+    fillColor: "rgba(101, 255, 0, 0.1)",
+    data: [2.5, 4.5, 7, 10, 14, 18, 21, 23, 25, 27, 30]
+  }
+};
+
+// Calculate chart dimensions
+const svgWidth = 800;
+const svgHeight = 500; // Increased height to accommodate controls
+const padding = 60;
+const chartWidth = svgWidth - (padding * 2);
+const chartHeight = svgHeight - (padding * 2) - 80; // Extra space for controls
+
+// Calculate scales
+const xScale = chartWidth / (years.length - 1);
+const maxValue = Math.max(...Object.values(scenarios).flatMap(s => s.data));
+const yScale = chartHeight / maxValue;
+
+// Generate path data for each scenario
+function generatePathData(data: number[]): string {
+  let pathData = '';
+  data.forEach((value: number, index: number) => {
+    const x = padding + (index * xScale);
+    const y = svgHeight - padding - 80 - (value * yScale);
+    if (index === 0) {
+      pathData += `M ${x},${y}`;
+    } else {
+      pathData += ` L ${x},${y}`;
+    }
+  });
+  return pathData;
+}
+
+// Generate area path data for each scenario
+function generateAreaPathData(data: number[]): string {
+  let areaPathData = generatePathData(data);
+  areaPathData += ` L ${padding + (years.length - 1) * xScale},${svgHeight - padding - 80}`;
+  areaPathData += ` L ${padding},${svgHeight - padding - 80} Z`;
+  return areaPathData;
+}
+
+// Generate path data for all scenarios
+const pathData = {
+  conservative: generatePathData(scenarios.conservative.data),
+  base: generatePathData(scenarios.base.data),
+  optimistic: generatePathData(scenarios.optimistic.data)
+};
+
+// Generate area path data for all scenarios
+const areaPathData = {
+  conservative: generateAreaPathData(scenarios.conservative.data),
+  base: generateAreaPathData(scenarios.base.data),
+  optimistic: generateAreaPathData(scenarios.optimistic.data)
+};
+---
+
+<div class="chart-container">
+  {title && <h4 class="text-gradient-blue text-xl font-semibold mb-4">{title}</h4>}
+  <div class="chart-content">
+    <svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`} preserveAspectRatio="xMidYMid meet" id="marketSizeChart">
+      <!-- Background -->
+      <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="#020617" rx="10" ry="10" />
+      
+      <!-- Grid lines -->
+      {Array.from({ length: 6 }).map((_, i) => (
+        <line 
+          x1={padding} 
+          y1={svgHeight - padding - 80 - (i * 5 * yScale)} 
+          x2={svgWidth - padding} 
+          y2={svgHeight - padding - 80 - (i * 5 * yScale)} 
+          stroke="rgba(255, 255, 255, 0.1)" 
+          stroke-width="1"
+          class="grid-line"
+        />
+      ))}
+      
+      {years.map((year, i) => (
+        <line 
+          x1={padding + (i * xScale)} 
+          y1={padding} 
+          x2={padding + (i * xScale)} 
+          y2={svgHeight - padding - 80} 
+          stroke="rgba(255, 255, 255, 0.1)" 
+          stroke-width="1"
+          class="grid-line"
+        />
+      ))}
+      
+      <!-- X and Y axes -->
+      <line x1={padding} y1={svgHeight - padding - 80} x2={svgWidth - padding} y2={svgHeight - padding - 80} stroke="white" stroke-width="2" />
+      <line x1={padding} y1={padding} x2={padding} y2={svgHeight - padding - 80} stroke="white" stroke-width="2" />
+      
+      <!-- X-axis labels -->
+      {years.map((year, i) => (
+        <text 
+          x={padding + (i * xScale)} 
+          y={svgHeight - padding - 60} 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          class="axis-label"
+        >
+          {year}
+        </text>
+      ))}
+      
+      <!-- Y-axis labels -->
+      {[0, 5, 10, 15, 20, 25, 30].map((value) => (
+        <text 
+          x={padding - 10} 
+          y={svgHeight - padding - 80 - (value * yScale)} 
+          text-anchor="end" 
+          dominant-baseline="middle" 
+          fill="white" 
+          font-size="12"
+          class="axis-label"
+        >
+          ${value}B
+        </text>
+      ))}
+      
+      <!-- Scenario toggle buttons -->
+      <g id="scenarioToggles" transform="translate(100, 440)">
+        <!-- Conservative scenario button -->
+        <rect 
+          x="0" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="#04a3ff" 
+          fill-opacity="0.2" 
+          stroke="#04a3ff" 
+          stroke-width="2" 
+          class="scenario-button" 
+          id="conservative-button"
+          data-scenario="conservative"
+        />
+        <text 
+          x="75" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Conservative
+        </text>
+        
+        <!-- Base case scenario button -->
+        <rect 
+          x="170" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="#00ffd3" 
+          fill-opacity="0.2" 
+          stroke="#00ffd3" 
+          stroke-width="2" 
+          class="scenario-button active" 
+          id="base-button"
+          data-scenario="base"
+        />
+        <text 
+          x="245" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Base Case
+        </text>
+        
+        <!-- Optimistic scenario button -->
+        <rect 
+          x="340" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="#65ff00" 
+          fill-opacity="0.2" 
+          stroke="#65ff00" 
+          stroke-width="2" 
+          class="scenario-button" 
+          id="optimistic-button"
+          data-scenario="optimistic"
+        />
+        <text 
+          x="415" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Optimistic
+        </text>
+        
+        <!-- Compare all button -->
+        <rect 
+          x="510" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="rgba(255, 255, 255, 0.2)" 
+          stroke="rgba(255, 255, 255, 0.5)" 
+          stroke-width="2" 
+          class="scenario-button" 
+          id="compare-button"
+          data-scenario="compare"
+        />
+        <text 
+          x="585" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Compare All
+        </text>
+      </g>
+      
+      <!-- Chart title -->
+      <text 
+        x={svgWidth / 2} 
+        y={padding / 2} 
+        text-anchor="middle" 
+        fill="#00ffd3" 
+        font-size="16" 
+        font-weight="bold"
+        class="chart-title"
+      >
+        Market Size Projections (Billions USD)
+      </text>
+      
+      <!-- Tooltip -->
+      <g id="tooltip" opacity="0" transform="translate(0,0)">
+        <rect x="-60" y="-40" width="120" height="35" rx="5" ry="5" fill="#020617" stroke="#04a3ff" stroke-width="1" />
+        <text id="tooltip-text" x="0" y="-15" text-anchor="middle" fill="white" font-size="12">$0B</text>
+        <text id="tooltip-year" x="0" y="-30" text-anchor="middle" fill="#04a3ff" font-size="10">2025</text>
+      </g>
+      
+      <!-- Conservative scenario elements (initially hidden) -->
+      <g id="conservative-scenario" opacity="0" class="scenario-group">
+        <!-- Area under the line -->
+        <path 
+          d={areaPathData.conservative} 
+          fill={scenarios.conservative.fillColor} 
+          stroke="none"
+          class="area-path"
+        />
+        
+        <!-- Line chart -->
+        <path 
+          d={pathData.conservative} 
+          fill="none" 
+          stroke={scenarios.conservative.color} 
+          stroke-width="3" 
+          stroke-linejoin="round"
+          class="line-path"
+        />
+        
+        <!-- Data points -->
+        {scenarios.conservative.data.map((value, i) => (
+          <circle 
+            cx={padding + (i * xScale)} 
+            cy={svgHeight - padding - 80 - (value * yScale)} 
+            r="6" 
+            fill="#04a3ff" 
+            stroke="#ffffff" 
+            stroke-width="2"
+            class="data-point"
+            data-value={value}
+            data-year={years[i]}
+            data-scenario="conservative"
+          />
+        ))}
+      </g>
+      
+      <!-- Base case scenario elements (initially visible) -->
+      <g id="base-scenario" opacity="1" class="scenario-group">
+        <!-- Area under the line -->
+        <path 
+          d={areaPathData.base} 
+          fill={scenarios.base.fillColor} 
+          stroke="none"
+          class="area-path"
+        />
+        
+        <!-- Line chart -->
+        <path 
+          d={pathData.base} 
+          fill="none" 
+          stroke={scenarios.base.color} 
+          stroke-width="3" 
+          stroke-linejoin="round"
+          class="line-path"
+        />
+        
+        <!-- Data points -->
+        {scenarios.base.data.map((value, i) => (
+          <circle 
+            cx={padding + (i * xScale)} 
+            cy={svgHeight - padding - 80 - (value * yScale)} 
+            r="6" 
+            fill="#00ffd3" 
+            stroke="#ffffff" 
+            stroke-width="2"
+            class="data-point"
+            data-value={value}
+            data-year={years[i]}
+            data-scenario="base"
+          />
+        ))}
+      </g>
+      
+      <!-- Optimistic scenario elements (initially hidden) -->
+      <g id="optimistic-scenario" opacity="0" class="scenario-group">
+        <!-- Area under the line -->
+        <path 
+          d={areaPathData.optimistic} 
+          fill={scenarios.optimistic.fillColor} 
+          stroke="none"
+          class="area-path"
+        />
+        
+        <!-- Line chart -->
+        <path 
+          d={pathData.optimistic} 
+          fill="none" 
+          stroke={scenarios.optimistic.color} 
+          stroke-width="3" 
+          stroke-linejoin="round"
+          class="line-path"
+        />
+        
+        <!-- Data points -->
+        {scenarios.optimistic.data.map((value, i) => (
+          <circle 
+            cx={padding + (i * xScale)} 
+            cy={svgHeight - padding - 80 - (value * yScale)} 
+            r="6" 
+            fill="#65ff00" 
+            stroke="#ffffff" 
+            stroke-width="2"
+            class="data-point"
+            data-value={value}
+            data-year={years[i]}
+            data-scenario="optimistic"
+          />
+        ))}
+      </g>
+    </svg>
+  </div>
+  {description && <p class="text-base text-gray-400 mt-4 italic text-sm">{description}</p>}
+</div>
+
+<style>
+  .chart-container {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    @apply m-8 p-10 max-w-[800px] w-full select-none;
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%, 100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .chart-content {
+    @apply h-[500px] w-full;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%, 100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+</style>
+
+<script is:inline>
+  // Add mouse tracking for hover effect
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.chart-container').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // Get chart elements
+    const chart = document.getElementById('marketSizeChart');
+    const tooltip = document.getElementById('tooltip');
+    const tooltipText = document.getElementById('tooltip-text');
+    const tooltipYear = document.getElementById('tooltip-year');
+    const scenarioButtons = document.querySelectorAll('.scenario-button');
+    const scenarioGroups = document.querySelectorAll('.scenario-group');
+    const dataPoints = document.querySelectorAll('.data-point');
+    
+    // Scenario data
+    const scenarios = {
+      conservative: {
+        name: "Conservative",
+        color: "#04a3ff",
+        element: document.getElementById('conservative-scenario')
+      },
+      base: {
+        name: "Base Case",
+        color: "#00ffd3",
+        element: document.getElementById('base-scenario')
+      },
+      optimistic: {
+        name: "Optimistic",
+        color: "#65ff00",
+        element: document.getElementById('optimistic-scenario')
+      }
+    };
+    
+    // Current active scenario
+    let activeScenario = 'base';
+    let compareMode = false;
+    
+    // Add event listeners to scenario buttons
+    scenarioButtons.forEach((button) => {
+      button.addEventListener('click', (e) => {
+        const scenario = button.dataset.scenario;
+        
+        if (scenario === 'compare') {
+          // Toggle compare mode
+          compareMode = !compareMode;
+          
+          if (compareMode) {
+            // Show all scenarios
+            Object.values(scenarios).forEach((s) => {
+              if (s.element) {
+                s.element.setAttribute('opacity', '1');
+              }
+            });
+            
+            // Update button styles
+            scenarioButtons.forEach((btn) => {
+              if (btn.dataset.scenario !== 'compare') {
+                btn.classList.remove('active');
+              } else {
+                btn.classList.add('active');
+              }
+            });
+          } else {
+            // Switch back to active scenario only
+            Object.entries(scenarios).forEach(([key, s]) => {
+              if (s.element) {
+                s.element.setAttribute('opacity', key === activeScenario ? '1' : '0');
+              }
+            });
+            
+            // Update button styles
+            scenarioButtons.forEach((btn) => {
+              if (btn.dataset.scenario === activeScenario) {
+                btn.classList.add('active');
+              } else {
+                btn.classList.remove('active');
+              }
+            });
+          }
+        } else if (scenario) {
+          // Switch to selected scenario
+          activeScenario = scenario;
+          compareMode = false;
+          
+          // Update scenario visibility
+          Object.entries(scenarios).forEach(([key, s]) => {
+            if (s.element) {
+              s.element.setAttribute('opacity', key === activeScenario ? '1' : '0');
+              
+              // Animate the transition
+              const opacity = key === activeScenario ? 1 : 0;
+              animateOpacity(s.element, opacity);
+            }
+          });
+          
+          // Update button styles
+          scenarioButtons.forEach((btn) => {
+            if (btn.dataset.scenario === scenario) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+          });
+        }
+      });
+      
+      // Add hover effects to buttons
+      button.addEventListener('mouseenter', () => {
+        button.setAttribute('fill-opacity', '0.4');
+      });
+      
+      button.addEventListener('mouseleave', () => {
+        button.setAttribute('fill-opacity', '0.2');
+      });
+    });
+    
+    // Add event listeners to data points for tooltips
+    dataPoints.forEach((point) => {
+      point.addEventListener('mouseenter', (e) => {
+        const target = e.target;
+        const value = target.dataset.value;
+        const year = target.dataset.year;
+        const scenario = target.dataset.scenario;
+        
+        // Update tooltip content
+        if (tooltipText) tooltipText.textContent = `$${value}B`;
+        if (tooltipYear) tooltipYear.textContent = `${year} (${scenario})`;
+        
+        // Position tooltip
+        const cx = parseFloat(target.getAttribute('cx') || '0');
+        const cy = parseFloat(target.getAttribute('cy') || '0');
+        if (tooltip) tooltip.setAttribute('transform', `translate(${cx},${cy})`);
+        
+        // Show tooltip with animation
+        if (tooltip) tooltip.setAttribute('opacity', '1');
+        
+        // Highlight the data point
+        target.setAttribute('r', '8');
+        target.setAttribute('stroke-width', '3');
+      });
+      
+      point.addEventListener('mouseleave', (e) => {
+        const target = e.target;
+        
+        // Hide tooltip
+        if (tooltip) tooltip.setAttribute('opacity', '0');
+        
+        // Reset data point size
+        target.setAttribute('r', '6');
+        target.setAttribute('stroke-width', '2');
+      });
+    });
+    
+    // Animation function for smooth transitions
+    function animateOpacity(element, targetOpacity) {
+      if (!element) return;
+      
+      const startOpacity = parseFloat(element.getAttribute('opacity') || '0');
+      const startTime = performance.now();
+      const duration = 500; // Animation duration in ms
+      
+      function animate(currentTime) {
+        if (!element) return; // Additional null check
+        
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentOpacity = startOpacity + (targetOpacity - startOpacity) * progress;
+        
+        element.setAttribute('opacity', currentOpacity.toString());
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+  });
+</script>

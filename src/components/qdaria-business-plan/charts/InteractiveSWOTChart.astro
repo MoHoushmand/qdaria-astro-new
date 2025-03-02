@@ -1,0 +1,326 @@
+---
+import EnhancedChartBase from './EnhancedChartBase.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<EnhancedChartBase title={title} description={description}>
+  <div class="interactive-swot-chart" client:load>
+    <svg width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+      <!-- Background -->
+      <rect x="0" y="0" width="800" height="400" fill="#020617" rx="10" ry="10" />
+      
+      <!-- Grid lines -->
+      <line x1="400" y1="50" x2="400" y2="350" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" />
+      <line x1="200" y1="200" x2="600" y2="200" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" />
+      
+      <!-- Quadrant labels -->
+      <text x="300" y="100" text-anchor="middle" fill="#04a3ff" font-size="18" font-weight="bold" class="quadrant-label">Strengths</text>
+      <text x="500" y="100" text-anchor="middle" fill="#00ffd3" font-size="18" font-weight="bold" class="quadrant-label">Opportunities</text>
+      <text x="300" y="300" text-anchor="middle" fill="#ff6b6b" font-size="18" font-weight="bold" class="quadrant-label">Weaknesses</text>
+      <text x="500" y="300" text-anchor="middle" fill="#ffcc00" font-size="18" font-weight="bold" class="quadrant-label">Threats</text>
+      
+      <!-- Strengths -->
+      <g class="swot-item strength" data-category="strength" data-item="Unique Technology">
+        <circle cx="250" cy="120" r="8" fill="#04a3ff" />
+        <text x="270" y="125" fill="white" font-size="14">Unique Technology</text>
+      </g>
+      
+      <g class="swot-item strength" data-category="strength" data-item="Team Expertise">
+        <circle cx="250" cy="150" r="8" fill="#04a3ff" />
+        <text x="270" y="155" fill="white" font-size="14">Team Expertise</text>
+      </g>
+      
+      <g class="swot-item strength" data-category="strength" data-item="Focused Strategy">
+        <circle cx="250" cy="180" r="8" fill="#04a3ff" />
+        <text x="270" y="185" fill="white" font-size="14">Focused Strategy</text>
+      </g>
+      
+      <!-- Weaknesses -->
+      <g class="swot-item weakness" data-category="weakness" data-item="Startup Scale">
+        <circle cx="250" cy="220" r="8" fill="#ff6b6b" />
+        <text x="270" y="225" fill="white" font-size="14">Startup Scale</text>
+      </g>
+      
+      <g class="swot-item weakness" data-category="weakness" data-item="Unproven Technology">
+        <circle cx="250" cy="250" r="8" fill="#ff6b6b" />
+        <text x="270" y="255" fill="white" font-size="14">Unproven Technology</text>
+      </g>
+      
+      <g class="swot-item weakness" data-category="weakness" data-item="Limited Funding">
+        <circle cx="250" cy="280" r="8" fill="#ff6b6b" />
+        <text x="270" y="285" fill="white" font-size="14">Limited Funding</text>
+      </g>
+      
+      <!-- Opportunities -->
+      <g class="swot-item opportunity" data-category="opportunity" data-item="Market Growth">
+        <circle cx="450" cy="120" r="8" fill="#00ffd3" />
+        <text x="470" y="125" fill="white" font-size="14">Market Growth</text>
+      </g>
+      
+      <g class="swot-item opportunity" data-category="opportunity" data-item="First-mover Advantage">
+        <circle cx="450" cy="150" r="8" fill="#00ffd3" />
+        <text x="470" y="155" fill="white" font-size="14">First-mover Advantage</text>
+      </g>
+      
+      <g class="swot-item opportunity" data-category="opportunity" data-item="Strategic Partnerships">
+        <circle cx="450" cy="180" r="8" fill="#00ffd3" />
+        <text x="470" y="185" fill="white" font-size="14">Strategic Partnerships</text>
+      </g>
+      
+      <!-- Threats -->
+      <g class="swot-item threat" data-category="threat" data-item="Incumbent Competition">
+        <circle cx="450" cy="220" r="8" fill="#ffcc00" />
+        <text x="470" y="225" fill="white" font-size="14">Incumbent Competition</text>
+      </g>
+      
+      <g class="swot-item threat" data-category="threat" data-item="Technical Risks">
+        <circle cx="450" cy="250" r="8" fill="#ffcc00" />
+        <text x="470" y="255" fill="white" font-size="14">Technical Risks</text>
+      </g>
+      
+      <g class="swot-item threat" data-category="threat" data-item="Market Adoption Barriers">
+        <circle cx="450" cy="280" r="8" fill="#ffcc00" />
+        <text x="470" y="285" fill="white" font-size="14">Market Adoption Barriers</text>
+      </g>
+      
+      <!-- Quadrant borders -->
+      <rect x="200" y="50" width="200" height="150" fill="none" stroke="#04a3ff" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" class="quadrant-border strength-border" />
+      <rect x="400" y="50" width="200" height="150" fill="none" stroke="#00ffd3" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" class="quadrant-border opportunity-border" />
+      <rect x="200" y="200" width="200" height="150" fill="none" stroke="#ff6b6b" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" class="quadrant-border weakness-border" />
+      <rect x="400" y="200" width="200" height="150" fill="none" stroke="#ffcc00" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" class="quadrant-border threat-border" />
+    </svg>
+    
+    <div class="swot-details" aria-live="polite">
+      <div class="swot-details-content">
+        <h5 class="swot-details-title">Select an item for details</h5>
+        <p class="swot-details-description"></p>
+      </div>
+    </div>
+  </div>
+</EnhancedChartBase>
+
+<style>
+  .interactive-swot-chart {
+    position: relative;
+    height: 500px;
+    width: 100%;
+  }
+  
+  .swot-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .swot-item:hover circle {
+    r: 10;
+    filter: brightness(1.2);
+  }
+  
+  .swot-item:hover text {
+    font-weight: bold;
+    filter: brightness(1.2);
+  }
+  
+  .swot-item:focus {
+    outline: none;
+  }
+  
+  .swot-item:focus circle {
+    stroke: white;
+    stroke-width: 2;
+  }
+  
+  .quadrant-border {
+    transition: all 0.3s ease;
+  }
+  
+  .swot-details {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    background: rgba(2, 6, 23, 0.8);
+    border-radius: 8px;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border: 1px solid rgba(4, 163, 255, 0.3);
+  }
+  
+  .swot-details.active {
+    opacity: 1;
+  }
+  
+  .swot-details-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: white;
+  }
+  
+  .swot-details-description {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+</style>
+
+<script>
+  // SWOT item details
+  const swotDetails = {
+    "Unique Technology": "QDaria's proprietary quantum algorithms provide a significant competitive edge with 30% better performance than industry standards.",
+    "Team Expertise": "Our team includes 5 PhDs in quantum computing and 3 AI specialists with combined 40+ years of experience.",
+    "Focused Strategy": "Clear roadmap targeting high-value verticals first, with planned expansion into broader markets.",
+    "Startup Scale": "Limited resources compared to tech giants investing in quantum computing (Google, IBM, Microsoft).",
+    "Unproven Technology": "Some core technologies still in research phase with technical challenges to overcome.",
+    "Limited Funding": "Current runway requires additional funding rounds to reach key milestones.",
+    "Market Growth": "Quantum computing market projected to grow at 30% CAGR through 2030.",
+    "First-mover Advantage": "Opportunity to establish QDaria as the leading quantum-AI integration platform.",
+    "Strategic Partnerships": "Potential for high-value partnerships with enterprise clients and research institutions.",
+    "Incumbent Competition": "Established players with deep pockets are accelerating quantum computing investments.",
+    "Technical Risks": "Quantum decoherence and error correction remain significant technical challenges.",
+    "Market Adoption Barriers": "Enterprise customers may be hesitant to adopt early-stage quantum technologies."
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const swotItems = document.querySelectorAll('.swot-item');
+    const detailsPanel = document.querySelector('.swot-details');
+    const detailsTitle = document.querySelector('.swot-details-title');
+    const detailsDescription = document.querySelector('.swot-details-description');
+    
+    // Add keyboard navigation
+    let currentFocus = -1;
+    const focusableItems = Array.from(swotItems);
+    
+    document.addEventListener('keydown', (e) => {
+      // Tab navigation
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        if (e.shiftKey) {
+          // Shift+Tab: move backwards
+          currentFocus = currentFocus <= 0 ? focusableItems.length - 1 : currentFocus - 1;
+        } else {
+          // Tab: move forwards
+          currentFocus = currentFocus >= focusableItems.length - 1 ? 0 : currentFocus + 1;
+        }
+        focusableItems[currentFocus].focus();
+      }
+      
+      // Arrow navigation
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        
+        if (currentFocus === -1) {
+          currentFocus = 0;
+        } else {
+          // Logic for moving between quadrants
+          const currentCategory = focusableItems[currentFocus].dataset.category;
+          
+          if (e.key === 'ArrowRight') {
+            if (currentCategory === 'strength') {
+              // Move from strengths to opportunities
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'opportunity');
+            } else if (currentCategory === 'weakness') {
+              // Move from weaknesses to threats
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'threat');
+            }
+          } else if (e.key === 'ArrowLeft') {
+            if (currentCategory === 'opportunity') {
+              // Move from opportunities to strengths
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'strength');
+            } else if (currentCategory === 'threat') {
+              // Move from threats to weaknesses
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'weakness');
+            }
+          } else if (e.key === 'ArrowUp') {
+            if (currentCategory === 'weakness') {
+              // Move from weaknesses to strengths
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'strength');
+            } else if (currentCategory === 'threat') {
+              // Move from threats to opportunities
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'opportunity');
+            } else {
+              // Move up within the same category
+              const sameCategory = focusableItems.filter(item => item.dataset.category === currentCategory);
+              const currentIndexInCategory = sameCategory.indexOf(focusableItems[currentFocus]);
+              if (currentIndexInCategory > 0) {
+                const prevItemInCategory = sameCategory[currentIndexInCategory - 1];
+                currentFocus = focusableItems.indexOf(prevItemInCategory);
+              }
+            }
+          } else if (e.key === 'ArrowDown') {
+            if (currentCategory === 'strength') {
+              // Move from strengths to weaknesses
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'weakness');
+            } else if (currentCategory === 'opportunity') {
+              // Move from opportunities to threats
+              currentFocus = focusableItems.findIndex(item => item.dataset.category === 'threat');
+            } else {
+              // Move down within the same category
+              const sameCategory = focusableItems.filter(item => item.dataset.category === currentCategory);
+              const currentIndexInCategory = sameCategory.indexOf(focusableItems[currentFocus]);
+              if (currentIndexInCategory < sameCategory.length - 1) {
+                const nextItemInCategory = sameCategory[currentIndexInCategory + 1];
+                currentFocus = focusableItems.indexOf(nextItemInCategory);
+              }
+            }
+          }
+        }
+        
+        focusableItems[currentFocus].focus();
+        showDetails(focusableItems[currentFocus]);
+      }
+      
+      // Enter or Space to activate
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (currentFocus !== -1) {
+          showDetails(focusableItems[currentFocus]);
+        }
+      }
+    });
+    
+    // Make items focusable
+    swotItems.forEach(item => {
+      item.setAttribute('tabindex', '0');
+      
+      // Add click event
+      item.addEventListener('click', () => {
+        showDetails(item);
+      });
+      
+      // Add focus event
+      item.addEventListener('focus', () => {
+        currentFocus = focusableItems.indexOf(item);
+      });
+    });
+    
+    function showDetails(item) {
+      const itemName = item.dataset.item;
+      const category = item.dataset.category;
+      
+      // Update details panel
+      detailsTitle.textContent = itemName;
+      detailsTitle.className = 'swot-details-title';
+      detailsTitle.classList.add(category);
+      
+      detailsDescription.textContent = swotDetails[itemName] || '';
+      
+      // Show details panel
+      detailsPanel.classList.add('active');
+      
+      // Highlight the quadrant
+      document.querySelectorAll('.quadrant-border').forEach(border => {
+        border.style.strokeOpacity = '0.3';
+      });
+      
+      const borderClass = `${category}-border`;
+      document.querySelector(`.${borderClass}`).style.strokeOpacity = '0.8';
+    }
+  });
+</script>

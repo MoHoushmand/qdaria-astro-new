@@ -1,0 +1,736 @@
+---
+import EnhancedChartBase from './EnhancedChartBase.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Market size data - multiple scenarios
+const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035];
+
+// Scenario data (in billions)
+const conservativeScenario = [2.5, 5.8, 12.4, 24.7, 45.3, 78.6, 132.5, 215.8, 342.7, 598.4, 980.5];
+const baseScenario = [3.2, 7.5, 16.8, 32.4, 59.7, 103.5, 178.2, 298.6, 487.3, 795.2, 1300.0];
+const optimisticScenario = [4.1, 9.8, 22.5, 43.2, 79.6, 142.8, 248.5, 425.3, 698.2, 1050.6, 1650.0];
+
+// Calculate chart dimensions
+const chartWidth = 800;
+const chartHeight = 500;
+const paddingLeft = 80;
+const paddingRight = 60;
+const paddingTop = 80;
+const paddingBottom = 80;
+const graphWidth = chartWidth - paddingLeft - paddingRight;
+const graphHeight = chartHeight - paddingTop - paddingBottom;
+
+// Calculate scales - use the optimistic scenario for max value
+const maxMarketSize = Math.max(...optimisticScenario) * 1.1; // Add 10% padding
+const xScale = graphWidth / (years.length - 1);
+const yScale = graphHeight / maxMarketSize;
+
+// Generate path data for each scenario
+function generatePathData(data) {
+  let pathData = `M ${paddingLeft} ${chartHeight - paddingBottom - data[0] * yScale}`;
+  for (let i = 1; i < years.length; i++) {
+    pathData += ` L ${paddingLeft + i * xScale} ${chartHeight - paddingBottom - data[i] * yScale}`;
+  }
+  return pathData;
+}
+
+function generateAreaData(pathData) {
+  return pathData + 
+    ` L ${paddingLeft + (years.length - 1) * xScale} ${chartHeight - paddingBottom}` +
+    ` L ${paddingLeft} ${chartHeight - paddingBottom}` +
+    ` Z`;
+}
+
+const conservativePath = generatePathData(conservativeScenario);
+const basePath = generatePathData(baseScenario);
+const optimisticPath = generatePathData(optimisticScenario);
+
+const conservativeArea = generateAreaData(conservativePath);
+const baseArea = generateAreaData(basePath);
+const optimisticArea = generateAreaData(optimisticPath);
+
+// Generate Y-axis labels with proper formatting
+function formatYAxisLabel(value) {
+  if (value >= 1000) {
+    return `$${(value/1000).toFixed(1)}T`;
+  } else {
+    return `$${value}B`;
+  }
+}
+
+// Generate Y-axis tick values
+const yAxisTicks = [0, 200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800];
+---
+
+<EnhancedChartBase title={title} description={description}>
+  <div class="enhanced-interactive-market-chart" client:load>
+    <!-- Scenario tabs -->
+    <div class="scenario-tabs">
+      <button class="scenario-tab" data-scenario="base">Base Case</button>
+      <button class="scenario-tab" data-scenario="conservative">Conservative</button>
+      <button class="scenario-tab" data-scenario="optimistic">Optimistic</button>
+      <button class="scenario-tab active" data-scenario="all">All Scenarios</button>
+    </div>
+    
+    <!-- Chart container -->
+    <div class="chart-container">
+      <svg width="100%" height="100%" viewBox={`0 0 ${chartWidth} ${chartHeight}`} preserveAspectRatio="xMidYMid meet">
+        <!-- Background -->
+        <rect x="0" y="0" width={chartWidth} height={chartHeight} fill="#020617" rx="10" ry="10" />
+        
+        <!-- Chart title -->
+        <text x={chartWidth/2} y="30" fill="white" font-size="18" text-anchor="middle" font-weight="bold" class="chart-title">
+          Quantum Computing Market Size Projections (2025-2035)
+        </text>
+        
+        <!-- Grid lines -->
+        {yAxisTicks.map(tick => (
+          <line 
+            x1={paddingLeft} 
+            y1={chartHeight - paddingBottom - tick * yScale} 
+            x2={chartWidth - paddingRight} 
+            y2={chartHeight - paddingBottom - tick * yScale} 
+            stroke="rgba(255, 255, 255, 0.1)" 
+            stroke-width="1" 
+            stroke-dasharray="5,5" 
+          />
+        ))}
+        
+        {years.map((year, i) => (
+          <line 
+            x1={paddingLeft + i * xScale} 
+            y1={paddingTop} 
+            x2={paddingLeft + i * xScale} 
+            y2={chartHeight - paddingBottom} 
+            stroke="rgba(255, 255, 255, 0.05)" 
+            stroke-width="1" 
+            stroke-dasharray="3,3" 
+          />
+        ))}
+        
+        <!-- Y-axis -->
+        <line 
+          x1={paddingLeft} 
+          y1={paddingTop} 
+          x2={paddingLeft} 
+          y2={chartHeight - paddingBottom} 
+          stroke="rgba(255, 255, 255, 0.5)" 
+          stroke-width="1.5" 
+        />
+        
+        <!-- X-axis -->
+        <line 
+          x1={paddingLeft} 
+          y1={chartHeight - paddingBottom} 
+          x2={chartWidth - paddingRight} 
+          y2={chartHeight - paddingBottom} 
+          stroke="rgba(255, 255, 255, 0.5)" 
+          stroke-width="1.5" 
+        />
+        
+        <!-- Y-axis labels -->
+        {yAxisTicks.map(tick => (
+          <text 
+            x={paddingLeft - 10} 
+            y={chartHeight - paddingBottom - tick * yScale} 
+            fill="white" 
+            font-size="12" 
+            text-anchor="end" 
+            dominant-baseline="middle"
+          >
+            {formatYAxisLabel(tick)}
+          </text>
+        ))}
+        
+        <!-- X-axis labels (years) -->
+        {years.map((year, i) => (
+          <text 
+            x={paddingLeft + i * xScale} 
+            y={chartHeight - paddingBottom + 25} 
+            fill="white" 
+            font-size="12" 
+            text-anchor="middle"
+          >
+            {year}
+          </text>
+        ))}
+        
+        <!-- Y-axis title -->
+        <text 
+          x="20" 
+          y={chartHeight/2} 
+          fill="white" 
+          font-size="14" 
+          text-anchor="middle" 
+          transform={`rotate(-90, 20, ${chartHeight/2})`}
+        >
+          Market Size
+        </text>
+        
+        <!-- X-axis title -->
+        <text 
+          x={chartWidth/2} 
+          y={chartHeight - 20} 
+          fill="white" 
+          font-size="14" 
+          text-anchor="middle"
+        >
+          Year
+        </text>
+        
+        <!-- Conservative scenario -->
+        <g class="scenario conservative-scenario">
+          <!-- Area fill -->
+          <path 
+            d={conservativeArea} 
+            fill="url(#conservativeGradient)" 
+            opacity="0.3" 
+            class="area-path"
+          />
+          
+          <!-- Line -->
+          <path 
+            d={conservativePath} 
+            fill="none" 
+            stroke="#ff6b6b" 
+            stroke-width="3" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            class="line-path"
+          />
+          
+          <!-- Data points -->
+          {conservativeScenario.map((size, i) => (
+            <g class="data-point conservative" data-year={years[i]} data-value={size} data-scenario="Conservative">
+              <circle 
+                cx={paddingLeft + i * xScale} 
+                cy={chartHeight - paddingBottom - size * yScale} 
+                r="6" 
+                fill="#ff6b6b" 
+                stroke="#020617" 
+                stroke-width="2"
+                tabindex="0"
+                role="button"
+                aria-label={`Conservative scenario, Year ${years[i]}: $${size} billion`}
+              />
+            </g>
+          ))}
+        </g>
+        
+        <!-- Base scenario -->
+        <g class="scenario base-scenario">
+          <!-- Area fill -->
+          <path 
+            d={baseArea} 
+            fill="url(#baseGradient)" 
+            opacity="0.3" 
+            class="area-path"
+          />
+          
+          <!-- Line -->
+          <path 
+            d={basePath} 
+            fill="none" 
+            stroke="#04a3ff" 
+            stroke-width="3" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            class="line-path"
+          />
+          
+          <!-- Data points -->
+          {baseScenario.map((size, i) => (
+            <g class="data-point base" data-year={years[i]} data-value={size} data-scenario="Base">
+              <circle 
+                cx={paddingLeft + i * xScale} 
+                cy={chartHeight - paddingBottom - size * yScale} 
+                r="6" 
+                fill="#04a3ff" 
+                stroke="#020617" 
+                stroke-width="2"
+                tabindex="0"
+                role="button"
+                aria-label={`Base scenario, Year ${years[i]}: $${size} billion`}
+              />
+            </g>
+          ))}
+        </g>
+        
+        <!-- Optimistic scenario -->
+        <g class="scenario optimistic-scenario">
+          <!-- Area fill -->
+          <path 
+            d={optimisticArea} 
+            fill="url(#optimisticGradient)" 
+            opacity="0.3" 
+            class="area-path"
+          />
+          
+          <!-- Line -->
+          <path 
+            d={optimisticPath} 
+            fill="none" 
+            stroke="#00ffd3" 
+            stroke-width="3" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            class="line-path"
+          />
+          
+          <!-- Data points -->
+          {optimisticScenario.map((size, i) => (
+            <g class="data-point optimistic" data-year={years[i]} data-value={size} data-scenario="Optimistic">
+              <circle 
+                cx={paddingLeft + i * xScale} 
+                cy={chartHeight - paddingBottom - size * yScale} 
+                r="6" 
+                fill="#00ffd3" 
+                stroke="#020617" 
+                stroke-width="2"
+                tabindex="0"
+                role="button"
+                aria-label={`Optimistic scenario, Year ${years[i]}: $${size} billion`}
+              />
+            </g>
+          ))}
+        </g>
+        
+        <!-- Legend -->
+        <g class="chart-legend" transform={`translate(${chartWidth - paddingRight - 180}, ${paddingTop - 40})`}>
+          <rect x="0" y="0" width="180" height="90" rx="5" ry="5" fill="rgba(2, 6, 23, 0.7)" />
+          
+          <!-- Conservative -->
+          <circle cx="15" cy="20" r="6" fill="#ff6b6b" />
+          <text x="30" y="24" fill="white" font-size="12">Conservative</text>
+          
+          <!-- Base -->
+          <circle cx="15" cy="45" r="6" fill="#04a3ff" />
+          <text x="30" y="49" fill="white" font-size="12">Base Case</text>
+          
+          <!-- Optimistic -->
+          <circle cx="15" cy="70" r="6" fill="#00ffd3" />
+          <text x="30" y="74" fill="white" font-size="12">Optimistic</text>
+        </g>
+        
+        <!-- Gradient definitions -->
+        <defs>
+          <linearGradient id="conservativeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#ff6b6b" stop-opacity="0.1" />
+          </linearGradient>
+          
+          <linearGradient id="baseGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#04a3ff" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#04a3ff" stop-opacity="0.1" />
+          </linearGradient>
+          
+          <linearGradient id="optimisticGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#00ffd3" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#00ffd3" stop-opacity="0.1" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      <!-- Tooltip -->
+      <div class="chart-tooltip" aria-live="polite">
+        <div class="tooltip-scenario"></div>
+        <div class="tooltip-year"></div>
+        <div class="tooltip-value"></div>
+        <div class="tooltip-growth"></div>
+      </div>
+      
+      <!-- Data table -->
+      <div class="data-table-container">
+        <button class="toggle-table-btn">Show Data Table</button>
+        <div class="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Conservative ($B)</th>
+                <th>Base Case ($B)</th>
+                <th>Optimistic ($B)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {years.map((year, i) => (
+                <tr>
+                  <td>{year}</td>
+                  <td>{conservativeScenario[i].toFixed(1)}</td>
+                  <td>{baseScenario[i].toFixed(1)}</td>
+                  <td>{optimisticScenario[i].toFixed(1)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</EnhancedChartBase>
+
+<style>
+  .enhanced-interactive-market-chart {
+    position: relative;
+    height: 650px;
+    width: 100%;
+    user-select: text;
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .scenario-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .scenario-tab {
+    background: rgba(4, 163, 255, 0.2);
+    border: 1px solid rgba(4, 163, 255, 0.5);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .scenario-tab:hover {
+    background: rgba(4, 163, 255, 0.4);
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.6);
+  }
+  
+  .scenario-tab.active {
+    background: rgba(4, 163, 255, 0.6);
+    box-shadow: 0 0 20px rgba(4, 163, 255, 0.8);
+  }
+  
+  .data-point circle {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .data-point circle:hover,
+  .data-point circle:focus {
+    r: 8;
+    filter: brightness(1.3);
+    outline: none;
+    stroke: white;
+    stroke-width: 2;
+  }
+  
+  .chart-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(2, 6, 23, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(4, 163, 255, 0.5);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    color: white;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+    min-width: 180px;
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.4);
+  }
+  
+  .tooltip-scenario {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #04a3ff;
+  }
+  
+  .tooltip-year {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: white;
+  }
+  
+  .tooltip-value {
+    margin-bottom: 5px;
+    font-size: 15px;
+  }
+  
+  .tooltip-growth {
+    color: #00ffd3;
+  }
+  
+  .data-table-container {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .toggle-table-btn {
+    background: rgba(4, 163, 255, 0.3);
+    border: 1px solid rgba(4, 163, 255, 0.5);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+  }
+  
+  .toggle-table-btn:hover {
+    background: rgba(4, 163, 255, 0.5);
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.6);
+  }
+  
+  .data-table {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  
+  .data-table.visible {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .data-table table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .data-table th, .data-table td {
+    padding: 10px;
+    text-align: right;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .data-table th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .data-table th:first-child, .data-table td:first-child {
+    text-align: left;
+  }
+  
+  .data-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .data-table tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get elements
+    const scenarioTabs = document.querySelectorAll('.scenario-tab');
+    const scenarios = document.querySelectorAll('.scenario');
+    const dataPoints = document.querySelectorAll('.data-point circle');
+    const tooltip = document.querySelector('.chart-tooltip');
+    const tooltipScenario = document.querySelector('.tooltip-scenario');
+    const tooltipYear = document.querySelector('.tooltip-year');
+    const tooltipValue = document.querySelector('.tooltip-value');
+    const tooltipGrowth = document.querySelector('.tooltip-growth');
+    const toggleTableBtn = document.querySelector('.toggle-table-btn');
+    const dataTable = document.querySelector('.data-table');
+    
+    // Scenario data for calculations
+    const conservativeScenario = [2.5, 5.8, 12.4, 24.7, 45.3, 78.6, 132.5, 215.8, 342.7, 598.4, 980.5];
+    const baseScenario = [3.2, 7.5, 16.8, 32.4, 59.7, 103.5, 178.2, 298.6, 487.3, 795.2, 1300.0];
+    const optimisticScenario = [4.1, 9.8, 22.5, 43.2, 79.6, 142.8, 248.5, 425.3, 698.2, 1050.6, 1650.0];
+    
+    // Format currency values
+    function formatCurrency(value) {
+      if (value >= 1000) {
+        return `$${(value/1000).toFixed(1)}T`;
+      } else {
+        return `$${value.toFixed(1)}B`;
+      }
+    }
+    
+    // Initialize with all scenarios
+    showScenario('all');
+    
+    // Add event listeners to scenario tabs
+    scenarioTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs
+        scenarioTabs.forEach(t => t.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Show selected scenario
+        const scenario = tab.dataset.scenario;
+        showScenario(scenario);
+      });
+    });
+    
+    // Function to show selected scenario
+    function showScenario(scenario) {
+      if (scenario === 'all') {
+        // Show all scenarios
+        scenarios.forEach(s => {
+          s.style.display = 'block';
+          s.style.opacity = '1';
+        });
+      } else {
+        // Show only selected scenario
+        scenarios.forEach(s => {
+          if (s.classList.contains(`${scenario}-scenario`)) {
+            s.style.display = 'block';
+            s.style.opacity = '1';
+          } else {
+            s.style.display = 'none';
+            s.style.opacity = '0';
+          }
+        });
+      }
+    }
+    
+    // Add keyboard navigation
+    let currentFocus = -1;
+    const focusablePoints = Array.from(dataPoints);
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        
+        if (currentFocus === -1) {
+          currentFocus = 0;
+        } else {
+          if (e.key === 'ArrowRight') {
+            currentFocus = Math.min(currentFocus + 1, focusablePoints.length - 1);
+          } else {
+            currentFocus = Math.max(currentFocus - 1, 0);
+          }
+        }
+        
+        focusablePoints[currentFocus].focus();
+        showTooltip(focusablePoints[currentFocus]);
+      }
+      
+      // Enter or Space to activate
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (currentFocus !== -1) {
+          showTooltip(focusablePoints[currentFocus]);
+        }
+      }
+    });
+    
+    // Add events to data points
+    dataPoints.forEach((point, index) => {
+      // Add focus event
+      point.addEventListener('focus', () => {
+        currentFocus = index;
+        showTooltip(point);
+      });
+      
+      // Add mouse events
+      point.addEventListener('mouseenter', () => {
+        showTooltip(point);
+      });
+      
+      point.addEventListener('mouseleave', () => {
+        hideTooltip();
+      });
+      
+      // Add click event
+      point.addEventListener('click', () => {
+        showTooltip(point);
+      });
+    });
+    
+    // Toggle data table
+    toggleTableBtn.addEventListener('click', () => {
+      dataTable.classList.toggle('visible');
+      toggleTableBtn.textContent = dataTable.classList.contains('visible') ? 'Hide Data Table' : 'Show Data Table';
+    });
+    
+    function showTooltip(point) {
+      const parent = point.closest('.data-point');
+      const year = parent.dataset.year;
+      const value = parseFloat(parent.dataset.value);
+      const scenario = parent.dataset.scenario;
+      
+      // Determine which scenario array to use
+      let scenarioData;
+      let scenarioColor;
+      
+      if (scenario === 'Conservative') {
+        scenarioData = conservativeScenario;
+        scenarioColor = '#ff6b6b';
+      } else if (scenario === 'Base') {
+        scenarioData = baseScenario;
+        scenarioColor = '#04a3ff';
+      } else {
+        scenarioData = optimisticScenario;
+        scenarioColor = '#00ffd3';
+      }
+      
+      // Find index in the years array
+      const yearIndex = years.indexOf(parseInt(year));
+      
+      // Calculate growth rate
+      let growthRate = '';
+      if (yearIndex > 0) {
+        const prevValue = scenarioData[yearIndex - 1];
+        const growth = ((value - prevValue) / prevValue) * 100;
+        growthRate = `Annual Growth: +${growth.toFixed(1)}%`;
+      }
+      
+      // Calculate CAGR from 2025 if not 2025
+      let cagr = '';
+      if (yearIndex > 0) {
+        const startValue = scenarioData[0];
+        const years = yearIndex;
+        const cagr_value = (Math.pow(value / startValue, 1 / years) - 1) * 100;
+        cagr = `CAGR from 2025: +${cagr_value.toFixed(1)}%`;
+      }
+      
+      // Update tooltip content
+      tooltipScenario.textContent = scenario;
+      tooltipScenario.style.color = scenarioColor;
+      tooltipYear.textContent = `Year ${year}`;
+      tooltipValue.textContent = `Market Size: ${formatCurrency(value)}`;
+      tooltipGrowth.innerHTML = `${growthRate}<br>${cagr}`;
+      
+      // Position tooltip
+      const rect = point.getBoundingClientRect();
+      const chartRect = document.querySelector('.chart-container').getBoundingClientRect();
+      
+      const tooltipX = rect.left - chartRect.left - 90; // Center tooltip
+      const tooltipY = rect.top - chartRect.top - 120; // Position above point
+      
+      tooltip.style.transform = `translate(${tooltipX}px, ${tooltipY}px)`;
+      tooltip.style.opacity = '1';
+    }
+    
+    function hideTooltip() {
+      tooltip.style.opacity = '0';
+    }
+  });
+</script>

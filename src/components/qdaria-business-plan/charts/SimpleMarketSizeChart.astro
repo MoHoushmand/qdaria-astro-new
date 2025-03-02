@@ -1,0 +1,193 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<div class="chart-container">
+  {title && <h4 class="text-gradient-blue text-xl font-semibold mb-4">{title}</h4>}
+  <div class="chart-content">
+    <canvas id="marketSizeChart" class="w-full h-full"></canvas>
+  </div>
+  {description && <p class="text-base text-gray-400 mt-4 italic text-sm">{description}</p>}
+</div>
+
+<style>
+  .chart-container {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    @apply m-8 p-10 max-w-[800px] w-full select-none;
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%, 100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .chart-content {
+    @apply h-[400px] w-full;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%, 100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+</style>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script is:inline>
+  // Add mouse tracking for hover effect
+  document.querySelectorAll('.chart-container').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+
+  // Wait for the DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('marketSizeChart');
+    if (!ctx || !(ctx instanceof HTMLCanvasElement)) return;
+    
+    if (ctx) {
+      const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035];
+      const marketSize = [2, 3.5, 5.5, 8, 11, 14, 15.5, 16.5, 17, 17.5, 18];
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Market Size (Billions USD)',
+            data: marketSize,
+            borderColor: '#04a3ff',
+            backgroundColor: 'rgba(4, 163, 255, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#00ffd3',
+            pointBorderColor: '#04a3ff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: '#04a3ff',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: '#fff',
+                font: {
+                  size: 14
+                }
+              }
+            },
+            title: {
+              display: true,
+              text: 'Global Quantum Computing Market Size Projections',
+              color: '#00ffd3',
+              font: {
+                size: 20,
+                weight: 'bold'
+              }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleColor: '#00ffd3',
+              bodyColor: '#fff',
+              borderColor: '#04a3ff',
+              borderWidth: 1,
+              callbacks: {
+                label: function(context) {
+                  return `Market Size: $${context.parsed.y}B`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: '#fff'
+              }
+            },
+            y: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: '#fff',
+                callback: function(value) {
+                  return `$${value}B`;
+                }
+              },
+              title: {
+                display: true,
+                text: 'Market Size (Billions USD)',
+                color: '#fff'
+              }
+            }
+          },
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          }
+        }
+      });
+    }
+  });
+</script>

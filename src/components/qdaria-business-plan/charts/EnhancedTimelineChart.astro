@@ -1,0 +1,372 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Timeline data
+const timelineData = [
+  {
+    phase: "Phase 1",
+    period: "2024-25",
+    title: "Foundation & Seed Stage",
+    milestones: [
+      "9-qubit prototype",
+      "Initial product launches",
+      "Seed funding (~$1M)",
+      "Pilot quantum kit rental program"
+    ],
+    progress: 100,
+    color: "#04a3ff"
+  },
+  {
+    phase: "Phase 2",
+    period: "2026-27",
+    title: "Growth & Market Validation",
+    milestones: [
+      "50+ qubits",
+      "Expanding services",
+      "Series A funding (~$5-10M)",
+      "Zipminator beta release"
+    ],
+    progress: 80,
+    color: "#00ffd3"
+  },
+  {
+    phase: "Phase 3",
+    period: "2028-30",
+    title: "Market Leadership & IPO",
+    milestones: [
+      "100+ qubit systems",
+      "Enterprise solutions",
+      "First IPO (Zipminator)",
+      "Multiple subsidiary IPOs"
+    ],
+    progress: 40,
+    color: "#65ff00"
+  },
+  {
+    phase: "Phase 4",
+    period: "2031-35",
+    title: "Global Expansion & Diversification",
+    milestones: [
+      "Post-IPO growth",
+      "Market dominance",
+      "Strategic acquisitions",
+      "Holding company maturation"
+    ],
+    progress: 10,
+    color: "#ffcc00"
+  }
+];
+
+// Calculate SVG dimensions and positions
+const svgWidth = 800;
+const svgHeight = 300;
+const barHeight = 40;
+const barSpacing = 60;
+const barWidth = 600;
+const leftMargin = 100;
+const topMargin = 50;
+---
+
+<div class="chart-container" 
+  role="region" 
+  aria-label="Interactive timeline chart"
+  tabindex="0"
+  client:load>
+  {title && <h4 class="text-gradient-blue text-xl font-semibold mb-4">{title}</h4>}
+  
+  <div class="chart-content">
+    <svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`} preserveAspectRatio="xMidYMid meet">
+      <!-- Background -->
+      <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="#020617" rx="10" ry="10" />
+      
+      <!-- Y-axis label -->
+      <text x="20" y="30" fill="white" font-size="14">Completion</text>
+      
+      <!-- X-axis -->
+      <line x1={leftMargin} y1={topMargin + timelineData.length * barSpacing + 10} x2={leftMargin + barWidth} y2={topMargin + timelineData.length * barSpacing + 10} stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+      
+      <!-- Progress bars -->
+      {timelineData.map((phase, index) => (
+        <>
+          <!-- Phase label -->
+          <text 
+            x={leftMargin - 10} 
+            y={topMargin + index * barSpacing + barHeight/2} 
+            text-anchor="end" 
+            dominant-baseline="middle" 
+            fill="white" 
+            font-size="14"
+            class="phase-label"
+            data-index={index}
+          >
+            {phase.phase}
+          </text>
+          
+          <!-- Bar background -->
+          <rect 
+            x={leftMargin} 
+            y={topMargin + index * barSpacing} 
+            width={barWidth} 
+            height={barHeight} 
+            fill="rgba(255,255,255,0.1)" 
+            rx="5" 
+            ry="5" 
+            class="bar-bg"
+            data-index={index}
+          />
+          
+          <!-- Progress bar -->
+          <rect 
+            x={leftMargin} 
+            y={topMargin + index * barSpacing} 
+            width={barWidth * phase.progress / 100} 
+            height={barHeight} 
+            fill={phase.color} 
+            rx="5" 
+            ry="5" 
+            class="progress-bar"
+            data-index={index}
+          >
+            <title>{phase.title}: {phase.progress}% complete</title>
+          </rect>
+          
+          <!-- Period label -->
+          <text 
+            x={leftMargin + barWidth * phase.progress / 100 + 10} 
+            y={topMargin + index * barSpacing + barHeight/2} 
+            dominant-baseline="middle" 
+            fill="white" 
+            font-size="14"
+            class="period-label"
+            data-index={index}
+          >
+            {phase.period} ({phase.progress}%)
+          </text>
+        </>
+      ))}
+    </svg>
+  </div>
+  
+  <div class="timeline-details mt-6">
+    <div class="timeline-tabs">
+      {timelineData.map((phase, index) => (
+        <button 
+          class="timeline-tab" 
+          data-index={index}
+          style={`--tab-color: ${phase.color}`}>
+          {phase.phase}
+        </button>
+      ))}
+    </div>
+    
+    <div class="timeline-info mt-4 p-4 border border-primary-500/30 rounded-lg bg-dark-bg/50">
+      {timelineData.map((phase, index) => (
+        <div class="timeline-phase-details" data-index={index} style={index === 0 ? "" : "display: none;"}>
+          <h5 class="text-lg font-semibold mb-2" style={`color: ${phase.color}`}>
+            {phase.phase}: {phase.title} ({phase.period})
+          </h5>
+          <div class="progress-bar-container mb-4 bg-gray-700 rounded-full h-4 overflow-hidden">
+            <div 
+              class="h-full rounded-full transition-all duration-1000" 
+              style={`width: ${phase.progress}%; background-color: ${phase.color}`}>
+            </div>
+          </div>
+          <p class="text-sm text-gray-300 mb-2">Progress: {phase.progress}% complete</p>
+          <h6 class="text-md font-medium mt-3 mb-2">Key Milestones:</h6>
+          <ul class="list-disc list-inside text-sm text-gray-300">
+            {phase.milestones.map(milestone => (
+              <li>{milestone}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+  
+  {description && <p class="text-base text-gray-400 mt-4 italic text-sm">{description}</p>}
+</div>
+
+<style>
+  .chart-container {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    @apply m-8 p-10 max-w-[800px] w-full;
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%, 100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .chart-content {
+    @apply h-[300px] w-full;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%, 100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+  
+  .timeline-tabs {
+    @apply flex flex-wrap gap-2;
+  }
+  
+  .timeline-tab {
+    @apply px-4 py-2 rounded-lg text-white font-medium transition-all;
+    background-color: rgba(var(--tab-color), 0.2);
+    border: 1px solid var(--tab-color);
+  }
+  
+  .timeline-tab:hover, .timeline-tab.active {
+    background-color: var(--tab-color);
+    box-shadow: 0 0 15px var(--tab-color);
+  }
+  
+  .timeline-tab:focus {
+    outline: 2px solid white;
+  }
+  
+  .progress-bar {
+    transition: width 1s ease-in-out;
+  }
+  
+  .bar-bg:hover, .progress-bar:hover, .phase-label:hover, .period-label:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Add mouse tracking for hover effect
+    document.querySelectorAll('.chart-container').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+    
+    // Tab functionality
+    const tabs = document.querySelectorAll('.timeline-tab');
+    const phaseDetails = document.querySelectorAll('.timeline-phase-details');
+    const svgElements = document.querySelectorAll('.bar-bg, .progress-bar, .phase-label, .period-label');
+    
+    // Function to activate a tab by index
+    function activateTab(index) {
+      // Update active tab
+      tabs.forEach(t => t.classList.remove('active'));
+      tabs[index].classList.add('active');
+      
+      // Show corresponding details
+      phaseDetails.forEach(details => {
+        if (details.dataset.index === index.toString()) {
+          details.style.display = 'block';
+        } else {
+          details.style.display = 'none';
+        }
+      });
+      
+      // Highlight corresponding SVG elements
+      svgElements.forEach(el => {
+        if (el.dataset.index === index.toString()) {
+          el.setAttribute('filter', 'brightness(1.2)');
+          if (el.classList.contains('progress-bar')) {
+            el.setAttribute('stroke', 'white');
+            el.setAttribute('stroke-width', '2');
+          }
+        } else {
+          el.removeAttribute('filter');
+          if (el.classList.contains('progress-bar')) {
+            el.removeAttribute('stroke');
+            el.removeAttribute('stroke-width');
+          }
+        }
+      });
+    }
+    
+    // Add click handlers to tabs
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const index = parseInt(tab.dataset.index);
+        activateTab(index);
+      });
+    });
+    
+    // Add click handlers to SVG elements
+    svgElements.forEach(el => {
+      el.addEventListener('click', () => {
+        const index = parseInt(el.dataset.index);
+        activateTab(index);
+      });
+    });
+    
+    // Set first tab as active by default
+    activateTab(0);
+    
+    // Add keyboard navigation
+    tabs.forEach(tab => {
+      tab.addEventListener('keydown', (e) => {
+        const currentIndex = parseInt(tab.dataset.index);
+        let nextIndex;
+        
+        if (e.key === 'ArrowRight') {
+          nextIndex = (currentIndex + 1) % tabs.length;
+          tabs[nextIndex].focus();
+          activateTab(nextIndex);
+        } else if (e.key === 'ArrowLeft') {
+          nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          tabs[nextIndex].focus();
+          activateTab(nextIndex);
+        }
+      });
+    });
+  });
+</script>

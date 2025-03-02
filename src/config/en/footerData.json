@@ -1,0 +1,89 @@
+{
+  "footerData": [
+    {
+      "title": "Technology",
+      "links": [
+        {
+          "text": "Core Research",
+          "link": "/technology/core-research/tqc-he-rd"
+        },
+        {
+          "text": "Products",
+          "link": "/technology/products"
+        },
+        {
+          "text": "Solutions",
+          "link": "/technology/solutions"
+        }
+      ]
+    },
+    {
+      "title": "Company",
+      "links": [
+        {
+          "text": "Team",
+          "link": "/company/team"
+        },
+        {
+          "text": "Careers",
+          "link": "/company/careers"
+        },
+        {
+          "text": "Media",
+          "link": "/company/media"
+        }
+      ]
+    },
+    {
+      "title": "Ecosystem",
+      "links": [
+        {
+          "text": "Collaborators",
+          "link": "/ecosystem/collaborators"
+        },
+        {
+          "text": "Investors",
+          "link": "/ecosystem/investors"
+        },
+        {
+          "text": "Developer Hub",
+          "link": "/ecosystem/developers"
+        }
+      ]
+    },
+    {
+      "title": "Resources",
+      "links": [
+        {
+          "text": "Documentation",
+          "link": "/docs"
+        },
+        {
+          "text": "Blog",
+          "link": "/blog"
+        },
+        {
+          "text": "Contact",
+          "link": "/contact"
+        }
+      ]
+    },
+    {
+      "title": "Invest",
+      "links": [
+        {
+          "text": "Business Plan",
+          "link": "/invest/business-plan"
+        },
+        {
+          "text": "Pitch Deck",
+          "link": "/pitch"
+        },
+        {
+          "text": "Whitepaper",
+          "link": "/whitepaper"
+        }
+      ]
+    }
+  ]
+}

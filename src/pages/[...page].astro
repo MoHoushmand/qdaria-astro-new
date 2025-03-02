@@ -1,19 +1,17 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import { type InferGetStaticPropsType } from "astro";
 
 // layout
-import BaseLayout from "@layouts/BaseLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 // components
-import ExternalLink from "@components/MarkdownComponents/ExternalLink.astro";
+import ExternalLink from "../components/MarkdownComponents/ExternalLink.astro";
 
 // utils
-import { filterCollectionByLanguage } from "@js/localeUtils";
-import { defaultLocale } from "@config/siteSettings.json";
+import { defaultLocale } from "../config/siteSettings.json";
 
 export async function getStaticPaths() {
-  const otherPages: CollectionEntry<"otherPages">[] = await getCollection(
+  const otherPages = await getCollection(
     "otherPages",
     ({ data }) => {
       // filter out draft pages
@@ -21,31 +19,33 @@ export async function getStaticPaths() {
     },
   );
 
-  // get rid of pages from other languages and remove locale from slug
-  const filteredPages = filterCollectionByLanguage(otherPages, defaultLocale);
+  // filter by default locale
+  const filteredPages = otherPages.filter(page => {
+    const [locale] = page.slug.split('/');
+    return locale === defaultLocale;
+  });
 
   return Promise.all(
-    filteredPages.map(async (page) => {
+    filteredPages.map(async (page: CollectionEntry<"otherPages">) => {
       const { Content } = await page.render();
-      const renderedContent = await renderToString(Content, { components: { a: ExternalLink } });
       return {
         params: { page: page.slug },
         props: {
           ...page.data,
-          renderedContent,
+          Content,
         },
       };
     })
   );
 }
 
-async function renderToString(Content: any, options: any = {}) {
-  const { components } = options;
-  return await Content.render(components);
+interface Props {
+  title: string;
+  description: string;
+  Content: any;
 }
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-const { title, description, renderedContent } = Astro.props;
+const { title, description, Content } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -57,7 +57,7 @@ const { title, description, renderedContent } = Astro.props;
       <div
         class="text-base-content prose mt-12 max-w-none text-sm md:text-base"
       >
-        <Fragment set:html={renderedContent} />
+        <Content components={{ a: ExternalLink }} />
       </div>
     </div>
   </section>

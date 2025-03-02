@@ -1,0 +1,68 @@
+---
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+
+const data = [
+  { metric: 'Technology', qdaria: 95, competitor: 70 },
+  { metric: 'Market Share', qdaria: 45, competitor: 85 },
+  { metric: 'Innovation', qdaria: 90, competitor: 65 },
+  { metric: 'Scalability', qdaria: 85, competitor: 60 },
+  { metric: 'Cost Efficiency', qdaria: 80, competitor: 75 },
+  { metric: 'Performance', qdaria: 90, competitor: 70 }
+];
+---
+
+<div class="chart-container">
+  <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+    <PolarGrid stroke="#1f2937" />
+    <PolarAngleAxis
+      dataKey="metric"
+      tick={{ fill: '#9ca3af' }}
+    />
+    <PolarRadiusAxis
+      angle={30}
+      domain={[0, 100]}
+      tick={{ fill: '#9ca3af' }}
+    />
+    <Radar
+      name="QDaria"
+      dataKey="qdaria"
+      stroke="#3b82f6"
+      fill="#3b82f6"
+      fillOpacity={0.4}
+    />
+    <Radar
+      name="Industry Average"
+      dataKey="competitor"
+      stroke="#9ca3af"
+      fill="#9ca3af"
+      fillOpacity={0.4}
+    />
+    <Legend
+      wrapperStyle={{
+        paddingTop: '10px',
+        color: '#9ca3af'
+      }}
+    />
+  </RadarChart>
+</div>
+
+<style>
+  .chart-container {
+    width: 100%;
+    height: 400px;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    background-color: rgb(17, 24, 39);
+    box-shadow: 0 0 15px rgba(0, 0, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+</style>

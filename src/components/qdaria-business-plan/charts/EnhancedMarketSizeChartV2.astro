@@ -1,0 +1,723 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Market size data in billions USD for different scenarios
+const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035];
+
+// Different scenarios with updated values to reach $1T+ by 2035
+const scenarios = {
+  conservative: {
+    name: "Conservative",
+    color: "#04a3ff",
+    hoverColor: "#0487d9",
+    fillColor: "rgba(4, 163, 255, 0.1)",
+    data: [1.5, 5, 12, 25, 50, 100, 200, 350, 550, 750, 950]
+  },
+  base: {
+    name: "Base Case",
+    color: "#00ffd3",
+    hoverColor: "#00d9b3",
+    fillColor: "rgba(0, 255, 211, 0.1)",
+    data: [2, 7, 18, 35, 70, 150, 300, 500, 700, 900, 1100]
+  },
+  optimistic: {
+    name: "Optimistic",
+    color: "#65ff00",
+    hoverColor: "#54d600",
+    fillColor: "rgba(101, 255, 0, 0.1)",
+    data: [2.5, 10, 25, 50, 100, 200, 400, 650, 900, 1200, 1300]
+  }
+};
+
+// Calculate chart dimensions
+const svgWidth = 800;
+const svgHeight = 500; // Increased height to accommodate controls
+const padding = 60;
+const chartWidth = svgWidth - (padding * 2);
+const chartHeight = svgHeight - (padding * 2) - 80; // Extra space for controls
+
+// Calculate scales
+const xScale = chartWidth / (years.length - 1);
+const maxValue = Math.max(...Object.values(scenarios).flatMap(s => s.data));
+const yScale = chartHeight / maxValue;
+
+// Generate path data for each scenario
+function generatePathData(data: number[]): string {
+  let pathData = '';
+  data.forEach((value: number, index: number) => {
+    const x = padding + (index * xScale);
+    const y = svgHeight - padding - 80 - (value * yScale);
+    if (index === 0) {
+      pathData += `M ${x},${y}`;
+    } else {
+      pathData += ` L ${x},${y}`;
+    }
+  });
+  return pathData;
+}
+
+// Generate area path data for each scenario
+function generateAreaPathData(data: number[]): string {
+  let areaPathData = generatePathData(data);
+  areaPathData += ` L ${padding + (years.length - 1) * xScale},${svgHeight - padding - 80}`;
+  areaPathData += ` L ${padding},${svgHeight - padding - 80} Z`;
+  return areaPathData;
+}
+
+// Generate path data for all scenarios
+const pathData = {
+  conservative: generatePathData(scenarios.conservative.data),
+  base: generatePathData(scenarios.base.data),
+  optimistic: generatePathData(scenarios.optimistic.data)
+};
+
+// Generate area path data for all scenarios
+const areaPathData = {
+  conservative: generateAreaPathData(scenarios.conservative.data),
+  base: generateAreaPathData(scenarios.base.data),
+  optimistic: generateAreaPathData(scenarios.optimistic.data)
+};
+
+// Generate predictive trendline data
+function generateTrendlineData(data: number[]): number[] {
+  // Simple linear regression
+  const n = data.length;
+  const indices = Array.from({ length: n }, (_, i) => i);
+  
+  // Calculate means
+  const meanX = indices.reduce((sum, x) => sum + x, 0) / n;
+  const meanY = data.reduce((sum, y) => sum + y, 0) / n;
+  
+  // Calculate slope and intercept
+  const numerator = indices.reduce((sum, x, i) => sum + (x - meanX) * (data[i] - meanY), 0);
+  const denominator = indices.reduce((sum, x) => sum + Math.pow(x - meanX, 2), 0);
+  
+  const slope = numerator / denominator;
+  const intercept = meanY - slope * meanX;
+  
+  // Generate prediction for next 5 years
+  const predictions = [];
+  for (let i = 0; i < n; i++) {
+    predictions.push(intercept + slope * i);
+  }
+  
+  // Add 5 more years of predictions
+  for (let i = n; i < n + 5; i++) {
+    predictions.push(intercept + slope * i);
+  }
+  
+  return predictions;
+}
+
+const trendlines = {
+  conservative: generateTrendlineData(scenarios.conservative.data),
+  base: generateTrendlineData(scenarios.base.data),
+  optimistic: generateTrendlineData(scenarios.optimistic.data)
+};
+
+// Generate trendline path data
+const trendlinePathData = {
+  conservative: generatePathData(trendlines.conservative),
+  base: generatePathData(trendlines.base),
+  optimistic: generatePathData(trendlines.optimistic)
+};
+
+// Extended years for trendline
+const extendedYears = [...years, 2036, 2037, 2038, 2039, 2040];
+
+// Y-axis labels with higher values
+const yAxisLabels = [0, 200, 400, 600, 800, 1000, 1200, 1400];
+---
+
+<div class="chart-container" 
+  role="region" 
+  aria-label="Interactive market size projections chart"
+  tabindex="0">
+  {title && <h4 class="text-gradient-blue text-xl font-semibold mb-4">{title}</h4>}
+  
+  <div class="chart-controls mb-4 flex justify-between items-center">
+    <div class="chart-actions flex gap-2">
+      <button 
+        id="export-csv" 
+        class="export-btn" 
+        aria-label="Export data as CSV"
+        tabindex="0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>CSV</span>
+      </button>
+      <button 
+        id="export-png" 
+        class="export-btn" 
+        aria-label="Export chart as PNG image"
+        tabindex="0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>PNG</span>
+      </button>
+    </div>
+    
+    <div class="chart-options flex gap-2">
+      <button 
+        id="toggle-trendlines" 
+        class="option-btn" 
+        aria-label="Toggle predictive trendlines"
+        aria-pressed="false"
+        tabindex="0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <span>Trendlines</span>
+      </button>
+      <button 
+        id="toggle-zoom" 
+        class="option-btn" 
+        aria-label="Toggle zoom mode"
+        aria-pressed="false"
+        tabindex="0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+        <span>Zoom</span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="chart-content">
+    <svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`} preserveAspectRatio="xMidYMid meet" id="marketSizeChart">
+      <!-- Background -->
+      <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="#020617" rx="10" ry="10" />
+      
+      <!-- Zoom controls (initially hidden) -->
+      <g id="zoom-controls" opacity="0" transform="translate(740, 70)">
+        <rect x="-40" y="-20" width="80" height="100" rx="5" ry="5" fill="#020617" stroke="#04a3ff" stroke-width="1" />
+        <circle cx="0" cy="0" r="15" fill="#04a3ff" fill-opacity="0.2" stroke="#04a3ff" stroke-width="1" class="zoom-btn" id="zoom-in" />
+        <text x="0" y="4" text-anchor="middle" fill="white" font-size="16" pointer-events="none">+</text>
+        <circle cx="0" cy="40" r="15" fill="#04a3ff" fill-opacity="0.2" stroke="#04a3ff" stroke-width="1" class="zoom-btn" id="zoom-out" />
+        <text x="0" y="44" text-anchor="middle" fill="white" font-size="16" pointer-events="none">-</text>
+        <circle cx="0" cy="80" r="15" fill="#04a3ff" fill-opacity="0.2" stroke="#04a3ff" stroke-width="1" class="zoom-btn" id="zoom-reset" />
+        <text x="0" y="84" text-anchor="middle" fill="white" font-size="12" pointer-events="none">R</text>
+      </g>
+      
+      <!-- Grid lines -->
+      {yAxisLabels.map((value, i) => (
+        <line 
+          x1={padding} 
+          y1={svgHeight - padding - 80 - (value * yScale)} 
+          x2={svgWidth - padding} 
+          y2={svgHeight - padding - 80 - (value * yScale)} 
+          stroke="rgba(255, 255, 255, 0.1)" 
+          stroke-width="1"
+          class="grid-line"
+        />
+      ))}
+      
+      {years.map((year, i) => (
+        <line 
+          x1={padding + (i * xScale)} 
+          y1={padding} 
+          x2={padding + (i * xScale)} 
+          y2={svgHeight - padding - 80} 
+          stroke="rgba(255, 255, 255, 0.1)" 
+          stroke-width="1"
+          class="grid-line"
+        />
+      ))}
+      
+      <!-- X and Y axes -->
+      <line x1={padding} y1={svgHeight - padding - 80} x2={svgWidth - padding} y2={svgHeight - padding - 80} stroke="white" stroke-width="2" />
+      <line x1={padding} y1={padding} x2={padding} y2={svgHeight - padding - 80} stroke="white" stroke-width="2" />
+      
+      <!-- X-axis labels -->
+      {years.map((year, i) => (
+        <text 
+          x={padding + (i * xScale)} 
+          y={svgHeight - padding - 60} 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          class="axis-label"
+        >
+          {year}
+        </text>
+      ))}
+      
+      <!-- Y-axis labels -->
+      {yAxisLabels.map((value) => (
+        <text 
+          x={padding - 10} 
+          y={svgHeight - padding - 80 - (value * yScale)} 
+          text-anchor="end" 
+          dominant-baseline="middle" 
+          fill="white" 
+          font-size="12"
+          class="axis-label"
+        >
+          ${value}B
+        </text>
+      ))}
+      
+      <!-- Scenario toggle buttons -->
+      <g id="scenarioToggles" transform="translate(100, 440)" role="radiogroup" aria-label="Scenario selection">
+        <!-- Conservative scenario button -->
+        <rect 
+          x="0" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="#04a3ff" 
+          fill-opacity="0.2" 
+          stroke="#04a3ff" 
+          stroke-width="2" 
+          class="scenario-button" 
+          id="conservative-button"
+          data-scenario="conservative"
+          role="radio"
+          aria-checked="false"
+          tabindex="0"
+        />
+        <text 
+          x="75" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Conservative
+        </text>
+        
+        <!-- Base case scenario button -->
+        <rect 
+          x="170" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="#00ffd3" 
+          fill-opacity="0.2" 
+          stroke="#00ffd3" 
+          stroke-width="2" 
+          class="scenario-button active" 
+          id="base-button"
+          data-scenario="base"
+          role="radio"
+          aria-checked="true"
+          tabindex="0"
+        />
+        <text 
+          x="245" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Base Case
+        </text>
+        
+        <!-- Optimistic scenario button -->
+        <rect 
+          x="340" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="#65ff00" 
+          fill-opacity="0.2" 
+          stroke="#65ff00" 
+          stroke-width="2" 
+          class="scenario-button" 
+          id="optimistic-button"
+          data-scenario="optimistic"
+          role="radio"
+          aria-checked="false"
+          tabindex="0"
+        />
+        <text 
+          x="415" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Optimistic
+        </text>
+        
+        <!-- Compare all button -->
+        <rect 
+          x="510" 
+          y="0" 
+          width="150" 
+          height="30" 
+          rx="15" 
+          ry="15" 
+          fill="rgba(255, 255, 255, 0.2)" 
+          stroke="rgba(255, 255, 255, 0.5)" 
+          stroke-width="2" 
+          class="scenario-button" 
+          id="compare-button"
+          data-scenario="compare"
+          role="radio"
+          aria-checked="false"
+          tabindex="0"
+        />
+        <text 
+          x="585" 
+          y="20" 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+          pointer-events="none"
+        >
+          Compare All
+        </text>
+      </g>
+      
+      <!-- Chart title -->
+      <text 
+        x={svgWidth / 2} 
+        y={padding / 2} 
+        text-anchor="middle" 
+        fill="#00ffd3" 
+        font-size="16" 
+        font-weight="bold"
+        class="chart-title"
+      >
+        Market Size Projections (Billions USD)
+      </text>
+      
+      <!-- Tooltip -->
+      <g id="tooltip" opacity="0" transform="translate(0,0)">
+        <rect x="-80" y="-60" width="160" height="55" rx="5" ry="5" fill="#020617" stroke="#04a3ff" stroke-width="1" />
+        <text id="tooltip-text" x="0" y="-35" text-anchor="middle" fill="white" font-size="12">$0B</text>
+        <text id="tooltip-year" x="0" y="-15" text-anchor="middle" fill="#04a3ff" font-size="10">2025</text>
+      </g>
+      
+      <!-- Annotation tooltip (initially hidden) -->
+      <g id="annotation-tooltip" opacity="0" transform="translate(0,0)">
+        <rect x="-100" y="-80" width="200" height="75" rx="5" ry="5" fill="#020617" stroke="#04a3ff" stroke-width="1" />
+        <text id="annotation-title" x="0" y="-60" text-anchor="middle" fill="#04a3ff" font-size="12">Key Milestone</text>
+        <text id="annotation-text" x="0" y="-40" text-anchor="middle" fill="white" font-size="10" class="annotation-text">Milestone description</text>
+        <line x1="0" y1="-5" x2="0" y2="30" stroke="#04a3ff" stroke-width="1" stroke-dasharray="2,2" />
+        <circle cx="0" cy="40" r="5" fill="#04a3ff" />
+      </g>
+      
+      <!-- Conservative scenario elements (initially hidden) -->
+      <g id="conservative-scenario" opacity="0" class="scenario-group">
+        <!-- Area under the line -->
+        <path 
+          d={areaPathData.conservative} 
+          fill={scenarios.conservative.fillColor} 
+          stroke="none"
+          class="area-path"
+        />
+        
+        <!-- Line chart -->
+        <path 
+          d={pathData.conservative} 
+          fill="none" 
+          stroke={scenarios.conservative.color} 
+          stroke-width="3" 
+          stroke-linejoin="round"
+          class="line-path"
+        />
+        
+        <!-- Trendline (initially hidden) -->
+        <path 
+          d={trendlinePathData.conservative} 
+          fill="none" 
+          stroke={scenarios.conservative.color} 
+          stroke-width="2" 
+          stroke-dasharray="5,5"
+          stroke-linejoin="round"
+          class="trendline-path"
+          opacity="0"
+        />
+        
+        <!-- Data points -->
+        {scenarios.conservative.data.map((value, i) => (
+          <circle 
+            cx={padding + (i * xScale)} 
+            cy={svgHeight - padding - 80 - (value * yScale)} 
+            r="6" 
+            fill="#04a3ff" 
+            stroke="#ffffff" 
+            stroke-width="2"
+            class="data-point"
+            data-value={value}
+            data-year={years[i]}
+            data-scenario="conservative"
+            tabindex="0"
+            role="button"
+            aria-label={`Conservative scenario: $${value} billion in ${years[i]}`}
+          />
+        ))}
+      </g>
+      
+      <!-- Base case scenario elements (initially visible) -->
+      <g id="base-scenario" opacity="1" class="scenario-group">
+        <!-- Area under the line -->
+        <path 
+          d={areaPathData.base} 
+          fill={scenarios.base.fillColor} 
+          stroke="none"
+          class="area-path"
+        />
+        
+        <!-- Line chart -->
+        <path 
+          d={pathData.base} 
+          fill="none" 
+          stroke={scenarios.base.color} 
+          stroke-width="3" 
+          stroke-linejoin="round"
+          class="line-path"
+        />
+        
+        <!-- Trendline (initially hidden) -->
+        <path 
+          d={trendlinePathData.base} 
+          fill="none" 
+          stroke={scenarios.base.color} 
+          stroke-width="2" 
+          stroke-dasharray="5,5"
+          stroke-linejoin="round"
+          class="trendline-path"
+          opacity="0"
+        />
+        
+        <!-- Data points -->
+        {scenarios.base.data.map((value, i) => (
+          <circle 
+            cx={padding + (i * xScale)} 
+            cy={svgHeight - padding - 80 - (value * yScale)} 
+            r="6" 
+            fill="#00ffd3" 
+            stroke="#ffffff" 
+            stroke-width="2"
+            class="data-point"
+            data-value={value}
+            data-year={years[i]}
+            data-scenario="base"
+            tabindex="0"
+            role="button"
+            aria-label={`Base case scenario: $${value} billion in ${years[i]}`}
+          />
+        ))}
+      </g>
+      
+      <!-- Optimistic scenario elements (initially hidden) -->
+      <g id="optimistic-scenario" opacity="0" class="scenario-group">
+        <!-- Area under the line -->
+        <path 
+          d={areaPathData.optimistic} 
+          fill={scenarios.optimistic.fillColor} 
+          stroke="none"
+          class="area-path"
+        />
+        
+        <!-- Line chart -->
+        <path 
+          d={pathData.optimistic} 
+          fill="none" 
+          stroke={scenarios.optimistic.color} 
+          stroke-width="3" 
+          stroke-linejoin="round"
+          class="line-path"
+        />
+        
+        <!-- Trendline (initially hidden) -->
+        <path 
+          d={trendlinePathData.optimistic} 
+          fill="none" 
+          stroke={scenarios.optimistic.color} 
+          stroke-width="2" 
+          stroke-dasharray="5,5"
+          stroke-linejoin="round"
+          class="trendline-path"
+          opacity="0"
+        />
+        
+        <!-- Data points -->
+        {scenarios.optimistic.data.map((value, i) => (
+          <circle 
+            cx={padding + (i * xScale)} 
+            cy={svgHeight - padding - 80 - (value * yScale)} 
+            r="6" 
+            fill="#65ff00" 
+            stroke="#ffffff" 
+            stroke-width="2"
+            class="data-point"
+            data-value={value}
+            data-year={years[i]}
+            data-scenario="optimistic"
+            tabindex="0"
+            role="button"
+            aria-label={`Optimistic scenario: $${value} billion in ${years[i]}`}
+          />
+        ))}
+      </g>
+      
+      <!-- Annotations -->
+      <g id="annotations" class="annotations">
+        <!-- Example annotation -->
+        <g class="annotation" data-year="2030" data-value="150" data-scenario="base" opacity="0">
+          <circle cx={padding + (5 * xScale)} cy={svgHeight - padding - 80 - (150 * yScale)} r="8" fill="#00ffd3" fill-opacity="0.5" stroke="#00ffd3" stroke-width="2" />
+        </g>
+      </g>
+    </svg>
+  </div>
+  
+  {description && <p class="text-base text-gray-400 mt-4 italic text-sm">{description}</p>}
+  
+  <!-- Screen reader only data table -->
+  <div class="sr-only">
+    <table>
+      <caption>Market Size Projections (Billions USD)</caption>
+      <thead>
+        <tr>
+          <th scope="col">Year</th>
+          <th scope="col">Conservative</th>
+          <th scope="col">Base Case</th>
+          <th scope="col">Optimistic</th>
+        </tr>
+      </thead>
+      <tbody>
+        {years.map((year, i) => (
+          <tr>
+            <th scope="row">{year}</th>
+            <td>${scenarios.conservative.data[i]}B</td>
+            <td>${scenarios.base.data[i]}B</td>
+            <td>${scenarios.optimistic.data[i]}B</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .chart-container {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    @apply m-8 p-10 max-w-[800px] w-full select-none;
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%, 100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .chart-content {
+    @apply h-[500px] w-full;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%, 100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+  
+  .export-btn, .option-btn {
+    @apply flex items-center gap-1 px-3 py-1 rounded-md bg-primary-500/20 text-white text-sm transition-all;
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    
+    &:hover, &:focus {
+      @apply bg-primary-500/30;
+      border-color: rgba(4, 163, 255, 0.5);
+      box-shadow: 0 0 10px rgba(4, 163, 255, 0.4);
+    }
+    
+    &:focus {
+      outline: 2px solid rgba(4, 163, 255, 0.5);
+      outline-offset: 2px;
+    }
+  }
+  
+  .option-btn.active {
+    @apply bg-primary-500/40;
+    border-color: rgba(4, 163, 255, 0.7);
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.5);
+  }
+  
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  
+  .annotation-text {
+    inline-size: 180px;
+    text-align: center;
+  }
+</style>
+
+<!-- Import client-side script -->
+<script src="../../../components/qdaria-business-plan/charts/EnhancedMarketSizeChartClient.js" client:load></script>

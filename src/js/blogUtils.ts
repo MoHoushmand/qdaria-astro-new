@@ -4,11 +4,11 @@ import { type CollectionEntry, getCollection, getEntries } from "astro:content";
 import {
   removeLocaleFromSlug,
   filterCollectionByLanguage,
-} from "@js/localeUtils";
-import { slugify } from "@js/textUtils";
+} from "./localeUtils";
+import { slugify } from "./textUtils";
 
 // data
-import { locales, defaultLocale } from "@config/siteSettings.json";
+import { locales, defaultLocale } from "../config/siteSettings.json";
 
 // --------------------------------------------------------
 /**
@@ -148,16 +148,16 @@ export function arePostsRelated(
   // if titles are the same, then they are the same post. return false
   if (postOne.slug === postTwo.slug) return false;
 
-  const postOneCategories = postOne.data.categories.map((category) =>
+  const postOneCategories = postOne.data.categories.map((category: string) =>
     slugify(category),
   );
 
-  const postTwoCategories = postTwo.data.categories.map((category) =>
+  const postTwoCategories = postTwo.data.categories.map((category: string) =>
     slugify(category),
   );
 
   // if any tags or categories match, return true
-  const categoriesMatch = postOneCategories.some((category) =>
+  const categoriesMatch = postOneCategories.some((category: string) =>
     postTwoCategories.includes(category),
   );
 
@@ -173,9 +173,9 @@ export function arePostsRelated(
  * note: return looks like { productivity: 2, 'cool-code': 1 }
  */
 
-export function countItems(items: string[]): object {
+export function countItems(items: string[]): Record<string, number> {
   // get counts of each item in the array
-  const countedItems = items.reduce((acc, item) => {
+  const countedItems = items.reduce<Record<string, number>>((acc, item) => {
     const val = acc[slugify(item)] || 0;
 
     return {
@@ -190,16 +190,16 @@ export function countItems(items: string[]): object {
 // --------------------------------------------------------
 /**
  * * returns array of arrays, sorted by value (high value first)
- * @param jsObj: object - array of "key: value" pairs to sort
+ * @param jsObj: Record<string, number> - array of "key: value" pairs to sort
  * @returns array of arrays with counts, sorted by count
  *
  * note: return looks like [ [ 'productivity', 2 ], [ 'cool-code', 1 ] ]
  * note: this is used for tag and category cloud ordering
  */
-export function sortByValue(jsObj: object): any[] {
-  var array: any[] = [];
-  for (var i in jsObj) {
-    array.push([i, jsObj[i]]);
+export function sortByValue(jsObj: Record<string, number>): [string, number][] {
+  const array: [string, number][] = [];
+  for (const key in jsObj) {
+    array.push([key, jsObj[key]]);
   }
 
   const sorted = array.sort((a, b) => {

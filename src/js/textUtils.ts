@@ -4,7 +4,8 @@ import { locales, localeMap } from "@config/siteSettings.json";
  * * returns "slugified" text.
  * @param text: string - text to slugify
  */
-export function slugify(text: string): string {
+export function slugify(text: string | undefined): string {
+  if (!text) return '';
   return text
     .toString()
     .toLowerCase() // convert to lowercase

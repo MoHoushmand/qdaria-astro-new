@@ -1,0 +1,236 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Revenue data in millions USD
+const years = [2025, 2026, 2027, 2028, 2029, 2030];
+const revenue = [5, 25, 100, 350, 750, 1200];
+
+// Calculate chart dimensions
+const svgWidth = 800;
+const svgHeight = 400;
+const padding = 60;
+const chartWidth = svgWidth - (padding * 2);
+const chartHeight = svgHeight - (padding * 2);
+
+// Calculate scales
+const xScale = chartWidth / (years.length - 1);
+const yScale = chartHeight / Math.max(...revenue);
+
+// Generate path data
+let pathData = '';
+revenue.forEach((value, index) => {
+  const x = padding + (index * xScale);
+  const y = svgHeight - padding - (value * yScale);
+  if (index === 0) {
+    pathData += `M ${x},${y}`;
+  } else {
+    pathData += ` L ${x},${y}`;
+  }
+});
+
+// Generate area path data
+let areaPathData = pathData;
+areaPathData += ` L ${padding + (years.length - 1) * xScale},${svgHeight - padding}`;
+areaPathData += ` L ${padding},${svgHeight - padding} Z`;
+---
+
+<div class="chart-container">
+  {title && <h4 class="text-gradient-blue text-xl font-semibold mb-4">{title}</h4>}
+  <div class="chart-content">
+    <svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`} preserveAspectRatio="xMidYMid meet">
+      <!-- Background -->
+      <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="#020617" rx="10" ry="10" />
+      
+      <!-- Grid lines -->
+      {Array.from({ length: 6 }).map((_, i) => (
+        <line 
+          x1={padding} 
+          y1={svgHeight - padding - (i * chartHeight / 5)} 
+          x2={svgWidth - padding} 
+          y2={svgHeight - padding - (i * chartHeight / 5)} 
+          stroke="rgba(255, 255, 255, 0.1)" 
+          stroke-width="1"
+        />
+      ))}
+      
+      {years.map((year, i) => (
+        <line 
+          x1={padding + (i * xScale)} 
+          y1={padding} 
+          x2={padding + (i * xScale)} 
+          y2={svgHeight - padding} 
+          stroke="rgba(255, 255, 255, 0.1)" 
+          stroke-width="1"
+        />
+      ))}
+      
+      <!-- X and Y axes -->
+      <line x1={padding} y1={svgHeight - padding} x2={svgWidth - padding} y2={svgHeight - padding} stroke="white" stroke-width="2" />
+      <line x1={padding} y1={padding} x2={padding} y2={svgHeight - padding} stroke="white" stroke-width="2" />
+      
+      <!-- X-axis labels -->
+      {years.map((year, i) => (
+        <text 
+          x={padding + (i * xScale)} 
+          y={svgHeight - padding + 20} 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="14"
+        >
+          {year}
+        </text>
+      ))}
+      
+      <!-- Y-axis labels -->
+      {[0, 250, 500, 750, 1000, 1250].map((value, i) => (
+        <text 
+          x={padding - 10} 
+          y={svgHeight - padding - (i * chartHeight / 5)} 
+          text-anchor="end" 
+          dominant-baseline="middle" 
+          fill="white" 
+          font-size="12"
+        >
+          ${value}M
+        </text>
+      ))}
+      
+      <!-- Area under the line -->
+      <path 
+        d={areaPathData} 
+        fill="rgba(0, 255, 211, 0.1)" 
+        stroke="none"
+      />
+      
+      <!-- Line chart -->
+      <path 
+        d={pathData} 
+        fill="none" 
+        stroke="#00ffd3" 
+        stroke-width="3" 
+        stroke-linejoin="round"
+      />
+      
+      <!-- Data points -->
+      {revenue.map((value, i) => (
+        <circle 
+          cx={padding + (i * xScale)} 
+          cy={svgHeight - padding - (value * yScale)} 
+          r="6" 
+          fill="#04a3ff" 
+          stroke="#00ffd3" 
+          stroke-width="2"
+        />
+      ))}
+      
+      <!-- Data labels -->
+      {revenue.map((value, i) => (
+        <text 
+          x={padding + (i * xScale)} 
+          y={svgHeight - padding - (value * yScale) - 15} 
+          text-anchor="middle" 
+          fill="white" 
+          font-size="12"
+          font-weight="bold"
+        >
+          ${value}M
+        </text>
+      ))}
+      
+      <!-- Chart title -->
+      <text 
+        x={svgWidth / 2} 
+        y={padding / 2} 
+        text-anchor="middle" 
+        fill="#00ffd3" 
+        font-size="16" 
+        font-weight="bold"
+      >
+        Revenue (Millions USD)
+      </text>
+    </svg>
+  </div>
+  {description && <p class="text-base text-gray-400 mt-4 italic text-sm">{description}</p>}
+</div>
+
+<style>
+  .chart-container {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    @apply m-8 p-10 max-w-[800px] w-full select-none;
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%, 100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .chart-content {
+    @apply h-[400px] w-full;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%, 100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+</style>
+
+<script is:inline>
+  // Add mouse tracking for hover effect
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.chart-container').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  });
+</script>

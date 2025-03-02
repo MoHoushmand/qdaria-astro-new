@@ -1,10 +1,10 @@
 ---
-import NavLink from "@components/Nav/NavLink.astro";
-import NavDropdown from "@components/Nav/NavDropdown/NavDropdown.astro";
-import NavDropdownToggle from "@components/Nav/NavDropdown/NavDropdownToggle.astro";
-import MobileNav from "@components/Nav/MobileNav.astro";
-import Button from "@components/Button/Button.astro";
-import ThemeToggle from "@components/ThemeToggle/ThemeToggle.astro";
+import NavLink from "./NavLink.astro";
+import NavDropdown from "./NavDropdown/NavDropdown.astro";
+import NavDropdownToggle from "./NavDropdown/NavDropdownToggle.astro";
+import MobileNav from "./MobileNav.astro";
+import Button from "../Button/Button.astro";
+import ThemeToggle from "../ThemeToggle/ThemeToggle.astro";
 
 /** Example navData (customize to your needs) */
 import type { navItem } from "../../config/types/configDataTypes";
@@ -151,14 +151,24 @@ const navData: navItem[] = [
     ],
   },
   {
-    text: "Whitepaper",
-    link: "/whitepaper",
-    description: "Technical Overview",
-  },
-  {
-    text: "Pitch",
-    link: "/pitch",
-    description: "Pitch Deck",
+    text: "Invest",
+    dropdown: [
+      {
+        text: "Business Plan",
+        link: "/invest/business-plan",
+        description: "Comprehensive Business Plan",
+      },
+      {
+        text: "Pitch Deck",
+        link: "/pitch",
+        description: "Investment Pitch Deck",
+      },
+      {
+        text: "Whitepaper",
+        link: "/whitepaper",
+        description: "Technical Overview",
+      }
+    ],
   },
 ];
 ---

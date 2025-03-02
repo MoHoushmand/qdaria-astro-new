@@ -1,0 +1,73 @@
+---
+import EnhancedChartBase from './EnhancedChartBase.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<EnhancedChartBase title={title} description={description}>
+  <svg width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+    <!-- Background -->
+    <rect x="0" y="0" width="800" height="400" fill="#020617" rx="10" ry="10" />
+    
+    <!-- Grid lines -->
+    <line x1="400" y1="50" x2="400" y2="350" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" />
+    <line x1="200" y1="200" x2="600" y2="200" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" />
+    
+    <!-- Quadrant labels -->
+    <text x="300" y="100" text-anchor="middle" fill="#04a3ff" font-size="18" font-weight="bold">Strengths</text>
+    <text x="500" y="100" text-anchor="middle" fill="#00ffd3" font-size="18" font-weight="bold">Opportunities</text>
+    <text x="300" y="300" text-anchor="middle" fill="#ff6b6b" font-size="18" font-weight="bold">Weaknesses</text>
+    <text x="500" y="300" text-anchor="middle" fill="#ffcc00" font-size="18" font-weight="bold">Threats</text>
+    
+    <!-- Strengths -->
+    <circle cx="250" cy="120" r="8" fill="#04a3ff" />
+    <text x="270" y="125" fill="white" font-size="14">Unique Technology</text>
+    
+    <circle cx="250" cy="150" r="8" fill="#04a3ff" />
+    <text x="270" y="155" fill="white" font-size="14">Team Expertise</text>
+    
+    <circle cx="250" cy="180" r="8" fill="#04a3ff" />
+    <text x="270" y="185" fill="white" font-size="14">Focused Strategy</text>
+    
+    <!-- Weaknesses -->
+    <circle cx="250" cy="220" r="8" fill="#ff6b6b" />
+    <text x="270" y="225" fill="white" font-size="14">Startup Scale</text>
+    
+    <circle cx="250" cy="250" r="8" fill="#ff6b6b" />
+    <text x="270" y="255" fill="white" font-size="14">Unproven Technology</text>
+    
+    <circle cx="250" cy="280" r="8" fill="#ff6b6b" />
+    <text x="270" y="285" fill="white" font-size="14">Limited Funding</text>
+    
+    <!-- Opportunities -->
+    <circle cx="450" cy="120" r="8" fill="#00ffd3" />
+    <text x="470" y="125" fill="white" font-size="14">Market Growth</text>
+    
+    <circle cx="450" cy="150" r="8" fill="#00ffd3" />
+    <text x="470" y="155" fill="white" font-size="14">First-mover Advantage</text>
+    
+    <circle cx="450" cy="180" r="8" fill="#00ffd3" />
+    <text x="470" y="185" fill="white" font-size="14">Strategic Partnerships</text>
+    
+    <!-- Threats -->
+    <circle cx="450" cy="220" r="8" fill="#ffcc00" />
+    <text x="470" y="225" fill="white" font-size="14">Incumbent Competition</text>
+    
+    <circle cx="450" cy="250" r="8" fill="#ffcc00" />
+    <text x="470" y="255" fill="white" font-size="14">Technical Risks</text>
+    
+    <circle cx="450" cy="280" r="8" fill="#ffcc00" />
+    <text x="470" y="285" fill="white" font-size="14">Market Adoption Barriers</text>
+    
+    <!-- Quadrant borders -->
+    <rect x="200" y="50" width="200" height="150" fill="none" stroke="#04a3ff" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" />
+    <rect x="400" y="50" width="200" height="150" fill="none" stroke="#00ffd3" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" />
+    <rect x="200" y="200" width="200" height="150" fill="none" stroke="#ff6b6b" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" />
+    <rect x="400" y="200" width="200" height="150" fill="none" stroke="#ffcc00" stroke-width="2" stroke-opacity="0.3" rx="5" ry="5" />
+  </svg>
+</EnhancedChartBase>

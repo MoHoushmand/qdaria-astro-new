@@ -1,0 +1,46 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <main class="relative bg-dark-bg">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 py-24">
+      <div class="prose prose-invert max-w-none">
+        <slot />
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .prose {
+    @apply prose-invert prose-headings:text-white prose-a:text-primary-400 hover:prose-a:text-primary-300;
+  }
+  .prose h2 {
+    @apply text-4xl font-bold mt-24 mb-12 pb-6;
+  }
+  .prose h2 span {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+  .prose h3 {
+    @apply text-2xl font-bold mt-16 mb-8 pl-6;
+  }
+  .prose h3 span {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+  .prose h4 {
+    @apply text-xl font-semibold mt-12 mb-6 pl-4;
+  }
+  .prose h4 span {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import BusinessPlanLayout from "../../layouts/BusinessPlanLayout.astro";
+import { getEntry } from 'astro:content';
+
+export const prerender = true;
+
+const businessPlan = await getEntry('otherPages', 'en/business-plan');
+if (!businessPlan) {
+  throw new Error('Business plan content not found');
+}
+
+const { Content } = await businessPlan.render();
+
+const frontmatter = {
+  title: businessPlan.data.title || 'QDaria Business Plan',
+  description: businessPlan.data.description || 'QDaria\'s comprehensive business plan and market analysis'
+};
+---
+
+<BusinessPlanLayout frontmatter={frontmatter}>
+  <Content />
+</BusinessPlanLayout>
