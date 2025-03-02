@@ -40,28 +40,41 @@ export async function GET(context) {
     // add atom:link to be compatible with atom
     customData: `<atom:link href="${context.site}rss.xml" rel="self" type="application/rss+xml" />`,
     // items (each post)
-    items: posts.map((post) => ({
-      title: post.data.title,
-      description: post.data.description,
-      pubDate: post.data.pubDate,
-      author: `${getAuthorEmail(post.data.authors[0].slug)} (${getAuthorName(
-        post.data.authors[0].slug,
-      )})`,
-
-      // custom data example, define in XML tags
-      // this adds the blog post image
-      customData: `<media:content
-          type="image/${post.data.heroImage.format == "jpg" ? "jpeg" : "png"}"
-          width="${post.data.heroImage.width}"
-          height="${post.data.heroImage.height}"
-          medium="image"
-          url="${getImageUrl(post)}" />
-      `,
-
-      // Compute RSS link from post `slug`
-      // This example assumes all posts are rendered as `/blog/[slug]` routes
-      link: getRelativeLocaleUrl(rssLocale, `/blog/${post.slug}/`),
-    })),
+    items: posts.map((post) => {
+      // Generate link
+      const link = getRelativeLocaleUrl(rssLocale, `/blog/${post.slug}/`);
+      
+      // Safely get author info if available
+      let authorInfo = "";
+      try {
+        if (post.data.authors && post.data.authors.length > 0 && post.data.authors[0].slug) {
+          const authorSlug = post.data.authors[0].slug;
+          authorInfo = `${getAuthorEmail(authorSlug)} (${getAuthorName(authorSlug)})`;
+        }
+      } catch (e) {
+        console.error(`Error getting author for post ${post.slug}:`, e);
+      }
+      
+      // Try to get image info if available
+      let mediaContent = "";
+      try {
+        const imageUrl = getImageUrl(post);
+        if (imageUrl) {
+          mediaContent = `<media:content medium="image" url="${imageUrl}" />`;
+        }
+      } catch (e) {
+        console.error(`Error creating media content for post ${post.slug}:`, e);
+      }
+      
+      return {
+        title: post.data.title,
+        description: post.data.description,
+        pubDate: post.data.pubDate,
+        author: authorInfo,
+        customData: mediaContent,
+        link: link,
+      };
+    }),
   });
 }
 
@@ -84,7 +97,7 @@ const getAuthorEmail = (authorSlug: string) => {
   let authorEmail = "";
   authors.map((author) => {
     if (author.slug === authorSlug) {
-      authorEmail = author.data.email;
+      authorEmail = author.data.email || "";
     }
   });
 
@@ -97,8 +110,21 @@ const getImageUrl = (post: CollectionEntry<"blog">) => {
   let imageUrl = "";
   let imageUrlEnd = "";
 
-  // assumes post.data.heroImage is defined
-  imageUrlEnd = post.data.heroImage.src.toString();
+  // Handle different heroImage formats
+  if (!post.data.heroImage) {
+    return "";
+  }
+
+  if (typeof post.data.heroImage === "string") {
+    // Direct string path
+    imageUrlEnd = post.data.heroImage;
+  } else if (post.data.heroImage.src) {
+    // Object with src property
+    imageUrlEnd = post.data.heroImage.src.toString();
+  } else {
+    // Unknown format
+    return "";
+  }
 
   // in dev mode, url is /@fs/full/path/to/project/public/assets/images/image-name.jpg
   if (imageUrlEnd.startsWith("/@fs")) {
