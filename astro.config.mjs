@@ -6,6 +6,13 @@ import mdx from "@astrojs/mdx";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react(), mdx()],
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
   site: 'https://qdaria.com',
   output: 'static',
   vite: {
