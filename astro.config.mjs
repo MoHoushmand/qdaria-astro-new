@@ -30,7 +30,9 @@ export default defineConfig({
         '@': '/src',
         '@/lib': '/src/lib',
         '@/styles': '/src/styles',
-        '@/components': '/src/components'
+        '@/components': '/src/components',
+        '@js': '/src/js',
+        '@config': '/src/config'
       }
     }
   },
