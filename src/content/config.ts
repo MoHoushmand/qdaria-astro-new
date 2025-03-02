@@ -16,8 +16,14 @@ const blog = defineCollection({
     description: z.string().optional(),
     draft: z.boolean().optional(),
     authors: z.array(z.string()).optional(),
-    pubDate: z.string().transform((str) => new Date(str)),
-    updatedDate: z.string().transform((str) => new Date(str)).optional(),
+    pubDate: z.union([
+      z.string().transform((str) => new Date(str)),
+      z.date()
+    ]),
+    updatedDate: z.union([
+      z.string().transform((str) => new Date(str)),
+      z.date()
+    ]).optional(),
     heroImage: z.any(),
     categories: z.array(z.string()).default([]),
   }),
