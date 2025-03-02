@@ -32,7 +32,8 @@ export default defineConfig({
         '@/styles': '/src/styles',
         '@/components': '/src/components',
         '@js': '/src/js',
-        '@config': '/src/config'
+        '@config': '/src/config',
+        '@images': '/src/assets/images'
       }
     }
   },
