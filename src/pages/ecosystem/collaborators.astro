@@ -24,42 +24,6 @@ const collaborators = [
       "Joint publications",
       "Technical breakthroughs"
     ]
-  },
-  {
-    name: "Bluefors",
-    logo: "/src/icons/logos/bluefors.svg",
-    role: "Cryogenic Systems Partner",
-    description: "Providing advanced cryogenic systems essential for quantum computing operations and research.",
-    contributions: [
-      "Cryogenic expertise",
-      "System optimization",
-      "Technical support",
-      "Custom solutions"
-    ],
-    achievements: [
-      "Enhanced system stability",
-      "Improved cooling efficiency",
-      "Innovative designs",
-      "Reliable operation"
-    ]
-  },
-  {
-    name: "CTD",
-    logo: "/src/icons/logos/CTD_logo_white.svg",
-    role: "Strategic Technology Partner",
-    description: "Partnering to advance quantum computing solutions and technological innovation.",
-    contributions: [
-      "Technology development",
-      "Innovation partnership",
-      "Strategic collaboration",
-      "Joint research initiatives"
-    ],
-    achievements: [
-      "Strategic alliance formed",
-      "Joint development projects",
-      "Technology integration",
-      "Market expansion"
-    ]
   }
 ];
 
@@ -157,42 +121,6 @@ const researchPartners = [
                 <h4 class="text-sm font-medium text-blue-400">Joint Achievements</h4>
                 <ul class="mt-2 space-y-2">
                   {partner.achievements.map((item) => (
-                    <li class="flex items-start gap-2">
-                      <span class="mt-1 text-blue-400">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Research Partners -->
-    <section class="py-16 md:py-20">
-      <div class="site-container">
-        <div class="mx-auto mb-16 text-center md:max-w-2xl">
-          <Badge>Research Partners</Badge>
-          <h2 class="h2 mb-4">Academic & Research Collaboration</h2>
-          <p class="description text-lg md:text-xl">
-            Working with leading institutions to advance quantum computing research and development.
-          </p>
-        </div>
-        <div class="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {researchPartners.map((partner) => (
-            <div class="rounded-xl border border-blue-500/30 bg-gray-950/80 p-8 shadow-[0_0_15px_rgba(0,0,255,0.2)] transition-all hover:shadow-[0_0_25px_rgba(0,0,255,0.4)]">
-              <h3 class="h4 mb-2">{partner.name}</h3>
-              <p class="mb-4 text-sm text-blue-400">{partner.type}</p>
-              <p class="description mb-6">
-                {partner.focus}
-              </p>
-              
-              <div>
-                <h4 class="text-sm font-medium text-blue-400">Active Projects</h4>
-                <ul class="mt-2 space-y-2">
-                  {partner.projects.map((item) => (
                     <li class="flex items-start gap-2">
                       <span class="mt-1 text-blue-400">•</span>
                       <span>{item}</span>
