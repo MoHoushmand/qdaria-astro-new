@@ -1,0 +1,265 @@
+---
+/**
+ * OrganizationalChartApex.astro
+ * Organizational Chart showing QDaria Holdings and its subsidiaries structure
+ * Uses a tree chart structure with ApexCharts
+ */
+import ApexChartWrapper from './ApexChartWrapper.astro';
+
+interface Props {
+  id: string;
+  title?: string;
+  description?: string;
+  caption?: string;
+  className?: string;
+  height?: string;
+  width?: string;
+  showDataTable?: boolean;
+  showControls?: boolean;
+}
+
+const {
+  id = "organizationalChart",
+  title = "QDaria Holdings Corporate Structure",
+  description = "Organizational chart showing QDaria Holdings and its four subsidiary companies with planned IPO timelines.",
+  caption = "QDaria's planned transformation into a holding company with four specialized subsidiary businesses, each targeting a separate IPO between 2028-2030.",
+  className = "",
+  height = "500px",
+  width = "100%",
+  showDataTable = true,
+  showControls = true,
+} = Astro.props;
+---
+
+<ApexChartWrapper
+  id={id}
+  title={title}
+  description={description}
+  caption={caption}
+  className={`organizational-chart ${className}`}
+  chartType="treemap"
+  height={height}
+  width={width}
+  showDataTable={showDataTable}
+  showControls={showControls}
+>
+  <div slot="data-table">
+    <table class="chart-data-table-content">
+      <thead>
+        <tr>
+          <th>Company Name</th>
+          <th>Focus Area</th>
+          <th>Planned IPO</th>
+          <th>Key Product</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>QDaria Holdings</td>
+          <td>Parent Company</td>
+          <td>N/A</td>
+          <td>Strategic Management</td>
+        </tr>
+        <tr>
+          <td>Zipminator Inc.</td>
+          <td>Quantum Compression Software</td>
+          <td>2028</td>
+          <td>Quantum Compression Engine</td>
+        </tr>
+        <tr>
+          <td>Qm9 Inc.</td>
+          <td>Quantum Platform Services</td>
+          <td>2029</td>
+          <td>Quantum Middleware Platform</td>
+        </tr>
+        <tr>
+          <td>QDiana Inc.</td>
+          <td>Enterprise AI Agent</td>
+          <td>2029</td>
+          <td>AI Quantum Strategy Consultant</td>
+        </tr>
+        <tr>
+          <td>QMikeAI Inc.</td>
+          <td>Developer AI Tools</td>
+          <td>2030</td>
+          <td>Quantum Developer Assistant</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ApexChartWrapper>
+
+<script define:vars={{ id }}>
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize the chart when the worker is ready
+  if (window.chartWorkerFactory) {
+    const worker = window.chartWorkerFactory.createChartWorker('organizationalChart');
+    worker.onmessage = function(event) {
+      const { data } = event;
+      
+      if (data.type === 'chartData') {
+        if (window.ApexCharts) {
+          const chartElement = document.getElementById(`${id}-chart`);
+          
+          if (chartElement) {
+            const options = {
+              series: data.options.series,
+              chart: {
+                type: 'treemap',
+                height: 500,
+                toolbar: {
+                  show: true,
+                  tools: {
+                    download: true,
+                    selection: false,
+                    zoom: false,
+                    zoomin: false,
+                    zoomout: false,
+                    pan: false,
+                    reset: true
+                  }
+                },
+                animations: {
+                  enabled: true,
+                  easing: 'easeinout',
+                  speed: 800,
+                  animateGradually: {
+                    enabled: true,
+                    delay: 150
+                  },
+                  dynamicAnimation: {
+                    enabled: true,
+                    speed: 350
+                  }
+                },
+                fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+              },
+              legend: {
+                show: false
+              },
+              title: {
+                text: 'QDaria Holdings Structure - 2027',
+                align: 'center',
+                style: {
+                  fontSize: '16px',
+                  fontWeight: 600
+                }
+              },
+              subtitle: {
+                text: 'Planned IPO timeline for each subsidiary shown in parentheses',
+                align: 'center'
+              },
+              tooltip: {
+                enabled: true,
+                theme: 'light',
+                style: {
+                  fontSize: '12px'
+                },
+                x: {
+                  show: true,
+                  formatter: function(val) {
+                    return val;
+                  }
+                },
+                y: {
+                  formatter: function(val) {
+                    return '';
+                  }
+                }
+              },
+              plotOptions: {
+                treemap: {
+                  enableShades: true,
+                  shadeIntensity: 0.5,
+                  reverseNegativeShade: true,
+                  colorScale: {
+                    ranges: [
+                      {
+                        from: 0,
+                        to: 10,
+                        color: '#3B93A5'  // QDaria Holdings
+                      },
+                      {
+                        from: 10,
+                        to: 20,
+                        color: '#F7B844'  // Zipminator Inc.
+                      },
+                      {
+                        from: 20,
+                        to: 30,
+                        color: '#7367F0'  // Qm9 Inc.
+                      },
+                      {
+                        from: 30,
+                        to: 40,
+                        color: '#FE4D97'  // QDiana Inc.
+                      },
+                      {
+                        from: 40,
+                        to: 50,
+                        color: '#32CD32'  // QMikeAI Inc.
+                      }
+                    ]
+                  },
+                  distributed: true
+                }
+              },
+              dataLabels: {
+                enabled: true,
+                style: {
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  colors: ['#fff']
+                },
+                formatter: function(text, op) {
+                  return [text, op.value]
+                },
+                offsetY: -4
+              },
+              grid: {
+                padding: {
+                  top: 10,
+                  right: 10,
+                  bottom: 10,
+                  left: 10
+                },
+              },
+              stroke: {
+                width: 2
+              }
+            };
+            
+            // Initialize chart
+            const chart = new ApexCharts(chartElement, options);
+            chart.render();
+            
+            // Store reference for reset functionality
+            window[`reset${id}Chart`] = function() {
+              chart.resetSeries();
+            };
+            
+            // Update data table with actual data if needed
+            const tableContent = document.querySelector(`#${id}-data-table .chart-data-table-content`);
+            if (tableContent) {
+              // Table is already defined in the component
+            }
+            
+            // Make the chart keyboard navigable
+            chartElement.setAttribute('tabindex', '0');
+            chartElement.setAttribute('role', 'img');
+            chartElement.setAttribute('aria-label', `${title} - Organizational chart showing QDaria Holdings and its four subsidiaries`);
+          }
+        } else {
+          console.error('ApexCharts not loaded');
+        }
+      } else if (data.type === 'error') {
+        console.error('Worker error:', data.message);
+      }
+    };
+    
+    worker.postMessage({ type: 'getData' });
+  } else {
+    console.error('Chart worker factory not available');
+  }
+});
+</script>

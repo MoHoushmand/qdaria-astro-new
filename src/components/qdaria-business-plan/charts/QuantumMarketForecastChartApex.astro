@@ -1,0 +1,808 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+
+interface Props {
+  id?: string;
+  title?: string;
+  description?: string;
+  caption?: string;
+  className?: string;
+  height?: string;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  showDataTable?: boolean;
+  showControls?: boolean;
+}
+
+const { 
+  id = `quantum-market-forecast-${Math.random().toString(36).substring(2, 9)}`,
+  title = "Quantum Computing Market Forecast Scenarios (2025-2035)", 
+  description = "Comprehensive market forecast showing conservative, expected, and optimistic scenarios with QDaria's projected market share. The industry is expected to grow from under $2B in 2025 to over $1T by 2035.",
+  caption = "Market forecast showing different adoption scenarios alongside QDaria's projected market share. The $1 trillion milestone is highlighted for each scenario's projection.",
+  className = "",
+  height = "500px",
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  showDataTable = true,
+  showControls = true
+} = Astro.props;
+
+// Chart data
+const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035];
+const scenarios = {
+  "Conservative ($B)": [2.5, 5.8, 12.4, 24.7, 45.3, 78.6, 132.5, 215.8, 342.7, 598.4, 980.5],
+  "Expected ($B)": [3.2, 7.5, 16.8, 32.4, 59.7, 103.5, 178.2, 298.6, 487.3, 795.2, 1300.0],
+  "Optimistic ($B)": [4.1, 9.8, 22.5, 43.2, 79.6, 142.8, 248.5, 425.3, 698.2, 1050.6, 1650.0]
+};
+// Updated market share to reach 2% in the optimistic scenario
+const marketShare = [0.01, 0.08, 0.15, 0.30, 0.50, 0.70, 0.90, 1.20, 1.50, 1.75, 2.00];
+const scenarioColors = ["#7B61FF", "#04a3ff", "#00FFD3", "#FF9800"];
+
+// Create unique IDs
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const tabsId = `${chartId}-tabs`;
+const scaleToggleId = `${chartId}-scale-toggle`;
+const cagrId = `${chartId}-cagr`;
+const viewToggleId = `${chartId}-view-toggle`;
+
+// Worker path for data processing
+const workerPath = "/charts/quantumMarketForecastWorker.js";
+
+// Calculate CAGR (Compound Annual Growth Rate) for each scenario
+function calculateCAGR(startValue: number, endValue: number, years: number): string {
+  const cagr = (Math.pow(endValue / startValue, 1 / years) - 1) * 100;
+  return cagr.toFixed(1) + '%';
+}
+
+// Calculate CAGR values for display
+const conservativeCAGR = calculateCAGR(scenarios["Conservative ($B)"][0], scenarios["Conservative ($B)"][scenarios["Conservative ($B)"].length-1], years.length-1);
+const expectedCAGR = calculateCAGR(scenarios["Expected ($B)"][0], scenarios["Expected ($B)"][scenarios["Expected ($B)"].length-1], years.length-1);
+const optimisticCAGR = calculateCAGR(scenarios["Optimistic ($B)"][0], scenarios["Optimistic ($B)"][scenarios["Optimistic ($B)"].length-1], years.length-1);
+const marketShareCAGR = calculateCAGR(marketShare[0], marketShare[marketShare.length-1], years.length-1);
+
+// Calculate year-over-year growth rates
+function calculateYoYGrowth(values: number[]): string[] {
+  return values.map((val, idx) => {
+    if (idx === 0) return '-';
+    return ((val / values[idx-1] - 1) * 100).toFixed(1) + '%';
+  });
+}
+
+const yoyGrowthConservative = calculateYoYGrowth(scenarios["Conservative ($B)"]);
+const yoyGrowthExpected = calculateYoYGrowth(scenarios["Expected ($B)"]);
+const yoyGrowthOptimistic = calculateYoYGrowth(scenarios["Optimistic ($B)"]);
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  caption={caption}
+  className={`quantum-market-forecast-chart ${className}`}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+>
+  {showControls && (
+    <div class="chart-control-panel">
+      <!-- Scenario Selection Tabs -->
+      <div class="scenario-tabs" id={tabsId}>
+        <div class="tabs-header">
+          <button class="tab-btn active" data-scenario="all">All Scenarios</button>
+          {Object.keys(scenarios).map((scenario, index) => (
+            <button 
+              class="tab-btn" 
+              data-scenario={scenario} 
+              style={`--tab-color: ${scenarioColors[index % scenarioColors.length]}`}
+            >
+              {scenario.replace(" ($B)", "")}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      <div class="chart-controls">
+        <!-- Scale Toggle -->
+        <div class="scale-toggle" id={scaleToggleId}>
+          <span class="scale-label">Scale: </span>
+          <div class="toggle-buttons">
+            <button class="toggle-button active" data-scale="logarithmic">Logarithmic</button>
+            <button class="toggle-button" data-scale="linear">Linear</button>
+          </div>
+        </div>
+        
+        <!-- View Toggle for Market Share -->
+        <div class="view-toggle" id={viewToggleId}>
+          <span class="view-label">Show: </span>
+          <div class="toggle-buttons">
+            <button class="toggle-button active" data-view="both">Market + Share</button>
+            <button class="toggle-button" data-view="market">Market Only</button>
+            <button class="toggle-button" data-view="share">Share Only</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+  
+  <!-- CAGR Display -->
+  <div class="cagr-display" id={cagrId}>
+    <div class="cagr-item" style={`--scenario-color: ${scenarioColors[0]}`}>
+      <span>Conservative CAGR:</span>
+      <span class="cagr-value">{conservativeCAGR}</span>
+    </div>
+    <div class="cagr-item" style={`--scenario-color: ${scenarioColors[1]}`}>
+      <span>Expected CAGR:</span>
+      <span class="cagr-value">{expectedCAGR}</span>
+    </div>
+    <div class="cagr-item" style={`--scenario-color: ${scenarioColors[2]}`}>
+      <span>Optimistic CAGR:</span>
+      <span class="cagr-value">{optimisticCAGR}</span>
+    </div>
+    <div class="cagr-item" style={`--scenario-color: ${scenarioColors[3]}`}>
+      <span>Market Share Growth:</span>
+      <span class="cagr-value">{marketShareCAGR}</span>
+    </div>
+  </div>
+  
+  {showDataTable && (
+    <table slot="data-table" class="chart-data-table-content">
+      <thead>
+        <tr>
+          <th>Year</th>
+          {Object.keys(scenarios).map((scenario, index) => (
+            <th colspan="2" style={`--scenario-color: ${scenarioColors[index % scenarioColors.length]}`}>
+              {scenario.replace(" ($B)", "")}
+            </th>
+          ))}
+          <th>QDaria Market Share (%)</th>
+        </tr>
+        <tr>
+          <th></th>
+          {Object.keys(scenarios).map(() => (
+            <>
+              <th>Value</th>
+              <th>YoY Growth</th>
+            </>
+          ))}
+          <th>% of Market</th>
+        </tr>
+      </thead>
+      <tbody>
+        {years.map((year, yearIndex) => (
+          <tr>
+            <td>{year}</td>
+            {Object.entries(scenarios).map(([scenario, values], scenarioIndex) => {
+              const value = values[yearIndex];
+              const yoyGrowth = scenarioIndex === 0 
+                ? yoyGrowthConservative[yearIndex]
+                : scenarioIndex === 1
+                  ? yoyGrowthExpected[yearIndex]
+                  : yoyGrowthOptimistic[yearIndex];
+              
+              return (
+                <>
+                  <td style={`--scenario-color: ${scenarioColors[scenarioIndex % scenarioColors.length]}`}>
+                    {value >= 1000 ? `$${(value/1000).toFixed(2)}T` : `$${value.toFixed(1)}B`}
+                  </td>
+                  <td class={yoyGrowth !== '-' ? (parseFloat(yoyGrowth) >= 0 ? "positive-growth" : "negative-growth") : ""}>
+                    {yoyGrowth}
+                  </td>
+                </>
+              );
+            })}
+            <td>{(marketShare[yearIndex] * 100).toFixed(2)}%</td>
+          </tr>
+        ))}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>CAGR</th>
+          <td colspan="2" class="cagr-cell">{conservativeCAGR}</td>
+          <td colspan="2" class="cagr-cell">{expectedCAGR}</td>
+          <td colspan="2" class="cagr-cell">{optimisticCAGR}</td>
+          <td class="growth-cell">{marketShareCAGR}</td>
+        </tr>
+      </tfoot>
+    </table>
+  )}
+  
+  <!-- Fallback SVG for critical accessibility/SEO -->
+  <div slot="fallback" class="fallback-container">
+    <p>Market size projections from 2025 to 2035 show exponential growth:</p>
+    <ul>
+      <li>Conservative scenario: $2.5B in 2025 to $980.5B in 2035</li>
+      <li>Expected scenario: $3.2B in 2025 to $1.3T in 2035</li>
+      <li>Optimistic scenario: $4.1B in 2025 to $1.65T in 2035</li>
+    </ul>
+    <p>$1 Trillion milestone is expected to be reached between 2033-2035 depending on scenario.</p>
+    <p>QDaria's market share is projected to grow from 0.01% in 2025 to 2.00% by 2035 in the optimistic scenario.</p>
+  </div>
+</ApexChartWrapper>
+
+<style>
+  .chart-control-panel {
+    margin-bottom: 1.5rem;
+  }
+  
+  .scenario-tabs {
+    margin-bottom: 1rem;
+  }
+  
+  .tabs-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .tab-btn {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+  }
+  
+  .tab-btn:hover {
+    background: rgba(4, 163, 255, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  .tab-btn.active {
+    background: rgba(4, 163, 255, 0.5);
+    border-color: rgba(4, 163, 255, 0.8);
+    box-shadow: 0 0 10px rgba(4, 163, 255, 0.5);
+  }
+  
+  /* Chart controls */
+  .chart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .scale-toggle, .view-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .scale-label, .view-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .toggle-buttons {
+    display: flex;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    padding: 0.2rem;
+  }
+  
+  .toggle-button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.8rem;
+    transition: all 0.2s ease;
+  }
+  
+  .toggle-button:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .toggle-button.active {
+    color: white;
+    background: rgba(4, 163, 255, 0.5);
+  }
+  
+  /* CAGR Display */
+  .cagr-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 0.5rem 0 1.5rem;
+  }
+  
+  .cagr-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    border-left: 3px solid var(--scenario-color, #04a3ff);
+  }
+  
+  .cagr-value {
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.2);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content th[colspan] {
+    background: var(--scenario-color, rgba(4, 163, 255, 0.3));
+  }
+  
+  .chart-data-table-content th:first-child, 
+  .chart-data-table-content td:first-child {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    background: rgba(2, 6, 23, 0.9);
+    z-index: 1;
+  }
+  
+  .chart-data-table-content tr:hover td {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  .chart-data-table-content tr:hover td:first-child {
+    background: rgba(4, 163, 255, 0.2);
+  }
+  
+  .positive-growth {
+    color: #00e396;
+  }
+  
+  .negative-growth {
+    color: #ff4560;
+  }
+  
+  .cagr-cell, .growth-cell {
+    font-weight: bold;
+    color: #00e396;
+  }
+  
+  .fallback-container {
+    padding: 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .fallback-container ul {
+    margin-left: 1.5rem;
+  }
+  
+  .fallback-container li {
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .tabs-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .chart-controls {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, years, scenarios, marketShare, scenarioColors, tabsId, scaleToggleId, viewToggleId, cagrId, dataTableId, workerPath, showControls }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initQuantumMarketForecastChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initQuantumMarketForecastChart);
+    }
+    
+    if (showControls) {
+      // Initialize scenario tabs
+      const tabButtons = document.querySelectorAll(`#${tabsId} .tab-btn`);
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          tabButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          // Update chart based on selected scenario
+          const scenario = btn.getAttribute('data-scenario');
+          updateChartScenario(scenario);
+          
+          // Announce to screen readers
+          const announcer = document.getElementById(`${chartId}-announcements`);
+          if (announcer) {
+            announcer.textContent = `Showing ${scenario === 'all' ? 'all scenarios' : scenario} data`;
+          }
+        });
+      });
+      
+      // Initialize scale toggle
+      const scaleToggleButtons = document.querySelectorAll(`#${scaleToggleId} .toggle-button`);
+      scaleToggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          scaleToggleButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          // Update chart scale
+          const scale = btn.getAttribute('data-scale');
+          updateChartScale(scale);
+          
+          // Announce to screen readers
+          const announcer = document.getElementById(`${chartId}-announcements`);
+          if (announcer) {
+            announcer.textContent = `Changed to ${scale} scale`;
+          }
+        });
+      });
+      
+      // Initialize view toggle
+      const viewToggleButtons = document.querySelectorAll(`#${viewToggleId} .toggle-button`);
+      viewToggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          viewToggleButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          // Update chart view
+          const view = btn.getAttribute('data-view');
+          updateChartView(view);
+          
+          // Announce to screen readers
+          const announcer = document.getElementById(`${chartId}-announcements`);
+          if (announcer) {
+            announcer.textContent = `Changed to ${view} view`;
+          }
+        });
+      });
+    }
+    
+    // Function to initialize the chart
+    function initQuantumMarketForecastChart() {
+      try {
+        console.log(`Initializing quantum market forecast chart: ${chartId}`);
+        
+        // Prepare data for the chart
+        const seriesData = [];
+        
+        // Add scenario series
+        Object.entries(scenarios).forEach(([name, data], index) => {
+          seriesData.push({
+            name: name.replace(" ($B)", ""),
+            data: data,
+            color: scenarioColors[index % scenarioColors.length]
+          });
+        });
+        
+        // Add market share as a separate series with secondary y-axis
+        seriesData.push({
+          name: "QDaria Market Share %",
+          data: marketShare,
+          type: 'line',
+          color: scenarioColors[3],
+          yaxis: 2
+        });
+        
+        // Create chart options
+        const options = {
+          chart: {
+            type: 'area',
+            stacked: false,
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            height: '100%',
+            animations: {
+              enabled: true,
+              easing: 'easeinout',
+              speed: 800,
+              animateGradually: {
+                enabled: true,
+                delay: 150
+              }
+            },
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          series: seriesData,
+          colors: scenarioColors,
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shadeIntensity: 1,
+              opacityFrom: 0.7,
+              opacityTo: 0.2,
+              stops: [0, 90, 100]
+            }
+          },
+          stroke: {
+            curve: 'smooth',
+            width: [2, 2, 2, 3]
+          },
+          markers: {
+            size: [3, 3, 3, 5],
+            hover: {
+              size: 6
+            }
+          },
+          xaxis: {
+            categories: years.map(String),
+            labels: {
+              style: {
+                colors: '#ffffff',
+                fontSize: '12px'
+              }
+            }
+          },
+          yaxis: [
+            {
+              title: {
+                text: 'Market Size (Billions USD)',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 500
+                }
+              },
+              logarithmic: true,
+              labels: {
+                formatter: function(val) {
+                  if (val >= 1000) {
+                    return `$${(val/1000).toFixed(1)}T`;
+                  }
+                  return `$${val.toFixed(0)}B`;
+                }
+              }
+            },
+            {
+              opposite: true,
+              title: {
+                text: 'Market Share (%)',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 500
+                }
+              },
+              min: 0,
+              max: Math.max(...marketShare) * 1.2,
+              tickAmount: 6,
+              labels: {
+                formatter: function(val) {
+                  return (val * 100).toFixed(2) + '%';
+                }
+              }
+            }
+          ],
+          tooltip: {
+            shared: true,
+            intersect: false,
+            y: {
+              formatter: function(val, { seriesIndex }) {
+                if (seriesIndex === seriesData.length - 1) {
+                  return (val * 100).toFixed(2) + '%';
+                }
+                
+                if (val >= 1000) {
+                  return `$${(val/1000).toFixed(2)} trillion`;
+                }
+                return `$${val.toFixed(1)} billion`;
+              }
+            }
+          },
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            row: {
+              colors: ['transparent', 'rgba(255, 255, 255, 0.03)']
+            },
+            xaxis: {
+              lines: {
+                show: true,
+                opacity: 0.1
+              }
+            },
+            yaxis: {
+              lines: {
+                show: true,
+                opacity: 0.1
+              }
+            }
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'center',
+            fontWeight: 500,
+            markers: {
+              radius: 3
+            },
+            itemMargin: {
+              horizontal: 10,
+              vertical: 5
+            }
+          },
+          annotations: {
+            yaxis: [
+              {
+                y: 1000,
+                borderColor: '#00E396',
+                strokeDashArray: 5,
+                label: {
+                  borderColor: '#00E396',
+                  style: {
+                    color: '#fff',
+                    background: '#00E396',
+                    fontSize: '12px',
+                    padding: {
+                      left: 10,
+                      right: 10,
+                      top: 5,
+                      bottom: 5
+                    }
+                  },
+                  text: '$1 Trillion Milestone',
+                  position: 'left',
+                  offsetX: 10
+                }
+              }
+            ]
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.getElementById(`${chartId}-chart`), options);
+        chart.render();
+        
+        // Store chart instance for later reference
+        window[`${chartId}-instance`] = chart;
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Quantum market forecast chart loaded. Use arrow keys to navigate between data points.';
+        }
+      } catch (error) {
+        console.error('Error initializing chart:', error);
+        
+        // Show fallback content
+        const chartElement = document.getElementById(`${chartId}-chart`);
+        const fallbackElement = document.querySelector(`#${chartId} [slot="fallback"]`);
+        
+        if (chartElement && fallbackElement) {
+          chartElement.innerHTML = '';
+          chartElement.appendChild(fallbackElement.cloneNode(true));
+          fallbackElement.style.display = 'block';
+        }
+      }
+    }
+    
+    // Function to update chart scale (logarithmic or linear)
+    function updateChartScale(scale) {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      chart.updateOptions({
+        yaxis: [
+          {
+            logarithmic: scale === 'logarithmic',
+            title: {
+              text: 'Market Size (Billions USD)'
+            },
+            labels: {
+              formatter: function(val) {
+                if (val >= 1000) {
+                  return `$${(val/1000).toFixed(1)}T`;
+                }
+                return `$${val.toFixed(0)}B`;
+              }
+            }
+          },
+          {
+            // Market share axis remains unchanged
+            opposite: true,
+            title: {
+              text: 'Market Share (%)'
+            },
+            min: 0,
+            max: Math.max(...marketShare) * 1.2,
+            labels: {
+              formatter: function(val) {
+                return (val * 100).toFixed(2) + '%';
+              }
+            }
+          }
+        ]
+      }, false, true);
+    }
+    
+    // Function to update chart scenario display
+    function updateChartScenario(scenario) {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      // Get series names
+      const seriesNames = Object.keys(scenarios).map(name => name.replace(" ($B)", ""));
+      seriesNames.push("QDaria Market Share %");
+      
+      if (scenario === 'all') {
+        // Show all series
+        seriesNames.forEach(name => chart.showSeries(name));
+      } else {
+        // Show only the selected scenario and market share
+        seriesNames.forEach(name => {
+          if (name === scenario || name === "QDaria Market Share %") {
+            chart.showSeries(name);
+          } else {
+            chart.hideSeries(name);
+          }
+        });
+      }
+    }
+    
+    // Function to update chart view (market, share, or both)
+    function updateChartView(view) {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      // Get all series names
+      const seriesNames = Object.keys(scenarios).map(name => name.replace(" ($B)", ""));
+      const marketShareName = "QDaria Market Share %";
+      
+      // Update visibility based on view
+      if (view === 'market') {
+        // Show only market series
+        seriesNames.forEach(name => chart.showSeries(name));
+        chart.hideSeries(marketShareName);
+      } else if (view === 'share') {
+        // Show only market share series
+        seriesNames.forEach(name => chart.hideSeries(name));
+        chart.showSeries(marketShareName);
+      } else {
+        // Show both market and share series
+        seriesNames.forEach(name => chart.showSeries(name));
+        chart.showSeries(marketShareName);
+      }
+    }
+  });
+</script>

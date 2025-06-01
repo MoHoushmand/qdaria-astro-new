@@ -1,0 +1,431 @@
+---
+import EnhancedChartBase from './EnhancedChartBase.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "Fibonacci Anyons Quantum Computer Development Timeline", 
+  description = "Roadmap for our flagship topological quantum computer using non-Abelian anyons" 
+} = Astro.props;
+
+// Timeline data
+const milestones = [
+  {
+    year: 2025,
+    quarter: "Q1",
+    title: "R&D Initiation",
+    description: "Initial research on topological quantum computing approaches using Fibonacci anyons",
+    status: "completed",
+    icon: "flask"
+  },
+  {
+    year: 2025,
+    quarter: "Q2",
+    title: "Theoretical Model",
+    description: "Development of theoretical model for topological qubits using non-Abelian anyons",
+    status: "completed",
+    icon: "function"
+  },
+  {
+    year: 2025,
+    quarter: "Q3",
+    title: "Lab Setup",
+    description: "Establishment of specialized lab facilities for anyonic qubit experimentation",
+    status: "in-progress",
+    icon: "microscope"
+  },
+  {
+    year: 2025,
+    quarter: "Q4",
+    title: "Simulation Framework",
+    description: "Development of simulation framework for testing anyonic braiding operations",
+    status: "planned",
+    icon: "computer"
+  },
+  {
+    year: 2026,
+    quarter: "Q1",
+    title: "First Qubit Prototype",
+    description: "Creation of first prototype anyonic qubit with basic braiding operations",
+    status: "planned",
+    icon: "atom"
+  },
+  {
+    year: 2026,
+    quarter: "Q4",
+    title: "Error Correction",
+    description: "Implementation of topological error correction mechanisms",
+    status: "planned",
+    icon: "shield"
+  },
+  {
+    year: 2027,
+    quarter: "Q2",
+    title: "Multi-Qubit System",
+    description: "Development of scaled system with multiple topological qubits",
+    status: "planned",
+    icon: "network"
+  },
+  {
+    year: 2028,
+    quarter: "Q1",
+    title: "Quantum Processor",
+    description: "Integration of topological qubits into complete quantum processor",
+    status: "planned",
+    icon: "microchip"
+  },
+  {
+    year: 2030,
+    quarter: "Q2",
+    title: "Full-Scale System",
+    description: "Deployment of full-scale topological quantum computer with Fibonacci anyons",
+    status: "planned",
+    icon: "server"
+  }
+];
+
+// Chart dimensions and settings
+const chartWidth = 900;
+const chartHeight = 600;
+const timelineY = chartHeight / 2;
+const nodeRadius = 16;
+const yearSpacing = 180;
+const startX = 100;
+const startYear = 2025;
+---
+
+<EnhancedChartBase title={title} description={description}>
+  <div class="topological-timeline-chart" client:load>
+    <div class="chart-container">
+      <svg width="100%" height="100%" viewBox={`0 0 ${chartWidth} ${chartHeight}`} preserveAspectRatio="xMidYMid meet"
+        role="img" aria-labelledby="timelineChartTitle timelineChartDesc">
+        <title id="timelineChartTitle">Topological Quantum Computer Development Timeline</title>
+        <desc id="timelineChartDesc">Timeline showing the development roadmap for QDaria's topological quantum computer using Fibonacci anyons</desc>
+        
+        <!-- Background -->
+        <rect x="0" y="0" width={chartWidth} height={chartHeight} fill="#020617" rx="10" ry="10" />
+        
+        <!-- Chart title -->
+        <text x={chartWidth/2} y="40" fill="white" font-size="22" text-anchor="middle" font-weight="bold" class="chart-title">
+          Topological Quantum Computer Development Timeline
+        </text>
+        
+        <!-- Main timeline line -->
+        <path 
+          d={`M ${startX} ${timelineY} L ${chartWidth - 50} ${timelineY}`} 
+          stroke="rgba(4, 163, 255, 0.7)" 
+          stroke-width="4" 
+          stroke-linecap="round"
+          class="timeline-path" 
+        />
+        
+        <!-- Year markers -->
+        {Array.from({ length: 6 }, (_, i) => startYear + i).map((year, i) => (
+          <g class="year-marker" transform={`translate(${startX + i * yearSpacing}, ${timelineY})`}>
+            <line x1="0" y1="-10" x2="0" y2="10" stroke="rgba(255, 255, 255, 0.5)" stroke-width="2" />
+            <text x="0" y="30" fill="white" font-size="14" text-anchor="middle" font-weight="bold">{year}</text>
+          </g>
+        ))}
+        
+        <!-- Milestone nodes -->
+        {milestones.map((milestone, i) => {
+          const yearOffset = milestone.year - startYear;
+          const quarterOffset = ["Q1", "Q2", "Q3", "Q4"].indexOf(milestone.quarter) / 4;
+          const x = startX + (yearOffset + quarterOffset) * yearSpacing;
+          const y = timelineY;
+          const positionAbove = i % 2 === 0;
+          const lineY = positionAbove ? -40 : 40;
+          const textOffsetY1 = positionAbove ? -10 : 10; // Title
+          const textOffsetY2 = positionAbove ? 10 : 30;  // Date
+          const statusColor = 
+            milestone.status === "completed" ? "#00ffd3" : 
+            milestone.status === "in-progress" ? "#04a3ff" : 
+            "#ffcc00";
+          
+          return (
+            <g class="milestone" data-year={milestone.year} data-quarter={milestone.quarter} data-title={milestone.title} data-description={milestone.description} data-status={milestone.status} transform={`translate(${x}, ${y})`} tabindex="0">
+              <!-- Connecting line -->
+              <line x1="0" y1="0" x2="0" y2={lineY} stroke="rgba(255, 255, 255, 0.3)" stroke-width="2" stroke-dasharray={milestone.status === "planned" ? "4,2" : ""} />
+              
+              <!-- Node circle -->
+              <circle cx="0" cy="0" r={nodeRadius} fill="#020617" stroke={statusColor} stroke-width="3" class="milestone-node" />
+              
+              <!-- Icon placeholder (would be replaced with actual icons in a full implementation) -->
+              <text x="0" y="0" text-anchor="middle" dominant-baseline="middle" fill={statusColor} font-size="12" font-weight="bold">
+                {milestone.status === "completed" ? "✓" : milestone.status === "in-progress" ? "⟳" : "●"}
+              </text>
+              
+              <!-- Milestone title (above or below the timeline) with better spacing -->
+              <g class="milestone-label">
+                <text x="0" y={lineY + textOffsetY1} text-anchor="middle" fill="white" font-size="14" font-weight="bold">{milestone.title}</text>
+                <text x="0" y={lineY + textOffsetY2} text-anchor="middle" fill="rgba(255, 255, 255, 0.7)" font-size="12">{milestone.year} {milestone.quarter}</text>
+              </g>
+            </g>
+          );
+        })}
+        
+        <!-- Current time indicator -->
+        <g class="current-time-indicator" transform={`translate(${startX + 0.75 * yearSpacing}, ${timelineY})`}>
+          <circle cx="0" cy="0" r="8" fill="#ff6b6b" />
+          <text x="0" y="-20" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">Current</text>
+        </g>
+      </svg>
+      
+      <!-- Detail panel -->
+      <div class="detail-panel">
+        <div class="detail-header">
+          <div class="detail-title">Select a milestone for details</div>
+          <div class="detail-date"></div>
+        </div>
+        <div class="detail-description">This timeline shows the development roadmap for QDaria's topological quantum computer using Fibonacci anyons.</div>
+        <div class="detail-status"></div>
+      </div>
+      
+      <!-- Controls -->
+      <div class="timeline-control-container">
+        <div class="timeline-controls">
+          <button class="control-button" data-action="zoom-in">Zoom In</button>
+          <button class="control-button" data-action="zoom-out">Zoom Out</button>
+          <button class="control-button" data-action="reset">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</EnhancedChartBase>
+
+<style>
+  .topological-timeline-chart {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    user-select: text;
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 600px;
+    width: 100%;
+  }
+  
+  .timeline-path {
+    filter: drop-shadow(0 0 10px rgba(4, 163, 255, 0.5));
+  }
+  
+  .milestone {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .milestone:hover .milestone-node, 
+  .milestone:focus .milestone-node {
+    filter: brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+    r: 20;
+  }
+  
+  .milestone:hover .milestone-label text, 
+  .milestone:focus .milestone-label text {
+    filter: brightness(1.5);
+    font-weight: bold;
+  }
+  
+  .detail-panel {
+    position: relative;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    min-height: 100px;
+    transition: all 0.3s ease;
+  }
+  
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .detail-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .detail-date {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .detail-description {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  
+  .detail-status {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .timeline-control-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .timeline-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .control-button {
+    background: rgba(4, 163, 255, 0.2);
+    border: 1px solid rgba(4, 163, 255, 0.5);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .control-button:hover {
+    background: rgba(4, 163, 255, 0.4);
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.6);
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get elements
+    const milestones = document.querySelectorAll('.milestone');
+    const detailTitle = document.querySelector('.detail-title');
+    const detailDate = document.querySelector('.detail-date');
+    const detailDescription = document.querySelector('.detail-description');
+    const detailStatus = document.querySelector('.detail-status');
+    const controlButtons = document.querySelectorAll('.control-button');
+    
+    // Variables for zoom functionality
+    let currentZoom = 1;
+    const svg = document.querySelector('svg');
+    const timelinePath = document.querySelector('.timeline-path');
+    
+    // Add click events to milestones
+    milestones.forEach(milestone => {
+      milestone.addEventListener('click', () => {
+        showDetails(milestone);
+      });
+      
+      // Add keyboard support
+      milestone.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          showDetails(milestone);
+        }
+      });
+    });
+    
+    // Add click events to control buttons
+    controlButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const action = button.dataset.action;
+        
+        switch (action) {
+          case 'zoom-in':
+            zoomTimeline(0.2);
+            break;
+          case 'zoom-out':
+            zoomTimeline(-0.2);
+            break;
+          case 'reset':
+            resetTimeline();
+            break;
+        }
+      });
+    });
+    
+    // Function to show details for selected milestone
+    function showDetails(milestone) {
+      const title = milestone.dataset.title;
+      const year = milestone.dataset.year;
+      const quarter = milestone.dataset.quarter;
+      const description = milestone.dataset.description;
+      const status = milestone.dataset.status;
+      
+      // Update detail panel
+      if (detailTitle) detailTitle.textContent = title;
+      if (detailDate) detailDate.textContent = `${year} ${quarter}`;
+      if (detailDescription) detailDescription.textContent = description;
+      
+      // Update status with appropriate styling
+      if (detailStatus) {
+        let statusText;
+        let statusColor;
+        
+        switch (status) {
+          case 'completed':
+            statusText = 'Completed';
+            statusColor = '#00ffd3';
+            break;
+          case 'in-progress':
+            statusText = 'In Progress';
+            statusColor = '#04a3ff';
+            break;
+          case 'planned':
+            statusText = 'Planned';
+            statusColor = '#ffcc00';
+            break;
+        }
+        
+        detailStatus.textContent = `Status: ${statusText}`;
+        detailStatus.style.color = statusColor;
+      }
+      
+      // Highlight the selected milestone
+      milestones.forEach(m => {
+        const circle = m.querySelector('circle');
+        if (circle) {
+          circle.setAttribute('r', '16');
+          circle.style.filter = '';
+        }
+      });
+      
+      const selectedCircle = milestone.querySelector('circle');
+      if (selectedCircle) {
+        selectedCircle.setAttribute('r', '20');
+        selectedCircle.style.filter = 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))';
+      }
+    }
+    
+    // Function to zoom the timeline
+    function zoomTimeline(amount) {
+      currentZoom = Math.max(0.5, Math.min(2, currentZoom + amount));
+      
+      // Update viewBox to zoom
+      const viewBoxWidth = 900 / currentZoom;
+      const viewBoxHeight = 600 / currentZoom;
+      const viewBoxX = (900 - viewBoxWidth) / 2;
+      const viewBoxY = (600 - viewBoxHeight) / 2;
+      
+      svg.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+    }
+    
+    // Function to reset the timeline
+    function resetTimeline() {
+      currentZoom = 1;
+      svg.setAttribute('viewBox', '0 0 900 600');
+    }
+    
+    // Show details for the current (in-progress) milestone by default
+    const currentMilestone = document.querySelector('.milestone[data-status="in-progress"]');
+    if (currentMilestone) {
+      showDetails(currentMilestone);
+    }
+  });
+</script>

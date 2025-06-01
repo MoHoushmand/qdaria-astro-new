@@ -1,0 +1,757 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface RevenueData {
+  [category: string]: {
+    [year: number]: number;
+  };
+}
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  years?: number[];
+  categories?: string[];
+  revenue?: RevenueData;
+  colors?: string[];
+  showYearFilter?: boolean;
+  showCategoryFilter?: boolean;
+}
+
+const { 
+  id = `revenue-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "QDaria Revenue Projections", 
+  description = "Projected revenue by category and total revenue over time, showing growth trajectory towards $1 trillion milestone.",
+  className = "",
+  height = 600,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  showYearFilter = true,
+  showCategoryFilter = true,
+  colors = ['#04a3ff', '#00FFD3', '#65ff00', '#F5B700', '#FF6B6B', '#7B61FF'],
+  years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+  categories = [
+    "Hardware Sales",
+    "Software Licensing",
+    "Cloud Services",
+    "Consulting",
+    "Education & Training"
+  ],
+  revenue = {
+    "Hardware Sales": {
+      2025: 0.1,
+      2026: 0.5,
+      2027: 1.2,
+      2028: 3.5,
+      2029: 8.2,
+      2030: 15.6,
+      2031: 28.4,
+      2032: 47.2,
+      2033: 72.5,
+      2034: 105.8,
+      2035: 148.3
+    },
+    "Software Licensing": {
+      2025: 0.2,
+      2026: 0.8,
+      2027: 2.1,
+      2028: 5.7,
+      2029: 12.3,
+      2030: 24.8,
+      2031: 45.6,
+      2032: 78.9,
+      2033: 125.4,
+      2034: 187.2,
+      2035: 265.7
+    },
+    "Cloud Services": {
+      2025: 0.3,
+      2026: 1.2,
+      2027: 3.5,
+      2028: 9.8,
+      2029: 22.5,
+      2030: 48.7,
+      2031: 92.3,
+      2032: 165.8,
+      2033: 278.6,
+      2034: 425.4,
+      2035: 612.8
+    },
+    "Consulting": {
+      2025: 0.1,
+      2026: 0.3,
+      2027: 0.8,
+      2028: 1.9,
+      2029: 4.2,
+      2030: 8.5,
+      2031: 15.7,
+      2032: 27.3,
+      2033: 42.8,
+      2034: 63.5,
+      2035: 89.6
+    },
+    "Education & Training": {
+      2025: 0.05,
+      2026: 0.2,
+      2027: 0.5,
+      2028: 1.2,
+      2029: 2.8,
+      2030: 5.4,
+      2031: 9.8,
+      2032: 16.5,
+      2033: 25.7,
+      2034: 38.1,
+      2035: 53.6
+    }
+  }
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const yearFilterId = `${chartId}-year-filter`;
+const categoryFilterId = `${chartId}-category-filter`;
+
+// Worker path for data processing
+const workerPath = "/charts/revenueWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- Filter Controls -->
+  <div class="filter-controls">
+    {showYearFilter && (
+      <div class="year-filter" id={yearFilterId}>
+        <div class="filter-label">Year Range:</div>
+        <div class="year-range-slider">
+          <div class="year-range-labels">
+            <span class="year-start-label">{years[0]}</span>
+            <span class="year-end-label">{years[years.length - 1]}</span>
+          </div>
+          <div class="slider-container">
+            <input 
+              type="range" 
+              min="0" 
+              max={years.length - 1} 
+              value="0" 
+              class="year-start-slider" 
+              aria-label="Start year"
+            />
+            <input 
+              type="range" 
+              min="0" 
+              max={years.length - 1} 
+              value={years.length - 1} 
+              class="year-end-slider" 
+              aria-label="End year"
+            />
+          </div>
+        </div>
+      </div>
+    )}
+    
+    {showCategoryFilter && (
+      <div class="category-filter" id={categoryFilterId}>
+        <div class="filter-label">Revenue Categories:</div>
+        <div class="category-checkboxes">
+          {categories.map((category, index) => (
+            <label class="category-checkbox">
+              <input 
+                type="checkbox" 
+                value={category} 
+                checked 
+                data-color={colors[(index + 1) % colors.length]}
+              />
+              <span class="checkbox-label">{category}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+  
+  <!-- Chart container -->
+  <div class="revenue-chart-container">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Key Metrics -->
+  <div class="key-metrics">
+    <div class="metric total-revenue">
+      <div class="metric-label">Total Revenue (2035)</div>
+      <div class="metric-value">$1.17T</div>
+    </div>
+    <div class="metric cagr">
+      <div class="metric-label">CAGR (2025-2035)</div>
+      <div class="metric-value">68.2%</div>
+    </div>
+    <div class="metric trillion-year">
+      <div class="metric-label">$1T Milestone Year</div>
+      <div class="metric-value">2034</div>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Year</th>
+        {categories.map(category => (
+          <th>{category}</th>
+        ))}
+        <th>Total Revenue</th>
+      </tr>
+    </thead>
+    <tbody>
+      {years.map(year => {
+        const yearTotal = categories.reduce((total, category) => {
+          return total + (revenue[category]?.[year] || 0);
+        }, 0);
+        
+        return (
+          <tr>
+            <td>{year}</td>
+            {categories.map(category => (
+              <td>${(revenue[category]?.[year] || 0).toFixed(1)}B</td>
+            ))}
+            <td>
+              {yearTotal >= 1000 
+                ? `$${(yearTotal / 1000).toFixed(2)}T` 
+                : `$${yearTotal.toFixed(1)}B`}
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Year Range Slider */
+  .year-range-slider {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .year-range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .slider-container {
+    position: relative;
+    height: 2rem;
+  }
+  
+  .year-start-slider,
+  .year-end-slider {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    height: 0.5rem;
+    background: transparent;
+    -webkit-appearance: none;
+    pointer-events: none;
+  }
+  
+  .year-start-slider::-webkit-slider-thumb,
+  .year-end-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background: #04a3ff;
+    cursor: pointer;
+    pointer-events: auto;
+    border: 2px solid white;
+  }
+  
+  .year-start-slider::-moz-range-thumb,
+  .year-end-slider::-moz-range-thumb {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background: #04a3ff;
+    cursor: pointer;
+    pointer-events: auto;
+    border: 2px solid white;
+  }
+  
+  .year-start-slider:focus,
+  .year-end-slider:focus {
+    outline: none;
+  }
+  
+  .year-start-slider:focus::-webkit-slider-thumb,
+  .year-end-slider:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(4, 163, 255, 0.5);
+  }
+  
+  /* Category Checkboxes */
+  .category-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .category-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .category-checkbox input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .checkbox-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* Chart Container */
+  .revenue-chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Key Metrics */
+  .key-metrics {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .metric {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+    min-width: 150px;
+  }
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .total-revenue {
+    background: rgba(4, 163, 255, 0.15);
+    border-color: rgba(4, 163, 255, 0.4);
+  }
+  
+  .cagr {
+    background: rgba(0, 255, 211, 0.15);
+    border-color: rgba(0, 255, 211, 0.4);
+  }
+  
+  .trillion-year {
+    background: rgba(245, 183, 0, 0.15);
+    border-color: rgba(245, 183, 0, 0.4);
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .key-metrics {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .metric {
+      width: 100%;
+    }
+    
+    .category-checkboxes {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, years, categories, revenue, colors, yearFilterId, categoryFilterId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initRevenueChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initRevenueChart);
+    }
+    
+    // Initialize year range slider
+    const yearStartSlider = document.querySelector(`#${yearFilterId} .year-start-slider`);
+    const yearEndSlider = document.querySelector(`#${yearFilterId} .year-end-slider`);
+    const yearStartLabel = document.querySelector(`#${yearFilterId} .year-start-label`);
+    const yearEndLabel = document.querySelector(`#${yearFilterId} .year-end-label`);
+    
+    if (yearStartSlider && yearEndSlider) {
+      // Update labels when sliders change
+      yearStartSlider.addEventListener('input', () => {
+        const startValue = parseInt(yearStartSlider.value);
+        const endValue = parseInt(yearEndSlider.value);
+        
+        // Prevent start from going past end
+        if (startValue > endValue) {
+          yearStartSlider.value = endValue;
+          return;
+        }
+        
+        // Update label
+        if (yearStartLabel) {
+          yearStartLabel.textContent = years[startValue];
+        }
+        
+        // Update chart
+        updateYearRange();
+      });
+      
+      yearEndSlider.addEventListener('input', () => {
+        const startValue = parseInt(yearStartSlider.value);
+        const endValue = parseInt(yearEndSlider.value);
+        
+        // Prevent end from going before start
+        if (endValue < startValue) {
+          yearEndSlider.value = startValue;
+          return;
+        }
+        
+        // Update label
+        if (yearEndLabel) {
+          yearEndLabel.textContent = years[endValue];
+        }
+        
+        // Update chart
+        updateYearRange();
+      });
+    }
+    
+    // Initialize category checkboxes
+    const categoryCheckboxes = document.querySelectorAll(`#${categoryFilterId} input[type="checkbox"]`);
+    
+    categoryCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        updateCategoryVisibility();
+      });
+    });
+    
+    // Function to update year range
+    function updateYearRange() {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      const startValue = parseInt(yearStartSlider.value);
+      const endValue = parseInt(yearEndSlider.value);
+      
+      // Get the actual years
+      const startYear = years[startValue];
+      const endYear = years[endValue];
+      
+      // Update x-axis categories
+      chart.updateOptions({
+        xaxis: {
+          categories: years.slice(startValue, endValue + 1)
+        }
+      });
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${chartId}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Year range updated to ${startYear} through ${endYear}`;
+      }
+    }
+    
+    // Function to update category visibility
+    function updateCategoryVisibility() {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      // Get selected categories
+      const selectedCategories = Array.from(categoryCheckboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+      
+      // Always keep Total Revenue (first series)
+      const visibleSeries = [0];
+      
+      // Add indices of selected categories
+      categories.forEach((category, index) => {
+        if (selectedCategories.includes(category)) {
+          visibleSeries.push(index + 1); // +1 because Total Revenue is first
+        }
+      });
+      
+      // Update chart
+      chart.updateSeries(chart.w.globals.initialSeries.filter((_, index) => visibleSeries.includes(index)));
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${chartId}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Showing ${selectedCategories.length} of ${categories.length} revenue categories`;
+      }
+    }
+    
+    // Function to initialize the chart
+    function initRevenueChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareData',
+        years,
+        categories,
+        revenue,
+        colors
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'dataReady') {
+          const chartData = e.data.chartData;
+          renderChart(chartData);
+          updateKeyMetrics(chartData);
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('mixed') : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: 'line',
+            stacked: false,
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              }
+            }
+          },
+          series: chartData.series,
+          colors: chartData.colors,
+          stroke: {
+            width: [4, 3, 3, 3, 3, 3], // Thicker line for total revenue
+            curve: 'smooth'
+          },
+          xaxis: {
+            categories: chartData.years,
+            labels: {
+              formatter: function(val) {
+                return val;
+              }
+            }
+          },
+          yaxis: {
+            title: {
+              text: 'Revenue (Billions USD)'
+            },
+            labels: {
+              formatter: function(val) {
+                if (val >= 1000) {
+                  return `$${(val / 1000).toFixed(1)}T`;
+                } else {
+                  return `$${val.toFixed(0)}B`;
+                }
+              }
+            }
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                if (val >= 1000) {
+                  return `$${(val / 1000).toFixed(2)}T`;
+                } else {
+                  return `$${val.toFixed(1)}B`;
+                }
+              }
+            }
+          },
+          fill: {
+            opacity: [0.85, 0.25, 0.25, 0.25, 0.25, 0.25]
+          },
+          markers: {
+            size: [6, 4, 4, 4, 4, 4], // Larger markers for total revenue
+            hover: {
+              size: 8
+            }
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'center'
+          },
+          annotations: chartData.annotations,
+          dataLabels: {
+            enabled: false
+          },
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            row: {
+              colors: ['transparent', 'rgba(255, 255, 255, 0.05)']
+            }
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance for later reference
+        window[`${chartId}-instance`] = chart;
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Revenue chart loaded. Use arrow keys to navigate between data points.';
+        }
+      }
+      
+      // Function to update key metrics
+      function updateKeyMetrics(chartData) {
+        // Calculate total revenue for 2035
+        const totalRevenue2035 = chartData.series[0].data[chartData.series[0].data.length - 1];
+        const totalRevenueElement = document.querySelector(`#${chartId} .total-revenue .metric-value`);
+        if (totalRevenueElement) {
+          totalRevenueElement.textContent = totalRevenue2035 >= 1000 
+            ? `$${(totalRevenue2035 / 1000).toFixed(2)}T` 
+            : `$${totalRevenue2035.toFixed(1)}B`;
+        }
+        
+        // Calculate CAGR
+        const totalRevenue2025 = chartData.series[0].data[0];
+        const years = 2035 - 2025;
+        const cagr = (Math.pow(totalRevenue2035 / totalRevenue2025, 1 / years) - 1) * 100;
+        const cagrElement = document.querySelector(`#${chartId} .cagr .metric-value`);
+        if (cagrElement) {
+          cagrElement.textContent = `${cagr.toFixed(1)}%`;
+        }
+        
+        // Find $1T milestone year
+        let trillionYear = 'N/A';
+        for (let i = 0; i < chartData.years.length; i++) {
+          if (chartData.series[0].data[i] >= 1000) {
+            trillionYear = chartData.years[i];
+            break;
+          }
+        }
+        const trillionYearElement = document.querySelector(`#${chartId} .trillion-year .metric-value`);
+        if (trillionYearElement) {
+          trillionYearElement.textContent = trillionYear;
+        }
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: 'line',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          colors: colors,
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            strokeDashArray: 3
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 3,
+            curve: 'smooth'
+          }
+        };
+      }
+    }
+  });
+</script>

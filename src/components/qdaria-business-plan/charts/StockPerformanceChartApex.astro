@@ -1,0 +1,1019 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  stockData?: any;
+  companies?: string[];
+  defaultTimeRange?: '1M' | '3M' | '6M' | '1Y' | 'All';
+  showVolume?: boolean;
+  showMovingAverages?: boolean;
+}
+
+const { 
+  id = `stock-performance-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "Quantum Computing Stock Performance", 
+  description = "Candlestick chart showing stock performance of quantum computing companies over time.",
+  className = "",
+  height = 500,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  stockData,
+  companies,
+  defaultTimeRange = '1Y',
+  showVolume = true,
+  showMovingAverages = true
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const timeRangeToggleId = `${chartId}-time-range-toggle`;
+const companyToggleId = `${chartId}-company-toggle`;
+const indicatorToggleId = `${chartId}-indicator-toggle`;
+
+// Worker path for data processing
+const workerPath = "/charts/stockPerformanceWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- Chart Controls -->
+  <div class="chart-controls mb-4 flex flex-wrap gap-4">
+    <!-- Time Range Toggle -->
+    <div class="time-range-toggle" id={timeRangeToggleId}>
+      <div class="toggle-label mb-1">Time Range:</div>
+      <div class="toggle-options flex gap-2">
+        <button class="time-range-btn px-3 py-1 rounded" data-range="1M">1M</button>
+        <button class="time-range-btn px-3 py-1 rounded" data-range="3M">3M</button>
+        <button class="time-range-btn px-3 py-1 rounded" data-range="6M">6M</button>
+        <button class="time-range-btn px-3 py-1 rounded active" data-range="1Y">1Y</button>
+        <button class="time-range-btn px-3 py-1 rounded" data-range="All">All</button>
+      </div>
+    </div>
+    
+    <!-- Company Toggle -->
+    <div class="company-toggle" id={companyToggleId}>
+      <div class="toggle-label mb-1">Companies:</div>
+      <div class="toggle-select">
+        <select class="bg-dark-bg text-white border border-primary-500/30 rounded px-2 py-1 w-full" multiple>
+          <!-- Options will be populated by JavaScript -->
+        </select>
+      </div>
+    </div>
+    
+    <!-- Indicator Toggle -->
+    <div class="indicator-toggle" id={indicatorToggleId}>
+      <div class="toggle-label mb-1">Indicators:</div>
+      <div class="toggle-options flex gap-4">
+        <label class="toggle-option flex items-center">
+          <input type="checkbox" name="volume" checked={showVolume} />
+          <span class="toggle-label ml-2">Volume</span>
+        </label>
+        <label class="toggle-option flex items-center">
+          <input type="checkbox" name="movingAverages" checked={showMovingAverages} />
+          <span class="toggle-label ml-2">Moving Averages</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chart container -->
+  <div class="stock-chart-container">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Performance Metrics -->
+  <div class="performance-metrics mt-6">
+    <h3 class="text-lg font-semibold mb-2">Performance Metrics</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="metrics-container">
+      <!-- Metrics will be populated by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Company Comparison -->
+  <div class="company-comparison mt-6">
+    <h3 class="text-lg font-semibold mb-2">Company Comparison</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead>
+          <tr>
+            <th class="p-3 border-b border-primary-500/30">Company</th>
+            <th class="p-3 border-b border-primary-500/30">Current Price</th>
+            <th class="p-3 border-b border-primary-500/30">Change</th>
+            <th class="p-3 border-b border-primary-500/30">% Change</th>
+            <th class="p-3 border-b border-primary-500/30">52W High</th>
+            <th class="p-3 border-b border-primary-500/30">52W Low</th>
+            <th class="p-3 border-b border-primary-500/30">Volatility</th>
+          </tr>
+        </thead>
+        <tbody id="comparison-table-body">
+          <!-- Table rows will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Company</th>
+        <th>Open</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Close</th>
+        <th>Change</th>
+        <th>% Change</th>
+      </tr>
+    </thead>
+    <tbody id="stock-table-body">
+      <!-- Table rows will be populated by JavaScript -->
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .chart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .toggle-label, .filter-label, .search-label {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .toggle-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .toggle-option input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .time-range-btn {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+  }
+  
+  .time-range-btn:hover {
+    background: rgba(4, 163, 255, 0.2);
+  }
+  
+  .time-range-btn.active {
+    background: rgba(4, 163, 255, 0.3);
+    border-color: rgba(4, 163, 255, 0.5);
+    color: white;
+  }
+  
+  /* Chart Container */
+  .stock-chart-container {
+    position: relative;
+    height: 500px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Performance Metrics */
+  .performance-metrics {
+    margin-top: 1.5rem;
+  }
+  
+  .metric-card {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .metric-title {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .metric-change {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .positive-change {
+    color: #00d085;
+  }
+  
+  .negative-change {
+    color: #ff6b6b;
+  }
+  
+  /* Company Comparison */
+  .company-comparison {
+    margin-top: 1.5rem;
+  }
+  
+  .company-comparison table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .company-comparison th,
+  .company-comparison td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .company-comparison th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .performance-metrics .grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .company-comparison {
+      overflow-x: auto;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, stockData, companies, defaultTimeRange, showVolume, showMovingAverages, timeRangeToggleId, companyToggleId, indicatorToggleId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initStockPerformanceChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initStockPerformanceChart);
+    }
+    
+    // Initialize time range toggle
+    const timeRangeButtons = document.querySelectorAll(`#${timeRangeToggleId} .time-range-btn`);
+    timeRangeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        timeRangeButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        // Update chart with new time range
+        const timeRange = button.getAttribute('data-range');
+        updateTimeRange(timeRange);
+      });
+    });
+    
+    // Initialize indicator toggle
+    const volumeToggle = document.querySelector(`#${indicatorToggleId} input[name="volume"]`);
+    const maToggle = document.querySelector(`#${indicatorToggleId} input[name="movingAverages"]`);
+    
+    if (volumeToggle) {
+      volumeToggle.addEventListener('change', () => {
+        updateIndicators();
+      });
+    }
+    
+    if (maToggle) {
+      maToggle.addEventListener('change', () => {
+        updateIndicators();
+      });
+    }
+    
+    // Function to update time range
+    function updateTimeRange(timeRange) {
+      const chart = window[`${chartId}-instance`];
+      const chartData = window[`${chartId}-data`];
+      if (!chart || !chartData) return;
+      
+      // Get selected companies
+      const companySelect = document.querySelector(`#${companyToggleId} select`);
+      const selectedCompanies = Array.from(companySelect.selectedOptions).map(option => option.value);
+      
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareStockData',
+        stockData: chartData.originalData,
+        timeRange,
+        companies: selectedCompanies
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'stockDataReady') {
+          const newChartData = e.data.chartData;
+          
+          // Update chart series
+          chart.updateSeries(newChartData.series);
+          
+          // Update metrics
+          updateMetrics(newChartData);
+          
+          // Update comparison table
+          updateComparisonTable(newChartData);
+          
+          // Update data table
+          updateDataTable(newChartData);
+          
+          // Store updated data
+          window[`${chartId}-data`] = {
+            ...newChartData,
+            originalData: chartData.originalData
+          };
+          
+          // Announce to screen readers
+          const announcer = document.getElementById(`${chartId}-announcements`);
+          if (announcer) {
+            announcer.textContent = `Time range updated to ${timeRange}`;
+          }
+        }
+      };
+    }
+    
+    // Function to update indicators
+    function updateIndicators() {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      const showVolume = document.querySelector(`#${indicatorToggleId} input[name="volume"]`).checked;
+      const showMA = document.querySelector(`#${indicatorToggleId} input[name="movingAverages"]`).checked;
+      
+      // Update chart options
+      chart.updateOptions({
+        chart: {
+          id: chartId,
+          group: 'stock',
+          type: 'candlestick',
+          height: 500
+        },
+        plotOptions: {
+          candlestick: {
+            colors: {
+              upward: '#00d085',
+              downward: '#ff6b6b'
+            }
+          }
+        },
+        yaxis: [
+          {
+            seriesName: 'candlestick',
+            title: {
+              text: 'Price ($)',
+              style: {
+                color: '#ffffff'
+              }
+            },
+            labels: {
+              formatter: function(val) {
+                return val.toFixed(2);
+              },
+              style: {
+                colors: '#ffffff'
+              }
+            }
+          },
+          {
+            seriesName: 'volume',
+            opposite: true,
+            title: {
+              text: 'Volume',
+              style: {
+                color: '#ffffff'
+              }
+            },
+            labels: {
+              formatter: function(val) {
+                return val.toFixed(0);
+              },
+              style: {
+                colors: '#ffffff'
+              }
+            },
+            show: showVolume
+          }
+        ],
+        annotations: {
+          yaxis: showMA ? [
+            {
+              y: chart.opts.ma50,
+              strokeDashArray: 0,
+              borderColor: '#f5b700',
+              label: {
+                borderColor: '#f5b700',
+                style: {
+                  color: '#fff',
+                  background: '#f5b700'
+                },
+                text: 'MA50'
+              }
+            },
+            {
+              y: chart.opts.ma200,
+              strokeDashArray: 0,
+              borderColor: '#7b61ff',
+              label: {
+                borderColor: '#7b61ff',
+                style: {
+                  color: '#fff',
+                  background: '#7b61ff'
+                },
+                text: 'MA200'
+              }
+            }
+          ] : []
+        }
+      });
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${chartId}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Indicators updated: Volume ${showVolume ? 'shown' : 'hidden'}, Moving Averages ${showMA ? 'shown' : 'hidden'}`;
+      }
+    }
+    
+    // Function to initialize the chart
+    function initStockPerformanceChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareStockData',
+        stockData,
+        timeRange: defaultTimeRange,
+        companies
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'stockDataReady') {
+          const chartData = e.data.chartData;
+          renderChart(chartData);
+          populateCompanySelect(chartData);
+          updateMetrics(chartData);
+          updateComparisonTable(chartData);
+          updateDataTable(chartData);
+          
+          // Store chart data for later use
+          window[`${chartId}-data`] = {
+            ...chartData,
+            originalData: stockData
+          };
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('candlestick') : 
+          getDefaultOptions();
+        
+        // Calculate moving averages for the first company
+        const firstCompany = chartData.series[0];
+        const ma50 = chartData.metrics[firstCompany.name].ma50;
+        const ma200 = chartData.metrics[firstCompany.name].ma200;
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            id: chartId,
+            group: 'stock',
+            type: 'candlestick',
+            height: 500,
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              },
+              autoSelected: 'zoom'
+            }
+          },
+          series: chartData.series,
+          xaxis: {
+            type: 'datetime',
+            labels: {
+              formatter: function(val) {
+                return new Date(val).toLocaleDateString();
+              },
+              style: {
+                colors: '#ffffff'
+              }
+            }
+          },
+          yaxis: [
+            {
+              seriesName: 'candlestick',
+              title: {
+                text: 'Price ($)',
+                style: {
+                  color: '#ffffff'
+                }
+              },
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(2);
+                },
+                style: {
+                  colors: '#ffffff'
+                }
+              }
+            },
+            {
+              seriesName: 'volume',
+              opposite: true,
+              title: {
+                text: 'Volume',
+                style: {
+                  color: '#ffffff'
+                }
+              },
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(0);
+                },
+                style: {
+                  colors: '#ffffff'
+                }
+              },
+              show: showVolume
+            }
+          ],
+          plotOptions: {
+            candlestick: {
+              colors: {
+                upward: '#00d085',
+                downward: '#ff6b6b'
+              }
+            }
+          },
+          annotations: {
+            yaxis: showMovingAverages ? [
+              {
+                y: ma50,
+                strokeDashArray: 0,
+                borderColor: '#f5b700',
+                label: {
+                  borderColor: '#f5b700',
+                  style: {
+                    color: '#fff',
+                    background: '#f5b700'
+                  },
+                  text: 'MA50'
+                }
+              },
+              {
+                y: ma200,
+                strokeDashArray: 0,
+                borderColor: '#7b61ff',
+                label: {
+                  borderColor: '#7b61ff',
+                  style: {
+                    color: '#fff',
+                    background: '#7b61ff'
+                  },
+                  text: 'MA200'
+                }
+              }
+            ] : []
+          },
+          tooltip: {
+            custom: function({ seriesIndex, dataPointIndex, w }) {
+              const o = w.globals.seriesCandleO[seriesIndex][dataPointIndex];
+              const h = w.globals.seriesCandleH[seriesIndex][dataPointIndex];
+              const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
+              const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
+              const date = new Date(w.globals.seriesX[seriesIndex][dataPointIndex]).toLocaleDateString();
+              const companyName = w.globals.seriesNames[seriesIndex];
+              
+              return `
+                <div class="custom-tooltip p-2">
+                  <div class="tooltip-title font-bold mb-1">${companyName}</div>
+                  <div class="tooltip-date text-sm mb-2">${date}</div>
+                  <div class="tooltip-metrics grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div class="tooltip-label">Open:</div>
+                    <div class="tooltip-value">$${o.toFixed(2)}</div>
+                    <div class="tooltip-label">High:</div>
+                    <div class="tooltip-value">$${h.toFixed(2)}</div>
+                    <div class="tooltip-label">Low:</div>
+                    <div class="tooltip-value">$${l.toFixed(2)}</div>
+                    <div class="tooltip-label">Close:</div>
+                    <div class="tooltip-value">$${c.toFixed(2)}</div>
+                  </div>
+                </div>
+              `;
+            }
+          },
+          legend: {
+            show: true,
+            position: 'top',
+            horizontalAlign: 'center',
+            labels: {
+              colors: '#ffffff'
+            }
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance and moving average data for later reference
+        chart.opts = { ma50, ma200 };
+        window[`${chartId}-instance`] = chart;
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Stock performance chart loaded. Use arrow keys to navigate between data points.';
+        }
+      }
+      
+      // Function to populate company select
+      function populateCompanySelect(chartData) {
+        const companySelect = document.querySelector(`#${companyToggleId} select`);
+        if (!companySelect) return;
+        
+        // Clear existing options
+        companySelect.innerHTML = '';
+        
+        // Add options for each company
+        chartData.series.forEach(series => {
+          const option = document.createElement('option');
+          option.value = series.name;
+          option.textContent = series.name;
+          option.selected = true;
+          companySelect.appendChild(option);
+        });
+        
+        // Add event listener
+        companySelect.addEventListener('change', () => {
+          const selectedCompanies = Array.from(companySelect.selectedOptions).map(option => option.value);
+          updateCompanies(selectedCompanies);
+        });
+      }
+      
+      // Function to update companies
+      function updateCompanies(selectedCompanies) {
+        const chart = window[`${chartId}-instance`];
+        const chartData = window[`${chartId}-data`];
+        if (!chart || !chartData) return;
+        
+        // Get current time range
+        const timeRangeBtn = document.querySelector(`#${timeRangeToggleId} .time-range-btn.active`);
+        const timeRange = timeRangeBtn.getAttribute('data-range');
+        
+        // Create a worker for data processing
+        const worker = new Worker(workerPath);
+        
+        // Send data to worker for processing
+        worker.postMessage({
+          action: 'prepareStockData',
+          stockData: chartData.originalData,
+          timeRange,
+          companies: selectedCompanies
+        });
+        
+        // Handle worker response
+        worker.onmessage = function(e) {
+          if (e.data.action === 'stockDataReady') {
+            const newChartData = e.data.chartData;
+            
+            // Update chart series
+            chart.updateSeries(newChartData.series);
+            
+            // Update metrics
+            updateMetrics(newChartData);
+            
+            // Update comparison table
+            updateComparisonTable(newChartData);
+            
+            // Update data table
+            updateDataTable(newChartData);
+            
+            // Store updated data
+            window[`${chartId}-data`] = {
+              ...newChartData,
+              originalData: chartData.originalData
+            };
+            
+            // Announce to screen readers
+            const announcer = document.getElementById(`${chartId}-announcements`);
+            if (announcer) {
+              announcer.textContent = `Companies updated: ${selectedCompanies.join(', ')}`;
+            }
+          }
+        };
+      }
+      
+      // Function to update metrics
+      function updateMetrics(chartData) {
+        const metricsContainer = document.getElementById('metrics-container');
+        if (!metricsContainer) return;
+        
+        // Clear existing metrics
+        metricsContainer.innerHTML = '';
+        
+        // Get first company for overall metrics
+        const firstCompany = chartData.series[0]?.name;
+        if (!firstCompany || !chartData.metrics[firstCompany]) return;
+        
+        const metrics = chartData.metrics[firstCompany];
+        
+        // Create metric cards
+        const cards = [
+          {
+            title: 'Current Price',
+            value: `$${metrics.lastPrice.toFixed(2)}`,
+            change: metrics.priceChange.toFixed(2),
+            percentChange: metrics.percentChange.toFixed(2)
+          },
+          {
+            title: '52-Week Range',
+            value: `$${metrics.low52Week.toFixed(2)} - $${metrics.high52Week.toFixed(2)}`,
+            noChange: true
+          },
+          {
+            title: 'Volatility',
+            value: `${metrics.volatility.toFixed(2)}%`,
+            noChange: true
+          }
+        ];
+        
+        // Add cards to container
+        cards.forEach(card => {
+          const cardElement = document.createElement('div');
+          cardElement.className = 'metric-card';
+          
+          const titleElement = document.createElement('div');
+          titleElement.className = 'metric-title';
+          titleElement.textContent = card.title;
+          
+          const valueElement = document.createElement('div');
+          valueElement.className = 'metric-value';
+          valueElement.textContent = card.value;
+          
+          cardElement.appendChild(titleElement);
+          cardElement.appendChild(valueElement);
+          
+          if (!card.noChange) {
+            const changeElement = document.createElement('div');
+            changeElement.className = `metric-change ${parseFloat(card.change) >= 0 ? 'positive-change' : 'negative-change'}`;
+            changeElement.textContent = `${parseFloat(card.change) >= 0 ? '+' : ''}${card.change} (${parseFloat(card.percentChange) >= 0 ? '+' : ''}${card.percentChange}%)`;
+            
+            cardElement.appendChild(changeElement);
+          }
+          
+          metricsContainer.appendChild(cardElement);
+        });
+      }
+      
+      // Function to update comparison table
+      function updateComparisonTable(chartData) {
+        const tableBody = document.getElementById('comparison-table-body');
+        if (!tableBody) return;
+        
+        // Clear existing rows
+        tableBody.innerHTML = '';
+        
+        // Add rows for each company
+        chartData.series.forEach(series => {
+          const company = series.name;
+          const metrics = chartData.metrics[company];
+          
+          if (!metrics) return;
+          
+          const row = document.createElement('tr');
+          
+          // Company name
+          const nameCell = document.createElement('td');
+          nameCell.className = 'p-3 border-b border-primary-500/10';
+          nameCell.textContent = company;
+          row.appendChild(nameCell);
+          
+          // Current price
+          const priceCell = document.createElement('td');
+          priceCell.className = 'p-3 border-b border-primary-500/10';
+          priceCell.textContent = `$${metrics.lastPrice.toFixed(2)}`;
+          row.appendChild(priceCell);
+          
+          // Change
+          const changeCell = document.createElement('td');
+          changeCell.className = `p-3 border-b border-primary-500/10 ${metrics.priceChange >= 0 ? 'text-green-400' : 'text-red-400'}`;
+          changeCell.textContent = `${metrics.priceChange >= 0 ? '+' : ''}${metrics.priceChange.toFixed(2)}`;
+          row.appendChild(changeCell);
+          
+          // % Change
+          const percentChangeCell = document.createElement('td');
+          percentChangeCell.className = `p-3 border-b border-primary-500/10 ${metrics.percentChange >= 0 ? 'text-green-400' : 'text-red-400'}`;
+          percentChangeCell.textContent = `${metrics.percentChange >= 0 ? '+' : ''}${metrics.percentChange.toFixed(2)}%`;
+          row.appendChild(percentChangeCell);
+          
+          // 52W High
+          const highCell = document.createElement('td');
+          highCell.className = 'p-3 border-b border-primary-500/10';
+          highCell.textContent = `$${metrics.high52Week.toFixed(2)}`;
+          row.appendChild(highCell);
+          
+          // 52W Low
+          const lowCell = document.createElement('td');
+          lowCell.className = 'p-3 border-b border-primary-500/10';
+          lowCell.textContent = `$${metrics.low52Week.toFixed(2)}`;
+          row.appendChild(lowCell);
+          
+          // Volatility
+          const volatilityCell = document.createElement('td');
+          volatilityCell.className = 'p-3 border-b border-primary-500/10';
+          volatilityCell.textContent = `${metrics.volatility.toFixed(2)}%`;
+          row.appendChild(volatilityCell);
+          
+          // Add row to table
+          tableBody.appendChild(row);
+        });
+      }
+      
+      // Function to update data table
+      function updateDataTable(chartData) {
+        const tableBody = document.getElementById('stock-table-body');
+        if (!tableBody) return;
+        
+        // Clear existing rows
+        tableBody.innerHTML = '';
+        
+        // Flatten all data points from all series
+        const allDataPoints = [];
+        
+        chartData.series.forEach(series => {
+          const company = series.name;
+          
+          series.data.forEach(dataPoint => {
+            const date = new Date(dataPoint.x);
+            const [open, high, low, close] = dataPoint.y;
+            
+            // Calculate daily change
+            const change = close - open;
+            const percentChange = (change / open) * 100;
+            
+            allDataPoints.push({
+              date,
+              company,
+              open,
+              high,
+              low,
+              close,
+              change,
+              percentChange
+            });
+          });
+        });
+        
+        // Sort by date (newest first)
+        allDataPoints.sort((a, b) => b.date - a.date);
+        
+        // Add rows for each data point (limit to 100 rows to avoid performance issues)
+        allDataPoints.slice(0, 100).forEach(dataPoint => {
+          const row = document.createElement('tr');
+          
+          // Date
+          const dateCell = document.createElement('td');
+          dateCell.textContent = dataPoint.date.toLocaleDateString();
+          row.appendChild(dateCell);
+          
+          // Company
+          const companyCell = document.createElement('td');
+          companyCell.textContent = dataPoint.company;
+          row.appendChild(companyCell);
+          
+          // Open
+          const openCell = document.createElement('td');
+          openCell.textContent = `$${dataPoint.open.toFixed(2)}`;
+          row.appendChild(openCell);
+          
+          // High
+          const highCell = document.createElement('td');
+          highCell.textContent = `$${dataPoint.high.toFixed(2)}`;
+          row.appendChild(highCell);
+          
+          // Low
+          const lowCell = document.createElement('td');
+          lowCell.textContent = `$${dataPoint.low.toFixed(2)}`;
+          row.appendChild(lowCell);
+          
+          // Close
+          const closeCell = document.createElement('td');
+          closeCell.textContent = `$${dataPoint.close.toFixed(2)}`;
+          row.appendChild(closeCell);
+          
+          // Change
+          const changeCell = document.createElement('td');
+          changeCell.className = dataPoint.change >= 0 ? 'text-green-400' : 'text-red-400';
+          changeCell.textContent = `${dataPoint.change >= 0 ? '+' : ''}$${dataPoint.change.toFixed(2)}`;
+          row.appendChild(changeCell);
+          
+          // % Change
+          const percentChangeCell = document.createElement('td');
+          percentChangeCell.className = dataPoint.percentChange >= 0 ? 'text-green-400' : 'text-red-400';
+          percentChangeCell.textContent = `${dataPoint.percentChange >= 0 ? '+' : ''}${dataPoint.percentChange.toFixed(2)}%`;
+          row.appendChild(percentChangeCell);
+          
+          // Add row to table
+          tableBody.appendChild(row);
+        });
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: 'candlestick',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          stroke: {
+            width: 1,
+            colors: ['#ffffff']
+          }
+        };
+      }
+    }
+  });
+</script>

@@ -1,0 +1,104 @@
+/**
+ * EMERGENCY CHART FIXES - CSS OVERRIDES
+ * These styles forcibly hide loading indicators and show data tables 
+ * Applied globally to fix all ApexCharts in the business plan
+ */
+
+/* Hide ALL loading indicators immediately */
+.chart-loading,
+[id$="-loading"],
+.apex-chart-container .loading-spinner,
+.chart-placeholder .loading-spinner,
+.apex-chart-container .chart-loading,
+[class*="loading"],
+[class*="spinner"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  z-index: -999 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(100%) !important;
+}
+
+/* Always show data tables */
+.chart-data-table,
+[id$="-data-table"],
+.apex-chart-container .chart-data-table {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  transition: none !important;
+}
+
+/* Add minimum height to chart placeholders to ensure they render */
+.chart-placeholder,
+.chart-container {
+  min-height: 200px !important;
+}
+
+/* Ensure chart containers are visible */
+.chart-container {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Ensure chart tables are properly styled */
+.chart-data-table table {
+  width: 100% !important;
+  margin-top: 1rem !important;
+  border-collapse: collapse !important;
+}
+
+.chart-data-table th {
+  background-color: rgba(30, 41, 59, 0.6) !important;
+  color: #e2e8f0 !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.chart-data-table td {
+  padding: 0.5rem 1rem !important;
+  border-top: 1px solid rgba(100, 116, 139, 0.2) !important;
+  color: #cbd5e1 !important;
+}
+
+.chart-data-table tr:nth-child(even) {
+  background-color: rgba(30, 41, 59, 0.4) !important;
+}
+
+/* Force show fallback content */
+.chart-fallback {
+  display: block !important;
+  padding: 1rem !important;
+  text-align: center !important;
+  background-color: rgba(30, 41, 59, 0.4) !important;
+  border-radius: 0.5rem !important;
+  margin: 1rem 0 !important;
+}
+
+/* Make chart loading area always safe */
+body.charts-loaded .chart-loading,
+body.charts-loaded [id$="-loading"],
+body.charts-loaded .loading-spinner {
+  display: none !important;
+}
+
+/* Remove any animation that might be blocking rendering */
+* {
+  animation-play-state: paused !important;
+  transition: none !important;
+  animation-duration: 0s !important;
+}
+
+/* Hide any broken ApexCharts error messages */
+.apexcharts-error {
+  display: none !important;
+}

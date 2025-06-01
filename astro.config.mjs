@@ -38,6 +38,8 @@ export default defineConfig({
     }
   },
   server: {
+    host: true, // Listen on all available network interfaces
+    port: 4321, // Explicitly set the default port
     headers: {
       'Content-Security-Policy': `
         default-src 'self';

@@ -1,0 +1,152 @@
+/* Standardized styles for chart data tables */
+
+.chart-data-table-btn {
+  background: rgba(4, 163, 255, 0.3);
+  border: 1px solid rgba(4, 163, 255, 0.5);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 10px;
+  user-select: none;
+  display: inline-block;
+}
+
+.chart-data-table-btn:hover {
+  background: rgba(4, 163, 255, 0.5);
+  box-shadow: 0 0 15px rgba(4, 163, 255, 0.6);
+}
+
+.chart-data-table-btn:focus {
+  outline: 2px solid rgba(4, 163, 255, 0.8);
+}
+
+.chart-data-table {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.3s ease;
+  background: rgba(2, 6, 23, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  z-index: 20;
+}
+
+.chart-data-table.visible {
+  max-height: 300px;
+  overflow-y: auto;
+  opacity: 1;
+}
+
+.chart-data-table table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  user-select: text;
+}
+
+.chart-data-table th, 
+.chart-data-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.chart-data-table th {
+  background: rgba(4, 163, 255, 0.3);
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.chart-data-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.chart-data-table tr:hover {
+  background: rgba(4, 163, 255, 0.1);
+}
+
+/* Tooltip styles */
+.chart-tooltip {
+  position: absolute;
+  background: rgba(2, 6, 23, 0.9);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(4, 163, 255, 0.5);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  color: white;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+  min-width: 180px;
+  max-width: 300px;
+  box-shadow: 0 0 15px rgba(4, 163, 255, 0.4);
+  user-select: none;
+}
+
+/* Hover styles for interactive elements */
+.interactive-element {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.interactive-element:hover {
+  filter: brightness(1.2);
+}
+
+.interactive-element:focus {
+  outline: 2px solid white;
+}
+
+/* Make text selectable */
+.selectable,
+.chart-data-table,
+.chart-description,
+.chart-title,
+.detail-panel,
+.chart-legend text {
+  user-select: text !important;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Accessibility enhancements */
+[role="button"],
+button,
+.interactive-element {
+  cursor: pointer;
+}
+
+[tabindex="0"]:focus {
+  outline: 2px solid rgba(4, 163, 255, 0.8);
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+  .chart-data-table-btn {
+    border: 2px solid CanvasText;
+  }
+  
+  .chart-data-table th,
+  .chart-data-table td {
+    border: 1px solid CanvasText;
+  }
+}

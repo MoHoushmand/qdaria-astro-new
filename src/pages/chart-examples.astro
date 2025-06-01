@@ -1,0 +1,372 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Chart from "../components/qdaria-business-plan/charts/Chart.astro";
+import MarketSizeChartEnhanced from "../components/qdaria-business-plan/charts/MarketSizeChartEnhanced.astro";
+
+// Sample data
+const marketSizeData = [2.5, 3.8, 5.8, 8.2, 11.5, 14.8, 15.9, 16.8, 17.6, 18.2, 18.5];
+const marketSizeYears = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035];
+
+const revenueData = {
+  "Service Revenue": [3.5, 7.2, 12.5, 18.7, 24.3, 31.9, 37.2, 42.8, 48.5, 52.9, 57.2],
+  "Product Revenue": [1.2, 4.8, 9.3, 15.6, 22.8, 29.4, 34.5, 39.7, 45.1, 49.8, 54.3],
+  "Licensing Revenue": [0.5, 2.1, 4.8, 8.9, 14.5, 19.8, 24.3, 28.7, 32.4, 35.8, 38.7]
+};
+
+const swotData = {
+  strengths: {
+    name: "Strengths",
+    score: 85,
+    items: [
+      "Innovative quantum architecture",
+      "World-class research team",
+      "Patent portfolio",
+      "Strategic partnerships"
+    ]
+  },
+  weaknesses: {
+    name: "Weaknesses",
+    score: 45,
+    items: [
+      "Limited production capacity",
+      "High operational costs",
+      "Market education challenges",
+      "Long sales cycles"
+    ]
+  },
+  opportunities: {
+    name: "Opportunities",
+    score: 75,
+    items: [
+      "Growing market demand",
+      "Government funding initiatives",
+      "Strategic partnerships",
+      "First-mover advantage"
+    ]
+  },
+  threats: {
+    name: "Threats",
+    score: 60,
+    items: [
+      "Emerging competitors",
+      "Regulatory uncertainty",
+      "Technological disruption",
+      "Talent acquisition challenges"
+    ]
+  }
+};
+
+const roadmapPhases = [
+  {
+    name: "Phase 1",
+    period: "2024-25",
+    progress: 100,
+    description: "Market entry, 9-qubit prototype",
+    milestones: [
+      "Secure seed funding",
+      "Develop 9-qubit prototype",
+      "Establish key partnerships",
+      "Launch pilot program"
+    ],
+    color: "#04a3ff"
+  },
+  {
+    name: "Phase 2",
+    period: "2026-27",
+    progress: 75,
+    description: "Scale to 50+ qubits",
+    milestones: [
+      "Expand team to 50+ employees",
+      "Achieve 50 qubit milestone",
+      "Secure Series A funding",
+      "Launch commercial APIs"
+    ],
+    color: "#10b981"
+  },
+  {
+    name: "Phase 3",
+    period: "2028-30",
+    progress: 50,
+    description: "100+ qubit systems, IPO",
+    milestones: [
+      "Achieve 100 qubit milestone",
+      "Expand to international markets",
+      "Complete IPO",
+      "Establish quantum computing center"
+    ],
+    color: "#8b5cf6"
+  },
+  {
+    name: "Phase 4",
+    period: "2031-35",
+    progress: 25,
+    description: "Global expansion",
+    milestones: [
+      "Achieve 500 qubit milestone",
+      "Develop error-corrected systems",
+      "Launch quantum computing as a service",
+      "Establish global quantum network"
+    ],
+    color: "#f59e0b"
+  }
+];
+---
+
+<BaseLayout title="QDaria Enhanced Charts" description="Interactive visualization components with accessibility and responsive design">
+  <main class="relative bg-dark-bg">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 py-24">
+      <div class="prose prose-invert max-w-none">
+        <h1 class="text-center">Enhanced QDaria Business Plan Charts</h1>
+        <p class="text-center text-xl mb-16">
+          Interactive data visualizations with improved accessibility, keyboard navigation, and mobile responsiveness
+        </p>
+
+        <!-- Section Divider -->
+        <div class="my-24 flex items-center justify-center">
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+          <div class="mx-4 text-lg font-semibold text-primary-400">Roadmap Chart</div>
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+        </div>
+        
+        <!-- Roadmap Chart -->
+        <div id="section-roadmap">
+          <h2><span>2.6</span> Strategic Execution Timeline</h2>
+          
+          <Chart 
+            id="strategic-roadmap" 
+            title="QDaria Strategic Execution Timeline"
+            description="Four-phase execution strategy from market entry to global expansion"
+          />
+          
+          <div class="mt-8 rounded-lg bg-dark-bg/90 p-6 border border-primary-500/20">
+            <h4 class="text-xl font-semibold text-primary-400 mb-4">New Features:</h4>
+            <ul class="list-disc list-inside space-y-2 text-gray-300">
+              <li>Interactive phase cards with detailed information on click</li>
+              <li>Keyboard navigation support for accessibility</li>
+              <li class="feature-text">Detailed milestone view with progress tracking</li>
+              <li class="feature-text">Color-coded phases for better visual hierarchy</li>
+              <li>Screen reader compatibility with ARIA attributes</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Section Divider -->
+        <div class="my-24 flex items-center justify-center">
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+          <div class="mx-4 text-lg font-semibold text-primary-400">Market Size Chart</div>
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+        </div>
+        
+        <!-- Market Size Chart -->
+        <div id="section-market-size">
+          <h2><span>2.2.2</span> Quantum Computing Economic Impact</h2>
+          
+          <MarketSizeChartEnhanced 
+            id="market-size" 
+            title="Quantum Computing Market Size Projections"
+            description="Projected market growth from 2025 to 2035 with detailed data points"
+            initialData={marketSizeData}
+            years={marketSizeYears}
+            smoothing={true}
+            scenarios={{
+              conservative: [2.1, 3.2, 4.9, 6.8, 9.5, 12.1, 13.2, 14.1, 14.8, 15.3, 15.8],
+              aggressive: [2.9, 4.5, 7.2, 10.5, 14.8, 18.5, 20.1, 21.5, 22.9, 24.2, 25.6]
+            }}
+          />
+          
+          <div class="mt-8 rounded-lg bg-dark-bg/90 p-6 border border-primary-500/20">
+            <h4 class="text-xl font-semibold text-primary-400 mb-4">New Features:</h4>
+            <ul class="list-disc list-inside space-y-2 text-gray-300">
+              <li>Multiple scenario curves (base case, conservative, aggressive)</li>
+              <li>Detailed key year milestones (2025, 2030, 2035)</li>
+              <li>Toggle between yearly and quarterly data views</li>
+              <li>Interactive data table with export capabilities</li>
+              <li>Responsive design for all device sizes</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Section Divider -->
+        <div class="my-24 flex items-center justify-center">
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+          <div class="mx-4 text-lg font-semibold text-primary-400">Revenue Chart</div>
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+        </div>
+        
+        <!-- Revenue Chart -->
+        <div id="section-revenue">
+          <h2><span>3.6.1</span> Revenue Projections</h2>
+          
+          <Chart 
+            id="revenue-projections" 
+            title="Revenue Projections by Stream"
+            description="Projected revenue growth across service, product, and licensing streams"
+          />
+          
+          <div class="mt-8 rounded-lg bg-dark-bg/90 p-6 border border-primary-500/20">
+            <h4 class="text-xl font-semibold text-primary-400 mb-4">New Features:</h4>
+            <ul class="list-disc list-inside space-y-2 text-gray-300">
+              <li>Toggle between yearly and cumulative revenue views</li>
+              <li>Extended year range to 2035 with detailed data points</li>
+              <li>Interactive data table with CSV export functionality</li>
+              <li>Color-coded revenue streams for better differentiation</li>
+              <li>Keyboard navigation with screen reader announcements</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Section Divider -->
+        <div class="my-24 flex items-center justify-center">
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+          <div class="mx-4 text-lg font-semibold text-primary-400">SWOT Analysis Chart</div>
+          <div class="h-0.5 w-24 bg-primary-500/50"></div>
+        </div>
+        
+        <!-- SWOT Chart -->
+        <div id="section-swot">
+          <h2><span>3.4</span> SWOT Analysis</h2>
+          
+          <Chart 
+            id="swot-analysis" 
+            title="Strategic SWOT Analysis"
+            description="Comprehensive analysis of strengths, weaknesses, opportunities, and threats"
+          />
+          
+          <div class="mt-8 rounded-lg bg-dark-bg/90 p-6 border border-primary-500/20">
+            <h4 class="text-xl font-semibold text-primary-400 mb-4">New Features:</h4>
+            <ul class="list-disc list-inside space-y-2 text-gray-300">
+              <li>Interactive quadrant cards with detailed explanations</li>
+              <li>Proper modal dialog for complete SWOT table view</li>
+              <li>Color-coded categories with relative scoring</li>
+              <li>Focus management for keyboard navigation</li>
+              <li>Fixed overlap issues with proper z-indexing</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Usage Instructions -->
+        <div class="my-24">
+          <h3><span>Accessibility Features</span></h3>
+          <p class="mb-6">
+            All charts now support the following accessibility features:
+          </p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-dark-bg/80 p-6 rounded-lg border border-primary-500/20">
+              <h4 class="text-xl font-semibold text-primary-400 mb-4">Keyboard Navigation</h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-300">
+                <li><kbd class="px-2 py-1 bg-gray-800 rounded text-gray-300">Tab</kbd> to focus on chart elements</li>
+                <li><kbd class="px-2 py-1 bg-gray-800 rounded text-gray-300">Arrow Keys</kbd> to navigate between data points</li>
+                <li><kbd class="px-2 py-1 bg-gray-800 rounded text-gray-300">Enter</kbd> or <kbd class="px-2 py-1 bg-gray-800 rounded text-gray-300">Space</kbd> to select/activate</li>
+                <li><kbd class="px-2 py-1 bg-gray-800 rounded text-gray-300">Alt+T</kbd> to toggle data tables</li>
+                <li><kbd class="px-2 py-1 bg-gray-800 rounded text-gray-300">Esc</kbd> to close modals</li>
+              </ul>
+            </div>
+            
+            <div class="bg-dark-bg/80 p-6 rounded-lg border border-primary-500/20">
+              <h4 class="text-xl font-semibold text-primary-400 mb-4">Screen Reader Support</h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-300">
+                <li>ARIA landmarks for major chart regions</li>
+                <li>Live regions for dynamic data announcements</li>
+                <li>Descriptive labels for all interactive elements</li>
+                <li>Focus management for modal dialogs</li>
+                <li>Proper heading hierarchy and semantic structure</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Override any Tailwind or existing styles to ensure interactive elements work properly */
+  .prose {
+    @apply prose-invert prose-headings:text-white prose-a:text-primary-400 hover:prose-a:text-primary-300;
+  }
+  .prose h2 {
+    @apply text-4xl font-bold mt-24 mb-12 pb-6;
+  }
+  .prose h2 span {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+  .prose h3 {
+    @apply text-2xl font-bold mt-16 mb-8 pl-6;
+  }
+  .prose h3 span {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+  .prose h4 {
+    @apply text-xl font-semibold mt-12 mb-6 pl-4;
+  }
+  .prose h4 span {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+  
+  /* Ensure text is selectable */
+  * {
+    user-select: text !important;
+  }
+  
+  /* Keyboard styles */
+  kbd {
+    @apply px-2 py-1 text-xs font-sans font-semibold rounded-md border border-gray-700 bg-gray-800 text-gray-300;
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
+  }
+
+  /* Add focus and hover states to all interactive elements */
+  button:focus, 
+  [role="button"]:focus,
+  a:focus,
+  h2:focus,
+  h3:focus,
+  h4:focus {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-dark-bg;
+  }
+  
+  button:hover, 
+  [role="button"]:hover,
+  a:hover,
+  .feature-text:hover {
+    @apply text-primary-400 transition-colors duration-200;
+  }
+</style>
+
+<script define:vars={{ roadmapPhases, marketSizeData, marketSizeYears, revenueData, swotData }}>
+  // Initialize charts when the DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize roadmap chart
+    if (window.initRoadmapChart) {
+      window.initRoadmapChart({
+        id: 'strategic-roadmap',
+        phases: roadmapPhases,
+        darkMode: true
+      });
+    }
+    
+    // Initialize market size chart - now handled by the MarketSizeChartEnhanced component
+    
+    // Initialize revenue chart
+    if (window.initRevenueChart) {
+      window.initRevenueChart({
+        id: 'revenue-projections',
+        revenueData: revenueData,
+        years: marketSizeYears,
+        darkMode: true
+      });
+    }
+    
+    // Initialize SWOT chart
+    if (window.initSWOTChart) {
+      window.initSWOTChart({
+        id: 'swot-analysis',
+        strengths: swotData.strengths,
+        weaknesses: swotData.weaknesses,
+        opportunities: swotData.opportunities,
+        threats: swotData.threats,
+        darkMode: true
+      });
+    }
+  });
+</script>

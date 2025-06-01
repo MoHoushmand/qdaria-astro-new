@@ -1,0 +1,525 @@
+---
+import type { MarketSizeChartProps } from '../../../types/chart';
+
+interface Props extends MarketSizeChartProps {
+  'client:load'?: boolean;
+}
+
+// Default values if not provided
+const { 
+  id, 
+  title = "Quantum Computing Market Size Projections", 
+  description = "Projected market growth from 2025 to 2035",
+  initialData = [2.5, 5.8, 11.5, 15.9, 18.5],
+  years = [2025, 2027, 2030, 2032, 2035],
+  smoothing = true,
+  scenarios,
+  darkMode = true,
+  'client:load': clientLoad = true
+} = Astro.props;
+---
+
+<div id={`chart-container-${id}`} class="market-size-chart-container">
+  {/* Fallback loading state */}
+  <div class="chart-container p-8 rounded-xl border border-primary-300/30 bg-white/90 dark:bg-gray-900/90 shadow-lg transition-all duration-300">
+    <div class="mb-4">
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{title}</h3>
+      <p class="mt-1 text-base text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+    
+    <div class="relative h-[400px] w-full flex items-center justify-center">
+      <div class="text-center text-gray-500 dark:text-gray-400">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+        <p>Loading market size projections...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* Client-side component */}
+{clientLoad && (
+  <script define:vars={{ 
+    id, 
+    title, 
+    description, 
+    initialData, 
+    years,
+    smoothing,
+    scenarios,
+    darkMode 
+  }}>
+    // Function to initialize chart
+    function initMarketSizeChart() {
+      const container = document.getElementById(`chart-container-${id}`);
+      if (!container) return;
+      
+      // Check if we can use web workers
+      const supportsWebWorker = typeof Worker !== 'undefined';
+      
+      // Create the chart container
+      container.innerHTML = `
+        <div class="chart-container p-6 rounded-xl border border-primary-300/30 ${darkMode ? 'bg-gray-900/90' : 'bg-white/90'} shadow-lg transition-all duration-300">
+          <div class="mb-4">
+            <h3 class="text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}">${title}</h3>
+            <p class="mt-1 text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}">${description}</p>
+          </div>
+          
+          <div class="flex justify-end gap-2 mb-4 controls">
+            <button type="button" id="toggle-scenarios-${id}" class="px-3 py-1 rounded-md text-sm font-medium bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors" aria-pressed="false">
+              Show Scenarios
+            </button>
+            
+            <button type="button" id="toggle-quarterly-${id}" class="px-3 py-1 rounded-md text-sm font-medium bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors" aria-pressed="false">
+              Quarterly View
+            </button>
+            
+            <button type="button" id="toggle-table-${id}" class="px-3 py-1 rounded-md text-sm font-medium bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors" aria-expanded="false" aria-controls="market-data-table-${id}">
+              Show Data Table
+            </button>
+            
+            <button type="button" id="export-csv-${id}" class="px-3 py-1 rounded-md text-sm font-medium bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors">
+              Export CSV
+            </button>
+          </div>
+          
+          <div class="relative h-[400px] w-full">
+            <canvas id="${id}" class="w-full h-full rounded-lg ${darkMode ? 'bg-gray-800/50' : 'bg-gray-100/50'}" role="img" aria-label="Market size projections from ${years[0]} to ${years[years.length-1]}" tabindex="0"></canvas>
+            <div id="loading-${id}" class="absolute inset-0 flex items-center justify-center ${darkMode ? 'bg-gray-900/80' : 'bg-white/80'} backdrop-blur-sm rounded-lg z-10">
+              <div class="text-center ${darkMode ? 'text-gray-300' : 'text-gray-600'}">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+                <p>Processing chart data${supportsWebWorker ? ' with web worker' : ''}...</p>
+              </div>
+            </div>
+          </div>
+          
+          <div id="market-data-table-${id}" aria-label="Market size data table" role="region" class="data-table mt-6 hidden border ${darkMode ? 'border-gray-700' : 'border-gray-300'} rounded-md overflow-hidden">
+            <!-- Data table will be populated dynamically -->
+          </div>
+          
+          <div aria-live="polite" class="sr-only" aria-atomic="true" id="announcer-${id}"></div>
+        </div>
+      `;
+
+      // We'll dynamically load Chart.js using a module script
+      const moduleScript = document.createElement('script');
+      moduleScript.type = 'module';
+      moduleScript.textContent = `
+        // Import Chart.js from the right path
+        import Chart from '/node_modules/chart.js/auto/auto.js';
+        
+        // State variables
+        let chartInstance = null;
+        let isShowingScenarios = false;
+        let isQuarterlyView = false;
+        
+        // References
+        const canvas = document.getElementById('${id}');
+        const loadingEl = document.getElementById('loading-${id}');
+        const scenariosBtn = document.getElementById('toggle-scenarios-${id}');
+        const quarterlyBtn = document.getElementById('toggle-quarterly-${id}');
+        const tableBtn = document.getElementById('toggle-table-${id}');
+        const exportBtn = document.getElementById('export-csv-${id}');
+        const dataTable = document.getElementById('market-data-table-${id}');
+        const announcer = document.getElementById('announcer-${id}');
+        
+        // Process data with or without web worker
+        let worker = null;
+        
+        const supportsWebWorker = typeof Worker !== 'undefined';
+        if (supportsWebWorker) {
+          try {
+            worker = new Worker('/charts/marketSizeWorker.js');
+            
+            worker.onmessage = function(e) {
+              const { chartData, error } = e.data;
+              
+              if (error) {
+                console.error('Market size worker error:', error);
+                if (loadingEl) loadingEl.style.display = 'none';
+                return;
+              }
+              
+              if (chartData && canvas) {
+                if (chartInstance) {
+                  chartInstance.destroy();
+                }
+                
+                // Create Chart.js instance with processed data
+                const ctx = canvas.getContext('2d');
+                chartInstance = new Chart(ctx, {
+                  type: 'line',
+                  data: chartData,
+                  options: getChartOptions()
+                });
+                
+                if (loadingEl) loadingEl.style.display = 'none';
+                updateDataTable();
+              }
+            };
+            
+            // Send initial data to worker
+            worker.postMessage({
+              initialData: ${JSON.stringify(initialData)},
+              years: ${JSON.stringify(years)},
+              smoothing: ${smoothing},
+              scenarios: ${JSON.stringify(scenarios || {})},
+              scenariosVisible: isShowingScenarios,
+              quarterlyView: isQuarterlyView,
+              darkMode: ${darkMode}
+            });
+          } catch (err) {
+            console.error('Failed to initialize web worker:', err);
+            initializeWithoutWorker();
+          }
+        } else {
+          initializeWithoutWorker();
+        }
+        
+        // Fallback initialization without web worker
+        function initializeWithoutWorker() {
+          // Simple chart initialization without advanced processing
+          if (loadingEl) loadingEl.style.display = 'none';
+          
+          if (canvas) {
+            const ctx = canvas.getContext('2d');
+            const chartData = {
+              labels: ${JSON.stringify(years)}.map(year => year.toString()),
+              datasets: [
+                {
+                  label: 'Base Case',
+                  data: ${JSON.stringify(initialData)},
+                  borderColor: '#3b82f6',
+                  backgroundColor: '#3b82f620',
+                  tension: 0.4,
+                  fill: true
+                }
+              ]
+            };
+            
+            chartInstance = new Chart(ctx, {
+              type: 'line',
+              data: chartData,
+              options: getChartOptions()
+            });
+            
+            updateDataTable();
+          }
+        }
+        
+        // Chart options configuration
+        function getChartOptions() {
+          return {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                grid: {
+                  color: ${darkMode} ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                },
+                ticks: {
+                  color: ${darkMode} ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)'
+                }
+              },
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: ${darkMode} ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                },
+                ticks: {
+                  color: ${darkMode} ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+                  callback: (value) => \`$\${value}B\`
+                }
+              }
+            },
+            plugins: {
+              tooltip: {
+                backgroundColor: ${darkMode} ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                titleColor: ${darkMode} ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+                bodyColor: ${darkMode} ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+                borderColor: 'rgba(4, 163, 255, 0.4)',
+                borderWidth: 1,
+                padding: 12,
+                displayColors: true
+              },
+              legend: {
+                labels: {
+                  color: ${darkMode} ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+                  usePointStyle: true
+                },
+                position: 'top',
+                align: 'center'
+              }
+            },
+            // Accessibility
+            events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove', 'keydown'],
+            // Add keyboard navigation
+            onKeydown: function(e, activeElements) {
+              // Implement keyboard navigation
+            }
+          };
+        }
+        
+        // Update data table with current chart data
+        function updateDataTable() {
+          if (!dataTable || !chartInstance) return;
+          
+          const labels = chartInstance.data.labels;
+          const datasets = chartInstance.data.datasets;
+          
+          // Create table HTML
+          let tableHTML = \`
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y \${${darkMode} ? 'divide-gray-700' : 'divide-gray-200'}">
+                <thead class="\${${darkMode} ? 'bg-gray-800' : 'bg-gray-50'}">
+                  <tr>
+                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium \${${darkMode} ? 'text-gray-300' : 'text-gray-500'} uppercase tracking-wider">
+                      Year
+                    </th>
+          \`;
+          
+          // Add headers for each dataset
+          datasets.forEach(dataset => {
+            tableHTML += \`
+              <th scope="col" class="px-4 py-3 text-left text-xs font-medium \${${darkMode} ? 'text-gray-300' : 'text-gray-500'} uppercase tracking-wider">
+                \${dataset.label} ($B)
+              </th>
+            \`;
+          });
+          
+          tableHTML += \`
+                  </tr>
+                </thead>
+                <tbody class="\${${darkMode} ? 'bg-gray-900 divide-y divide-gray-700' : 'bg-white divide-y divide-gray-200'}">
+          \`;
+          
+          // Add rows for each year
+          if (labels) {
+            labels.forEach((label, index) => {
+              tableHTML += \`
+                <tr class="\${index % 2 === 0 ? (${darkMode} ? 'bg-gray-900' : 'bg-white') : (${darkMode} ? 'bg-gray-800/50' : 'bg-gray-50')}">
+                  <td class="px-4 py-2 whitespace-nowrap text-sm \${${darkMode} ? 'text-gray-300' : 'text-gray-500'}">
+                    \${label}
+                  </td>
+              \`;
+              
+              // Add data cells
+              datasets.forEach(dataset => {
+                const data = dataset.data;
+                const value = Array.isArray(data) ? data[index] : 'N/A';
+                tableHTML += \`
+                  <td class="px-4 py-2 whitespace-nowrap text-sm \${${darkMode} ? 'text-gray-300' : 'text-gray-500'}">
+                    \${typeof value === 'number' ? value.toFixed(1) : value}
+                  </td>
+                \`;
+              });
+              
+              tableHTML += \`</tr>\`;
+            });
+          }
+          
+          tableHTML += \`
+                </tbody>
+              </table>
+            </div>
+          \`;
+          
+          dataTable.innerHTML = tableHTML;
+        }
+        
+        // Event handlers
+        if (scenariosBtn) {
+          scenariosBtn.addEventListener('click', () => {
+            isShowingScenarios = !isShowingScenarios;
+            scenariosBtn.textContent = isShowingScenarios ? 'Hide Scenarios' : 'Show Scenarios';
+            scenariosBtn.setAttribute('aria-pressed', isShowingScenarios ? 'true' : 'false');
+            
+            if (worker) {
+              worker.postMessage({
+                initialData: ${JSON.stringify(initialData)},
+                years: ${JSON.stringify(years)},
+                smoothing: ${smoothing},
+                scenarios: ${JSON.stringify(scenarios || {})},
+                scenariosVisible: isShowingScenarios,
+                quarterlyView: isQuarterlyView,
+                darkMode: ${darkMode}
+              });
+              if (loadingEl) loadingEl.style.display = 'flex';
+            } else {
+              // Fallback - toggle scenarios directly
+            }
+          });
+        }
+        
+        if (quarterlyBtn) {
+          quarterlyBtn.addEventListener('click', () => {
+            isQuarterlyView = !isQuarterlyView;
+            quarterlyBtn.textContent = isQuarterlyView ? 'Yearly View' : 'Quarterly View';
+            quarterlyBtn.setAttribute('aria-pressed', isQuarterlyView ? 'true' : 'false');
+            
+            if (worker) {
+              worker.postMessage({
+                initialData: ${JSON.stringify(initialData)},
+                years: ${JSON.stringify(years)},
+                smoothing: ${smoothing},
+                scenarios: ${JSON.stringify(scenarios || {})},
+                scenariosVisible: isShowingScenarios,
+                quarterlyView: isQuarterlyView,
+                darkMode: ${darkMode}
+              });
+              if (loadingEl) loadingEl.style.display = 'flex';
+            } else {
+              // Fallback - toggle quarterly view directly
+            }
+          });
+        }
+        
+        if (tableBtn && dataTable) {
+          tableBtn.addEventListener('click', () => {
+            const isVisible = dataTable.style.display !== 'none' && !dataTable.classList.contains('hidden');
+            if (isVisible) {
+              dataTable.style.display = 'none';
+              dataTable.classList.add('hidden');
+              tableBtn.textContent = 'Show Data Table';
+              tableBtn.setAttribute('aria-expanded', 'false');
+            } else {
+              updateDataTable();
+              dataTable.style.display = 'block';
+              dataTable.classList.remove('hidden');
+              tableBtn.textContent = 'Hide Data Table';
+              tableBtn.setAttribute('aria-expanded', 'true');
+            }
+          });
+        }
+        
+        if (exportBtn) {
+          exportBtn.addEventListener('click', () => {
+            if (!chartInstance) return;
+            
+            // Export chart data to CSV
+            const labels = chartInstance.data.labels;
+            const datasets = chartInstance.data.datasets;
+            
+            // Create CSV headers
+            let csv = 'Year';
+            datasets.forEach(dataset => {
+              csv += \`,\${dataset.label}\`;
+            });
+            csv += '\\n';
+            
+            // Add data rows
+            if (labels) {
+              labels.forEach((label, index) => {
+                csv += label;
+                datasets.forEach(dataset => {
+                  const data = dataset.data;
+                  csv += \`,\${Array.isArray(data) ? data[index] : 'N/A'}\`;
+                });
+                csv += '\\n';
+              });
+            }
+            
+            // Download CSV
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', \`market-size-projections-\${new Date().toISOString().split('T')[0]}.csv\`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Announce to screen readers
+            if (announcer) {
+              announcer.textContent = 'CSV file downloaded';
+            }
+          });
+        }
+        
+        // Add keyboard navigation
+        if (canvas) {
+          canvas.addEventListener('keydown', (e) => {
+            // Handle keyboard navigation
+            const key = e.key;
+            if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(key)) {
+              e.preventDefault();
+              
+              // Navigate through data points
+              const dataCount = chartInstance?.data?.labels?.length || 0;
+              if (dataCount === 0) return;
+              
+              let newFocus = -1;
+              // Get current focus point from canvas dataset
+              const currentFocus = parseInt(canvas.dataset.focusPoint || '-1');
+              
+              switch (key) {
+                case 'ArrowRight':
+                case 'ArrowDown':
+                  newFocus = Math.min(currentFocus + 1, dataCount - 1);
+                  if (newFocus === -1) newFocus = 0; // Initial focus
+                  break;
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                  newFocus = Math.max(currentFocus - 1, 0);
+                  if (newFocus === -1) newFocus = 0; // Initial focus
+                  break;
+                case 'Home':
+                  newFocus = 0;
+                  break;
+                case 'End':
+                  newFocus = dataCount - 1;
+                  break;
+              }
+              
+              if (newFocus !== -1 && newFocus !== currentFocus) {
+                // Update focus point
+                canvas.dataset.focusPoint = newFocus.toString();
+                
+                // Announce to screen readers
+                const label = chartInstance.data.labels[newFocus];
+                const value = chartInstance.data.datasets[0].data[newFocus];
+                announcer.textContent = \`Data point \${newFocus + 1} of \${dataCount}: Year \${label}, value: $\${value}B\`;
+                
+                // Highlight the point visually (future implementation)
+              }
+            }
+          });
+        }
+      `;
+      
+      document.head.appendChild(moduleScript);
+    }
+    
+    // Initialize immediately if document is ready
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initMarketSizeChart();
+    } else {
+      // Otherwise wait for document to load
+      document.addEventListener('DOMContentLoaded', initMarketSizeChart);
+    }
+    
+    // Register global initialization function
+    window.initMarketSizeChart = function(options) {
+      // This function can be called from chart-examples.astro
+      initMarketSizeChart();
+    };
+  </script>
+)}
+
+<style>
+  .market-size-chart-container {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  /* Enhanced focus states for better accessibility */
+  :global(.market-size-chart-container button:focus) {
+    outline: 2px solid rgba(4, 163, 255, 0.6);
+    outline-offset: 2px;
+  }
+  
+  :global(.market-size-chart-container canvas:focus) {
+    outline: 2px solid rgba(4, 163, 255, 0.6);
+    outline-offset: 4px;
+  }
+</style>

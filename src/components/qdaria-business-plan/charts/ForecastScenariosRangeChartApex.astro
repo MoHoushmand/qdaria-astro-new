@@ -1,0 +1,423 @@
+---
+/**
+ * ForecastScenariosRangeChartApex.astro
+ * Range Area chart showing different market forecast scenarios
+ */
+import ApexChartWrapper from './ApexChartWrapper.astro';
+
+interface Props {
+  id: string;
+  title?: string;
+  description?: string;
+  caption?: string;
+  className?: string;
+  height?: string;
+  width?: string;
+  showDataTable?: boolean;
+  showControls?: boolean;
+}
+
+const {
+  id = "forecastScenariosRangeChart",
+  title = "Quantum Computing Market Size Forecast Scenarios (2025-2035)",
+  description = "Projection of quantum computing market size under different adoption scenarios, with $1 trillion milestone highlighted.",
+  caption = "Range forecast showing conservative, expected, and optimistic growth scenarios along with QDaria's projected market share. Note the dramatically different outcomes based on timing of key quantum hardware and software breakthroughs.",
+  className = "",
+  height = "500px",
+  width = "100%",
+  showDataTable = true,
+  showControls = true,
+} = Astro.props;
+---
+
+<ApexChartWrapper
+  id={id}
+  title={title}
+  description={description}
+  caption={caption}
+  className={`forecast-scenarios-range-chart ${className}`}
+  chartType="rangeArea"
+  height={height}
+  width={width}
+  showDataTable={showDataTable}
+  showControls={showControls}
+>
+  <div slot="data-table">
+    <table class="chart-data-table-content">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Conservative ($B)</th>
+          <th>Expected ($B)</th>
+          <th>Optimistic ($B)</th>
+          <th>QDaria Market Share (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025</td>
+          <td>1.0</td>
+          <td>1.3</td>
+          <td>1.5</td>
+          <td>0.01</td>
+        </tr>
+        <tr>
+          <td>2026</td>
+          <td>1.5</td>
+          <td>2.2</td>
+          <td>3.0</td>
+          <td>0.05</td>
+        </tr>
+        <tr>
+          <td>2027</td>
+          <td>2.5</td>
+          <td>3.8</td>
+          <td>6.0</td>
+          <td>0.10</td>
+        </tr>
+        <tr>
+          <td>2028</td>
+          <td>4.0</td>
+          <td>7.0</td>
+          <td>12.0</td>
+          <td>0.20</td>
+        </tr>
+        <tr>
+          <td>2029</td>
+          <td>7.0</td>
+          <td>14.0</td>
+          <td>24.0</td>
+          <td>0.30</td>
+        </tr>
+        <tr>
+          <td>2030</td>
+          <td>15.0</td>
+          <td>28.0</td>
+          <td>50.0</td>
+          <td>0.40</td>
+        </tr>
+        <tr>
+          <td>2031</td>
+          <td>30.0</td>
+          <td>60.0</td>
+          <td>100.0</td>
+          <td>0.45</td>
+        </tr>
+        <tr>
+          <td>2032</td>
+          <td>70.0</td>
+          <td>120.0</td>
+          <td>200.0</td>
+          <td>0.50</td>
+        </tr>
+        <tr>
+          <td>2033</td>
+          <td>150.0</td>
+          <td>250.0</td>
+          <td>400.0</td>
+          <td>0.55</td>
+        </tr>
+        <tr>
+          <td>2034</td>
+          <td>300.0</td>
+          <td>450.0</td>
+          <td>700.0</td>
+          <td>0.60</td>
+        </tr>
+        <tr>
+          <td>2035</td>
+          <td>550.0</td>
+          <td>800.0</td>
+          <td>1000.0</td>
+          <td>0.65</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ApexChartWrapper>
+
+<script define:vars={{ id, title }}>
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize the chart when the worker is ready
+  if (window.chartWorkerFactory) {
+    const worker = window.chartWorkerFactory.createChartWorker('forecastScenariosRange');
+    
+    // Send message to worker to get data
+    worker.sendMessage({ action: 'prepareData', chartId: id })
+      .then(response => {
+        if (response.action === 'dataReady') {
+          if (window.ApexCharts) {
+            const chartElement = document.getElementById(`${id}-chart`);
+            
+            if (chartElement) {
+              // Get the chart data from the response
+              const chartData = response.chartData || response;
+              
+              // Create area range chart with line for market share
+              const options = {
+                series: [
+                  {
+                    name: 'Conservative',
+                    data: chartData.series[0].data
+                  },
+                  {
+                    name: 'Expected',
+                    data: chartData.series[1].data
+                  },
+                  {
+                    name: 'Optimistic',
+                    data: chartData.series[2].data
+                  },
+                  {
+                    name: 'QDaria Market Share %',
+                    type: 'line',
+                    data: chartData.series[3].data
+                  }
+                ],
+                chart: {
+                  type: 'area',
+                  height: 500,
+                  stacked: false,
+                  toolbar: {
+                    show: true,
+                    tools: {
+                      download: true,
+                      selection: true,
+                      zoom: true,
+                      zoomin: true,
+                      zoomout: true,
+                      pan: true,
+                      reset: true
+                    },
+                    autoSelected: 'zoom'
+                  },
+                  animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800,
+                    animateGradually: {
+                      enabled: true,
+                      delay: 150
+                    },
+                    dynamicAnimation: {
+                      enabled: true,
+                      speed: 350
+                    }
+                  },
+                  fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                },
+                colors: chartData.colors || ['#E91E63', '#2E93fA', '#66DA26', '#FF9800'],
+                fill: {
+                  type: 'gradient',
+                  gradient: {
+                    shade: 'light',
+                    type: "vertical",
+                    shadeIntensity: 0.25,
+                    gradientToColors: undefined,
+                    inverseColors: true,
+                    opacityFrom: 0.85,
+                    opacityTo: 0.65,
+                    stops: [0, 100]
+                  }
+                },
+                stroke: {
+                  width: [1, 1, 1, 3],
+                  curve: 'smooth',
+                  dashArray: [0, 0, 0, 0]
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                markers: {
+                  size: [0, 0, 0, 5],
+                  strokeWidth: 2,
+                  hover: {
+                    size: 9
+                  }
+                },
+                xaxis: {
+                  categories: chartData.categories,
+                  title: {
+                    text: 'Year',
+                    style: {
+                      fontSize: '14px',
+                      fontWeight: 600
+                    }
+                  },
+                  labels: {
+                    style: {
+                      fontSize: '12px'
+                    }
+                  },
+                  axisBorder: {
+                    show: true
+                  },
+                  axisTicks: {
+                    show: true
+                  }
+                },
+                yaxis: [
+                  {
+                    seriesName: 'Optimistic',
+                    title: {
+                      text: 'Market Size (Billions USD)',
+                      style: {
+                        fontSize: '14px',
+                        fontWeight: 600
+                      }
+                    },
+                    min: 0,
+                    max: 1050,
+                    tickAmount: 8,
+                    labels: {
+                      formatter: function(val) {
+                        return '$' + val.toFixed(0) + 'B';
+                      }
+                    }
+                  },
+                  {
+                    seriesName: 'QDaria Market Share %',
+                    opposite: true,
+                    title: {
+                      text: 'Market Share (%)',
+                      style: {
+                        fontSize: '14px',
+                        fontWeight: 600
+                      }
+                    },
+                    min: 0,
+                    max: 1.0,
+                    tickAmount: 6,
+                    labels: {
+                      formatter: function(val) {
+                        return (val * 100).toFixed(2) + '%';
+                      }
+                    }
+                  }
+                ],
+                tooltip: {
+                  shared: true,
+                  intersect: false,
+                  y: {
+                    formatter: function(value, { seriesIndex, dataPointIndex, w }) {
+                      if (seriesIndex === 3) {
+                        return (value * 100).toFixed(2) + '%';
+                      }
+                      return '$' + value.toFixed(0) + 'B';
+                    }
+                  }
+                },
+                legend: {
+                  position: 'top',
+                  horizontalAlign: 'center',
+                  fontSize: '14px',
+                  markers: {
+                    width: 12,
+                    height: 12,
+                    radius: 2
+                  }
+                },
+                grid: {
+                  borderColor: '#e0e0e0',
+                  strokeDashArray: 4,
+                  xaxis: {
+                    lines: {
+                      show: true
+                    }
+                  },
+                  yaxis: {
+                    lines: {
+                      show: true
+                    }
+                  }
+                },
+                annotations: chartData.annotations || {
+                  yaxis: [{
+                    y: 1000,
+                    borderColor: '#00E396',
+                    strokeDashArray: 5,
+                    label: {
+                      borderColor: '#00E396',
+                      style: {
+                        color: '#fff',
+                        background: '#00E396',
+                        padding: {
+                          left: 10,
+                          right: 10,
+                          top: 5,
+                          bottom: 5
+                        },
+                        fontSize: '12px'
+                      },
+                      text: '$1 Trillion Milestone',
+                      position: 'center',
+                      offsetY: -15
+                    }
+                  }]
+                }
+              };
+              
+              // Hide loading indicator explicitly
+              const loadingElement = document.getElementById(`${id}-loading`);
+              if (loadingElement) {
+                loadingElement.style.display = 'none';
+                console.log('Hiding loading element for chart', id);
+              }
+              
+              // Initialize chart
+              const chart = new ApexCharts(chartElement, options);
+              chart.render().then(() => {
+                console.log('Forecast scenarios chart rendered successfully');
+                
+                // Double-check that loading indicator is hidden after render
+                const loadingElem = document.getElementById(`${id}-loading`);
+                if (loadingElem) {
+                  loadingElem.style.display = 'none';
+                }
+              }).catch(err => {
+                console.error('Error rendering chart:', err);
+                // Show error state if chart fails to render
+                const errorContainer = document.getElementById(`${id}-error`);
+                if (errorContainer) {
+                  errorContainer.style.display = 'block';
+                }
+              });
+              
+              // Store reference for reset functionality
+              window[`reset${id}Chart`] = function() {
+                chart.resetSeries();
+              };
+              
+              // Make the chart keyboard navigable
+              chartElement.setAttribute('tabindex', '0');
+              chartElement.setAttribute('role', 'img');
+              chartElement.setAttribute('aria-label', `${title} - Range area chart showing different quantum computing market forecasts.`);
+              
+              // Add keyboard navigation for accessibility
+              chartElement.addEventListener('keydown', function(e) {
+                // Arrow keys to navigate between data points
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                  e.preventDefault();
+                  // Handle keyboard navigation (simplified)
+                  const announcer = document.getElementById(`${id}-announcements`);
+                  if (announcer) {
+                    announcer.textContent = 'Navigating through chart data with keyboard arrows';
+                  }
+                }
+              });
+            }
+          } else {
+            console.error('ApexCharts not loaded');
+          }
+        } else if (response.action === 'error') {
+          console.error('Worker error:', response.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching chart data:', error);
+      });
+  } else {
+    console.error('Chart worker factory not available');
+  }
+});
+</script>

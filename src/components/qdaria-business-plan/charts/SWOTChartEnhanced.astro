@@ -1,0 +1,115 @@
+---
+import type { SWOTChartProps } from '../../../types/chart';
+
+interface Props extends SWOTChartProps {
+  'client:load'?: boolean;
+}
+
+// Destructure props with defaults
+const { 
+  id, 
+  title, 
+  description, 
+  strengths,
+  weaknesses,
+  opportunities,
+  threats,
+  showDataTable = false,
+  darkMode = false,
+  className = '',
+  'client:load': clientLoad = true,
+  ...rest
+} = Astro.props;
+
+// Placeholder for chart loading state
+---
+
+<div id={`chart-container-${id}`} class="swot-chart-container">
+  {/* Fallback loading state */}
+  <div class="chart-container p-8 rounded-xl border border-primary-300/30 bg-white/90 dark:bg-gray-900/90 shadow-lg transition-all duration-300">
+    <div class="mb-4">
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{title}</h3>
+      <p class="mt-1 text-base text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+    
+    <div class="relative h-[400px] w-full flex items-center justify-center">
+      <div class="text-center text-gray-500 dark:text-gray-400">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+        <p>Loading SWOT analysis...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* Client-side component */}
+{clientLoad && (
+  <script define:vars={{ 
+    id, 
+    title, 
+    description, 
+    strengths, 
+    weaknesses, 
+    opportunities, 
+    threats, 
+    darkMode, 
+    className 
+  }}>
+    // Import dynamically to ensure client-side only execution
+    import SWOTChartEnhanced from './SWOTChartEnhanced.tsx';
+    import { createElement } from 'react';
+    import { createRoot } from 'react-dom/client';
+    
+    // Function to initialize chart
+    function initSWOTChart() {
+      const container = document.getElementById(`chart-container-${id}`);
+      if (container) {
+        const root = createRoot(container);
+        
+        root.render(
+          createElement(SWOTChartEnhanced, { 
+            id, 
+            title, 
+            description, 
+            strengths,
+            weaknesses,
+            opportunities,
+            threats,
+            darkMode,
+            className
+          })
+        );
+      }
+    }
+    
+    // Initialize immediately if document is ready
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initSWOTChart();
+    } else {
+      // Otherwise wait for document to load
+      document.addEventListener('DOMContentLoaded', initSWOTChart);
+    }
+    
+    // Register global initialization function
+    window.initSWOTChart = initSWOTChart;
+  </script>
+)}
+
+<style>
+  .swot-chart-container {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>

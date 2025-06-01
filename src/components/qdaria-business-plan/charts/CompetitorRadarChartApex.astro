@@ -1,0 +1,12 @@
+---
+import CompetitorStrengthChartApex from './CompetitorStrengthChartApex.astro';
+
+const defaultProps = {
+  id: "competitorRadarChart",
+  title: "Competitor Radar Chart",
+  description: "This chart displays competitive strength metrics for quantum computing companies."
+};
+
+const props = { ...defaultProps, ... (Astro.props || {}) };
+---
+<CompetitorStrengthChartApex {...props} />

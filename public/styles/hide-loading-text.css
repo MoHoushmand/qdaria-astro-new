@@ -1,0 +1,77 @@
+/**
+ * HIDE LOADING TEXT CSS
+ * Aggressively hides any text that might indicate loading or errors
+ */
+
+/* Hide any text containing loading-related words */
+*:not(script):not(style):not(link):not(meta):not(title):not(head):not(html):not(body):not(svg):not(path):not(g):not(rect):not(circle):not(ellipse):not(line):not(polyline):not(polygon):not(text):not(tspan) {
+  /* Use a complex selector to target text nodes */
+  &:contains("loading"),
+  &:contains("Loading"),
+  &:contains("LOADING"),
+  &:contains("wait"),
+  &:contains("Wait"),
+  &:contains("WAIT"),
+  &:contains("error"),
+  &:contains("Error"),
+  &:contains("ERROR"),
+  &:contains("failed"),
+  &:contains("Failed"),
+  &:contains("FAILED"),
+  &:contains("unavailable"),
+  &:contains("Unavailable"),
+  &:contains("UNAVAILABLE"),
+  &:contains("could not"),
+  &:contains("Could not"),
+  &:contains("COULD NOT"),
+  &:contains("unable to"),
+  &:contains("Unable to"),
+  &:contains("UNABLE TO"),
+  &:contains("not available"),
+  &:contains("Not available"),
+  &:contains("NOT AVAILABLE"),
+  &:contains("please try"),
+  &:contains("Please try"),
+  &:contains("PLEASE TRY"),
+  &:contains("refresh"),
+  &:contains("Refresh"),
+  &:contains("REFRESH") {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Hide specific loading elements */
+.loading-text,
+.error-text,
+.chart-error,
+.chart-loading-text,
+.loading-message,
+.error-message,
+.fallback-message,
+.chart-fallback-message {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
+
+/* Hide any empty chart containers that might show loading text */
+[id$="Chart"]:empty,
+.chart-container:empty,
+.apex-chart-container:empty,
+[id$="-chart"]:empty {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}

@@ -1,0 +1,45 @@
+---
+import { BaseChart } from './BaseChart';
+import type { ChartType, ChartData, ChartOptions } from 'chart.js';
+import type { ChartEventHandlers } from '../../../types/chart';
+
+export interface Props {
+  id: string;
+  title: string;
+  description: string;
+  type: ChartType;
+  data: ChartData;
+  options?: ChartOptions;
+  showDataTable?: boolean;
+  darkMode?: boolean;
+  eventHandlers?: ChartEventHandlers;
+  className?: string;
+}
+
+const {
+  id,
+  title,
+  description,
+  type,
+  data,
+  options = {},
+  showDataTable = false,
+  darkMode = true,
+  eventHandlers = {},
+  className = '',
+} = Astro.props;
+---
+
+<BaseChart
+  client:load
+  id={id}
+  title={title}
+  description={description}
+  type={type}
+  data={data}
+  options={options}
+  showDataTable={showDataTable}
+  darkMode={darkMode}
+  eventHandlers={eventHandlers}
+  className={className}
+/>

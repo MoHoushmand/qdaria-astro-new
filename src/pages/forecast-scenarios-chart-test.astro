@@ -1,0 +1,142 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ForecastScenariosRangeChartApex from "../components/qdaria-business-plan/charts/ForecastScenariosRangeChartApex.astro";
+---
+
+<BaseLayout title="Forecast Scenarios Range Chart Test">
+  <!-- Emergency fix to force hiding all loading indicators -->
+  <script>
+    // This script runs as soon as possible to hide loading indicators
+    (function() {
+      // Function to force hide all loading indicators
+      function removeAllLoadingIndicators() {
+        const loadingElements = document.querySelectorAll('.chart-loading, [id$="-loading"]');
+        for(let i = 0; i < loadingElements.length; i++) {
+          const el = loadingElements[i] as HTMLElement;
+          el.style.display = 'none';
+          el.style.visibility = 'hidden';
+          el.style.opacity = '0';
+          el.innerHTML = '';
+        }
+        
+        // Show all data tables
+        const dataTables = document.querySelectorAll('.chart-data-table');
+        for(let i = 0; i < dataTables.length; i++) {
+          const table = dataTables[i] as HTMLElement;
+          table.classList.add('visible');
+          table.style.display = 'block';
+          table.style.visibility = 'visible';
+          table.style.opacity = '1';
+        }
+      }
+      
+      // Run immediately
+      removeAllLoadingIndicators();
+      
+      // Also run after DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', removeAllLoadingIndicators);
+      
+      // Run periodically to catch any new elements
+      setInterval(removeAllLoadingIndicators, 500);
+    })();
+  </script>
+
+  <div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-8 text-center">Quantum Computing Market Forecast Scenarios (2025-2035)</h1>
+    
+    <div class="bg-slate-800 rounded-lg p-6 max-w-5xl mx-auto">
+      <ForecastScenariosRangeChartApex
+        id="forecast-scenarios-test"
+        showDataTable={true}
+        showControls={true}
+        height="500px"
+      />
+    </div>
+
+    <div class="mt-12 max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold mb-4">Enhanced Chart Features</h2>
+      <ul class="list-disc pl-6 mb-6 space-y-2">
+        <li><span class="font-bold text-green-400">$1 Trillion Milestone Annotation</span> - Clear horizontal line showing the trillion dollar threshold</li>
+        <li><span class="font-bold">Year-specific Annotations</span> - Labels showing exactly when each scenario reaches the $1T milestone</li>
+        <li><span class="font-bold">Range Visualization</span> - Area chart showing the spread between different market scenarios</li>
+        <li><span class="font-bold">QDaria Market Share</span> - Secondary axis showing QDaria's projected market share over time</li>
+        <li><span class="font-bold">Interactive Data Table</span> - Comprehensive data with all scenarios and market share information</li>
+        <li><span class="font-bold">Enhanced Accessibility</span> - ARIA attributes, keyboard navigation, and screen reader support</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mb-4 mt-8">Scenario Comparison Analysis</h2>
+      <p class="mb-4">
+        This enhanced visualization shows three different adoption scenarios for quantum computing market growth:
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <div class="bg-slate-800 p-4 rounded-lg border border-indigo-500">
+          <h3 class="font-bold text-indigo-400 mb-2">Conservative Scenario</h3>
+          <p>Slower adoption with more technical challenges. Reaches $1T by 2035.</p>
+          <p class="mt-2"><span class="font-bold">Key milestones:</span> $100B in 2031, $550B in 2035</p>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-lg border border-blue-500">
+          <h3 class="font-bold text-blue-400 mb-2">Expected Scenario</h3>
+          <p>Expected trajectory with steady market expansion. Reaches $1T between 2034-2035.</p>
+          <p class="mt-2"><span class="font-bold">Key milestones:</span> $100B in 2030, $800B in 2035</p>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-lg border border-teal-500">
+          <h3 class="font-bold text-teal-400 mb-2">Optimistic Scenario</h3>
+          <p>Accelerated adoption driven by breakthrough applications. Reaches $1T by 2031.</p>
+          <p class="mt-2"><span class="font-bold">Key milestones:</span> $100B in 2029, $1.0T in 2035</p>
+        </div>
+      </div>
+      
+      <div class="mt-8 p-4 bg-slate-800 rounded-lg border border-amber-500">
+        <h3 class="font-bold text-amber-400 mb-2">QDaria Market Share Analysis</h3>
+        <p>
+          QDaria's market share is projected to grow steadily from 0.01% in 2025 to 0.65% by 2035.
+          This represents significant growth for a targeted niche player in a rapidly expanding market.
+        </p>
+        <p class="mt-2">
+          Even with the conservative market size projection, QDaria's revenue would reach approximately
+          $3.58B by 2035 (0.65% of $550B), while in the optimistic scenario, revenue could reach $6.5B.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Additional styles for the test page */
+  .container {
+    max-width: 1200px;
+  }
+  
+  h1, h2, h3 {
+    color: #ffffff;
+  }
+  
+  p {
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+  
+  li {
+    color: #e2e8f0;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Emergency fix for chart loading indicators */
+  :global(.chart-loading),
+  :global([id$="-loading"]) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    z-index: -999 !important;
+  }
+  
+  /* Force data tables to always be visible */
+  :global(.chart-data-table) {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+</style>

@@ -1,0 +1,823 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+
+interface Props {
+  id?: string;
+  title?: string;
+  description?: string;
+  className?: string;
+  height?: string;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+}
+
+const { 
+  id = `market-growth-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "Global Quantum Computing Market Growth Projection (2020-2035)", 
+  description = "Projected cumulative economic impact of quantum computing, showing exponential growth from 2020 to 2035, reaching $1 trillion by 2035.",
+  className = "",
+  height = "400px",
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false
+} = Astro.props;
+
+// Chart data
+const years = ['2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035'];
+const baseCase = [0.05, 0.1, 0.3, 1, 3, 10, 30, 60, 100, 200, 350, 550, 750, 1000];
+const conservativeCase = [0.04, 0.08, 0.2, 0.7, 2, 7, 20, 40, 70, 140, 250, 400, 600, 850];
+const optimisticCase = [0.06, 0.15, 0.5, 1.5, 5, 15, 45, 90, 150, 300, 500, 750, 950, 1300];
+
+// Colors
+const baseColor = '#04a3ff';
+const conservativeColor = '#9D73FE';
+const optimisticColor = '#F5B700';
+
+// Worker path for data processing
+const workerPath = "/charts/marketGrowthWorker.js";
+
+// Format values for display
+function formatValue(value: number): string {
+  if (value >= 1000) {
+    return `$${(value/1000).toFixed(1)}T`;
+  } else if (value >= 1) {
+    return `$${value.toFixed(1)}B`;
+  } else {
+    return `$${(value * 1000).toFixed(0)}M`;
+  }
+}
+
+// Prepare table data
+const tableData = years.map((year, index) => ({
+  year,
+  conservative: formatValue(conservativeCase[index]),
+  base: formatValue(baseCase[index]),
+  optimistic: formatValue(optimisticCase[index])
+}));
+
+// Calculate CAGR (Compound Annual Growth Rate) for each scenario
+function calculateCAGR(startValue: number, endValue: number, years: number): string {
+  const cagr = (Math.pow(endValue / startValue, 1 / years) - 1) * 100;
+  return cagr.toFixed(1) + '%';
+}
+
+// Calculate year-over-year growth rates
+const yoyGrowthBase = baseCase.map((val, idx) => {
+  if (idx === 0) return '-';
+  return ((val / baseCase[idx-1] - 1) * 100).toFixed(0) + '%';
+});
+
+const yoyGrowthConservative = conservativeCase.map((val, idx) => {
+  if (idx === 0) return '-';
+  return ((val / conservativeCase[idx-1] - 1) * 100).toFixed(0) + '%';
+});
+
+const yoyGrowthOptimistic = optimisticCase.map((val, idx) => {
+  if (idx === 0) return '-';
+  return ((val / optimisticCase[idx-1] - 1) * 100).toFixed(0) + '%';
+});
+
+// Calculate overall CAGR (2022-2035)
+const baseCAGR = calculateCAGR(baseCase[0], baseCase[baseCase.length-1], years.length-1);
+const conservativeCAGR = calculateCAGR(conservativeCase[0], conservativeCase[conservativeCase.length-1], years.length-1);
+const optimisticCAGR = calculateCAGR(optimisticCase[0], optimisticCase[optimisticCase.length-1], years.length-1);
+---
+
+<ApexChartWrapper
+  id={id}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+>
+  <!-- Chart Controls -->
+  <div class="chart-controls">
+    <!-- Scenario Tabs -->
+    <div class="scenario-tabs">
+      <button class="scenario-tab" data-scenario="base">Base Case</button>
+      <button class="scenario-tab" data-scenario="conservative">Conservative Case</button>
+      <button class="scenario-tab" data-scenario="optimistic">Optimistic Case</button>
+      <button class="scenario-tab active" data-scenario="all">Compare All</button>
+      <div class="scenario-help" title="Click on a scenario to show/hide data series">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Scale Toggle -->
+    <div class="scale-toggle">
+      <span>Scale:</span>
+      <div class="toggle-buttons">
+        <button class="toggle-button active" data-scale="logarithmic">Logarithmic</button>
+        <button class="toggle-button" data-scale="linear">Linear</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Conservative Case</th>
+        <th>YoY Growth</th>
+        <th>Base Case</th>
+        <th>YoY Growth</th>
+        <th>Optimistic Case</th>
+        <th>YoY Growth</th>
+      </tr>
+    </thead>
+    <tbody>
+      {tableData.map((row, idx) => (
+        <tr>
+          <td>{row.year}</td>
+          <td>{row.conservative}</td>
+          <td>{yoyGrowthConservative[idx]}</td>
+          <td>{row.base}</td>
+          <td>{yoyGrowthBase[idx]}</td>
+          <td>{row.optimistic}</td>
+          <td>{yoyGrowthOptimistic[idx]}</td>
+        </tr>
+      ))}
+      <tr class="summary-row">
+        <td>CAGR (2022-2035)</td>
+        <td colspan="2">{conservativeCAGR}</td>
+        <td colspan="2">{baseCAGR}</td>
+        <td colspan="2">{optimisticCAGR}</td>
+      </tr>
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .chart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  /* Scenario Tabs */
+  .scenario-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+  }
+  
+  .scenario-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    margin-left: 5px;
+    cursor: help;
+    transition: color 0.3s ease;
+  }
+  
+  .scenario-help:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .scenario-tab {
+    background: rgba(4, 163, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(4, 163, 255, 0.4);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .scenario-tab:hover {
+    background: rgba(4, 163, 255, 0.4);
+    box-shadow: 0 0 10px rgba(4, 163, 255, 0.4);
+  }
+  
+  .scenario-tab.active {
+    background: rgba(4, 163, 255, 0.7);
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.6);
+    font-weight: bold;
+  }
+  
+  /* Scale Toggle */
+  .scale-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+  }
+  
+  .toggle-buttons {
+    display: flex;
+    background: rgba(30, 41, 59, 0.7);
+    border-radius: 20px;
+    padding: 2px;
+    overflow: hidden;
+  }
+  
+  .toggle-button {
+    padding: 5px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+    border: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .toggle-button:hover:not(.active) {
+    background: rgba(4, 163, 255, 0.2);
+  }
+  
+  .toggle-button.active {
+    background: rgba(4, 163, 255, 0.7);
+    box-shadow: 0 0 8px rgba(4, 163, 255, 0.4);
+    font-weight: 500;
+  }
+  
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content th:first-child, 
+  .chart-data-table-content td:first-child {
+    text-align: left;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  .summary-row {
+    background: rgba(4, 163, 255, 0.15);
+    font-weight: bold;
+  }
+  
+  .summary-row td {
+    border-top: 2px solid rgba(4, 163, 255, 0.4);
+  }
+</style>
+
+<script define:vars={{ id, years, baseCase, conservativeCase, optimisticCase, baseColor, conservativeColor, optimisticColor, workerPath, yoyGrowthBase, yoyGrowthConservative, yoyGrowthOptimistic }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // State tracking
+    let currentScale = 'logarithmic';
+    
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initMarketGrowthChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initMarketGrowthChart);
+    }
+    
+    // Initialize scenario tabs
+    const scenarioTabs = document.querySelectorAll(`#${id} .scenario-tab`);
+    scenarioTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        updateScenario(tab);
+      });
+    });
+    
+    // Initialize scale toggle
+    const scaleToggleButtons = document.querySelectorAll(`#${id} .toggle-button`);
+    scaleToggleButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const scale = button.getAttribute('data-scale');
+        updateScale(scale);
+        
+        // Update active state
+        scaleToggleButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+    
+    // Function to initialize the chart
+    function initMarketGrowthChart() {
+      try {
+        console.log('Initializing market growth chart:', id);
+        
+        // Use chartWorkerFactory if available, otherwise create a new worker
+        if (window.chartWorkerFactory) {
+          const worker = window.chartWorkerFactory.createChartWorker('marketGrowth');
+          
+          // Send message to worker to get data
+          worker.sendMessage({
+            action: 'prepareData',
+            chartId: id,
+            years,
+            baseCase,
+            conservativeCase,
+            optimisticCase
+          }).then(response => {
+            if (response.action === 'dataReady') {
+              const chartData = response.chartData;
+              renderChart(chartData);
+            } else if (response.action === 'error') {
+              console.error('Worker error:', response.error);
+            }
+          }).catch(error => {
+            console.error('Error processing chart data:', error);
+          });
+        } else {
+          // Fallback to direct worker creation
+          const worker = new Worker(workerPath);
+          
+          // Send data to worker for processing
+          worker.postMessage({
+            action: 'prepareData',
+            chartId: id,
+            years,
+            baseCase,
+            conservativeCase,
+            optimisticCase
+          });
+          
+          // Handle worker response
+          worker.onmessage = function(e) {
+            if (e.data.action === 'dataReady') {
+              const chartData = e.data.chartData;
+              renderChart(chartData);
+            } else if (e.data.action === 'error') {
+              console.error('Worker error:', e.data.error);
+            }
+          };
+          
+          // Handle worker errors
+          worker.onerror = function(e) {
+            console.error('Worker error:', e);
+          };
+        }
+      } catch (error) {
+        console.error('Error initializing chart:', error);
+      }
+    }
+    
+    // Function to render the chart
+    function renderChart(chartData) {
+      try {
+        // Check if chart container exists
+        const chartContainer = document.getElementById(`${id}-chart`);
+        if (!chartContainer) {
+          console.error(`Chart container #${id}-chart not found`);
+          return;
+        }
+        
+        // Hide loading element - Explicit reference by ID
+        const loadingElement = document.getElementById(`${id}-loading`);
+        if (loadingElement) {
+          loadingElement.style.display = 'none';
+          console.log('Hiding loading element for chart', id);
+        }
+        
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('area') : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: 'area',
+            height: 400,
+            width: '100%',
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              }
+            },
+            animations: {
+              enabled: true,
+              easing: 'easeinout',
+              speed: 800,
+              animateGradually: {
+                enabled: true,
+                delay: 150
+              },
+              dynamicAnimation: {
+                enabled: true,
+                speed: 350
+              }
+            }
+          },
+          colors: [baseColor, conservativeColor, optimisticColor],
+          series: chartData.series,
+          xaxis: {
+            categories: chartData.categories,
+            labels: {
+              style: {
+                colors: '#ffffff',
+                fontSize: '12px'
+              }
+            },
+            title: {
+              text: 'Year',
+              style: {
+                color: '#9ca3af',
+                fontSize: '14px',
+                fontWeight: 'bold'
+              }
+            }
+          },
+          yaxis: {
+            logarithmic: currentScale === 'logarithmic',
+            forceNiceScale: true,
+            tickAmount: currentScale === 'logarithmic' ? 8 : 10,
+            labels: {
+              formatter: function(val) {
+                // For logarithmic scale
+                if (currentScale === 'logarithmic') {
+                  // Main power of 10 labels
+                  if (val === 0.01) return '$10M';
+                  if (val === 0.05) return '$50M';
+                  if (val === 0.1) return '$100M';
+                  if (val === 0.5) return '$500M';
+                  if (val === 1) return '$1B';
+                  if (val === 5) return '$5B';
+                  if (val === 10) return '$10B';
+                  if (val === 50) return '$50B';
+                  if (val === 100) return '$100B';
+                  if (val === 500) return '$500B';
+                  if (val === 1000) return '$1T';
+                  if (val === 2000) return '$2T';
+                  
+                  return '';
+                } 
+                // For linear scale
+                else {
+                  if (val === 0) return '$0';
+                  if (val >= 1000) {
+                    return `$${(val/1000).toFixed(1)}T`;
+                  } else if (val >= 100) {
+                    return `$${val.toFixed(0)}B`;
+                  } else if (val >= 10) {
+                    return `$${val.toFixed(0)}B`;
+                  } else if (val >= 1) {
+                    return `$${val.toFixed(1)}B`;
+                  } else {
+                    return `$${(val * 1000).toFixed(0)}M`;
+                  }
+                }
+              },
+              style: {
+                colors: '#ffffff'
+              }
+            },
+            title: {
+              text: 'Cumulative Economic Impact (USD)',
+              style: {
+                color: '#9ca3af',
+                fontSize: '14px',
+                fontWeight: 'bold'
+              }
+            },
+            min: currentScale === 'logarithmic' ? 0.01 : 0,
+            max: currentScale === 'logarithmic' ? 2000 : 1400
+          },
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            strokeDashArray: 3,
+            row: {
+              colors: ['transparent', 'rgba(255, 255, 255, 0.02)'],
+              opacity: 0.5
+            },
+            column: {
+              colors: ['transparent'],
+            },
+            padding: {
+              bottom: 10
+            },
+            yaxis: {
+              lines: {
+                show: true
+              }
+            },
+            xaxis: {
+              lines: {
+                show: false
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 3
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shadeIntensity: 1,
+              opacityFrom: 0.7,
+              opacityTo: 0.2,
+              stops: [0, 90, 100]
+            }
+          },
+          markers: {
+            size: 4,
+            strokeWidth: 0,
+            hover: {
+              size: 6
+            }
+          },
+          tooltip: {
+            shared: true,
+            intersect: false,
+            y: {
+              formatter: function(val, { seriesIndex, dataPointIndex, w }) {
+                const formattedValue = val >= 1000 ? 
+                  `$${(val/1000).toFixed(1)}T` : 
+                  val >= 1 ? 
+                    `$${val.toFixed(1)}B` : 
+                    `$${(val * 1000).toFixed(0)}M`;
+                
+                // Add YoY growth rate for datapoints after the first year
+                if (dataPointIndex > 0) {
+                  const seriesName = w.globals.seriesNames[seriesIndex];
+                  let yoyGrowth;
+                  
+                  if (seriesName === 'Base Case') {
+                    yoyGrowth = yoyGrowthBase[dataPointIndex];
+                  } else if (seriesName === 'Conservative Case') {
+                    yoyGrowth = yoyGrowthConservative[dataPointIndex];
+                  } else if (seriesName === 'Optimistic Case') {
+                    yoyGrowth = yoyGrowthOptimistic[dataPointIndex];
+                  }
+                  
+                  return `${formattedValue} (YoY: ${yoyGrowth})`;
+                }
+                
+                return formattedValue;
+              }
+            }
+          },
+          annotations: {
+            yaxis: [{
+              y: 1000,
+              borderColor: '#00d085',
+              borderWidth: 2,
+              strokeDashArray: 5,
+              label: {
+                borderColor: '#00d085',
+                style: {
+                  color: '#ffffff',
+                  background: 'rgba(0, 208, 133, 0.8)',
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                  padding: {
+                    left: 10,
+                    right: 10,
+                    top: 5,
+                    bottom: 5
+                  }
+                },
+                text: '$1 Trillion Milestone',
+                position: 'right',
+                offsetX: -15,
+                offsetY: 0
+              }
+            }]
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'center',
+            offsetY: 10,
+            labels: {
+              colors: '#ffffff'
+            }
+          }
+        };
+        
+        // Create the chart
+        console.log('Creating ApexCharts instance with options:', options);
+        const chart = new ApexCharts(chartContainer, options);
+        
+        // Render the chart
+        chart.render().then(() => {
+          console.log('Chart rendered successfully');
+          
+          // Double-check that loading indicator is hidden after render
+          const loadingElem = document.getElementById(`${id}-loading`);
+          if (loadingElem) {
+            loadingElem.style.display = 'none';
+          }
+          
+          // Show all series initially (Compare All is default)
+          chart.showSeries('Base Case');
+          chart.showSeries('Conservative Case');
+          chart.showSeries('Optimistic Case');
+        }).catch(err => {
+          console.error('Error rendering chart:', err);
+          // Show error state if chart fails to render
+          const errorContainer = document.getElementById(`${id}-error`);
+          if (errorContainer) {
+            errorContainer.style.display = 'block';
+          }
+        });
+        
+        // Store chart instance for later reference
+        window[`${id}-instance`] = chart;
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${id}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Market growth chart loaded. Use arrow keys to navigate between data points.';
+        }
+      } catch (error) {
+        console.error('Error rendering chart:', error);
+      }
+    }
+    
+    // Default options if chartUtils is not available
+    function getDefaultOptions() {
+      return {
+        chart: {
+          type: 'area',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          background: 'transparent',
+          foreColor: '#ffffff',
+          toolbar: {
+            show: true
+          }
+        },
+        colors: [baseColor, conservativeColor, optimisticColor],
+        grid: {
+          borderColor: 'rgba(255, 255, 255, 0.1)',
+          strokeDashArray: 3
+        },
+        tooltip: {
+          enabled: true,
+          theme: 'dark'
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: 3,
+          curve: 'smooth'
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.2,
+            stops: [0, 90, 100]
+          }
+        }
+      };
+    }
+    
+    // Function to update scenario
+    function updateScenario(tab) {
+      // Update active tab
+      scenarioTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      
+      // Get selected scenario
+      const scenario = tab.getAttribute('data-scenario');
+      
+      // Get chart instance
+      const chart = window[`${id}-instance`];
+      if (!chart) return;
+      
+      // Update chart visibility
+      if (scenario === 'base') {
+        chart.showSeries('Base Case');
+        chart.hideSeries('Conservative Case');
+        chart.hideSeries('Optimistic Case');
+      } else if (scenario === 'conservative') {
+        chart.hideSeries('Base Case');
+        chart.showSeries('Conservative Case');
+        chart.hideSeries('Optimistic Case');
+      } else if (scenario === 'optimistic') {
+        chart.hideSeries('Base Case');
+        chart.hideSeries('Conservative Case');
+        chart.showSeries('Optimistic Case');
+      } else if (scenario === 'all') {
+        chart.showSeries('Base Case');
+        chart.showSeries('Conservative Case');
+        chart.showSeries('Optimistic Case');
+      }
+      
+      // Announce changes to screen readers
+      const announcer = document.getElementById(`${id}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Showing ${scenario} scenario`;
+      }
+    }
+    
+    // Function to update scale
+    function updateScale(scale) {
+      // Update current scale
+      currentScale = scale;
+      
+      // Get chart instance
+      const chart = window[`${id}-instance`];
+      if (!chart) return;
+      
+      // Update chart options
+      chart.updateOptions({
+        yaxis: {
+          logarithmic: scale === 'logarithmic',
+          forceNiceScale: true,
+          tickAmount: scale === 'logarithmic' ? 8 : 10,
+          labels: {
+            formatter: function(val) {
+              // For logarithmic scale
+              if (scale === 'logarithmic') {
+                // Main power of 10 labels
+                if (val === 0.01) return '$10M';
+                if (val === 0.05) return '$50M';
+                if (val === 0.1) return '$100M';
+                if (val === 0.5) return '$500M';
+                if (val === 1) return '$1B';
+                if (val === 5) return '$5B';
+                if (val === 10) return '$10B';
+                if (val === 50) return '$50B';
+                if (val === 100) return '$100B';
+                if (val === 500) return '$500B';
+                if (val === 1000) return '$1T';
+                if (val === 2000) return '$2T';
+                
+                return '';
+              } 
+              // For linear scale
+              else {
+                if (val === 0) return '$0';
+                if (val >= 1000) {
+                  return `$${(val/1000).toFixed(1)}T`;
+                } else if (val >= 100) {
+                  return `$${val.toFixed(0)}B`;
+                } else if (val >= 10) {
+                  return `$${val.toFixed(0)}B`;
+                } else if (val >= 1) {
+                  return `$${val.toFixed(1)}B`;
+                } else {
+                  return `$${(val * 1000).toFixed(0)}M`;
+                }
+              }
+            }
+          },
+          min: scale === 'logarithmic' ? 0.01 : 0,
+          max: scale === 'logarithmic' ? 2000 : 1400
+        }
+      }, false, true);
+      
+      // Announce changes to screen readers
+      const announcer = document.getElementById(`${id}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Changed to ${scale} scale`;
+      }
+    }
+    
+    // Function to reset chart zoom
+    window[`reset${id}Chart`] = function() {
+      const chart = window[`${id}-instance`];
+      if (chart) {
+        chart.resetSeries();
+      }
+    };
+  });
+</script>

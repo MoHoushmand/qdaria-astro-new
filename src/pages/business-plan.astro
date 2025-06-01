@@ -1,0 +1,38 @@
+---
+import { getEntry } from "astro:content";
+import BusinessPlanLayout from "../layouts/BusinessPlanLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Get the Business Plan content
+const businessPlan = await getEntry("otherPages", "en/business-plan");
+
+// Default frontmatter if entry not found
+const defaultFrontmatter = {
+  title: "QDaria Business Plan",
+  description: "A comprehensive business plan for QDaria's quantum computing initiative"
+};
+
+let Content;
+if (businessPlan) {
+  const rendered = await businessPlan.render();
+  Content = rendered.Content;
+}
+---
+
+{/* Use Astro's conditional rendering with && */}
+{businessPlan && (
+  <BusinessPlanLayout frontmatter={businessPlan.data}>
+    <Content />
+  </BusinessPlanLayout>
+)}
+
+{/* Fallback if business plan not found */}
+{!businessPlan && (
+  <BaseLayout title="Business Plan Not Found" description="The requested business plan could not be found">
+    <div class="container mx-auto py-20 text-center">
+      <h1 class="text-4xl font-bold mb-4">Business Plan Not Found</h1>
+      <p>We're sorry, but the business plan content could not be loaded.</p>
+      <a href="/" class="inline-block mt-8 px-6 py-3 bg-blue-600 text-white rounded-md">Return Home</a>
+    </div>
+  </BaseLayout>
+)}

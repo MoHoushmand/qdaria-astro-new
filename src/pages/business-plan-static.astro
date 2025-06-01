@@ -1,0 +1,273 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "QDaria Business Plan (Static Version)";
+const description = "A static version of the QDaria Business Plan with simplified content for reliable viewing.";
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container mx-auto px-4 py-8 max-w-5xl">
+    <h1 class="text-4xl font-bold mb-8 text-center">QDaria Business Plan</h1>
+    <p class="text-lg mb-8 text-center text-gray-300">
+      This is a static version of the business plan with simplified content for reliable viewing.
+    </p>
+
+    <div class="prose prose-invert max-w-none">
+      <h2 class="text-3xl font-bold mb-4">Executive Summary</h2>
+      <p>
+        QDaria is an early-stage startup at the intersection of quantum computing and artificial intelligence. 
+        We are developing agentic AI systems and quantum software solutions while uniquely offering rentals 
+        of experimental quantum computing kits to democratize access to cutting-edge hardware. This combined 
+        focus positions QDaria to capitalize on the rapidly growing quantum computing market and the surge 
+        of interest in AI providing an integrated solution stack that bridges current gaps in the industry.
+      </p>
+      <p>
+        The global quantum computing industry is on the cusp of explosive growth projected to create nearly 
+        <strong>$1 trillion in economic value by 2035</strong>. Today the market remains nascent (estimated 
+        at only ~$1–2 billion in 2024) but it is expected to expand to <strong>$5–7 billion by 2029</strong> 
+        as early commercial applications emerge. This immense growth trajectory coupled with over $30 billion 
+        in government funding commitments to quantum R&D and record <strong>private investments (>$1.5 billion 
+        in 2024 alone)</strong> highlights the <strong>unprecedented opportunity</strong> for new entrants. 
+        QDaria's agile startup approach and unique blend of AI and quantum offerings enable us to move quickly 
+        in this space.
+      </p>
+      <p>
+        Our strategy is to develop multiple complementary products under the QDaria umbrella — including 
+        quantum-enhanced software like <strong>Zipminator</strong> and <strong>Qm9</strong> and intelligent 
+        agents like <strong>QDiana</strong> and <strong>QMikeAI</strong> — and eventually expand QDaria into 
+        a holding company. Each major product line is envisioned as a future subsidiary positioned for an IPO 
+        by 2030. This business plan details our market analysis product roadmap competitive positioning financial 
+        projections and a step-by-step expansion timeline culminating in <strong>multiple IPO events by 2028–2030</strong>. 
+        We also outline key milestones and risk factors with strategies to mitigate them ensuring a clear path 
+        toward sustainable growth and value creation for stakeholders.
+      </p>
+
+      <h2 class="text-3xl font-bold mt-8 mb-4">Market Analysis: Quantum Computing Industry Overview</h2>
+      <p>
+        Quantum computing is transitioning from pure research to early commercial use driving significant optimism 
+        about its future market. In 2024 the <strong>global quantum computing market size</strong> (in terms of 
+        revenue) is roughly <strong>$1.3 billion</strong>. This figure is expected to grow to about <strong>$5–6 
+        billion by 2029</strong> (over 30% CAGR). The <strong>long-term outlook</strong> is even more striking: 
+        according to McKinsey quantum computing could <strong>account for nearly $1.3 trillion in value by 2035</strong> 
+        while other analyses project on the order of <strong>$1 trillion in cumulative economic impact by 2035</strong>. 
+        This value reflects quantum computing's potential to revolutionize industries from finance to pharmaceuticals 
+        by solving complex problems far beyond the reach of classical computers.
+      </p>
+
+      <div class="bg-gray-800 p-6 rounded-lg my-8 border border-blue-500">
+        <h3 class="text-xl font-semibold mb-2">Market Growth Chart</h3>
+        <p class="text-gray-300 mb-4">
+          Projected cumulative economic impact of quantum computing showing exponential growth from 2020 to 2035 
+          reaching $1 trillion by 2035.
+        </p>
+        <div class="bg-gray-900 p-4 rounded text-center">
+          <p class="text-blue-400">Chart data available in full business plan</p>
+        </div>
+      </div>
+
+      <h2 class="text-3xl font-bold mt-8 mb-4">Competitive Landscape</h2>
+      <p>
+        The current quantum computing landscape is a mix of well-funded tech giants specialized quantum hardware 
+        startups and a handful of software-focused ventures. <strong>Competition</strong> can be grouped into a 
+        few categories:
+      </p>
+      <ul>
+        <li>
+          <strong>Tech Giants (IBM Google Microsoft Intel)</strong>: These companies have major quantum research 
+          programs. IBM for instance offers cloud access to quantum processors (with 433-qubit machines already 
+          online) and plans a 1000+ qubit system in the next year. Google achieved a milestone in quantum supremacy 
+          in 2019 and continues R&D on superconducting qubit systems. Microsoft and Intel are investing in alternative 
+          technologies (topological qubits and spin qubits respectively). These players have virtually unlimited R&D 
+          budgets and integrate quantum research into broader tech stacks (e.g. Microsoft's Azure Quantum service). 
+          However their focus is largely on hardware breakthroughs and platform services; none offer the kind of 
+          <strong>agentic AI integration</strong> or hands-on kit rental service that QDaria is pursuing. We view 
+          the tech giants more as enablers (providing hardware advances we can leverage) than direct competitors in 
+          our niche.
+        </li>
+        <li>
+          <strong>Quantum Hardware Startups (IonQ Rigetti D-Wave PsiQuantum etc.)</strong>: Several pure-play quantum 
+          companies have emerged some of which have gone public. <strong>IonQ</strong> (trapped-ion quantum computers) 
+          and <strong>Rigetti</strong> (superconducting qubits) both listed via SPAC deals in 2021 and <strong>D-Wave 
+          Systems</strong> (quantum annealing systems) in 2022. These firms have raised substantial funding (IonQ ~$84M 
+          pre-IPO Rigetti ~$198M D-Wave <strong>>$300M</strong>). <strong>PsiQuantum</strong> still private has raised 
+          over $600M to develop photonic quantum computers. These startups aim to deliver hardware power and often provide 
+          cloud access to their machines. By contrast QDaria is <strong>hardware-agnostic</strong> – we do not build our 
+          own quantum chips. Instead we partner with or rent existing quantum hardware (providing <em>physical access</em> 
+          via our kit rentals) and focus on software and AI layers on top. This means our capital requirements are lower 
+          but it also means we depend on the hardware ecosystem's progress (a manageable risk given the broad industry 
+          investment). We differentiate by <strong>offering clients direct experimental access</strong> to small-scale 
+          quantum devices and by developing software that works across multiple quantum platforms rather than betting on 
+          one hardware approach.
+        </li>
+      </ul>
+
+      <h2 class="text-3xl font-bold mt-8 mb-4">Products and Services</h2>
+      <p>
+        QDaria's business model spans <strong>software AI and hardware access</strong>. Our key products and services include:
+      </p>
+      <ul>
+        <li>
+          <strong>Quantum Experimental Kits Rental:</strong> We rent out small-scale quantum computing devices to researchers 
+          educators and enterprise R&D teams. These <em>"quantum kits"</em> allow hands-on experimentation with real qubits 
+          in a controlled environment.
+        </li>
+        <li>
+          <strong>Zipminator (Quantum-Accelerated Software):</strong> Zipminator is QDaria's proprietary quantum software 
+          solution aimed at <strong>data compression and optimization</strong>. It leverages quantum algorithms to achieve 
+          compression ratios or optimization results beyond the capabilities of classical methods.
+        </li>
+        <li>
+          <strong>Qm9 (Quantum Software Platform):</strong> Qm9 is a codename for QDaria's broader <strong>quantum software 
+          platform</strong>. This platform will include tools and libraries for developers to write and optimize quantum 
+          algorithms possibly across different hardware.
+        </li>
+        <li>
+          <strong>QDiana (Agentic AI System):</strong> QDiana is an <strong>agentic AI</strong> being developed by QDaria – 
+          essentially an AI agent persona designed to assist businesses in leveraging quantum computing. QDiana acts as an 
+          <em>"AI consultant"</em> that can understand a user's problem (in natural language or high-level terms) map it to 
+          quantum algorithms or computations (if applicable) run those on the available quantum backends and then interpret 
+          the results for the user.
+        </li>
+        <li>
+          <strong>QMikeAI (Agentic AI System):</strong> QMikeAI is another AI agent under development intended as a 
+          complementary persona to QDiana. Where QDiana might focus on enterprise decision support <strong>QMikeAI</strong> 
+          could be tailored for <strong>developers and researchers</strong> working with quantum technology.
+        </li>
+      </ul>
+
+      <h2 class="text-3xl font-bold mt-8 mb-4">Strategic Roadmap and IPO Timeline</h2>
+      <p>
+        To achieve our ambitious vision QDaria will follow a phased expansion roadmap evolving from a single startup into 
+        a multi-subsidiary <strong>holding company (QDaria Holdings)</strong> by the end of this decade.
+      </p>
+
+      <div class="bg-gray-800 p-6 rounded-lg my-8 border border-blue-500">
+        <h3 class="text-xl font-semibold mb-2">Organizational Chart</h3>
+        <p class="text-gray-300 mb-4">
+          QDaria's organizational structure showing the evolution into a holding company with multiple subsidiaries.
+        </p>
+        <div class="bg-gray-900 p-4 rounded text-center">
+          <p class="text-blue-400">Chart data available in full business plan</p>
+        </div>
+      </div>
+
+      <h3 class="text-2xl font-bold mt-6 mb-3">Key phases and milestones in our plan include:</h3>
+      <ul>
+        <li>
+          <strong>2025:</strong> <em>Foundation and Seed Stage.</em> QDaria is founded (Q1 2025) by a team of quantum 
+          computing PhDs and AI experts. Core R&D begins on the Qm9 platform and AI agents. We secure initial <strong>seed 
+          funding (e.g. angel/accelerator round of ~$1M)</strong> to develop prototypes. By Q4 2025 we launch a <strong>pilot 
+          quantum kit rental program</strong> with two 2-qubit kits and one 3-qubit kit serving our first pilot customers 
+          (one university and one corporate R&D lab). Early revenue from these pilot rentals is modest but provides valuable 
+          user feedback.
+        </li>
+        <li>
+          <strong>2026:</strong> <em>Product Development and Market Validation.</em> With pilot feedback we iterate on our 
+          offerings. QDaria aims to raise a <strong>Series A round (~$5–10M)</strong> in mid-2026 to accelerate development. 
+          The funding will be used to: hire additional quantum software engineers and AI scientists expand our inventory of 
+          rental kits and bring <strong>Zipminator</strong> to a beta release. By late 2026 we plan to have <strong>QMikeAI 
+          integrated</strong> into the Qm9 platform as an alpha version (assisting internal developers and select early adopters). 
+          We also aim to sign a few <strong>strategic partnerships</strong> – for example with a quantum hardware provider for 
+          discounted access or with a consulting firm to refer clients to QDaria for quantum solutions. Key milestone: 
+          <em>Zipminator v1.0</em> (beta) ready by end of 2026 demonstrating quantum advantage on a test dataset (even if on 
+          a small scale).
+        </li>
+        <li>
+          <strong>2027:</strong> <em>Scaling Up and Organizational Structuring.</em> By 2027 we expect initial revenues from 
+          kit rentals and possibly pilot software projects but we will likely remain in investment mode. A <strong>Series B 
+          funding (~$20M)</strong> is targeted in 2027 to scale the business.
+        </li>
+        <li>
+          <strong>2028:</strong> <em>First IPO and Continued Growth.</em> We anticipate that by 2028 at least one of our 
+          subsidiaries will be ready to go public. The leading candidate is <strong>Zipminator Inc.</strong> as the compression 
+          solution could have the broadest immediate market and a clear business model appealing to public market investors. 
+          We plan for <strong>Zipminator's IPO in 2028</strong> (likely in the second half depending on market conditions).
+        </li>
+        <li>
+          <strong>2029:</strong> <em>Multiple IPOs and Expansion.</em> By 2029 the quantum industry is expected to be in a 
+          robust growth phase and QDaria's various businesses should be hitting their stride. We plan for <strong>two more 
+          IPOs in 2029</strong>.
+        </li>
+        <li>
+          <strong>2030:</strong> <em>Final Planned IPO and Holding Company Maturation.</em> The year 2030 would see the IPO 
+          of <strong>QMikeAI Inc.</strong> completing our plan for all four major units to become public entities.
+        </li>
+      </ul>
+
+      <h2 class="text-3xl font-bold mt-8 mb-4">Financial Projections</h2>
+      <p>
+        Our financial projections for QDaria (2025-2030) reflect the typical early-stage tech startup trajectory with initial 
+        years focused on R&D and product development followed by accelerating revenue growth and eventual profitability.
+      </p>
+
+      <div class="bg-gray-800 p-6 rounded-lg my-8 border border-blue-500">
+        <h3 class="text-xl font-semibold mb-2">Financial Metrics</h3>
+        <p class="text-gray-300 mb-4">
+          Financial projections showing revenue, expenses, and profitability over time.
+        </p>
+        <div class="bg-gray-900 p-4 rounded text-center">
+          <p class="text-blue-400">Chart data available in full business plan</p>
+        </div>
+      </div>
+
+      <h2 class="text-3xl font-bold mt-8 mb-4">Conclusion</h2>
+      <p>
+        In conclusion QDaria represents an opportunity to participate in the early stages of what promises to be a transformative 
+        industry. Our unique vision of integrating quantum computing AI agents and hands-on hardware access positions us to grow 
+        alongside this emerging field with a strategic plan that allows for multiple value creation and liquidity events along 
+        the way.
+      </p>
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="/business-plan" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        View Full Business Plan with Interactive Charts
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose {
+    color: #f8fafc;
+  }
+  
+  .prose h2 {
+    color: #f8fafc;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h3 {
+    color: #f8fafc;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  
+  .prose ul {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+  
+  .prose strong {
+    color: #93c5fd;
+    font-weight: 600;
+  }
+  
+  .prose em {
+    color: #d1d5db;
+    font-style: italic;
+  }
+</style>

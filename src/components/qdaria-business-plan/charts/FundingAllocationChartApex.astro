@@ -1,0 +1,526 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  chartType?: 'pie' | 'donut';
+  categories?: string[];
+  allocations?: number[];
+  colors?: string[];
+  totalFunding?: number;
+}
+
+const { 
+  id = `funding-allocation-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "QDaria Funding Allocation", 
+  description = "Breakdown of funding allocation across different categories showing investment priorities.",
+  className = "",
+  height = 500,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  chartType = 'donut',
+  categories,
+  allocations,
+  colors,
+  totalFunding
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const chartTypeToggleId = `${chartId}-chart-type-toggle`;
+
+// Worker path for data processing
+const workerPath = "/charts/fundingAllocationWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- Chart Type Toggle Controls -->
+  <div class="chart-type-toggle mb-4" id={chartTypeToggleId}>
+    <div class="toggle-label">Chart Type:</div>
+    <div class="toggle-options">
+      <label class="toggle-option">
+        <input type="radio" name="chartType" value="pie" checked={chartType === 'pie'} />
+        <span class="toggle-label">Pie</span>
+      </label>
+      <label class="toggle-option">
+        <input type="radio" name="chartType" value="donut" checked={chartType === 'donut'} />
+        <span class="toggle-label">Donut</span>
+      </label>
+    </div>
+  </div>
+  
+  <!-- Chart container -->
+  <div class="funding-chart-container">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Key Metrics -->
+  <div class="key-metrics">
+    <div class="metric total-funding">
+      <div class="metric-label">Total Funding</div>
+      <div class="metric-value" id="total-funding-value">$50M</div>
+    </div>
+    <div class="metric largest-allocation">
+      <div class="metric-label">Largest Allocation</div>
+      <div class="metric-value" id="largest-allocation-value">Hardware R&D (42%)</div>
+    </div>
+    <div class="metric allocation-ratio">
+      <div class="metric-label">Largest/Smallest Ratio</div>
+      <div class="metric-value" id="allocation-ratio-value">10.5x</div>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Allocation (%)</th>
+        <th>Amount ($M)</th>
+      </tr>
+    </thead>
+    <tbody id="funding-table-body">
+      <!-- Table rows will be populated by JavaScript -->
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .chart-type-toggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .toggle-label {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .toggle-options {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .toggle-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .toggle-option input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  /* Chart Container */
+  .funding-chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Key Metrics */
+  .key-metrics {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .metric {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+    min-width: 150px;
+  }
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .total-funding {
+    background: rgba(4, 163, 255, 0.15);
+    border-color: rgba(4, 163, 255, 0.4);
+  }
+  
+  .largest-allocation {
+    background: rgba(0, 255, 211, 0.15);
+    border-color: rgba(0, 255, 211, 0.4);
+  }
+  
+  .allocation-ratio {
+    background: rgba(245, 183, 0, 0.15);
+    border-color: rgba(245, 183, 0, 0.4);
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .key-metrics {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .metric {
+      width: 100%;
+    }
+    
+    .toggle-options {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, chartType, categories, allocations, colors, totalFunding, chartTypeToggleId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initFundingAllocationChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initFundingAllocationChart);
+    }
+    
+    // Initialize chart type toggle
+    const chartTypeRadios = document.querySelectorAll(`#${chartTypeToggleId} input[type="radio"]`);
+    
+    chartTypeRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        updateChartType();
+      });
+    });
+    
+    // Function to update chart type
+    function updateChartType() {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      const selectedType = document.querySelector(`#${chartTypeToggleId} input[name="chartType"]:checked`).value;
+      
+      // Update chart options
+      chart.updateOptions({
+        chart: {
+          type: selectedType
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: selectedType === 'donut' ? '55%' : '0%'
+            }
+          }
+        }
+      });
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${chartId}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Chart type changed to ${selectedType}`;
+      }
+    }
+    
+    // Function to initialize the chart
+    function initFundingAllocationChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareFundingData',
+        categories,
+        allocations,
+        colors,
+        totalFunding
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'fundingDataReady') {
+          const chartData = e.data.chartData;
+          renderChart(chartData);
+          updateMetrics(chartData);
+          populateDataTable(chartData);
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions(chartType) : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: chartType,
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: false,
+                zoom: false,
+                zoomin: false,
+                zoomout: false,
+                pan: false,
+                reset: true
+              }
+            }
+          },
+          series: chartData.series,
+          labels: chartData.labels,
+          colors: chartData.colors,
+          legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            formatter: function(seriesName, opts) {
+              return `${seriesName}: ${opts.w.globals.series[opts.seriesIndex]}%`;
+            }
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: chartType === 'donut' ? '55%' : '0%',
+                labels: {
+                  show: true,
+                  name: {
+                    show: true
+                  },
+                  value: {
+                    show: true,
+                    formatter: function(val) {
+                      return val + '%';
+                    }
+                  },
+                  total: {
+                    show: true,
+                    label: 'Total Funding',
+                    formatter: function() {
+                      return '$' + chartData.totalFunding + 'M';
+                    }
+                  }
+                }
+              },
+              expandOnClick: true
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function(val) {
+              return val.toFixed(1) + '%';
+            },
+            style: {
+              fontSize: '14px',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 'bold'
+            },
+            dropShadow: {
+              enabled: true,
+              blur: 3,
+              opacity: 0.5
+            }
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                return val + '%';
+              }
+            },
+            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+              const percentage = series[seriesIndex];
+              const category = w.globals.labels[seriesIndex];
+              const amount = (percentage / 100 * chartData.totalFunding).toFixed(1);
+              
+              return `
+                <div class="custom-tooltip">
+                  <div class="tooltip-category" style="font-weight: bold; font-size: 14px; margin-bottom: 5px;">
+                    ${category}
+                  </div>
+                  <div class="tooltip-percentage" style="font-size: 16px; margin-bottom: 8px;">
+                    ${percentage}% of total funding
+                  </div>
+                  <div class="tooltip-amount" style="font-size: 14px;">
+                    $${amount}M of $${chartData.totalFunding}M
+                  </div>
+                </div>
+              `;
+            }
+          },
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  height: 300
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }
+          ]
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance for later reference
+        window[`${chartId}-instance`] = chart;
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Funding allocation chart loaded. Use arrow keys to navigate between data points.';
+        }
+      }
+      
+      // Function to update key metrics
+      function updateMetrics(chartData) {
+        // Update total funding
+        const totalFundingElement = document.getElementById('total-funding-value');
+        if (totalFundingElement) {
+          totalFundingElement.textContent = `$${chartData.totalFunding}M`;
+        }
+        
+        // Update largest allocation
+        const largestAllocationElement = document.getElementById('largest-allocation-value');
+        if (largestAllocationElement) {
+          const { category, percentage } = chartData.metrics.largestAllocation;
+          largestAllocationElement.textContent = `${category} (${percentage}%)`;
+        }
+        
+        // Update allocation ratio
+        const allocationRatioElement = document.getElementById('allocation-ratio-value');
+        if (allocationRatioElement) {
+          allocationRatioElement.textContent = `${chartData.metrics.ratio}x`;
+        }
+      }
+      
+      // Function to populate data table
+      function populateDataTable(chartData) {
+        const tableBody = document.getElementById('funding-table-body');
+        if (!tableBody) return;
+        
+        // Clear existing rows
+        tableBody.innerHTML = '';
+        
+        // Add rows for each category
+        chartData.labels.forEach((category, index) => {
+          const percentage = chartData.series[index];
+          const amount = (percentage / 100 * chartData.totalFunding).toFixed(1);
+          
+          const row = document.createElement('tr');
+          
+          // Create category cell with color indicator
+          const categoryCell = document.createElement('td');
+          categoryCell.innerHTML = `
+            <div style="display: flex; align-items: center;">
+              <span style="display: inline-block; width: 12px; height: 12px; background-color: ${chartData.colors[index]}; margin-right: 8px; border-radius: 2px;"></span>
+              ${category}
+            </div>
+          `;
+          
+          // Create percentage cell
+          const percentageCell = document.createElement('td');
+          percentageCell.textContent = `${percentage}%`;
+          
+          // Create amount cell
+          const amountCell = document.createElement('td');
+          amountCell.textContent = `$${amount}M`;
+          
+          // Add cells to row
+          row.appendChild(categoryCell);
+          row.appendChild(percentageCell);
+          row.appendChild(amountCell);
+          
+          // Add row to table
+          tableBody.appendChild(row);
+        });
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: chartType,
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          stroke: {
+            width: 2,
+            colors: ['transparent']
+          }
+        };
+      }
+    }
+  });
+</script>

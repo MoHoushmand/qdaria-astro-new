@@ -1,0 +1,144 @@
+/**
+ * CHART RESPONSIVE FIXES 
+ * Dedicated styles to improve chart rendering across different screen sizes
+ */
+
+/* Ensure chart containers have correct sizing */
+.chart-container {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  overflow: hidden;
+}
+
+/* Apply minimum height to chart SVG */
+.chart-container svg {
+  min-height: 350px !important;
+  width: 100% !important;
+}
+
+/* Special handling for ApexCharts */
+.apexcharts-canvas {
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+/* Hide any loading indicators */
+.apex-chart-container .loading-element,
+.chart-placeholder::before,
+[class*="chart"] .loading-element,
+.apexcharts-loading,
+.apexcharts-legend-marker {
+  display: none !important;
+}
+
+/* Mobile optimizations */
+@media screen and (max-width: 768px) {
+  .chart-container {
+    min-height: 300px !important;
+  }
+  
+  .chart-title {
+    font-size: 1.2rem !important;
+  }
+  
+  .chart-description {
+    font-size: 0.9rem !important;
+    max-width: 100% !important;
+  }
+  
+  /* Scale down table for mobile */
+  .chart-data-table-content {
+    font-size: 0.8rem !important;
+  }
+  
+  .chart-data-table-content th,
+  .chart-data-table-content td {
+    padding: 6px 8px !important;
+  }
+  
+  /* Control positioning for small screens */
+  .chart-controls {
+    top: 10px !important;
+    right: 10px !important;
+    gap: 4px !important;
+  }
+  
+  .chart-control-btn {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  
+  /* Scenario tabs responsive layout */
+  .scenario-tabs {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 5px !important;
+  }
+  
+  .scenario-tab {
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Fixed for nuclear-injected SVG charts */
+.nuclear-fixed {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 350px !important;
+}
+
+.nuclear-fixed-wrapper {
+  padding: 1rem !important;
+}
+
+/* Targeting specific chart types for better rendering */
+.area-chart .chart-container,
+.line-chart .chart-container {
+  min-height: 400px !important;
+}
+
+.radar-chart .chart-container {
+  min-height: 450px !important;
+}
+
+.timeline-chart .chart-container {
+  min-height: 500px !important;
+}
+
+.mixed-chart .chart-container {
+  min-height: 500px !important;
+}
+
+.treemap-chart .chart-container {
+  min-height: 450px !important;
+}
+
+/* $1 Trillion milestone annotations - ensure visibility */
+[class*="milestone-text"],
+[class*="milestone"] + text,
+text[fill="#65ff00"] {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fix for chart data tables to always be visible */
+.chart-data-table.visible {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fix for tooltip text readability */
+.apexcharts-tooltip,
+.apexcharts-tooltip-title,
+.apexcharts-tooltip-text,
+.apexcharts-tooltip-y-group {
+  color: #fff !important;
+  background: rgba(15, 23, 42, 0.9) !important;
+  border-color: rgba(100, 116, 139, 0.3) !important;
+}

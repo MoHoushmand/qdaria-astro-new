@@ -1,0 +1,821 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number | string;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  showDataTable?: boolean;
+  showControls?: boolean;
+  years?: number[];
+  scenarios?: {
+    [key: string]: number[];
+  };
+  scenarioColors?: string[];
+  defaultScenario?: string;
+}
+
+const { 
+  id = `market-size-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "Global Quantum Computing Market Size Projections", 
+  description = "Projected global quantum computing market size, 2025–2035. The industry is expected to grow from under $2B in 2025 to over $1.6T by 2035.",
+  className = "",
+  height = 500,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  showDataTable = true,
+  showControls = true,
+  years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+  scenarios = {
+    "Conservative ($B)": [2.5, 5.8, 12.4, 24.7, 45.3, 78.6, 132.5, 215.8, 342.7, 598.4, 980.5],
+    "Base Case ($B)": [3.2, 7.5, 16.8, 32.4, 59.7, 103.5, 178.2, 298.6, 487.3, 795.2, 1300.0],
+    "Optimistic ($B)": [4.1, 9.8, 22.5, 43.2, 79.6, 142.8, 248.5, 425.3, 698.2, 1050.6, 1650.0]
+  },
+  scenarioColors = ["#7B61FF", "#04a3ff", "#00FFD3"],
+  defaultScenario = "Base Case ($B)"
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const tabsId = `${chartId}-tabs`;
+const scaleToggleId = `${chartId}-scale-toggle`;
+const cagrId = `${chartId}-cagr`;
+
+// Worker path for data processing
+const workerPath = "/charts/marketSizeWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+  showDataTable={showDataTable}
+>
+  <!-- Scenario Selection Tabs -->
+  <div class="scenario-tabs" id={tabsId}>
+    <div class="tabs-header">
+      <button class="tab-btn active" data-scenario="all">All Scenarios</button>
+      {Object.keys(scenarios).map((scenario) => (
+        <button class="tab-btn" data-scenario={scenario} style={`--scenario-color: ${scenarioColors[Object.keys(scenarios).indexOf(scenario)]}`}>
+          {scenario.replace(" ($B)", "")}
+        </button>
+      ))}
+    </div>
+  </div>
+  
+  {showControls && (
+    <div class="chart-controls">
+      <!-- Scale Toggle -->
+      <div class="scale-toggle" id={scaleToggleId}>
+        <span class="scale-label">Scale: </span>
+        <button class="scale-btn active" data-scale="logarithmic">Logarithmic</button>
+        <button class="scale-btn" data-scale="linear">Linear</button>
+      </div>
+    </div>
+  )}
+  
+  <!-- CAGR Display -->
+  <div class="cagr-display" id={cagrId}>
+    <!-- CAGR values will be populated by JavaScript -->
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Year</th>
+        {Object.keys(scenarios).map((scenario) => (
+          <th colspan="2" style={`--scenario-color: ${scenarioColors[Object.keys(scenarios).indexOf(scenario)]}`}>
+            {scenario.replace(" ($B)", "")}
+          </th>
+        ))}
+      </tr>
+      <tr>
+        <th></th>
+        {Object.keys(scenarios).map(() => (
+          <>
+            <th>Value</th>
+            <th>YoY Growth</th>
+          </>
+        ))}
+      </tr>
+    </thead>
+    <tbody id={`${dataTableId}-body`}>
+      <!-- Table body will be populated by JavaScript -->
+      <tr>
+        <td colspan={Object.keys(scenarios).length * 2 + 1} class="loading-placeholder">
+          Loading market data...
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>CAGR</th>
+        {Object.keys(scenarios).map(() => (
+          <>
+            <td colspan="2" class="cagr-cell">-</td>
+          </>
+        ))}
+      </tr>
+    </tfoot>
+  </table>
+  
+  <!-- Fallback SVG for critical accessibility/SEO -->
+  <div slot="fallback" class="fallback-container">
+    <p>Market size projections from 2025 to 2035 show exponential growth:</p>
+    <ul>
+      <li>Conservative scenario: $2.5B in 2025 to $980.5B in 2035</li>
+      <li>Base case scenario: $3.2B in 2025 to $1.3T in 2035</li>
+      <li>Optimistic scenario: $4.1B in 2025 to $1.65T in 2035</li>
+    </ul>
+    <p>$1 Trillion milestone is expected to be reached between 2033-2035 depending on scenario.</p>
+  </div>
+</ApexChartWrapper>
+
+<style>
+  .scenario-tabs {
+    margin-bottom: 1rem;
+  }
+  
+  .tabs-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  
+  .tab-btn {
+    background: rgba(var(--scenario-color, rgb(4, 163, 255)), 0.1);
+    border: 1px solid rgba(var(--scenario-color, rgb(4, 163, 255)), 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+  }
+  
+  .tab-btn:hover {
+    background: rgba(var(--scenario-color, rgb(4, 163, 255)), 0.3);
+    transform: translateY(-2px);
+  }
+  
+  .tab-btn.active {
+    background: var(--scenario-color, rgba(4, 163, 255, 0.5));
+    border-color: var(--scenario-color, rgba(4, 163, 255, 0.8));
+    box-shadow: 0 0 10px rgba(var(--scenario-color, rgb(4, 163, 255)), 0.5);
+  }
+  
+  /* Chart controls */
+  .chart-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+  
+  .scale-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.3rem 0.5rem;
+    border-radius: 1rem;
+  }
+  
+  .scale-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .scale-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  .scale-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .scale-btn.active {
+    color: white;
+    background: rgba(4, 163, 255, 0.5);
+  }
+  
+  /* CAGR Display */
+  .cagr-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 0.5rem 0 1.5rem;
+  }
+  
+  .cagr-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    border-left: 3px solid var(--scenario-color);
+  }
+  
+  .cagr-value {
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.2);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content th[colspan] {
+    background: var(--scenario-color, rgba(4, 163, 255, 0.3));
+  }
+  
+  .chart-data-table-content th:first-child, 
+  .chart-data-table-content td:first-child {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    background: rgba(2, 6, 23, 0.9);
+    z-index: 1;
+  }
+  
+  .chart-data-table-content tr:hover td {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  .chart-data-table-content tr:hover td:first-child {
+    background: rgba(4, 163, 255, 0.2);
+  }
+  
+  .positive-growth {
+    color: #00e396;
+  }
+  
+  .negative-growth {
+    color: #ff4560;
+  }
+  
+  .cagr-cell {
+    font-weight: bold;
+    color: #00e396;
+  }
+  
+  .loading-placeholder {
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .fallback-container {
+    padding: 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .fallback-container ul {
+    margin-left: 1.5rem;
+  }
+  
+  .fallback-container li {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Milestone year tags */
+  .milestone-year {
+    position: relative;
+  }
+  
+  .milestone-year::after {
+    content: "💎";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 12px;
+  }
+  
+  @media (max-width: 768px) {
+    .tabs-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .chart-controls {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, years, scenarios, scenarioColors, defaultScenario, tabsId, scaleToggleId, cagrId, dataTableId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initMarketSizeChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initMarketSizeChart);
+    }
+    
+    // Initialize scenario tabs
+    const tabButtons = document.querySelectorAll(`#${tabsId} .tab-btn`);
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update chart based on selected scenario
+        const scenario = btn.getAttribute('data-scenario');
+        updateChartScenario(scenario);
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Showing ${scenario === 'all' ? 'all scenarios' : scenario} data`;
+        }
+      });
+    });
+    
+    // Initialize scale toggle if it exists
+    const scaleToggle = document.getElementById(scaleToggleId);
+    if (scaleToggle) {
+      const scaleButtons = scaleToggle.querySelectorAll('.scale-btn');
+      scaleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          scaleButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          // Update chart scale
+          const scale = btn.getAttribute('data-scale');
+          updateChartScale(scale);
+          
+          // Announce to screen readers
+          const announcer = document.getElementById(`${chartId}-announcements`);
+          if (announcer) {
+            announcer.textContent = `Changed to ${scale} scale`;
+          }
+        });
+      });
+    }
+    
+    // Function to initialize the chart
+    function initMarketSizeChart() {
+      try {
+        console.log(`Initializing market size chart: ${chartId}`);
+        // Create a worker for data processing
+        const worker = new Worker(workerPath);
+        
+        // Send data to worker for processing
+        worker.postMessage({
+          action: 'prepareData',
+          years,
+          scenarios,
+          scenarioColors
+        });
+        
+        // Handle worker response
+        worker.onmessage = function(e) {
+          if (e.data.action === 'dataReady') {
+            const chartData = e.data.chartData;
+            renderChart(chartData);
+            updateDataTable(chartData);
+            updateCAGRDisplay(chartData.cagr);
+          } else if (e.data.action === 'error') {
+            console.error('Worker error:', e.data.error);
+            showFallbackContent();
+          }
+        };
+        
+        worker.onerror = function(error) {
+          console.error('Worker error:', error);
+          showFallbackContent();
+        };
+      } catch (error) {
+        console.error('Error initializing chart:', error);
+        showFallbackContent();
+      }
+      
+      // Function to show fallback content if chart initialization fails
+      function showFallbackContent() {
+        const chartElement = document.getElementById(`${chartId}-chart`);
+        const fallbackElement = document.querySelector(`#${chartId} [slot="fallback"]`);
+        
+        if (chartElement && fallbackElement) {
+          chartElement.innerHTML = '';
+          chartElement.appendChild(fallbackElement.cloneNode(true));
+          fallbackElement.style.display = 'block';
+        }
+      }
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        try {
+          // Get chart options from utilities or create default options
+          let options = window.chartUtils ? 
+            window.chartUtils.getDefaultChartOptions('area') : 
+            getDefaultOptions();
+          
+          // Update options with chart-specific settings
+          options = {
+            ...options,
+            chart: {
+              ...options.chart,
+              type: 'area',
+              stacked: false,
+              fontFamily: 'Inter, system-ui, sans-serif',
+              background: 'transparent',
+              foreColor: '#ffffff',
+              height: typeof height === 'number' ? height : parseInt(height) || 500,
+              zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+              },
+              toolbar: {
+                show: true,
+                tools: {
+                  download: true,
+                  selection: true,
+                  zoom: true,
+                  zoomin: true,
+                  zoomout: true,
+                  pan: true,
+                  reset: true
+                }
+              },
+              animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: {
+                  enabled: true,
+                  delay: 150
+                }
+              }
+            },
+            dataLabels: {
+              enabled: false
+            },
+            series: chartData.series,
+            colors: scenarioColors,
+            fill: {
+              type: 'gradient',
+              gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.7,
+                opacityTo: 0.2,
+                stops: [0, 90, 100]
+              }
+            },
+            stroke: {
+              curve: 'smooth',
+              width: 3
+            },
+            markers: {
+              size: 4,
+              hover: {
+                size: 6
+              }
+            },
+            xaxis: {
+              type: 'category',
+              categories: chartData.xaxis.categories,
+              axisBorder: {
+                show: true,
+                color: 'rgba(255, 255, 255, 0.2)'
+              },
+              axisTicks: {
+                show: true,
+                color: 'rgba(255, 255, 255, 0.2)'
+              }
+            },
+            yaxis: {
+              title: {
+                text: 'Market Size (Billions/Trillions USD)',
+                style: {
+                  fontSize: '12px'
+                }
+              },
+              logarithmic: true,
+              labels: {
+                formatter: function(val) {
+                  if (val >= 1000) {
+                    return `$${(val/1000).toFixed(1)}T`;
+                  }
+                  return `$${val.toFixed(0)}B`;
+                }
+              }
+            },
+            tooltip: {
+              shared: true,
+              intersect: false,
+              y: {
+                formatter: function(val) {
+                  if (val >= 1000) {
+                    return `$${(val/1000).toFixed(1)} trillion`;
+                  }
+                  return `$${val.toFixed(1)} billion`;
+                }
+              }
+            },
+            grid: {
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              row: {
+                colors: ['transparent', 'rgba(255, 255, 255, 0.03)']
+              },
+              column: {
+                colors: ['transparent', 'transparent']
+              },
+              xaxis: {
+                lines: {
+                  show: true,
+                  opacity: 0.1
+                }
+              },
+              yaxis: {
+                lines: {
+                  show: true,
+                  opacity: 0.1
+                }
+              }
+            },
+            legend: {
+              position: 'top',
+              horizontalAlign: 'center',
+              fontWeight: 500,
+              markers: {
+                radius: 3
+              },
+              itemMargin: {
+                horizontal: 10,
+                vertical: 5
+              }
+            },
+            annotations: chartData.annotations || {
+              yaxis: [
+                {
+                  y: 1000,
+                  borderColor: '#00E396',
+                  strokeDashArray: 5,
+                  label: {
+                    borderColor: '#00E396',
+                    style: {
+                      color: '#fff',
+                      background: '#00E396',
+                      fontSize: '12px'
+                    },
+                    text: '$1 Trillion Milestone'
+                  }
+                }
+              ]
+            }
+          };
+          
+          try {
+            console.log("Creating ApexCharts instance with options:", options);
+            // Create the chart
+            const chart = new ApexCharts(document.getElementById(`${chartId}-chart`), options);
+            chart.render();
+            console.log("Chart rendered successfully");
+            
+            // Store chart instance for later reference
+            window[`${chartId}-instance`] = chart;
+            
+            // Announce to screen readers
+            const announcer = document.getElementById(`${chartId}-announcements`);
+            if (announcer) {
+              announcer.textContent = 'Market size projections chart loaded. Use arrow keys to navigate between data points.';
+            }
+          } catch (error) {
+            console.error("Error rendering chart:", error);
+            showFallbackContent();
+          }
+        } catch (error) {
+          console.error("Error setting up chart options:", error);
+          showFallbackContent();
+        }
+      }
+      
+      // Function to update chart scale (logarithmic or linear)
+      function updateChartScale(scale) {
+          const chart = window[`${chartId}-instance`];
+          if (!chart) return;
+          
+          chart.updateOptions({
+            yaxis: {
+              logarithmic: scale === 'logarithmic',
+              title: {
+                text: 'Market Size (Billions/Trillions USD)'
+              },
+              labels: {
+                formatter: function(val) {
+                  if (val >= 1000) {
+                    return `$${(val/1000).toFixed(1)}T`;
+                  }
+                  return `$${val.toFixed(0)}B`;
+                }
+              }
+            }
+          });
+        }
+        
+        // Function to update data table
+        function updateDataTable(chartData) {
+          const tableBody = document.getElementById(`${dataTableId}-body`);
+          if (!tableBody) return;
+          
+          // Clear existing content
+          tableBody.innerHTML = '';
+          
+          // Get scenario names
+          const scenarioNames = chartData.scenarios;
+          
+          // Add rows for each year
+          chartData.tableData.forEach((rowData, index) => {
+            const row = document.createElement('tr');
+            
+            // Year column
+            const yearCell = document.createElement('td');
+            yearCell.textContent = rowData.year;
+            
+            // Mark the year where a scenario reaches $1T
+            let isMilestoneYear = false;
+            scenarioNames.forEach(scenarioName => {
+              if (chartData.milestones && 
+                  chartData.milestones[scenarioName] && 
+                  chartData.milestones[scenarioName].trillion && 
+                  chartData.milestones[scenarioName].trillion.year === rowData.year) {
+                isMilestoneYear = true;
+              }
+            });
+            
+            if (isMilestoneYear) {
+              yearCell.classList.add('milestone-year');
+            }
+            
+            row.appendChild(yearCell);
+            
+            // Scenario value and growth columns
+            scenarioNames.forEach(scenarioName => {
+              // Value column
+              const valueCell = document.createElement('td');
+              const value = rowData[scenarioName];
+              valueCell.textContent = value >= 1000 ? 
+                `$${(value/1000).toFixed(1)}T` : 
+                `$${value.toFixed(1)}B`;
+              row.appendChild(valueCell);
+              
+              // Growth column
+              const growthCell = document.createElement('td');
+              const growthKey = `${scenarioName}_growth`;
+              if (rowData[growthKey] !== undefined) {
+                const growth = rowData[growthKey];
+                growthCell.textContent = `${growth.toFixed(1)}%`;
+                growthCell.classList.add(growth >= 0 ? 'positive-growth' : 'negative-growth');
+              } else {
+                growthCell.textContent = '-';
+              }
+              row.appendChild(growthCell);
+            });
+            
+            tableBody.appendChild(row);
+          });
+          
+          // Update CAGR values in the footer
+          const cagrCells = document.querySelectorAll(`#${dataTableId} .cagr-cell`);
+          scenarioNames.forEach((scenarioName, index) => {
+            if (cagrCells[index] && chartData.cagr && chartData.cagr[scenarioName]) {
+              cagrCells[index].textContent = `${chartData.cagr[scenarioName].toFixed(1)}%`;
+            }
+          });
+        }
+        
+        // Function to update CAGR display
+        function updateCAGRDisplay(cagrData) {
+          const cagrDisplay = document.getElementById(cagrId);
+          if (!cagrDisplay || !cagrData) return;
+          
+          // Clear existing content
+          cagrDisplay.innerHTML = '';
+          
+          // Add CAGR items for each scenario
+          Object.keys(cagrData).forEach((scenarioName, index) => {
+            const cagrItem = document.createElement('div');
+            cagrItem.className = 'cagr-item';
+            cagrItem.style.setProperty('--scenario-color', scenarioColors[index]);
+            
+            const cagrLabel = document.createElement('span');
+            cagrLabel.className = 'cagr-label';
+            cagrLabel.textContent = `${scenarioName.replace(" ($B)", "")} CAGR:`;
+            
+            const cagrValue = document.createElement('span');
+            cagrValue.className = 'cagr-value';
+            cagrValue.textContent = `${cagrData[scenarioName].toFixed(1)}%`;
+            
+            cagrItem.appendChild(cagrLabel);
+            cagrItem.appendChild(cagrValue);
+            cagrDisplay.appendChild(cagrItem);
+          });
+        }
+        
+        // Default options if chartUtils is not available
+        function getDefaultOptions() {
+          return {
+            chart: {
+              type: 'area',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              background: 'transparent',
+              foreColor: '#ffffff',
+              toolbar: {
+                show: true
+              }
+            },
+            colors: scenarioColors,
+            grid: {
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              strokeDashArray: 3
+            },
+            tooltip: {
+              enabled: true,
+              theme: 'dark'
+            },
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: 'smooth',
+              width: 3
+            },
+            fill: {
+              type: 'gradient',
+              gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.7,
+                opacityTo: 0.2,
+                stops: [0, 90, 100]
+              }
+            }
+          };
+        }
+      }
+      
+      // Function to update chart based on selected scenario
+      function updateChartScenario(scenarioName) {
+        const chart = window[`${chartId}-instance`];
+        if (!chart) return;
+        
+        if (scenarioName === 'all') {
+          // Show all series
+          Object.keys(scenarios).forEach(scenario => {
+            chart.showSeries(scenario);
+          });
+        } else {
+          // Hide all series first
+          Object.keys(scenarios).forEach(scenario => {
+            chart.hideSeries(scenario);
+          });
+          
+          // Then show only the selected one
+          chart.showSeries(scenarioName);
+        }
+      }
+    });
+  </script>

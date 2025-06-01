@@ -1,0 +1,166 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Get the Business Plan content
+const businessPlan = await getEntry("otherPages", "en/business-plan");
+
+// Default frontmatter if entry not found
+const defaultFrontmatter = {
+  title: "QDaria Business Plan - Fallback Version",
+  description: "A simplified fallback version of the QDaria business plan without interactive charts"
+};
+
+let Content;
+if (businessPlan) {
+  const rendered = await businessPlan.render();
+  Content = rendered.Content;
+}
+---
+
+<BaseLayout title={businessPlan?.data?.title || defaultFrontmatter.title} description={businessPlan?.data?.description || defaultFrontmatter.description}>
+  <main class="relative bg-dark-bg" id="business-plan-content">
+    <div class="business-plan-header py-12 px-6 bg-gradient-to-r from-indigo-950 to-slate-900">
+      <div class="mx-auto max-w-7xl">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <span class="bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent">
+            QDaria Business Plan (Fallback Version)
+          </span>
+        </h1>
+        <div class="flex flex-wrap gap-4 items-center mb-6">
+          <a href="/business-plan" class="flex items-center gap-2 bg-indigo-700 hover:bg-indigo-600 text-white py-2 px-4 rounded-md transition-colors">
+            Try Full Version
+          </a>
+          <div class="text-zinc-300 text-sm">Last Updated: March 2025</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 py-8">
+      <div class="prose prose-invert max-w-none">
+        {businessPlan && <Content />}
+        
+        {!businessPlan && (
+          <div class="text-center py-20">
+            <h2 class="text-2xl font-bold mb-4">Business Plan Content Not Found</h2>
+            <p>We're sorry, but the business plan content could not be loaded.</p>
+          </div>
+        )}
+      </div>
+      
+      <!-- Simplified static data tables instead of charts -->
+      <div class="my-12 p-6 bg-slate-800/60 backdrop-blur-sm rounded-lg">
+        <h2 class="text-2xl font-bold mb-6 text-white">Market Growth Data (Static Table)</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-white">
+            <thead>
+              <tr>
+                <th class="border border-gray-600 px-4 py-2 text-left">Year</th>
+                <th class="border border-gray-600 px-4 py-2 text-right">Conservative Case ($B)</th>
+                <th class="border border-gray-600 px-4 py-2 text-right">Base Case ($B)</th>
+                <th class="border border-gray-600 px-4 py-2 text-right">Optimistic Case ($B)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">2025</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">2.1</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">3.2</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">4.5</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">2027</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">8.5</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">12.7</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">18.2</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">2030</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">45.3</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">76.1</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">112.4</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">2035</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">243.8</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">624.5</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">1026.7</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="my-12 p-6 bg-slate-800/60 backdrop-blur-sm rounded-lg">
+        <h2 class="text-2xl font-bold mb-6 text-white">Competitor Analysis (Static Table)</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-white">
+            <thead>
+              <tr>
+                <th class="border border-gray-600 px-4 py-2 text-left">Company</th>
+                <th class="border border-gray-600 px-4 py-2 text-right">R&D Strength</th>
+                <th class="border border-gray-600 px-4 py-2 text-right">Market Share</th>
+                <th class="border border-gray-600 px-4 py-2 text-right">Funding ($M)</th>
+                <th class="border border-gray-600 px-4 py-2 text-right">Tech Maturity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">IBM Quantum</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">92</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">28%</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">1000+</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">87</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">Google Quantum AI</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">95</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">22%</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">900+</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">85</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">IonQ</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">78</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">12%</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">84</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">76</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-600 px-4 py-2">QDaria</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">65</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">1%</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">1</td>
+                <td class="border border-gray-600 px-4 py-2 text-right">42</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .prose {
+    @apply prose-invert prose-headings:text-white prose-a:text-primary-400 hover:prose-a:text-primary-300;
+  }
+  
+  .prose h2 {
+    @apply text-4xl font-bold mt-24 mb-12 pb-6;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .prose h3 {
+    @apply text-2xl font-bold mt-16 mb-8 pl-0;
+    position: relative;
+    z-index: 9;
+  }
+  
+  .prose h4 {
+    @apply text-xl font-semibold mt-12 mb-6 pl-0;
+    position: relative;
+    z-index: 8;
+  }
+</style>

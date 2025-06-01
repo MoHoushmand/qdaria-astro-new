@@ -1,0 +1,535 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  years?: number[];
+  ebitda?: number[];
+  revenue?: number[];
+  costs?: number[];
+  colors?: string[];
+  showBreakeven?: boolean;
+  showRevenueCosts?: boolean;
+}
+
+const { 
+  id = `profitability-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "QDaria Profitability Projections", 
+  description = "EBITDA projections showing profitability trajectory and breakeven point.",
+  className = "",
+  height = 500,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  showBreakeven = true,
+  showRevenueCosts = true,
+  colors = ['#04a3ff', '#00FFD3', '#FF6B6B'],
+  years = [2025, 2026, 2027, 2028, 2029, 2030],
+  ebitda = [-20, -15, -5, 25, 60, 100],
+  revenue = [10, 25, 55, 95, 150, 220],
+  costs = [30, 40, 60, 70, 90, 120]
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const seriesToggleId = `${chartId}-series-toggle`;
+
+// Worker path for data processing
+const workerPath = "/charts/profitabilityWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- Series Toggle Controls -->
+  {showRevenueCosts && (
+    <div class="series-toggle" id={seriesToggleId}>
+      <div class="toggle-label">Show:</div>
+      <div class="toggle-options">
+        <label class="toggle-option">
+          <input type="checkbox" value="EBITDA" checked data-color={colors[0]} />
+          <span class="toggle-label">EBITDA</span>
+        </label>
+        <label class="toggle-option">
+          <input type="checkbox" value="Revenue" checked data-color={colors[1]} />
+          <span class="toggle-label">Revenue</span>
+        </label>
+        <label class="toggle-option">
+          <input type="checkbox" value="Costs" checked data-color={colors[2]} />
+          <span class="toggle-label">Costs</span>
+        </label>
+      </div>
+    </div>
+  )}
+  
+  <!-- Chart container -->
+  <div class="profitability-chart-container">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Key Metrics -->
+  <div class="key-metrics">
+    <div class="metric final-ebitda">
+      <div class="metric-label">Final EBITDA (2030)</div>
+      <div class="metric-value">+$100M</div>
+    </div>
+    <div class="metric breakeven">
+      <div class="metric-label">Breakeven Year</div>
+      <div class="metric-value">2028</div>
+    </div>
+    <div class="metric growth-rate">
+      <div class="metric-label">Annual Growth</div>
+      <div class="metric-value">+24M/year</div>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>EBITDA</th>
+        {showRevenueCosts && (
+          <>
+            <th>Revenue</th>
+            <th>Costs</th>
+            <th>EBITDA Margin</th>
+          </>
+        )}
+      </tr>
+    </thead>
+    <tbody>
+      {years.map((year, index) => {
+        const ebitdaValue = ebitda[index] || 0;
+        const revenueValue = revenue[index] || 0;
+        const costsValue = costs[index] || 0;
+        const margin = revenueValue > 0 ? (ebitdaValue / revenueValue) * 100 : 0;
+        
+        return (
+          <tr>
+            <td>{year}</td>
+            <td class={ebitdaValue >= 0 ? "positive" : "negative"}>
+              {ebitdaValue >= 0 ? "+" : ""}{ebitdaValue}M
+            </td>
+            {showRevenueCosts && (
+              <>
+                <td>${revenueValue}M</td>
+                <td>${costsValue}M</td>
+                <td class={margin >= 0 ? "positive" : "negative"}>
+                  {margin.toFixed(1)}%
+                </td>
+              </>
+            )}
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .series-toggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .toggle-label {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .toggle-options {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .toggle-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .toggle-option input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  /* Chart Container */
+  .profitability-chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Key Metrics */
+  .key-metrics {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .metric {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+    min-width: 150px;
+  }
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .final-ebitda {
+    background: rgba(4, 163, 255, 0.15);
+    border-color: rgba(4, 163, 255, 0.4);
+  }
+  
+  .breakeven {
+    background: rgba(0, 255, 211, 0.15);
+    border-color: rgba(0, 255, 211, 0.4);
+  }
+  
+  .growth-rate {
+    background: rgba(245, 183, 0, 0.15);
+    border-color: rgba(245, 183, 0, 0.4);
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  .positive {
+    color: #00FFD3;
+  }
+  
+  .negative {
+    color: #FF6B6B;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .key-metrics {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .metric {
+      width: 100%;
+    }
+    
+    .toggle-options {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, years, ebitda, revenue, costs, colors, seriesToggleId, showRevenueCosts, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initProfitabilityChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initProfitabilityChart);
+    }
+    
+    // Initialize series toggle checkboxes
+    if (showRevenueCosts) {
+      const seriesCheckboxes = document.querySelectorAll(`#${seriesToggleId} input[type="checkbox"]`);
+      
+      seriesCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+          updateSeriesVisibility();
+        });
+      });
+    }
+    
+    // Function to update series visibility
+    function updateSeriesVisibility() {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      const seriesCheckboxes = document.querySelectorAll(`#${seriesToggleId} input[type="checkbox"]`);
+      
+      // Get selected series
+      const selectedSeries = Array.from(seriesCheckboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+      
+      // Map series names to indices
+      const seriesMap = {
+        'EBITDA': 0,
+        'Revenue': 1,
+        'Costs': 2
+      };
+      
+      // Determine which series to show
+      const visibleSeries = selectedSeries.map(name => seriesMap[name]);
+      
+      // Update chart
+      chart.updateSeries(chart.w.globals.initialSeries.filter((_, index) => visibleSeries.includes(index)));
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${chartId}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Showing ${selectedSeries.join(', ')}`;
+      }
+    }
+    
+    // Function to initialize the chart
+    function initProfitabilityChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareData',
+        years,
+        ebitda,
+        revenue: showRevenueCosts ? revenue : null,
+        costs: showRevenueCosts ? costs : null,
+        colors
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'dataReady') {
+          const chartData = e.data.chartData;
+          renderChart(chartData);
+          updateKeyMetrics(chartData);
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('line') : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: 'line',
+            stacked: false,
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              }
+            }
+          },
+          series: chartData.series,
+          colors: chartData.colors,
+          stroke: {
+            width: [4, 3, 3], // Thicker line for EBITDA
+            curve: 'smooth',
+            dashArray: [0, 0, 0]
+          },
+          xaxis: {
+            categories: chartData.years,
+            labels: {
+              formatter: function(val) {
+                return val;
+              }
+            }
+          },
+          yaxis: {
+            title: {
+              text: 'Amount (Millions USD)'
+            },
+            labels: {
+              formatter: function(val) {
+                return val >= 0 ? `+$${val}M` : `-$${Math.abs(val)}M`;
+              }
+            }
+          },
+          tooltip: {
+            y: {
+              formatter: function(val, { seriesIndex }) {
+                const seriesName = chartData.series[seriesIndex].name;
+                if (seriesName === 'EBITDA') {
+                  return val >= 0 ? `+$${val}M` : `-$${Math.abs(val)}M`;
+                } else {
+                  return `$${val}M`;
+                }
+              }
+            }
+          },
+          fill: {
+            opacity: [0.85, 0.25, 0.25],
+            type: ['gradient', 'solid', 'solid']
+          },
+          markers: {
+            size: [6, 4, 4], // Larger markers for EBITDA
+            hover: {
+              size: 8
+            }
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'center'
+          },
+          annotations: chartData.annotations,
+          dataLabels: {
+            enabled: false
+          },
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            row: {
+              colors: ['transparent', 'rgba(255, 255, 255, 0.05)']
+            }
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance for later reference
+        window[`${chartId}-instance`] = chart;
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Profitability chart loaded. Use arrow keys to navigate between data points.';
+        }
+      }
+      
+      // Function to update key metrics
+      function updateKeyMetrics(chartData) {
+        // Update final EBITDA
+        const finalEbitda = chartData.metrics.finalEbitda;
+        const finalEbitdaElement = document.querySelector(`#${chartId} .final-ebitda .metric-value`);
+        if (finalEbitdaElement) {
+          const sign = finalEbitda >= 0 ? '+' : '';
+          finalEbitdaElement.textContent = `${sign}$${finalEbitda}M`;
+          finalEbitdaElement.className = `metric-value ${finalEbitda >= 0 ? 'positive' : 'negative'}`;
+        }
+        
+        // Update breakeven year
+        const breakevenYear = chartData.metrics.breakevenYear;
+        const breakevenElement = document.querySelector(`#${chartId} .breakeven .metric-value`);
+        if (breakevenElement) {
+          breakevenElement.textContent = breakevenYear || 'N/A';
+        }
+        
+        // Update growth rate
+        const cagr = chartData.metrics.cagr;
+        const growthRateElement = document.querySelector(`#${chartId} .growth-rate .metric-value`);
+        if (growthRateElement) {
+          if (cagr !== null) {
+            if (typeof cagr === 'number' && !isNaN(cagr)) {
+              if (ebitda[0] < 0) {
+                // For negative to positive transition, show average annual change
+                const sign = cagr >= 0 ? '+' : '';
+                growthRateElement.textContent = `${sign}${cagr.toFixed(1)}M/year`;
+              } else {
+                // For positive to positive, show percentage CAGR
+                growthRateElement.textContent = `${cagr.toFixed(1)}%`;
+              }
+            } else {
+              growthRateElement.textContent = 'N/A';
+            }
+          } else {
+            growthRateElement.textContent = 'N/A';
+          }
+        }
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: 'line',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          colors: colors,
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            strokeDashArray: 3
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 3,
+            curve: 'smooth'
+          }
+        };
+      }
+    }
+  });
+</script>

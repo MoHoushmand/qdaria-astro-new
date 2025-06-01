@@ -1,0 +1,334 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MarketGrowthChartApex from '../components/qdaria-business-plan/charts/MarketGrowthChartApex.astro';
+import CompetitorRadarChartApex from '../components/qdaria-business-plan/charts/CompetitorRadarChartApex.astro';
+import QuantumHardwareComparisonChartApex from '../components/qdaria-business-plan/charts/QuantumHardwareComparisonChartApex.astro';
+import ForecastScenariosRangeChartApex from '../components/qdaria-business-plan/charts/ForecastScenariosRangeChartApex.astro';
+import SWOTAnalysisChartApex from '../components/qdaria-business-plan/charts/SWOTAnalysisChartApex.astro';
+import RiskAssessmentChartApex from '../components/qdaria-business-plan/charts/RiskAssessmentChartApex.astro';
+import ExecutionRoadmapChartApex from '../components/qdaria-business-plan/charts/ExecutionRoadmapChartApex.astro';
+import RevenueChartApex from '../components/qdaria-business-plan/charts/RevenueChartApex.astro';
+import ProfitabilityChartApex from '../components/qdaria-business-plan/charts/ProfitabilityChartApex.astro';
+import CompetitorStrengthChartApex from '../components/qdaria-business-plan/charts/CompetitorStrengthChartApex.astro';
+import StockPerformanceChartApex from '../components/qdaria-business-plan/charts/StockPerformanceChartApex.astro';
+import FundingAllocationChartApex from '../components/qdaria-business-plan/charts/FundingAllocationChartApex.astro';
+import InvestmentDistributionChartApex from '../components/qdaria-business-plan/charts/InvestmentDistributionChartApex.astro';
+import ROIComparisonChartApex from '../components/qdaria-business-plan/charts/ROIComparisonChartApex.astro';
+import MarketPositioningChartApex from '../components/qdaria-business-plan/charts/MarketPositioningChartApex.astro';
+import RevenueDiversificationChartApex from '../components/qdaria-business-plan/charts/RevenueDiversificationChartApex.astro';
+import FinancialMetricsMixedChartApex from '../components/qdaria-business-plan/charts/FinancialMetricsMixedChartApex.astro';
+import OrganizationalChartApex from '../components/qdaria-business-plan/charts/OrganizationalChartApex.astro';
+import TopologicalTimelineChartApex from '../components/qdaria-business-plan/charts/TopologicalTimelineChartApex.astro';
+
+// Page metadata
+const title = "QDaria Business Plan Chart Test Page";
+const description = "Testing page for all ApexCharts implementations in the QDaria Business Plan";
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="container mx-auto px-4 py-8 bg-dark-navy text-white">
+    <h1 class="text-4xl font-bold mb-8 text-primary-blue text-center">QDaria Business Plan Chart Test Page</h1>
+    
+    <p class="mb-8 max-w-4xl mx-auto">
+      This page displays all ApexCharts implementations used in the QDaria Business Plan. 
+      Use this page to verify chart functionality, accessibility, and appearance.
+      Each chart includes its data table, annotations, and interactive elements.
+    </p>
+    
+    <div class="mb-12 p-4 bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-primary-blue/30 rounded-lg">
+      <h2 class="text-2xl font-bold mb-4 text-primary-cyan">Chart Implementation Summary</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Total ApexCharts implemented: 17</li>
+        <li>Chart types utilized: 15 distinct visualization types</li>
+        <li>Key features: data tables, keyboard navigation, ARIA attributes, scenario selection</li>
+        <li>All charts include the $1 Trillion milestone annotation where applicable</li>
+        <li>All competitor charts now include Microsoft, Quantinuum, and other major players</li>
+        <li>Default view for Market Growth chart is now "Compare All"</li>
+      </ul>
+    </div>
+    
+    <!-- Market Growth Chart Section -->
+    <section id="market-growth" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Market Growth Projection</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <MarketGrowthChartApex 
+          id="market-growth-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Forecast Scenarios Range Chart Section -->
+    <section id="forecast-scenarios" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Market Forecast Scenarios</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <ForecastScenariosRangeChartApex 
+          id="forecast-scenarios-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+
+    <!-- Quantum Hardware Comparison Chart Section -->
+    <section id="hardware-comparison" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Quantum Hardware Comparison</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <QuantumHardwareComparisonChartApex 
+          id="hardware-comparison-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Competitor Strength Chart Section -->
+    <section id="competitor-strength" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Competitor Strength Analysis</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <CompetitorStrengthChartApex 
+          id="competitor-strength-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Competitor Radar Chart Section -->
+    <section id="competitor-radar" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Competitor Radar Analysis</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <CompetitorRadarChartApex 
+          id="competitor-radar-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- SWOT Analysis Chart Section -->
+    <section id="swot-analysis" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">SWOT Analysis</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <SWOTAnalysisChartApex 
+          id="swot-analysis-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Execution Roadmap Chart Section -->
+    <section id="execution-roadmap" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Execution Roadmap</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <ExecutionRoadmapChartApex 
+          id="execution-roadmap-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Revenue Chart Section -->
+    <section id="revenue" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Revenue Projections</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <RevenueChartApex 
+          id="revenue-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Profitability Chart Section -->
+    <section id="profitability" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Profitability Analysis</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <ProfitabilityChartApex 
+          id="profitability-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Risk Assessment Chart Section -->
+    <section id="risk-assessment" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Risk Assessment</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <RiskAssessmentChartApex 
+          id="risk-assessment-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Funding Allocation Chart Section -->
+    <section id="funding-allocation" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Funding Allocation</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <FundingAllocationChartApex 
+          id="funding-allocation-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Investment Distribution Chart Section -->
+    <section id="investment-distribution" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Investment Distribution</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <InvestmentDistributionChartApex 
+          id="investment-distribution-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- ROI Comparison Chart Section -->
+    <section id="roi-comparison" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">ROI Comparison</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <ROIComparisonChartApex 
+          id="roi-comparison-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Market Positioning Chart Section -->
+    <section id="market-positioning" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Market Positioning</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <MarketPositioningChartApex 
+          id="market-positioning-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Revenue Diversification Chart Section -->
+    <section id="revenue-diversification" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Revenue Diversification</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <RevenueDiversificationChartApex 
+          id="revenue-diversification-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Stock Performance Chart Section -->
+    <section id="stock-performance" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Stock Performance</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <StockPerformanceChartApex 
+          id="stock-performance-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Financial Metrics Mixed Chart Section -->
+    <section id="financial-metrics" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Financial Metrics Dashboard</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <FinancialMetricsMixedChartApex 
+          id="financial-metrics-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Organizational Chart Section -->
+    <section id="organizational-chart" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Organizational Structure</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <OrganizationalChartApex 
+          id="organizational-chart-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Topological Timeline Chart Section -->
+    <section id="topological-timeline" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Topological Quantum Computing Timeline</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <TopologicalTimelineChartApex 
+          id="topological-timeline-test" 
+          height="500px"
+        />
+      </div>
+    </section>
+    
+    <!-- Testing Tools -->
+    <section id="testing-tools" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6 text-primary-purple">Testing & Accessibility Tools</h2>
+      <div class="bg-dark-bg-lighter p-6 rounded-lg shadow-lg">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-4 border border-primary-blue/30 rounded-lg">
+            <h3 class="text-xl font-bold mb-3 text-primary-cyan">Keyboard Navigation</h3>
+            <p class="mb-3">Test keyboard accessibility by tabbing through elements:</p>
+            <ul class="list-disc pl-6 space-y-1">
+              <li>Tab to focus on charts</li>
+              <li>Use arrow keys to navigate data points</li>
+              <li>Tab to data table toggles and scenario tabs</li>
+              <li>Space/Enter to activate buttons</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 border border-primary-blue/30 rounded-lg">
+            <h3 class="text-xl font-bold mb-3 text-primary-cyan">Visual Testing</h3>
+            <p class="mb-3">Verify visual elements:</p>
+            <ul class="list-disc pl-6 space-y-1">
+              <li>Chart tooltips appear on hover</li>
+              <li>Data points are clearly visible</li>
+              <li>Annotations for $1T milestone are present</li>
+              <li>Colors maintain proper contrast</li>
+              <li>Font sizes are readable</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 border border-primary-blue/30 rounded-lg">
+            <h3 class="text-xl font-bold mb-3 text-primary-cyan">Screen Reader Testing</h3>
+            <p class="mb-3">Enable your screen reader and verify:</p>
+            <ul class="list-disc pl-6 space-y-1">
+              <li>Chart titles are announced</li>
+              <li>Data tables can be navigated</li>
+              <li>Interactive elements are properly labeled</li>
+              <li>Aria-live regions announce chart updates</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 border border-primary-blue/30 rounded-lg">
+            <h3 class="text-xl font-bold mb-3 text-primary-cyan">Data Verification</h3>
+            <p class="mb-3">Check data accuracy:</p>
+            <ul class="list-disc pl-6 space-y-1">
+              <li>Toggle data tables to verify values</li>
+              <li>Confirm competitor data is complete</li>
+              <li>Verify $1T milestone is properly marked</li>
+              <li>Check that forecasts match business plan text</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .primary-blue {
+    color: #04a3ff;
+  }
+  
+  .primary-purple {
+    color: #7b61ff;
+  }
+  
+  .primary-cyan {
+    color: #00ffd3;
+  }
+  
+  .dark-bg-lighter {
+    background: #0f172a;
+  }
+  
+  .container {
+    max-width: 1400px;
+  }
+</style>

@@ -1,0 +1,52 @@
+/**
+ * NUCLEAR CHART FIX CSS
+ * Aggressive styling to ensure charts and data tables are always visible
+ */
+
+/* Force all chart containers to be visible */
+[id$="Chart"],
+.chart-container,
+.apex-chart-container {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 400px !important;
+}
+
+/* Force all chart elements to be visible */
+[id$="-chart"],
+.chart-visualization {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 350px !important;
+}
+
+/* Force ApexCharts canvas to be visible */
+.apexcharts-canvas {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Force all data tables to be visible */
+[id$="-data-table"],
+.chart-data-table {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Hide all loading indicators */
+.chart-loading,
+.loading-indicator,
+[id$="-loading"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Remove placeholder styling */
+.chart-placeholder {
+  background: none !important;
+}

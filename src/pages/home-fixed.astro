@@ -1,0 +1,512 @@
+---
+import LightningAnimation from "../components/Canvas/LightningAnimation.astro";
+import Nav from "../components/Nav/Nav.astro";
+import Footer from "../components/Footer/Footer.astro";
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QDaria - Leading the Quantum Computing Revolution</title>
+    <meta name="description" content="QDaria is breaking ground through topology, developing the foundations for stable and scalable quantum systems." />
+    <link rel="icon" href="/favicons/favicon.ico" />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Landing Page JavaScript -->
+    <script src="/js/landing-page.js" defer></script>
+  </head>
+  <body class="min-h-screen bg-base-900 font-sans antialiased dark">
+    <Nav />
+    
+    <!-- Hero Section with Lightning Animation -->
+    <section class="hero-section relative min-h-[calc(100vh-3.5rem)] overflow-hidden">
+      <div class="site-container relative z-10 flex min-h-[calc(100vh-3.5rem)] items-center">
+        <div class="hero-content relative z-20 w-full max-w-4xl mx-auto text-center px-4">
+          <div class="mb-16 mt-16 flex justify-center px-4">
+            <img
+              src="/icons/qdaria/QDwordmark3.svg"
+              alt="QDaria"
+              class="w-full max-w-[600px] h-auto md:scale-125 transform transition-transform duration-300"
+            />
+          </div>
+          <h1 class="hero-title mb-8 text-6xl font-bold leading-tight tracking-tight bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent lg:text-7xl">
+            Pioneering Quantum in The Heart of Norway
+          </h1>
+          <p class="hero-description mb-12 max-w-2xl text-xl text-base-400 mx-auto">
+            QDaria is breaking ground through topology - the fingerprints of nature - Fibonacci sequences, developing the foundations for stable and scalable quantum systems. Our research in quantum error correction and topological quantum computing is paving the way for practical quantum applications that will transform industries and solve complex computational challenges.
+          </p>
+
+          <div class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div class="stat-card">
+              <div class="text-gradient-blue mb-2 text-4xl font-bold">99.999%</div>
+              <div class="text-base-400">Qubit Fidelity</div>
+            </div>
+            <div class="stat-card">
+              <div class="text-gradient-blue mb-2 text-4xl font-bold">10,000x</div>
+              <div class="text-base-400">Performance Gain</div>
+            </div>
+            <div class="stat-card">
+              <div class="text-gradient-blue mb-2 text-4xl font-bold">1000+</div>
+              <div class="text-base-400">AI Software Solutions</div>
+            </div>
+          </div>
+
+          <div class="hero-cta flex flex-wrap gap-4 justify-center">
+            <a
+              href="/whitepaper"
+              class="nav-button inline-flex items-center justify-center rounded-lg bg-primary-500 px-6 py-3 text-lg font-medium text-white shadow-lg transition-all hover:bg-primary-600"
+            >
+              Read Our Whitepaper
+            </a>
+            <a
+              href="/quantum-computing"
+              class="nav-button inline-flex items-center justify-center rounded-lg border border-primary-500 bg-transparent px-6 py-3 text-lg font-medium text-primary-500 transition-all hover:bg-primary-500 hover:text-white"
+            >
+              Explore Technology
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-background absolute inset-0 z-0">
+        <LightningAnimation />
+        <div class="hex-grid absolute inset-0 opacity-10">
+          <div class="hex-pattern"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company Logo -->
+    <div class="flex justify-center py-16 bg-base-900">
+      <img src="/icons/qdaria/QDaria_logo_teal.png" alt="QDaria Logo" class="w-32 h-32 md:w-40 md:h-40" />
+    </div>
+
+    <!-- Mission & Vision Section -->
+    <section class="py-24 bg-dark-bg">
+      <div class="site-container max-w-7xl mx-auto px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">Our Mission & Vision</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="mission-card">
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">Mission</h3>
+            <p class="text-base-300">
+              To revolutionize industries through topological quantum computing, delivering innovative solutions that solve complex challenges and shape the future of technology. We aim to make quantum computing accessible and impactful across cybersecurity, finance, education, and healthcare.
+            </p>
+          </div>
+          
+          <div class="mission-card">
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">Vision</h3>
+            <p class="text-base-300">
+              To be the global leader in topological quantum computing, driving the quantum revolution through cutting-edge research, innovative products, and strategic partnerships. We envision a future where quantum computing transforms every aspect of society, from secure communications to personalized medicine.
+            </p>
+          </div>
+          
+          <div class="mission-card">
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">Core Values</h3>
+            <p class="text-base-300">
+              Integrity, Innovation, Collaboration, Excellence, and Impact. These values guide our work and define our culture.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Responsibility Section -->
+    <section class="py-24 bg-base-900">
+      <div class="site-container max-w-7xl mx-auto px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-6 text-white">Social Responsibility</h2>
+        
+        <p class="text-center text-base-300 max-w-3xl mx-auto mb-16">
+          In QDaria we take social responsibility seriously and will not only passively donate in a traditional charity fashion but actively be present in the projects we support. A significant amount of our surplus will be earmarked for various projects, with distribution decided annually by our board of directors. We have a dedicated division to execute our duties to stand up tall for those who we truly consider to be the most unfortunate and the weakest in this world.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <!-- EcoMoyo -->
+          <div class="social-card">
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">EcoMoyo</h3>
+            <div class="mb-4 rounded-lg overflow-hidden">
+              <img src="/icons/qdaria/QDaria_logo_teal.png" alt="Lindsay Sanner at EcoMoyo" class="w-full h-auto" />
+            </div>
+            <p class="text-base-300 mb-4">
+              We are proud to support one of our true heroes, <a href="https://www.ecomoyo.com/" class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Lindsay Sanner</a>, and her remarkable EcoMoyo project in Kenya. Starting with just 20 students in 2014, Lindsay's vision has grown to provide free education to 270 children by 2025. Her journey from seeking personal meaning to creating transformative educational opportunities exemplifies the impact one person can have on hundreds of lives.
+            </p>
+            <a href="/ecosystem/social-responsibility/ecomoyo" class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Learn More →</a>
+          </div>
+          
+          <!-- Art For Change -->
+          <div class="social-card">
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">Art For Change (Affirmative Art)</h3>
+            <div class="mb-4 rounded-lg overflow-hidden">
+              <img src="/icons/qdaria/QDaria_logo_teal.png" alt="Art For Change" class="w-full h-auto" />
+            </div>
+            <p class="text-base-300 mb-4">
+              <a href="https://artforchange.com/" class="text-primary-400 hover:text-primary-300 transition-colors duration-200">ART FOR CHANGE</a> connects socially conscious art collectors with in-demand contemporary artists and their work. The platform offers museum-quality prints and original works at approachable price points, ensuring artists receive 50% of net proceeds. This commitment supports a thriving cultural ecosystem while affecting positive change through donations to relevant non-profits.
+            </p>
+            <a href="/ecosystem/social-responsibility/artforchange" class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Learn More →</a>
+          </div>
+          
+          <!-- SciArt -->
+          <div class="social-card">
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">SciArt</h3>
+            <div class="mb-4 rounded-lg overflow-hidden">
+              <img src="/icons/qdaria/QDaria_logo_teal.png" alt="SciArt Project" class="w-full h-auto" />
+            </div>
+            <p class="text-base-300 mb-4">
+              Our in-house SciArt project combines artistic expression with social impact. Through this initiative, we create and curate art that not only celebrates the beauty of science but also supports vital causes. A significant portion of proceeds goes directly to our supported projects, creating a bridge between artistic appreciation and meaningful social change.
+            </p>
+            <a href="/ecosystem/social-responsibility/sciart" class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Learn More →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners Logo Cloud -->
+    <section class="py-24 bg-dark-bg">
+      <div class="site-container max-w-7xl mx-auto px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-6 text-white">Trusted by the worlds most innovative companies</h2>
+        <p class="text-center text-base-300 max-w-3xl mx-auto mb-16">Partnering with industry leaders to advance quantum computing</p>
+        
+        <div class="logo-cloud grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-8 mb-12">
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/QMikeAI.svg" alt="QMikeAI" class="h-12 w-auto" />
+            <span class="sr-only">QMikeAI</span>
+          </div>
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/RGTI_BIGD.svg" alt="Rigetti" class="h-12 w-auto" />
+            <span class="sr-only">Rigetti</span>
+          </div>
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/zipminator.svg" alt="Zipminator" class="h-12 w-auto" />
+            <span class="sr-only">Zipminator</span>
+          </div>
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/QDianA0.svg" alt="QDiana" class="h-12 w-auto" />
+            <span class="sr-only">QDiana</span>
+          </div>
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/bluefors.svg" alt="Bluefors" class="h-12 w-auto" />
+            <span class="sr-only">Bluefors</span>
+          </div>
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/qm9.svg" alt="QM9" class="h-12 w-auto" />
+            <span class="sr-only">QM9</span>
+          </div>
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/QNilayA0.svg" alt="QNilaya" class="h-12 w-auto" />
+            <span class="sr-only">QNilaya</span>
+          </div>
+          <div class="logo-item flex justify-center items-center">
+            <img src="/icons/logos/Z.svg" alt="Z" class="h-12 w-auto" />
+            <span class="sr-only">Z</span>
+          </div>
+        </div>
+        
+        <!-- Mobile carousel version of logos -->
+        <div class="logo-carousel overflow-hidden md:hidden">
+          <div class="animate-scroll flex">
+            <!-- First set -->
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/QMikeAI.svg" alt="QMikeAI" class="h-12 w-auto" />
+            </div>
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/RGTI_BIGD.svg" alt="Rigetti" class="h-12 w-auto" />
+            </div>
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/zipminator.svg" alt="Zipminator" class="h-12 w-auto" />
+            </div>
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/QDianA0.svg" alt="QDiana" class="h-12 w-auto" />
+            </div>
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/bluefors.svg" alt="Bluefors" class="h-12 w-auto" />
+            </div>
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/qm9.svg" alt="QM9" class="h-12 w-auto" />
+            </div>
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/QNilayA0.svg" alt="QNilaya" class="h-12 w-auto" />
+            </div>
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/Z.svg" alt="Z" class="h-12 w-auto" />
+            </div>
+            
+            <!-- Duplicated for continuous scrolling -->
+            <div class="logo-item flex justify-center items-center mr-8">
+              <img src="/icons/logos/QMikeAI.svg" alt="QMikeAI" class="h-12 w-auto" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-24 bg-base-900">
+      <div class="site-container max-w-7xl mx-auto px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">Redefining What's Possible in Computing</h2>
+        <p class="text-center text-base-300 max-w-3xl mx-auto mb-16">Our topological quantum technology enables computational breakthroughs that were previously impossible, creating new possibilities across industries.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="feature-card">
+            <div class="icon-container mb-6">
+              <img src="/icons/qdaria/chart-dots.svg" alt="Quantum Advantage" class="w-16 h-16" />
+            </div>
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">Quantum Advantage</h3>
+            <p class="text-base-300">
+              Our proprietary Fibonacci anyon architecture delivers quantum computations that outperform classical systems by orders of magnitude.
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="icon-container mb-6">
+              <img src="/icons/qdaria/school.svg" alt="Advanced Infrastructure" class="w-16 h-16" />
+            </div>
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">Advanced Infrastructure</h3>
+            <p class="text-base-300">
+              State-of-the-art facilities in Norway featuring precision-controlled environments and next-generation quantum systems.
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="icon-container mb-6">
+              <img src="/icons/qdaria/shield-lock.svg" alt="Enterprise Ready" class="w-16 h-16" />
+            </div>
+            <h3 class="text-2xl font-semibold mb-4 text-primary-400">Enterprise Ready</h3>
+            <p class="text-base-300">
+              Complete quantum computing solutions with industry-leading stability and comprehensive support for enterprise deployment.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="py-24 bg-dark-bg">
+      <div class="site-container max-w-7xl mx-auto px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">Our Journey</h2>
+        
+        <div class="timeline space-y-12">
+          <!-- Timeline items -->
+          <div class="timeline-item">
+            <div class="date text-xl font-semibold text-primary-400 mb-2">April 2018</div>
+            <h3 class="text-2xl font-bold mb-4 text-white">DariaSH — Predecessor to QDaria</h3>
+            <p class="text-base-300">
+              DariaSH is founded by a multidisciplinary team of leading professors in Quantum Physics, Applied Mathematics, PhD candidates in Stem Cell Engineering, Neuroscience, Data Science, Computational Science, Engineering, and Economics from top Norwegian institutions. We envision four divisions—Quantum AI Laboratory, Quantum Biology Laboratory, Q-Educational Hub, and Q-Investment Hub—to drive self-sufficiency and innovation. We decide to focus on topological qubits, partly inspired by discoveries from our CEO's former professor (Jon Magne Leinaas). We also develop a Machine Learning and Reinforcement Learning Oracle, although various challenges prevent DariaSH from fully materializing.
+            </p>
+            <div class="read-more mt-2">
+              <button class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Read More ↓</button>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="date text-xl font-semibold text-primary-400 mb-2">November 2019</div>
+            <h3 class="text-2xl font-bold mb-4 text-white">Quantum Machine Learning, AI-Politician & Early GPT-2 Access</h3>
+            <p class="text-base-300">
+              We introduce an early Quantum Machine Learning program, and our internal "Master Data Scientist" Oracle evolves into AI-Politician (see AGI-Politician Whitepaper). We also begin experimenting with GPT-2, marking our initial steps in advanced language model research, which later informs our AI-driven policy and analytics platforms.
+            </p>
+            <div class="read-more mt-2">
+              <button class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Read More ↓</button>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="date text-xl font-semibold text-primary-400 mb-2">April 2020</div>
+            <h3 class="text-2xl font-bold mb-4 text-white">Foundation of QDaria</h3>
+            <p class="text-base-300">
+              We officially establish QDaria in Norway, aiming to make the nation Quantum Ready. However, the onset of the COVID-19 pandemic and limited funding soon place the project in hibernation. Despite these setbacks, we retain our commitment to advancing quantum computing.
+            </p>
+            <div class="read-more mt-2">
+              <button class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Read More ↓</button>
+            </div>
+          </div>
+          
+          <!-- More timeline items (showing just a sample) -->
+          <div class="timeline-item">
+            <div class="date text-xl font-semibold text-primary-400 mb-2">April 2024</div>
+            <h3 class="text-2xl font-bold mb-4 text-white">Renaissance of QDaria — Strategic Partnership with Rigetti</h3>
+            <p class="text-base-300">
+              We reawaken QDaria with renewed momentum, evolving into a fully fledged quantum computing startup. Forming a key alliance with Rigetti Computing, we focus on accelerating quantum hardware and establishing a European quantum infrastructure. Our topological research also gains fresh impetus, reflecting our original mission.
+            </p>
+            <div class="read-more mt-2">
+              <button class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Read More ↓</button>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="date text-xl font-semibold text-primary-400 mb-2">October 2025</div>
+            <h3 class="text-2xl font-bold mb-4 text-white">Novera QPU Launch</h3>
+            <p class="text-base-300">
+              We are finalizing our initial commitment with Rigetti and Bluefors to launch Novera QPU as the first commercially available quantum computer in Norway, demonstrating the power of quantum technology to the public and industry. This strategic system elevates our near-term market visibility while we continue developing our flagship topological quantum computer with Fibonacci anyons.
+            </p>
+            <div class="read-more mt-2">
+              <button class="text-primary-400 hover:text-primary-300 transition-colors duration-200">Read More ↓</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-24 bg-gradient-to-b from-base-900 to-dark-bg">
+      <div class="site-container max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold mb-8 text-white">Transform Your Business with Quantum Power</h2>
+        <p class="text-xl text-base-300 mb-12 max-w-3xl mx-auto">
+          Experience the next evolution in computing technology. Partner with us to unlock unprecedented computational capabilities.
+        </p>
+        
+        <div class="flex flex-wrap gap-6 justify-center">
+          <a
+            href="/contact"
+            class="nav-button inline-flex items-center justify-center rounded-lg bg-primary-500 px-8 py-4 text-lg font-medium text-white shadow-lg transition-all hover:bg-primary-600"
+          >
+            Get Started
+          </a>
+          <a
+            href="/whitepaper"
+            class="nav-button inline-flex items-center justify-center rounded-lg border border-primary-500 bg-transparent px-8 py-4 text-lg font-medium text-primary-500 transition-all hover:bg-primary-500 hover:text-white"
+          >
+            Read Whitepaper
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <Footer />
+</body>
+</html>
+
+<style>
+  /* Base colors */
+  :root {
+    --primary-50: rgb(240, 249, 255);
+    --primary-100: rgb(224, 242, 254);
+    --primary-200: rgb(186, 230, 253);
+    --primary-300: rgb(125, 211, 252);
+    --primary-400: rgb(56, 189, 248);
+    --primary-500: rgb(14, 165, 233);
+    --primary-600: rgb(2, 132, 199);
+    --primary-700: rgb(3, 105, 161);
+    --primary-800: rgb(7, 89, 133);
+    --primary-900: rgb(12, 74, 110);
+    --primary-950: rgb(8, 47, 73);
+    
+    --base-50: rgb(248, 250, 252);
+    --base-100: rgb(241, 245, 249);
+    --base-200: rgb(226, 232, 240);
+    --base-300: rgb(203, 213, 225);
+    --base-400: rgb(148, 163, 184);
+    --base-500: rgb(100, 116, 139);
+    --base-600: rgb(71, 85, 105);
+    --base-700: rgb(51, 65, 85);
+    --base-800: rgb(30, 41, 59);
+    --base-900: rgb(15, 23, 42);
+    --base-950: rgb(3, 6, 23);
+  }
+
+  .hero-section {
+    background-color: #090b11;
+  }
+
+  .text-gradient-blue {
+    background: linear-gradient(to right, #04a3ff, #00ffd3, #65ff00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-dark-bg {
+    background-color: #090b11;
+  }
+
+  .bg-base-900 {
+    background-color: rgb(15, 23, 42);
+  }
+
+  .bg-primary-500 {
+    background-color: rgb(14, 165, 233);
+  }
+
+  .bg-primary-600 {
+    background-color: rgb(2, 132, 199);
+  }
+
+  .text-primary-300 {
+    color: rgb(125, 211, 252);
+  }
+
+  .text-primary-400 {
+    color: rgb(56, 189, 248);
+  }
+
+  .text-primary-500 {
+    color: rgb(14, 165, 233);
+  }
+
+  .text-base-300 {
+    color: rgb(203, 213, 225);
+  }
+
+  .text-base-400 {
+    color: rgb(148, 163, 184);
+  }
+
+  .hex-grid {
+    overflow: hidden;
+    background-size: 50px 87px;
+    background-image: url("data:image/svg+xml,%3Csvg width='50' height='87' viewBox='0 0 50 87' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0L50 14.4338V43.3013L25 57.735L0 43.3013V14.4338L25 0Z' fill='%23ffffff' fill-opacity='0.05'/%3E%3Cpath d='M25 57.735L50 72.1688V86.6025L25 72.1688L0 86.6025V72.1688L25 57.735Z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  .hex-pattern {
+    position: absolute;
+    inset: 0;
+    animation: moveHexGrid 60s linear infinite;
+  }
+
+  @keyframes moveHexGrid {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+
+  .stat-card, .mission-card, .social-card, .feature-card, .timeline-item {
+    position: relative;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    background-color: rgb(15, 23, 42);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.2);
+    user-select: text;
+  }
+
+  .stat-card:hover, .mission-card:hover, .feature-card:hover {
+    box-shadow: 0 0 35px rgba(4, 163, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .logo-item {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    user-select: none;
+  }
+
+  .logo-item:hover {
+    background-color: rgb(30, 41, 59);
+    box-shadow: 0 0 20px rgba(4, 163, 255, 0.3);
+  }
+
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+    min-width: max-content;
+  }

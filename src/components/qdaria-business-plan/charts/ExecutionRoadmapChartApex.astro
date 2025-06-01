@@ -1,0 +1,732 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface Milestone {
+  name: string;
+  date: string;
+  color?: string;
+}
+
+interface Phase {
+  name: string;
+  start: string;
+  end: string;
+  milestones?: Milestone[];
+}
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  phases?: Phase[];
+  colors?: string[];
+  years?: number[];
+}
+
+const { 
+  id = `execution-roadmap-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "QDaria Strategic Execution Timeline", 
+  description = "Strategic execution timeline showing key phases and milestones for QDaria's development and growth.",
+  className = "",
+  height = 600,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  colors = ['#04a3ff', '#00FFD3', '#65ff00', '#F5B700', '#FF6B6B', '#7B61FF'],
+  years = [2025, 2026, 2027, 2028, 2029, 2030],
+  phases = [
+    {
+      name: "Seed Funding & Initial Development",
+      start: "2025-01",
+      end: "2025-12",
+      milestones: [
+        {
+          name: "Seed Round Completion",
+          date: "2025-03",
+          color: "#FF6B6B"
+        },
+        {
+          name: "Delution Refrigerator Prototype",
+          date: "2025-06",
+          color: "#04a3ff"
+        },
+        {
+          name: "Novera QPU Alpha",
+          date: "2025-10",
+          color: "#04a3ff"
+        }
+      ]
+    },
+    {
+      name: "Series A & Product Launch",
+      start: "2026-01",
+      end: "2026-12",
+      milestones: [
+        {
+          name: "Series A Funding",
+          date: "2026-02",
+          color: "#FF6B6B"
+        },
+        {
+          name: "Delution Refrigerator Commercial Release",
+          date: "2026-05",
+          color: "#04a3ff"
+        },
+        {
+          name: "Novera QPU Beta",
+          date: "2026-09",
+          color: "#04a3ff"
+        },
+        {
+          name: "QDiana AI Integration",
+          date: "2026-11",
+          color: "#00FFD3"
+        }
+      ]
+    },
+    {
+      name: "Market Expansion & Series B",
+      start: "2027-01",
+      end: "2027-12",
+      milestones: [
+        {
+          name: "Series B Funding",
+          date: "2027-03",
+          color: "#FF6B6B"
+        },
+        {
+          name: "North American Office Opening",
+          date: "2027-06",
+          color: "#F5B700"
+        },
+        {
+          name: "Novera QPU Commercial Release",
+          date: "2027-09",
+          color: "#04a3ff"
+        },
+        {
+          name: "Enterprise Partnership Program",
+          date: "2027-11",
+          color: "#7B61FF"
+        }
+      ]
+    },
+    {
+      name: "Topological Quantum Development",
+      start: "2028-01",
+      end: "2029-06",
+      milestones: [
+        {
+          name: "Series C Funding",
+          date: "2028-04",
+          color: "#FF6B6B"
+        },
+        {
+          name: "Fibonacci Anyon Demonstration",
+          date: "2028-09",
+          color: "#04a3ff"
+        },
+        {
+          name: "Topological QPU Prototype",
+          date: "2029-03",
+          color: "#04a3ff"
+        }
+      ]
+    },
+    {
+      name: "Global Scaling & Pre-IPO",
+      start: "2029-07",
+      end: "2030-06",
+      milestones: [
+        {
+          name: "Series D / Pre-IPO Round",
+          date: "2029-09",
+          color: "#FF6B6B"
+        },
+        {
+          name: "Topological QPU Alpha Release",
+          date: "2030-01",
+          color: "#04a3ff"
+        },
+        {
+          name: "Global Quantum Network Launch",
+          date: "2030-04",
+          color: "#65ff00"
+        }
+      ]
+    },
+    {
+      name: "IPO & Market Leadership",
+      start: "2030-07",
+      end: "2030-12",
+      milestones: [
+        {
+          name: "Initial Public Offering",
+          date: "2030-09",
+          color: "#FF6B6B"
+        },
+        {
+          name: "Quantum Market Leadership Position",
+          date: "2030-12",
+          color: "#F5B700"
+        }
+      ]
+    }
+  ]
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const phaseFilterId = `${chartId}-phase-filter`;
+const yearFilterId = `${chartId}-year-filter`;
+
+// Worker path for data processing
+const workerPath = "/charts/executionRoadmapWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- Phase Filter -->
+  <div class="filter-controls">
+    <div class="phase-filter" id={phaseFilterId}>
+      <div class="filter-label">Phases:</div>
+      <div class="phase-buttons">
+        <button class="phase-button active" data-phase="all">All Phases</button>
+        {phases.map((phase, index) => (
+          <button class="phase-button" data-phase={phase.name} style={`--phase-color: ${colors[index % colors.length]}`}>
+            {phase.name}
+          </button>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Year Filter -->
+    <div class="year-filter" id={yearFilterId}>
+      <div class="filter-label">Year Range:</div>
+      <div class="year-buttons">
+        <button class="year-button active" data-year="all">All Years</button>
+        {years.map((year) => (
+          <button class="year-button" data-year={year}>{year}</button>
+        ))}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chart container -->
+  <div class="timeline-chart-container">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Milestone Legend -->
+  <div class="milestone-legend">
+    <div class="legend-title">Key Milestones:</div>
+    <div class="legend-items">
+      {phases.flatMap(phase => phase.milestones || []).map(milestone => (
+        <div class="legend-item">
+          <span class="legend-marker" style={`background-color: ${milestone.color}`}></span>
+          <span class="legend-text">{milestone.name} ({new Date(milestone.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })})</span>
+        </div>
+      ))}
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Duration</th>
+        <th>Key Milestones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {phases.map((phase) => {
+        const startDate = new Date(phase.start);
+        const endDate = new Date(phase.end);
+        const duration = ((endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth())) + " months";
+        
+        return (
+          <tr>
+            <td>{phase.name}</td>
+            <td>{startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}</td>
+            <td>{endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}</td>
+            <td>{duration}</td>
+            <td>{phase.milestones ? phase.milestones.map(m => m.name).join(', ') : 'None'}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .phase-filter, .year-filter {
+    margin-bottom: 0.5rem;
+  }
+  
+  .phase-buttons, .year-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .phase-button, .year-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background-color: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+  }
+  
+  .phase-button {
+    border-left: 4px solid var(--phase-color, rgba(4, 163, 255, 0.8));
+  }
+  
+  .phase-button:hover, .year-button:hover {
+    background-color: rgba(4, 163, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .phase-button.active, .year-button.active {
+    background-color: rgba(4, 163, 255, 0.3);
+    border-color: rgba(4, 163, 255, 0.6);
+    box-shadow: 0 0 10px rgba(4, 163, 255, 0.3);
+  }
+  
+  .timeline-chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .milestone-legend {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .legend-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .legend-marker {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+  
+  .legend-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .phase-buttons, .year-buttons {
+      flex-direction: column;
+    }
+    
+    .timeline-chart-container {
+      height: 500px;
+    }
+    
+    .legend-items {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, phases, years, colors, phaseFilterId, yearFilterId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initExecutionRoadmapChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initExecutionRoadmapChart);
+    }
+    
+    // Initialize phase filter
+    const phaseButtons = document.querySelectorAll(`#${phaseFilterId} .phase-button`);
+    phaseButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        phaseButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Filter chart based on selected phase
+        const phase = btn.getAttribute('data-phase');
+        filterChartByPhase(phase);
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Showing ${phase === 'all' ? 'all phases' : phase}`;
+        }
+      });
+    });
+    
+    // Initialize year filter
+    const yearButtons = document.querySelectorAll(`#${yearFilterId} .year-button`);
+    yearButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        yearButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Filter chart based on selected year
+        const year = btn.getAttribute('data-year');
+        filterChartByYear(year);
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Showing ${year === 'all' ? 'all years' : year}`;
+        }
+      });
+    });
+    
+    // Function to initialize the chart
+    function initExecutionRoadmapChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareData',
+        phases,
+        years,
+        colors
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'dataReady') {
+          const chartData = e.data.chartData;
+          renderChart(chartData);
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('rangeBar') : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: 'rangeBar',
+            height: 400,
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              }
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true,
+              barHeight: '80%',
+              rangeBarGroupRows: true
+            }
+          },
+          series: chartData.series,
+          colors: chartData.colors,
+          fill: {
+            type: 'solid',
+            opacity: 0.6
+          },
+          xaxis: {
+            type: 'datetime',
+            min: chartData.minDate,
+            max: chartData.maxDate,
+            labels: {
+              formatter: function(val) {
+                return new Date(val).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              formatter: function(val) {
+                return val;
+              }
+            }
+          },
+          tooltip: {
+            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+              const phase = w.globals.seriesNames[seriesIndex];
+              const startDate = new Date(w.globals.seriesRangeStart[seriesIndex][dataPointIndex]);
+              const endDate = new Date(w.globals.seriesRangeEnd[seriesIndex][dataPointIndex]);
+              
+              const startFormatted = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+              const endFormatted = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+              
+              const duration = ((endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth())) + " months";
+              
+              let milestones = '';
+              const phaseMilestones = phases[seriesIndex].milestones;
+              if (phaseMilestones && phaseMilestones.length > 0) {
+                milestones = `
+                  <div class="tooltip-milestones">
+                    <div class="tooltip-subtitle">Key Milestones:</div>
+                    <ul class="tooltip-milestone-list">
+                      ${phaseMilestones.map(m => `
+                        <li>
+                          <span class="tooltip-milestone-marker" style="background-color: ${m.color}"></span>
+                          ${m.name} (${new Date(m.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })})
+                        </li>
+                      `).join('')}
+                    </ul>
+                  </div>
+                `;
+              }
+              
+              return `
+                <div class="custom-tooltip">
+                  <div class="tooltip-title">${phase}</div>
+                  <div class="tooltip-dates">
+                    <span>${startFormatted}</span> - <span>${endFormatted}</span>
+                  </div>
+                  <div class="tooltip-duration">Duration: ${duration}</div>
+                  ${milestones}
+                </div>
+              `;
+            }
+          },
+          annotations: chartData.annotations,
+          grid: {
+            xaxis: {
+              lines: {
+                show: true
+              }
+            },
+            yaxis: {
+              lines: {
+                show: false
+              }
+            }
+          },
+          legend: {
+            show: false
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance for later reference
+        window[`${chartId}-instance`] = chart;
+        
+        // Store original series for filtering
+        window[`${chartId}-original-series`] = JSON.parse(JSON.stringify(chartData.series));
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Execution roadmap chart loaded. Use arrow keys to navigate between phases.';
+        }
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: 'rangeBar',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          colors: colors,
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            strokeDashArray: 3
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 1
+          }
+        };
+      }
+    }
+    
+    // Function to filter chart by phase
+    function filterChartByPhase(phase) {
+      const chart = window[`${chartId}-instance`];
+      const originalSeries = window[`${chartId}-original-series`];
+      
+      if (!chart || !originalSeries) return;
+      
+      if (phase === 'all') {
+        // Show all phases
+        chart.updateSeries(originalSeries);
+      } else {
+        // Show only the selected phase
+        const filteredSeries = originalSeries.filter(series => series.name === phase);
+        chart.updateSeries(filteredSeries);
+      }
+    }
+    
+    // Function to filter chart by year
+    function filterChartByYear(year) {
+      const chart = window[`${chartId}-instance`];
+      
+      if (!chart) return;
+      
+      if (year === 'all') {
+        // Show all years
+        chart.updateOptions({
+          xaxis: {
+            min: undefined,
+            max: undefined
+          }
+        });
+      } else {
+        // Show only the selected year
+        const yearNum = parseInt(year);
+        const startDate = new Date(yearNum, 0, 1).getTime();
+        const endDate = new Date(yearNum, 11, 31).getTime();
+        
+        chart.updateOptions({
+          xaxis: {
+            min: startDate,
+            max: endDate
+          }
+        });
+      }
+    }
+    
+    // Function to reset zoom
+    window[`reset${chartId}Chart`] = function() {
+      const chart = window[`${chartId}-instance`];
+      if (chart) {
+        chart.resetSeries();
+        
+        // Reset filters
+        const allPhaseBtn = document.querySelector(`#${phaseFilterId} .phase-button[data-phase="all"]`);
+        const allYearBtn = document.querySelector(`#${yearFilterId} .year-button[data-year="all"]`);
+        
+        if (allPhaseBtn) {
+          phaseButtons.forEach(b => b.classList.remove('active'));
+          allPhaseBtn.classList.add('active');
+        }
+        
+        if (allYearBtn) {
+          yearButtons.forEach(b => b.classList.remove('active'));
+          allYearBtn.classList.add('active');
+        }
+        
+        // Reset xaxis
+        chart.updateOptions({
+          xaxis: {
+            min: undefined,
+            max: undefined
+          }
+        });
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Chart reset to show all phases and years.';
+        }
+      }
+    };
+  });
+</script>

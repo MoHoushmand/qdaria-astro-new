@@ -1,0 +1,825 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface Milestone {
+  year: number;
+  quarter: string;
+  title: string;
+  description: string;
+  status: 'completed' | 'in-progress' | 'planned';
+  icon?: string;
+}
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  milestones?: Milestone[];
+  colors?: string[];
+  startYear?: number;
+  endYear?: number;
+}
+
+const { 
+  id = `topological-timeline-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "Fibonacci Anyons Quantum Computer Development Timeline", 
+  description = "Roadmap for our flagship topological quantum computer using non-Abelian anyons",
+  className = "",
+  height = 600,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  colors = ['#00ffd3', '#04a3ff', '#ffcc00'],
+  startYear = 2025,
+  endYear = 2030,
+  milestones = [
+    {
+      year: 2025,
+      quarter: "Q1",
+      title: "R&D Initiation",
+      description: "Initial research on topological quantum computing approaches using Fibonacci anyons",
+      status: "completed",
+      icon: "flask"
+    },
+    {
+      year: 2025,
+      quarter: "Q2",
+      title: "Theoretical Model",
+      description: "Development of theoretical model for topological qubits using non-Abelian anyons",
+      status: "completed",
+      icon: "function"
+    },
+    {
+      year: 2025,
+      quarter: "Q3",
+      title: "Lab Setup",
+      description: "Establishment of specialized lab facilities for anyonic qubit experimentation",
+      status: "in-progress",
+      icon: "microscope"
+    },
+    {
+      year: 2025,
+      quarter: "Q4",
+      title: "Simulation Framework",
+      description: "Development of simulation framework for testing anyonic braiding operations",
+      status: "planned",
+      icon: "computer"
+    },
+    {
+      year: 2026,
+      quarter: "Q1",
+      title: "First Qubit Prototype",
+      description: "Creation of first prototype anyonic qubit with basic braiding operations",
+      status: "planned",
+      icon: "atom"
+    },
+    {
+      year: 2026,
+      quarter: "Q4",
+      title: "Error Correction",
+      description: "Implementation of topological error correction mechanisms",
+      status: "planned",
+      icon: "shield"
+    },
+    {
+      year: 2027,
+      quarter: "Q2",
+      title: "Multi-Qubit System",
+      description: "Development of scaled system with multiple topological qubits",
+      status: "planned",
+      icon: "network"
+    },
+    {
+      year: 2028,
+      quarter: "Q1",
+      title: "Quantum Processor",
+      description: "Integration of topological qubits into complete quantum processor",
+      status: "planned",
+      icon: "microchip"
+    },
+    {
+      year: 2030,
+      quarter: "Q2",
+      title: "Full-Scale System",
+      description: "Deployment of full-scale topological quantum computer with Fibonacci anyons",
+      status: "planned",
+      icon: "server"
+    }
+  ]
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const statusFilterId = `${chartId}-status-filter`;
+const yearFilterId = `${chartId}-year-filter`;
+
+// Worker path for data processing
+const workerPath = "/charts/topologicalTimelineWorker.js";
+
+// Convert milestones to events for the worker
+const events = milestones.map(milestone => {
+  // Convert year and quarter to date
+  const quarterMap = { "Q1": 0, "Q2": 3, "Q3": 6, "Q4": 9 };
+  const month = quarterMap[milestone.quarter] || 0;
+  const startDate = new Date(milestone.year, month, 1);
+  
+  // For completed and in-progress milestones, set end date to current date
+  // For planned milestones, set end date to the end of the quarter
+  let endDate;
+  if (milestone.status === 'planned') {
+    endDate = new Date(milestone.year, month + 3, 0);
+  } else {
+    endDate = startDate;
+  }
+  
+  // Determine color based on status
+  const statusColor = 
+    milestone.status === "completed" ? colors[0] : 
+    milestone.status === "in-progress" ? colors[1] : 
+    colors[2];
+  
+  return {
+    name: milestone.title,
+    description: milestone.description,
+    startDate: startDate.toISOString(),
+    endDate: endDate.toISOString(),
+    status: milestone.status,
+    milestone: true,
+    color: statusColor,
+    icon: milestone.icon
+  };
+});
+
+// Generate years array for filtering
+const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- Status Filter -->
+  <div class="filter-controls">
+    <div class="status-filter" id={statusFilterId}>
+      <div class="filter-label">Status:</div>
+      <div class="status-buttons">
+        <button class="status-button active" data-status="all">All</button>
+        <button class="status-button" data-status="completed" style={`--status-color: ${colors[0]}`}>Completed</button>
+        <button class="status-button" data-status="in-progress" style={`--status-color: ${colors[1]}`}>In Progress</button>
+        <button class="status-button" data-status="planned" style={`--status-color: ${colors[2]}`}>Planned</button>
+      </div>
+    </div>
+    
+    <!-- Year Filter -->
+    <div class="year-filter" id={yearFilterId}>
+      <div class="filter-label">Year:</div>
+      <div class="year-buttons">
+        <button class="year-button active" data-year="all">All Years</button>
+        {years.map((year) => (
+          <button class="year-button" data-year={year}>{year}</button>
+        ))}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chart container -->
+  <div class="timeline-chart-container">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Detail panel -->
+  <div class="detail-panel">
+    <div class="detail-header">
+      <div class="detail-title">Select a milestone for details</div>
+      <div class="detail-date"></div>
+    </div>
+    <div class="detail-description">This timeline shows the development roadmap for QDaria's topological quantum computer using Fibonacci anyons.</div>
+    <div class="detail-status"></div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Milestone</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {milestones.map((milestone) => {
+        const quarterMap = { "Q1": "Jan-Mar", "Q2": "Apr-Jun", "Q3": "Jul-Sep", "Q4": "Oct-Dec" };
+        const quarterText = quarterMap[milestone.quarter] || milestone.quarter;
+        
+        return (
+          <tr>
+            <td>{milestone.title}</td>
+            <td>{milestone.year} {quarterText}</td>
+            <td>{milestone.description}</td>
+            <td>
+              <span class={`status-badge status-${milestone.status}`}>
+                {milestone.status === 'completed' ? 'Completed' : 
+                 milestone.status === 'in-progress' ? 'In Progress' : 'Planned'}
+              </span>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .status-filter, .year-filter {
+    margin-bottom: 0.5rem;
+  }
+  
+  .status-buttons, .year-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .status-button, .year-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background-color: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+  }
+  
+  .status-button {
+    border-left: 4px solid var(--status-color, rgba(4, 163, 255, 0.8));
+  }
+  
+  .status-button:hover, .year-button:hover {
+    background-color: rgba(4, 163, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .status-button.active, .year-button.active {
+    background-color: rgba(4, 163, 255, 0.3);
+    border-color: rgba(4, 163, 255, 0.6);
+    box-shadow: 0 0 10px rgba(4, 163, 255, 0.3);
+  }
+  
+  .timeline-chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .detail-panel {
+    position: relative;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    min-height: 100px;
+    transition: all 0.3s ease;
+  }
+  
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .detail-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .detail-date {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .detail-description {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  
+  .detail-status {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  
+  .status-completed {
+    background-color: rgba(0, 255, 211, 0.2);
+    color: #00ffd3;
+  }
+  
+  .status-in-progress {
+    background-color: rgba(4, 163, 255, 0.2);
+    color: #04a3ff;
+  }
+  
+  .status-planned {
+    background-color: rgba(255, 204, 0, 0.2);
+    color: #ffcc00;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .status-buttons, .year-buttons {
+      flex-direction: column;
+    }
+    
+    .timeline-chart-container {
+      height: 500px;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, events, years, colors, statusFilterId, yearFilterId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initTopologicalTimelineChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initTopologicalTimelineChart);
+    }
+    
+    // Initialize status filter
+    const statusButtons = document.querySelectorAll(`#${statusFilterId} .status-button`);
+    statusButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        statusButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Filter chart based on selected status
+        const status = btn.getAttribute('data-status');
+        filterChartByStatus(status);
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Showing ${status === 'all' ? 'all statuses' : status + ' milestones'}`;
+        }
+      });
+    });
+    
+    // Initialize year filter
+    const yearButtons = document.querySelectorAll(`#${yearFilterId} .year-button`);
+    yearButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        yearButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Filter chart based on selected year
+        const year = btn.getAttribute('data-year');
+        filterChartByYear(year);
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Showing ${year === 'all' ? 'all years' : year}`;
+        }
+      });
+    });
+    
+    // Function to initialize the chart
+    function initTopologicalTimelineChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        type: 'process',
+        data: {
+          events: events
+        }
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.type === 'success') {
+          const chartData = e.data.data;
+          renderChart(chartData);
+        } else if (e.data.type === 'error') {
+          console.error('Worker error:', e.data.error);
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('timeline') : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: 'rangeBar',
+            height: 400,
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              }
+            },
+            animations: {
+              enabled: true,
+              easing: 'easeinout',
+              speed: 800,
+              animateGradually: {
+                enabled: true,
+                delay: 150
+              },
+              dynamicAnimation: {
+                enabled: true,
+                speed: 350
+              }
+            },
+            events: {
+              dataPointSelection: function(event, chartContext, config) {
+                const seriesIndex = config.seriesIndex;
+                const dataPointIndex = config.dataPointIndex;
+                
+                if (seriesIndex >= 0 && dataPointIndex >= 0) {
+                  const selectedEvent = chartData.series[seriesIndex].data[dataPointIndex];
+                  showDetails(selectedEvent);
+                }
+              }
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true,
+              barHeight: '80%',
+              rangeBarGroupRows: true
+            }
+          },
+          series: chartData.series,
+          colors: colors,
+          fill: {
+            type: 'solid',
+            opacity: 0.6
+          },
+          xaxis: {
+            type: 'datetime',
+            min: chartData.layout.minDate,
+            max: chartData.layout.maxDate,
+            labels: {
+              formatter: function(val) {
+                return new Date(val).toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              formatter: function(val) {
+                return val;
+              }
+            }
+          },
+          tooltip: {
+            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+              const milestone = w.globals.seriesNames[seriesIndex];
+              const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
+              
+              const startDate = new Date(data.y[0]);
+              const formattedDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+              
+              return `
+                <div class="custom-tooltip">
+                  <div class="tooltip-title">${data.x}</div>
+                  <div class="tooltip-date">${formattedDate}</div>
+                  <div class="tooltip-description">${data.description}</div>
+                  <div class="tooltip-status" style="color: ${data.fillColor}">
+                    Status: ${data.status.charAt(0).toUpperCase() + data.status.slice(1)}
+                  </div>
+                </div>
+              `;
+            }
+          },
+          annotations: chartData.annotations,
+          grid: {
+            xaxis: {
+              lines: {
+                show: true
+              }
+            },
+            yaxis: {
+              lines: {
+                show: false
+              }
+            }
+          },
+          legend: {
+            show: false
+          },
+          dataLabels: {
+            enabled: false
+          },
+          states: {
+            hover: {
+              filter: {
+                type: 'lighten',
+                value: 0.15
+              }
+            },
+            active: {
+              filter: {
+                type: 'darken',
+                value: 0.15
+              }
+            }
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance for later reference
+        window[`${chartId}-instance`] = chart;
+        
+        // Store original series for filtering
+        window[`${chartId}-original-series`] = JSON.parse(JSON.stringify(chartData.series));
+        window[`${chartId}-original-events`] = JSON.parse(JSON.stringify(events));
+        
+        // Show details for the in-progress milestone by default
+        const inProgressEvent = events.find(event => event.status === 'in-progress');
+        if (inProgressEvent) {
+          showDetails(inProgressEvent);
+        }
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Topological timeline chart loaded. Use arrow keys to navigate between milestones.';
+        }
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: 'rangeBar',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          colors: colors,
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            strokeDashArray: 3
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 1
+          }
+        };
+      }
+    }
+    
+    // Function to show details for selected milestone
+    function showDetails(event) {
+      const detailTitle = document.querySelector(`#${chartId} .detail-title`);
+      const detailDate = document.querySelector(`#${chartId} .detail-date`);
+      const detailDescription = document.querySelector(`#${chartId} .detail-description`);
+      const detailStatus = document.querySelector(`#${chartId} .detail-status`);
+      
+      if (detailTitle) detailTitle.textContent = event.name;
+      
+      if (detailDate) {
+        const date = new Date(event.startDate);
+        const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+        detailDate.textContent = formattedDate;
+      }
+      
+      if (detailDescription) detailDescription.textContent = event.description;
+      
+      if (detailStatus) {
+        let statusText;
+        let statusColor;
+        
+        switch (event.status) {
+          case 'completed':
+            statusText = 'Completed';
+            statusColor = colors[0];
+            break;
+          case 'in-progress':
+            statusText = 'In Progress';
+            statusColor = colors[1];
+            break;
+          case 'planned':
+            statusText = 'Planned';
+            statusColor = colors[2];
+            break;
+        }
+        
+        detailStatus.textContent = `Status: ${statusText}`;
+        detailStatus.style.color = statusColor;
+      }
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${chartId}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Selected milestone: ${event.name}, Status: ${event.status}`;
+      }
+    }
+    
+    // Function to filter chart by status
+    function filterChartByStatus(status) {
+      const chart = window[`${chartId}-instance`];
+      const originalEvents = window[`${chartId}-original-events`];
+      
+      if (!chart || !originalEvents) return;
+      
+      if (status === 'all') {
+        // Process all events
+        const worker = new Worker(workerPath);
+        worker.postMessage({
+          type: 'process',
+          data: {
+            events: originalEvents
+          }
+        });
+        
+        worker.onmessage = function(e) {
+          if (e.data.type === 'success') {
+            chart.updateSeries(e.data.data.series);
+          }
+        };
+      } else {
+        // Filter events by status
+        const filteredEvents = originalEvents.filter(event => event.status === status);
+        
+        // Process filtered events
+        const worker = new Worker(workerPath);
+        worker.postMessage({
+          type: 'process',
+          data: {
+            events: filteredEvents
+          }
+        });
+        
+        worker.onmessage = function(e) {
+          if (e.data.type === 'success') {
+            chart.updateSeries(e.data.data.series);
+          }
+        };
+      }
+    }
+    
+    // Function to filter chart by year
+    function filterChartByYear(year) {
+      const chart = window[`${chartId}-instance`];
+      
+      if (!chart) return;
+      
+      if (year === 'all') {
+        // Show all years
+        chart.updateOptions({
+          xaxis: {
+            min: undefined,
+            max: undefined
+          }
+        });
+      } else {
+        // Show only the selected year
+        const yearNum = parseInt(year);
+        const startDate = new Date(yearNum, 0, 1).getTime();
+        const endDate = new Date(yearNum, 11, 31).getTime();
+        
+        chart.updateOptions({
+          xaxis: {
+            min: startDate,
+            max: endDate
+          }
+        });
+      }
+    }
+    
+    // Function to reset zoom
+    window[`reset${chartId}Chart`] = function() {
+      const chart = window[`${chartId}-instance`];
+      if (chart) {
+        chart.resetSeries();
+        
+        // Reset filters
+        const allStatusBtn = document.querySelector(`#${statusFilterId} .status-button[data-status="all"]`);
+        const allYearBtn = document.querySelector(`#${yearFilterId} .year-button[data-year="all"]`);
+        
+        if (allStatusBtn) {
+          statusButtons.forEach(b => b.classList.remove('active'));
+          allStatusBtn.classList.add('active');
+        }
+        
+        if (allYearBtn) {
+          yearButtons.forEach(b => b.classList.remove('active'));
+          allYearBtn.classList.add('active');
+        }
+        
+        // Reset xaxis
+        chart.updateOptions({
+          xaxis: {
+            min: undefined,
+            max: undefined
+          }
+        });
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'Chart reset to show all milestones and years.';
+        }
+      }
+    };
+  });
+</script>

@@ -1,0 +1,131 @@
+---
+import type { BaseChartProps, ChartAccessibilityProps, ChartEventHandler } from '../../../types/chart';
+import type { ChartType, ChartData, ChartOptions } from 'chart.js';
+
+// Props interface extends BaseChartProps and adds client directives
+interface Props extends BaseChartProps {
+  'client:load'?: boolean;
+  type: ChartType;
+  data: ChartData;
+  options?: ChartOptions;
+  className?: string;
+  darkMode?: boolean;
+  accessibility?: ChartAccessibilityProps;
+  onChartClick?: ChartEventHandler;
+  onLegendClick?: (event: Event, legendItem: any) => void;
+  onHover?: (event: Event, elements: any[]) => void;
+}
+
+// Destructure props with defaults
+const { 
+  id, 
+  title, 
+  description, 
+  type, 
+  data, 
+  options, 
+  className = '', 
+  darkMode = false,
+  accessibility = {},
+  'client:load': clientLoad = true,
+  ...rest
+} = Astro.props;
+
+// Import the client-side component dynamically
+---
+
+<div id={`chart-container-${id}`}>
+  {/* Fallback content that will be replaced when JS loads */}
+  <div class="chart-container p-8 rounded-xl border border-primary-300/30 bg-white/90 dark:bg-gray-900/90 shadow-lg transition-all duration-300">
+    <div class="mb-4">
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{title}</h3>
+      <p class="mt-1 text-base text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+    
+    <div class="relative h-[400px] w-full flex items-center justify-center">
+      <div class="text-center text-gray-500 dark:text-gray-400">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+        <p>Loading chart...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* Client-side component */}
+{clientLoad && (
+  <script define:vars={{ id, title, description, type, data, options, className, darkMode, accessibility }}>
+    // Import dynamically to ensure client-side only execution
+    import EnhancedBaseChart from './EnhancedBaseChart.tsx';
+    import { createElement } from 'react';
+    import { createRoot } from 'react-dom/client';
+    
+    // Wait for document to be fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById(`chart-container-${id}`);
+      if (container) {
+        // Create React root and render component
+        const root = createRoot(container);
+        root.render(
+          createElement(EnhancedBaseChart, { 
+            id, 
+            title, 
+            description, 
+            type, 
+            data, 
+            options, 
+            className, 
+            darkMode,
+            accessibility
+          })
+        );
+      }
+    });
+    
+    // For already loaded documents
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      const container = document.getElementById(`chart-container-${id}`);
+      if (container) {
+        // Create React root and render component
+        const root = createRoot(container);
+        root.render(
+          createElement(EnhancedBaseChart, { 
+            id, 
+            title, 
+            description, 
+            type, 
+            data, 
+            options, 
+            className, 
+            darkMode,
+            accessibility
+          })
+        );
+      }
+    }
+  </script>
+)}
+
+<style>
+  .chart-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .chart-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    background: radial-gradient(
+      800px circle at 100px 100px,
+      rgba(4, 163, 255, 0.15),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  
+  .chart-container:hover::before {
+    opacity: 1;
+  }
+</style>

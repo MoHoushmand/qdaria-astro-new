@@ -1,0 +1,154 @@
+---
+import type { RoadmapChartProps } from '../../../types/chart';
+
+interface Props extends RoadmapChartProps {
+  'client:load'?: boolean;
+}
+
+// Destructure props with defaults
+const { 
+  id, 
+  title, 
+  description, 
+  phases = [
+    {
+      name: 'Phase 1',
+      period: '2024-25',
+      progress: 100,
+      description: 'Market entry, 9-qubit prototype',
+      milestones: [
+        'Secure seed funding',
+        'Develop 9-qubit prototype',
+        'Establish key partnerships',
+        'Launch pilot program'
+      ]
+    },
+    {
+      name: 'Phase 2',
+      period: '2026-27',
+      progress: 75,
+      description: 'Scale to 50+ qubits',
+      milestones: [
+        'Expand team to 50+ employees',
+        'Achieve 50 qubit milestone',
+        'Secure Series A funding',
+        'Launch commercial APIs'
+      ]
+    },
+    {
+      name: 'Phase 3',
+      period: '2028-30',
+      progress: 50,
+      description: '100+ qubit systems, IPO',
+      milestones: [
+        'Achieve 100 qubit milestone',
+        'Expand to international markets',
+        'Complete IPO',
+        'Establish quantum computing center'
+      ]
+    },
+    {
+      name: 'Phase 4',
+      period: '2031-35',
+      progress: 25,
+      description: 'Global expansion',
+      milestones: [
+        'Achieve 500 qubit milestone',
+        'Develop error-corrected systems',
+        'Launch quantum computing as a service',
+        'Establish global quantum network'
+      ]
+    }
+  ],
+  darkMode = false,
+  className = '',
+  'client:load': clientLoad = true,
+  ...rest
+} = Astro.props;
+
+// Placeholder for chart loading state
+---
+
+<div id={`chart-container-${id}`} class="roadmap-chart-container">
+  {/* Fallback loading state */}
+  <div class="chart-container p-8 rounded-xl border border-primary-300/30 bg-white/90 dark:bg-gray-900/90 shadow-lg transition-all duration-300">
+    <div class="mb-4">
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{title}</h3>
+      <p class="mt-1 text-base text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+    
+    <div class="relative h-[400px] w-full flex items-center justify-center">
+      <div class="text-center text-gray-500 dark:text-gray-400">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
+        <p>Loading execution timeline...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* Client-side component */}
+{clientLoad && (
+  <script define:vars={{ 
+    id, 
+    title, 
+    description, 
+    phases, 
+    darkMode, 
+    className 
+  }}>
+    // Import dynamically to ensure client-side only execution
+    import RoadmapChartEnhanced from './RoadmapChartEnhanced.tsx';
+    import { createElement } from 'react';
+    import { createRoot } from 'react-dom/client';
+    
+    // Function to initialize chart
+    function initRoadmapChart() {
+      const container = document.getElementById(`chart-container-${id}`);
+      if (container) {
+        const root = createRoot(container);
+        
+        root.render(
+          createElement(RoadmapChartEnhanced, { 
+            id, 
+            title, 
+            description, 
+            phases,
+            darkMode,
+            className
+          })
+        );
+      }
+    }
+    
+    // Initialize immediately if document is ready
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initRoadmapChart();
+    } else {
+      // Otherwise wait for document to load
+      document.addEventListener('DOMContentLoaded', initRoadmapChart);
+    }
+    
+    // Register global initialization function
+    window.initRoadmapChart = initRoadmapChart;
+  </script>
+)}
+
+<style>
+  .roadmap-chart-container {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>

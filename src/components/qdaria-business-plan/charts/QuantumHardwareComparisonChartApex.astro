@@ -1,0 +1,522 @@
+---
+/**
+ * QuantumHardwareComparisonChartApex.astro
+ * Column chart comparing quantum hardware metrics across companies
+ * Reliable SVG implementation with ApexCharts branding
+ */
+import ApexChartWrapper from './ApexChartWrapper.astro';
+
+interface Props {
+  id?: string;
+  title?: string;
+  description?: string;
+  caption?: string;
+  className?: string;
+  height?: string;
+  width?: string;
+  showDataTable?: boolean;
+  showControls?: boolean;
+}
+
+const {
+  id = "quantumHardwareComparisonChart",
+  title = "Quantum Hardware Performance Comparison",
+  description = "Comparison of key performance metrics across major quantum computing platforms. QDaria's hardware-agnostic approach provides access to the best capabilities of each.",
+  caption = "Data sources: IBM, Google, Microsoft, Quantinuum, Rigetti, IonQ, and D-Wave public roadmaps. QDaria's approach is hardware-agnostic, allowing it to leverage the best of each platform.",
+  className = "",
+  height = "500px",
+  width = "100%",
+  showDataTable = true,
+  showControls = true,
+} = Astro.props;
+---
+
+<ApexChartWrapper
+  id={id}
+  title={title}
+  description={description}
+  caption={caption}
+  className={`quantum-hardware-comparison-chart ${className}`}
+  chartType="column"
+  height={height}
+  width={width}
+  showDataTable={showDataTable}
+  showControls={showControls}
+>
+  <div slot="data-table">
+    <table class="chart-data-table-content">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>IBM</th>
+          <th>Google</th>
+          <th>Microsoft</th>
+          <th>Quantinuum</th>
+          <th>Rigetti</th>
+          <th>IonQ</th>
+          <th>D-Wave</th>
+          <th>QDaria</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Qubit Count (2025)</td>
+          <td>433</td>
+          <td>72</td>
+          <td>150</td>
+          <td>65</td>
+          <td>80</td>
+          <td>32</td>
+          <td>5000</td>
+          <td>Multi-vendor access</td>
+        </tr>
+        <tr>
+          <td>Error Rate (Lower is Better)</td>
+          <td>0.5%</td>
+          <td>0.6%</td>
+          <td>0.5%</td>
+          <td>0.4%</td>
+          <td>0.7%</td>
+          <td>0.3%</td>
+          <td>3.0%</td>
+          <td>Hardware-agnostic</td>
+        </tr>
+        <tr>
+          <td>Gate Fidelity %</td>
+          <td>99.5%</td>
+          <td>99.3%</td>
+          <td>99.5%</td>
+          <td>99.6%</td>
+          <td>99.1%</td>
+          <td>99.8%</td>
+          <td>90.0%</td>
+          <td>Multiple architectures</td>
+        </tr>
+        <tr>
+          <td>Coherence Time (μs)</td>
+          <td>100</td>
+          <td>80</td>
+          <td>90</td>
+          <td>120</td>
+          <td>70</td>
+          <td>250</td>
+          <td>20</td>
+          <td>Varied by partner</td>
+        </tr>
+        <tr>
+          <td>CLOPS Score</td>
+          <td>2500</td>
+          <td>2100</td>
+          <td>2300</td>
+          <td>2250</td>
+          <td>1400</td>
+          <td>1800</td>
+          <td>2300</td>
+          <td>Access to all</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div slot="chart-script">
+    <style>
+      .hardware-chart-container {
+        width: 100%;
+        height: 500px;
+        position: relative;
+        padding: 20px;
+        background: rgba(10, 20, 40, 0.3);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .hardware-chart {
+        width: 100%;
+        height: 100%;
+      }
+      
+      .hardware-bar {
+        fill: url(#hardware-bar-gradient);
+        transition: fill 0.3s ease;
+      }
+      
+      .hardware-bar:hover {
+        fill: url(#hardware-bar-gradient-hover);
+      }
+      
+      .hardware-axis {
+        stroke: rgba(255, 255, 255, 0.3);
+        stroke-width: 1;
+      }
+      
+      .hardware-grid {
+        stroke: rgba(255, 255, 255, 0.1);
+        stroke-width: 1;
+      }
+      
+      .hardware-label {
+        fill: white;
+        font-size: 12px;
+        font-family: 'Inter', sans-serif;
+        user-select: text;
+      }
+      
+      .hardware-title {
+        fill: white;
+        font-size: 14px;
+        font-weight: bold;
+        font-family: 'Inter', sans-serif;
+        text-anchor: middle;
+        user-select: text;
+      }
+      
+      .hardware-value {
+        fill: white;
+        font-size: 12px;
+        font-family: 'Inter', sans-serif;
+        text-anchor: middle;
+        user-select: text;
+      }
+      
+      .hardware-annotation {
+        fill: rgba(0, 227, 150, 0.9);
+        stroke: rgba(0, 227, 150, 1);
+        stroke-width: 1;
+      }
+      
+      .hardware-annotation-text {
+        fill: white;
+        font-size: 12px;
+        font-family: 'Inter', sans-serif;
+        text-anchor: middle;
+        user-select: text;
+      }
+      
+      .trillion-milestone {
+        fill: rgba(0, 227, 150, 0.7);
+        stroke: rgba(0, 227, 150, 1);
+        stroke-width: 1;
+        stroke-dasharray: 4;
+      }
+    </style>
+    
+    <script define:vars={{ id }}>
+      document.addEventListener('DOMContentLoaded', () => {
+        const chartElement = document.getElementById(`${id}-chart`);
+        const announcer = document.getElementById(`${id}-announcements`);
+        
+        if (!chartElement) {
+          console.error(`Chart element not found for ID: ${id}`);
+          return;
+        }
+        
+        // Initialize chart status
+        if (announcer) {
+          announcer.textContent = "Loading quantum hardware comparison data...";
+        }
+        
+        // Render the SVG chart
+        renderSVGChart();
+        
+        // Enhanced SVG rendering as the primary visualization method
+        function renderSVGChart() {
+          console.log("Rendering hardware comparison SVG chart");
+          
+          // Clear any existing content
+          chartElement.innerHTML = '';
+          
+          // Add container
+          const container = document.createElement('div');
+          container.className = 'hardware-chart-container';
+          chartElement.appendChild(container);
+          
+          // Chart data
+          const categories = ['IBM', 'Google', 'Microsoft', 'Quantinuum', 'Rigetti', 'IonQ', 'D-Wave', 'QDaria'];
+          const datasets = [
+            { name: 'Qubit Count (2025)', values: [433, 72, 150, 65, 80, 32, 5000, null], qdariaText: 'Multi-vendor access' },
+            { name: 'Error Rate (%)', values: [0.5, 0.6, 0.5, 0.4, 0.7, 0.3, 3.0, null], qdariaText: 'Hardware-agnostic' },
+            { name: 'Gate Fidelity (%)', values: [99.5, 99.3, 99.5, 99.6, 99.1, 99.8, 90.0, null], qdariaText: 'Multiple architectures' },
+            { name: 'Coherence Time (μs)', values: [100, 80, 90, 120, 70, 250, 20, null], qdariaText: 'Varied by partner' },
+            { name: 'CLOPS Score', values: [2500, 2100, 2300, 2250, 1400, 1800, 2300, null], qdariaText: 'Access to all' }
+          ];
+          
+          // Select the primary dataset for visualization (Qubit Count)
+          const dataset = datasets[0];
+          const data = [...dataset.values];
+          
+          // Special handling for D-Wave (scale down for better visualization)
+          data[6] = Math.min(data[6], 1000);
+          
+          // Handle QDaria as special case (set to a reasonable height for visualization)
+          data[7] = 500;
+          
+          // Normalize data for display
+          const normalizedData = data.map(val => val ? Math.min(val, 1000) / 1000 : 0.5);
+          
+          // Create SVG
+          const width = container.clientWidth || 800;
+          const height = container.clientHeight || 500;
+          const margin = { top: 60, right: 40, bottom: 80, left: 60 };
+          const chartWidth = width - margin.left - margin.right;
+          const chartHeight = height - margin.top - margin.bottom;
+          
+          const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('class', 'hardware-chart');
+          svg.setAttribute('width', '100%');
+          svg.setAttribute('height', '100%');
+          svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+          svg.setAttribute('role', 'img');
+          svg.setAttribute('aria-label', 'Quantum Hardware Comparison Chart');
+          container.appendChild(svg);
+          
+          // Define gradients
+          const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+          svg.appendChild(defs);
+          
+          const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+          gradient.setAttribute('id', 'hardware-bar-gradient');
+          gradient.setAttribute('x1', '0%');
+          gradient.setAttribute('y1', '0%');
+          gradient.setAttribute('x2', '0%');
+          gradient.setAttribute('y2', '100%');
+          
+          const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+          stop1.setAttribute('offset', '0%');
+          stop1.setAttribute('stop-color', '#017acd');
+          stop1.setAttribute('stop-opacity', '1');
+          
+          const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+          stop2.setAttribute('offset', '100%');
+          stop2.setAttribute('stop-color', '#017acd');
+          stop2.setAttribute('stop-opacity', '0.7');
+          
+          gradient.appendChild(stop1);
+          gradient.appendChild(stop2);
+          defs.appendChild(gradient);
+          
+          // Hover gradient
+          const hoverGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+          hoverGradient.setAttribute('id', 'hardware-bar-gradient-hover');
+          hoverGradient.setAttribute('x1', '0%');
+          hoverGradient.setAttribute('y1', '0%');
+          hoverGradient.setAttribute('x2', '0%');
+          hoverGradient.setAttribute('y2', '100%');
+          
+          const hoverStop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+          hoverStop1.setAttribute('offset', '0%');
+          hoverStop1.setAttribute('stop-color', '#00d085');
+          hoverStop1.setAttribute('stop-opacity', '1');
+          
+          const hoverStop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+          hoverStop2.setAttribute('offset', '100%');
+          hoverStop2.setAttribute('stop-color', '#00d085');
+          hoverStop2.setAttribute('stop-opacity', '0.7');
+          
+          hoverGradient.appendChild(hoverStop1);
+          hoverGradient.appendChild(hoverStop2);
+          defs.appendChild(hoverGradient);
+          
+          // Create chart group
+          const chartGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          chartGroup.setAttribute('transform', `translate(${margin.left}, ${margin.top})`);
+          svg.appendChild(chartGroup);
+          
+          // Add grid lines
+          for (let i = 0; i <= 5; i++) {
+            const yPos = chartHeight * (1 - i/5);
+            const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            gridLine.setAttribute('class', 'hardware-grid');
+            gridLine.setAttribute('x1', 0);
+            gridLine.setAttribute('y1', yPos);
+            gridLine.setAttribute('x2', chartWidth);
+            gridLine.setAttribute('y2', yPos);
+            chartGroup.appendChild(gridLine);
+            
+            // Add grid labels
+            if (i > 0) {
+              const gridLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+              gridLabel.setAttribute('class', 'hardware-label');
+              gridLabel.setAttribute('x', -5);
+              gridLabel.setAttribute('y', yPos);
+              gridLabel.setAttribute('text-anchor', 'end');
+              gridLabel.setAttribute('dominant-baseline', 'middle');
+              gridLabel.textContent = `${i*20}%`;
+              chartGroup.appendChild(gridLabel);
+            }
+          }
+          
+          // X axis
+          const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          xAxis.setAttribute('class', 'hardware-axis');
+          xAxis.setAttribute('x1', 0);
+          xAxis.setAttribute('y1', chartHeight);
+          xAxis.setAttribute('x2', chartWidth);
+          xAxis.setAttribute('y2', chartHeight);
+          chartGroup.appendChild(xAxis);
+          
+          // Y axis
+          const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          yAxis.setAttribute('class', 'hardware-axis');
+          yAxis.setAttribute('x1', 0);
+          yAxis.setAttribute('y1', 0);
+          yAxis.setAttribute('x2', 0);
+          yAxis.setAttribute('y2', chartHeight);
+          chartGroup.appendChild(yAxis);
+          
+          // Add bars
+          const barWidth = chartWidth / categories.length * 0.6;
+          const barSpacing = chartWidth / categories.length;
+          
+          normalizedData.forEach((val, i) => {
+            const barHeight = val * chartHeight;
+            const barX = i * barSpacing + barSpacing/2 - barWidth/2;
+            const barY = chartHeight - barHeight;
+            
+            const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            bar.setAttribute('class', 'hardware-bar');
+            bar.setAttribute('x', barX);
+            bar.setAttribute('y', barY);
+            bar.setAttribute('width', barWidth);
+            bar.setAttribute('height', barHeight);
+            bar.setAttribute('rx', '2');
+            
+            const tooltip = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+            
+            // Special handling for QDaria
+            if (categories[i] === 'QDaria') {
+              tooltip.textContent = `${categories[i]}: ${dataset.qdariaText}`;
+            } else if (categories[i] === 'D-Wave' && dataset.name === 'Qubit Count (2025)') {
+              tooltip.textContent = `${categories[i]}: 5000 qubits (scaled for visualization)`;
+            } else {
+              tooltip.textContent = `${categories[i]}: ${dataset.values[i]} ${dataset.name}`;
+            }
+            
+            bar.appendChild(tooltip);
+            
+            // Add ARIA attributes for accessibility
+            bar.setAttribute('role', 'graphics-symbol');
+            bar.setAttribute('aria-roledescription', 'bar');
+            bar.setAttribute('aria-label', tooltip.textContent);
+            
+            chartGroup.appendChild(bar);
+            
+            // Add value label
+            const valueLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            valueLabel.setAttribute('class', 'hardware-value');
+            valueLabel.setAttribute('x', barX + barWidth/2);
+            valueLabel.setAttribute('y', barY - 8);
+            
+            // Special handling for QDaria and D-Wave
+            if (categories[i] === 'QDaria') {
+              valueLabel.textContent = 'Multi-vendor';
+            } else if (categories[i] === 'D-Wave' && dataset.name === 'Qubit Count (2025)') {
+              valueLabel.textContent = '5000';
+            } else {
+              valueLabel.textContent = data[i];
+            }
+            
+            chartGroup.appendChild(valueLabel);
+            
+            // Add x-axis label
+            const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xLabel.setAttribute('class', 'hardware-label');
+            xLabel.setAttribute('x', barX + barWidth/2);
+            xLabel.setAttribute('y', chartHeight + 20);
+            xLabel.setAttribute('text-anchor', 'middle');
+            xLabel.textContent = categories[i];
+            
+            // Rotate labels to prevent overlap
+            xLabel.setAttribute('transform', `rotate(-30, ${barX + barWidth/2}, ${chartHeight + 20})`);
+            chartGroup.appendChild(xLabel);
+          });
+          
+          // Add QDaria annotation
+          const qdariaIndex = categories.indexOf('QDaria');
+          if (qdariaIndex !== -1) {
+            const annotX = qdariaIndex * barSpacing + barSpacing/2;
+            const annotY = chartHeight - normalizedData[qdariaIndex] * chartHeight - 40;
+            
+            const annotation = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            annotation.setAttribute('class', 'hardware-annotation');
+            annotation.setAttribute('x', annotX - 75);
+            annotation.setAttribute('y', annotY - 15);
+            annotation.setAttribute('width', 150);
+            annotation.setAttribute('height', 25);
+            annotation.setAttribute('rx', 5);
+            chartGroup.appendChild(annotation);
+            
+            const annotText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            annotText.setAttribute('class', 'hardware-annotation-text');
+            annotText.setAttribute('x', annotX);
+            annotText.setAttribute('y', annotY);
+            annotText.textContent = 'Hardware-agnostic approach';
+            chartGroup.appendChild(annotText);
+          }
+          
+          // Add title
+          const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          title.setAttribute('class', 'hardware-title');
+          title.setAttribute('x', chartWidth / 2);
+          title.setAttribute('y', -30);
+          title.textContent = 'Quantum Hardware Comparison';
+          chartGroup.appendChild(title);
+          
+          // Add subtitle
+          const subtitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          subtitle.setAttribute('class', 'hardware-label');
+          subtitle.setAttribute('x', chartWidth / 2);
+          subtitle.setAttribute('y', -10);
+          subtitle.setAttribute('text-anchor', 'middle');
+          subtitle.textContent = dataset.name;
+          chartGroup.appendChild(subtitle);
+          
+          // Add $1 Trillion milestone annotation as required by QDaria
+          const trillionAnnotation = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          
+          const annotationLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          annotationLine.setAttribute('class', 'trillion-milestone');
+          annotationLine.setAttribute('x1', chartWidth - 130);
+          annotationLine.setAttribute('y1', 20);
+          annotationLine.setAttribute('x2', chartWidth);
+          annotationLine.setAttribute('y2', 20);
+          trillionAnnotation.appendChild(annotationLine);
+          
+          const annotationText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          annotationText.setAttribute('class', 'hardware-annotation-text');
+          annotationText.setAttribute('x', chartWidth - 140);
+          annotationText.setAttribute('y', 20);
+          annotationText.setAttribute('text-anchor', 'end');
+          annotationText.textContent = '$1 Trillion Market Milestone';
+          trillionAnnotation.appendChild(annotationText);
+          
+          chartGroup.appendChild(trillionAnnotation);
+          
+          // Make chart interactive with keyboard navigation
+          container.setAttribute('tabindex', '0');
+          container.setAttribute('role', 'group');
+          container.setAttribute('aria-label', 'Interactive quantum hardware comparison chart');
+          
+          // Add keyboard navigation
+          container.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+              e.preventDefault();
+              
+              // Announce navigation
+              if (announcer) {
+                announcer.textContent = `Navigating through ${dataset.name} data`;
+              }
+            }
+          });
+          
+          // Update the announcer after chart is fully rendered
+          if (announcer) {
+            announcer.textContent = "Quantum hardware comparison chart loaded successfully.";
+          }
+          
+          console.log("Quantum hardware chart rendered successfully");
+        }
+      });
+    </script>
+  </div>
+</ApexChartWrapper>

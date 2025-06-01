@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MarketGrowthChartApex from "../components/qdaria-business-plan/charts/MarketGrowthChartApex.astro";
+---
+
+<BaseLayout title="Market Growth Chart Test">
+  <div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-8 text-center">Global Quantum Computing Market Growth Projection (2020-2035)</h1>
+    
+    <div class="bg-slate-800 rounded-lg p-6 max-w-5xl mx-auto">
+      <MarketGrowthChartApex
+        id="market-growth-test"
+        showDataTable={true}
+        showControls={true}
+        height="500px"
+      />
+    </div>
+
+    <div class="mt-12 max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold mb-4">Enhanced Chart Features</h2>
+      <ul class="list-disc pl-6 mb-6 space-y-2">
+        <li>Scale toggle between logarithmic and linear representation</li>
+        <li>Improved y-axis labeling with more intermediate values</li>
+        <li>Enhanced data table with year-over-year growth rates</li>
+        <li>CAGR (Compound Annual Growth Rate) calculation for each scenario</li>
+        <li>Prominent $1 Trillion milestone annotation</li>
+        <li>Tooltips include growth rate information</li>
+        <li>More detailed grid lines for better readability</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mb-4 mt-8">Visualization Guide</h2>
+      <p class="mb-4">
+        This chart visualizes the projected economic impact of quantum computing from 2020 to 2035
+        across three scenarios:
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <div class="bg-slate-800 p-4 rounded-lg border border-blue-500">
+          <h3 class="font-bold text-blue-500 mb-2">Base Case</h3>
+          <p>The expected market growth trajectory with mainstream adoption of quantum computing technologies.</p>
+          <p class="mt-2"><span class="font-bold">Milestone:</span> $1 Trillion by 2035</p>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-lg border border-purple-500">
+          <h3 class="font-bold text-purple-500 mb-2">Conservative Case</h3>
+          <p>Slower adoption curve with more technical challenges to overcome.</p>
+          <p class="mt-2"><span class="font-bold">Milestone:</span> $850 Billion by 2035</p>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-lg border border-yellow-500">
+          <h3 class="font-bold text-yellow-500 mb-2">Optimistic Case</h3>
+          <p>Faster adoption and breakthrough applications driving rapid market expansion.</p>
+          <p class="mt-2"><span class="font-bold">Milestone:</span> $1.3 Trillion by 2035</p>
+        </div>
+      </div>
+      
+      <div class="mt-8 p-4 bg-slate-800 rounded-lg border border-green-500">
+        <h3 class="font-bold text-green-500 mb-2">Viewing Tip</h3>
+        <p>
+          The logarithmic scale is ideal for visualizing exponential growth as it shows percentage changes 
+          consistently. Switch to linear scale to see absolute value differences more clearly.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Additional styles for the test page */
+  .container {
+    max-width: 1200px;
+  }
+  
+  h1, h2, h3 {
+    color: #ffffff;
+  }
+  
+  p {
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+  
+  li {
+    color: #e2e8f0;
+    margin-bottom: 0.5rem;
+  }
+</style>

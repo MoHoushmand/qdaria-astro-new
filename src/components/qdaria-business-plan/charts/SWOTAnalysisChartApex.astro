@@ -1,0 +1,822 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface SWOTItem {
+  title: string;
+  description: string;
+  impact?: 'High' | 'Medium' | 'Low';
+  category?: string;
+}
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  strengths?: SWOTItem[];
+  weaknesses?: SWOTItem[];
+  opportunities?: SWOTItem[];
+  threats?: SWOTItem[];
+  colors?: string[];
+  showQuadrantView?: boolean;
+}
+
+const { 
+  id = `swot-analysis-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "QDaria SWOT Analysis", 
+  description = "Interactive SWOT analysis showing QDaria's Strengths, Weaknesses, Opportunities, and Threats across key business dimensions.",
+  className = "",
+  height = 600,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  showQuadrantView = true,
+  colors = ['#04a3ff', '#FF6B6B', '#00FFD3', '#F5B700'],
+  strengths = [
+    {
+      title: "Unique AI-Quantum Integration",
+      description: "QDaria's proprietary integration of AI agents with quantum systems creates a unique market position that competitors haven't matched.",
+      impact: "High",
+      category: "Technology"
+    },
+    {
+      title: "Topological Quantum Approach",
+      description: "Our focus on topological quantum computing with Fibonacci anyons offers potential stability advantages over competing approaches.",
+      impact: "High",
+      category: "Technology"
+    },
+    {
+      title: "Strategic Partnership with Rigetti",
+      description: "Established partnership with Rigetti Computing provides access to hardware and expertise.",
+      impact: "Medium",
+      category: "Strategic Positioning"
+    },
+    {
+      title: "Quantum Kit Rental Program",
+      description: "Unique offering that provides physical access to quantum hardware, filling a gap in the market.",
+      impact: "Medium",
+      category: "Market Position"
+    },
+    {
+      title: "Multidisciplinary Team",
+      description: "Team combines expertise in quantum physics, AI, software engineering, and business development.",
+      impact: "High",
+      category: "Team Capabilities"
+    },
+    {
+      title: "Norway's Quantum Pioneer",
+      description: "Positioned to be Norway's first quantum computing company with public accessibility.",
+      impact: "Medium",
+      category: "Strategic Positioning"
+    },
+    {
+      title: "Connection to Anyons Discoverers",
+      description: "Direct connection to Jon Magne Keinaas and original anyons research provides unique expertise access.",
+      impact: "Medium",
+      category: "Strategic Positioning"
+    }
+  ],
+  weaknesses = [
+    {
+      title: "Early-Stage Technology",
+      description: "Topological quantum computing is still in early research stages with significant development challenges ahead.",
+      impact: "High",
+      category: "Technology"
+    },
+    {
+      title: "Limited Capital",
+      description: "As a startup, QDaria has limited financial resources compared to tech giants in the quantum space.",
+      impact: "High",
+      category: "Financial Resources"
+    },
+    {
+      title: "Small Team Size",
+      description: "Current team size limits development velocity compared to larger competitors.",
+      impact: "Medium",
+      category: "Team Capabilities"
+    },
+    {
+      title: "No Commercial Product Yet",
+      description: "Still in development phase without commercial products in the market.",
+      impact: "Medium",
+      category: "Market Position"
+    },
+    {
+      title: "Limited Marketing Reach",
+      description: "Brand awareness and marketing reach are still developing in the global quantum computing market.",
+      impact: "Medium",
+      category: "Market Position"
+    },
+    {
+      title: "Hardware Dependencies",
+      description: "Currently dependent on partnerships for quantum hardware access.",
+      impact: "Medium",
+      category: "Strategic Positioning"
+    }
+  ],
+  opportunities = [
+    {
+      title: "Growing Quantum Market",
+      description: "Global quantum computing market projected to reach $1 trillion by 2035 with 30%+ CAGR.",
+      impact: "High",
+      category: "Market Position"
+    },
+    {
+      title: "AI Integration Demand",
+      description: "Increasing demand for AI-integrated quantum solutions that simplify quantum computing access.",
+      impact: "High",
+      category: "Market Position"
+    },
+    {
+      title: "Norway's Quantum Leadership",
+      description: "Opportunity to establish Norway as a quantum computing hub in Europe.",
+      impact: "Medium",
+      category: "Strategic Positioning"
+    },
+    {
+      title: "Educational Market",
+      description: "Growing demand for quantum education tools and platforms.",
+      impact: "Medium",
+      category: "Market Position"
+    },
+    {
+      title: "Government Funding",
+      description: "Increasing government investments in quantum technologies globally.",
+      impact: "High",
+      category: "Financial Resources"
+    },
+    {
+      title: "Enterprise Experimentation",
+      description: "Growing interest from enterprises wanting to experiment with quantum computing.",
+      impact: "High",
+      category: "Market Position"
+    },
+    {
+      title: "Microsoft Partnership Potential",
+      description: "Potential for Microsoft funding and North American expansion.",
+      impact: "High",
+      category: "Strategic Positioning"
+    }
+  ],
+  threats = [
+    {
+      title: "Tech Giant Competition",
+      description: "IBM, Google, Microsoft, and other tech giants have massive R&D budgets for quantum computing.",
+      impact: "High",
+      category: "Competitive Advantage"
+    },
+    {
+      title: "Alternative Quantum Approaches",
+      description: "Competing quantum technologies (superconducting, ion trap, etc.) may advance faster than topological approach.",
+      impact: "High",
+      category: "Technology"
+    },
+    {
+      title: "Talent Competition",
+      description: "Intense competition for limited quantum computing talent.",
+      impact: "High",
+      category: "Team Capabilities"
+    },
+    {
+      title: "Funding Environment Changes",
+      description: "Potential shifts in venture capital funding for deep tech.",
+      impact: "Medium",
+      category: "Financial Resources"
+    },
+    {
+      title: "Regulatory Uncertainties",
+      description: "Evolving regulatory landscape for quantum technologies.",
+      impact: "Low",
+      category: "Strategic Positioning"
+    },
+    {
+      title: "Technical Development Delays",
+      description: "Potential delays in topological quantum computing development timeline.",
+      impact: "Medium",
+      category: "Technology"
+    }
+  ]
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const viewToggleId = `${chartId}-view-toggle`;
+const radarViewId = `${chartId}-radar-view`;
+const quadrantViewId = `${chartId}-quadrant-view`;
+const categoryFilterId = `${chartId}-category-filter`;
+
+// Worker path for data processing
+const workerPath = "/charts/swotAnalysisWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- View Toggle Controls -->
+  <div class="view-toggle" id={viewToggleId}>
+    <button class="view-toggle-btn active" data-view="radar">Radar View</button>
+    <button class="view-toggle-btn" data-view="quadrant">Quadrant View</button>
+  </div>
+  
+  <!-- Category Filter -->
+  <div class="category-filter" id={categoryFilterId}>
+    <label for="category-select">Filter by Category:</label>
+    <select id="category-select">
+      <option value="all">All Categories</option>
+      <option value="Strategic Positioning">Strategic Positioning</option>
+      <option value="Technology">Technology</option>
+      <option value="Market Position">Market Position</option>
+      <option value="Team Capabilities">Team Capabilities</option>
+      <option value="Financial Resources">Financial Resources</option>
+      <option value="Competitive Advantage">Competitive Advantage</option>
+      <option value="Scalability">Scalability</option>
+      <option value="Innovation">Innovation</option>
+    </select>
+  </div>
+  
+  <!-- Radar Chart View -->
+  <div id={radarViewId} class="chart-view radar-view active">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Quadrant View -->
+  <div id={quadrantViewId} class="chart-view quadrant-view">
+    <div class="swot-grid">
+      <div class="swot-quadrant strengths-quadrant">
+        <h4 class="quadrant-title">Strengths</h4>
+        <ul class="swot-list strengths-list">
+          {strengths.map((item) => (
+            <li class="swot-item" data-category={item.category} data-impact={item.impact}>
+              <div class="swot-item-header">
+                <span class="swot-item-title">{item.title}</span>
+                <span class="swot-item-impact">{item.impact}</span>
+              </div>
+              <p class="swot-item-description">{item.description}</p>
+              {item.category && <span class="swot-item-category">{item.category}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="swot-quadrant weaknesses-quadrant">
+        <h4 class="quadrant-title">Weaknesses</h4>
+        <ul class="swot-list weaknesses-list">
+          {weaknesses.map((item) => (
+            <li class="swot-item" data-category={item.category} data-impact={item.impact}>
+              <div class="swot-item-header">
+                <span class="swot-item-title">{item.title}</span>
+                <span class="swot-item-impact">{item.impact}</span>
+              </div>
+              <p class="swot-item-description">{item.description}</p>
+              {item.category && <span class="swot-item-category">{item.category}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="swot-quadrant opportunities-quadrant">
+        <h4 class="quadrant-title">Opportunities</h4>
+        <ul class="swot-list opportunities-list">
+          {opportunities.map((item) => (
+            <li class="swot-item" data-category={item.category} data-impact={item.impact}>
+              <div class="swot-item-header">
+                <span class="swot-item-title">{item.title}</span>
+                <span class="swot-item-impact">{item.impact}</span>
+              </div>
+              <p class="swot-item-description">{item.description}</p>
+              {item.category && <span class="swot-item-category">{item.category}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="swot-quadrant threats-quadrant">
+        <h4 class="quadrant-title">Threats</h4>
+        <ul class="swot-list threats-list">
+          {threats.map((item) => (
+            <li class="swot-item" data-category={item.category} data-impact={item.impact}>
+              <div class="swot-item-header">
+                <span class="swot-item-title">{item.title}</span>
+                <span class="swot-item-impact">{item.impact}</span>
+              </div>
+              <p class="swot-item-description">{item.description}</p>
+              {item.category && <span class="swot-item-category">{item.category}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      {strengths.map((item) => (
+        <tr class="strength-row">
+          <td>Strength</td>
+          <td>{item.title}</td>
+          <td>{item.description}</td>
+          <td>{item.impact}</td>
+        </tr>
+      ))}
+      {weaknesses.map((item) => (
+        <tr class="weakness-row">
+          <td>Weakness</td>
+          <td>{item.title}</td>
+          <td>{item.description}</td>
+          <td>{item.impact}</td>
+        </tr>
+      ))}
+      {opportunities.map((item) => (
+        <tr class="opportunity-row">
+          <td>Opportunity</td>
+          <td>{item.title}</td>
+          <td>{item.description}</td>
+          <td>{item.impact}</td>
+        </tr>
+      ))}
+      {threats.map((item) => (
+        <tr class="threat-row">
+          <td>Threat</td>
+          <td>{item.title}</td>
+          <td>{item.description}</td>
+          <td>{item.impact}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .view-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .view-toggle-btn {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .view-toggle-btn:hover {
+    background: rgba(4, 163, 255, 0.3);
+  }
+  
+  .view-toggle-btn.active {
+    background: rgba(4, 163, 255, 0.5);
+    border-color: rgba(4, 163, 255, 0.8);
+    box-shadow: 0 0 10px rgba(4, 163, 255, 0.5);
+  }
+  
+  .category-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .category-filter label {
+    color: white;
+    font-size: 0.875rem;
+  }
+  
+  .category-filter select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .chart-view {
+    display: none;
+  }
+  
+  .chart-view.active {
+    display: block;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 400px;
+  }
+  
+  /* Quadrant View Styles */
+  .swot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+    height: 100%;
+    min-height: 500px;
+  }
+  
+  .swot-quadrant {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow-y: auto;
+    max-height: 300px;
+  }
+  
+  .strengths-quadrant {
+    border-color: rgba(4, 163, 255, 0.5);
+  }
+  
+  .weaknesses-quadrant {
+    border-color: rgba(255, 107, 107, 0.5);
+  }
+  
+  .opportunities-quadrant {
+    border-color: rgba(0, 255, 211, 0.5);
+  }
+  
+  .threats-quadrant {
+    border-color: rgba(245, 183, 0, 0.5);
+  }
+  
+  .quadrant-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+  
+  .strengths-quadrant .quadrant-title {
+    color: #04a3ff;
+  }
+  
+  .weaknesses-quadrant .quadrant-title {
+    color: #FF6B6B;
+  }
+  
+  .opportunities-quadrant .quadrant-title {
+    color: #00FFD3;
+  }
+  
+  .threats-quadrant .quadrant-title {
+    color: #F5B700;
+  }
+  
+  .swot-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .swot-item {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .swot-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .swot-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+  
+  .swot-item-title {
+    font-weight: bold;
+    font-size: 0.875rem;
+  }
+  
+  .swot-item-impact {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .swot-item[data-impact="High"] .swot-item-impact {
+    background: rgba(255, 107, 107, 0.3);
+  }
+  
+  .swot-item[data-impact="Medium"] .swot-item-impact {
+    background: rgba(245, 183, 0, 0.3);
+  }
+  
+  .swot-item[data-impact="Low"] .swot-item-impact {
+    background: rgba(0, 255, 211, 0.3);
+  }
+  
+  .swot-item-description {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.25rem;
+  }
+  
+  .swot-item-category {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: 1rem;
+    background: rgba(4, 163, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content .strength-row {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  .chart-data-table-content .weakness-row {
+    background: rgba(255, 107, 107, 0.1);
+  }
+  
+  .chart-data-table-content .opportunity-row {
+    background: rgba(0, 255, 211, 0.1);
+  }
+  
+  .chart-data-table-content .threat-row {
+    background: rgba(245, 183, 0, 0.1);
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.2);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .swot-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, auto);
+    }
+    
+    .swot-quadrant {
+      max-height: 250px;
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, strengths, weaknesses, opportunities, threats, colors, radarViewId, quadrantViewId, viewToggleId, categoryFilterId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initSWOTChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initSWOTChart);
+    }
+    
+    // Initialize view toggle
+    const viewToggleBtns = document.querySelectorAll(`#${viewToggleId} .view-toggle-btn`);
+    const radarView = document.getElementById(radarViewId);
+    const quadrantView = document.getElementById(quadrantViewId);
+    
+    viewToggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        viewToggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show/hide views
+        const viewType = btn.getAttribute('data-view');
+        if (viewType === 'radar') {
+          radarView.classList.add('active');
+          quadrantView.classList.remove('active');
+        } else {
+          radarView.classList.remove('active');
+          quadrantView.classList.add('active');
+        }
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Switched to ${viewType} view`;
+        }
+      });
+    });
+    
+    // Initialize category filter
+    const categorySelect = document.getElementById('category-select');
+    if (categorySelect) {
+      categorySelect.addEventListener('change', () => {
+        const selectedCategory = categorySelect.value;
+        filterSWOTItems(selectedCategory);
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Filtered by ${selectedCategory === 'all' ? 'all categories' : selectedCategory}`;
+        }
+      });
+    }
+    
+    // Function to filter SWOT items by category
+    function filterSWOTItems(category) {
+      const swotItems = document.querySelectorAll('.swot-item');
+      
+      swotItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        
+        if (category === 'all' || itemCategory === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+    
+    // Function to initialize the chart
+    function initSWOTChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareData',
+        strengths,
+        weaknesses,
+        opportunities,
+        threats,
+        colors
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'dataReady') {
+          const chartData = e.data.chartData;
+          renderChart(chartData);
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('radar') : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: 'radar',
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: false,
+                zoom: false,
+                zoomin: false,
+                zoomout: false,
+                pan: false,
+                reset: true
+              }
+            }
+          },
+          series: chartData.series,
+          colors: chartData.colors,
+          xaxis: {
+            categories: chartData.categories
+          },
+          yaxis: {
+            show: false,
+            min: 0,
+            max: 10
+          },
+          plotOptions: {
+            radar: {
+              size: undefined,
+              offsetX: 0,
+              offsetY: 0,
+              polygons: {
+                strokeColors: 'rgba(255, 255, 255, 0.2)',
+                strokeWidth: 1,
+                connectorColors: 'rgba(255, 255, 255, 0.2)',
+                fill: {
+                  colors: undefined
+                }
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 2
+          },
+          fill: {
+            opacity: 0.2
+          },
+          markers: {
+            size: 4,
+            hover: {
+              size: 6
+            }
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                return val.toFixed(1) + '/10';
+              }
+            }
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${radarViewId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance for later reference
+        window[`${chartId}-instance`] = chart;
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'SWOT analysis chart loaded. Use arrow keys to navigate between data points.';
+        }
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: 'radar',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          colors: colors,
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            strokeDashArray: 3
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 2
+          },
+          fill: {
+            opacity: 0.2
+          }
+        };
+      }
+    }
+  });
+</script>

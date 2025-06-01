@@ -1,0 +1,211 @@
+/**
+ * INVESTOR-ENHANCED CHART VISUALS
+ * Premium styling for investor-ready chart presentations
+ */
+
+/* Premium chart container styling */
+.premium-chart-container,
+[id$="Chart"],
+.chart-container,
+.apex-chart-container {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg, rgba(2, 6, 23, 0.8) 0%, rgba(2, 6, 23, 0.95) 100%);
+  border: 1px solid rgba(67, 83, 255, 0.3);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: visible;
+}
+
+/* Premium chart title styling */
+.premium-chart-title,
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Premium chart description styling */
+.premium-chart-description,
+.chart-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* Premium ApexCharts styling */
+.apexcharts-canvas {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Premium tooltip styling */
+.apexcharts-tooltip {
+  background: rgba(2, 6, 23, 0.95) !important;
+  border: 1px solid rgba(67, 83, 255, 0.5) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 4px !important;
+  padding: 0.75rem !important;
+}
+
+.apexcharts-tooltip-title {
+  background: rgba(67, 83, 255, 0.2) !important;
+  border-bottom: 1px solid rgba(67, 83, 255, 0.3) !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+/* Premium data table styling */
+.chart-data-table,
+[id$="-data-table"] {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1.5rem;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-data-table th,
+[id$="-data-table"] th {
+  background: rgba(67, 83, 255, 0.2);
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(67, 83, 255, 0.3);
+}
+
+.chart-data-table td,
+[id$="-data-table"] td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.chart-data-table tr:last-child td,
+[id$="-data-table"] tr:last-child td {
+  border-bottom: none;
+}
+
+.chart-data-table tr:nth-child(even),
+[id$="-data-table"] tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Premium data table toggle button */
+.chart-data-table-btn {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(67, 83, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(67, 83, 255, 0.3);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.chart-data-table-btn:hover {
+  background: rgba(67, 83, 255, 0.3);
+}
+
+.chart-data-table-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(67, 83, 255, 0.5);
+}
+
+/* Premium scenario tabs */
+.chart-scenarios {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-scenario-tab {
+  padding: 0.5rem 1rem;
+  background: rgba(67, 83, 255, 0.1);
+  border: 1px solid rgba(67, 83, 255, 0.2);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chart-scenario-tab:hover {
+  background: rgba(67, 83, 255, 0.2);
+  color: #fff;
+}
+
+.chart-scenario-tab.active {
+  background: rgba(67, 83, 255, 0.3);
+  border-color: rgba(67, 83, 255, 0.5);
+  color: #fff;
+}
+
+/* Premium trillion milestone styling */
+.trillion-milestone {
+  position: absolute;
+  z-index: 10;
+  top: 30%;
+  right: 10%;
+}
+
+.trillion-milestone-label {
+  background: rgba(0, 208, 133, 0.8);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Premium axis styling */
+.apexcharts-yaxis-label,
+.apexcharts-xaxis-label {
+  fill: rgba(255, 255, 255, 0.7) !important;
+}
+
+.apexcharts-grid line {
+  stroke: rgba(255, 255, 255, 0.1) !important;
+}
+
+.apexcharts-annotation-label {
+  background: rgba(0, 208, 133, 0.8) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  border-color: rgba(0, 208, 133, 1) !important;
+}
+
+/* Premium legend styling */
+.apexcharts-legend {
+  padding: 0.5rem !important;
+  border-radius: 4px !important;
+  background: rgba(2, 6, 23, 0.7) !important;
+  border: 1px solid rgba(67, 83, 255, 0.2) !important;
+}
+
+.apexcharts-legend-text {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500 !important;
+}
+
+/* Premium focus indicators for accessibility */
+.chart-data-table-btn:focus,
+.chart-scenario-tab:focus,
+[id$="-chart"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(67, 83, 255, 0.5);
+}

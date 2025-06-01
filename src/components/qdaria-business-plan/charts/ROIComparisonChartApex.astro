@@ -1,0 +1,802 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+import type { BaseChartProps } from '../../../types/chart';
+
+interface Project {
+  name: string;
+  category: string;
+  Investment: number;
+  Return: number;
+  description?: string;
+  timeline?: string;
+  risk?: string;
+}
+
+interface Props extends BaseChartProps {
+  className?: string;
+  height?: number;
+  width?: string;
+  darkMode?: boolean;
+  highContrastMode?: boolean;
+  projects?: Project[];
+  metrics?: string[];
+  colors?: string[];
+  categories?: string[];
+  showQuadrants?: boolean;
+}
+
+const { 
+  id = `roi-comparison-chart-${Math.random().toString(36).substring(2, 9)}`,
+  title = "QDaria ROI Comparison", 
+  description = "Scatter plot comparing investment and return across different project categories.",
+  className = "",
+  height = 500,
+  width = "100%",
+  darkMode = true,
+  highContrastMode = false,
+  projects,
+  metrics = ['Investment', 'Return'],
+  colors,
+  categories,
+  showQuadrants = true
+} = Astro.props;
+
+// Create a unique ID for the chart
+const chartId = id;
+const dataTableId = `${chartId}-data-table`;
+const quadrantToggleId = `${chartId}-quadrant-toggle`;
+const categoryFilterId = `${chartId}-category-filter`;
+
+// Worker path for data processing
+const workerPath = "/charts/roiComparisonWorker.js";
+---
+
+<ApexChartWrapper
+  id={chartId}
+  title={title}
+  description={description}
+  className={className}
+  height={height}
+  width={width}
+  darkMode={darkMode}
+  highContrastMode={highContrastMode}
+  dataTableId={dataTableId}
+>
+  <!-- Chart Controls -->
+  <div class="chart-controls mb-4 flex flex-wrap gap-4">
+    <!-- Quadrant Toggle -->
+    <div class="quadrant-toggle" id={quadrantToggleId}>
+      <div class="toggle-label mb-1">Quadrant Lines:</div>
+      <div class="toggle-options flex gap-4">
+        <label class="toggle-option flex items-center">
+          <input type="checkbox" name="showQuadrants" checked={showQuadrants} />
+          <span class="toggle-label ml-2">Show</span>
+        </label>
+      </div>
+    </div>
+    
+    <!-- Category Filter -->
+    <div class="category-filter" id={categoryFilterId}>
+      <div class="filter-label mb-1">Filter Categories:</div>
+      <div class="filter-select">
+        <select class="bg-dark-bg text-white border border-primary-500/30 rounded px-2 py-1">
+          <option value="all">All Categories</option>
+          <!-- Categories will be populated by JavaScript -->
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chart container -->
+  <div class="roi-chart-container">
+    <div class="chart-container"></div>
+  </div>
+  
+  <!-- Quadrant Labels -->
+  <div class="quadrant-labels" id="quadrant-labels">
+    <div class="quadrant q1">High Return, Low Investment<br><span class="text-green-400">Efficient</span></div>
+    <div class="quadrant q2">High Return, High Investment<br><span class="text-blue-400">Strategic</span></div>
+    <div class="quadrant q3">Low Return, Low Investment<br><span class="text-yellow-400">Experimental</span></div>
+    <div class="quadrant q4">Low Return, High Investment<br><span class="text-red-400">Underperforming</span></div>
+  </div>
+  
+  <!-- Key Metrics -->
+  <div class="key-metrics mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="metric top-performer">
+      <div class="metric-label">Top Performer</div>
+      <div class="metric-value" id="top-performer-value">Quantum Hardware R&D</div>
+      <div class="metric-detail" id="top-performer-roi">ROI: 260%</div>
+    </div>
+    <div class="metric avg-roi">
+      <div class="metric-label">Average ROI</div>
+      <div class="metric-value" id="avg-roi-value">185.2%</div>
+    </div>
+    <div class="metric total-projects">
+      <div class="metric-label">Total Projects</div>
+      <div class="metric-value" id="total-projects-value">12</div>
+    </div>
+  </div>
+  
+  <!-- Selected Project Details -->
+  <div class="project-details mt-6 p-4 border border-primary-500/30 rounded-lg bg-dark-bg/50 hidden" id="project-details">
+    <h3 class="text-lg font-semibold mb-2" id="project-name">Project Name</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-gray-300 mb-1">Category</p>
+        <p class="font-medium" id="project-category">Category</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300 mb-1">ROI</p>
+        <p class="font-medium" id="project-roi">0%</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300 mb-1">Investment</p>
+        <p class="font-medium" id="project-investment">$0M</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300 mb-1">Return</p>
+        <p class="font-medium" id="project-return">$0M</p>
+      </div>
+      <div class="md:col-span-2">
+        <p class="text-sm text-gray-300 mb-1">Description</p>
+        <p class="font-medium" id="project-description">Description</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300 mb-1">Timeline</p>
+        <p class="font-medium" id="project-timeline">Timeline</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300 mb-1">Risk Level</p>
+        <p class="font-medium" id="project-risk">Risk</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Category</th>
+        <th>Investment ($M)</th>
+        <th>Return ($M)</th>
+        <th>ROI (%)</th>
+        <th>Timeline</th>
+        <th>Risk</th>
+      </tr>
+    </thead>
+    <tbody id="roi-table-body">
+      <!-- Table rows will be populated by JavaScript -->
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .chart-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .toggle-label, .filter-label {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .toggle-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .toggle-option input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  /* Chart Container */
+  .roi-chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Quadrant Labels */
+  .quadrant-labels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+  
+  .quadrant {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background: rgba(2, 6, 23, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .q1 {
+    border-left: 3px solid #00d085;
+  }
+  
+  .q2 {
+    border-left: 3px solid #04a3ff;
+  }
+  
+  .q3 {
+    border-left: 3px solid #f5b700;
+  }
+  
+  .q4 {
+    border-left: 3px solid #ff6b6b;
+  }
+  
+  /* Key Metrics */
+  .key-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .metric {
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .metric-detail {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.25rem;
+  }
+  
+  .top-performer {
+    background: rgba(0, 255, 211, 0.15);
+    border-color: rgba(0, 255, 211, 0.4);
+  }
+  
+  .avg-roi {
+    background: rgba(4, 163, 255, 0.15);
+    border-color: rgba(4, 163, 255, 0.4);
+  }
+  
+  .total-projects {
+    background: rgba(245, 183, 0, 0.15);
+    border-color: rgba(245, 183, 0, 0.4);
+  }
+  
+  /* Project Details */
+  .project-details {
+    margin-top: 1.5rem;
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .key-metrics {
+      grid-template-columns: 1fr;
+    }
+    
+    .quadrant-labels {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, auto);
+    }
+  }
+</style>
+
+<script define:vars={{ chartId, projects, metrics, colors, categories, showQuadrants, quadrantToggleId, categoryFilterId, workerPath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the chart when ApexCharts is loaded
+    if (typeof ApexCharts !== 'undefined') {
+      initROIComparisonChart();
+    } else {
+      // If ApexCharts is not loaded yet, wait for it
+      window.addEventListener('ApexChartsLoaded', initROIComparisonChart);
+    }
+    
+    // Initialize quadrant toggle
+    const quadrantToggle = document.querySelector(`#${quadrantToggleId} input[type="checkbox"]`);
+    if (quadrantToggle) {
+      quadrantToggle.addEventListener('change', () => {
+        updateQuadrantVisibility();
+      });
+    }
+    
+    // Function to update quadrant visibility
+    function updateQuadrantVisibility() {
+      const chart = window[`${chartId}-instance`];
+      if (!chart) return;
+      
+      const showQuadrants = document.querySelector(`#${quadrantToggleId} input[type="checkbox"]`).checked;
+      
+      // Update chart annotations
+      chart.updateOptions({
+        annotations: {
+          xaxis: showQuadrants ? [{
+            x: chart.opts.quadrants.xCenter,
+            strokeDashArray: 5,
+            borderColor: '#ffffff',
+            opacity: 0.3,
+            label: {
+              borderColor: 'transparent',
+              style: {
+                color: '#ffffff',
+                background: 'transparent'
+              },
+              text: ''
+            }
+          }] : [],
+          yaxis: showQuadrants ? [{
+            y: chart.opts.quadrants.yCenter,
+            strokeDashArray: 5,
+            borderColor: '#ffffff',
+            opacity: 0.3,
+            label: {
+              borderColor: 'transparent',
+              style: {
+                color: '#ffffff',
+                background: 'transparent'
+              },
+              text: ''
+            }
+          }] : []
+        }
+      });
+      
+      // Toggle quadrant labels visibility
+      const quadrantLabels = document.getElementById('quadrant-labels');
+      if (quadrantLabels) {
+        quadrantLabels.style.display = showQuadrants ? 'grid' : 'none';
+      }
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${chartId}-announcements`);
+      if (announcer) {
+        announcer.textContent = `Quadrant lines ${showQuadrants ? 'shown' : 'hidden'}`;
+      }
+    }
+    
+    // Function to initialize the chart
+    function initROIComparisonChart() {
+      // Create a worker for data processing
+      const worker = new Worker(workerPath);
+      
+      // Send data to worker for processing
+      worker.postMessage({
+        action: 'prepareROIData',
+        projects,
+        metrics,
+        colors,
+        categories
+      });
+      
+      // Handle worker response
+      worker.onmessage = function(e) {
+        if (e.data.action === 'roiDataReady') {
+          const chartData = e.data.chartData;
+          renderChart(chartData);
+          updateMetrics(chartData);
+          populateCategoryFilter(chartData);
+          populateDataTable(chartData);
+          
+          // Store chart data for later use
+          window[`${chartId}-data`] = chartData;
+        }
+      };
+      
+      // Function to render the chart
+      function renderChart(chartData) {
+        // Get chart options from utilities or create default options
+        let options = window.chartUtils ? 
+          window.chartUtils.getDefaultChartOptions('scatter') : 
+          getDefaultOptions();
+        
+        // Update options with chart-specific settings
+        options = {
+          ...options,
+          chart: {
+            ...options.chart,
+            type: 'scatter',
+            zoom: {
+              enabled: true,
+              type: 'xy'
+            },
+            events: {
+              dataPointSelection: function(event, chartContext, config) {
+                const seriesIndex = config.seriesIndex;
+                const dataPointIndex = config.dataPointIndex;
+                
+                if (seriesIndex >= 0 && dataPointIndex >= 0) {
+                  const selectedPoint = chartData.series[seriesIndex].data[dataPointIndex];
+                  showProjectDetails(selectedPoint, chartData.series[seriesIndex].name);
+                }
+              },
+              dataPointMouseEnter: function(event, chartContext, config) {
+                event.target.style.cursor = 'pointer';
+              }
+            }
+          },
+          series: chartData.series,
+          xaxis: {
+            title: {
+              text: chartData.xMetric + ' ($M)',
+              style: {
+                color: '#ffffff'
+              }
+            },
+            tickAmount: 10,
+            min: 0,
+            max: chartData.quadrants.xMax,
+            labels: {
+              formatter: function(val) {
+                return '$' + val + 'M';
+              },
+              style: {
+                colors: '#ffffff'
+              }
+            }
+          },
+          yaxis: {
+            title: {
+              text: chartData.yMetric + ' ($M)',
+              style: {
+                color: '#ffffff'
+              }
+            },
+            tickAmount: 10,
+            min: 0,
+            max: chartData.quadrants.yMax,
+            labels: {
+              formatter: function(val) {
+                return '$' + val + 'M';
+              },
+              style: {
+                colors: '#ffffff'
+              }
+            }
+          },
+          tooltip: {
+            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+              const point = w.config.series[seriesIndex].data[dataPointIndex];
+              const roi = ((point.y - point.x) / point.x * 100).toFixed(1);
+              
+              return `
+                <div class="custom-tooltip p-2">
+                  <div class="tooltip-title font-bold mb-1">${point.name}</div>
+                  <div class="tooltip-category text-sm mb-2">${w.config.series[seriesIndex].name}</div>
+                  <div class="tooltip-metrics grid grid-cols-2 gap-x-4 gap-y-1">
+                    <div class="tooltip-label">${chartData.xMetric}:</div>
+                    <div class="tooltip-value">$${point.x}M</div>
+                    <div class="tooltip-label">${chartData.yMetric}:</div>
+                    <div class="tooltip-value">$${point.y}M</div>
+                    <div class="tooltip-label">ROI:</div>
+                    <div class="tooltip-value">${roi}%</div>
+                  </div>
+                  <div class="tooltip-footer text-xs mt-2 opacity-70">Click for details</div>
+                </div>
+              `;
+            }
+          },
+          markers: {
+            size: [4, 7],
+            strokeWidth: 1,
+            hover: {
+              size: 9
+            }
+          },
+          grid: {
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            xaxis: {
+              lines: {
+                show: true,
+                opacity: 0.1
+              }
+            },
+            yaxis: {
+              lines: {
+                show: true,
+                opacity: 0.1
+              }
+            }
+          },
+          annotations: {
+            xaxis: showQuadrants ? [{
+              x: chartData.quadrants.xCenter,
+              strokeDashArray: 5,
+              borderColor: '#ffffff',
+              opacity: 0.3,
+              label: {
+                borderColor: 'transparent',
+                style: {
+                  color: '#ffffff',
+                  background: 'transparent'
+                },
+                text: ''
+              }
+            }] : [],
+            yaxis: showQuadrants ? [{
+              y: chartData.quadrants.yCenter,
+              strokeDashArray: 5,
+              borderColor: '#ffffff',
+              opacity: 0.3,
+              label: {
+                borderColor: 'transparent',
+                style: {
+                  color: '#ffffff',
+                  background: 'transparent'
+                },
+                text: ''
+              }
+            }] : []
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'center',
+            labels: {
+              colors: '#ffffff'
+            }
+          }
+        };
+        
+        // Create the chart
+        const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+        chart.render();
+        
+        // Store chart instance and quadrant data for later reference
+        chart.opts = { quadrants: chartData.quadrants };
+        window[`${chartId}-instance`] = chart;
+        
+        // Update quadrant labels visibility
+        const quadrantLabels = document.getElementById('quadrant-labels');
+        if (quadrantLabels) {
+          quadrantLabels.style.display = showQuadrants ? 'grid' : 'none';
+        }
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = 'ROI comparison chart loaded. Use arrow keys to navigate between data points.';
+        }
+      }
+      
+      // Function to update key metrics
+      function updateMetrics(chartData) {
+        // Update top performer
+        const topPerformerElement = document.getElementById('top-performer-value');
+        const topPerformerROIElement = document.getElementById('top-performer-roi');
+        
+        if (topPerformerElement && topPerformerROIElement && chartData.metrics.topPerformers.length > 0) {
+          const topPerformer = chartData.metrics.topPerformers[0];
+          topPerformerElement.textContent = topPerformer.name;
+          topPerformerROIElement.textContent = `ROI: ${topPerformer.roi.toFixed(1)}%`;
+        }
+        
+        // Update average ROI
+        const avgROIElement = document.getElementById('avg-roi-value');
+        if (avgROIElement) {
+          avgROIElement.textContent = `${chartData.metrics.avgROI.toFixed(1)}%`;
+        }
+        
+        // Update total projects
+        const totalProjectsElement = document.getElementById('total-projects-value');
+        if (totalProjectsElement) {
+          totalProjectsElement.textContent = chartData.metrics.totalProjects;
+        }
+      }
+      
+      // Function to populate category filter
+      function populateCategoryFilter(chartData) {
+        const categorySelect = document.querySelector(`#${categoryFilterId} select`);
+        if (!categorySelect) return;
+        
+        // Clear existing options except "All Categories"
+        while (categorySelect.options.length > 1) {
+          categorySelect.remove(1);
+        }
+        
+        // Add options for each category
+        chartData.series.forEach(series => {
+          const option = document.createElement('option');
+          option.value = series.name;
+          option.textContent = series.name;
+          categorySelect.appendChild(option);
+        });
+        
+        // Add event listener
+        categorySelect.addEventListener('change', () => {
+          filterByCategory(categorySelect.value);
+        });
+      }
+      
+      // Function to filter by category
+      function filterByCategory(category) {
+        const chart = window[`${chartId}-instance`];
+        if (!chart) return;
+        
+        if (category === 'all') {
+          // Show all series
+          chart.showSeries('all');
+        } else {
+          // Hide all series first
+          chart.hideSeries('all');
+          
+          // Then show only the selected category
+          chart.showSeries(category);
+        }
+        
+        // Announce to screen readers
+        const announcer = document.getElementById(`${chartId}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Filtered to show ${category === 'all' ? 'all categories' : category} projects`;
+        }
+      }
+      
+      // Function to show project details
+      function showProjectDetails(project, category) {
+        const detailsContainer = document.getElementById('project-details');
+        if (!detailsContainer) return;
+        
+        // Show the container
+        detailsContainer.classList.remove('hidden');
+        
+        // Update project details
+        document.getElementById('project-name').textContent = project.name;
+        document.getElementById('project-category').textContent = category;
+        document.getElementById('project-roi').textContent = `${project.roi.toFixed(1)}%`;
+        document.getElementById('project-investment').textContent = `$${project.x.toFixed(1)}M`;
+        document.getElementById('project-return').textContent = `$${project.y.toFixed(1)}M`;
+        document.getElementById('project-description').textContent = project.description || 'No description available';
+        document.getElementById('project-timeline').textContent = project.timeline || 'Not specified';
+        document.getElementById('project-risk').textContent = project.risk || 'Not specified';
+        
+        // Scroll to details
+        detailsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      
+      // Function to populate data table
+      function populateDataTable(chartData) {
+        const tableBody = document.getElementById('roi-table-body');
+        if (!tableBody) return;
+        
+        // Clear existing rows
+        tableBody.innerHTML = '';
+        
+        // Flatten all projects from all series
+        const allProjects = [];
+        
+        chartData.series.forEach(series => {
+          series.data.forEach(project => {
+            allProjects.push({
+              name: project.name,
+              category: series.name,
+              investment: project.x,
+              return: project.y,
+              roi: project.roi,
+              timeline: project.timeline,
+              risk: project.risk
+            });
+          });
+        });
+        
+        // Sort by ROI descending
+        allProjects.sort((a, b) => b.roi - a.roi);
+        
+        // Add rows for each project
+        allProjects.forEach(project => {
+          const row = document.createElement('tr');
+          
+          // Project name
+          const nameCell = document.createElement('td');
+          nameCell.textContent = project.name;
+          row.appendChild(nameCell);
+          
+          // Category
+          const categoryCell = document.createElement('td');
+          categoryCell.textContent = project.category;
+          row.appendChild(categoryCell);
+          
+          // Investment
+          const investmentCell = document.createElement('td');
+          investmentCell.textContent = project.investment.toFixed(1);
+          row.appendChild(investmentCell);
+          
+          // Return
+          const returnCell = document.createElement('td');
+          returnCell.textContent = project.return.toFixed(1);
+          row.appendChild(returnCell);
+          
+          // ROI
+          const roiCell = document.createElement('td');
+          roiCell.textContent = project.roi.toFixed(1);
+          row.appendChild(roiCell);
+          
+          // Timeline
+          const timelineCell = document.createElement('td');
+          timelineCell.textContent = project.timeline || 'N/A';
+          row.appendChild(timelineCell);
+          
+          // Risk
+          const riskCell = document.createElement('td');
+          riskCell.textContent = project.risk || 'N/A';
+          row.appendChild(riskCell);
+          
+          // Add row to table
+          tableBody.appendChild(row);
+        });
+      }
+      
+      // Default options if chartUtils is not available
+      function getDefaultOptions() {
+        return {
+          chart: {
+            type: 'scatter',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            background: 'transparent',
+            foreColor: '#ffffff',
+            toolbar: {
+              show: true
+            }
+          },
+          tooltip: {
+            enabled: true,
+            theme: 'dark'
+          },
+          stroke: {
+            width: 1,
+            colors: ['#ffffff']
+          }
+        };
+      }
+    }
+  });
+</script>

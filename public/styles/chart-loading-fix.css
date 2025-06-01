@@ -1,0 +1,56 @@
+/* 
+ * Chart Loading Indicator Fix
+ * This CSS ensures that loading indicators are automatically hidden after a delay
+ */
+
+/* Initial state */
+.chart-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 6, 23, 0.7);
+  z-index: 5;
+  gap: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  animation: fadeOutLoading 0.5s ease-in-out 3s forwards;
+}
+
+/* Animation to fade out loading indicators */
+@keyframes fadeOutLoading {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+  }
+}
+
+/* Force hide loading indicators after 4 seconds using CSS */
+.apex-chart-container .chart-loading {
+  animation: forceHideLoading 1ms ease-in-out 4s forwards !important;
+}
+
+@keyframes forceHideLoading {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+/* Add a second defensive rule with !important to ensure it overrides any inline styles */
+.chart-loading[style*="display: flex"],
+.chart-loading[style*="display:flex"] {
+  animation: forceHideLoading 1ms ease-in-out 4s forwards !important;
+}

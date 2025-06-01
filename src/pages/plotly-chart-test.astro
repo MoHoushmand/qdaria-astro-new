@@ -1,0 +1,184 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MarketGrowthChartPlotly from "../components/qdaria-business-plan/charts/MarketGrowthChartPlotly";
+import CompetitorRadarChartPlotly from "../components/qdaria-business-plan/charts/CompetitorRadarChartPlotly";
+---
+
+<BaseLayout title="Plotly Charts Demo - QDaria Business Plan" description="Testing the implementation of Plotly Dash charts for the QDaria Business Plan">
+  <main class="bg-slate-900 min-h-screen text-white">
+    <div class="container mx-auto py-12 px-4">
+      <div class="mb-12 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent">
+          Plotly Dash Chart Implementation
+        </h1>
+        <p class="text-lg text-zinc-300 max-w-3xl mx-auto">
+          A modern chart implementation for the QDaria Business Plan using Plotly Dash charts. 
+          This page demonstrates the enhanced visualizations and interactive features.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-8">
+        <!-- Implementation Notes -->
+        <div class="bg-slate-800/60 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+          <h2 class="text-2xl font-bold mb-4 text-white">Implementation Notes</h2>
+          <ul class="list-disc list-inside space-y-2 text-zinc-300">
+            <li>All charts use React components with <code class="bg-slate-700 px-1 rounded text-xs">client:only="react"</code> to ensure proper client-side rendering</li>
+            <li>Improved interactivity with integrated scenario selection and scale controls</li>
+            <li>Better mobile responsiveness and accessibility features</li>
+            <li>Consistent styling with QDaria brand colors and dark mode</li>
+            <li>Enhanced error handling with graceful fallbacks to data tables</li>
+            <li>Reuses existing web worker data processing code for efficiency</li>
+          </ul>
+        </div>
+
+        <!-- Market Growth Chart -->
+        <div class="bg-slate-800/60 backdrop-blur-sm rounded-xl border border-slate-700/50">
+          <div class="p-6">
+            <h2 class="text-2xl font-bold mb-4 text-white">Market Growth Chart (Plotly)</h2>
+            <p class="text-zinc-300 mb-6">
+              Interactive area chart showing projected quantum computing market growth from 2022 to 2035.
+              Compare different growth scenarios using the buttons at the top.
+            </p>
+          </div>
+
+          <div class="px-6 pb-6">
+            <MarketGrowthChartPlotly client:only="react" />
+          </div>
+        </div>
+        
+        <!-- Competitor Radar Chart -->
+        <div class="bg-slate-800/60 backdrop-blur-sm rounded-xl border border-slate-700/50">
+          <div class="p-6">
+            <h2 class="text-2xl font-bold mb-4 text-white">Competitor Radar Chart (Plotly)</h2>
+            <p class="text-zinc-300 mb-6">
+              Interactive radar chart comparing QDaria against competitors across key quantum computing capabilities.
+              Toggle specific competitors on/off using the buttons above the chart.
+            </p>
+          </div>
+
+          <div class="px-6 pb-6">
+            <CompetitorRadarChartPlotly client:only="react" />
+          </div>
+        </div>
+
+        <!-- Features Comparison -->
+        <div class="bg-slate-800/60 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+          <h2 class="text-2xl font-bold mb-4 text-white">Features Comparison</h2>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr class="bg-slate-700/50">
+                  <th class="py-3 px-4 text-left text-white border-b border-slate-600">Feature</th>
+                  <th class="py-3 px-4 text-left text-white border-b border-slate-600">ApexCharts</th>
+                  <th class="py-3 px-4 text-left text-white border-b border-slate-600">Plotly Dash</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-slate-700/30">
+                  <td class="py-3 px-4 text-zinc-300">Scientific Charts</td>
+                  <td class="py-3 px-4 text-zinc-300">Limited</td>
+                  <td class="py-3 px-4 text-zinc-200 font-medium">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      Extensive
+                    </span>
+                  </td>
+                </tr>
+                <tr class="border-b border-slate-700/30">
+                  <td class="py-3 px-4 text-zinc-300">3D Visualizations</td>
+                  <td class="py-3 px-4 text-zinc-300">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                      Not supported
+                    </span>
+                  </td>
+                  <td class="py-3 px-4 text-zinc-200 font-medium">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      Native support
+                    </span>
+                  </td>
+                </tr>
+                <tr class="border-b border-slate-700/30">
+                  <td class="py-3 px-4 text-zinc-300">Interactivity</td>
+                  <td class="py-3 px-4 text-zinc-300">Moderate</td>
+                  <td class="py-3 px-4 text-zinc-200 font-medium">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      Advanced
+                    </span>
+                  </td>
+                </tr>
+                <tr class="border-b border-slate-700/30">
+                  <td class="py-3 px-4 text-zinc-300">React Integration</td>
+                  <td class="py-3 px-4 text-zinc-300">Limited</td>
+                  <td class="py-3 px-4 text-zinc-200 font-medium">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      First-class
+                    </span>
+                  </td>
+                </tr>
+                <tr class="border-b border-slate-700/30">
+                  <td class="py-3 px-4 text-zinc-300">Astro SSR Compatibility</td>
+                  <td class="py-3 px-4 text-zinc-300">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                      </svg>
+                      Inconsistent
+                    </span>
+                  </td>
+                  <td class="py-3 px-4 text-zinc-300">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                      </svg>
+                      Requires client:only
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 text-zinc-300">Accessibility</td>
+                  <td class="py-3 px-4 text-zinc-300">Basic</td>
+                  <td class="py-3 px-4 text-zinc-200 font-medium">
+                    <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      Comprehensive
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Load dependencies for Plotly.js and React -->
+  <script is:inline src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+  <script is:inline src="/js/plotlyChartRenderer.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ensure Plotly is loaded
+      if (window.plotlyChartRenderer) {
+        window.plotlyChartRenderer.loadPlotly();
+        window.plotlyChartRenderer.loadReactAndDOM();
+      }
+    });
+  </script>
+</BaseLayout>

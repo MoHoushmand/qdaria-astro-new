@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import QuantumMarketForecastChartApex from "../components/qdaria-business-plan/charts/QuantumMarketForecastChartApex.astro";
+---
+
+<BaseLayout title="Quantum Market Forecast Chart Test">
+  <div class="container mx-auto py-12 px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Quantum Market Forecast Chart Test</h1>
+    <p class="text-center text-slate-300 mb-10">Testing isolated rendering of the QuantumMarketForecastChartApex component</p>
+    
+    <div class="bg-slate-800 p-6 rounded-lg">
+      <QuantumMarketForecastChartApex 
+        id="quantum-market-forecast-test"
+        title="Quantum Computing Market Forecast with QDaria Market Share (2025-2035)"
+        description="Comprehensive forecast showing conservative, expected, and optimistic market scenarios with QDaria's projected market share growth from 0.01% to 0.65% by 2035."
+        caption="Market forecast showing adoption scenarios with the $1 trillion milestone highlighted. QDaria's market share is shown on the secondary axis, demonstrating our growing influence in this expanding market."
+        showDataTable={true}
+        showControls={true}
+        height="500px"
+      />
+    </div>
+    
+    <div class="mt-10 bg-slate-900 p-6 rounded-lg">
+      <h2 class="text-xl font-bold mb-4">Technical Information</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Component: <code>QuantumMarketForecastChartApex.astro</code></li>
+        <li>Worker Script: <code>public/charts/quantumMarketForecastWorker.js</code></li>
+        <li>Implementation: Mixed chart with area series for market forecasts and line series for market share</li>
+        <li>Features: Logarithmic/linear scale toggle, scenario filtering, view mode selection</li>
+      </ul>
+      
+      <h2 class="text-xl font-bold mt-8 mb-4">Debugging Tips</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Check browser console for JavaScript errors</li>
+        <li>Verify ApexCharts library is properly loaded</li>
+        <li>Confirm worker script is accessible</li>
+        <li>Check network requests for any failed resources</li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+</style>

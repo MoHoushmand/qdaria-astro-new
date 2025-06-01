@@ -1,0 +1,978 @@
+---
+/**
+ * FinancialMetricsMixedChartApex.astro
+ * Enhanced mixed chart combining multiple chart types (bar, line, area) for comprehensive financial metrics
+ * Optimized for investor presentation with key business metrics and strategic milestones
+ */
+import ApexChartWrapper from './ApexChartWrapper.astro';
+
+interface Props {
+  id: string;
+  title?: string;
+  description?: string;
+  caption?: string;
+  className?: string;
+  height?: string;
+  width?: string;
+  showDataTable?: boolean;
+  showControls?: boolean;
+}
+
+const {
+  id = "financialMetricsMixedChart",
+  title = "QDaria Comprehensive Financial Metrics (2025-2035)",
+  description = "Combined visualization of key financial metrics including Revenue, Profit Margin, R&D Investment, Funding, LTV:CAC Ratio, and Growth Rate.",
+  caption = "This visualization reveals QDaria's financial trajectory, highlighting our transition to profitability in 2028, growing LTV:CAC ratio, and strategic R&D investment scaling with revenue growth. Note the $1B revenue milestone achieved by 2035.",
+  className = "",
+  height = "550px",
+  width = "100%",
+  showDataTable = true,
+  showControls = true,
+} = Astro.props;
+---
+
+<ApexChartWrapper
+  id={id}
+  title={title}
+  description={description}
+  caption={caption}
+  className={`financial-metrics-mixed-chart ${className}`}
+  chartType="mixed"
+  height={height}
+  width={width}
+  showDataTable={showDataTable}
+  showControls={showControls}
+>
+  <div slot="fallback-svg" class="fallback-container">
+    <svg width="100%" height="550" viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg">
+      <style>
+        .title{font-family:Inter,Arial,sans-serif;font-size:18px;font-weight:bold;fill:#fff}
+        .subtitle{font-family:Inter,Arial,sans-serif;font-size:14px;fill:rgba(255,255,255,0.7)}
+        .axis{stroke:rgba(255,255,255,0.3);stroke-width:1}
+        .grid{stroke:rgba(255,255,255,0.1);stroke-width:1;stroke-dasharray:4}
+        .bar{fill:#0084ff;stroke:none}
+        .line-margin{stroke:#00E396;stroke-width:2.5;fill:none}
+        .line-funding{stroke:#FF4560;stroke-width:2;fill:none}
+        .line-ltv{stroke:#FEB019;stroke-width:2;fill:none}
+        .area{fill:url(#areaGradient);fill-opacity:0.5}
+        .dot{fill:#fff;stroke:#1e293b;stroke-width:1.5}
+        .milestone{stroke:rgba(101,255,0,0.9);stroke-width:1.5;stroke-dasharray:3,3}
+        .milestone-text{font-family:Inter,Arial,sans-serif;font-size:10px;fill:#65ff00;font-weight:bold}
+        .breakeven{stroke:#00E396;stroke-width:2;stroke-dasharray:none}
+        .breakeven-text{font-family:Inter,Arial,sans-serif;font-size:10px;fill:#00E396;font-weight:bold}
+        .label{font-family:Inter,Arial,sans-serif;font-size:10px;fill:rgba(255,255,255,0.9)}
+        .note{font-family:Inter,Arial,sans-serif;font-size:12px;fill:rgba(255,255,255,0.6);font-style:italic}
+      </style>
+      <defs>
+        <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#775DD0" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#775DD0" stop-opacity="0.05"/>
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="#1e293b" rx="4" />
+      <text x="400" y="30" text-anchor="middle" class="title">QDaria Comprehensive Financial Metrics (2025-2035)</text>
+      <text x="400" y="50" text-anchor="middle" class="subtitle">Interactive data available in table below</text>
+      
+      <g transform="translate(50, 80)">
+        <!-- $1B Revenue milestone marker -->
+        <line x1="0" y1="50" x2="700" y2="50" class="milestone" />
+        <text x="650" y="45" text-anchor="end" class="milestone-text">$1B Revenue Milestone</text>
+        
+        <!-- Profitability threshold -->
+        <line x1="300" y1="80" x2="300" y2="350" class="breakeven" />
+        <text x="305" y="90" class="breakeven-text">Breakeven (2028)</text>
+        
+        <!-- Grid and axes -->
+        <line x1="0" y1="100" x2="700" y2="100" class="grid" />
+        <line x1="0" y1="150" x2="700" y2="150" class="grid" />
+        <line x1="0" y1="200" x2="700" y2="200" class="grid" />
+        <line x1="0" y1="250" x2="700" y2="250" class="grid" />
+        <line x1="0" y1="300" x2="700" y2="300" class="grid" />
+        <line x1="0" y1="350" x2="700" y2="350" class="grid" />
+        <line x1="0" y1="100" x2="0" y2="350" class="axis" />
+        <line x1="0" y1="350" x2="700" y2="350" class="axis" />
+        
+        <!-- Revenue bars -->
+        <rect x="0" y="348" width="30" height="2" class="bar" />
+        <rect x="70" y="345" width="30" height="5" class="bar" />
+        <rect x="140" y="335" width="30" height="15" class="bar" />
+        <rect x="210" y="310" width="30" height="40" class="bar" />
+        <rect x="280" y="250" width="30" height="100" class="bar" />
+        <rect x="350" y="170" width="30" height="180" class="bar" />
+        <rect x="420" y="120" width="30" height="230" class="bar" />
+        <rect x="490" y="85" width="30" height="265" class="bar" />
+        <rect x="560" y="60" width="30" height="290" class="bar" />
+        <rect x="630" y="40" width="30" height="310" class="bar" />
+        
+        <!-- R&D Investment area -->
+        <path d="M15,345 L85,340 L155,330 L225,325 L295,310 L365,290 L435,260 L505,230 L575,210 L645,190 L645,350 L15,350 Z" class="area" />
+        
+        <!-- Profit margin line -->
+        <path d="M15,300 L85,280 L155,260 L225,240 L295,200 L365,180 L435,170 L505,160 L575,155 L645,150" class="line-margin" />
+        
+        <!-- Funding line -->
+        <path d="M15,348 L85,335 L155,310 L225,260 L295,220 L365,200 L435,180 L505,170 L575,165 L645,160" class="line-funding" />
+        
+        <!-- LTV:CAC ratio line -->
+        <path d="M15,345 L85,335 L155,315 L225,270 L295,195 L365,170 L435,160 L505,150 L575,145 L645,140" class="line-ltv" />
+        
+        <!-- Data points on the lines -->
+        <circle cx="295" cy="200" r="5" class="dot" />
+        <circle cx="295" cy="220" r="5" class="dot" />
+        <circle cx="295" cy="195" r="5" class="dot" />
+        
+        <!-- X-axis labels -->
+        <text x="15" y="370" text-anchor="middle" class="label">2025</text>
+        <text x="155" y="370" text-anchor="middle" class="label">2027</text>
+        <text x="295" y="370" text-anchor="middle" class="label">2029</text>
+        <text x="435" y="370" text-anchor="middle" class="label">2031</text>
+        <text x="575" y="370" text-anchor="middle" class="label">2033</text>
+        <text x="645" y="370" text-anchor="middle" class="label">2035</text>
+        
+        <!-- Note about data table -->
+        <text x="350" y="400" text-anchor="middle" class="note">Complete interactive data available in the table below</text>
+      </g>
+    </svg>
+  </div>
+  
+  <div slot="data-table">
+    <table class="chart-data-table-content">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Revenue ($M)</th>
+          <th>YoY Growth (%)</th>
+          <th>Profit Margin (%)</th>
+          <th>EBITDA ($M)</th>
+          <th>R&D ($M)</th>
+          <th>Funding ($M)</th>
+          <th>Customers</th>
+          <th>CAC ($K)</th>
+          <th>LTV ($K)</th>
+          <th>LTV:CAC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025</td>
+          <td>0.8</td>
+          <td>-</td>
+          <td>-120.0</td>
+          <td>-0.96</td>
+          <td>1.2</td>
+          <td>1.0</td>
+          <td>50</td>
+          <td>18.0</td>
+          <td>9.0</td>
+          <td>0.5</td>
+        </tr>
+        <tr>
+          <td>2026</td>
+          <td>2.5</td>
+          <td>212.5</td>
+          <td>-80.0</td>
+          <td>-2.0</td>
+          <td>3.0</td>
+          <td>8.0</td>
+          <td>150</td>
+          <td>15.0</td>
+          <td>16.0</td>
+          <td>1.1</td>
+        </tr>
+        <tr>
+          <td>2027</td>
+          <td>9.0</td>
+          <td>260.0</td>
+          <td>-30.0</td>
+          <td>-2.7</td>
+          <td>4.5</td>
+          <td>28.0</td>
+          <td>450</td>
+          <td>12.0</td>
+          <td>30.0</td>
+          <td>2.5</td>
+        </tr>
+        <tr>
+          <td>2028</td>
+          <td>22.0</td>
+          <td>144.4</td>
+          <td>5.0</td>
+          <td>1.1</td>
+          <td>6.0</td>
+          <td>80.0</td>
+          <td>1,200</td>
+          <td>9.0</td>
+          <td>60.0</td>
+          <td>6.7</td>
+        </tr>
+        <tr>
+          <td>2029</td>
+          <td>55.0</td>
+          <td>150.0</td>
+          <td>18.0</td>
+          <td>9.9</td>
+          <td>8.5</td>
+          <td>150.0</td>
+          <td>3,000</td>
+          <td>8.0</td>
+          <td>120.0</td>
+          <td>15.0</td>
+        </tr>
+        <tr>
+          <td>2030</td>
+          <td>100.0</td>
+          <td>81.8</td>
+          <td>25.0</td>
+          <td>25.0</td>
+          <td>12.0</td>
+          <td>210.0</td>
+          <td>6,500</td>
+          <td>7.5</td>
+          <td>180.0</td>
+          <td>24.0</td>
+        </tr>
+        <tr>
+          <td>2031</td>
+          <td>190.0</td>
+          <td>90.0</td>
+          <td>28.0</td>
+          <td>53.2</td>
+          <td>20.0</td>
+          <td>280.0</td>
+          <td>12,000</td>
+          <td>7.0</td>
+          <td>210.0</td>
+          <td>30.0</td>
+        </tr>
+        <tr>
+          <td>2032</td>
+          <td>310.0</td>
+          <td>63.2</td>
+          <td>30.0</td>
+          <td>93.0</td>
+          <td>32.0</td>
+          <td>350.0</td>
+          <td>21,000</td>
+          <td>6.5</td>
+          <td>240.0</td>
+          <td>36.9</td>
+        </tr>
+        <tr>
+          <td>2033</td>
+          <td>490.0</td>
+          <td>58.1</td>
+          <td>32.0</td>
+          <td>156.8</td>
+          <td>48.0</td>
+          <td>400.0</td>
+          <td>34,000</td>
+          <td>6.0</td>
+          <td>270.0</td>
+          <td>45.0</td>
+        </tr>
+        <tr>
+          <td>2034</td>
+          <td>720.0</td>
+          <td>46.9</td>
+          <td>34.0</td>
+          <td>244.8</td>
+          <td>65.0</td>
+          <td>450.0</td>
+          <td>52,000</td>
+          <td>5.8</td>
+          <td>290.0</td>
+          <td>50.0</td>
+        </tr>
+        <tr>
+          <td>2035</td>
+          <td>1,050.0</td>
+          <td>45.8</td>
+          <td>35.0</td>
+          <td>367.5</td>
+          <td>85.0</td>
+          <td>500.0</td>
+          <td>78,000</td>
+          <td>5.5</td>
+          <td>310.0</td>
+          <td>56.4</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div slot="chart-controls">
+    <div class="metrics-toggle-container">
+      <div class="metrics-toggle-label">View Focus:</div>
+      <div class="metrics-toggle-buttons">
+        <button id={`${id}-revenue-focus`} class="metric-button active" data-series="0">Revenue</button>
+        <button id={`${id}-profit-focus`} class="metric-button" data-series="1,5">Profitability</button>
+        <button id={`${id}-funding-focus`} class="metric-button" data-series="2,3">Investment</button>
+        <button id={`${id}-customers-focus`} class="metric-button" data-series="4">Unit Economics</button>
+        <button id={`${id}-all-metrics`} class="metric-button" data-series="all">All Metrics</button>
+      </div>
+    </div>
+  </div>
+</ApexChartWrapper>
+
+<script define:vars={{ id }}>
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize the chart when the worker is ready
+  if (window.chartWorkerFactory) {
+    try {
+      const worker = window.chartWorkerFactory.createChartWorker('financialMetricsMixed');
+      
+      // Set up worker message handlers
+      worker.onmessage = function(event) {
+        const { data } = event;
+        
+        if (data.type === 'chartData') {
+          renderChart(data.options);
+        } else if (data.type === 'error') {
+          console.error('Worker error:', data.message);
+          showFallback();
+        }
+      };
+      
+      worker.onerror = function(error) {
+        console.error('Worker error:', error);
+        showFallback();
+      };
+      
+      // Request data from worker
+      worker.postMessage({ type: 'getData' });
+      
+      // Initialize UI controls
+      initializeMetricsToggle();
+      
+    } catch (error) {
+      console.error('Error creating chart worker:', error);
+      showFallback();
+    }
+  } else {
+    console.error('Chart worker factory not available');
+    showFallback();
+  }
+  
+  // Show fallback visualization if chart fails to render
+  function showFallback() {
+    const chartElement = document.getElementById(`${id}-chart`);
+    const fallbackContainer = chartElement.querySelector('.fallback-container');
+    
+    if (chartElement && fallbackContainer) {
+      // Clear any partial renders
+      while (chartElement.firstChild) {
+        if (chartElement.firstChild !== fallbackContainer) {
+          chartElement.removeChild(chartElement.firstChild);
+        } else {
+          break;
+        }
+      }
+      
+      // Show fallback SVG
+      fallbackContainer.style.display = 'block';
+      
+      // Show data table
+      const dataTable = document.getElementById(`${id}-data-table`);
+      if (dataTable) {
+        dataTable.style.display = 'block';
+        dataTable.classList.add('visible');
+      }
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${id}-announcements`);
+      if (announcer) {
+        announcer.textContent = 'Chart could not be rendered. Fallback visualization and data table are displayed.';
+      }
+    }
+  }
+  
+  // Render the chart with the provided data
+  function renderChart(options) {
+    const chartElement = document.getElementById(`${id}-chart`);
+    
+    if (chartElement && window.ApexCharts) {
+      try {
+        const fallbackContainer = chartElement.querySelector('.fallback-container');
+        if (fallbackContainer) {
+          fallbackContainer.style.display = 'none';
+        }
+        
+        // Prepare chart options with enhanced settings
+        const chartOptions = {
+          series: options.series,
+          chart: {
+            type: 'line',
+            height: 550,
+            stacked: false,
+            toolbar: {
+              show: true,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true
+              },
+              autoSelected: 'zoom'
+            },
+            animations: {
+              enabled: true,
+              easing: 'easeinout',
+              speed: 800,
+              animateGradually: {
+                enabled: true,
+                delay: 150
+              },
+              dynamicAnimation: {
+                enabled: true,
+                speed: 350
+              }
+            },
+            fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+            events: {
+              mounted: (chart) => {
+                // Add keyboard events for accessibility
+                chartElement.setAttribute('tabindex', '0');
+                chartElement.addEventListener('keydown', handleKeyboardNavigation);
+                
+                // Announce to screen readers
+                const announcer = document.getElementById(`${id}-announcements`);
+                if (announcer) {
+                  announcer.textContent = 'Financial metrics chart loaded. Use arrow keys to navigate between data points.';
+                }
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: [0, 3, 3, 3, 3, 2],
+            curve: 'smooth',
+            dashArray: [0, 0, 0, 5, 0, 0]
+          },
+          fill: {
+            opacity: [0.85, 1, 0.25, 1, 1, 1],
+            gradient: {
+              inverseColors: false,
+              shade: 'light',
+              type: "vertical",
+              opacityFrom: 0.85,
+              opacityTo: 0.55,
+              stops: [0, 100, 100, 100]
+            }
+          },
+          markers: {
+            size: options.markers.size || [0, 6, 0, 6, 5, 4],
+            strokeWidth: 2,
+            hover: {
+              size: 9
+            }
+          },
+          xaxis: {
+            categories: options.years,
+            title: {
+              text: 'Year',
+              style: {
+                fontSize: '14px',
+                fontWeight: 600
+              }
+            },
+            labels: {
+              style: {
+                fontSize: '13px'
+              }
+            }
+          },
+          yaxis: [
+            {
+              title: {
+                text: 'Revenue ($M)',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 600
+                }
+              },
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(0);
+                }
+              },
+              min: 0,
+              max: 1100 // To accommodate the $1B milestone
+            },
+            {
+              opposite: true,
+              title: {
+                text: 'Profit Margin (%)',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 600
+                }
+              },
+              min: -130,
+              max: 40,
+              tickAmount: 7,
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(0) + '%';
+                }
+              },
+            },
+            {
+              opposite: true,
+              title: {
+                text: 'R&D Investment ($M)',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 600
+                }
+              },
+              min: 0,
+              max: 100,
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(1);
+                }
+              },
+              show: false
+            },
+            {
+              opposite: true,
+              title: {
+                text: 'Funding ($M)',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 600
+                }
+              },
+              min: 0,
+              max: 550,
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(0);
+                }
+              },
+              show: false
+            },
+            {
+              opposite: true,
+              title: {
+                text: 'LTV:CAC Ratio',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 600
+                }
+              },
+              min: 0,
+              max: 60,
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(1) + 'x';
+                }
+              },
+              show: false
+            },
+            {
+              opposite: true,
+              title: {
+                text: 'YoY Growth (%)',
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 600
+                }
+              },
+              min: 0,
+              max: 300,
+              labels: {
+                formatter: function(val) {
+                  return val.toFixed(0) + '%';
+                }
+              },
+              show: false
+            }
+          ],
+          tooltip: {
+            shared: true,
+            intersect: false,
+            theme: 'dark',
+            x: {
+              format: 'yyyy'
+            },
+            y: {
+              formatter: function(value, { seriesIndex, dataPointIndex, w }) {
+                if (seriesIndex === 0) {
+                  return `$${value.toFixed(1)}M`;
+                } else if (seriesIndex === 1) {
+                  return `${value.toFixed(1)}%`;
+                } else if (seriesIndex === 2) {
+                  return `$${value.toFixed(1)}M`;
+                } else if (seriesIndex === 3) {
+                  return `$${value.toFixed(0)}M`;
+                } else if (seriesIndex === 4) {
+                  return `${value.toFixed(1)}x`;
+                } else if (seriesIndex === 5) {
+                  return `${value.toFixed(1)}%`;
+                }
+                return value;
+              }
+            }
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'center',
+            fontSize: '13px',
+            fontWeight: 500,
+            markers: {
+              width: 12,
+              height: 12,
+              radius: 2
+            },
+            onItemClick: {
+              toggleDataSeries: true
+            },
+            onItemHover: {
+              highlightDataSeries: true
+            }
+          },
+          colors: options.colors || ['#0084ff', '#00E396', '#775DD0', '#FF4560', '#FEB019', '#00D9E9'],
+          annotations: options.annotations || {},
+          grid: {
+            borderColor: 'rgba(255,255,255,0.1)',
+            strokeDashArray: 4,
+            xaxis: {
+              lines: {
+                show: true
+              }
+            },
+            yaxis: {
+              lines: {
+                show: true
+              }
+            }
+          },
+          responsive: [
+            {
+              breakpoint: 768,
+              options: {
+                chart: {
+                  height: 450
+                },
+                legend: {
+                  position: 'bottom',
+                  fontSize: '11px'
+                }
+              }
+            }
+          ]
+        };
+        
+        // Initialize chart
+        const chart = new ApexCharts(chartElement, chartOptions);
+        
+        // Store chart instance for later reference
+        window[`${id}Chart`] = chart;
+        
+        // Render the chart
+        chart.render().then(() => {
+          // Set up interactivity for metrics toggle buttons
+          setupMetricsToggleInteractivity(chart);
+        });
+        
+      } catch (error) {
+        console.error('Error rendering chart:', error);
+        showFallback();
+      }
+    } else {
+      console.error('ApexCharts not loaded or chart element not found');
+      showFallback();
+    }
+  }
+  
+  // Initialize metrics toggle buttons
+  function initializeMetricsToggle() {
+    const metricsToggleContainer = document.querySelector('.metrics-toggle-container');
+    if (!metricsToggleContainer) {
+      console.warn('Metrics toggle container not found');
+      return;
+    }
+    
+    // Handle accessibility for toggle buttons
+    const buttons = metricsToggleContainer.querySelectorAll('.metric-button');
+    buttons.forEach(button => {
+      button.setAttribute('role', 'button');
+      button.setAttribute('tabindex', '0');
+      button.setAttribute('aria-pressed', button.classList.contains('active') ? 'true' : 'false');
+      
+      // Add keyboard support
+      button.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          button.click();
+        }
+      });
+    });
+  }
+  
+  // Set up interactivity for metrics toggle buttons
+  function setupMetricsToggleInteractivity(chart) {
+    const buttons = document.querySelectorAll(`[id^="${id}-"][class="metric-button"]`);
+    buttons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Update active button
+        document.querySelectorAll(`[id^="${id}-"][class^="metric-button"]`).forEach(btn => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        this.classList.add('active');
+        this.setAttribute('aria-pressed', 'true');
+        
+        // Get series to show
+        const seriesIndices = this.dataset.series;
+        
+        // Update chart based on selected focus
+        if (seriesIndices === 'all') {
+          // Show all series
+          for (let i = 0; i < chart.w.config.series.length; i++) {
+            chart.showSeries(chart.w.config.series[i].name);
+          }
+          
+          // Show relevant yaxis
+          chart.updateOptions({
+            yaxis: [
+              { show: true },  // Revenue
+              { show: true },  // Profit Margin
+              { show: false }, // R&D
+              { show: false }, // Funding
+              { show: false }, // LTV:CAC
+              { show: false }  // YoY Growth
+            ]
+          });
+        } else if (seriesIndices === '0') {
+          // Revenue focus - Show only revenue and YoY growth
+          for (let i = 0; i < chart.w.config.series.length; i++) {
+            if (i === 0 || i === 5) {
+              chart.showSeries(chart.w.config.series[i].name);
+            } else {
+              chart.hideSeries(chart.w.config.series[i].name);
+            }
+          }
+          
+          // Show relevant yaxis
+          chart.updateOptions({
+            yaxis: [
+              { show: true },  // Revenue
+              { show: false }, // Profit Margin
+              { show: false }, // R&D
+              { show: false }, // Funding
+              { show: false }, // LTV:CAC
+              { show: true }   // YoY Growth
+            ]
+          });
+        } else if (seriesIndices === '1,5') {
+          // Profitability focus - Show margin and YoY growth
+          for (let i = 0; i < chart.w.config.series.length; i++) {
+            if (i === 1 || i === 5) {
+              chart.showSeries(chart.w.config.series[i].name);
+            } else {
+              chart.hideSeries(chart.w.config.series[i].name);
+            }
+          }
+          
+          // Show relevant yaxis
+          chart.updateOptions({
+            yaxis: [
+              { show: false }, // Revenue
+              { show: true },  // Profit Margin
+              { show: false }, // R&D
+              { show: false }, // Funding
+              { show: false }, // LTV:CAC
+              { show: true }   // YoY Growth
+            ]
+          });
+        } else if (seriesIndices === '2,3') {
+          // Investment focus - Show R&D and funding
+          for (let i = 0; i < chart.w.config.series.length; i++) {
+            if (i === 2 || i === 3) {
+              chart.showSeries(chart.w.config.series[i].name);
+            } else {
+              chart.hideSeries(chart.w.config.series[i].name);
+            }
+          }
+          
+          // Show relevant yaxis
+          chart.updateOptions({
+            yaxis: [
+              { show: false }, // Revenue
+              { show: false }, // Profit Margin
+              { show: true },  // R&D
+              { show: true },  // Funding
+              { show: false }, // LTV:CAC
+              { show: false }  // YoY Growth
+            ]
+          });
+        } else if (seriesIndices === '4') {
+          // Unit economics focus - Show LTV:CAC ratio
+          for (let i = 0; i < chart.w.config.series.length; i++) {
+            if (i === 0 || i === 4) {
+              chart.showSeries(chart.w.config.series[i].name);
+            } else {
+              chart.hideSeries(chart.w.config.series[i].name);
+            }
+          }
+          
+          // Show relevant yaxis
+          chart.updateOptions({
+            yaxis: [
+              { show: true },  // Revenue
+              { show: false }, // Profit Margin
+              { show: false }, // R&D
+              { show: false }, // Funding
+              { show: true },  // LTV:CAC
+              { show: false }  // YoY Growth
+            ]
+          });
+        }
+        
+        // Announce change to screen readers
+        const announcer = document.getElementById(`${id}-announcements`);
+        if (announcer) {
+          announcer.textContent = `Chart view changed to ${this.textContent} focus.`;
+        }
+      });
+    });
+    
+    // Initialize with revenue focus if available
+    const revenueButton = document.getElementById(`${id}-revenue-focus`);
+    if (revenueButton) {
+      revenueButton.click();
+    }
+  }
+  
+  // Handle keyboard navigation for chart
+  function handleKeyboardNavigation(e) {
+    const chart = window[`${id}Chart`];
+    if (!chart) return;
+    
+    // Get current focused series and datapoint
+    let seriesIndex = chart.w.globals.capturedSeriesIndex || 0;
+    let dataPointIndex = chart.w.globals.capturedDataPointIndex || 0;
+    
+    switch (e.key) {
+      case 'ArrowRight':
+        e.preventDefault();
+        // Move to next data point
+        dataPointIndex = Math.min(dataPointIndex + 1, chart.w.globals.series[0].length - 1);
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        // Move to previous data point
+        dataPointIndex = Math.max(dataPointIndex - 1, 0);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        // Move to previous series
+        seriesIndex = Math.max(seriesIndex - 1, 0);
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        // Move to next series
+        seriesIndex = Math.min(seriesIndex + 1, chart.w.globals.series.length - 1);
+        break;
+    }
+    
+    // Highlight the selected data point
+    if (chart.w.globals.series[seriesIndex] && chart.w.globals.series[seriesIndex][dataPointIndex] !== undefined) {
+      chart.tooltip.showTooltip(seriesIndex, dataPointIndex);
+      
+      // Announce to screen readers
+      const announcer = document.getElementById(`${id}-announcements`);
+      if (announcer) {
+        const series = chart.w.config.series[seriesIndex];
+        const year = chart.w.globals.categoryLabels[dataPointIndex];
+        const value = series.data[dataPointIndex];
+        
+        let formattedValue = value;
+        if (seriesIndex === 0) {
+          formattedValue = `$${value}M`;
+        } else if (seriesIndex === 1) {
+          formattedValue = `${value}%`;
+        } else if (seriesIndex === 2) {
+          formattedValue = `$${value}M`;
+        } else if (seriesIndex === 3) {
+          formattedValue = `$${value}M`;
+        } else if (seriesIndex === 4) {
+          formattedValue = `${value}x`;
+        } else if (seriesIndex === 5) {
+          formattedValue = `${value}%`;
+        }
+        
+        announcer.textContent = `${series.name} for ${year}: ${formattedValue}`;
+      }
+    }
+  }
+});
+</script>
+
+<style>
+.metrics-toggle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.metrics-toggle-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 6px;
+}
+
+.metrics-toggle-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.metric-button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.metric-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.metric-button.active {
+  background-color: var(--brand-color);
+  color: var(--bg-color);
+  border-color: var(--brand-color);
+}
+
+.metric-button:focus-visible {
+  outline: 2px solid var(--brand-color);
+  outline-offset: 2px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .metrics-toggle-buttons {
+    flex-direction: column;
+  }
+  
+  .metric-button {
+    width: 100%;
+  }
+}
+</style>

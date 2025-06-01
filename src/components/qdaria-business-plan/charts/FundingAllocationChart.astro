@@ -1,0 +1,323 @@
+---
+import EnhancedChartBase from './EnhancedChartBase.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "QDaria Funding Allocation", description = "Visualization of the $12M seed funding request allocation" } = Astro.props;
+
+// Funding allocation data
+const fundingData = [
+  { 
+    category: "Quantum Hardware", 
+    value: 4, 
+    description: "Rigetti QPU and dilution refrigerator", 
+    color: "#04a3ff",
+    icon: "server"
+  },
+  { 
+    category: "R&D", 
+    value: 3, 
+    description: "Research and development of topological quantum computing with Fibonacci anyons", 
+    color: "#00ffd3",
+    icon: "flask"
+  },
+  { 
+    category: "Staffing", 
+    value: 3, 
+    description: "Quantum physicists, software engineers, and AI specialists", 
+    color: "#65ff00",
+    icon: "users"
+  },
+  { 
+    category: "Operations", 
+    value: 2, 
+    description: "Office space, administration, marketing, and business development", 
+    color: "#ffcc00",
+    icon: "building"
+  }
+];
+
+// Calculate total for percentage calculations
+const totalFunding = fundingData.reduce((sum, item) => sum + item.value, 0);
+
+// Chart dimensions
+const chartWidth = 900;
+const chartHeight = 500;
+const centerX = chartWidth / 2;
+const centerY = chartHeight / 2;
+const outerRadius = 180;
+const innerRadius = 100;
+const legendX = 600;
+const legendY = 110;
+---
+
+<EnhancedChartBase title={title} description={description}>
+  <div class="funding-allocation-chart" client:load>
+    <div class="chart-container">
+      <svg width="100%" height="100%" viewBox={`0 0 ${chartWidth} ${chartHeight}`} preserveAspectRatio="xMidYMid meet" 
+        role="img" aria-labelledby="fundingChartTitle fundingChartDesc">
+        <title id="fundingChartTitle">QDaria Funding Allocation</title>
+        <desc id="fundingChartDesc">Donut chart showing the allocation of the $12M seed funding request</desc>
+        
+        <!-- Background -->
+        <rect x="0" y="0" width={chartWidth} height={chartHeight} fill="#020617" rx="10" ry="10" />
+        
+        <!-- Chart title -->
+        <text x={centerX} y="40" fill="white" font-size="22" text-anchor="middle" font-weight="bold" class="chart-title">
+          $12M Seed Funding Allocation
+        </text>
+        
+        <!-- Donut chart slices -->
+        <g transform={`translate(${centerX}, ${centerY})`}>
+          {fundingData.map((item, i) => {
+            // Calculate angles for the pie slices
+            const startAngle = fundingData.slice(0, i).reduce((sum, d) => sum + d.value / totalFunding * 2 * Math.PI, 0);
+            const endAngle = startAngle + item.value / totalFunding * 2 * Math.PI;
+            
+            // Calculate SVG arc path
+            const startX = Math.sin(startAngle) * outerRadius;
+            const startY = -Math.cos(startAngle) * outerRadius;
+            const endX = Math.sin(endAngle) * outerRadius;
+            const endY = -Math.cos(endAngle) * outerRadius;
+            const startXInner = Math.sin(startAngle) * innerRadius;
+            const startYInner = -Math.cos(startAngle) * innerRadius;
+            const endXInner = Math.sin(endAngle) * innerRadius;
+            const endYInner = -Math.cos(endAngle) * innerRadius;
+            
+            const largeArcFlag = endAngle - startAngle > Math.PI ? 1 : 0;
+            
+            // Path for the donut slice
+            const path = [
+              `M ${startX} ${startY}`,
+              `A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+              `L ${endXInner} ${endYInner}`,
+              `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${startXInner} ${startYInner}`,
+              'Z'
+            ].join(' ');
+            
+            // Calculate position for percentage text
+            const midAngle = startAngle + (endAngle - startAngle) / 2;
+            const textRadius = (outerRadius + innerRadius) / 2;
+            const textX = Math.sin(midAngle) * textRadius;
+            const textY = -Math.cos(midAngle) * textRadius;
+            
+            // Calculate percentage
+            const percentage = (item.value / totalFunding * 100).toFixed(0);
+            
+            return (
+              <g class="slice" data-category={item.category} data-value={item.value} data-description={item.description} tabindex="0">
+                <path d={path} fill={item.color} stroke="#020617" stroke-width="2" class="slice-path" 
+                  aria-label={`${item.category}: $${item.value}M, ${percentage}% of total funding`} />
+                <text x={textX} y={textY} text-anchor="middle" dominant-baseline="middle" 
+                  fill="white" font-size="20" font-weight="bold" class="percentage">
+                  {percentage}%
+                </text>
+              </g>
+            );
+          })}
+          
+          <!-- Center circle for aesthetics -->
+          <circle cx="0" cy="0" r={innerRadius-10} fill="#020617" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
+          
+          <!-- Center text - total amount -->
+          <text x="0" y="-15" text-anchor="middle" fill="white" font-size="24" font-weight="bold">$12M</text>
+          <text x="0" y="15" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="16">Total Funding</text>
+        </g>
+        
+        <!-- Legend -->
+        <g class="chart-legend" transform={`translate(${legendX}, ${legendY})`}>
+          {fundingData.map((item, i) => (
+            <g class="legend-item" transform={`translate(0, ${i * 40})`} data-category={item.category} tabindex="0">
+              <rect x="0" y="-15" width="20" height="20" fill={item.color} rx="4" ry="4" />
+              <text x="30" y="-3" fill="white" font-size="14" font-weight="bold">{item.category}</text>
+              <text x="30" y="17" fill="rgba(255,255,255,0.7)" font-size="12">${item.value}M</text>
+            </g>
+          ))}
+        </g>
+        
+        <!-- Center image -->
+        <g class="center-icon" transform={`translate(${centerX}, ${centerY})`}>
+          <circle cx="0" cy="0" r="40" fill="rgba(4, 163, 255, 0.2)" />
+          <image href="/icons/qdaria/QDaria_logo_teal.png" x="-30" y="-30" width="60" height="60" />
+        </g>
+      </svg>
+      
+      <!-- Detail panel -->
+      <div class="detail-panel">
+        <div class="detail-header">
+          <div class="detail-category">Category</div>
+          <div class="detail-amount">Amount</div>
+        </div>
+        <div class="detail-description">Select a segment to view details</div>
+      </div>
+    </div>
+  </div>
+</EnhancedChartBase>
+
+<style>
+  .funding-allocation-chart {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    user-select: text;
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 500px;
+    width: 100%;
+  }
+  
+  .slice {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .slice:hover .slice-path, 
+  .slice:focus .slice-path {
+    transform: translateX(10px) translateY(-10px);
+    filter: brightness(1.2);
+    stroke: white;
+    stroke-width: 3;
+  }
+  
+  .legend-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .legend-item:hover, 
+  .legend-item:focus {
+    transform: translateX(5px);
+  }
+  
+  .center-icon {
+    transition: all 0.3s ease;
+  }
+  
+  .detail-panel {
+    position: relative;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(4, 163, 255, 0.1);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    min-height: 100px;
+    transition: all 0.3s ease;
+  }
+  
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .detail-category {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .detail-amount {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .detail-description {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get elements
+    const slices = document.querySelectorAll('.slice');
+    const legendItems = document.querySelectorAll('.legend-item');
+    const detailPanel = document.querySelector('.detail-panel');
+    const detailCategory = document.querySelector('.detail-category');
+    const detailAmount = document.querySelector('.detail-amount');
+    const detailDescription = document.querySelector('.detail-description');
+    
+    // Add click events to slices
+    slices.forEach((slice) => {
+      slice.addEventListener('click', () => {
+        showDetails(slice);
+      });
+      
+      // Add keyboard support
+      slice.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          showDetails(slice);
+        }
+      });
+    });
+    
+    // Add click events to legend items
+    legendItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        // Find the corresponding slice by category
+        const category = item.dataset.category;
+        const slice = document.querySelector(`.slice[data-category="${category}"]`);
+        if (slice) {
+          showDetails(slice);
+        }
+      });
+      
+      // Add keyboard support
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const category = item.dataset.category;
+          const slice = document.querySelector(`.slice[data-category="${category}"]`);
+          if (slice) {
+            showDetails(slice);
+          }
+        }
+      });
+    });
+    
+    // Function to show details for selected slice
+    function showDetails(slice) {
+      const category = slice.dataset.category;
+      const value = slice.dataset.value;
+      const description = slice.dataset.description;
+      
+      // Update detail panel
+      if (detailCategory) detailCategory.textContent = category || '';
+      if (detailAmount) detailAmount.textContent = `$${value}M`;
+      if (detailDescription) detailDescription.textContent = description || '';
+      
+      // Highlight the selected slice
+      slices.forEach(s => {
+        const path = s.querySelector('path');
+        if (path) {
+          path.setAttribute('stroke-width', '2');
+          path.setAttribute('stroke', '#020617');
+        }
+      });
+      
+      const slicePath = slice.querySelector('path');
+      if (slicePath) {
+        slicePath.setAttribute('stroke-width', '3');
+        slicePath.setAttribute('stroke', 'white');
+      }
+      
+      // Animate the center icon
+      const centerIcon = document.querySelector('.center-icon');
+      if (centerIcon && centerIcon.style) {
+        centerIcon.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+          if (centerIcon && centerIcon.style) {
+            centerIcon.style.transform = 'scale(1)';
+          }
+        }, 300);
+      }
+    }
+  });
+</script>

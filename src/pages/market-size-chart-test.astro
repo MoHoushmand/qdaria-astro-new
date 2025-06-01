@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MarketSizeProjectionsChartApex from "../components/qdaria-business-plan/charts/MarketSizeProjectionsChartApex.astro";
+---
+
+<BaseLayout title="Market Size Projections Chart Test">
+  <div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-8 text-center">Quantum Computing Market Size Projections (2025-2035)</h1>
+    
+    <div class="bg-slate-800 rounded-lg p-6 max-w-5xl mx-auto">
+      <MarketSizeProjectionsChartApex
+        id="market-size-test"
+        showDataTable={true}
+        showControls={true}
+        height="500px"
+      />
+    </div>
+
+    <div class="mt-12 max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold mb-4">Enhanced Chart Features</h2>
+      <ul class="list-disc pl-6 mb-6 space-y-2">
+        <li>Toggle between logarithmic and linear scale visualization</li>
+        <li>Enhanced data table with year-over-year growth rates</li>
+        <li>CAGR (Compound Annual Growth Rate) calculation for each scenario</li>
+        <li>Milestone indicators for when scenarios reach $1 Trillion</li>
+        <li>Interactive scenario selection tabs with color coding</li>
+        <li>Enhanced tooltips with more detailed information</li>
+        <li>Responsive design that works across various screen sizes</li>
+        <li>Improved accessibility with screen reader announcements</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mb-4 mt-8">Market Trajectory Analysis</h2>
+      <p class="mb-4">
+        This enhanced visualization depicts the projected growth of the quantum computing market from 2025 to 2035
+        across three different scenarios:
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <div class="bg-slate-800 p-4 rounded-lg border border-indigo-500">
+          <h3 class="font-bold text-indigo-400 mb-2">Conservative Case</h3>
+          <p>Slower market adoption with more technical challenges to overcome. Reaches $980.5B by 2035.</p>
+          <p class="mt-2"><span class="font-bold">CAGR:</span> 80.5% over the decade</p>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-lg border border-blue-500">
+          <h3 class="font-bold text-blue-400 mb-2">Base Case</h3>
+          <p>Expected trajectory with steady market expansion. Reaches $1.3T by 2035.</p>
+          <p class="mt-2"><span class="font-bold">CAGR:</span> 84.1% over the decade</p>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-lg border border-teal-500">
+          <h3 class="font-bold text-teal-400 mb-2">Optimistic Case</h3>
+          <p>Accelerated adoption driven by breakthrough applications. Reaches $1.65T by 2035.</p>
+          <p class="mt-2"><span class="font-bold">CAGR:</span> 87.9% over the decade</p>
+        </div>
+      </div>
+      
+      <div class="mt-8 p-4 bg-slate-800 rounded-lg border border-amber-500">
+        <h3 class="font-bold text-amber-400 mb-2">Logarithmic vs. Linear Scale</h3>
+        <p>
+          The default logarithmic scale helps visualize exponential growth patterns by showing percentage 
+          changes consistently. This makes it easier to see the rate of growth over time.
+        </p>
+        <p class="mt-2">
+          Switch to linear scale to better compare the absolute differences between scenarios, especially 
+          in later years when the market size differences become more pronounced.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Additional styles for the test page */
+  .container {
+    max-width: 1200px;
+  }
+  
+  h1, h2, h3 {
+    color: #ffffff;
+  }
+  
+  p {
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+  
+  li {
+    color: #e2e8f0;
+    margin-bottom: 0.5rem;
+  }
+</style>

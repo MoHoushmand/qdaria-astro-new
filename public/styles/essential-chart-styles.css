@@ -1,0 +1,131 @@
+/**
+ * Essential Chart Styles - Core styles for QDaria business plan charts
+ * Focused on reliability and accessibility with minimal complexity
+ */
+
+/* Chart container */
+.apex-chart-container {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* Chart title and description */
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.chart-description {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Data table styling */
+.chart-data-table {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: rgba(30, 41, 59, 0.6);
+}
+
+.chart-data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.chart-data-table th {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  text-align: left;
+  background-color: rgba(30, 41, 59, 0.8);
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.chart-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.chart-data-table tr:hover td {
+  background-color: rgba(30, 41, 59, 0.8);
+}
+
+/* Data table toggle button */
+.chart-data-table-toggle {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chart-data-table-toggle:hover {
+  background-color: rgba(30, 41, 59, 0.8);
+  color: #ffffff;
+}
+
+/* Hide loading elements */
+.chart-loading,
+[id$="-loading"],
+.chart-placeholder:after,
+.chart-fallback-message {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Make text selectable for accessibility */
+.apex-chart-container *,
+.chart-title,
+.chart-description,
+.chart-data-table,
+.chart-data-table * {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+/* Ensure chart has minimum height even when not rendered */
+.chart-container {
+  min-height: 300px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .apex-chart-container {
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .chart-title {
+    font-size: 1.25rem;
+  }
+  
+  .chart-data-table th,
+  .chart-data-table td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

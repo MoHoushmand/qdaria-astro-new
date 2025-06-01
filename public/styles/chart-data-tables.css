@@ -1,0 +1,284 @@
+/* Chart Data Tables Styles
+ * For QDaria Business Plan ApexCharts
+ */
+
+/* Data Table Container */
+.chart-data-table {
+  display: none;
+  margin-top: 24px;
+  background-color: rgba(30, 41, 59, 0.7);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.chart-data-table.visible {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Data Table Header */
+.data-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: rgba(51, 65, 85, 0.7);
+  border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.data-table-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.data-table-close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+
+.data-table-close-btn:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Data Table Content */
+.data-table-content {
+  padding: 16px;
+  overflow-x: auto;
+}
+
+/* Data Table Design */
+.chart-data-table-content {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.chart-data-table-content th,
+.chart-data-table-content td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+  white-space: nowrap;
+}
+
+.chart-data-table-content th {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  background-color: rgba(51, 65, 85, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.chart-data-table-content thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background-color: rgba(51, 65, 85, 0.5);
+}
+
+.chart-data-table-content tbody tr:hover {
+  background-color: rgba(51, 65, 85, 0.2);
+}
+
+/* Row & Column Highlighting */
+.chart-data-table-content tbody tr:hover {
+  background-color: rgba(4, 163, 255, 0.1);
+}
+
+.chart-data-table-content td:hover,
+.chart-data-table-content th:hover {
+  background-color: rgba(4, 163, 255, 0.05);
+}
+
+/* Data Formatting */
+.data-numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-highlight {
+  font-weight: 600;
+  color: #04a3ff;
+}
+
+.data-positive {
+  color: rgba(16, 185, 129, 0.9);
+}
+
+.data-negative {
+  color: rgba(239, 68, 68, 0.9);
+}
+
+.data-neutral {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Row Types */
+.data-row-header {
+  font-weight: 600;
+  background-color: rgba(51, 65, 85, 0.2);
+}
+
+.data-row-sum {
+  font-weight: 600;
+  border-top: 2px solid rgba(100, 116, 139, 0.3);
+}
+
+.data-row-forecast {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.data-row-milestone {
+  background-color: rgba(0, 255, 211, 0.05);
+}
+
+.data-row-trillion {
+  background-color: rgba(101, 255, 0, 0.05);
+}
+
+/* Data Table Pagination */
+.data-table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: rgba(51, 65, 85, 0.3);
+  border-top: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.data-table-info {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.data-table-pages {
+  display: flex;
+  gap: 4px;
+}
+
+.data-table-page-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(51, 65, 85, 0.5);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.data-table-page-btn:hover {
+  background-color: rgba(51, 65, 85, 0.7);
+}
+
+.data-table-page-btn.active {
+  background-color: rgba(4, 163, 255, 0.3);
+  border-color: rgba(4, 163, 255, 0.5);
+}
+
+/* Data Table Search */
+.data-table-search {
+  padding: 12px 16px;
+  background-color: rgba(51, 65, 85, 0.3);
+  border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.data-table-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  background-color: rgba(30, 41, 59, 0.7);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
+
+.data-table-search input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Data Table Empty State */
+.data-table-empty {
+  padding: 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* Data Table Footer */
+.data-table-footer {
+  padding: 12px 16px;
+  background-color: rgba(51, 65, 85, 0.3);
+  border-top: 1px solid rgba(100, 116, 139, 0.3);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* Data Table Export */
+.data-table-export {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.data-export-btn {
+  background-color: rgba(51, 65, 85, 0.5);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.data-export-btn:hover {
+  background-color: rgba(51, 65, 85, 0.7);
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Table Responsiveness */
+@media screen and (max-width: 768px) {
+  .chart-data-table-content {
+    font-size: 0.8rem;
+  }
+  
+  .chart-data-table-content th,
+  .chart-data-table-content td {
+    padding: 6px 8px;
+  }
+  
+  .data-table-title {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,476 @@
+---
+import ApexChartWrapper from './ApexChartWrapper.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  id?: string;
+}
+
+const {
+  title = "QDaria Risk Assessment",
+  description = "Risk assessment heatmap showing probability and impact of identified risks across key categories.",
+  id = "risk-assessment-chart"
+} = Astro.props;
+
+// Sample risk data for the data table
+const sampleRisks = [
+  // Technology risks
+  { name: 'Quantum Decoherence', probability: 7, impact: 9, category: 'Technology', description: 'Loss of quantum state due to environmental factors' },
+  { name: 'Hardware Failure', probability: 5, impact: 8, category: 'Technology', description: 'Critical hardware component failure' },
+  { name: 'Algorithm Inefficiency', probability: 6, impact: 7, category: 'Technology', description: 'Suboptimal algorithm performance' },
+  { name: 'Integration Issues', probability: 4, impact: 6, category: 'Technology', description: 'Challenges integrating with existing systems' },
+  
+  // Market risks
+  { name: 'Competitor Advancement', probability: 8, impact: 9, category: 'Market', description: 'Competitors achieving significant breakthroughs' },
+  { name: 'Market Adoption Delay', probability: 7, impact: 8, category: 'Market', description: 'Slower than expected market adoption' },
+  { name: 'Pricing Pressure', probability: 6, impact: 5, category: 'Market', description: 'Pressure to reduce pricing due to competition' },
+  { name: 'Changing Market Needs', probability: 5, impact: 6, category: 'Market', description: 'Evolving customer requirements' },
+  
+  // Financial risks
+  { name: 'Funding Shortfall', probability: 6, impact: 10, category: 'Financial', description: 'Insufficient funding for development phases' },
+  { name: 'Cost Overruns', probability: 7, impact: 7, category: 'Financial', description: 'Development costs exceeding budget' },
+  { name: 'Revenue Delays', probability: 6, impact: 8, category: 'Financial', description: 'Delayed revenue generation' },
+  { name: 'Currency Fluctuation', probability: 4, impact: 5, category: 'Financial', description: 'Impact of currency exchange rate changes' },
+  
+  // Operational risks
+  { name: 'Talent Shortage', probability: 8, impact: 8, category: 'Operational', description: 'Difficulty recruiting specialized quantum talent' },
+  { name: 'Supply Chain Disruption', probability: 5, impact: 7, category: 'Operational', description: 'Delays in component availability' },
+  { name: 'Knowledge Transfer', probability: 6, impact: 6, category: 'Operational', description: 'Challenges in knowledge sharing across teams' },
+  { name: 'Process Inefficiency', probability: 4, impact: 5, category: 'Operational', description: 'Suboptimal operational processes' },
+  
+  // Regulatory risks
+  { name: 'Export Controls', probability: 7, impact: 9, category: 'Regulatory', description: 'Restrictions on quantum technology exports' },
+  { name: 'Data Privacy Regulations', probability: 6, impact: 8, category: 'Regulatory', description: 'Changing data privacy requirements' },
+  { name: 'Intellectual Property', probability: 5, impact: 7, category: 'Regulatory', description: 'IP protection challenges' },
+  { name: 'Standards Evolution', probability: 4, impact: 6, category: 'Regulatory', description: 'Changing industry standards' }
+];
+
+// Calculate risk score
+const calculateRiskScore = (probability, impact) => probability * impact;
+
+// Add risk score to each risk
+const risksWithScore = sampleRisks.map(risk => ({
+  ...risk,
+  score: calculateRiskScore(risk.probability, risk.impact)
+}));
+
+// Sort risks by score (highest first)
+const sortedRisks = [...risksWithScore].sort((a, b) => b.score - a.score);
+---
+
+<ApexChartWrapper
+  title={title}
+  description={description}
+  id={id}
+  chartType="heatmap"
+>
+  <!-- Chart container div -->
+  <div class="chart-container" style="height: 450px;"></div>
+  
+  <!-- Controls -->
+  <div class="risk-assessment-controls flex flex-wrap gap-2 justify-center mt-4">
+    <div class="filter-container">
+      <label for="risk-category-filter" class="mr-2">Filter by Category:</label>
+      <select id="risk-category-filter" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm">
+        <option value="all">All Categories</option>
+        <option value="Technology">Technology</option>
+        <option value="Market">Market</option>
+        <option value="Financial">Financial</option>
+        <option value="Operational">Operational</option>
+        <option value="Regulatory">Regulatory</option>
+      </select>
+    </div>
+    
+    <div class="view-toggle ml-4">
+      <button id="heatmap-view" class="bg-blue-600 text-white px-3 py-1 rounded text-sm mr-2 active">Heatmap View</button>
+      <button id="matrix-view" class="bg-gray-700 text-white px-3 py-1 rounded text-sm">Matrix View</button>
+    </div>
+  </div>
+  
+  <!-- Risk Legend -->
+  <div class="risk-legend flex justify-center items-center gap-4 my-4">
+    <div class="flex items-center">
+      <span class="inline-block w-4 h-4 bg-red-500 mr-1"></span>
+      <span>High Risk</span>
+    </div>
+    <div class="flex items-center">
+      <span class="inline-block w-4 h-4 bg-yellow-500 mr-1"></span>
+      <span>Medium Risk</span>
+    </div>
+    <div class="flex items-center">
+      <span class="inline-block w-4 h-4 bg-green-500 mr-1"></span>
+      <span>Low Risk</span>
+    </div>
+  </div>
+  
+  <!-- Risk Metrics -->
+  <div class="risk-metrics grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+    <div class="bg-blue-900/30 p-4 rounded-lg text-center">
+      <h3 class="text-lg font-semibold">Highest Risk</h3>
+      <p id="highest-risk" class="text-xl font-bold text-red-400">{sortedRisks[0]?.name} ({sortedRisks[0]?.score})</p>
+    </div>
+    <div class="bg-blue-900/30 p-4 rounded-lg text-center">
+      <h3 class="text-lg font-semibold">Risk Categories</h3>
+      <p id="risk-categories" class="text-xl font-bold text-cyan-400">5</p>
+    </div>
+    <div class="bg-blue-900/30 p-4 rounded-lg text-center">
+      <h3 class="text-lg font-semibold">Total Risks</h3>
+      <p id="total-risks" class="text-xl font-bold text-green-400">{sampleRisks.length}</p>
+    </div>
+  </div>
+  
+  <!-- Data table slot -->
+  <table slot="data-table" class="chart-data-table-content">
+    <thead>
+      <tr>
+        <th>Risk</th>
+        <th>Category</th>
+        <th>Probability</th>
+        <th>Impact</th>
+        <th>Risk Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {sortedRisks.map((risk) => (
+        <tr>
+          <td>{risk.name}</td>
+          <td>{risk.category}</td>
+          <td>{risk.probability}/10</td>
+          <td>{risk.impact}/10</td>
+          <td>{risk.score}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</ApexChartWrapper>
+
+<style>
+  .active {
+    font-weight: bold;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Data table styles */
+  .chart-data-table-content {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    background: rgba(2, 6, 23, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .chart-data-table-content th, 
+  .chart-data-table-content td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-data-table-content th {
+    background: rgba(4, 163, 255, 0.3);
+    font-weight: bold;
+  }
+  
+  .chart-data-table-content tr:hover {
+    background: rgba(4, 163, 255, 0.1);
+  }
+</style>
+
+<script>
+  import { createChartWorker } from '../../../js/chartWorkerFactory';
+  import { chartColors } from '../../../js/chartUtils';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const chartId = 'risk-assessment-chart';
+    const chartElement = document.getElementById(chartId);
+    
+    if (!chartElement) return;
+    
+    // Initialize the worker
+    const worker = createChartWorker('riskAssessmentWorker.js');
+    
+    // Request data processing
+    worker.postMessage({ action: 'processRiskData' });
+    
+    // Handle processed data
+    worker.addEventListener('message', (event) => {
+      const { action, result } = event.data;
+      
+      if (action === 'riskDataProcessed') {
+        renderRiskChart(result, chartId);
+        updateMetrics(result, chartId);
+        setupControls(result, chartId);
+      }
+    });
+  });
+  
+  function renderRiskChart(data, chartId) {
+    const { series, thresholds } = data;
+    const colors = chartColors;
+    
+    // Flatten all risk items for color mapping
+    const allRisks = series.flatMap(s => s.data);
+    
+    // Create ApexCharts options
+    const options = {
+      series: series,
+      chart: {
+        type: 'heatmap',
+        height: 450,
+        fontFamily: 'Inter, sans-serif',
+        toolbar: {
+          show: true,
+          tools: {
+            download: true,
+            selection: false,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true
+          }
+        },
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 800
+        },
+        background: 'transparent'
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors: [colors.primary],
+      title: {
+        text: 'Risk Assessment Heatmap',
+        align: 'center',
+        style: {
+          fontSize: '18px',
+          fontWeight: 'bold',
+          color: '#ffffff'
+        }
+      },
+      tooltip: {
+        enabled: true,
+        custom: function({ series, seriesIndex, dataPointIndex, w }) {
+          const data = w.config.series[seriesIndex].data[dataPointIndex];
+          return `
+            <div class="apexcharts-tooltip-box p-2">
+              <div class="font-bold">${data.x}</div>
+              <div>Category: ${w.config.series[seriesIndex].name}</div>
+              <div>Risk Score: ${data.y}</div>
+              <div>Probability: ${data.probability}/10</div>
+              <div>Impact: ${data.impact}/10</div>
+              ${data.description ? `<div class="mt-1">${data.description}</div>` : ''}
+            </div>
+          `;
+        }
+      },
+      plotOptions: {
+        heatmap: {
+          enableShades: true,
+          shadeIntensity: 0.5,
+          colorScale: {
+            ranges: [
+              {
+                from: 0,
+                to: thresholds.medium,
+                color: '#00E396', // Low risk - green
+                name: 'Low'
+              },
+              {
+                from: thresholds.medium,
+                to: thresholds.high,
+                color: '#FEB019', // Medium risk - yellow
+                name: 'Medium'
+              },
+              {
+                from: thresholds.high,
+                to: 100,
+                color: '#FF4560', // High risk - red
+                name: 'High'
+              }
+            ]
+          }
+        }
+      },
+      xaxis: {
+        labels: {
+          style: {
+            colors: '#ffffff'
+          },
+          rotate: -45,
+          rotateAlways: false
+        }
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: '#ffffff'
+          }
+        }
+      },
+      theme: {
+        mode: 'dark'
+      },
+      responsive: [
+        {
+          breakpoint: 768,
+          options: {
+            chart: {
+              height: 400
+            },
+            xaxis: {
+              labels: {
+                rotate: -90
+              }
+            }
+          }
+        }
+      ]
+    };
+    
+    // Initialize the chart
+    const chart = new ApexCharts(document.querySelector(`#${chartId} .chart-container`), options);
+    chart.render();
+    
+    // Store chart instance for later reference
+    window[`${chartId}_chart`] = chart;
+  }
+  
+  function updateMetrics(data, chartId) {
+    const allRisks = data.series.flatMap(s => s.data);
+    
+    // Find highest risk
+    const highestRisk = allRisks.reduce((max, risk) => risk.y > max.y ? risk : max, { y: 0 });
+    
+    // Update metrics
+    const highestRiskElement = document.getElementById('highest-risk');
+    const riskCategoriesElement = document.getElementById('risk-categories');
+    const totalRisksElement = document.getElementById('total-risks');
+    
+    if (highestRiskElement) {
+      highestRiskElement.textContent = `${highestRisk.x} (${highestRisk.y})`;
+    }
+    
+    if (riskCategoriesElement) {
+      riskCategoriesElement.textContent = `${data.categories.length}`;
+    }
+    
+    if (totalRisksElement) {
+      totalRisksElement.textContent = `${allRisks.length}`;
+    }
+  }
+  
+  function setupControls(data, chartId) {
+    const chart = window[`${chartId}_chart`];
+    const categoryFilter = document.getElementById('risk-category-filter') as HTMLSelectElement;
+    const heatmapViewBtn = document.getElementById('heatmap-view') as HTMLButtonElement;
+    const matrixViewBtn = document.getElementById('matrix-view') as HTMLButtonElement;
+    
+    if (!categoryFilter || !heatmapViewBtn || !matrixViewBtn || !chart) return;
+    
+    // Category filter change handler
+    categoryFilter.addEventListener('change', () => {
+      const selectedCategory = categoryFilter.value;
+      
+      if (selectedCategory === 'all') {
+        chart.updateSeries(data.series);
+      } else {
+        const filteredSeries = data.series.filter(s => s.name === selectedCategory);
+        chart.updateSeries(filteredSeries);
+      }
+    });
+    
+    // View toggle handlers
+    heatmapViewBtn.addEventListener('click', () => {
+      heatmapViewBtn.classList.add('active', 'bg-blue-600');
+      heatmapViewBtn.classList.remove('bg-gray-700');
+      matrixViewBtn.classList.remove('active', 'bg-blue-600');
+      matrixViewBtn.classList.add('bg-gray-700');
+      
+      chart.updateOptions({
+        chart: {
+          type: 'heatmap'
+        }
+      });
+    });
+    
+    matrixViewBtn.addEventListener('click', () => {
+      matrixViewBtn.classList.add('active', 'bg-blue-600');
+      matrixViewBtn.classList.remove('bg-gray-700');
+      heatmapViewBtn.classList.remove('active', 'bg-blue-600');
+      heatmapViewBtn.classList.add('bg-gray-700');
+      
+      // Convert to scatter chart for matrix view
+      const matrixSeries: Array<{name: string, data: Array<{x: number, y: number, name: string, description: string, category: string, risk: number}>}> = [];
+      
+      data.series.forEach(s => {
+        const seriesData = s.data.map(item => ({
+          x: item.impact,
+          y: item.probability,
+          name: item.x,
+          description: item.description,
+          category: s.name,
+          risk: item.y
+        }));
+        
+        matrixSeries.push({
+          name: s.name,
+          data: seriesData
+        });
+      });
+      
+      chart.updateOptions({
+        chart: {
+          type: 'scatter'
+        },
+        xaxis: {
+          title: {
+            text: 'Impact',
+            style: {
+              color: '#fff'
+            }
+          },
+          min: 0,
+          max: 10,
+          tickAmount: 10
+        },
+        yaxis: {
+          title: {
+            text: 'Probability',
+            style: {
+              color: '#fff'
+            }
+          },
+          min: 0,
+          max: 10,
+          tickAmount: 10
+        },
+        tooltip: {
+          custom: function({ series, seriesIndex, dataPointIndex, w }) {
+            const point = w.config.series[seriesIndex].data[dataPointIndex];
+            return `
+              <div class="apexcharts-tooltip-box p-2">
+                <div class="font-bold">${point.name}</div>
+                <div>Category: ${point.category}</div>
+                <div>Probability: ${point.y}/10</div>
+                <div>Impact: ${point.x}/10</div>
+                <div>Risk Score: ${point.risk}</div>
+                ${point.description ? `<div class="mt-1">${point.description}</div>` : ''}
+              </div>
+            `;
+          }
+        },
+        markers: {
+          size: 8,
+          strokeWidth: 0
+        }
+      }, true);
+      
+      chart.updateSeries(matrixSeries);
+    });
+  }
+</script>

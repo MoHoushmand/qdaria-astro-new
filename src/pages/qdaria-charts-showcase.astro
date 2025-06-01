@@ -1,0 +1,228 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MarketGrowthChartApex from "../components/qdaria-business-plan/charts/MarketGrowthChartApex.astro";
+import MarketSizeProjectionsChartApex from "../components/qdaria-business-plan/charts/MarketSizeProjectionsChartApex.astro";
+import ForecastScenariosRangeChartApex from "../components/qdaria-business-plan/charts/ForecastScenariosRangeChartApex.astro";
+import QuantumMarketForecastChartApex from "../components/qdaria-business-plan/charts/QuantumMarketForecastChartApex.astro";
+---
+
+<BaseLayout title="QDaria ApexCharts Showcase">
+  <div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-2 text-center">QDaria ApexCharts Showcase</h1>
+    <p class="text-center text-slate-400 mb-8">Standardized, accessible, and interactive business plan charts</p>
+    
+    <div class="bg-slate-900 rounded-lg p-8 mb-12">
+      <h2 class="text-2xl font-bold mb-6">Chart Implementation Standards</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="feature-card">
+          <h3 class="text-xl font-bold text-blue-400 mb-2">Standardized Components</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>ApexChartWrapper.astro base component</li>
+            <li>Consistent styling with QDaria brand colors</li>
+            <li>Explicit dimensions to ensure proper rendering</li>
+            <li>Standard interactive elements</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h3 class="text-xl font-bold text-green-400 mb-2">Enhanced Performance</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Web workers for complex calculations</li>
+            <li>Lazy loading for chart components</li>
+            <li>Progressive rendering option enabled</li>
+            <li>Efficient data processing</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h3 class="text-xl font-bold text-purple-400 mb-2">Accessibility & Reliability</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>WCAG 2.1 AA compliance</li>
+            <li>Screen reader compatibility</li>
+            <li>Keyboard navigation support</li>
+            <li>Graceful fallback on errors</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- First Chart -->
+    <div class="chart-container mb-16">
+      <h2 class="text-2xl font-bold mb-4">Global Quantum Computing Market Growth (2020-2035)</h2>
+      <div class="bg-slate-800 rounded-lg p-6">
+        <MarketGrowthChartApex
+          id="market-growth-showcase"
+          height="500px"
+          title="Global Quantum Computing Market Growth (2020-2035)"
+          description="Projected cumulative economic impact of quantum computing, showing exponential growth from 2020 to 2035, reaching $1 trillion by 2035."
+        />
+      </div>
+    </div>
+    
+    <!-- Second Chart -->
+    <div class="chart-container mb-16">
+      <h2 class="text-2xl font-bold mb-4">Quantum Computing Market Size Projections (2025-2035)</h2>
+      <div class="bg-slate-800 rounded-lg p-6">
+        <MarketSizeProjectionsChartApex
+          id="market-size-showcase"
+          height="500px"
+          title="Quantum Computing Market Size Projections (2025-2035)"
+          description="Detailed market size projections showing the expected growth of quantum computing market segments from 2025 to 2035."
+        />
+      </div>
+    </div>
+    
+    <!-- Third Chart - Quantum Market Forecast -->
+    <div class="chart-container mb-16">
+      <h2 class="text-2xl font-bold mb-4">Quantum Computing Market Forecast Scenarios (2025-2035)</h2>
+      <div class="bg-slate-800 rounded-lg p-6">
+        <QuantumMarketForecastChartApex
+          id="quantum-market-forecast-showcase"
+          height="500px"
+          title="Quantum Computing Market Forecast Scenarios (2025-2035)"
+          description="Comprehensive market forecast showing conservative, expected, and optimistic scenarios with QDaria's projected market share through 2035."
+          caption="Market forecast showing different scenarios with the $1 trillion milestone highlighted."
+          showDataTable={true}
+          showControls={true}
+        />
+      </div>
+      <div class="mt-4 bg-slate-900 p-4 rounded-lg">
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Enhanced Features:</h3>
+        <ul class="list-disc pl-6 text-sm space-y-1">
+          <li>Prominent $1 Trillion milestone with year markers for each scenario</li>
+          <li>QDaria market share visualization on secondary axis</li>
+          <li>Interactive toggle between logarithmic and linear scales</li>
+          <li>View filters to isolate market or share data</li>
+          <li>Detailed data table with CAGR metrics for all scenarios</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Fourth Chart - Forecast Scenarios Range Chart -->
+    <div class="chart-container mb-16">
+      <h2 class="text-2xl font-bold mb-4">Quantum Market Range Forecasts with Uncertainty Bands</h2>
+      <div class="bg-slate-800 rounded-lg p-6">
+        <ForecastScenariosRangeChartApex
+          id="forecast-scenarios-showcase"
+          height="500px"
+          title="Quantum Market Range Forecasts with Uncertainty Bands"
+          description="Range area chart showing conservative, expected, and optimistic market growth scenarios with $1T milestone annotations and QDaria's projected market share."
+        />
+      </div>
+      <div class="mt-4 bg-slate-900 p-4 rounded-lg">
+        <h3 class="text-lg font-semibold text-teal-400 mb-2">Enhanced Features:</h3>
+        <ul class="list-disc pl-6 text-sm space-y-1">
+          <li>Range area visualization showing the spread between different scenarios</li>
+          <li>Uncertainty bands to illustrate forecast confidence levels</li>
+          <li>Milestone markers for significant industry events</li>
+          <li>Detailed data table with all scenarios and metrics</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Interactive Features -->
+    <div class="bg-slate-900 rounded-lg p-8 mb-12">
+      <h2 class="text-2xl font-bold mb-6">Interactive Features</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="feature-card">
+          <h3 class="text-xl font-bold text-amber-400 mb-2">Data Visualization</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Toggle between logarithmic and linear scales</li>
+            <li>Filter scenarios for focused analysis</li>
+            <li>Interactive tooltips with detailed information</li>
+            <li>$1 Trillion milestone annotations</li>
+            <li>Year-over-year growth visualization</li>
+          </ul>
+        </div>
+        
+        <div class="feature-card">
+          <h3 class="text-xl font-bold text-rose-400 mb-2">Analysis Tools</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>CAGR (Compound Annual Growth Rate) calculations</li>
+            <li>Detailed data tables with growth metrics</li>
+            <li>Milestone year indications</li>
+            <li>Color-coded growth indicators</li>
+            <li>Trend analysis with visual cues</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Implementation Summary -->
+    <div class="bg-slate-900 rounded-lg p-8">
+      <h2 class="text-2xl font-bold mb-6">Chart Types Implemented</h2>
+      
+      <p class="mb-4">The business plan currently includes 17 standardized ApexCharts:</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="chart-type">Area (Market Growth & Projections)</div>
+        <div class="chart-type">Radar (Competitor Analysis, SWOT)</div>
+        <div class="chart-type">Timeline (Execution Roadmap)</div>
+        <div class="chart-type">Line (Revenue Projections)</div>
+        <div class="chart-type">Donut (Funding Allocation)</div>
+        <div class="chart-type">Bar (Investment Distribution)</div>
+        <div class="chart-type">Scatter (ROI Comparison)</div>
+        <div class="chart-type">Bubble (Market Positioning)</div>
+        <div class="chart-type">Treemap (Revenue Diversification)</div>
+        <div class="chart-type">Candlestick (Stock Performance)</div>
+        <div class="chart-type">Polar Area (Competitor Strength)</div>
+        <div class="chart-type">Organization (Corporate Structure)</div>
+        <div class="chart-type">Mixed (Financial Metrics)</div>
+        <div class="chart-type">Range Area (Forecast Scenarios)</div>
+        <div class="chart-type">Column (Hardware Comparison)</div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+  }
+  
+  h1, h2, h3 {
+    color: #ffffff;
+  }
+  
+  p {
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+  
+  li {
+    color: #e2e8f0;
+  }
+  
+  .feature-card {
+    background-color: rgba(2, 6, 23, 0.6);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .chart-type {
+    background-color: rgba(2, 6, 23, 0.6);
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    font-weight: 500;
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .chart-container {
+    transition: transform 0.3s ease;
+  }
+  
+  .chart-container:hover {
+    transform: translateY(-5px);
+  }
+</style>

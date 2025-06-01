@@ -1,0 +1,568 @@
+---
+/**
+ * ApexChartWrapper.astro
+ * Base component for all ApexCharts-based charts in the QDaria Business Plan
+ * Following the QDaria Chart Enhancement Rules - ApexCharts Edition
+ * 
+ * Features:
+ * - SVG fallback rendering for reliability
+ * - ARIA attributes for accessibility
+ * - Keyboard navigation
+ * - Data table toggle
+ * - High contrast mode
+ * - Error handling with graceful degradation
+ * - Text selection support
+ */
+
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+  caption?: string;
+  className?: string;
+  chartType?: string;
+  height?: string;
+  width?: string;
+  showDataTable?: boolean;
+  showControls?: boolean;
+  highContrastMode?: boolean;
+  darkMode?: boolean;
+  dataTableId?: string;
+  refreshInterval?: number; // For auto-refreshing charts
+}
+
+const {
+  id,
+  title,
+  description,
+  caption,
+  className = '',
+  chartType = 'line',
+  height = '400px',
+  width = '100%',
+  showDataTable = true,
+  showControls = true,
+  highContrastMode = false,
+  refreshInterval = 0
+} = Astro.props;
+
+// Generate IDs for chart components
+const chartContainerId = `${id}-chart`;
+const dataTableId = `${id}-data-table`;
+const announcementsId = `${id}-announcements`;
+const errorContainerId = `${id}-error`;
+const chartTypeClass = `${chartType}-chart`;
+const highContrastClass = highContrastMode ? 'high-contrast' : '';
+---
+
+<div id={id} class:list={['apex-chart-container', 'chart-placeholder', chartTypeClass, className, highContrastClass]}>
+  {title && <h3 class="chart-title selectable">{title}</h3>}
+  {description && <p class="chart-description selectable">{description}</p>}
+  
+  <div class="chart-content">
+    <!-- Chart container with explicit sizing -->
+    <div id={`${id}-chart`} class="chart-container" tabindex="0" 
+         role="img" aria-label={title} aria-describedby={description ? `${id}-desc` : undefined}
+         style="min-height: 100%; width: 100%; position: relative; display: block;">
+      <!-- SVG fallback that will be replaced by ApexCharts -->
+      <div class="chart-svg-placeholder">
+        <svg width="100%" height="100%" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <rect width="100%" height="100%" fill="rgba(30, 41, 59, 0.1)" />
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Loading indicators are intentionally removed -->
+    
+    <!-- Error container -->
+    <div id={errorContainerId} class="chart-error-state" style="display: none;">
+      <div class="chart-error-icon">⚠️</div>
+      <h4 class="chart-error-title">Chart Loading Error</h4>
+      <p class="chart-error-message">We encountered an issue while loading this chart. Please see the data table below for the information.</p>
+      <div class="chart-error-details" id={`${id}-error-details`}></div>
+      <button type="button" class="chart-retry-btn" id={`${id}-retry`}>Retry</button>
+    </div>
+    
+    <!-- Chart controls -->
+    {showControls && (
+      <div class="chart-controls">
+        <button 
+          type="button" 
+          class="chart-control-btn reset-zoom-btn" 
+          aria-label="Reset zoom"
+          title="Reset zoom"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+          </svg>
+        </button>
+        <button 
+          type="button" 
+          class="chart-control-btn toggle-high-contrast-btn" 
+          aria-label="Toggle high contrast mode"
+          title="Toggle high contrast mode"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+          </svg>
+        </button>
+        <button 
+          type="button" 
+          class="chart-control-btn download-btn" 
+          aria-label="Download chart image"
+          title="Download chart image"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+          </svg>
+        </button>
+      </div>
+    )}
+    
+    <!-- Accessibility announcements -->
+    <div id={announcementsId} class="sr-only" aria-live="polite"></div>
+  </div>
+  
+  <!-- Data table toggle button -->
+  {showDataTable && (
+    <button 
+      type="button" 
+      class="chart-data-table-btn" 
+      aria-expanded="true" 
+      aria-controls={dataTableId}
+      style="display: none;"
+    >
+      Hide Data Table
+    </button>
+    
+    <!-- Data table container - Always visible -->
+    <div id={dataTableId} class="chart-data-table visible" aria-hidden="false" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
+      <div class="data-table-header">
+        <span class="data-table-title">Data Table: {title}</span>
+        <button type="button" class="data-table-close-btn" aria-label="Close data table">×</button>
+      </div>
+      <div class="data-table-content">
+        <slot name="data-table">
+          <!-- Table content will be dynamically generated if no slot is provided -->
+        </slot>
+      </div>
+    </div>
+  )}
+  
+  <!-- Chart caption -->
+  {caption && <p class="chart-caption selectable">{caption}</p>}
+  
+  <!-- Keyboard navigation instructions -->
+  <div class="keyboard-instructions sr-only">
+    Use arrow keys to navigate between data points. Press Tab to move between interactive elements.
+  </div>
+  
+  <!-- SVG Fallback content -->
+  <div class="chart-fallback" style="display: none;">
+    <slot name="fallback">
+      <!-- Fallback content will be displayed if chart fails to load -->
+      <div class="chart-fallback-message">
+        <p>Chart data is not available in visual form. Please refer to the data table below for the information.</p>
+      </div>
+    </slot>
+  </div>
+  
+  <!-- Additional slots -->
+  <slot />
+  <slot name="chart-script" />
+</div>
+
+<style>
+  /* Loading spinner animation */
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid rgba(4, 163, 255, 0.2);
+    border-top-color: rgba(4, 163, 255, 0.8);
+    animation: spin 1s infinite linear;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .chart-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 23, 0.7);
+    z-index: 5;
+    gap: 15px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .chart-retry-btn {
+    margin-top: 15px;
+    padding: 5px 15px;
+    background: rgba(4, 163, 255, 0.3);
+    border: 1px solid rgba(4, 163, 255, 0.5);
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .chart-retry-btn:hover {
+    background: rgba(4, 163, 255, 0.5);
+  }
+  
+  .chart-container {
+    min-height: 300px;
+    position: relative;
+  }
+</style>
+
+<script define:vars={{ id, chartContainerId, dataTableId, announcementsId, errorContainerId, chartType, refreshInterval }}>
+  // Initialize chart when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get chart elements
+    const chartContainer = document.getElementById(chartContainerId);
+    const loadingElement = document.getElementById(`${id}-loading`);
+    const errorContainer = document.getElementById(errorContainerId);
+    const errorDetails = document.getElementById(`${id}-error-details`);
+    const retryButton = document.getElementById(`${id}-retry`);
+    const fallbackContent = document.querySelector(`#${id} .chart-fallback`);
+    
+    // Set up data table toggle
+    const tableBtn = document.querySelector(`#${id} .chart-data-table-btn`);
+    const tableElem = document.getElementById(dataTableId);
+    
+    // Show data table by default for better accessibility and user experience
+    setTimeout(() => {
+      if (tableElem && !tableElem.classList.contains('visible')) {
+        console.log(`📊 Showing data table for ${id} by default`);
+        showDataTable();
+      }
+    }, 500);
+    
+    // Function to show data table
+    function showDataTable() {
+      if (!tableElem) return;
+      
+      tableElem.classList.add('visible');
+      if (tableBtn) {
+        tableBtn.textContent = 'Hide Data Table';
+        tableBtn.setAttribute('aria-expanded', 'true');
+      }
+      tableElem.setAttribute('aria-hidden', 'false');
+    }
+    
+    // Function to hide data table
+    function hideDataTable() {
+      if (!tableElem) return;
+      
+      tableElem.classList.remove('visible');
+      if (tableBtn) {
+        tableBtn.textContent = 'Show Data Table';
+        tableBtn.setAttribute('aria-expanded', 'false');
+      }
+      tableElem.setAttribute('aria-hidden', 'true');
+    }
+    
+    // Function to toggle data table visibility
+    function toggleDataTable() {
+      if (window.chartUtils && window.chartUtils.toggleDataTable) {
+        window.chartUtils.toggleDataTable(tableElem, tableBtn);
+      } else {
+        // Fallback if chartUtils is not available
+        const isVisible = tableElem && tableElem.classList.contains('visible');
+        
+        if (isVisible) {
+          hideDataTable();
+        } else {
+          showDataTable();
+        }
+      }
+    }
+    
+    // Function to show error state
+    function showError(error) {
+      if (chartContainer) chartContainer.style.display = 'none';
+      if (loadingElement) loadingElement.style.display = 'none';
+      if (errorContainer) {
+        errorContainer.style.display = 'block';
+        if (errorDetails) {
+          errorDetails.textContent = error.message || 'Unknown error occurred';
+        }
+      }
+      
+      // Show fallback content
+      if (fallbackContent) {
+        fallbackContent.style.display = 'block';
+      }
+      
+      // Announce error to screen readers
+      const announcer = document.getElementById(announcementsId);
+      if (announcer) {
+        announcer.textContent = 'Chart failed to load. Please refer to the data table for information.';
+      }
+      
+      // Always show data table when chart fails
+      showDataTable();
+      
+      console.error(`Chart error (${id}):`, error);
+    }
+    
+    // Function to handle chart initialization - NO LOADING INDICATORS
+    function initChart() {
+      // Hide error state
+      if (errorContainer) errorContainer.style.display = 'none';
+      if (fallbackContent) fallbackContent.style.display = 'none';
+      
+      // ALWAYS show data table
+      showDataTable();
+      
+      // Check if we should use the global initializer from businessPlanCharts.js
+      if (window.initializeQdariaChart && typeof window.initializeQdariaChart === 'function') {
+        // Use the global initializer with chart type
+        console.log(`Using global initializer for chart ${id}`);
+        window.initializeQdariaChart(id, chartType.replace('-', ''));
+        
+        // This will handle everything including loading state
+        return;
+      }
+      
+      // Wait for ApexCharts to be available (legacy approach)
+      const waitForApexCharts = () => {
+        if (typeof ApexCharts !== 'undefined') {
+          // ApexCharts is loaded
+          // No loading timeout to clear anymore
+          
+          // No loading element to hide anymore
+          if (chartContainer) chartContainer.style.display = 'block';
+          
+          // Trigger event to initialize the actual chart
+          const initEvent = new CustomEvent('initializeChart', { detail: { id } });
+          document.dispatchEvent(initEvent);
+        } else {
+          // Set timeout to check again
+          setTimeout(waitForApexCharts, 100);
+        }
+      };
+      
+      // Start checking for ApexCharts
+      waitForApexCharts();
+    }
+    
+    // If data table is present, set up toggle functionality
+    if (tableBtn && tableElem) {
+      tableBtn.addEventListener('click', toggleDataTable);
+      
+      // Close button in data table
+      const closeBtn = document.querySelector(`#${dataTableId} .data-table-close-btn`);
+      if (closeBtn) {
+        closeBtn.addEventListener('click', hideDataTable);
+      }
+    }
+    
+    // Set up high contrast toggle
+    const highContrastBtn = document.querySelector(`#${id} .toggle-high-contrast-btn`);
+    if (highContrastBtn) {
+      highContrastBtn.addEventListener('click', () => {
+        const container = document.getElementById(id);
+        if (container) {
+          container.classList.toggle('high-contrast');
+          
+          // Announce to screen readers
+          const announcer = document.getElementById(announcementsId);
+          if (announcer) {
+            const isHighContrast = container.classList.contains('high-contrast');
+            announcer.textContent = isHighContrast 
+              ? 'High contrast mode enabled' 
+              : 'High contrast mode disabled';
+          }
+          
+          // Update chart if it exists
+          const chartInstance = window[`${id}-instance`];
+          if (chartInstance && typeof chartInstance.updateOptions === 'function') {
+            const highContrast = container.classList.contains('high-contrast');
+            
+            // Apply theme based on contrast mode
+            chartInstance.updateOptions({
+              theme: {
+                mode: 'dark',
+                palette: highContrast ? 'palette10' : 'palette1',
+              },
+              grid: {
+                borderColor: highContrast ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+              },
+              stroke: {
+                width: highContrast ? 4 : 2,
+              }
+            }, false, true);
+          }
+        }
+      });
+    }
+    
+    // Set up reset zoom button
+    const resetZoomBtn = document.querySelector(`#${id} .reset-zoom-btn`);
+    if (resetZoomBtn) {
+      resetZoomBtn.addEventListener('click', () => {
+        // This will be implemented by the specific chart component
+        if (window[`reset${id}Chart`] && typeof window[`reset${id}Chart`] === 'function') {
+          window[`reset${id}Chart`]();
+          
+          // Announce to screen readers
+          const announcer = document.getElementById(announcementsId);
+          if (announcer) {
+            announcer.textContent = 'Chart zoom reset';
+          }
+        }
+      });
+    }
+    
+    // Set up download button
+    const downloadBtn = document.querySelector(`#${id} .download-btn`);
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => {
+        const chartInstance = window[`${id}-instance`];
+        if (chartInstance && typeof chartInstance.dataURI === 'function') {
+          chartInstance.dataURI().then(({ imgURI, blob }) => {
+            // Create a download link
+            const link = document.createElement('a');
+            link.href = imgURI;
+            link.download = `${id}-chart.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Announce to screen readers
+            const announcer = document.getElementById(announcementsId);
+            if (announcer) {
+              announcer.textContent = 'Chart downloaded as image';
+            }
+          });
+        }
+      });
+    }
+    
+    // Add retry functionality
+    if (retryButton) {
+      retryButton.addEventListener('click', () => {
+        initChart();
+      });
+    }
+    
+    // Make text elements selectable
+    if (window.chartUtils && window.chartUtils.makeSelectable) {
+      const elements = [
+        document.querySelector(`#${id} .chart-title`),
+        document.querySelector(`#${id} .chart-description`),
+        document.querySelector(`#${id} .chart-caption`)
+      ].filter(Boolean);
+      
+      window.chartUtils.makeSelectable(elements);
+    }
+    
+    // Add keyboard navigation to chart
+    if (chartContainer) {
+      chartContainer.addEventListener('keydown', (e) => {
+        // Get chart instance
+        const chartInstance = window[`${id}-instance`];
+        if (!chartInstance) return;
+        
+        switch (e.key) {
+          case 'ArrowRight':
+            // Navigate to next data point
+            if (window.chartUtils && window.chartUtils.navigateChart) {
+              window.chartUtils.navigateChart(chartInstance, 'next');
+            }
+            break;
+          case 'ArrowLeft':
+            // Navigate to previous data point
+            if (window.chartUtils && window.chartUtils.navigateChart) {
+              window.chartUtils.navigateChart(chartInstance, 'prev');
+            }
+            break;
+          case 'ArrowUp':
+            // Navigate to next series
+            if (window.chartUtils && window.chartUtils.navigateChart) {
+              window.chartUtils.navigateChart(chartInstance, 'up');
+            }
+            break;
+          case 'ArrowDown':
+            // Navigate to previous series
+            if (window.chartUtils && window.chartUtils.navigateChart) {
+              window.chartUtils.navigateChart(chartInstance, 'down');
+            }
+            break;
+        }
+      });
+    }
+    
+    // Set up auto-refresh if specified
+    if (refreshInterval > 0) {
+      // Set interval to refresh chart data
+      const refreshTimer = setInterval(() => {
+        // Trigger event to refresh chart data
+        const refreshEvent = new CustomEvent('refreshChart', { detail: { id } });
+        document.dispatchEvent(refreshEvent);
+      }, refreshInterval * 1000);
+      
+      // Store timer reference for cleanup
+      window[`${id}-refreshTimer`] = refreshTimer;
+    }
+    
+    // Set up error handling
+    window.addEventListener('error', (event) => {
+      // Check if error is related to this chart
+      if (event.message && event.message.includes(id)) {
+        showError(event.error || new Error(event.message));
+      }
+    });
+    
+    // Initialize chart
+    initChart();
+    
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      const refreshTimer = window[`${id}-refreshTimer`];
+      if (refreshTimer) {
+        clearInterval(refreshTimer);
+      }
+    });
+  });
+  
+  // Function to handle chart errors - exposed globally for chart instances
+  window[`${id}Error`] = function(error) {
+    const errorContainer = document.getElementById(errorContainerId);
+    const errorDetails = document.getElementById(`${id}-error-details`);
+    const chartContainer = document.getElementById(chartContainerId);
+    const loadingElement = document.getElementById(`${id}-loading`);
+    const fallbackContent = document.querySelector(`#${id} .chart-fallback`);
+    
+    // Hide chart and loading elements
+    if (chartContainer) chartContainer.style.display = 'none';
+    if (loadingElement) loadingElement.style.display = 'none';
+    
+    // Show error container
+    if (errorContainer) {
+      errorContainer.style.display = 'block';
+      if (errorDetails) {
+        errorDetails.textContent = error.message || 'Unknown error occurred';
+      }
+    }
+    
+    // Show fallback content
+    if (fallbackContent) {
+      fallbackContent.style.display = 'block';
+    }
+    
+    console.error(`Chart error (${id}):`, error);
+  };
+</script>

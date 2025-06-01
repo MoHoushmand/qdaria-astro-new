@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import QuantumHardwareComparisonChartApex from "../components/qdaria-business-plan/charts/QuantumHardwareComparisonChartApex.astro";
+---
+
+<BaseLayout title="Quantum Hardware Comparison Chart Test">
+  <div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-8 text-center">Quantum Hardware Comparison Chart</h1>
+    
+    <div class="bg-slate-800 rounded-lg p-6 max-w-4xl mx-auto">
+      <QuantumHardwareComparisonChartApex
+        id="quantum-hardware-test"
+        showDataTable={true}
+        showControls={true}
+      />
+    </div>
+
+    <div class="mt-12 max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-4">Implementation Details</h2>
+      <p class="mb-4">
+        This chart demonstrates the ApexCharts implementation with SVG fallback for the Quantum Hardware Comparison
+        visualization. Key features include:
+      </p>
+      
+      <ul class="list-disc pl-6 mb-6 space-y-2">
+        <li>Reliable SVG fallback implementation</li>
+        <li>Web worker-based data processing</li>
+        <li>ARIA accessibility attributes</li>
+        <li>Keyboard navigation</li>
+        <li>Selectable text elements</li>
+        <li>Responsive design</li>
+        <li>Data table toggle functionality</li>
+        <li>$1 Trillion market milestone annotation</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mb-4 mt-8">Chart Design</h2>
+      <p>
+        The chart visualizes quantum hardware performance metrics across major quantum computing
+        companies. QDaria's hardware-agnostic approach is highlighted, showcasing how QDaria provides
+        access to the best capabilities of each platform rather than being limited to a single hardware
+        architecture.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

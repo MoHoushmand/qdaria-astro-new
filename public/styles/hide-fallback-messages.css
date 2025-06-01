@@ -1,0 +1,71 @@
+/**
+ * Hide Fallback Messages - Emergency CSS Fix
+ * 
+ * This CSS file ensures that any fallback text or loading messages are hidden
+ * when charts are loaded properly.
+ */
+
+/* Hide loading text nodes */
+.chart-container > text:not(.apexcharts-text),
+.chart-container > text:not([class]),
+.chart-loaded > text:not(.apexcharts-text),
+.chart-loaded > text:not([class]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide fallback text and loading indicators when charts are successfully loaded */
+.chart-loaded .chart-loading,
+.chart-loaded .chart-placeholder-text,
+.chart-loaded .chart-fallback-message {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Show fallback SVG only when triggered by JavaScript */
+.chart-fallback {
+  display: none;
+}
+
+[data-fallback-active="true"] .chart-fallback {
+  display: block !important;
+}
+
+/* Ensure data tables are visible regardless of chart status */
+.chart-data-table {
+  display: block !important;
+}
+
+/* Hide any error messages that might appear in the chart */
+.apexcharts-error {
+  display: none !important;
+}
+
+/* Special selector for elements matching 'Please wait' text */
+.chart-container *:contains("Please wait"),
+.chart-container *:contains("Loading"), 
+.chart-container *:contains("Chart is loading"),
+.chart-container *:contains("Chart visualization failed") {
+  display: none !important;
+}
+
+/* Hide ApexCharts tooltip when not needed */
+.apexcharts-tooltip:empty {
+  display: none !important;
+}
+
+/* Ensure chart title is visible */
+.chart-title {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Hide any direct text nodes inside the chart container */
+.chart-container > text {
+  display: none !important;
+}
