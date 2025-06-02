@@ -1,3 +1,14 @@
 /*
   X-Frame-Options: ALLOW-FROM https://www.beautiful.ai
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net; frame-ancestors 'self' https://www.beautiful.ai; connect-src 'self' https://www.google-analytics.com;
+  Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate
+  Pragma: no-cache
+  Expires: 0
+  Clear-Site-Data: "cache", "storage"
+  Strict-Transport-Security: max-age=0; includeSubDomains
+
+# Specific for the homepage to ensure cache clearing
+/
+  Cache-Control: no-store, no-cache, must-revalidate
+  Clear-Site-Data: "cache"
+  Strict-Transport-Security: max-age=0

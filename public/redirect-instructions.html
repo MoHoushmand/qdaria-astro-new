@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QDaria.com - Temporary Access Issues</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 40px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #155724;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+        .steps {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #04a3ff;
+        }
+        h1 {
+            color: #04a3ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 { 
+            color: #333;
+            margin-top: 30px;
+        }
+        h3 { 
+            color: #666;
+            margin-top: 20px;
+        }
+        ol, ul {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .button {
+            display: inline-block;
+            background: #04a3ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 10px 5px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+        .button:hover {
+            background: #0390e0;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo svg {
+            width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                <text x="10" y="40" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#04a3ff">Q|D</text>
+                <text x="80" y="40" font-family="Arial, sans-serif" font-size="36" fill="#333">aria</text>
+            </svg>
+        </div>
+        
+        <h1>Temporary Access Issues</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Important:</strong> If you're seeing SSL/HTTPS errors when trying to access qdaria.com, your browser has cached security settings from our previous configuration. Follow the instructions below to resolve this issue.
+        </div>
+
+        <h2>Quick Fix Instructions</h2>
+        
+        <div class="steps">
+            <h3>🔧 For Chrome Users:</h3>
+            <ol>
+                <li>Copy this address: <code>chrome://net-internals/#hsts</code></li>
+                <li>Paste it into your Chrome address bar and press Enter</li>
+                <li>Scroll down to find <strong>"Delete domain security policies"</strong></li>
+                <li>In the text field, type: <code>qdaria.com</code></li>
+                <li>Click the <strong>"Delete"</strong> button</li>
+                <li>Repeat the process for: <code>www.qdaria.com</code></li>
+                <li>Close and restart Chrome</li>
+                <li>Try accessing the site again</li>
+            </ol>
+        </div>
+
+        <div class="steps">
+            <h3>🦊 For Firefox Users:</h3>
+            <ol>
+                <li>Click the menu button (☰) and select <strong>Settings</strong></li>
+                <li>Go to <strong>Privacy & Security</strong></li>
+                <li>Scroll down to <strong>Cookies and Site Data</strong></li>
+                <li>Click <strong>Clear Data...</strong></li>
+                <li>Ensure both checkboxes are selected</li>
+                <li>Click <strong>Clear</strong></li>
+                <li>Restart Firefox</li>
+            </ol>
+        </div>
+
+        <div class="steps">
+            <h3>🧭 For Safari Users:</h3>
+            <ol>
+                <li>Open Safari and go to <strong>Safari → Preferences</strong></li>
+                <li>Click the <strong>Privacy</strong> tab</li>
+                <li>Click <strong>Manage Website Data...</strong></li>
+                <li>Search for <code>qdaria</code></li>
+                <li>Select any qdaria.com entries and click <strong>Remove</strong></li>
+                <li>Click <strong>Done</strong></li>
+                <li>Restart Safari</li>
+            </ol>
+        </div>
+
+        <div class="steps">
+            <h3>🌐 For Edge Users:</h3>
+            <ol>
+                <li>Copy this address: <code>edge://net-internals/#hsts</code></li>
+                <li>Follow the same steps as Chrome users above</li>
+            </ol>
+        </div>
+
+        <h2>Clear DNS Cache</h2>
+        
+        <div class="steps">
+            <h3>🖥️ On macOS:</h3>
+            <p>Open Terminal and run:</p>
+            <code>sudo dscacheutil -flushcache</code>
+        </div>
+
+        <div class="steps">
+            <h3>💻 On Windows:</h3>
+            <p>Open Command Prompt as Administrator and run:</p>
+            <code>ipconfig /flushdns</code>
+        </div>
+
+        <h2>Alternative Solutions</h2>
+        
+        <div class="steps">
+            <h3>If the above doesn't work, try:</h3>
+            <ul>
+                <li>🔒 Use a different browser you haven't used for qdaria.com before</li>
+                <li>👤 Try Incognito/Private browsing mode</li>
+                <li>📱 Access from a different device (phone, tablet)</li>
+                <li>🌐 Use a different network (mobile data, different WiFi)</li>
+                <li>🔄 Clear all browsing data for the last 24 hours</li>
+            </ul>
+        </div>
+
+        <div class="steps">
+            <h3>🛠️ Advanced: Manual Cache Clear</h3>
+            <button class="button" onclick="clearAllCaches()">Clear Browser Caches</button>
+            <p><small>This button attempts to clear various browser caches. You may need to reload the page after clicking.</small></p>
+        </div>
+
+        <h2>Still Having Issues?</h2>
+        
+        <p>If you continue experiencing problems accessing qdaria.com:</p>
+        <ul>
+            <li>Note the exact error message you're seeing</li>
+            <li>Note your browser name and version</li>
+            <li>Contact our technical support with these details</li>
+        </ul>
+
+        <div class="success" id="success-message" style="display: none;">
+            ✅ Cache clearing attempted! Please close this tab and try accessing qdaria.com again.
+        </div>
+    </div>
+
+    <script>
+        function clearAllCaches() {
+            let cleared = false;
+            
+            // Clear all caches
+            if ('caches' in window) {
+                caches.keys().then(function(cacheNames) {
+                    return Promise.all(
+                        cacheNames.map(function(cacheName) {
+                            console.log('Deleting cache:', cacheName);
+                            return caches.delete(cacheName);
+                        })
+                    );
+                }).then(function() {
+                    console.log('All caches cleared');
+                    cleared = true;
+                });
+            }
+            
+            // Clear storage
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+                console.log('Storage cleared');
+                cleared = true;
+            } catch(e) {
+                console.error('Could not clear storage:', e);
+            }
+            
+            // Unregister service workers
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                        console.log('Service worker unregistered:', registration.scope);
+                    }
+                    cleared = true;
+                });
+            }
+            
+            // Clear cookies for current domain
+            document.cookie.split(";").forEach(function(c) { 
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+            });
+            
+            // Show success message
+            document.getElementById('success-message').style.display = 'block';
+            
+            // Attempt to force reload after a delay
+            if (cleared) {
+                setTimeout(function() {
+                    if (confirm('Caches cleared! Would you like to reload this page?')) {
+                        window.location.reload(true);
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Auto-detect browser and highlight relevant instructions
+        window.addEventListener('DOMContentLoaded', function() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            let browser = 'unknown';
+            
+            if (userAgent.indexOf('chrome') > -1 && userAgent.indexOf('edg') === -1) {
+                browser = 'chrome';
+            } else if (userAgent.indexOf('firefox') > -1) {
+                browser = 'firefox';
+            } else if (userAgent.indexOf('safari') > -1 && userAgent.indexOf('chrome') === -1) {
+                browser = 'safari';
+            } else if (userAgent.indexOf('edg') > -1) {
+                browser = 'edge';
+            }
+            
+            // Highlight the relevant browser section
+            const sections = document.querySelectorAll('.steps');
+            sections.forEach(function(section) {
+                const heading = section.querySelector('h3');
+                if (heading) {
+                    const text = heading.textContent.toLowerCase();
+                    if (text.includes(browser)) {
+                        section.style.borderLeftColor = '#00ffd3';
+                        section.style.borderLeftWidth = '6px';
+                        section.style.backgroundColor = '#f0fff4';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
