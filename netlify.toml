@@ -13,6 +13,41 @@
 #   to = "/index.html"
 #   status = 200
 
+# Special redirect for clearing HSTS - users can visit this to clear their cache
+[[redirects]]
+  from = "/clear-hsts"
+  to = "/redirect-instructions.html"
+  status = 200
+  headers = {Strict-Transport-Security = "max-age=0; includeSubDomains", Clear-Site-Data = '"cache", "cookies", "storage"'}
+
+# Additional HSTS clearing path with HTTP support
+[[redirects]]
+  from = "http://qdaria.com/clear-hsts"
+  to = "https://qdaria.com/redirect-instructions.html"
+  status = 302
+  force = true
+  headers = {Strict-Transport-Security = "max-age=0; includeSubDomains"}
+
+# Force HTTPS redirect to ensure SSL certificate is used
+[[redirects]]
+  from = "http://qdaria.com/*"
+  to = "https://qdaria.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.qdaria.com/*"
+  to = "https://qdaria.com/:splat"
+  status = 301
+  force = true
+
+# Redirect www to non-www to avoid certificate mismatch
+[[redirects]]
+  from = "https://www.qdaria.com/*"
+  to = "https://qdaria.com/:splat"
+  status = 301
+  force = true
+
 # Add a fallback for 404 pages
 [[redirects]]
   from = "/*"

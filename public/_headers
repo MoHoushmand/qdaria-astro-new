@@ -5,10 +5,26 @@
   Pragma: no-cache
   Expires: 0
   Clear-Site-Data: "cache", "storage"
-  Strict-Transport-Security: max-age=0; includeSubDomains
+  Strict-Transport-Security: max-age=0; includeSubDomains; preload
+  X-DNS-Prefetch-Control: off
 
 # Specific for the homepage to ensure cache clearing
 /
   Cache-Control: no-store, no-cache, must-revalidate
   Clear-Site-Data: "cache"
   Strict-Transport-Security: max-age=0
+
+# Clear HSTS endpoint
+/clear-hsts
+  Strict-Transport-Security: max-age=0; includeSubDomains
+  Clear-Site-Data: "cache", "cookies", "storage", "executionContexts"
+  Cache-Control: no-store, no-cache, must-revalidate, private
+  Pragma: no-cache
+  Expires: 0
+
+# Redirect instructions page
+/redirect-instructions.html
+  Strict-Transport-Security: max-age=0; includeSubDomains
+  Clear-Site-Data: "cache", "cookies", "storage"
+  Cache-Control: no-store, no-cache, must-revalidate, private
+  X-Robots-Tag: noindex, nofollow
