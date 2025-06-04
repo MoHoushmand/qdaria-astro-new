@@ -13,6 +13,12 @@
 #   to = "/index.html"
 #   status = 200
 
+# Chrome-specific fix page for SSL issues
+[[redirects]]
+  from = "/fix"
+  to = "/chrome-fix.html"
+  status = 200
+
 # Special redirect for clearing HSTS - users can visit this to clear their cache
 [[redirects]]
   from = "/clear-hsts"
@@ -27,6 +33,58 @@
   status = 302
   force = true
   headers = {Strict-Transport-Security = "max-age=0; includeSubDomains"}
+
+# EMERGENCY BYPASS ROUTES - Multiple fallback options for users with access issues
+
+# Emergency access page with aggressive cache clearing
+[[redirects]]
+  from = "/emergency"
+  to = "/emergency-access.html"
+  status = 200
+  headers = {Cache-Control = "no-cache, no-store, must-revalidate", Pragma = "no-cache", Expires = "0"}
+
+# Direct bypass to Netlify subdomain
+[[redirects]]
+  from = "/bypass"
+  to = "https://qdaria.netlify.app/"
+  status = 302
+  force = true
+  headers = {Cache-Control = "no-cache, no-store, must-revalidate"}
+
+# Working site redirect
+[[redirects]]
+  from = "/working"
+  to = "https://qdaria.netlify.app/"
+  status = 302
+  force = true
+  headers = {Cache-Control = "no-cache, no-store, must-revalidate"}
+
+# Alternative access points
+[[redirects]]
+  from = "/access"
+  to = "https://qdaria.netlify.app/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/site"
+  to = "https://qdaria.netlify.app/"
+  status = 302
+  force = true
+
+# DNS bypass instructions
+[[redirects]]
+  from = "/dns-help"
+  to = "/dns-bypass-instructions.html"
+  status = 200
+
+# Clear all site data and redirect
+[[redirects]]
+  from = "/reset"
+  to = "https://qdaria.netlify.app/"
+  status = 302
+  force = true
+  headers = {Clear-Site-Data = '"cache", "cookies", "storage", "executionContexts"', Cache-Control = "no-cache, no-store, must-revalidate"}
 
 # Force HTTPS redirect to ensure SSL certificate is used
 [[redirects]]
