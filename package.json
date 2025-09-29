@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "@iconify-json/tabler": "^1.2.9",
+    "@netlify/plugin-lighthouse": "^6.0.3",
     "@playform/compress": "^0.1.1",
     "@tailwindcss/typography": "^0.5.16",
     "@types/three": "^0.170.0",
@@ -75,6 +76,8 @@
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "netlify-cli": "^23.8.1",
+    "netlify-plugin-cache": "^1.0.3",
+    "netlify-plugin-image-optim": "^0.4.0",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "sharp-cli": "^5.2.0",

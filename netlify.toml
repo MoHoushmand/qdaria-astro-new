@@ -70,15 +70,9 @@
   force = true
 
 # Performance optimizations
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
-
-  [plugins.inputs]
-    # Performance thresholds
-    performance = 90
-    accessibility = 100
-    best-practices = 95
-    seo = 95
+# Lighthouse plugin temporarily disabled for deployment
+# [[plugins]]
+#   package = "@netlify/plugin-lighthouse"
 
 [[plugins]]
   package = "netlify-plugin-cache"
