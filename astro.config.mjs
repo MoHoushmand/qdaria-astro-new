@@ -2,10 +2,43 @@ import { defineConfig } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
+import compress from "astro-compress";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), mdx()],
+  integrations: [
+    tailwind({
+      config: {
+        applyBaseStyles: false,
+      }
+    }),
+    react(),
+    mdx(),
+    compress({
+      CSS: true,
+      HTML: {
+        removeAttributeQuotes: false,
+      },
+      Image: false, // We're handling images separately
+      JavaScript: true,
+      SVG: true,
+    })
+  ],
+  build: {
+    inlineStylesheets: 'auto',
+    // Split CSS for better caching
+    assetsInlineLimit: 0,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-three': ['three'],
+          'vendor-charts': ['chart.js', 'react-chartjs-2'],
+          'vendor-gsap': ['gsap'],
+        },
+      },
+    },
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],

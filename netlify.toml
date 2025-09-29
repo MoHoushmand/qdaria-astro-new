@@ -7,6 +7,27 @@
   publish = "dist"
   functions = "netlify/functions/"
 
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--production"
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
 # Remove the SPA redirect that's causing 404s
 # [[redirects]]
 #   from = "/*"
@@ -48,6 +69,23 @@
   status = 301
   force = true
 
+# Performance optimizations
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+  [plugins.inputs]
+    # Performance thresholds
+    performance = 90
+    accessibility = 100
+    best-practices = 95
+    seo = 95
+
+[[plugins]]
+  package = "netlify-plugin-cache"
+
+[[plugins]]
+  package = "netlify-plugin-image-optim"
+
 # Add a fallback for 404 pages
 [[redirects]]
   from = "/*"
@@ -60,10 +98,47 @@
   status = 200
   force = true
 
+# Performance and Security Headers
 [[headers]]
   for = "/*"
   [headers.values]
+    # Security Headers
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+    # Performance Headers
+    Content-Encoding = "gzip, br"
+    Vary = "Accept-Encoding"
+
+# Cache static assets aggressively
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Accept-CH = "DPR, Width, Viewport-Width"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
+
+# HTML pages - cache but revalidate
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Link = "</fonts/inter.woff2>; rel=preload; as=font; type=font/woff2; crossorigin=anonymous"

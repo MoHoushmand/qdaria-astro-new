@@ -8,20 +8,18 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import Badge from "@components/Badge/Badge.astro";
 import Button from "@components/Button/Button.astro";
 
-// Team member image paths
-const moImage = "/images/team/mo.jpg";
-const johnImage = "/images/team/john.jpg";
-const nickImage = "/images/team/nick.jpg";
-const fredrikImage = "/images/team/fredrik.jpg";
-const emanueleImage = "/images/team/emanuele.jpg";
-const gasparImage = "/images/team/gaspar.jpg";
-const milenImage = "/images/team/milen.jpg";
-const carolineImage = "/images/team/caroline.jpg";
-const nilsImage = "/images/team/nils.jpg";
-const dariaImage = "/images/team/daria.jpg";
-const shararehImage = "/images/team/sharareh.jpg";
-const lillianImage = "/images/team/lillian.jpg";
-const gryImage = "/images/team/gry.jpg";
+// Team member image paths - using optimized versions
+const moImage = "/images/team-optimized/mo";
+const johnImage = "/images/team-optimized/john";
+const nickImage = "/images/team-optimized/nick";
+const fredrikImage = "/images/team-optimized/fredrik";
+const emanueleImage = "/images/team-optimized/emanuele";
+const gasparImage = "/images/team-optimized/gaspar";
+const milenImage = "/images/team-optimized/milen";
+const carolineImage = "/images/team-optimized/caroline";
+const nilsImage = "/images/team-optimized/nils";
+const dariaImage = "/images/team-optimized/daria";
+const shararehImage = "/images/team-optimized/sharareh";
 
 // Debug logging
 console.log('Team images loaded:', {
@@ -35,9 +33,7 @@ console.log('Team images loaded:', {
   carolineImage,
   nilsImage,
   dariaImage,
-  shararehImage,
-  lillianImage,
-  gryImage
+  shararehImage
 });
 
 // Page metadata
@@ -230,55 +226,6 @@ generation of innovators who will pioneer the quantum revolution.`,
     linkedin: "https://www.linkedin.com/in/dariasoreidehoushmand/",
   },
   {
-    name: "Lillian Kristiansen",
-    role: "Chief Human Resources Officer (CHRO)",
-    bio: `Lillian Kristiansen serves as QDarias Chief Human Resources Officer, bringing decades of 
-experience across HR management, payroll oversight, and organizational development. Having held 
-positions ranging from Lønningsansvarlig at Compass Group AS and Eurest AS to an HR Controller 
-role at 4Service AS, Lillian has honed a deep understanding of the complexities in workforce 
-administration and employee engagement. Her tenure spans critical phases of transformation in 
-the Norwegian service sector, enabling her to navigate fast-paced environments with confidence 
-and foresight. At QDaria, Lillian integrates her comprehensive background into innovative HR 
-strategies that empower cross-functional teams to excel in the demanding field of quantum R&D. 
-She focuses on creating an inclusive, supportive workplace where talent can flourish—ensuring 
-that every staff member understands their integral part in QDarias mission to reshape computing 
-through quantum technology. Lillians humble yet assertive leadership style fosters a culture 
-of transparency and continuous improvement, embracing feedback loops to refine processes 
-ranging from recruitment to professional development. By combining hands-on experience with 
-a forward-looking perspective, she aligns HR initiatives with the companys broader strategic 
-goals. Under her stewardship, QDarias human capital strategy drives the organizations bold 
-vision forward, proving that the right people and the right culture form the bedrock of 
-groundbreaking innovation.`,
-    image: lillianImage,
-    email: "lillian@qdaria.com",
-    linkedin: "https://www.linkedin.com/in/lillian-kristiansen/",
-  },
-  {
-    name: "Gry Hirkjoelen",
-    role: "Head of Networking",
-    bio: `Gry Hirkjoelen, QDarias Head of Networking, excels at forging strategic alliances and 
-cultivating key relationships that propel the companys quantum initiatives to new heights. 
-With a background in social anthropology, administrative support, and service-oriented roles, 
-Gry embodies a unique blend of analytical thinking and people-centric engagement. Her early 
-experience as a service and administrative assistant at Asker Kommune and Adecco honed her 
-talent for multitasking and project coordination, while her academic focus on geography 
-and social sciences has sharpened her understanding of cultural and organizational dynamics. 
-At QDaria, Grys role is both humble and bold, emphasizing meticulous relationship-building 
-to strengthen QDarias internal cohesion and outward partnerships alike. She leverages her 
-natural enthusiasm and strong communication skills to connect with potential collaborators, 
-research institutions, and industry partners, ensuring that QDarias innovations are spotlighted 
-in the broader quantum ecosystem. Grys knack for structuring dialogues and fostering positive 
-interactions aligns perfectly with QDarias vision of collaborative advancement. By bridging the 
-gap between diverse stakeholders—be they technical experts, executive leaders, or external vendors— 
-she plays a key part in building the robust network that underpins QDarias pioneering work. 
-In orchestrating opportunities across corporate, academic, and governmental spheres, Gry 
-continues to define a networking strategy that drives mutual growth and helps shape the 
-companys next chapter of quantum discovery.`,
-    image: gryImage,
-    email: "gry@qdaria.com",
-    linkedin: "https://www.linkedin.com/in/gry-hirkj%C3%B8len-984775342/",
-  },
-  {
     name: "Fredrik Krey Stubberud",
     role: "Chief Information Officer (CIO)",
     bio: `Fredrik Krey Stubberud, Chief Information Officer at QDaria, is an accomplished IT professional 
@@ -336,14 +283,19 @@ in the quantum domain.`,
                 <div class="relative flex flex-col md:flex-row md:gap-8">
                   <div class="mb-6 md:mb-0 md:w-1/3">
                     <div class="relative w-40 h-40">
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        class="rounded-full object-cover w-full h-full shadow-lg transition-transform duration-500 group-hover:scale-105"
-                        width={160}
-                        height={160}
-                        loading="lazy"
-                      />
+                      <picture>
+                        <source srcset={`${member.image}.webp`} type="image/webp" />
+                        <source srcset={`${member.image}.jpg`} type="image/jpeg" />
+                        <img
+                          src={`${member.image}.jpg`}
+                          alt={member.name}
+                          class="rounded-full object-cover w-full h-full shadow-lg transition-transform duration-500 group-hover:scale-105"
+                          width={160}
+                          height={160}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </picture>
                       <div class="absolute inset-0 rounded-full border-2 border-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
                   </div>
