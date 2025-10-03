@@ -41,33 +41,33 @@ const TitleSlide: React.FC = () => {
       <Card className="qdaria-card p-4 md:p-8 border-2">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center qdaria-gradient-text">Platform Suite</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-          <div className="text-center space-y-2 md:space-y-4 group">
-            <div className="qdaria-product-container zipminator h-12 md:h-16 flex items-center justify-center">
-              <img src="/Zipminator.svg" alt="Zipminator" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-red" loading="lazy" />
+          <div className="text-center space-y-2 md:space-y-3 group">
+            <div className="flex items-center justify-center gap-2 md:gap-3">
+              <img src="/Zipminator.svg" alt="Zipminator" className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110" style={{filter: 'brightness(0) saturate(100%) invert(28%) sepia(95%) saturate(3500%) hue-rotate(345deg) brightness(95%) contrast(105%)'}} loading="lazy" />
+              <h3 className="font-bold text-sm md:text-lg bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent">Zipminator</h3>
             </div>
-            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">Zipminator</h3>
-            <p className="text-xs md:text-sm text-slate-300">Post-Quantum Cryptography</p>
+            <p className="text-xs md:text-sm text-slate-300">Zipminator - Post-Quantum Cryptography</p>
           </div>
-          <div className="text-center space-y-2 md:space-y-4 group">
-            <div className="qdaria-product-container qm9 h-12 md:h-16 flex items-center justify-center">
-              <img src="/Qm9.svg" alt="Qm9" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-primary" loading="lazy" />
+          <div className="text-center space-y-2 md:space-y-3 group">
+            <div className="flex items-center justify-center gap-2 md:gap-3">
+              <img src="/Qm9.svg" alt="Qm9" className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110" style={{filter: 'brightness(0) saturate(100%) invert(60%) sepia(95%) saturate(2000%) hue-rotate(170deg) brightness(105%) contrast(105%)'}} loading="lazy" />
+              <h3 className="font-bold text-sm md:text-lg bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Qm9</h3>
             </div>
-            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">Qm9</h3>
-            <p className="text-xs md:text-sm text-slate-300">FinTech Solutions</p>
+            <p className="text-xs md:text-sm text-slate-300">Qm9 - FinTech Solutions</p>
           </div>
-          <div className="text-center space-y-2 md:space-y-4 group">
-            <div className="qdaria-product-container qmike h-12 md:h-16 flex items-center justify-center">
-              <img src="/QMike.svg" alt="QMike" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-green" loading="lazy" />
+          <div className="text-center space-y-2 md:space-y-3 group">
+            <div className="flex items-center justify-center gap-2 md:gap-3">
+              <img src="/QMike.svg" alt="QMike" className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110" style={{filter: 'brightness(0) saturate(100%) invert(65%) sepia(80%) saturate(1500%) hue-rotate(90deg) brightness(100%) contrast(105%)'}} loading="lazy" />
+              <h3 className="font-bold text-sm md:text-lg bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">QMike</h3>
             </div>
-            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">QMike</h3>
-            <p className="text-xs md:text-sm text-slate-300">HPC & Engineering</p>
+            <p className="text-xs md:text-sm text-slate-300">QMike - HPC & Engineering</p>
           </div>
-          <div className="text-center space-y-2 md:space-y-4 group">
-            <div className="qdaria-product-container qdiana h-12 md:h-16 flex items-center justify-center">
-              <img src="/QDiana.svg" alt="QDiana" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-purple" loading="lazy" />
+          <div className="text-center space-y-2 md:space-y-3 group">
+            <div className="flex items-center justify-center gap-2 md:gap-3">
+              <img src="/QDiana.svg" alt="QDiana" className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110" style={{filter: 'brightness(0) saturate(100%) invert(50%) sepia(90%) saturate(2500%) hue-rotate(260deg) brightness(100%) contrast(110%)'}} loading="lazy" />
+              <h3 className="font-bold text-sm md:text-lg bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">QDiana</h3>
             </div>
-            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">QDiana</h3>
-            <p className="text-xs md:text-sm text-slate-300">Education Platform</p>
+            <p className="text-xs md:text-sm text-slate-300">QDiana - Education Platform</p>
           </div>
         </div>
       </Card>
