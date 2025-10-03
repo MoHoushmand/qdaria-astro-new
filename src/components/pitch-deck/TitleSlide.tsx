@@ -98,7 +98,7 @@ const TitleSlide: React.FC = () => {
             </Badge>
           </div>
           <div className="text-center space-y-3 md:space-y-4">
-            <img src="/icons/qdaria/Managementevents-logo-white.png.webp" alt="Management Events" className="h-16 md:h-24 mx-auto" loading="lazy" />
+            <img src="/icons/qdaria/Managementevents-logo-white.png.webp" alt="Management Events" className="h-12 md:h-18 mx-auto" loading="lazy" />
             <h3 className="text-lg md:text-xl font-bold qdaria-gradient-text">European Expansion Partner</h3>
             <p className="text-sm md:text-base text-slate-300 px-2">Strategic Partnership: 60 Prime European Executive Meetings</p>
             <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-green-600 to-emerald-600 border border-green-400/50">
