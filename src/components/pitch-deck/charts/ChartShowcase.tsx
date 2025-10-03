@@ -139,7 +139,7 @@ export const ChartShowcase: React.FC = () => {
               data={marketGrowthData}
               lines={[
                 { dataKey: 'value', stroke: '#CCFF00', strokeWidth: 3, name: 'Actual' },
-                { dataKey: 'projected', stroke: '#00d4ff', strokeWidth: 2, name: 'Projected' },
+                { dataKey: 'projected', stroke: '#04a3ff', strokeWidth: 2, name: 'Projected' },
                 { dataKey: 'target', stroke: '#66FF00', strokeWidth: 2, name: 'Target' }
               ]}
               xAxisKey="year"
@@ -181,7 +181,7 @@ export const ChartShowcase: React.FC = () => {
               data={techComparisonData}
               radars={[
                 { dataKey: 'QDaria', stroke: '#CCFF00', fill: '#CCFF00', fillOpacity: 0.6, name: 'QDaria' },
-                { dataKey: 'Competitor', stroke: '#00d4ff', fill: '#00d4ff', fillOpacity: 0.3, name: 'Competitor Avg' }
+                { dataKey: 'Competitor', stroke: '#04a3ff', fill: '#04a3ff', fillOpacity: 0.3, name: 'Competitor Avg' }
               ]}
               angleKey="metric"
               height={400}

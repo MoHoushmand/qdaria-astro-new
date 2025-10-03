@@ -10,25 +10,27 @@
   --qdaria-card-bg: rgba(13, 17, 23, 0.95);
   --qdaria-card-bg-hover: rgba(15, 20, 25, 0.98);
   
-  /* Bright Cyan/Blue Colors */
-  --qdaria-primary: #00d4ff;
+  /* Bright Cyan/Blue Colors - CORRECTED TO MATCH BRAND */
+  --qdaria-primary: #04a3ff;
+  --qdaria-cyan: #00ffd3;
+  --qdaria-green: #65ff00;
   --qdaria-secondary: #0099cc;
   --qdaria-accent: #66b3ff;
   --qdaria-bright: #33ccff;
-  
+
   /* Glow Effects - Cyan Blue */
-  --qdaria-glow-primary: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
+  --qdaria-glow-primary: 0 0 20px rgba(4, 163, 255, 0.6), 0 0 40px rgba(4, 163, 255, 0.3);
   --qdaria-glow-secondary: 0 0 20px rgba(0, 153, 204, 0.5), 0 0 40px rgba(0, 153, 204, 0.2);
   --qdaria-glow-accent: 0 0 20px rgba(102, 179, 255, 0.4), 0 0 40px rgba(102, 179, 255, 0.2);
-  
+
   /* Border Colors with Glow */
-  --qdaria-border-primary: rgba(0, 212, 255, 0.7);
+  --qdaria-border-primary: rgba(4, 163, 255, 0.7);
   --qdaria-border-secondary: rgba(0, 153, 204, 0.5);
   --qdaria-border-accent: rgba(102, 179, 255, 0.4);
-  
+
   /* Gradients */
-  --qdaria-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #66b3ff 100%);
-  --qdaria-gradient-subtle: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(102, 179, 255, 0.1) 100%);
+  --qdaria-gradient: linear-gradient(135deg, #04a3ff 0%, #00ffd3 50%, #65ff00 100%);
+  --qdaria-gradient-subtle: linear-gradient(135deg, rgba(4, 163, 255, 0.1) 0%, rgba(102, 179, 255, 0.1) 100%);
   
   /* Text Colors */
   --qdaria-text-primary: #e2e8f0;
@@ -99,7 +101,7 @@
 
 .qdaria-progress-bar {
   background: var(--qdaria-gradient) !important;
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.6) !important;
+  box-shadow: 0 0 15px rgba(4, 163, 255, 0.6) !important;
   transition: all 0.3s ease;
 }
 
@@ -117,7 +119,7 @@
   background: var(--qdaria-gradient) !important;
   color: var(--qdaria-bg-primary) !important;
   border: 1px solid var(--qdaria-border-primary) !important;
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4) !important;
+  box-shadow: 0 0 10px rgba(4, 163, 255, 0.4) !important;
   font-weight: 600;
 }
 
@@ -140,11 +142,11 @@
   background: var(--qdaria-gradient) !important;
   color: var(--qdaria-bg-primary) !important;
   border-color: var(--qdaria-border-primary) !important;
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4) !important;
+  box-shadow: 0 0 10px rgba(4, 163, 255, 0.4) !important;
 }
 
 .qdaria-tab:hover {
-  background: rgba(0, 212, 255, 0.1) !important;
+  background: rgba(4, 163, 255, 0.1) !important;
   color: var(--qdaria-primary) !important;
 }
 
@@ -230,7 +232,7 @@
 
 .qdaria-footer a:hover {
   color: var(--qdaria-bright) !important;
-  text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+  text-shadow: 0 0 8px rgba(4, 163, 255, 0.5);
 }
 
 /* SVG Icon Color Filters for QDaria Brand */
@@ -259,7 +261,7 @@
 
 .qdaria-product-container:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.15);
+  box-shadow: 0 8px 25px rgba(4, 163, 255, 0.15);
 }
 
 .qdaria-product-container.zipminator {
@@ -285,7 +287,7 @@
 
 .qdaria-product-container.qm9:hover {
   @apply border-cyan-400/50;
-  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.15);
+  box-shadow: 0 8px 25px rgba(4, 163, 255, 0.15);
 }
 
 .qdaria-product-container.qmike:hover {
@@ -347,11 +349,11 @@
   background: var(--qdaria-gradient) !important;
   color: var(--qdaria-bg-primary) !important;
   border-color: var(--qdaria-border-primary) !important;
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4) !important;
+  box-shadow: 0 0 10px rgba(4, 163, 255, 0.4) !important;
 }
 
 .qdaria-chart-tab:hover {
-  background: rgba(0, 212, 255, 0.1) !important;
+  background: rgba(4, 163, 255, 0.1) !important;
   color: var(--qdaria-primary) !important;
 }
 

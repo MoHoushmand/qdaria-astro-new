@@ -20,7 +20,7 @@ interface AnimatedPieChartProps {
   showPercentage?: boolean;
 }
 
-const COLORS = ['#CCFF00', '#9AFF00', '#66FF00', '#00d4ff', '#0099cc', '#33ccff'];
+const COLORS = ['#CCFF00', '#9AFF00', '#66FF00', '#04a3ff', '#0284c7', '#38bdf8'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {

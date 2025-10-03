@@ -78,7 +78,7 @@ export const CompetitivePositioningExample: React.FC = () => {
       {
         name: 'IonQ',
         data: [[8, 82, 35]],
-        color: '#00d4ff',
+        color: '#04a3ff',
       },
       {
         name: 'Atom Computing',

@@ -1,6 +1,7 @@
 ---
 import PitchDeck from '@/components/pitch-deck/PitchDeck';
 import RegisterServiceWorker from '@/components/RegisterServiceWorker.astro';
+import '@/styles/pitch-deck-brand.css';
 
 const title = 'QDaria Investor Pitch Deck - Series A Funding';
 const description = 'QDaria Quantum+AI Platform - €12M Investment Opportunity';
@@ -21,6 +22,26 @@ const description = 'QDaria Quantum+AI Platform - €12M Investment Opportunity'
 
   <!-- Preload critical assets -->
   <link rel="preload" href="/logomark.png" as="image" />
+
+  <style is:global>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
 </head>
 <body>
   <PitchDeck client:only="react" />

@@ -11,10 +11,10 @@ export const QDARIA_COLORS = {
   primary: '#CCFF00',
   secondary: '#9AFF00',
   tertiary: '#66FF00',
-  accent: '#00d4ff',
+  accent: '#04a3ff',
   dark: '#1a1a1a',
   gray: '#666666',
-  palette: ['#CCFF00', '#00d4ff', '#9AFF00', '#66FF00', '#FF00FF', '#FF6B00'],
+  palette: ['#CCFF00', '#04a3ff', '#9AFF00', '#66FF00', '#FF00FF', '#FF6B00'],
 } as const;
 
 /**

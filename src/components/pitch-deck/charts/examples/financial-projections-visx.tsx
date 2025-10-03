@@ -71,7 +71,7 @@ export const CustomerAcquisitionCostExample: React.FC = () => {
         xLabel="Quarter"
         yLabel="CAC ($)"
         theme="dark"
-        gradientFrom="#00d4ff"
+        gradientFrom="#04a3ff"
         gradientTo="#CCFF00"
         showGrid={true}
         animate={true}
@@ -114,7 +114,7 @@ export const UnitEconomicsExample: React.FC = () => {
           <div className="text-gray-400">ARPC Q2 2025</div>
         </div>
         <div className="text-center">
-          <div className="text-2xl font-bold" style={{ color: '#00d4ff' }}>3.2x</div>
+          <div className="text-2xl font-bold" style={{ color: '#04a3ff' }}>3.2x</div>
           <div className="text-gray-400">LTV/CAC Ratio</div>
         </div>
         <div className="text-center">

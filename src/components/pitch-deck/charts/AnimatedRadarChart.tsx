@@ -76,7 +76,7 @@ export const AnimatedRadarChart: React.FC<AnimatedRadarChartProps> = ({
       <ResponsiveContainer width="100%" height={height}>
         <RadarChart data={data} margin={{ top: 20, right: 50, bottom: 20, left: 50 }}>
           <PolarGrid
-            stroke="rgba(0, 212, 255, 0.3)"
+            stroke="rgba(4, 163, 255, 0.3)"
             strokeWidth={1.5}
           />
 

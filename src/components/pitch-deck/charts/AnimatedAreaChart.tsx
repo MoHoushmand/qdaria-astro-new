@@ -96,7 +96,7 @@ export const AnimatedAreaChart: React.FC<AnimatedAreaChartProps> = ({
           {showGrid && (
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(0, 212, 255, 0.1)"
+              stroke="rgba(4, 163, 255, 0.1)"
               strokeOpacity={0.5}
             />
           )}

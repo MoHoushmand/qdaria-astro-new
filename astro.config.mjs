@@ -10,9 +10,7 @@ export default defineConfig({
   adapter: netlify(),
   integrations: [
     tailwind({
-      config: {
-        applyBaseStyles: false,
-      }
+      applyBaseStyles: true,
     }),
     react({
       include: ['**/react/*', '**/pitch-deck/*'],

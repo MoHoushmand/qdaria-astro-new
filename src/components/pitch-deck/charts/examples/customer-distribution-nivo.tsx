@@ -9,7 +9,7 @@ import { NivoChart } from '../advanced/NivoChart';
 export const IndustryDistributionExample: React.FC = () => {
   const industryData = [
     { id: 'Pharmaceuticals', label: 'Pharmaceuticals', value: 28, color: '#CCFF00' },
-    { id: 'Finance', label: 'Financial Services', value: 24, color: '#00d4ff' },
+    { id: 'Finance', label: 'Financial Services', value: 24, color: '#04a3ff' },
     { id: 'Materials', label: 'Materials Science', value: 18, color: '#9AFF00' },
     { id: 'Energy', label: 'Energy & Utilities', value: 15, color: '#66FF00' },
     { id: 'Aerospace', label: 'Aerospace & Defense', value: 10, color: '#FF00FF' },
@@ -76,7 +76,7 @@ export const CustomerGrowthExample: React.FC = () => {
         height={500}
         theme="dark"
         animate={true}
-        colors={['#CCFF00', '#00d4ff', '#9AFF00']}
+        colors={['#CCFF00', '#04a3ff', '#9AFF00']}
       />
     </div>
   );
@@ -126,7 +126,7 @@ export const RevenueBySegmentExample: React.FC = () => {
         height={500}
         theme="dark"
         animate={true}
-        colors={['#CCFF00', '#00d4ff', '#9AFF00', '#66FF00']}
+        colors={['#CCFF00', '#04a3ff', '#9AFF00', '#66FF00']}
       />
     </div>
   );
@@ -154,7 +154,7 @@ export const CompetitiveRadarExample: React.FC = () => {
         height={600}
         theme="dark"
         animate={true}
-        colors={['#CCFF00', '#0066cc', '#ea4335', '#9AFF00', '#00d4ff']}
+        colors={['#CCFF00', '#0066cc', '#ea4335', '#9AFF00', '#04a3ff']}
       />
     </div>
   );

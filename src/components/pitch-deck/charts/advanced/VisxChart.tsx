@@ -30,7 +30,7 @@ const QDARIA_COLORS = {
   primary: '#CCFF00',
   secondary: '#9AFF00',
   tertiary: '#66FF00',
-  accent: '#00d4ff',
+  accent: '#04a3ff',
   dark: '#1a1a1a',
   gray: '#666666',
 };

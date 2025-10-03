@@ -50,8 +50,8 @@ export const defaultChartConfig: ChartConfig = {
     primary: '#CCFF00',
     secondary: '#9AFF00',
     tertiary: '#66FF00',
-    accent: '#00d4ff',
-    gradient: ['#CCFF00', '#9AFF00', '#66FF00', '#00d4ff']
+    accent: '#04a3ff',
+    gradient: ['#CCFF00', '#9AFF00', '#66FF00', '#04a3ff']
   },
   animation: {
     duration: 1500,

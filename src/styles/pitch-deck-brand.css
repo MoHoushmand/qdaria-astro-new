@@ -427,5 +427,5 @@ svg,
 /* Selection */
 ::selection {
   background: rgba(4, 163, 255, 0.3);
-  color: white;
+  color: var(--qdaria-bg-primary);
 }

@@ -48,8 +48,8 @@ const getGradientColor = (value: number, maxValue: number) => {
   if (percentage >= 80) return '#CCFF00';
   if (percentage >= 60) return '#9AFF00';
   if (percentage >= 40) return '#66FF00';
-  if (percentage >= 20) return '#00d4ff';
-  return '#0099cc';
+  if (percentage >= 20) return '#04a3ff';
+  return '#0284c7';
 };
 
 export const AnimatedBarChart: React.FC<AnimatedBarChartProps> = ({
@@ -100,7 +100,7 @@ export const AnimatedBarChart: React.FC<AnimatedBarChartProps> = ({
           {showGrid && (
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(0, 212, 255, 0.1)"
+              stroke="rgba(4, 163, 255, 0.1)"
               strokeOpacity={0.5}
             />
           )}
