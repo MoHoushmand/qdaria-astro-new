@@ -235,17 +235,14 @@ const PitchDeck: React.FC = () => {
                   <span className="sr-only">{sidebarOpen ? "Close" : "Open"} sidebar</span>
                 </Button>
               )}
-              <picture>
-                <source srcSet="/logomark.webp" type="image/webp" />
-                <img
-                  src="/logomark.png"
-                  alt="QDaria company logo"
-                  className="h-8 md:h-10"
-                  width="40"
-                  height="40"
-                  loading="eager"
-                />
-              </picture>
+              <img
+                src="/icons/qdaria/QDlogomark.svg"
+                alt="QDaria company logo"
+                className="h-8 md:h-10"
+                width="40"
+                height="40"
+                loading="eager"
+              />
             </div>
 
             <div className="flex items-center gap-2">
