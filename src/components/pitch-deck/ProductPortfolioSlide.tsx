@@ -72,7 +72,7 @@ const ProductPortfolioSlide: React.FC<ProductPortfolioSlideProps> = ({ scenario 
         <h1 className="text-4xl font-bold qdaria-gradient-text mb-4">
           Crisis-Tested Solutions: 1500+ AI Products
         </h1>
-        <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+        <p className="text-lg text-slate-400 font-light max-w-3xl mx-auto">
           Proven Performance When Legacy Systems Collapse - Quantum+AI Solutions at Scale
         </p>
       </div>
@@ -103,19 +103,19 @@ const ProductPortfolioSlide: React.FC<ProductPortfolioSlideProps> = ({ scenario 
                       <div className="text-2xl font-bold text-cyan-400">
                         €{product.revenue[scenario]}M
                       </div>
-                      <div className="text-sm text-gray-300">Annual Revenue</div>
+                      <div className="text-sm text-slate-400 font-light">Annual Revenue</div>
                     </div>
                     <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-green-400/20">
                       <div className="text-2xl font-bold text-green-400">
                         {product.growth[scenario]}%
                       </div>
-                      <div className="text-sm text-gray-300">Growth Rate</div>
+                      <div className="text-sm text-slate-400 font-light">Growth Rate</div>
                     </div>
                     <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-400/20">
                       <div className="text-2xl font-bold text-purple-400">
                         {product.customers}
                       </div>
-                      <div className="text-sm text-gray-300">Active Users</div>
+                      <div className="text-sm text-slate-400 font-light">Active Users</div>
                     </div>
                   </div>
                   

@@ -76,7 +76,7 @@ const GoToMarketSlide: React.FC = () => {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">European Quantum Dominance Strategy</h1>
-        <p className="text-2xl text-gray-300 mt-4">
+        <p className="text-2xl text-slate-400 font-light mt-4">
           60 Executive Meetings → Novera QPU Advantage → European Market Leadership
         </p>
       </div>
@@ -106,7 +106,7 @@ const GoToMarketSlide: React.FC = () => {
                         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
                         <div>
                           <h4 className="text-white font-medium">{entry.region}</h4>
-                          <p className="text-sm text-gray-300">{entry.focus}</p>
+                          <p className="text-sm text-slate-400 font-light">{entry.focus}</p>
                           <p className="text-xs text-purple-300">{entry.strategy}</p>
                         </div>
                       </div>
@@ -115,7 +115,7 @@ const GoToMarketSlide: React.FC = () => {
                         {entry.meetings > 0 ? (
                           <p className="text-sm text-green-400">{entry.meetings} meetings</p>
                         ) : (
-                          <p className="text-sm text-gray-300">{entry.enterprises} enterprises</p>
+                          <p className="text-sm text-slate-400 font-light">{entry.enterprises} enterprises</p>
                         )}
                       </div>
                     </div>
@@ -136,26 +136,26 @@ const GoToMarketSlide: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-cyan-400/20">
                       <div className="text-3xl font-bold text-cyan-400">10-15%</div>
-                      <div className="text-sm text-gray-300">Meeting-to-Pilot Rate</div>
+                      <div className="text-sm text-slate-400 font-light">Meeting-to-Pilot Rate</div>
                     </div>
                     <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-green-400/20">
                       <div className="text-3xl font-bold text-green-400">€375K</div>
-                      <div className="text-sm text-gray-300">Average Pilot Value</div>
+                      <div className="text-sm text-slate-400 font-light">Average Pilot Value</div>
                     </div>
                   </div>
                   
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <Cpu className="w-5 h-5 text-cyan-400" />
-                      <span className="text-gray-300">"See It, Touch It, Use It" - Physical QPU Demos</span>
+                      <span className="text-slate-400 font-light">"See It, Touch It, Use It" - Physical QPU Demos</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <BookOpen className="w-5 h-5 text-green-400" />
-                      <span className="text-gray-300">Quantum Training & Education Programs</span>
+                      <span className="text-slate-400 font-light">Quantum Training & Education Programs</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Shield className="w-5 h-5 text-purple-400" />
-                      <span className="text-gray-300">Quantum Readiness Assessment Service</span>
+                      <span className="text-slate-400 font-light">Quantum Readiness Assessment Service</span>
                     </div>
                   </div>
                 </div>
@@ -169,7 +169,7 @@ const GoToMarketSlide: React.FC = () => {
                 <ArrowRight className="w-5 h-5 text-cyan-400" />
                 European Quantum Dominance Roadmap
               </CardTitle>
-              <CardDescription className="text-gray-300">
+              <CardDescription className="text-slate-400 font-light">
                 Path from 60 Executive Meetings to Market Leadership
               </CardDescription>
             </CardHeader>
@@ -181,24 +181,24 @@ const GoToMarketSlide: React.FC = () => {
                       <Handshake className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-white mb-2">Phase 1: Executive Access</h3>
-                    <p className="text-sm text-gray-300 mb-4">Aug-Oct 2025</p>
+                    <p className="text-sm text-slate-400 font-light mb-4">Aug-Oct 2025</p>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span className="text-gray-300">30 Norway C-suite meetings</span>
+                      <span className="text-slate-400 font-light">30 Norway C-suite meetings</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-gray-300">30 Germany executive meetings</span>
+                      <span className="text-slate-400 font-light">30 Germany executive meetings</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                      <span className="text-gray-300">Novera QPU demonstrations</span>
+                      <span className="text-slate-400 font-light">Novera QPU demonstrations</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                      <span className="text-gray-300">Quantum readiness assessments</span>
+                      <span className="text-slate-400 font-light">Quantum readiness assessments</span>
                     </div>
                   </div>
                 </div>
@@ -209,24 +209,24 @@ const GoToMarketSlide: React.FC = () => {
                       <Cpu className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-white mb-2">Phase 2: Pilot Conversion</h3>
-                    <p className="text-sm text-gray-300 mb-4">Nov 2025-Jun 2026</p>
+                    <p className="text-sm text-slate-400 font-light mb-4">Nov 2025-Jun 2026</p>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span className="text-gray-300">6-9 pilot programs launched</span>
+                      <span className="text-slate-400 font-light">6-9 pilot programs launched</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-gray-300">€1.5-3M pilot revenue</span>
+                      <span className="text-slate-400 font-light">€1.5-3M pilot revenue</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                      <span className="text-gray-300">Quantum consulting services</span>
+                      <span className="text-slate-400 font-light">Quantum consulting services</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                      <span className="text-gray-300">Training program rollouts</span>
+                      <span className="text-slate-400 font-light">Training program rollouts</span>
                     </div>
                   </div>
                 </div>
@@ -237,24 +237,24 @@ const GoToMarketSlide: React.FC = () => {
                       <Award className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-white mb-2">Phase 3: Market Leadership</h3>
-                    <p className="text-sm text-gray-300 mb-4">2026+</p>
+                    <p className="text-sm text-slate-400 font-light mb-4">2026+</p>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span className="text-gray-300">3-4 commercial contracts</span>
+                      <span className="text-slate-400 font-light">3-4 commercial contracts</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-gray-300">€5-15M annual revenue</span>
+                      <span className="text-slate-400 font-light">€5-15M annual revenue</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                      <span className="text-gray-300">European quantum leader</span>
+                      <span className="text-slate-400 font-light">European quantum leader</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                      <span className="text-gray-300">Scale to 5+ countries</span>
+                      <span className="text-slate-400 font-light">Scale to 5+ countries</span>
                     </div>
                   </div>
                 </div>
@@ -296,9 +296,9 @@ const GoToMarketSlide: React.FC = () => {
                   <div className="p-4 bg-gradient-to-r from-purple-900/30 to-cyan-900/30 rounded-lg border border-purple-400/20">
                     <h3 className="text-white font-bold mb-2">Expected Outcomes</h3>
                     <div className="space-y-1 text-sm">
-                      <div className="text-gray-300">60 meetings → 6-9 assessments</div>
-                      <div className="text-gray-300">€250K-500K pilot values</div>
-                      <div className="text-gray-300">Path to European quantum leadership</div>
+                      <div className="text-slate-400 font-light">60 meetings → 6-9 assessments</div>
+                      <div className="text-slate-400 font-light">€250K-500K pilot values</div>
+                      <div className="text-slate-400 font-light">Path to European quantum leadership</div>
                     </div>
                   </div>
                 </div>
@@ -356,7 +356,7 @@ const GoToMarketSlide: React.FC = () => {
                     <div>
                       <h4 className="text-white font-bold">Management Events</h4>
                       <p className="text-sm text-cyan-300">60 Executive Meetings Aug-Oct 2025</p>
-                      <p className="text-xs text-gray-300">Norway + Germany C-Suite Access</p>
+                      <p className="text-xs text-slate-400 font-light">Norway + Germany C-Suite Access</p>
                     </div>
                     <Badge className="qdaria-badge">CORE STRATEGY</Badge>
                   </div>
@@ -364,7 +364,7 @@ const GoToMarketSlide: React.FC = () => {
                   <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-green-400/20">
                     <div>
                       <h4 className="text-white font-medium">Rigetti Computing</h4>
-                      <p className="text-sm text-gray-300">Novera QPU Hardware Partner</p>
+                      <p className="text-sm text-slate-400 font-light">Novera QPU Hardware Partner</p>
                       <p className="text-xs text-green-300">Physical quantum demos</p>
                     </div>
                     <Badge className="qdaria-badge">Active</Badge>
@@ -373,7 +373,7 @@ const GoToMarketSlide: React.FC = () => {
                   <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-purple-400/20">
                     <div>
                       <h4 className="text-white font-medium">Norwegian Research Institutions</h4>
-                      <p className="text-sm text-gray-300">NTNU, University of Oslo</p>
+                      <p className="text-sm text-slate-400 font-light">NTNU, University of Oslo</p>
                       <p className="text-xs text-purple-300">Academic partnerships</p>
                     </div>
                     <Badge className="bg-orange-400/20 text-orange-300 border border-orange-400/50">Target</Badge>
@@ -382,10 +382,10 @@ const GoToMarketSlide: React.FC = () => {
                   <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-orange-400/20">
                     <div>
                       <h4 className="text-white font-medium">German Quantum Initiative</h4>
-                      <p className="text-sm text-gray-300">BMW, SAP, Siemens Ecosystem</p>
+                      <p className="text-sm text-slate-400 font-light">BMW, SAP, Siemens Ecosystem</p>
                       <p className="text-xs text-orange-300">Industry collaboration</p>
                     </div>
-                    <Badge className="bg-slate-500/20 text-slate-300 border border-slate-500/50">Pipeline</Badge>
+                    <Badge className="bg-slate-500/20 text-slate-400 font-light border border-slate-500/50">Pipeline</Badge>
                   </div>
                 </div>
               </CardContent>
@@ -398,7 +398,7 @@ const GoToMarketSlide: React.FC = () => {
                 <BookOpen className="w-5 h-5 text-cyan-400" />
                 Quantum Service Offerings Detail
               </CardTitle>
-              <CardDescription className="text-gray-300">
+              <CardDescription className="text-slate-400 font-light">
                 Complete portfolio targeting Management Events contacts
               </CardDescription>
             </CardHeader>
@@ -410,7 +410,7 @@ const GoToMarketSlide: React.FC = () => {
                       <h4 className="text-white font-bold text-lg">{service.service}</h4>
                       <Badge className="qdaria-badge ml-2">{service.price}</Badge>
                     </div>
-                    <p className="text-gray-300 text-sm mb-3">{service.description}</p>
+                    <p className="text-slate-400 font-light text-sm mb-3">{service.description}</p>
                     <div className="flex items-center gap-4 text-sm">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-cyan-400" />
@@ -431,7 +431,7 @@ const GoToMarketSlide: React.FC = () => {
                 <Zap className="w-5 h-5 text-cyan-400" />
                 First-Mover Advantage: European Quantum Leadership
               </CardTitle>
-              <CardDescription className="text-gray-300">
+              <CardDescription className="text-slate-400 font-light">
                 Competitive positioning with Novera QPU physical advantage
               </CardDescription>
             </CardHeader>
@@ -443,7 +443,7 @@ const GoToMarketSlide: React.FC = () => {
                       <h4 className="text-white font-bold text-lg">{comp.competitor}</h4>
                       <div className="flex items-center gap-2">
                         <span className="text-2xl font-bold text-cyan-400">{comp.winRate}%</span>
-                        <span className="text-gray-300">win rate</span>
+                        <span className="text-slate-400 font-light">win rate</span>
                       </div>
                     </div>
                     
@@ -451,12 +451,12 @@ const GoToMarketSlide: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <ArrowRight className="w-4 h-4 text-green-400" />
                         <span className="text-green-400 font-medium">Key Advantage:</span>
-                        <span className="text-gray-300">{comp.advantage}</span>
+                        <span className="text-slate-400 font-light">{comp.advantage}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Target className="w-4 h-4 text-cyan-400" />
                         <span className="text-cyan-400 font-medium">Win Strategy:</span>
-                        <span className="text-gray-300">{comp.strategy}</span>
+                        <span className="text-slate-400 font-light">{comp.strategy}</span>
                       </div>
                     </div>
                   </div>

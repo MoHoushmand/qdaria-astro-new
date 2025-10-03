@@ -131,7 +131,7 @@ const FinancialsSlide: React.FC = () => {
     <div className="space-y-4 md:space-y-6 px-4 md:px-0">
       <div className="text-center">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold qdaria-gradient-text px-2">Financial Projections</h1>
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mt-3 md:mt-4 px-2">€148M ARR by 2028 • Novera QPU Strategy • Management Events ROI</p>
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-400 font-light mt-3 md:mt-4 px-2">€148M ARR by 2028 • Novera QPU Strategy • Management Events ROI</p>
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mt-4 md:mt-6">
           <Badge className="bg-[#CCFF00] text-black border-2 border-[#CCFF00] text-xs sm:text-sm md:text-lg px-3 py-1.5 md:px-4 md:py-2 font-bold shadow-lg">
             <TrendingUp className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />185% YoY Growth

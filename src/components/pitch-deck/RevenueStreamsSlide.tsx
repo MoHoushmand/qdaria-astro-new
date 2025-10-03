@@ -35,7 +35,7 @@ const RevenueStreamsSlide: React.FC<{ scenario?: string }> = ({ scenario = 'base
         <h1 className="text-4xl font-bold text-white mb-4 qdaria-gradient-text">
           Revenue Streams: €47M Portfolio
         </h1>
-        <p className="text-xl text-gray-300">
+        <p className="text-xl text-slate-400 font-light">
           Diversified revenue across AI products, quantum equipment, and premium services
         </p>
       </div>

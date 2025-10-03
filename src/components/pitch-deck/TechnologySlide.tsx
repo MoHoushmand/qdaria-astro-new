@@ -164,7 +164,7 @@ const TechnologySlide: React.FC = () => {
         <h1 className="text-4xl font-bold text-white mb-4 qdaria-gradient-text">
           Technology Architecture: Quantum-AI Platform
         </h1>
-        <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+        <p className="text-xl text-slate-400 font-light max-w-4xl mx-auto">
           Enterprise-grade quantum computing platform powered by Rigetti Novera QPU with 1500+ AI products
         </p>
         <div className="mt-4 flex justify-center gap-4">
@@ -220,7 +220,7 @@ const TechnologySlide: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 flex-1">
                       <div className={`p-3 rounded-lg ${layer.highlight ? 'bg-orange-500/20' : 'bg-slate-800/50'}`}>
-                        <layer.icon className={`w-8 h-8 ${layer.highlight ? 'text-orange-300' : 'text-gray-300'}`} />
+                        <layer.icon className={`w-8 h-8 ${layer.highlight ? 'text-orange-300' : 'text-slate-400 font-light'}`} />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
@@ -257,19 +257,19 @@ const TechnologySlide: React.FC = () => {
               <div className="text-center p-6 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-lg border border-blue-500/30">
                 <Globe className="w-12 h-12 mx-auto text-blue-400 mb-3" />
                 <h4 className="text-lg font-bold text-blue-300 mb-2">Classical Input</h4>
-                <p className="text-sm text-gray-300">User requests processed through REST/GraphQL API</p>
+                <p className="text-sm text-slate-400 font-light">User requests processed through REST/GraphQL API</p>
                 <div className="mt-3 text-xs text-gray-400">→ Quantum Orchestrator →</div>
               </div>
               <div className="text-center p-6 bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-lg border-2 border-orange-500/40">
                 <Cpu className="w-12 h-12 mx-auto text-orange-400 mb-3" />
                 <h4 className="text-lg font-bold text-orange-300 mb-2">Quantum Processing</h4>
-                <p className="text-sm text-gray-300">Rigetti Novera QPU executes quantum circuits</p>
+                <p className="text-sm text-slate-400 font-light">Rigetti Novera QPU executes quantum circuits</p>
                 <div className="mt-3 text-xs text-gray-400">→ AI Enhancement →</div>
               </div>
               <div className="text-center p-6 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-lg border border-green-500/30">
                 <Brain className="w-12 h-12 mx-auto text-green-400 mb-3" />
                 <h4 className="text-lg font-bold text-green-300 mb-2">AI Processing</h4>
-                <p className="text-sm text-gray-300">ML models enhance quantum results</p>
+                <p className="text-sm text-slate-400 font-light">ML models enhance quantum results</p>
                 <div className="mt-3 text-xs text-gray-400">→ Output to User →</div>
               </div>
             </div>
@@ -309,26 +309,26 @@ const TechnologySlide: React.FC = () => {
               <div className="space-y-6">
                 <div className="text-center p-8 bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-xl border-2 border-orange-500/40">
                   <div className="text-5xl font-bold text-orange-400 mb-2">€2.8M</div>
-                  <div className="text-lg text-gray-300">Hardware Investment</div>
+                  <div className="text-lg text-slate-400 font-light">Hardware Investment</div>
                   <div className="text-sm text-gray-400 mt-2">Rigetti Novera QPU + Infrastructure</div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-cyan-400/20">
                     <div className="text-2xl font-bold text-cyan-400">256</div>
-                    <div className="text-sm text-gray-300">Qubits</div>
+                    <div className="text-sm text-slate-400 font-light">Qubits</div>
                   </div>
                   <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-green-400/20">
                     <div className="text-2xl font-bold text-green-400">100μs</div>
-                    <div className="text-sm text-gray-300">Coherence</div>
+                    <div className="text-sm text-slate-400 font-light">Coherence</div>
                   </div>
                   <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-400/20">
                     <div className="text-2xl font-bold text-purple-400">99.5%</div>
-                    <div className="text-sm text-gray-300">Fidelity</div>
+                    <div className="text-sm text-slate-400 font-light">Fidelity</div>
                   </div>
                   <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-blue-400/20">
                     <div className="text-2xl font-bold text-blue-400">15mK</div>
-                    <div className="text-sm text-gray-300">Operating Temp</div>
+                    <div className="text-sm text-slate-400 font-light">Operating Temp</div>
                   </div>
                 </div>
 
@@ -337,7 +337,7 @@ const TechnologySlide: React.FC = () => {
                     <Settings className="w-5 h-5" />
                     Norway's First Commercial QPU
                   </div>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-slate-400 font-light">
                     Breaking the quantum computing barrier in Northern Europe with enterprise-grade hardware
                   </p>
                 </div>
@@ -395,13 +395,13 @@ const TechnologySlide: React.FC = () => {
                   </div>
                   <h4 className="text-xl font-bold text-white mb-2">{algo.name}</h4>
                   <p className={`text-${algo.color}-300 text-sm font-medium mb-3`}>{algo.fullName}</p>
-                  <p className="text-gray-300 text-sm mb-4">{algo.description}</p>
+                  <p className="text-slate-400 font-light text-sm mb-4">{algo.description}</p>
 
                   <div className="mb-3">
                     <div className="text-xs text-gray-400 mb-2">Applications:</div>
                     <div className="flex flex-wrap gap-2">
                       {algo.applications.map((app, i) => (
-                        <Badge key={i} className="bg-slate-800/50 text-gray-300 border-gray-600 text-xs">
+                        <Badge key={i} className="bg-slate-800/50 text-slate-400 font-light border-gray-600 text-xs">
                           {app}
                         </Badge>
                       ))}
@@ -425,17 +425,17 @@ const TechnologySlide: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-cyan-400/20">
                 <div className="text-3xl font-bold text-cyan-400 mb-2">10,000x</div>
-                <div className="text-sm text-gray-300 font-semibold mb-2">Chemistry Simulation</div>
+                <div className="text-sm text-slate-400 font-light font-semibold mb-2">Chemistry Simulation</div>
                 <p className="text-xs text-gray-400">VQE accelerates molecular modeling for drug discovery</p>
               </div>
               <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-green-400/20">
                 <div className="text-3xl font-bold text-green-400 mb-2">100x</div>
-                <div className="text-sm text-gray-300 font-semibold mb-2">Optimization</div>
+                <div className="text-sm text-slate-400 font-light font-semibold mb-2">Optimization</div>
                 <p className="text-xs text-gray-400">QAOA solves complex logistics and portfolio problems</p>
               </div>
               <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-purple-400/20">
                 <div className="text-3xl font-bold text-purple-400 mb-2">50x</div>
-                <div className="text-sm text-gray-300 font-semibold mb-2">Pattern Recognition</div>
+                <div className="text-sm text-slate-400 font-light font-semibold mb-2">Pattern Recognition</div>
                 <p className="text-xs text-gray-400">QML enhances AI training and inference speed</p>
               </div>
             </div>
@@ -466,7 +466,7 @@ const TechnologySlide: React.FC = () => {
                         className="flex items-center gap-2 p-2 bg-slate-800/50 rounded border border-gray-700 hover:border-cyan-400/30 transition-all"
                       >
                         <div className="w-2 h-2 rounded-full bg-cyan-400" />
-                        <span className="text-sm text-gray-300">{tech}</span>
+                        <span className="text-sm text-slate-400 font-light">{tech}</span>
                       </div>
                     ))}
                   </div>

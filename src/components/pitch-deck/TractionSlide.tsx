@@ -46,7 +46,7 @@ const TractionSlide: React.FC<TractionSlideProps> = ({ scenario }) => {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">Crisis Validation: Real Enterprise Adoption</h1>
-        <p className="text-2xl text-gray-300 mt-4">Proven Market Traction Solving Actual Computing Crises</p>
+        <p className="text-2xl text-slate-400 font-light mt-4">Proven Market Traction Solving Actual Computing Crises</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -124,7 +124,7 @@ const TractionSlide: React.FC<TractionSlideProps> = ({ scenario }) => {
                       value={(milestone.completed / milestone.total) * 100} 
                       className="qdaria-progress h-3"
                     />
-                    <div className="flex justify-between text-sm text-gray-300">
+                    <div className="flex justify-between text-sm text-slate-400 font-light">
                       <span>{milestone.completed.toLocaleString()}</span>
                       <span>{milestone.total.toLocaleString()}</span>
                     </div>
@@ -206,14 +206,14 @@ const TractionSlide: React.FC<TractionSlideProps> = ({ scenario }) => {
                         <Badge className={
                           quarter.status === 'completed' ? 'bg-green-500/20 text-green-300 border-green-500/50' :
                           quarter.status === 'current' ? 'qdaria-badge' :
-                          'bg-slate-500/20 text-slate-300 border-slate-500/50'
+                          'bg-slate-500/20 text-slate-400 font-light border-slate-500/50'
                         }>
                           {quarter.status.charAt(0).toUpperCase() + quarter.status.slice(1)}
                         </Badge>
                       </div>
                       <ul className="space-y-1">
                         {quarter.achievements.map((achievement, i) => (
-                          <li key={i} className="text-gray-300 flex items-center gap-2">
+                          <li key={i} className="text-slate-400 font-light flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-cyan-400" />
                             {achievement}
                           </li>

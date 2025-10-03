@@ -338,7 +338,7 @@ const EnhancedTeamSlide: React.FC = () => {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">QDaria Leadership Team</h1>
-        <p className="text-2xl text-gray-300 mt-4">World-Class Quantum Computing Experts Driving Innovation</p>
+        <p className="text-2xl text-slate-400 font-light mt-4">World-Class Quantum Computing Experts Driving Innovation</p>
         <div className="flex justify-center gap-4 mt-6">
           <Badge className="qdaria-badge text-lg px-4 py-2">
             <Users className="w-5 h-5 mr-2" />7 Core Leaders
@@ -469,7 +469,7 @@ const EnhancedTeamSlide: React.FC = () => {
                   <div className="space-y-2">
                     {companyAchievements.teamStructure.governance.map((gov, idx) => (
                       <div key={idx} className="flex items-center justify-between p-2 bg-cyan-500/5 rounded">
-                        <span className="text-sm text-gray-300">{gov.role}</span>
+                        <span className="text-sm text-slate-400 font-light">{gov.role}</span>
                         <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-400/30 text-xs">
                           {gov.status}
                         </Badge>
@@ -523,7 +523,7 @@ const EnhancedTeamSlide: React.FC = () => {
                 <CardContent className="space-y-4">
                   <div>
                     <h4 className="text-sm font-semibold text-cyan-300 mb-2">Biography</h4>
-                    <p className="text-xs text-gray-300 leading-relaxed">{member.bio}</p>
+                    <p className="text-xs text-slate-400 font-light leading-relaxed">{member.bio}</p>
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold text-cyan-300 mb-2">Specialties</h4>
@@ -567,7 +567,7 @@ const EnhancedTeamSlide: React.FC = () => {
                     <h4 className="text-sm font-semibold text-cyan-300 mb-2">Key Achievements</h4>
                     <div className="space-y-1">
                       {member.achievements.slice(0, 2).map((achievement, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-xs text-gray-300">
+                        <div key={idx} className="flex items-center gap-2 text-xs text-slate-400 font-light">
                           <Star className="w-2 h-2 text-cyan-400 flex-shrink-0" />
                           <span>{achievement}</span>
                         </div>
@@ -615,7 +615,7 @@ const EnhancedTeamSlide: React.FC = () => {
                         {expertise.level}% Expert
                       </Badge>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 text-sm text-gray-300">
+                    <div className="grid grid-cols-2 gap-4 text-sm text-slate-400 font-light">
                       <div>
                         <span className="text-gray-400">Avg Experience:</span>
                         <span className="ml-2 font-semibold">{expertise.years} years</span>

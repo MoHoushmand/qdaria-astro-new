@@ -45,7 +45,7 @@ const EnhancedBusinessModelSlide: React.FC = () => {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">Crisis Monetization: €500M ARR from Computing Revolution</h1>
-        <p className="text-2xl text-gray-300 mt-4">Business Model Built for Post-Classical Computing Era</p>
+        <p className="text-2xl text-slate-400 font-light mt-4">Business Model Built for Post-Classical Computing Era</p>
         <div className="flex justify-center gap-4 mt-6">
           <Badge className="qdaria-badge text-lg px-4 py-2">
             <DollarSign className="w-5 h-5 mr-2" />€500M ARR Target

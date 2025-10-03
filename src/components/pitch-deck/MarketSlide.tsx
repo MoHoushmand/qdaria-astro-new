@@ -221,7 +221,7 @@ const MarketSlide: React.FC = () => {
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white px-2">
             Management Events Partnership + Novera QPU = European Market Dominance
           </p>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto px-2">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 font-light max-w-4xl mx-auto px-2">
             QDaria's €38,400 investment in 60 prime-level executive meetings across Nordic and German
             quantum-ready markets, powered by first-mover Novera QPU advantage
           </p>
@@ -232,22 +232,22 @@ const MarketSlide: React.FC = () => {
           <div className="qdaria-stat-card p-3 md:p-6">
             <Users className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
             <div className="text-xl md:text-3xl font-bold text-white">60</div>
-            <div className="text-xs md:text-sm text-gray-300">Executive Meetings</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">Executive Meetings</div>
           </div>
           <div className="qdaria-stat-card p-3 md:p-6">
             <DollarSign className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
             <div className="text-xl md:text-3xl font-bold text-white">€15.6M</div>
-            <div className="text-xs md:text-sm text-gray-300">Projected Revenue</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">Projected Revenue</div>
           </div>
           <div className="qdaria-stat-card p-3 md:p-6">
             <Zap className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
             <div className="text-xl md:text-3xl font-bold text-white">18.7%</div>
-            <div className="text-xs md:text-sm text-gray-300">Nordic Market Share</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">Nordic Market Share</div>
           </div>
           <div className="qdaria-stat-card p-3 md:p-6">
             <Target className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
             <div className="text-xl md:text-3xl font-bold text-white">406x</div>
-            <div className="text-xs md:text-sm text-gray-300">Partnership ROI</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">Partnership ROI</div>
           </div>
         </div>
 
@@ -387,7 +387,7 @@ const MarketSlide: React.FC = () => {
                 <DollarSign className="w-8 h-8 text-cyan-400 mx-auto mb-4" />
                 <div className="text-center">
                   <div className="text-2xl font-bold text-white">€441B</div>
-                  <div className="text-sm text-gray-300">Total TAM 2028</div>
+                  <div className="text-sm text-slate-400 font-light">Total TAM 2028</div>
                   <div className="text-xs text-cyan-400 mt-2">42% CAGR</div>
                 </div>
               </Card>
@@ -395,7 +395,7 @@ const MarketSlide: React.FC = () => {
                 <Zap className="w-8 h-8 text-cyan-400 mx-auto mb-4" />
                 <div className="text-center">
                   <div className="text-2xl font-bold text-white">€18.5B</div>
-                  <div className="text-sm text-gray-300">Quantum-AI Segment</div>
+                  <div className="text-sm text-slate-400 font-light">Quantum-AI Segment</div>
                   <div className="text-xs text-cyan-400 mt-2">Fastest Growing</div>
                 </div>
               </Card>
@@ -403,7 +403,7 @@ const MarketSlide: React.FC = () => {
                 <TrendingUp className="w-8 h-8 text-cyan-400 mx-auto mb-4" />
                 <div className="text-center">
                   <div className="text-2xl font-bold text-white">€7.8B</div>
-                  <div className="text-sm text-gray-300">Pure Quantum 2028</div>
+                  <div className="text-sm text-slate-400 font-light">Pure Quantum 2028</div>
                   <div className="text-xs text-cyan-400 mt-2">QDaria's Focus</div>
                 </div>
               </Card>
@@ -511,7 +511,7 @@ const MarketSlide: React.FC = () => {
                           <TableCell>
                             <Badge className="qdaria-badge">{segment.growth}%</Badge>
                           </TableCell>
-                          <TableCell className="text-gray-300">{segment.companies.toLocaleString()}</TableCell>
+                          <TableCell className="text-slate-400 font-light">{segment.companies.toLocaleString()}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -525,25 +525,25 @@ const MarketSlide: React.FC = () => {
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">€92B</div>
-                  <div className="text-sm text-gray-300">Total SAM</div>
+                  <div className="text-sm text-slate-400 font-light">Total SAM</div>
                 </div>
               </Card>
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">44%</div>
-                  <div className="text-sm text-gray-300">Avg Growth</div>
+                  <div className="text-sm text-slate-400 font-light">Avg Growth</div>
                 </div>
               </Card>
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">9,150</div>
-                  <div className="text-sm text-gray-300">Total Companies</div>
+                  <div className="text-sm text-slate-400 font-light">Total Companies</div>
                 </div>
               </Card>
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">6</div>
-                  <div className="text-sm text-gray-300">Key Segments</div>
+                  <div className="text-sm text-slate-400 font-light">Key Segments</div>
                 </div>
               </Card>
             </div>
@@ -646,7 +646,7 @@ const MarketSlide: React.FC = () => {
                           <span className="font-semibold text-white">{region.region}</span>
                           <Badge className="qdaria-badge">{region.qdariaShare}%</Badge>
                         </div>
-                        <div className="text-sm text-gray-300 space-y-1">
+                        <div className="text-sm text-slate-400 font-light space-y-1">
                           <div>Market: €{region.value}B</div>
                           <div>Companies: {region.companies.toLocaleString()}</div>
                           <div className="text-xs text-cyan-400">
@@ -697,7 +697,7 @@ const MarketSlide: React.FC = () => {
                         </TableCell>
                         <TableCell className="text-cyan-400 font-semibold">€{region.value}B</TableCell>
                         <TableCell>
-                          <Badge className={`${region.qdariaShare > 15 ? 'qdaria-badge' : 'border-gray-400/50 text-gray-300'}`}>
+                          <Badge className={`${region.qdariaShare > 15 ? 'qdaria-badge' : 'border-gray-400/50 text-slate-400 font-light'}`}>
                             {region.qdariaShare}%
                           </Badge>
                         </TableCell>
@@ -710,7 +710,7 @@ const MarketSlide: React.FC = () => {
                             <span className="text-gray-500">-</span>
                           )}
                         </TableCell>
-                        <TableCell className="text-gray-300">{region.quantumReady}</TableCell>
+                        <TableCell className="text-slate-400 font-light">{region.quantumReady}</TableCell>
                         <TableCell>
                           {region.managementEvents > 0 ? (
                             <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-400/50">
@@ -734,31 +734,31 @@ const MarketSlide: React.FC = () => {
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">€42B</div>
-                  <div className="text-sm text-gray-300">Total SOM</div>
+                  <div className="text-sm text-slate-400 font-light">Total SOM</div>
                 </div>
               </Card>
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">10,600</div>
-                  <div className="text-sm text-gray-300">Companies</div>
+                  <div className="text-sm text-slate-400 font-light">Companies</div>
                 </div>
               </Card>
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">14%</div>
-                  <div className="text-sm text-gray-300">Avg Penetration</div>
+                  <div className="text-sm text-slate-400 font-light">Avg Penetration</div>
                 </div>
               </Card>
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">9.5%</div>
-                  <div className="text-sm text-gray-300">QDaria Share</div>
+                  <div className="text-sm text-slate-400 font-light">QDaria Share</div>
                 </div>
               </Card>
               <Card className="qdaria-stat-card p-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400">€4B</div>
-                  <div className="text-sm text-gray-300">QDaria TAM</div>
+                  <div className="text-sm text-slate-400 font-light">QDaria TAM</div>
                 </div>
               </Card>
             </div>
@@ -783,19 +783,19 @@ const MarketSlide: React.FC = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">€38,400</div>
-                    <div className="text-sm text-gray-300">Partnership Investment</div>
+                    <div className="text-sm text-slate-400 font-light">Partnership Investment</div>
                   </div>
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">60</div>
-                    <div className="text-sm text-gray-300">Executive Meetings</div>
+                    <div className="text-sm text-slate-400 font-light">Executive Meetings</div>
                   </div>
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">€15.6M</div>
-                    <div className="text-sm text-gray-300">Projected Revenue</div>
+                    <div className="text-sm text-slate-400 font-light">Projected Revenue</div>
                   </div>
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">406x</div>
-                    <div className="text-sm text-gray-300">ROI Multiple</div>
+                    <div className="text-sm text-slate-400 font-light">ROI Multiple</div>
                   </div>
                 </div>
               </CardContent>
@@ -820,7 +820,7 @@ const MarketSlide: React.FC = () => {
                         <span className="font-semibold text-cyan-400">Norway Market</span>
                         <Badge className="qdaria-badge">30 Meetings</Badge>
                       </div>
-                      <div className="mt-2 space-y-1 text-sm text-gray-300">
+                      <div className="mt-2 space-y-1 text-sm text-slate-400 font-light">
                         <div>Market Size: €3.2B by 2028</div>
                         <div>QDaria Share: 22.5% (First-mover)</div>
                         <div>Quantum-Ready Companies: 420</div>
@@ -831,9 +831,9 @@ const MarketSlide: React.FC = () => {
                     <div className="p-4 bg-gray-800/50 border border-gray-600/30 rounded-lg">
                       <div className="flex justify-between items-center">
                         <span className="font-semibold text-white">Sweden + Denmark</span>
-                        <Badge variant="outline" className="border-gray-400/50 text-gray-300">Expanding</Badge>
+                        <Badge variant="outline" className="border-gray-400/50 text-slate-400 font-light">Expanding</Badge>
                       </div>
-                      <div className="mt-2 space-y-1 text-sm text-gray-300">
+                      <div className="mt-2 space-y-1 text-sm text-slate-400 font-light">
                         <div>Combined Market: €4.0B by 2028</div>
                         <div>QDaria Share: 15.2%</div>
                         <div>Quantum-Ready Companies: 200</div>
@@ -862,7 +862,7 @@ const MarketSlide: React.FC = () => {
                         <span className="font-semibold text-cyan-400">Germany Market</span>
                         <Badge className="qdaria-badge">30 Meetings</Badge>
                       </div>
-                      <div className="mt-2 space-y-1 text-sm text-gray-300">
+                      <div className="mt-2 space-y-1 text-sm text-slate-400 font-light">
                         <div>Market Size: €12.8B by 2028</div>
                         <div>QDaria Share: 8.5% → Target 15%</div>
                         <div>Quantum-Ready Companies: 850</div>
@@ -873,9 +873,9 @@ const MarketSlide: React.FC = () => {
                     <div className="p-4 bg-gray-800/50 border border-gray-600/30 rounded-lg">
                       <div className="flex justify-between items-center">
                         <span className="font-semibold text-white">DACH Region</span>
-                        <Badge variant="outline" className="border-gray-400/50 text-gray-300">Phase 2</Badge>
+                        <Badge variant="outline" className="border-gray-400/50 text-slate-400 font-light">Phase 2</Badge>
                       </div>
-                      <div className="mt-2 space-y-1 text-sm text-gray-300">
+                      <div className="mt-2 space-y-1 text-sm text-slate-400 font-light">
                         <div>Austria + Switzerland: €2.4B</div>
                         <div>Combined DACH: €15.2B</div>
                         <div>Total Companies: 3,200+</div>
@@ -903,7 +903,7 @@ const MarketSlide: React.FC = () => {
                   {managementEventsData.targetIndustries.map((industry, index) => (
                     <div key={index} className="p-4 border border-cyan-400/20 rounded-lg">
                       <div className="font-semibold text-white mb-2">{industry}</div>
-                      <div className="text-sm text-gray-300">
+                      <div className="text-sm text-slate-400 font-light">
                         {industry === 'Financial Services' && 'Risk modeling, portfolio optimization'}
                         {industry === 'Manufacturing' && 'Supply chain, quality control'}
                         {industry === 'Healthcare & Pharma' && 'Drug discovery, molecular simulation'}
@@ -939,7 +939,7 @@ const MarketSlide: React.FC = () => {
                       }`} />
                       <div className="flex-1">
                         <div className="font-semibold text-white">{phase.phase}</div>
-                        <div className="text-sm text-gray-300">{phase.milestone}</div>
+                        <div className="text-sm text-slate-400 font-light">{phase.milestone}</div>
                       </div>
                       <Badge className={
                         phase.status === 'completed' ? 'bg-green-500/20 text-green-400 border-green-400/50' :
@@ -974,19 +974,19 @@ const MarketSlide: React.FC = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">{noveraAdvantage.qubits}</div>
-                    <div className="text-sm text-gray-300">Qubits</div>
+                    <div className="text-sm text-slate-400 font-light">Qubits</div>
                   </div>
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">{noveraAdvantage.coherenceTime}</div>
-                    <div className="text-sm text-gray-300">Coherence Time</div>
+                    <div className="text-sm text-slate-400 font-light">Coherence Time</div>
                   </div>
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">{noveraAdvantage.gateSpeed}</div>
-                    <div className="text-sm text-gray-300">Gate Speed</div>
+                    <div className="text-sm text-slate-400 font-light">Gate Speed</div>
                   </div>
                   <div className="text-center p-4 border border-cyan-400/30 rounded-lg">
                     <div className="text-3xl font-bold text-cyan-400">{noveraAdvantage.errorRate}</div>
-                    <div className="text-sm text-gray-300">Error Rate</div>
+                    <div className="text-sm text-slate-400 font-light">Error Rate</div>
                   </div>
                 </div>
               </CardContent>
@@ -1019,7 +1019,7 @@ const MarketSlide: React.FC = () => {
                         <TableRow key={index} className="hover:bg-cyan-400/5">
                           <TableCell className="font-medium text-white">{comp.metric}</TableCell>
                           <TableCell className="text-cyan-400 font-semibold">{comp.qdaria}</TableCell>
-                          <TableCell className="text-gray-300">{comp.competitor}</TableCell>
+                          <TableCell className="text-slate-400 font-light">{comp.competitor}</TableCell>
                           <TableCell>
                             <Badge className="qdaria-badge">{comp.advantage}</Badge>
                           </TableCell>
@@ -1045,7 +1045,7 @@ const MarketSlide: React.FC = () => {
                   <div className="space-y-4">
                     <div className="p-4 bg-cyan-400/10 border border-cyan-400/30 rounded-lg">
                       <div className="font-semibold text-cyan-400 mb-2">Market Share Growth</div>
-                      <div className="text-sm text-gray-300 space-y-1">
+                      <div className="text-sm text-slate-400 font-light space-y-1">
                         <div>Pre-Novera: 12.3%</div>
                         <div>Post-Novera: 18.7%</div>
                         <div className="text-cyan-400 font-medium">+6.4% market share increase</div>
@@ -1054,7 +1054,7 @@ const MarketSlide: React.FC = () => {
                     
                     <div className="p-4 bg-gray-800/50 border border-gray-600/30 rounded-lg">
                       <div className="font-semibold text-white mb-2">Customer Wins</div>
-                      <div className="text-sm text-gray-300 space-y-1">
+                      <div className="text-sm text-slate-400 font-light space-y-1">
                         <div>Enterprise Deployments: 15+</div>
                         <div>Pilot Projects: 42</div>
                         <div>Pipeline: €8.2M</div>
@@ -1063,7 +1063,7 @@ const MarketSlide: React.FC = () => {
                     
                     <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
                       <div className="font-semibold text-green-400 mb-2">Technical Recognition</div>
-                      <div className="text-sm text-gray-300 space-y-1">
+                      <div className="text-sm text-slate-400 font-light space-y-1">
                         <div>Nordic Quantum Award 2024</div>
                         <div>Best QPU Performance</div>
                         <div>Industry Leadership Status</div>
@@ -1092,7 +1092,7 @@ const MarketSlide: React.FC = () => {
                       <Zap className="w-6 h-6 text-cyan-400" />
                     </div>
                     <h3 className="text-lg font-semibold text-white text-center mb-3">Ultra-Low Latency</h3>
-                    <div className="text-sm text-gray-300 space-y-2">
+                    <div className="text-sm text-slate-400 font-light space-y-2">
                       <div>10ns gate operations</div>
                       <div>Real-time quantum processing</div>
                       <div>Ideal for financial trading applications</div>
@@ -1104,7 +1104,7 @@ const MarketSlide: React.FC = () => {
                       <Shield className="w-6 h-6 text-cyan-400" />
                     </div>
                     <h3 className="text-lg font-semibold text-white text-center mb-3">Enterprise Security</h3>
-                    <div className="text-sm text-gray-300 space-y-2">
+                    <div className="text-sm text-slate-400 font-light space-y-2">
                       <div>Hardware-level encryption</div>
                       <div>GDPR compliant by design</div>
                       <div>Air-gapped deployment options</div>
@@ -1116,7 +1116,7 @@ const MarketSlide: React.FC = () => {
                       <Target className="w-6 h-6 text-cyan-400" />
                     </div>
                     <h3 className="text-lg font-semibold text-white text-center mb-3">Proven Reliability</h3>
-                    <div className="text-sm text-gray-300 space-y-2">
+                    <div className="text-sm text-slate-400 font-light space-y-2">
                       <div>99.9% uptime SLA</div>
                       <div>Extended coherence times</div>
                       <div>Production-ready stability</div>
@@ -1297,12 +1297,12 @@ const MarketSlide: React.FC = () => {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge className={competitor.name === 'QDaria' ? 'qdaria-badge' : 'border-gray-400/50 text-gray-300'}>
+                          <Badge className={competitor.name === 'QDaria' ? 'qdaria-badge' : 'border-gray-400/50 text-slate-400 font-light'}>
                             {competitor.marketShare}%
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-gray-300">${competitor.funding}M</TableCell>
-                        <TableCell className="text-gray-300 text-sm">{competitor.focus}</TableCell>
+                        <TableCell className="text-slate-400 font-light">${competitor.funding}M</TableCell>
+                        <TableCell className="text-slate-400 font-light text-sm">{competitor.focus}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <div className="w-20 h-2 bg-gray-600 rounded-full overflow-hidden">
@@ -1313,7 +1313,7 @@ const MarketSlide: React.FC = () => {
                                 style={{ width: `${competitor.strength}%` }}
                               />
                             </div>
-                            <span className="text-sm text-gray-300">{competitor.strength}/100</span>
+                            <span className="text-sm text-slate-400 font-light">{competitor.strength}/100</span>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -1329,7 +1329,7 @@ const MarketSlide: React.FC = () => {
                 <Zap className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
                 <div className="text-center">
                   <div className="text-xl font-bold text-cyan-400">QDaria Advantage</div>
-                  <div className="text-sm text-gray-300 mt-2">
+                  <div className="text-sm text-slate-400 font-light mt-2">
                     Hardware-agnostic platform with native AI integration
                   </div>
                 </div>
@@ -1338,7 +1338,7 @@ const MarketSlide: React.FC = () => {
                 <Shield className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
                 <div className="text-center">
                   <div className="text-xl font-bold text-white">Enterprise Focus</div>
-                  <div className="text-sm text-gray-300 mt-2">
+                  <div className="text-sm text-slate-400 font-light mt-2">
                     Built for enterprise security and compliance needs
                   </div>
                 </div>
@@ -1347,7 +1347,7 @@ const MarketSlide: React.FC = () => {
                 <Target className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
                 <div className="text-center">
                   <div className="text-xl font-bold text-white">Market Position</div>
-                  <div className="text-sm text-gray-300 mt-2">
+                  <div className="text-sm text-slate-400 font-light mt-2">
                     Strong technical capabilities with focused market approach
                   </div>
                 </div>

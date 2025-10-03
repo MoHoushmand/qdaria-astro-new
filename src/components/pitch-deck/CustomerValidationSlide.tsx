@@ -230,7 +230,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">Customer Validation & Proof of Value</h1>
-        <p className="text-2xl text-gray-300 mt-4">Real Enterprise Customers, Measurable Results</p>
+        <p className="text-2xl text-slate-400 font-light mt-4">Real Enterprise Customers, Measurable Results</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -249,7 +249,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
               <div className="flex items-center gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
                   <Filter className="w-4 h-4 text-cyan-400" />
-                  <span className="text-sm text-gray-300 font-medium">Filter by Industry:</span>
+                  <span className="text-sm text-slate-400 font-light font-medium">Filter by Industry:</span>
                 </div>
                 <div className="flex gap-2 flex-wrap">
                   {industries.map((industry) => (
@@ -259,7 +259,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                         selectedIndustry === industry
                           ? 'bg-cyan-500 text-black'
-                          : 'bg-slate-800/50 text-gray-300 hover:bg-slate-700/50 border border-cyan-400/20'
+                          : 'bg-slate-800/50 text-slate-400 font-light hover:bg-slate-700/50 border border-cyan-400/20'
                       }`}
                     >
                       {industry === 'all' ? 'All Industries' : industry}
@@ -310,7 +310,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                           <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/50">
                             {testimonial.companySize}
                           </Badge>
-                          <Badge className="bg-gray-500/20 text-gray-300 border-gray-500/50">
+                          <Badge className="bg-gray-500/20 text-slate-400 font-light border-gray-500/50">
                             {testimonial.date}
                           </Badge>
                         </div>
@@ -396,11 +396,11 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                 <h3 className="text-lg font-bold text-blue-300 mb-2">Solution</h3>
                 <p className="text-gray-200 mb-3">{caseStudy.solution}</p>
                 <div className="space-y-2">
-                  <p className="text-sm font-semibold text-gray-300">Implementation Phases:</p>
+                  <p className="text-sm font-semibold text-slate-400 font-light">Implementation Phases:</p>
                   {caseStudy.implementation.map((phase, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <CheckCircle className="w-4 h-4 text-cyan-400" />
-                      <p className="text-gray-300">{phase}</p>
+                      <p className="text-slate-400 font-light">{phase}</p>
                     </div>
                   ))}
                 </div>
@@ -413,17 +413,17 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-gray-700">
-                        <th className="text-left p-3 text-gray-300">Metric</th>
-                        <th className="text-left p-3 text-gray-300">Before QDaria</th>
-                        <th className="text-left p-3 text-gray-300">After QDaria</th>
-                        <th className="text-left p-3 text-gray-300">Improvement</th>
+                        <th className="text-left p-3 text-slate-400 font-light">Metric</th>
+                        <th className="text-left p-3 text-slate-400 font-light">Before QDaria</th>
+                        <th className="text-left p-3 text-slate-400 font-light">After QDaria</th>
+                        <th className="text-left p-3 text-slate-400 font-light">Improvement</th>
                       </tr>
                     </thead>
                     <tbody>
                       {caseStudy.results.map((result, index) => (
                         <tr key={index} className="border-b border-gray-800">
                           <td className="p-3 text-white font-medium">{result.metric}</td>
-                          <td className="p-3 text-gray-300">{result.before}</td>
+                          <td className="p-3 text-slate-400 font-light">{result.before}</td>
                           <td className="p-3 text-cyan-400 font-semibold">{result.after}</td>
                           <td className="p-3 text-green-400 font-bold">{result.improvement}</td>
                         </tr>
@@ -533,7 +533,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-400">Deployment Date</span>
-                        <span className="text-gray-300 font-medium">{customer.deploymentDate}</span>
+                        <span className="text-slate-400 font-light font-medium">{customer.deploymentDate}</span>
                       </div>
                     </div>
                     <button className="w-full mt-3 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded-lg border border-cyan-500/50 flex items-center justify-center gap-2 transition-all">
@@ -603,7 +603,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
               <CardContent className="p-6 text-center">
                 <Users className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">{animatedMetrics.users}</p>
-                <p className="text-gray-300 mt-1">Active Customers</p>
+                <p className="text-slate-400 font-light mt-1">Active Customers</p>
                 <Badge className="qdaria-badge mt-2">+200% YoY</Badge>
               </CardContent>
             </Card>
@@ -612,7 +612,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
               <CardContent className="p-6 text-center">
                 <Building className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">{animatedMetrics.deployments}+</p>
-                <p className="text-gray-300 mt-1">Production Deployments</p>
+                <p className="text-slate-400 font-light mt-1">Production Deployments</p>
                 <Badge className="bg-green-500/20 text-green-300 border-green-500/50 mt-2">Live</Badge>
               </CardContent>
             </Card>
@@ -621,7 +621,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
               <CardContent className="p-6 text-center">
                 <Target className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">{animatedMetrics.pilots}</p>
-                <p className="text-gray-300 mt-1">Active Pilot Projects</p>
+                <p className="text-slate-400 font-light mt-1">Active Pilot Projects</p>
                 <Badge className="qdaria-badge mt-2">+150% QoQ</Badge>
               </CardContent>
             </Card>
@@ -630,7 +630,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
               <CardContent className="p-6 text-center">
                 <DollarSign className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">€{animatedMetrics.pipeline}M</p>
-                <p className="text-gray-300 mt-1">Sales Pipeline</p>
+                <p className="text-slate-400 font-light mt-1">Sales Pipeline</p>
                 <Badge className="qdaria-badge mt-2">Growing</Badge>
               </CardContent>
             </Card>

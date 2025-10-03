@@ -207,7 +207,7 @@ const IPPatentsSlide: React.FC = () => {
         <h1 className="text-4xl font-bold text-white mb-4 qdaria-gradient-text">
           Intellectual Property: Competitive Moat
         </h1>
-        <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+        <p className="text-xl text-slate-400 font-light max-w-4xl mx-auto">
           €55.9M estimated IP portfolio value protecting our quantum-AI innovation with 12 patents across 15+ countries
         </p>
         <div className="mt-4 flex justify-center gap-4 flex-wrap">
@@ -292,7 +292,7 @@ const IPPatentsSlide: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                           <div>
                             <span className="text-gray-400">Filed: </span>
-                            <span className="text-gray-300">{patent.filed || patent.target || 'TBD'}</span>
+                            <span className="text-slate-400 font-light">{patent.filed || patent.target || 'TBD'}</span>
                           </div>
                           {patent.granted && (
                             <div>
@@ -310,7 +310,7 @@ const IPPatentsSlide: React.FC = () => {
                             <span className="text-gray-400">Regions: </span>
                             <div className="flex flex-wrap gap-2 mt-1">
                               {patent.regions.map((region, i) => (
-                                <Badge key={i} variant="outline" className="text-xs text-gray-300 border-gray-600">
+                                <Badge key={i} variant="outline" className="text-xs text-slate-400 font-light border-gray-600">
                                   {region}
                                 </Badge>
                               ))}
@@ -331,7 +331,7 @@ const IPPatentsSlide: React.FC = () => {
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-white mb-2">Total IP Portfolio Value</h3>
                 <div className="text-6xl font-bold text-orange-400 mb-4">{ipMetrics.estimatedValue}</div>
-                <p className="text-gray-300 mb-6">
+                <p className="text-slate-400 font-light mb-6">
                   Based on comparable quantum computing patents and market valuations
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -390,7 +390,7 @@ const IPPatentsSlide: React.FC = () => {
                     {category.secrets.map((secret, idx) => (
                       <li key={idx} className="flex items-start gap-2">
                         <Shield className="w-4 h-4 text-cyan-400 mt-1 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">{secret}</span>
+                        <span className="text-sm text-slate-400 font-light">{secret}</span>
                       </li>
                     ))}
                   </ul>
@@ -429,7 +429,7 @@ const IPPatentsSlide: React.FC = () => {
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-white mb-2">Patent Licensing Revenue Potential</h3>
                 <div className="text-5xl font-bold text-green-400 mb-2">{ipMetrics.licenseRevenuePotential}</div>
-                <p className="text-gray-300">Annual recurring revenue from IP licensing (projected 2026+)</p>
+                <p className="text-slate-400 font-light">Annual recurring revenue from IP licensing (projected 2026+)</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="p-4 bg-slate-800/50 rounded-lg text-center">

@@ -37,7 +37,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
         <h1 className="text-5xl font-bold qdaria-gradient-text">
           Join the Crisis Solution: €12M to Lead Computing Revolution
         </h1>
-        <p className="text-2xl text-gray-300 mt-4">
+        <p className="text-2xl text-slate-400 font-light mt-4">
           Investment Opportunity in Enterprise Computing Transformation
         </p>
         <div className="flex justify-center gap-4 mt-6">
@@ -59,7 +59,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
               <Euro className="w-6 h-6 text-cyan-400" />
               Use of Funds
             </CardTitle>
-            <CardDescription className="text-gray-300">
+            <CardDescription className="text-slate-400 font-light">
               Strategic allocation for maximum growth impact
             </CardDescription>
           </CardHeader>
@@ -92,7 +92,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
             </ResponsiveContainer>
             <div className="grid grid-cols-2 gap-2 mt-4">
               {fundingUse.map((item, index) => (
-                <div key={index} className="flex items-center gap-2 text-sm text-gray-300">
+                <div key={index} className="flex items-center gap-2 text-sm text-slate-400 font-light">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: ['#00d4ff', '#ff6b35', '#10b981', '#f59e0b'][index] }}></div>
                   <span>{item.name}: €{item.amount}M</span>
                 </div>
@@ -107,7 +107,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
               <Calendar className="w-6 h-6 text-green-400" />
               Investment Timeline
             </CardTitle>
-            <CardDescription className="text-gray-300">
+            <CardDescription className="text-slate-400 font-light">
               Path to closing within 12 weeks
             </CardDescription>
           </CardHeader>
@@ -131,7 +131,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
             </ResponsiveContainer>
             <div className="space-y-2 mt-4">
               {timeline.map((item, index) => (
-                <div key={index} className="flex justify-between items-center text-sm text-gray-300">
+                <div key={index} className="flex justify-between items-center text-sm text-slate-400 font-light">
                   <span className="font-medium">{item.phase}</span>
                   <Badge className="border border-cyan-400/30 bg-slate-800/50 text-cyan-400">{item.duration} weeks</Badge>
                 </div>
@@ -147,7 +147,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
             <Handshake className="w-6 h-6 text-purple-400" />
             Next Steps & Engagement
           </CardTitle>
-          <CardDescription className="text-gray-300">
+          <CardDescription className="text-slate-400 font-light">
             Clear path forward for partnership
           </CardDescription>
         </CardHeader>
@@ -165,7 +165,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
                   </div>
                   <Badge className={
                     step.status === 'immediate' ? 'bg-gradient-to-r from-cyan-400 to-orange-400 text-white' :
-                    step.status === 'scheduled' ? 'bg-slate-700 text-gray-300' : 'border border-cyan-400/30 bg-slate-800/50 text-cyan-400'
+                    step.status === 'scheduled' ? 'bg-slate-700 text-slate-400 font-light' : 'border border-cyan-400/30 bg-slate-800/50 text-cyan-400'
                   }>
                     {step.status}
                   </Badge>
@@ -197,7 +197,7 @@ const CallToActionSlide: React.FC<CallToActionSlideProps> = ({ scenario }) => {
 
       <div className="text-center bg-gradient-to-r from-cyan-400/20 to-orange-400/20 border border-cyan-400/30 text-white p-8 rounded-lg">
         <h2 className="text-3xl font-bold mb-4 qdaria-gradient-text">Transform Your Enterprise with Quantum+AI</h2>
-        <p className="text-xl mb-6 text-gray-300">
+        <p className="text-xl mb-6 text-slate-400 font-light">
           Join leading enterprises in Norway and Germany who are already exploring QDaria's platform
         </p>
         <div className="flex justify-center gap-4">

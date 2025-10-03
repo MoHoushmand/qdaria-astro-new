@@ -160,7 +160,7 @@ const RiskMitigationSlide: React.FC = () => {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">Risk & Mitigation Strategy</h1>
-        <p className="text-2xl text-gray-300 mt-4">
+        <p className="text-2xl text-slate-400 font-light mt-4">
           Proactive Risk Management for Quantum Computing Leadership
         </p>
       </div>
@@ -183,7 +183,7 @@ const RiskMitigationSlide: React.FC = () => {
                   style={{ width: `${risk.mitigated}%`, backgroundColor: risk.color }}
                 />
               </Progress>
-              <div className="text-xs text-gray-300">Mitigated: {risk.mitigated}%</div>
+              <div className="text-xs text-slate-400 font-light">Mitigated: {risk.mitigated}%</div>
             </div>
           </Card>
         ))}
@@ -241,7 +241,7 @@ const RiskMitigationSlide: React.FC = () => {
                           </div>
                         </div>
                         
-                        <p className="text-gray-300 mb-3">{risk.mitigation}</p>
+                        <p className="text-slate-400 font-light mb-3">{risk.mitigation}</p>
                         
                         <div className="flex items-center gap-3">
                           <span className="text-sm text-gray-400">Effectiveness:</span>
@@ -311,12 +311,12 @@ const RiskMitigationSlide: React.FC = () => {
                           </Badge>
                           <div className="text-right">
                             <div className="text-2xl font-bold text-green-400">{risk.effectiveness}%</div>
-                            <div className="text-xs text-gray-300">effective</div>
+                            <div className="text-xs text-slate-400 font-light">effective</div>
                           </div>
                         </div>
                       </div>
                       
-                      <p className="text-gray-300">{risk.mitigation}</p>
+                      <p className="text-slate-400 font-light">{risk.mitigation}</p>
                     </div>
                   );
                 })}
@@ -357,12 +357,12 @@ const RiskMitigationSlide: React.FC = () => {
                           </Badge>
                           <div className="text-right">
                             <div className="text-2xl font-bold text-purple-400">{risk.effectiveness}%</div>
-                            <div className="text-xs text-gray-300">mitigated</div>
+                            <div className="text-xs text-slate-400 font-light">mitigated</div>
                           </div>
                         </div>
                       </div>
                       
-                      <p className="text-gray-300">{risk.mitigation}</p>
+                      <p className="text-slate-400 font-light">{risk.mitigation}</p>
                     </div>
                   );
                 })}
@@ -399,12 +399,12 @@ const RiskMitigationSlide: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-green-400" />
                         <span className="text-green-400 font-medium">Response:</span>
-                        <span className="text-gray-300">{plan.response}</span>
+                        <span className="text-slate-400 font-light">{plan.response}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <TrendingDown className="w-4 h-4 text-cyan-400" />
                         <span className="text-cyan-400 font-medium">Impact:</span>
-                        <span className="text-gray-300">{plan.impact}</span>
+                        <span className="text-slate-400 font-light">{plan.impact}</span>
                       </div>
                     </div>
                   </div>

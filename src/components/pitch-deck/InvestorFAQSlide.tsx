@@ -286,7 +286,7 @@ const InvestorFAQSlide: React.FC = () => {
       case 'team': return 'bg-purple-500/20 text-purple-300 border-purple-500/50';
       case 'market': return 'bg-orange-500/20 text-orange-300 border-orange-500/50';
       case 'risks': return 'bg-red-500/20 text-red-300 border-red-500/50';
-      default: return 'bg-gray-500/20 text-gray-300 border-gray-500/50';
+      default: return 'bg-gray-500/20 text-slate-400 font-light border-gray-500/50';
     }
   };
 
@@ -295,7 +295,7 @@ const InvestorFAQSlide: React.FC = () => {
       {/* Header */}
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">Investor FAQ</h1>
-        <p className="text-2xl text-gray-300 mt-4">
+        <p className="text-2xl text-slate-400 font-light mt-4">
           Comprehensive Answers to Common Investment Questions
         </p>
         <div className="flex justify-center gap-4 mt-6">
@@ -348,7 +348,7 @@ const InvestorFAQSlide: React.FC = () => {
           {filteredFAQs.length === 0 ? (
             <Card className="qdaria-card p-12 text-center">
               <AlertCircle className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <p className="text-xl text-gray-300">No questions found matching your search.</p>
+              <p className="text-xl text-slate-400 font-light">No questions found matching your search.</p>
               <p className="text-sm text-gray-400 mt-2">Try different keywords or browse all categories.</p>
             </Card>
           ) : (
@@ -378,7 +378,7 @@ const InvestorFAQSlide: React.FC = () => {
                     <div className="pl-10 space-y-4">
                       {/* Answer */}
                       <div className="prose prose-invert max-w-none">
-                        <p className="text-gray-300 leading-relaxed">
+                        <p className="text-slate-400 font-light leading-relaxed">
                           {faq.answer}
                         </p>
                       </div>
@@ -436,22 +436,22 @@ const InvestorFAQSlide: React.FC = () => {
         <Card className="qdaria-card p-6 text-center">
           <Cpu className="w-8 h-8 mx-auto text-cyan-400 mb-2" />
           <div className="text-2xl font-bold text-white">4</div>
-          <div className="text-sm text-gray-300">Technical FAQs</div>
+          <div className="text-sm text-slate-400 font-light">Technical FAQs</div>
         </Card>
         <Card className="qdaria-card p-6 text-center">
           <DollarSign className="w-8 h-8 mx-auto text-green-400 mb-2" />
           <div className="text-2xl font-bold text-white">5</div>
-          <div className="text-sm text-gray-300">Business FAQs</div>
+          <div className="text-sm text-slate-400 font-light">Business FAQs</div>
         </Card>
         <Card className="qdaria-card p-6 text-center">
           <Users className="w-8 h-8 mx-auto text-purple-400 mb-2" />
           <div className="text-2xl font-bold text-white">2</div>
-          <div className="text-sm text-gray-300">Team FAQs</div>
+          <div className="text-sm text-slate-400 font-light">Team FAQs</div>
         </Card>
         <Card className="qdaria-card p-6 text-center">
           <TrendingUp className="w-8 h-8 mx-auto text-orange-400 mb-2" />
           <div className="text-2xl font-bold text-white">6</div>
-          <div className="text-sm text-gray-300">Total Categories</div>
+          <div className="text-sm text-slate-400 font-light">Total Categories</div>
         </Card>
       </div>
 

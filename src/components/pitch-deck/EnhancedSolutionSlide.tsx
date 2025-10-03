@@ -42,7 +42,7 @@ const EnhancedSolutionSlide: React.FC = () => {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-5xl font-bold qdaria-gradient-text">Breaking Through the Crisis: Quantum+AI Breakthrough</h1>
-        <p className="text-2xl text-gray-300 mt-4">
+        <p className="text-2xl text-slate-400 font-light mt-4">
           10x Performance Gains When Traditional Computing Fails
         </p>
         <div className="flex justify-center gap-4 mt-6">
@@ -115,7 +115,7 @@ const EnhancedSolutionSlide: React.FC = () => {
                   <TableBody>
                     {architectureData.map((item, index) => (
                       <TableRow key={index}>
-                        <TableCell className="text-gray-300 font-medium">{item.component}</TableCell>
+                        <TableCell className="text-slate-400 font-light font-medium">{item.component}</TableCell>
                         <TableCell className="text-white">{item.utilization}%</TableCell>
                         <TableCell className="text-white">{item.efficiency}%</TableCell>
                         <TableCell>
@@ -197,11 +197,11 @@ const EnhancedSolutionSlide: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-[#CCFF00] mb-2">850%</div>
-                  <p className="text-gray-300">Faster Processing</p>
+                  <p className="text-slate-400 font-light">Faster Processing</p>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-[#CCFF00] mb-2">96%</div>
-                  <p className="text-gray-300">Accuracy Rate</p>
+                  <p className="text-slate-400 font-light">Accuracy Rate</p>
                 </div>
               </CardContent>
             </Card>
@@ -216,11 +216,11 @@ const EnhancedSolutionSlide: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-[#CCFF00] mb-2">15 min</div>
-                  <p className="text-gray-300">Integration Time</p>
+                  <p className="text-slate-400 font-light">Integration Time</p>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-[#CCFF00] mb-2">99.9%</div>
-                  <p className="text-gray-300">Uptime SLA</p>
+                  <p className="text-slate-400 font-light">Uptime SLA</p>
                 </div>
               </CardContent>
             </Card>
@@ -235,11 +235,11 @@ const EnhancedSolutionSlide: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-[#CCFF00] mb-2">120+</div>
-                  <p className="text-gray-300">Enterprise Clients</p>
+                  <p className="text-slate-400 font-light">Enterprise Clients</p>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-[#CCFF00] mb-2">€24.8M</div>
-                  <p className="text-gray-300">Q1 2025 Revenue</p>
+                  <p className="text-slate-400 font-light">Q1 2025 Revenue</p>
                 </div>
               </CardContent>
             </Card>
