@@ -77,9 +77,9 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="flex items-center justify-between">
           <div>
             <img
-              src="/D64.png"
+              src="/icons/qdaria/QDwordmark2.svg"
               alt="QDaria Logo - Quantum and AI Platform"
-              className="h-10 md:h-12 mb-2"
+              className="h-10 md:h-14 mb-2"
               loading="eager"
             />
             <p className="text-cyan-300 text-xs md:text-sm" aria-label="Platform tagline">
