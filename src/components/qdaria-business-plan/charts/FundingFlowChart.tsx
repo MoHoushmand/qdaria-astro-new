@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { sankey, sankeyLinkHorizontal, SankeyGraph, SankeyNode, SankeyLink } from 'd3-sankey';
+import d3SankeyPkg from 'd3-sankey';
+const { sankey, sankeyLinkHorizontal } = d3SankeyPkg as any;
+import type { SankeyGraph, SankeyNode, SankeyLink } from 'd3-sankey';
 
 interface FundingNode {
   id: string;

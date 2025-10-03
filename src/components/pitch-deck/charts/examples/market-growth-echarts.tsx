@@ -23,7 +23,7 @@ export const MarketGrowthEChartsExample: React.FC = () => {
         name: 'Serviceable Market',
         yAxisIndex: 0,
         data: [0.5, 0.9, 1.6, 2.8, 4.8, 8.4, 14.6, 25.4, 44.3],
-        color: '#00d4ff',
+        color: '#04a3ff',
         showArea: true,
       },
       {

@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
-import 'echarts-gl';
 import type { ECharts } from 'echarts';
+
+// Dynamically import echarts-gl only on client-side to avoid SSR issues
+if (typeof window !== 'undefined') {
+  import('echarts-gl');
+}
 
 interface CompetitorData {
   name: string;

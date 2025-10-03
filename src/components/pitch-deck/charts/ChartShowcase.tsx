@@ -96,7 +96,7 @@ export const ChartShowcase: React.FC = () => {
             color="#66FF00"
           />
           <AnimatedMetricCard
-            icon={<DollarSign className="w-6 h-6" style={{ color: '#00d4ff' }} />}
+            icon={<DollarSign className="w-6 h-6" style={{ color: '#04a3ff' }} />}
             label="ARR"
             value={5.94}
             prefix="€"
@@ -104,7 +104,7 @@ export const ChartShowcase: React.FC = () => {
             decimals={2}
             trend="up"
             trendValue="+220%"
-            color="#00d4ff"
+            color="#04a3ff"
           />
           <AnimatedMetricCard
             icon={<Zap className="w-6 h-6" style={{ color: '#CCFF00' }} />}

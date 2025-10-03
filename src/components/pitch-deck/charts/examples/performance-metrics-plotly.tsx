@@ -28,7 +28,7 @@ export const QubitCoherenceExample: React.FC = () => {
         x: [50, 100, 150, 200, 250, 300],
         y: [5000, 5500, 6000, 6500, 7000, 7500],
         error: [250, 300, 350, 400, 450, 500],
-        color: '#00d4ff',
+        color: '#04a3ff',
       },
     ],
   };
@@ -65,7 +65,7 @@ export const Algorithm3DPerformanceExample: React.FC = () => {
         y: [0.75, 0.82, 0.86, 0.89, 0.91],
         z: [5, 12, 40, 160, 640],
         sizes: [8, 10, 12, 14, 16],
-        color: '#00d4ff',
+        color: '#04a3ff',
       },
       {
         name: 'VQE',
@@ -115,7 +115,7 @@ export const ErrorRateBoxPlotExample: React.FC = () => {
       {
         name: 'IonQ (Trapped Ion)',
         data: [0.001, 0.0012, 0.0015, 0.0018, 0.002, 0.0022, 0.0025],
-        color: '#00d4ff',
+        color: '#04a3ff',
       },
     ],
   };

@@ -164,7 +164,8 @@ export default defineConfig({
       },
     },
     ssr: {
-      noExternal: ['chart.js', 'react-chartjs-2', 'recharts']
+      noExternal: ['chart.js', 'react-chartjs-2', 'recharts'],
+      external: ['echarts-gl', 'echarts']
     },
     optimizeDeps: {
       include: ['react', 'react-dom'],
