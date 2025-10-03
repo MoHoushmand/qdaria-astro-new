@@ -42,7 +42,7 @@ const TitleSlide: React.FC = () => {
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center qdaria-gradient-text">Platform Suite</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
           <div className="text-center space-y-3 md:space-y-4 group">
-            <img src="/Zipminator.svg" alt="Zipminator" className="w-25 h-25 md:w-35 md:h-35 mx-auto transition-transform group-hover:scale-105" style={{filter: 'brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(10deg) brightness(110%) contrast(105%)', width: '6.25rem', height: '6.25rem'}} loading="lazy" />
+            <img src="/Zipminator.svg" alt="Zipminator" className="w-30 h-30 md:w-42 md:h-42 mx-auto transition-transform group-hover:scale-105" style={{filter: 'brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(10deg) brightness(110%) contrast(105%)', width: '7.5rem', height: '7.5rem'}} loading="lazy" />
             <p className="text-sm md:text-base text-slate-300 font-normal"><span className="font-bold">Zipminator</span> - Post-Quantum Cryptography</p>
           </div>
           <div className="text-center space-y-3 md:space-y-4 group">
@@ -90,7 +90,7 @@ const TitleSlide: React.FC = () => {
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center qdaria-gradient-text">Strategic Partnership Framework</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           <div className="text-center space-y-3 md:space-y-4">
-            <img src="/Rigetti.svg" alt="Rigetti" className="h-12 md:h-16 mx-auto" loading="lazy" />
+            <img src="/Rigetti.svg" alt="Rigetti" className="h-16 md:h-24 mx-auto" loading="lazy" />
             <h3 className="text-lg md:text-xl font-bold qdaria-gradient-text">Quantum Hardware Partner</h3>
             <p className="text-sm md:text-base text-slate-300 px-2">Rigetti Novera QPU - Making Norway Quantum-Ready</p>
             <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-purple-600 to-pink-600 border border-purple-400/50">
@@ -98,7 +98,7 @@ const TitleSlide: React.FC = () => {
             </Badge>
           </div>
           <div className="text-center space-y-3 md:space-y-4">
-            <img src="/management-events.svg" alt="Management Events" className="h-12 md:h-16 mx-auto" loading="lazy" />
+            <img src="/icons/qdaria/Managementevents-logo-white.png.webp" alt="Management Events" className="h-16 md:h-24 mx-auto" loading="lazy" />
             <h3 className="text-lg md:text-xl font-bold qdaria-gradient-text">European Expansion Partner</h3>
             <p className="text-sm md:text-base text-slate-300 px-2">Strategic Partnership: 60 Prime European Executive Meetings</p>
             <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-green-600 to-emerald-600 border border-green-400/50">
