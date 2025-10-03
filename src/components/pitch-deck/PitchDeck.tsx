@@ -221,26 +221,24 @@ const PitchDeck: React.FC = () => {
         <header className="backdrop-blur-sm border-b px-3 md:px-6 py-3 md:py-4 sticky top-0 z-40" style={{background: 'rgba(0, 2, 18, 0.95)', borderColor: 'rgba(4, 163, 255, 0.2)'}} role="banner">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 md:gap-4">
-              {!isMobile && (
+              {!isMobile && !sidebarOpen && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  onClick={() => setSidebarOpen(true)}
                   className="text-white hover:bg-white/10 focus:ring-2 focus:ring-cyan-400"
-                  aria-label={sidebarOpen ? "Close navigation sidebar" : "Open navigation sidebar"}
-                  aria-expanded={sidebarOpen}
+                  aria-label="Open navigation sidebar"
+                  aria-expanded={false}
                   aria-controls="sidebar-navigation"
                 >
-                  {sidebarOpen ? <X className="w-4 h-4" aria-hidden="true" /> : <Menu className="w-4 h-4" aria-hidden="true" />}
-                  <span className="sr-only">{sidebarOpen ? "Close" : "Open"} sidebar</span>
+                  <Menu className="w-4 h-4" aria-hidden="true" />
+                  <span className="sr-only">Open sidebar</span>
                 </Button>
               )}
               <img
-                src="/icons/qdaria/QDlogomark.svg"
-                alt="QDaria company logo"
+                src="/icons/qdaria/QDwordmark2.svg"
+                alt="QDaria wordmark"
                 className="h-8 md:h-10"
-                width="40"
-                height="40"
                 loading="eager"
               />
             </div>

@@ -74,15 +74,15 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       {/* Header Section */}
       <div className="p-4 md:p-6 border-b border-cyan-400/20 bg-gradient-to-r from-cyan-400/20 to-orange-400/20">
-        <div className="flex items-center justify-between">
-          <div>
-            <img
-              src="/icons/qdaria/QDwordmark2.svg"
-              alt="QDaria Logo - Quantum and AI Platform"
-              className="h-10 md:h-14 mb-2"
-              loading="eager"
-            />
-            <p className="text-cyan-300 text-xs md:text-sm" aria-label="Platform tagline">
+        <div className="flex items-center justify-between gap-3">
+          <img
+            src="/icons/qdaria/QDlogomark.svg"
+            alt="QDaria logomark"
+            className="h-10 md:h-12 flex-shrink-0"
+            loading="eager"
+          />
+          <div className="flex-1">
+            <p className="text-cyan-300 text-sm md:text-base font-semibold" aria-label="Platform tagline">
               Quantum+AI Platform
             </p>
           </div>
@@ -91,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               variant="ghost"
               size="sm"
               onClick={onToggle}
-              className="text-white hover:bg-white/10 focus:ring-2 focus:ring-cyan-400"
+              className="text-white hover:bg-white/10 focus:ring-2 focus:ring-cyan-400 flex-shrink-0"
               aria-label="Close navigation sidebar"
             >
               <X className="w-4 h-4" aria-hidden="true" />
