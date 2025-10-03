@@ -42,20 +42,20 @@ const TitleSlide: React.FC = () => {
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center qdaria-gradient-text">Platform Suite</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
           <div className="text-center space-y-3 md:space-y-4 group">
-            <img src="/Zipminator.svg" alt="Zipminator" className="w-20 h-20 md:w-28 md:h-28 mx-auto transition-transform group-hover:scale-105" style={{filter: 'brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(10deg) brightness(110%) contrast(105%)'}} loading="lazy" />
-            <p className="text-sm md:text-base text-slate-300 font-normal">Post-Quantum Cryptography</p>
+            <img src="/Zipminator.svg" alt="Zipminator" className="w-25 h-25 md:w-35 md:h-35 mx-auto transition-transform group-hover:scale-105" style={{filter: 'brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(10deg) brightness(110%) contrast(105%)', width: '6.25rem', height: '6.25rem'}} loading="lazy" />
+            <p className="text-sm md:text-base text-slate-300 font-normal"><span className="font-bold">Zipminator</span> - Post-Quantum Cryptography</p>
           </div>
           <div className="text-center space-y-3 md:space-y-4 group">
             <img src="/Qm9.svg" alt="Qm9" className="w-20 h-20 md:w-28 md:h-28 mx-auto transition-transform group-hover:scale-105" style={{filter: 'brightness(0) saturate(100%) invert(60%) sepia(95%) saturate(2000%) hue-rotate(170deg) brightness(105%) contrast(105%)'}} loading="lazy" />
-            <p className="text-sm md:text-base text-slate-300 font-normal">FinTech Solutions</p>
+            <p className="text-sm md:text-base text-slate-300 font-normal"><span className="font-bold">Qm9</span> - FinTech Solutions</p>
           </div>
           <div className="text-center space-y-3 md:space-y-4 group">
             <img src="/QMike.svg" alt="QMike" className="w-20 h-20 md:w-28 md:h-28 mx-auto transition-transform group-hover:scale-105" style={{filter: 'brightness(0) saturate(100%) invert(65%) sepia(80%) saturate(1500%) hue-rotate(90deg) brightness(100%) contrast(105%)'}} loading="lazy" />
-            <p className="text-sm md:text-base text-slate-300 font-normal">HPC & Engineering</p>
+            <p className="text-sm md:text-base text-slate-300 font-normal"><span className="font-bold">QMike</span> - HPC & Engineering</p>
           </div>
           <div className="text-center space-y-3 md:space-y-4 group">
             <img src="/QDiana.svg" alt="QDiana" className="w-20 h-20 md:w-28 md:h-28 mx-auto transition-transform group-hover:scale-105" style={{filter: 'brightness(0) saturate(100%) invert(50%) sepia(90%) saturate(2500%) hue-rotate(260deg) brightness(100%) contrast(110%)'}} loading="lazy" />
-            <p className="text-sm md:text-base text-slate-300 font-normal">Education Platform</p>
+            <p className="text-sm md:text-base text-slate-300 font-normal"><span className="font-bold">QDiana</span> - Education Platform</p>
           </div>
         </div>
       </Card>
