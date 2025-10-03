@@ -1,0 +1,449 @@
+---
+/**
+ * Strategic Timeline Chart - ECharts Implementation
+ * Interactive roadmap with milestones, funding, and team growth
+ * Part of QDaria Business Plan - Hive-Mind Agent 4
+ */
+
+interface Props {
+  height?: string;
+  interactive?: boolean;
+}
+
+const { height = '600px', interactive = true } = Astro.props;
+---
+
+<div class="strategic-timeline-chart" data-interactive={interactive}>
+  <div id="strategic-timeline" style={`height: ${height}; width: 100%;`}></div>
+</div>
+
+<script>
+  import * as echarts from 'echarts';
+
+  // Timeline data structure
+  const roadmapData = [
+    {
+      year: 2025,
+      phase: 'Foundation',
+      milestones: [
+        { q: 'Q1', event: 'Company founded', impact: 'high', month: 2 },
+        { q: 'Q2', event: 'Seed funding ($1M)', impact: 'high', month: 5 },
+        { q: 'Q3', event: 'Pilot quantum kit rental program', impact: 'medium', month: 8 },
+        { q: 'Q4', event: 'Initial team of 10 hired', impact: 'medium', month: 11 }
+      ],
+      funding: 1,
+      teamSize: 10
+    },
+    {
+      year: 2026,
+      phase: 'Product Development',
+      milestones: [
+        { q: 'Q2', event: 'Series A ($5-10M)', impact: 'high', month: 5 },
+        { q: 'Q3', event: 'Zipminator beta release', impact: 'high', month: 8 },
+        { q: 'Q4', event: 'QMikeAI alpha integration', impact: 'medium', month: 11 }
+      ],
+      funding: 10,
+      teamSize: 25
+    },
+    {
+      year: 2027,
+      phase: 'Scaling Up',
+      milestones: [
+        { q: 'Q1', event: 'Series B ($20M)', impact: 'high', month: 2 },
+        { q: 'Q2', event: 'QDiana full capabilities', impact: 'high', month: 5 },
+        { q: 'Q3', event: 'Holdings company restructure', impact: 'high', month: 8 },
+        { q: 'Q4', event: 'Expand to 4 subsidiaries', impact: 'medium', month: 11 }
+      ],
+      funding: 20,
+      teamSize: 50
+    },
+    {
+      year: 2028,
+      phase: 'First IPO',
+      milestones: [
+        { q: 'Q3', event: 'Zipminator IPO', impact: 'critical', month: 8 },
+        { q: 'Q4', event: 'Series C ($50M)', impact: 'high', month: 11 }
+      ],
+      funding: 50,
+      teamSize: 100
+    },
+    {
+      year: 2029,
+      phase: 'Multiple IPOs',
+      milestones: [
+        { q: 'Q2', event: 'Qm9 IPO', impact: 'critical', month: 5 },
+        { q: 'Q4', event: 'QDiana IPO', impact: 'critical', month: 11 }
+      ],
+      funding: 150,
+      teamSize: 250
+    },
+    {
+      year: 2030,
+      phase: 'Holding Company Maturation',
+      milestones: [
+        { q: 'Q1', event: 'QMikeAI IPO', impact: 'critical', month: 2 },
+        { q: 'Q4', event: 'QDaria Holdings IPO (potential)', impact: 'critical', month: 11 }
+      ],
+      funding: 500,
+      teamSize: 500
+    }
+  ];
+
+  // QDaria brand colors
+  const phaseColors = {
+    'Foundation': '#04a3ff',
+    'Product Development': '#00ffd3',
+    'Scaling Up': '#65ff00',
+    'First IPO': '#9b59b6',
+    'Multiple IPOs': '#e74c3c',
+    'Holding Company Maturation': '#f39c12'
+  };
+
+  const impactColors = {
+    'critical': '#e74c3c',
+    'high': '#f39c12',
+    'medium': '#3498db',
+    'low': '#95a5a6'
+  };
+
+  // Initialize chart
+  function initChart() {
+    const chartDom = document.getElementById('strategic-timeline');
+    if (!chartDom) return;
+
+    const myChart = echarts.init(chartDom);
+
+    // Prepare data for visualizations
+    const years = roadmapData.map(d => d.year);
+    const fundingData = roadmapData.map(d => d.funding);
+    const teamSizeData = roadmapData.map(d => d.teamSize);
+    const phases = roadmapData.map(d => d.phase);
+
+    // Prepare milestone scatter data
+    const milestoneData = [];
+    roadmapData.forEach((yearData, idx) => {
+      yearData.milestones.forEach(milestone => {
+        milestoneData.push({
+          value: [idx, milestone.month, yearData.funding],
+          year: yearData.year,
+          quarter: milestone.q,
+          event: milestone.event,
+          impact: milestone.impact,
+          phase: yearData.phase
+        });
+      });
+    });
+
+    const option = {
+      title: {
+        text: 'QDaria Strategic Roadmap Timeline',
+        subtext: '2025-2030: From Foundation to Market Leader',
+        left: 'center',
+        textStyle: {
+          fontSize: 24,
+          fontWeight: 'bold',
+          color: '#04a3ff'
+        },
+        subtextStyle: {
+          fontSize: 14,
+          color: '#666'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
+        },
+        formatter: function(params) {
+          if (!params || params.length === 0) return '';
+
+          const yearIdx = params[0].dataIndex;
+          const yearData = roadmapData[yearIdx];
+
+          let html = `<div style="padding: 10px;">`;
+          html += `<strong style="color: ${phaseColors[yearData.phase]}; font-size: 16px;">${yearData.year} - ${yearData.phase}</strong><br/>`;
+          html += `<div style="margin-top: 8px;">`;
+          html += `<strong>Funding:</strong> $${yearData.funding}M<br/>`;
+          html += `<strong>Team Size:</strong> ${yearData.teamSize}<br/>`;
+          html += `<strong>Milestones:</strong><br/>`;
+
+          yearData.milestones.forEach(m => {
+            const color = impactColors[m.impact];
+            html += `<span style="color: ${color};">● ${m.q}</span>: ${m.event}<br/>`;
+          });
+
+          html += `</div></div>`;
+          return html;
+        }
+      },
+      legend: {
+        data: ['Funding ($M)', 'Team Size', 'Milestones'],
+        top: 50,
+        textStyle: {
+          fontSize: 12
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '15%',
+        top: '20%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: years,
+          axisPointer: {
+            type: 'shadow'
+          },
+          axisLabel: {
+            fontSize: 12,
+            fontWeight: 'bold',
+            formatter: function(value, index) {
+              return value + '\n' + phases[index];
+            },
+            interval: 0,
+            color: function(value, index) {
+              return phaseColors[phases[index]];
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed',
+              color: '#ddd'
+            }
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          name: 'Funding ($M)',
+          position: 'left',
+          axisLabel: {
+            formatter: '${value}M'
+          },
+          splitLine: {
+            lineStyle: {
+              type: 'dashed'
+            }
+          }
+        },
+        {
+          type: 'value',
+          name: 'Team Size',
+          position: 'right',
+          axisLabel: {
+            formatter: '{value}'
+          },
+          splitLine: {
+            show: false
+          }
+        }
+      ],
+      dataZoom: [
+        {
+          type: 'slider',
+          show: true,
+          start: 0,
+          end: 100,
+          bottom: '5%'
+        },
+        {
+          type: 'inside',
+          start: 0,
+          end: 100
+        }
+      ],
+      visualMap: {
+        show: false,
+        dimension: 0,
+        pieces: roadmapData.map((d, idx) => ({
+          min: idx - 0.5,
+          max: idx + 0.5,
+          color: phaseColors[d.phase]
+        }))
+      },
+      series: [
+        {
+          name: 'Funding ($M)',
+          type: 'bar',
+          data: fundingData,
+          yAxisIndex: 0,
+          itemStyle: {
+            borderRadius: [8, 8, 0, 0],
+            opacity: 0.8
+          },
+          emphasis: {
+            itemStyle: {
+              opacity: 1,
+              shadowBlur: 10,
+              shadowColor: 'rgba(0,0,0,0.3)'
+            }
+          },
+          label: {
+            show: true,
+            position: 'top',
+            formatter: '${c}M',
+            fontSize: 11,
+            fontWeight: 'bold'
+          }
+        },
+        {
+          name: 'Team Size',
+          type: 'line',
+          yAxisIndex: 1,
+          data: teamSizeData,
+          smooth: true,
+          lineStyle: {
+            width: 3,
+            color: '#2ecc71'
+          },
+          itemStyle: {
+            color: '#2ecc71',
+            borderWidth: 2,
+            borderColor: '#fff'
+          },
+          symbol: 'circle',
+          symbolSize: 10,
+          label: {
+            show: true,
+            position: 'top',
+            formatter: '{c}',
+            fontSize: 10,
+            color: '#2ecc71',
+            fontWeight: 'bold'
+          },
+          emphasis: {
+            itemStyle: {
+              symbolSize: 15
+            }
+          }
+        },
+        {
+          name: 'Milestones',
+          type: 'scatter',
+          data: milestoneData.map((m, idx) => ({
+            value: [m.value[0], m.value[2]],
+            itemStyle: {
+              color: impactColors[m.impact],
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            symbolSize: m.impact === 'critical' ? 20 : m.impact === 'high' ? 15 : 10,
+            metadata: m
+          })),
+          yAxisIndex: 0,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowColor: 'rgba(0,0,0,0.5)'
+            },
+            scale: 1.5
+          },
+          tooltip: {
+            formatter: function(params) {
+              const meta = params.data.metadata;
+              return `
+                <div style="padding: 8px;">
+                  <strong style="color: ${impactColors[meta.impact]}; font-size: 14px;">
+                    ${meta.event}
+                  </strong><br/>
+                  <span style="color: #666;">
+                    ${meta.year} ${meta.quarter} - ${meta.phase}
+                  </span><br/>
+                  <span style="color: ${impactColors[meta.impact]}; text-transform: uppercase; font-size: 11px;">
+                    ${meta.impact} IMPACT
+                  </span>
+                </div>
+              `;
+            }
+          }
+        }
+      ],
+      timeline: {
+        show: true,
+        data: years,
+        axisType: 'category',
+        autoPlay: false,
+        playInterval: 2000,
+        bottom: 0,
+        label: {
+          formatter: function(s) {
+            return s;
+          }
+        },
+        emphasis: {
+          label: {
+            color: '#04a3ff'
+          }
+        },
+        checkpointStyle: {
+          color: '#04a3ff',
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        controlStyle: {
+          color: '#04a3ff'
+        }
+      }
+    };
+
+    myChart.setOption(option);
+
+    // Add click event for milestones
+    myChart.on('click', function(params) {
+      if (params.seriesName === 'Milestones' && params.data.metadata) {
+        const meta = params.data.metadata;
+        console.log('Milestone clicked:', meta);
+
+        // Dispatch custom event for parent components
+        window.dispatchEvent(new CustomEvent('milestone-clicked', {
+          detail: meta
+        }));
+      }
+    });
+
+    // Responsive resize
+    window.addEventListener('resize', () => {
+      myChart.resize();
+    });
+
+    // Store chart instance for external access
+    (window as any).strategicTimelineChart = myChart;
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initChart);
+  } else {
+    initChart();
+  }
+</script>
+
+<style>
+  .strategic-timeline-chart {
+    width: 100%;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  #strategic-timeline {
+    background: white;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .strategic-timeline-chart {
+      padding: 0.5rem;
+    }
+  }
+</style>

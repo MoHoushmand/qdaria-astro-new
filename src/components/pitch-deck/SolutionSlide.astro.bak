@@ -1,0 +1,6 @@
+---
+// Re-export the Enhanced version as the default Solution slide
+import EnhancedSolutionSlide from './EnhancedSolutionSlide';
+---
+
+<EnhancedSolutionSlide client:visible />

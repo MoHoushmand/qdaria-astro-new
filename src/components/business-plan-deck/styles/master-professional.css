@@ -1,0 +1,303 @@
+/**
+ * MASTER PROFESSIONAL STYLESHEET
+ * QDaria Business Plan Deck - World-Class Readability
+ *
+ * This file integrates all professional systems:
+ * - Typography (18px body, 1.625 line-height)
+ * - Color Contrast (WCAG AAA)
+ * - Professional Cards
+ * - Chart Readability (14px minimum)
+ * - UI Polish (Fortune 500 standard)
+ * - Layout Optimization (8px grid)
+ */
+
+/* ============================================
+   CORE SYSTEMS - Load in order
+   ============================================ */
+
+/* 1. Typography Foundation (MOST IMPORTANT) */
+@import './typography-professional.css';
+
+/* 2. Color Contrast System */
+@import './color-contrast-professional.css';
+
+/* 3. Layout & Spacing */
+@import './layout-professional.css';
+
+/* 4. Professional Cards */
+@import './cards-professional.css';
+
+/* 5. Chart Readability */
+@import './charts-professional.css';
+
+/* 6. UI Polish */
+@import './ui-polish-professional.css';
+
+/* 7. Existing Business Plan Overrides */
+@import './business-plan-overrides.css';
+@import './tabs-override.css';
+
+
+/* ============================================
+   GLOBAL OVERRIDES - Immediate Impact
+   ============================================ */
+
+/* Force readable text EVERYWHERE */
+* {
+  font-size: inherit !important;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.625 !important;
+  color: rgba(229, 231, 235, 0.9) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* All headings get proper hierarchy */
+h1, .h1 {
+  font-size: clamp(2.5rem, 5vw, 3.815rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em !important;
+  margin-bottom: 1.5rem !important;
+}
+
+h2, .h2 {
+  font-size: clamp(2rem, 4vw, 2.441rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin-bottom: 1.25rem !important;
+}
+
+h3, .h3 {
+  font-size: clamp(1.5rem, 3vw, 1.953rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  margin-bottom: 1rem !important;
+}
+
+/* All paragraphs readable */
+p {
+  font-size: 1.125rem !important;
+  line-height: 1.625 !important;
+  color: rgba(229, 231, 235, 0.9) !important;
+  max-width: 65ch;
+  margin-bottom: 1.25rem !important;
+}
+
+/* Lists get proper spacing */
+ul, ol {
+  font-size: 1.125rem !important;
+  line-height: 1.625 !important;
+  padding-left: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+li {
+  margin-bottom: 0.75rem !important;
+}
+
+/* Tables readable */
+table {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+
+th {
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Small text never too small */
+small {
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Buttons readable */
+button, .button, .btn {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.5rem !important;
+}
+
+/* ============================================
+   CHART TEXT OVERRIDES - Force Readability
+   ============================================ */
+
+/* Recharts - Force large text */
+.recharts-text,
+.recharts-cartesian-axis-tick-value,
+.recharts-label,
+.recharts-legend-item-text {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  fill: rgba(229, 231, 235, 0.9) !important;
+}
+
+.recharts-cartesian-axis-tick-value,
+.recharts-label {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+/* ECharts - Force large text */
+[class*="echarts"] text {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* D3 - Force large text */
+svg text {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  fill: rgba(229, 231, 235, 0.85) !important;
+}
+
+svg .axis-label {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+/* Plotly - Force large text */
+.plotly text {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* ============================================
+   CONTRAST OVERRIDES - Force High Contrast
+   ============================================ */
+
+/* Ensure all text meets WCAG AAA */
+.text-muted,
+.text-gray-400,
+.text-gray-500 {
+  color: rgba(229, 231, 235, 0.8) !important;
+  font-weight: 500 !important;
+}
+
+/* Chart tooltips high contrast */
+.recharts-tooltip-wrapper,
+[class*="tooltip"] {
+  background: rgba(0, 2, 18, 0.98) !important;
+  border: 2px solid rgba(14, 165, 233, 0.5) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 30px rgba(14, 165, 233, 0.3) !important;
+}
+
+/* ============================================
+   SPACING OVERRIDES - Generous White Space
+   ============================================ */
+
+/* Sections get proper spacing */
+section {
+  padding: 4rem 0 !important;
+}
+
+/* Cards get breathing room */
+[class*="card"],
+.card {
+  padding: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Charts get space */
+[class*="chart"] {
+  padding: 2rem !important;
+  margin-bottom: 3rem !important;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE - Never Too Small
+   ============================================ */
+
+@media (max-width: 768px) {
+  body {
+    font-size: 16px !important;
+  }
+
+  h1, .h1 {
+    font-size: 2rem !important;
+  }
+
+  h2, .h2 {
+    font-size: 1.75rem !important;
+  }
+
+  h3, .h3 {
+    font-size: 1.5rem !important;
+  }
+
+  p {
+    font-size: 1rem !important;
+  }
+
+  /* Charts readable on mobile */
+  .recharts-text,
+  svg text,
+  [class*="chart"] text {
+    font-size: 12px !important;
+  }
+}
+
+/* ============================================
+   PRINT STYLES - Professional Documents
+   ============================================ */
+
+@media print {
+  body {
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+  }
+
+  h1 { font-size: 24pt !important; }
+  h2 { font-size: 18pt !important; }
+  h3 { font-size: 14pt !important; }
+
+  section {
+    page-break-inside: avoid !important;
+  }
+
+  /* Remove interactive elements in print */
+  button, .button {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - WCAG AAA Compliance
+   ============================================ */
+
+/* Focus indicators */
+*:focus-visible {
+  outline: 3px solid rgba(14, 165, 233, 0.8) !important;
+  outline-offset: 2px !important;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  * {
+    border-width: 2px !important;
+  }
+
+  body {
+    color: #fff !important;
+  }
+}

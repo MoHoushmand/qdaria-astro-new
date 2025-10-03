@@ -1,0 +1,164 @@
+/* QDaria Universal Chart System - Consistent Design Across All Charts */
+
+/* Chart Container with Consistent Styling */
+.qdaria-chart-container {
+  background: var(--qdaria-card-bg) !important;
+  border: 2px solid var(--qdaria-border-primary) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  padding: 24px !important;
+  backdrop-filter: blur(12px) !important;
+  transition: all 0.3s ease !important;
+  margin-bottom: 24px !important;
+}
+
+.qdaria-chart-container:hover {
+  box-shadow: var(--qdaria-glow-secondary) !important;
+  border-color: var(--qdaria-border-secondary) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Chart Tab System */
+.qdaria-chart-tabs {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 2px solid var(--qdaria-border-primary) !important;
+  border-radius: 12px !important;
+  padding: 6px !important;
+  margin-bottom: 20px !important;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3) !important;
+}
+
+.qdaria-chart-tab {
+  background: transparent !important;
+  color: var(--qdaria-text-secondary) !important;
+  border: 2px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 12px 20px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.qdaria-chart-tab:hover {
+  background: rgba(0, 212, 255, 0.1) !important;
+  color: var(--qdaria-primary) !important;
+  border-color: var(--qdaria-border-accent) !important;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.2) !important;
+}
+
+.qdaria-chart-tab[data-state="active"] {
+  background: var(--qdaria-gradient) !important;
+  color: var(--qdaria-bg-primary) !important;
+  border-color: var(--qdaria-border-primary) !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+}
+
+/* Chart Content Area */
+.qdaria-chart-content {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 1px solid var(--qdaria-border-accent) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  min-height: 400px !important;
+}
+
+/* Data Table Styling */
+.qdaria-data-table {
+  background: var(--qdaria-bg-primary) !important;
+  border: 2px solid var(--qdaria-border-primary) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  margin-top: 20px !important;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2) !important;
+}
+
+.qdaria-data-table th {
+  background: var(--qdaria-gradient) !important;
+  color: var(--qdaria-bg-primary) !important;
+  padding: 16px !important;
+  font-weight: 700 !important;
+  border: none !important;
+}
+
+.qdaria-data-table td {
+  background: var(--qdaria-bg-secondary) !important;
+  color: var(--qdaria-text-primary) !important;
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--qdaria-border-accent) !important;
+}
+
+.qdaria-data-table tr:hover td {
+  background: rgba(0, 212, 255, 0.05) !important;
+  color: var(--qdaria-primary) !important;
+}
+
+/* Collapsible Table Toggle */
+.qdaria-table-toggle {
+  background: var(--qdaria-gradient) !important;
+  color: var(--qdaria-bg-primary) !important;
+  border: 2px solid var(--qdaria-border-primary) !important;
+  border-radius: 8px !important;
+  padding: 10px 16px !important;
+  font-weight: 600 !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  transition: all 0.3s ease !important;
+  margin-top: 16px !important;
+}
+
+.qdaria-table-toggle:hover {
+  box-shadow: var(--qdaria-glow-secondary) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Force Recharts Dark Theme */
+.recharts-wrapper {
+  background: transparent !important;
+}
+
+.recharts-surface {
+  background: var(--qdaria-bg-secondary) !important;
+}
+
+.recharts-cartesian-grid line {
+  stroke: var(--qdaria-border-accent) !important;
+  stroke-opacity: 0.3 !important;
+}
+
+.recharts-text {
+  fill: var(--qdaria-text-secondary) !important;
+}
+
+.recharts-default-tooltip {
+  background: var(--qdaria-bg-primary) !important;
+  border: 2px solid var(--qdaria-border-primary) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  color: var(--qdaria-text-primary) !important;
+}
+
+.recharts-legend-wrapper {
+  color: var(--qdaria-text-primary) !important;
+}
+
+/* Chart Title Styling */
+.qdaria-chart-title {
+  color: var(--qdaria-text-primary) !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.qdaria-chart-title .lucide {
+  color: var(--qdaria-primary) !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.qdaria-chart-description {
+  color: var(--qdaria-text-secondary) !important;
+  font-size: 1rem !important;
+  margin-bottom: 20px !important;
+}

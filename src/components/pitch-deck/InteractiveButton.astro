@@ -1,0 +1,33 @@
+---
+/**
+ * Interactive Button Component
+ *
+ * Astro wrapper for the Button UI component with proper client directive.
+ * Use this when you need a button with click handlers to work in Astro.
+ */
+
+import { Button } from '@/components/ui/button';
+
+interface Props {
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  asChild?: boolean;
+}
+
+const { variant, size, class: className, type = 'button', disabled, asChild } = Astro.props;
+---
+
+<Button
+  client:load
+  variant={variant}
+  size={size}
+  class={className}
+  type={type}
+  disabled={disabled}
+  asChild={asChild}
+>
+  <slot />
+</Button>

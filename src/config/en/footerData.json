@@ -42,10 +42,6 @@
           "link": "/ecosystem/collaborators"
         },
         {
-          "text": "Investors",
-          "link": "/ecosystem/investors"
-        },
-        {
           "text": "Developer Hub",
           "link": "/ecosystem/developers"
         }
@@ -71,6 +67,10 @@
     {
       "title": "Invest",
       "links": [
+        {
+          "text": "Investors",
+          "link": "/invest/investors"
+        },
         {
           "text": "Business Plan",
           "link": "/invest/business-plan"

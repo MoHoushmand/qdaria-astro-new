@@ -1,0 +1,147 @@
+/* Master CSS file for business plan deck */
+/* Imports all QDaria design system overrides and professional typography */
+
+/* Professional Layout System - 8px Grid + Golden Ratio */
+@import './layout-professional.css';
+
+/* Professional Typography & Design Systems */
+@import './typography-professional.css';
+@import './cards-professional.css';
+@import './ui-polish-professional.css';
+
+/* Component overrides */
+@import './business-plan-overrides.css';
+@import './tabs-override.css';
+@import './cards-override.css';
+
+/* Global business plan styles */
+.business-plan-root {
+  @apply min-h-screen bg-[#000212] text-[#e5e7eb];
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Container widths */
+.business-plan-container-sm {
+  @apply mx-auto max-w-3xl px-4;
+}
+
+.business-plan-container-md {
+  @apply mx-auto max-w-5xl px-4;
+}
+
+.business-plan-container-lg {
+  @apply mx-auto max-w-7xl px-4;
+}
+
+.business-plan-container-xl {
+  @apply mx-auto max-w-screen-2xl px-4;
+}
+
+/* Typography - Extended from typography-professional.css with Tailwind utilities */
+/* Note: Core typography defined in typography-professional.css */
+
+/* Additional Tailwind-enhanced typography classes */
+.business-plan-text-gradient {
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Links */
+.business-plan-link {
+  @apply text-[#04a3ff] transition-all hover:text-[#00ffd3];
+}
+
+.business-plan-link:hover {
+  text-shadow: 0 0 10px rgba(4, 163, 255, 0.5);
+}
+
+/* Focus styles */
+.business-plan-focus-visible:focus-visible {
+  @apply outline-none ring-2 ring-[#04a3ff] ring-offset-2 ring-offset-[#000212];
+}
+
+/* Utility Classes */
+.business-plan-divider {
+  @apply my-8 h-px w-full bg-gradient-to-r from-transparent via-[#04a3ff]/30 to-transparent;
+}
+
+.business-plan-divider-vertical {
+  @apply mx-8 h-full w-px bg-gradient-to-b from-transparent via-[#04a3ff]/30 to-transparent;
+}
+
+/* Scrollbar Styles */
+.business-plan-scrollbar::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.business-plan-scrollbar::-webkit-scrollbar-track {
+  @apply bg-[#000212];
+}
+
+.business-plan-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-[#04a3ff]/30;
+}
+
+.business-plan-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#04a3ff]/50;
+}
+
+/* Print Styles */
+@media print {
+  .business-plan-no-print {
+    @apply hidden;
+  }
+
+  .business-plan-section {
+    @apply break-inside-avoid;
+  }
+
+  .business-plan-card-base {
+    @apply border border-gray-300;
+    box-shadow: none;
+  }
+}
+
+/* Dark mode adjustments (already dark, but for future reference) */
+@media (prefers-color-scheme: dark) {
+  .business-plan-root {
+    @apply bg-[#000212] text-[#e5e7eb];
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .business-plan-section {
+    @apply border-[#04a3ff];
+  }
+
+  .business-plan-card-base {
+    @apply border-[#04a3ff];
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Loading States */
+.business-plan-skeleton {
+  @apply animate-pulse rounded bg-[#04a3ff]/10;
+}
+
+.business-plan-spinner {
+  @apply h-8 w-8 animate-spin rounded-full border-4 border-[#04a3ff]/20 border-t-[#04a3ff];
+}
+
+/* Accessibility */
+.sr-only {
+  @apply absolute h-px w-px overflow-hidden whitespace-nowrap border-0 p-0;
+  clip: rect(0, 0, 0, 0);
+}

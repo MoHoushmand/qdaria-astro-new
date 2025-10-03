@@ -1,0 +1,43 @@
+---
+/**
+ * Master Style Loader Component
+ * Import this ONCE in your main layout to load all professional styles
+ *
+ * Usage:
+ * ---
+ * import MasterStyleLoader from '@/components/business-plan-deck/MasterStyleLoader.astro';
+ * ---
+ *
+ * <MasterStyleLoader />
+ */
+---
+
+<!-- Font Preload for Performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- Master Professional Stylesheet -->
+<link rel="stylesheet" href="/src/components/business-plan-deck/styles/master-professional.css" />
+
+<style is:global>
+  /* Critical CSS - Inline for performance */
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 18px;
+    line-height: 1.625;
+    color: rgba(229, 231, 235, 0.9);
+    background: #000212;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent FOUC (Flash of Unstyled Content) */
+  html {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>

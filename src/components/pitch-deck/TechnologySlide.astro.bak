@@ -1,0 +1,68 @@
+---
+import { Card } from '../ui/card';
+import { Badge } from '../ui/badge';
+import { CheckCircle } from 'lucide-react';
+
+const milestones = [
+  {
+    quarter: 'Q3 2024',
+    achievements: [
+      'Launch Beta of Zipminator with 5 Pilot Customers',
+      'Secure €1M in Pre-Seed Funding',
+      'Partnership with Rigetti Computing for Quantum Cloud Access',
+    ],
+  },
+  {
+    quarter: 'Q4 2024',
+    achievements: [
+      'Full Commercial Launch of Zipminator Suite',
+      'Onboard 20 Enterprise Clients',
+      'Develop PoC for Qm9 in FinTech Sector',
+    ],
+  },
+  {
+    quarter: 'Q1 2025',
+    achievements: [
+      'Expand Engineering Team to 25',
+      'Launch QMike for HPC Simulations',
+      'Achieve €2M in Annual Recurring Revenue (ARR)',
+    ],
+  },
+  {
+    quarter: 'Q2 2025',
+    achievements: [
+      'Close Series A Funding of €12M',
+      'Establish Berlin Office for EU Expansion',
+      'Launch QDiana Educational Platform',
+    ],
+  },
+];
+---
+
+<div class="space-y-8">
+  <Card className="qdaria-card p-8">
+    <h2 class="text-3xl font-bold text-center mb-8 qdaria-gradient-text">
+      Our Technology Roadmap
+    </h2>
+    <div class="relative">
+      <div class="qdaria-timeline">
+        {milestones.map((milestone, index) => (
+          <div key={index} class="qdaria-timeline-item">
+            <div class="qdaria-timeline-marker" />
+            <div class="ml-4">
+              <Badge className="qdaria-badge mb-2">{milestone.quarter}</Badge>
+              <ul class="space-y-2">
+                {milestone.achievements.map((achievement, i) => (
+                  <li key={i} class="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-cyan-400 mr-3" />
+                    <span class="text-slate-300">{achievement}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Card>
+</div>

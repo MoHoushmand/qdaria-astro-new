@@ -1,0 +1,555 @@
+/**
+ * PROFESSIONAL TYPOGRAPHY SYSTEM - Industry Standard
+ * Based on modular scale 1.250 (Major Third) for optimal hierarchy
+ * Implements WCAG 2.1 AAA contrast and readability standards
+ *
+ * Key Principles:
+ * - Minimum body text: 18px (1.125rem) for optimal readability
+ * - Line height: 1.5-1.625 for comfortable reading
+ * - Letter spacing: Optimized for clarity and professional appearance
+ * - Max reading width: 65ch (45-75 characters per line)
+ * - Font weights: Clear hierarchy through contrast
+ */
+
+/* ============================================
+   Typography Scale - Modular Scale 1.250
+   ============================================ */
+
+:root {
+  /* Font Sizes - Modular Scale (Base: 16px) */
+  --bp-text-xs: 0.75rem;      /* 12px - captions, footnotes */
+  --bp-text-sm: 0.875rem;     /* 14px - secondary text */
+  --bp-text-base: 1rem;       /* 16px - minimum for body text */
+  --bp-text-md: 1.125rem;     /* 18px - comfortable body text (RECOMMENDED) */
+  --bp-text-lg: 1.25rem;      /* 20px - large body, lead paragraphs */
+  --bp-text-xl: 1.563rem;     /* 25px - small headings */
+  --bp-text-2xl: 1.953rem;    /* 31px - H4 */
+  --bp-text-3xl: 2.441rem;    /* 39px - H3 */
+  --bp-text-4xl: 3.052rem;    /* 49px - H2 */
+  --bp-text-5xl: 3.815rem;    /* 61px - H1 */
+  --bp-text-6xl: 4.768rem;    /* 76px - Hero/Display */
+
+  /* Line Heights - Optimized for readability */
+  --bp-leading-none: 1;
+  --bp-leading-tight: 1.2;      /* Headings */
+  --bp-leading-snug: 1.375;     /* Subheadings */
+  --bp-leading-normal: 1.5;     /* Body text (CRITICAL for readability) */
+  --bp-leading-relaxed: 1.625;  /* Long-form content */
+  --bp-leading-loose: 1.75;     /* Maximum spacing */
+  --bp-leading-extra-loose: 2;  /* Spacious layouts */
+
+  /* Letter Spacing - For clarity and professional appearance */
+  --bp-tracking-tighter: -0.05em;
+  --bp-tracking-tight: -0.025em;
+  --bp-tracking-normal: 0;
+  --bp-tracking-wide: 0.025em;
+  --bp-tracking-wider: 0.05em;
+  --bp-tracking-widest: 0.1em;
+
+  /* Font Weights - Clear hierarchy */
+  --bp-font-thin: 100;
+  --bp-font-extralight: 200;
+  --bp-font-light: 300;
+  --bp-font-normal: 400;
+  --bp-font-medium: 500;
+  --bp-font-semibold: 600;
+  --bp-font-bold: 700;
+  --bp-font-extrabold: 800;
+  --bp-font-black: 900;
+
+  /* Reading Width - 45-75 characters per line is optimal */
+  --bp-reading-width: 65ch;
+  --bp-reading-width-narrow: 50ch;
+  --bp-reading-width-wide: 75ch;
+
+  /* Paragraph Spacing */
+  --bp-paragraph-spacing: 1.25rem;
+  --bp-paragraph-spacing-lg: 1.5rem;
+}
+
+/* ============================================
+   HEADINGS - Clear Visual Hierarchy
+   ============================================ */
+
+.business-plan-h1,
+.bp-h1 {
+  font-size: var(--bp-text-5xl);           /* 61px */
+  font-weight: var(--bp-font-bold);        /* 700 */
+  line-height: var(--bp-leading-tight);    /* 1.2 */
+  letter-spacing: var(--bp-tracking-tight); /* -0.025em */
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.business-plan-h2,
+.bp-h2 {
+  font-size: var(--bp-text-4xl);           /* 49px */
+  font-weight: var(--bp-font-bold);        /* 700 */
+  line-height: var(--bp-leading-tight);    /* 1.2 */
+  letter-spacing: var(--bp-tracking-tight); /* -0.025em */
+  margin-bottom: 1.25rem;
+  margin-top: 2rem;
+  color: #04a3ff;
+}
+
+.business-plan-h3,
+.bp-h3 {
+  font-size: var(--bp-text-3xl);           /* 39px */
+  font-weight: var(--bp-font-semibold);    /* 600 */
+  line-height: var(--bp-leading-snug);     /* 1.375 */
+  letter-spacing: var(--bp-tracking-normal); /* 0 */
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  color: #00ffd3;
+}
+
+.business-plan-h4,
+.bp-h4 {
+  font-size: var(--bp-text-2xl);           /* 31px */
+  font-weight: var(--bp-font-semibold);    /* 600 */
+  line-height: var(--bp-leading-snug);     /* 1.375 */
+  letter-spacing: var(--bp-tracking-normal);
+  margin-bottom: 0.875rem;
+  margin-top: 1.25rem;
+  color: rgba(229, 231, 235, 0.95);
+}
+
+.business-plan-h5,
+.bp-h5 {
+  font-size: var(--bp-text-xl);            /* 25px */
+  font-weight: var(--bp-font-semibold);    /* 600 */
+  line-height: var(--bp-leading-snug);     /* 1.375 */
+  margin-bottom: 0.75rem;
+  margin-top: 1rem;
+  color: rgba(229, 231, 235, 0.9);
+}
+
+.business-plan-h6,
+.bp-h6 {
+  font-size: var(--bp-text-lg);            /* 20px */
+  font-weight: var(--bp-font-medium);      /* 500 */
+  line-height: var(--bp-leading-normal);   /* 1.5 */
+  margin-bottom: 0.625rem;
+  margin-top: 0.875rem;
+  color: rgba(229, 231, 235, 0.85);
+}
+
+/* ============================================
+   BODY TEXT - MAXIMUM Readability
+   ============================================ */
+
+.business-plan-body,
+.bp-body,
+.business-plan-text {
+  font-size: var(--bp-text-md);              /* 18px - larger for comfort */
+  line-height: var(--bp-leading-relaxed);    /* 1.625 - generous spacing */
+  letter-spacing: var(--bp-tracking-normal); /* 0 */
+  color: rgba(229, 231, 235, 0.9);           /* High contrast - WCAG AAA */
+  max-width: var(--bp-reading-width);        /* 65ch optimal */
+  margin-bottom: var(--bp-paragraph-spacing); /* 1.25rem */
+  font-weight: var(--bp-font-normal);        /* 400 */
+}
+
+.business-plan-lead,
+.bp-lead {
+  font-size: var(--bp-text-lg);              /* 20px - even larger */
+  line-height: var(--bp-leading-relaxed);    /* 1.625 */
+  color: rgba(229, 231, 235, 0.95);
+  font-weight: var(--bp-font-medium);        /* 500 */
+  margin-bottom: var(--bp-paragraph-spacing-lg); /* 1.5rem */
+  max-width: var(--bp-reading-width);
+}
+
+.business-plan-body-sm,
+.bp-body-sm {
+  font-size: var(--bp-text-base);            /* 16px minimum */
+  line-height: var(--bp-leading-normal);     /* 1.5 */
+  color: rgba(229, 231, 235, 0.85);
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+   SECONDARY & UTILITY TEXT
+   ============================================ */
+
+.business-plan-caption,
+.bp-caption {
+  font-size: var(--bp-text-sm);              /* 14px */
+  line-height: var(--bp-leading-normal);     /* 1.5 */
+  color: rgba(229, 231, 235, 0.7);
+  letter-spacing: var(--bp-tracking-wide);   /* 0.025em */
+  font-weight: var(--bp-font-normal);
+}
+
+.bp-small,
+.business-plan-small {
+  font-size: var(--bp-text-sm);              /* 14px */
+  line-height: var(--bp-leading-normal);
+  color: rgba(229, 231, 235, 0.8);
+}
+
+.bp-tiny,
+.business-plan-tiny {
+  font-size: var(--bp-text-xs);              /* 12px */
+  line-height: var(--bp-leading-normal);
+  color: rgba(229, 231, 235, 0.7);
+  letter-spacing: var(--bp-tracking-wide);
+}
+
+/* ============================================
+   NUMBERS & METRICS - High Impact Display
+   ============================================ */
+
+.business-plan-metric,
+.bp-metric {
+  font-size: var(--bp-text-6xl);             /* 76px */
+  font-weight: var(--bp-font-extrabold);     /* 800 */
+  line-height: var(--bp-leading-none);       /* 1 */
+  letter-spacing: var(--bp-tracking-tighter); /* -0.05em */
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.business-plan-metric-lg,
+.bp-metric-lg {
+  font-size: 5.96rem;                        /* 95px */
+  font-weight: var(--bp-font-extrabold);
+  line-height: var(--bp-leading-none);
+  letter-spacing: var(--bp-tracking-tighter);
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.business-plan-metric-label,
+.bp-metric-label {
+  font-size: var(--bp-text-base);            /* 16px */
+  font-weight: var(--bp-font-medium);        /* 500 */
+  letter-spacing: var(--bp-tracking-wider);  /* 0.05em */
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.7);
+  margin-top: 0.5rem;
+}
+
+/* ============================================
+   LISTS - Improved Spacing & Readability
+   ============================================ */
+
+.business-plan-list,
+.bp-list {
+  font-size: var(--bp-text-md);              /* 18px */
+  line-height: var(--bp-leading-relaxed);    /* 1.625 */
+  color: rgba(229, 231, 235, 0.9);
+  margin-bottom: var(--bp-paragraph-spacing-lg);
+  max-width: var(--bp-reading-width);
+}
+
+.business-plan-list li,
+.bp-list li {
+  margin-bottom: 0.875rem;
+  padding-left: 0.5rem;
+}
+
+.business-plan-list li::marker,
+.bp-list li::marker {
+  color: #04a3ff;
+  font-weight: var(--bp-font-bold);
+}
+
+.business-plan-list-sm,
+.bp-list-sm {
+  font-size: var(--bp-text-base);            /* 16px */
+  line-height: var(--bp-leading-normal);
+}
+
+.business-plan-list-sm li,
+.bp-list-sm li {
+  margin-bottom: 0.625rem;
+}
+
+/* ============================================
+   TABLES - Readable Data Presentation
+   ============================================ */
+
+.business-plan-table,
+.bp-table {
+  font-size: var(--bp-text-base);            /* 16px minimum */
+  line-height: var(--bp-leading-normal);     /* 1.5 */
+  width: 100%;
+}
+
+.business-plan-table th,
+.bp-table th {
+  font-size: var(--bp-text-sm);              /* 14px */
+  font-weight: var(--bp-font-semibold);      /* 600 */
+  letter-spacing: var(--bp-tracking-wider);  /* 0.05em */
+  text-transform: uppercase;
+  color: rgba(229, 231, 235, 0.8);
+  padding: 1rem;
+  line-height: var(--bp-leading-normal);
+}
+
+.business-plan-table td,
+.bp-table td {
+  padding: 0.875rem 1rem;
+  color: rgba(229, 231, 235, 0.9);
+  font-size: var(--bp-text-base);            /* 16px */
+  line-height: var(--bp-leading-normal);
+}
+
+.business-plan-table-lg th {
+  font-size: var(--bp-text-base);
+  padding: 1.25rem;
+}
+
+.business-plan-table-lg td {
+  font-size: var(--bp-text-md);              /* 18px */
+  padding: 1.125rem 1.25rem;
+}
+
+/* ============================================
+   CHART LABELS - Enhanced Visibility
+   ============================================ */
+
+.bp-chart-title {
+  font-size: var(--bp-text-2xl);             /* 31px */
+  font-weight: var(--bp-font-semibold);
+  color: rgba(229, 231, 235, 0.95);
+  margin-bottom: 1.5rem;
+  line-height: var(--bp-leading-tight);
+}
+
+.bp-chart-label {
+  font-size: var(--bp-text-base);            /* 16px minimum */
+  font-weight: var(--bp-font-medium);
+  color: rgba(229, 231, 235, 0.8);
+}
+
+.bp-chart-value {
+  font-size: var(--bp-text-lg);              /* 20px */
+  font-weight: var(--bp-font-semibold);
+  color: rgba(229, 231, 235, 0.95);
+}
+
+/* Axis labels */
+.recharts-text,
+.recharts-label {
+  font-size: var(--bp-text-sm) !important;   /* 14px minimum for charts */
+  fill: rgba(229, 231, 235, 0.8) !important;
+  font-weight: var(--bp-font-medium);
+}
+
+/* Tooltip text */
+.recharts-tooltip-label {
+  font-size: var(--bp-text-base) !important; /* 16px */
+  font-weight: var(--bp-font-semibold);
+  margin-bottom: 0.5rem;
+}
+
+.recharts-tooltip-item {
+  font-size: var(--bp-text-sm) !important;   /* 14px */
+  line-height: 1.5;
+}
+
+/* ============================================
+   RESPONSIVE Typography
+   ============================================ */
+
+/* Large Tablets and Small Desktops (1024px - 1280px) */
+@media (max-width: 1280px) {
+  .business-plan-h1, .bp-h1 { font-size: var(--bp-text-4xl); }
+  .business-plan-h2, .bp-h2 { font-size: var(--bp-text-3xl); }
+  .business-plan-h3, .bp-h3 { font-size: var(--bp-text-2xl); }
+  .business-plan-metric, .bp-metric { font-size: var(--bp-text-5xl); }
+}
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .business-plan-h1, .bp-h1 { font-size: var(--bp-text-3xl); }
+  .business-plan-h2, .bp-h2 { font-size: var(--bp-text-2xl); }
+  .business-plan-h3, .bp-h3 { font-size: var(--bp-text-xl); }
+  .business-plan-h4, .bp-h4 { font-size: var(--bp-text-lg); }
+  .business-plan-body, .bp-body { font-size: var(--bp-text-base); }
+  .business-plan-lead, .bp-lead { font-size: var(--bp-text-md); }
+  .business-plan-metric, .bp-metric { font-size: var(--bp-text-4xl); }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Maintain readability on mobile - DO NOT go below 16px */
+  .business-plan-h1, .bp-h1 {
+    font-size: var(--bp-text-2xl);
+    margin-bottom: 1.25rem;
+  }
+  .business-plan-h2, .bp-h2 {
+    font-size: var(--bp-text-xl);
+    margin-bottom: 1rem;
+  }
+  .business-plan-h3, .bp-h3 {
+    font-size: var(--bp-text-lg);
+    margin-bottom: 0.875rem;
+  }
+  .business-plan-h4, .bp-h4 {
+    font-size: var(--bp-text-base);
+  }
+
+  /* Body text - CRITICAL: Never below 16px on mobile */
+  .business-plan-body, .bp-body {
+    font-size: var(--bp-text-base);         /* 16px minimum */
+    line-height: var(--bp-leading-relaxed); /* Maintain comfortable spacing */
+  }
+
+  .business-plan-lead, .bp-lead {
+    font-size: var(--bp-text-md);           /* 18px */
+    line-height: var(--bp-leading-relaxed);
+  }
+
+  /* Metrics scale down but remain impactful */
+  .business-plan-metric, .bp-metric {
+    font-size: var(--bp-text-3xl);          /* 39px */
+  }
+
+  .business-plan-metric-lg, .bp-metric-lg {
+    font-size: var(--bp-text-4xl);          /* 49px */
+  }
+
+  /* Tables on mobile */
+  .business-plan-table th, .bp-table th {
+    font-size: var(--bp-text-xs);           /* 12px */
+    padding: 0.75rem 0.5rem;
+  }
+
+  .business-plan-table td, .bp-table td {
+    font-size: var(--bp-text-sm);           /* 14px */
+    padding: 0.625rem 0.5rem;
+  }
+
+  /* Lists on mobile */
+  .business-plan-list li, .bp-list li {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .business-plan-h1, .bp-h1 { font-size: var(--bp-text-xl); }
+  .business-plan-h2, .bp-h2 { font-size: var(--bp-text-lg); }
+  .business-plan-metric, .bp-metric { font-size: var(--bp-text-2xl); }
+
+  /* Maintain 16px minimum for body text */
+  .business-plan-body, .bp-body,
+  .business-plan-lead, .bp-lead {
+    font-size: var(--bp-text-base);         /* 16px - never smaller */
+  }
+}
+
+/* ============================================
+   PRINT OPTIMIZATIONS
+   ============================================ */
+
+@media print {
+  .business-plan-h1, .bp-h1 { font-size: 28pt; page-break-after: avoid; }
+  .business-plan-h2, .bp-h2 { font-size: 22pt; page-break-after: avoid; }
+  .business-plan-h3, .bp-h3 { font-size: 18pt; page-break-after: avoid; }
+  .business-plan-h4, .bp-h4 { font-size: 14pt; page-break-after: avoid; }
+
+  .business-plan-body, .bp-body,
+  .business-plan-text {
+    font-size: 11pt;
+    line-height: 1.5;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .business-plan-lead, .bp-lead {
+    font-size: 12pt;
+  }
+
+  .business-plan-caption, .bp-caption {
+    font-size: 9pt;
+  }
+
+  .business-plan-table th, .bp-table th {
+    font-size: 10pt;
+  }
+
+  .business-plan-table td, .bp-table td {
+    font-size: 10pt;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .business-plan-body, .bp-body,
+  .business-plan-text {
+    color: rgba(255, 255, 255, 1);           /* Maximum contrast */
+  }
+
+  .business-plan-h1, .bp-h1,
+  .business-plan-h2, .bp-h2,
+  .business-plan-h3, .bp-h3 {
+    -webkit-text-fill-color: #04a3ff;        /* Solid color for high contrast */
+  }
+}
+
+/* Reduced Motion - Disable gradient animations */
+@media (prefers-reduced-motion: reduce) {
+  .business-plan-h1, .bp-h1,
+  .business-plan-metric, .bp-metric {
+    background: none;
+    -webkit-text-fill-color: #04a3ff;
+    color: #04a3ff;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.bp-text-center { text-align: center; }
+.bp-text-left { text-align: left; }
+.bp-text-right { text-align: right; }
+.bp-text-justify { text-align: justify; }
+
+.bp-uppercase { text-transform: uppercase; }
+.bp-lowercase { text-transform: lowercase; }
+.bp-capitalize { text-transform: capitalize; }
+
+.bp-italic { font-style: italic; }
+.bp-not-italic { font-style: normal; }
+
+.bp-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bp-line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bp-line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Reading Width Utilities */
+.bp-prose { max-width: var(--bp-reading-width); }
+.bp-prose-narrow { max-width: var(--bp-reading-width-narrow); }
+.bp-prose-wide { max-width: var(--bp-reading-width-wide); }

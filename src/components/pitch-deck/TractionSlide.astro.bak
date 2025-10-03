@@ -1,0 +1,11 @@
+---
+import TractionSlideClient from './TractionSlideClient';
+
+interface Props {
+  scenario?: 'base' | 'upside' | 'conservative';
+}
+
+const { scenario = 'base' } = Astro.props;
+---
+
+<TractionSlideClient scenario={scenario} client:visible />

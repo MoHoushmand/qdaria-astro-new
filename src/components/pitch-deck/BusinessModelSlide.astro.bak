@@ -1,0 +1,6 @@
+---
+// Re-export the Enhanced version as the default Business Model slide
+import EnhancedBusinessModelSlide from './EnhancedBusinessModelSlide';
+---
+
+<EnhancedBusinessModelSlide client:visible />

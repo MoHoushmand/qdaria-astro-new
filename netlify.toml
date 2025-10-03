@@ -70,15 +70,27 @@
   force = true
 
 # Performance optimizations
-# Lighthouse plugin temporarily disabled for deployment
-# [[plugins]]
-#   package = "@netlify/plugin-lighthouse"
-
 [[plugins]]
   package = "netlify-plugin-cache"
+  [plugins.inputs]
+    paths = ["node_modules", ".astro"]
 
 [[plugins]]
   package = "netlify-plugin-image-optim"
+  [plugins.inputs]
+    # Enable all image optimizations
+    quality = 85
+    formats = ["webp", "avif"]
+
+# Lighthouse CI for continuous performance monitoring
+# Re-enable when ready for production monitoring
+# [[plugins]]
+#   package = "@netlify/plugin-lighthouse"
+#   [plugins.inputs]
+#     performance = 0.9
+#     accessibility = 0.9
+#     best-practices = 0.9
+#     seo = 0.9
 
 # Add a fallback for 404 pages
 [[redirects]]
@@ -106,6 +118,13 @@
     # Performance Headers
     Content-Encoding = "gzip, br"
     Vary = "Accept-Encoding"
+
+    # Resource hints for performance
+    Link = '''
+      </_astro/vendor-react-core.js>; rel=preload; as=script,
+      </logomark.webp>; rel=preload; as=image,
+      </_astro/slide-01-title.js>; rel=prefetch; as=script
+    '''
 
 # Cache static assets aggressively
 [[headers]]
@@ -136,3 +155,10 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
     Link = "</fonts/inter.woff2>; rel=preload; as=font; type=font/woff2; crossorigin=anonymous"
+
+# Service Worker - no cache for immediate updates
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"

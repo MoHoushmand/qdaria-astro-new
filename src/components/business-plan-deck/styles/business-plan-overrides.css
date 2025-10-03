@@ -1,0 +1,177 @@
+/* QDaria Brand Override for Business Plan */
+/* Applies qdaria.com design system to business plan components */
+
+.business-plan-container {
+  @apply bg-[#000212] text-[#e5e7eb];
+}
+
+.business-plan-section {
+  @apply relative rounded-lg border border-[#04a3ff]/30 bg-[#000212] p-8 transition-all;
+  box-shadow: 0 0 25px rgba(4, 163, 255, 0.15);
+}
+
+.business-plan-section:hover {
+  @apply border-[#04a3ff]/50;
+  box-shadow: 0 0 35px rgba(4, 163, 255, 0.3);
+}
+
+.business-plan-heading {
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.business-plan-card {
+  @apply relative;
+}
+
+.business-plan-card::before {
+  content: "";
+  @apply absolute inset-0 -z-10 rounded-lg bg-gradient-to-b from-[#04a3ff]/5 to-transparent opacity-50;
+}
+
+.business-plan-button {
+  @apply relative rounded-lg border border-[#04a3ff]/30 bg-[#000212] px-6 py-3 text-[#e5e7eb] transition-all;
+  box-shadow: 0 0 25px rgba(4, 163, 255, 0.15);
+}
+
+.business-plan-button:hover {
+  @apply border-[#04a3ff]/50;
+  box-shadow: 0 0 35px rgba(4, 163, 255, 0.3);
+}
+
+/* Chart and Data Visualization Overrides */
+.business-plan-chart {
+  @apply rounded-lg border border-[#04a3ff]/30 bg-[#000212] p-6;
+  box-shadow: 0 0 25px rgba(4, 163, 255, 0.15);
+}
+
+/* Table Overrides */
+.business-plan-table {
+  @apply w-full border-collapse;
+}
+
+.business-plan-table thead {
+  @apply border-b border-[#04a3ff]/30;
+}
+
+.business-plan-table th {
+  @apply px-4 py-3 text-left text-[#04a3ff];
+}
+
+.business-plan-table td {
+  @apply border-b border-[#04a3ff]/10 px-4 py-3 text-[#e5e7eb]/90;
+}
+
+.business-plan-table tr:hover {
+  @apply bg-[#04a3ff]/5;
+}
+
+/* Metric Cards */
+.business-plan-metric {
+  @apply relative rounded-lg border border-[#04a3ff]/30 bg-[#000212] p-6;
+  box-shadow: 0 0 20px rgba(4, 163, 255, 0.1);
+}
+
+.business-plan-metric-value {
+  @apply text-4xl font-bold;
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.business-plan-metric-label {
+  @apply mt-2 text-sm text-[#e5e7eb]/70;
+}
+
+/* List Overrides */
+.business-plan-list {
+  @apply space-y-3;
+}
+
+.business-plan-list-item {
+  @apply flex items-start gap-3 rounded-lg border border-[#04a3ff]/20 bg-[#000212] p-4 transition-all;
+}
+
+.business-plan-list-item:hover {
+  @apply border-[#04a3ff]/40;
+  box-shadow: 0 0 15px rgba(4, 163, 255, 0.2);
+}
+
+/* Badge Overrides */
+.business-plan-badge {
+  @apply inline-flex items-center rounded-full border border-[#04a3ff]/30 bg-[#04a3ff]/10 px-3 py-1 text-xs text-[#04a3ff];
+}
+
+/* Timeline Overrides */
+.business-plan-timeline {
+  @apply relative border-l-2 border-[#04a3ff]/30 pl-6;
+}
+
+.business-plan-timeline-item {
+  @apply relative mb-6;
+}
+
+.business-plan-timeline-item::before {
+  content: "";
+  @apply absolute -left-[27px] h-4 w-4 rounded-full border-2 border-[#04a3ff] bg-[#000212];
+  box-shadow: 0 0 10px rgba(4, 163, 255, 0.5);
+}
+
+/* Grid Layout */
+.business-plan-grid {
+  @apply grid gap-6;
+}
+
+.business-plan-grid-2 {
+  @apply grid-cols-1 md:grid-cols-2;
+}
+
+.business-plan-grid-3 {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.business-plan-grid-4 {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+}
+
+/* Text Utilities */
+.business-plan-text-gradient {
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.business-plan-text-muted {
+  @apply text-[#e5e7eb]/70;
+}
+
+.business-plan-text-accent {
+  @apply text-[#04a3ff];
+}
+
+/* Spacing Utilities */
+.business-plan-section-spacing {
+  @apply mb-12;
+}
+
+.business-plan-subsection-spacing {
+  @apply mb-8;
+}
+
+/* Animation Classes */
+@keyframes business-plan-glow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(4, 163, 255, 0.3);
+  }
+}
+
+.business-plan-glow {
+  animation: business-plan-glow 3s ease-in-out infinite;
+}

@@ -1,0 +1,124 @@
+---
+/**
+ * Example usage of Nivo charts in Astro
+ * Demonstrates all three chart components with sample data
+ */
+import {
+  FinancialProjectionsNivo,
+  MarketSegmentationNivo,
+  GrowthMetricsNivo
+} from './index';
+---
+
+<div class="nivo-charts-showcase">
+  <!-- Financial Projections Chart -->
+  <section class="chart-section">
+    <h2 class="section-title">5-Year Financial Projections</h2>
+    <p class="section-description">
+      Multi-metric visualization of revenue, EBITDA, and net profit forecasts
+    </p>
+    <div class="chart-wrapper">
+      <FinancialProjectionsNivo 
+        client:load
+        height={500}
+        theme="dark"
+        enableArea={true}
+        animate={true}
+      />
+    </div>
+  </section>
+
+  <!-- Market Segmentation Chart -->
+  <section class="chart-section">
+    <h2 class="section-title">Market Segmentation Analysis</h2>
+    <p class="section-description">
+      Distribution of addressable market across key industry sectors
+    </p>
+    <div class="chart-wrapper">
+      <MarketSegmentationNivo 
+        client:load
+        variant="donut"
+        height={500}
+        theme="dark"
+        showPercentages={true}
+        showLegend={true}
+      />
+    </div>
+  </section>
+
+  <!-- Growth Metrics Chart -->
+  <section class="chart-section">
+    <h2 class="section-title">Year-over-Year Growth Metrics</h2>
+    <p class="section-description">
+      Comparative analysis of key performance indicators vs industry benchmarks
+    </p>
+    <div class="chart-wrapper">
+      <GrowthMetricsNivo 
+        client:load
+        groupMode="grouped"
+        height={500}
+        theme="dark"
+        showComparison={true}
+        showLegend={true}
+      />
+    </div>
+  </section>
+</div>
+
+<style>
+  .nivo-charts-showcase {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
+  }
+
+  .chart-section {
+    margin-bottom: 6rem;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    border: 1px solid rgba(204, 255, 0, 0.1);
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #CCFF00;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .chart-wrapper {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  @media (max-width: 768px) {
+    .nivo-charts-showcase {
+      padding: 2rem 1rem;
+    }
+
+    .chart-section {
+      padding: 2rem 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .chart-wrapper {
+      padding: 1rem;
+    }
+  }
+</style>

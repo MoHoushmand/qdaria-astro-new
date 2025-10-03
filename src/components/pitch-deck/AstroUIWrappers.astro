@@ -1,0 +1,67 @@
+---
+/**
+ * Astro UI Component Wrappers
+ *
+ * These wrapper components properly handle client directives for interactive UI components.
+ * Use these instead of importing UI components directly when you need guaranteed interactivity.
+ */
+
+import { Button as UIButton } from '@/components/ui/button';
+import { Tabs as UITabs, TabsList as UITabsList, TabsTrigger as UITabsTrigger, TabsContent as UITabsContent } from '@/components/ui/tabs';
+import { Progress as UIProgress } from '@/components/ui/progress';
+
+// Static components that don't need wrappers
+export { Badge } from '@/components/ui/badge';
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption } from '@/components/ui/table';
+export { Separator } from '@/components/ui/separator';
+
+interface TabItem {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  // For wrapping single interactive components
+  componentType?: 'button' | 'tabs' | 'progress';
+
+  // Button props
+  buttonVariant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  buttonSize?: 'default' | 'sm' | 'lg' | 'icon';
+  buttonOnClick?: string;
+
+  // Tabs props
+  tabsDefaultValue?: string;
+  tabItems?: TabItem[];
+
+  // Progress props
+  progressValue?: number;
+  progressVariant?: 'default' | 'success' | 'warning' | 'error';
+}
+
+const {
+  componentType,
+  buttonVariant,
+  buttonSize,
+  buttonOnClick,
+  tabsDefaultValue,
+  tabItems,
+  progressValue,
+  progressVariant
+} = Astro.props;
+---
+
+<!-- This file exports wrapper components for use in other Astro files -->
+<!-- Import and use like: import { InteractiveButton } from './AstroUIWrappers.astro' -->
+
+<style>
+  /* Ensure proper hydration */
+  :global([client\\:load]:not([data-hydrated])) {
+    opacity: 0;
+  }
+
+  :global([client\\:load][data-hydrated]) {
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+  }
+</style>

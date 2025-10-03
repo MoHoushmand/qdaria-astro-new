@@ -4,10 +4,12 @@
     "baseUrl": ".",
     "paths": {
       "*": ["src/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@/components/ui/*": ["src/components/pitch-deck/ui/*"],
+      "@/lib/*": ["src/components/pitch-deck/lib/*", "src/lib/*"]
     },
-    "jsx": "preserve",
-    "jsxImportSource": "astro",
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "types": ["astro/client", "astro/jsx-runtime", "@types/three"],
     "allowJs": true,
     "skipLibCheck": true,

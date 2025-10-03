@@ -1,0 +1,75 @@
+---
+/**
+ * Milestone Gantt Chart
+ * Interactive timeline visualization using Visx primitives
+ * Shows product roadmap with milestone markers
+ */
+import MilestoneGanttChartClient from './MilestoneGanttChartClient';
+
+interface Props {
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+const {
+  width = 1200,
+  height = 600,
+  className = ''
+} = Astro.props;
+---
+
+<div class={`milestone-gantt-wrapper ${className}`} data-chart="milestone-gantt">
+  <MilestoneGanttChartClient
+    client:load
+    width={width}
+    height={height}
+  />
+</div>
+
+<style>
+  .milestone-gantt-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .milestone-gantt-wrapper :global(.visx-axis-tick text) {
+    font-size: 12px;
+    fill: #a0a0a0;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .milestone-gantt-wrapper :global(.visx-axis-line) {
+    stroke: #333;
+    stroke-width: 1;
+  }
+
+  .milestone-gantt-wrapper :global(.timeline-bar) {
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .milestone-gantt-wrapper :global(.timeline-bar:hover) {
+    opacity: 0.8;
+  }
+
+  .milestone-gantt-wrapper :global(.milestone-marker) {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .milestone-gantt-wrapper :global(.milestone-marker:hover) {
+    transform: scale(1.3);
+  }
+
+  @media (max-width: 768px) {
+    .milestone-gantt-wrapper {
+      padding: 0.5rem;
+    }
+  }
+</style>

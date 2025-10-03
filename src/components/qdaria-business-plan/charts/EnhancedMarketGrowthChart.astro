@@ -1,0 +1,576 @@
+---
+/**
+ * Enhanced Market Growth Chart
+ *
+ * Interactive Plotly.js chart showing quantum computing market evolution
+ * with multiple scenarios, QDaria revenue projections, and milestone annotations.
+ *
+ * Features:
+ * - 3 market scenarios (conservative, base, optimistic)
+ * - Confidence bands
+ * - QDaria revenue projection (secondary axis)
+ * - Milestone annotations
+ * - Growth phase regions
+ * - Interactive tooltips with CAGR calculations
+ * - Responsive design
+ * - Accessible
+ */
+
+interface Props {
+  scenario?: 'conservative' | 'base' | 'optimistic' | 'all';
+  interactive?: boolean;
+  height?: number;
+  showQdariaRevenue?: boolean;
+  className?: string;
+}
+
+const {
+  scenario = 'all',
+  interactive = true,
+  height = 600,
+  showQdariaRevenue = true,
+  className = ''
+} = Astro.props;
+---
+
+<div class={`chart-container ${className}`} id="market-growth-chart-wrapper">
+  <div id="marketGrowthChart" style={`width:100%;height:${height}px;`}></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script define:vars={{ scenario, interactive, height, showQdariaRevenue }}>
+document.addEventListener('DOMContentLoaded', function() {
+    // Enhanced Market Growth Chart with QDaria Design System
+    const years = [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035];
+
+    // Optimistic scenario - exponential growth
+    const optimistic = [0.5, 0.7, 1.0, 1.2, 1.3, 2.5, 5.0, 10.0, 25.0, 60.0, 150.0, 350.0, 650.0, 950.0, 1200.0, 1500.0];
+
+    // Neutral/Base case scenario
+    const neutral = [0.5, 0.7, 1.0, 1.2, 1.3, 2.0, 3.5, 6.0, 12.0, 25.0, 50.0, 100.0, 250.0, 500.0, 850.0, 1300.0];
+
+    // Pessimistic/Conservative scenario
+    const pessimistic = [0.5, 0.7, 1.0, 1.2, 1.3, 1.5, 2.0, 3.0, 4.5, 7.0, 12.0, 20.0, 35.0, 60.0, 100.0, 180.0];
+
+    // Calculate confidence bands
+    const upperBound = optimistic.map((val, i) => val * 1.2);
+    const lowerBound = pessimistic.map((val, i) => val * 0.8);
+
+    // QDaria's projected market capture (in millions)
+    const qdariaShare = years.map((year, i) => {
+        if (year < 2025) return 0;
+        if (year === 2025) return 0.001;
+        if (year === 2026) return 0.005;
+        if (year === 2027) return 0.05;
+        if (year === 2028) return 0.2;
+        if (year === 2029) return 0.5;
+        if (year === 2030) return 1.0;
+        return neutral[i] * 0.001; // 0.1% market share post-2030
+    });
+
+    // QDaria Design System Colors
+    const colors = {
+        primary: '#04a3ff',
+        secondary: '#00ffd3',
+        accent: '#65ff00',
+        background: '#000212',
+        conservative: 'rgba(231, 76, 60, 0.7)',
+        optimistic: 'rgba(101, 255, 0, 0.8)', // Using QDaria accent
+        qdaria: '#9b59b6',
+        text: '#e0e0e0',
+        grid: 'rgba(255, 255, 255, 0.1)',
+        confidenceBand: 'rgba(0, 255, 211, 0.08)' // Using secondary with transparency
+    };
+
+    const data = [
+        // Confidence band
+        {
+            x: years.concat(years.slice().reverse()),
+            y: upperBound.concat(lowerBound.slice().reverse()),
+            fill: 'toself',
+            fillcolor: colors.confidenceBand,
+            line: { color: 'transparent' },
+            showlegend: false,
+            hoverinfo: 'skip',
+            type: 'scatter'
+        },
+        // Conservative scenario
+        ...(scenario === 'all' || scenario === 'conservative' ? [{
+            type: 'scatter',
+            mode: 'lines',
+            x: years,
+            y: pessimistic,
+            name: 'Conservative',
+            line: {
+                color: colors.conservative,
+                width: 2.5,
+                shape: 'spline',
+                dash: 'dot'
+            },
+            hovertemplate: '<b>Conservative Scenario</b><br>Year: %{x}<br>Market: $%{y:,.1f}B<br>Growth: %{text}<extra></extra>',
+            text: pessimistic.map((val, i) => i > 0 ? ((val/pessimistic[i-1] - 1) * 100).toFixed(1) + '%' : 'N/A')
+        }] : []),
+        // Base case scenario
+        ...(scenario === 'all' || scenario === 'base' ? [{
+            type: 'scatter',
+            mode: 'lines+markers',
+            x: years,
+            y: neutral,
+            name: 'Base Case',
+            line: {
+                color: colors.primary,
+                width: 4,
+                shape: 'spline'
+            },
+            marker: {
+                size: years.map(y => y % 5 === 0 ? 12 : 6),
+                color: colors.primary,
+                symbol: 'circle',
+                line: {
+                    color: colors.secondary,
+                    width: 2
+                }
+            },
+            hovertemplate: '<b>Base Case Scenario</b><br>Year: %{x}<br>Market: $%{y:,.1f}B<br>Growth: %{text}<br>CAGR from 2024: %{customdata}%<extra></extra>',
+            text: neutral.map((val, i) => i > 0 ? ((val/neutral[i-1] - 1) * 100).toFixed(1) + '%' : 'N/A'),
+            customdata: neutral.map((val, i) => {
+                if (years[i] <= 2024) return 'N/A';
+                const yearsFromStart = years[i] - 2024;
+                return ((Math.pow(val/1.3, 1/yearsFromStart) - 1) * 100).toFixed(1);
+            })
+        }] : []),
+        // Optimistic scenario
+        ...(scenario === 'all' || scenario === 'optimistic' ? [{
+            type: 'scatter',
+            mode: 'lines',
+            x: years,
+            y: optimistic,
+            name: 'Optimistic',
+            line: {
+                color: colors.optimistic,
+                width: 3,
+                shape: 'spline'
+            },
+            hovertemplate: '<b>Optimistic Scenario</b><br>Year: %{x}<br>Market: $%{y:,.1f}B<br>Growth: %{text}<extra></extra>',
+            text: optimistic.map((val, i) => i > 0 ? ((val/optimistic[i-1] - 1) * 100).toFixed(1) + '%' : 'N/A')
+        }] : []),
+        // QDaria's market capture
+        ...(showQdariaRevenue ? [{
+            type: 'scatter',
+            mode: 'lines+markers',
+            x: years.filter(y => y >= 2025),
+            y: qdariaShare.filter((val, i) => years[i] >= 2025),
+            name: 'QDaria Revenue',
+            yaxis: 'y2',
+            line: {
+                color: colors.qdaria,
+                width: 3,
+                dash: 'dash'
+            },
+            marker: {
+                size: 8,
+                color: colors.qdaria,
+                symbol: 'star'
+            },
+            hovertemplate: '<b>QDaria Projected Revenue</b><br>Year: %{x}<br>Revenue: $%{y:,.0f}M<extra></extra>'
+        }] : [])
+    ];
+
+    // Key milestone annotations
+    const milestones = [
+        {x: 2024, y: 1.3, text: '<b>Today</b><br>$1.3B Market', color: colors.text},
+        {x: 2027, y: 6, text: 'QDaria<br>Series B', color: colors.qdaria},
+        {x: 2028, y: 12, text: 'First IPO<br>(Zipminator)', color: colors.primary},
+        {x: 2030, y: 50, text: 'Mass<br>Adoption', color: colors.secondary},
+        {x: 2035, y: 1300, text: '<b>$1.3T</b><br>Market Size', color: colors.accent}
+    ];
+
+    const annotations = milestones.map(m => ({
+        x: m.x,
+        y: m.y,
+        text: m.text,
+        showarrow: true,
+        arrowhead: 2,
+        arrowsize: 1,
+        arrowwidth: 2,
+        arrowcolor: m.color,
+        ax: m.x === 2024 ? 50 : m.x === 2035 ? -50 : 0,
+        ay: m.x === 2024 ? -40 : m.x === 2035 ? 40 : -50,
+        bgcolor: `${m.color}15`,
+        bordercolor: m.color,
+        borderwidth: 2,
+        borderpad: 6,
+        font: {
+            size: m.x === 2035 ? 16 : 12,
+            color: m.color,
+            family: 'system-ui, -apple-system, sans-serif'
+        },
+        opacity: 0.95
+    }));
+
+    // Add growth phase regions
+    const shapes = [
+        // Current position marker
+        {
+            type: 'line',
+            x0: 2024,
+            y0: 0,
+            x1: 2024,
+            y1: 1600,
+            line: {
+                color: 'rgba(224, 224, 224, 0.3)',
+                width: 2,
+                dash: 'dash'
+            }
+        },
+        // Early adoption phase
+        {
+            type: 'rect',
+            x0: 2025,
+            y0: 0,
+            x1: 2027,
+            y1: 1600,
+            fillcolor: 'rgba(4, 163, 255, 0.08)', // Primary with transparency
+            line: { width: 0 },
+            layer: 'below'
+        },
+        // Growth phase
+        {
+            type: 'rect',
+            x0: 2027,
+            y0: 0,
+            x1: 2030,
+            y1: 1600,
+            fillcolor: 'rgba(155, 89, 182, 0.08)',
+            line: { width: 0 },
+            layer: 'below'
+        },
+        // Maturity phase
+        {
+            type: 'rect',
+            x0: 2030,
+            y0: 0,
+            x1: 2035,
+            y1: 1600,
+            fillcolor: 'rgba(101, 255, 0, 0.05)', // Accent with transparency
+            line: { width: 0 },
+            layer: 'below'
+        }
+    ];
+
+    const layout = {
+        autosize: true,
+        title: {
+            text: 'Quantum Computing Market Evolution & QDaria Growth Trajectory',
+            font: {
+                family: 'system-ui, -apple-system, sans-serif',
+                size: 28,
+                color: colors.text,
+                weight: 700
+            },
+            y: 0.98,
+            x: 0.5,
+            xanchor: 'center',
+            yanchor: 'top'
+        },
+        xaxis: {
+            title: {
+                text: 'Timeline',
+                font: {
+                    size: 16,
+                    color: colors.text,
+                    family: 'system-ui, -apple-system, sans-serif',
+                    weight: 600
+                },
+                standoff: 15
+            },
+            tickfont: {
+                size: 13,
+                color: colors.text,
+                family: 'system-ui, -apple-system, sans-serif'
+            },
+            showgrid: true,
+            gridcolor: colors.grid,
+            gridwidth: 1,
+            range: [2019.5, 2035.5],
+            zeroline: false,
+            tickmode: 'linear',
+            tick0: 2020,
+            dtick: 2,
+            showline: true,
+            linewidth: 2,
+            linecolor: colors.grid,
+            mirror: false
+        },
+        yaxis: {
+            title: {
+                text: 'Global Market Size (USD)',
+                font: {
+                    size: 16,
+                    color: colors.text,
+                    family: 'system-ui, -apple-system, sans-serif',
+                    weight: 600
+                },
+                standoff: 20
+            },
+            tickfont: {
+                size: 13,
+                color: colors.text,
+                family: 'system-ui, -apple-system, sans-serif'
+            },
+            gridcolor: colors.grid,
+            gridwidth: 1,
+            type: 'linear',
+            tickformat: '$,.0f',
+            ticksuffix: 'B',
+            range: [0, 1600],
+            zeroline: true,
+            zerolinecolor: colors.grid,
+            zerolinewidth: 2,
+            showline: true,
+            linewidth: 2,
+            linecolor: colors.grid,
+            mirror: false
+        },
+        ...(showQdariaRevenue ? {
+            yaxis2: {
+                title: {
+                    text: 'QDaria Revenue (USD)',
+                    font: {
+                        size: 14,
+                        color: colors.qdaria,
+                        family: 'system-ui, -apple-system, sans-serif',
+                        weight: 600
+                    },
+                    standoff: 20
+                },
+                tickfont: {
+                    size: 12,
+                    color: colors.qdaria,
+                    family: 'system-ui, -apple-system, sans-serif'
+                },
+                overlaying: 'y',
+                side: 'right',
+                tickformat: '$,.0f',
+                ticksuffix: 'M',
+                showgrid: false,
+                range: [0, 100],
+                showline: true,
+                linewidth: 2,
+                linecolor: colors.qdaria
+            }
+        } : {}),
+        plot_bgcolor: colors.background,
+        paper_bgcolor: colors.background,
+        margin: {
+            t: 120,
+            b: 100,
+            l: 100,
+            r: showQdariaRevenue ? 100 : 60,
+            pad: 10
+        },
+        hoverlabel: {
+            bgcolor: 'rgba(0, 2, 18, 0.95)',
+            bordercolor: colors.primary,
+            font: {
+                size: 14,
+                color: colors.text,
+                family: 'system-ui, -apple-system, sans-serif'
+            },
+            align: 'left'
+        },
+        legend: {
+            x: 0.02,
+            y: 0.98,
+            bgcolor: 'rgba(0, 2, 18, 0.85)',
+            bordercolor: colors.grid,
+            borderwidth: 1,
+            font: {
+                size: 13,
+                color: colors.text,
+                family: 'system-ui, -apple-system, sans-serif'
+            },
+            orientation: 'v',
+            tracegroupgap: 5
+        },
+        annotations: annotations.concat([
+            {
+                text: '<i>Sources: McKinsey, BCG, The Quantum Insider</i>',
+                showarrow: false,
+                xref: 'paper',
+                yref: 'paper',
+                x: 0,
+                y: -0.12,
+                xanchor: 'left',
+                yanchor: 'top',
+                font: {
+                    size: 10,
+                    color: 'rgba(224, 224, 224, 0.6)',
+                    family: 'system-ui, -apple-system, sans-serif'
+                }
+            },
+            {
+                text: '<b>Market Phases</b>',
+                showarrow: false,
+                xref: 'paper',
+                yref: 'paper',
+                x: 0.5,
+                y: 0.02,
+                xanchor: 'center',
+                yanchor: 'bottom',
+                font: {
+                    size: 11,
+                    color: colors.text,
+                    family: 'system-ui, -apple-system, sans-serif'
+                }
+            },
+            {
+                text: 'Early Adoption',
+                showarrow: false,
+                x: 2026,
+                y: 5,
+                font: {
+                    size: 10,
+                    color: colors.primary,
+                    family: 'system-ui, -apple-system, sans-serif'
+                },
+                opacity: 0.7
+            },
+            {
+                text: 'Rapid Growth',
+                showarrow: false,
+                x: 2028.5,
+                y: 20,
+                font: {
+                    size: 10,
+                    color: colors.qdaria,
+                    family: 'system-ui, -apple-system, sans-serif'
+                },
+                opacity: 0.7
+            },
+            {
+                text: 'Market Maturity',
+                showarrow: false,
+                x: 2032.5,
+                y: 400,
+                font: {
+                    size: 10,
+                    color: colors.accent,
+                    family: 'system-ui, -apple-system, sans-serif'
+                },
+                opacity: 0.7
+            }
+        ]),
+        shapes: shapes,
+        hovermode: 'x unified',
+        dragmode: interactive ? 'pan' : false,
+        font: {
+            family: 'system-ui, -apple-system, sans-serif'
+        }
+    };
+
+    const config = {
+        responsive: true,
+        displayModeBar: interactive,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+        modeBarButtonsToAdd: [
+            {
+                name: 'Download HD',
+                icon: Plotly.Icons.camera,
+                click: function(gd) {
+                    Plotly.downloadImage(gd, {
+                        format: 'png',
+                        width: 1920,
+                        height: 1080,
+                        filename: 'qdaria_quantum_market_growth_analysis'
+                    });
+                }
+            }
+        ],
+        toImageButtonOptions: {
+            format: 'svg',
+            filename: 'qdaria_quantum_market_scenarios',
+            height: 800,
+            width: 1200,
+            scale: 2
+        }
+    };
+
+    Plotly.newPlot('marketGrowthChart', data, layout, config);
+
+    // Add smooth animations on load
+    if (interactive) {
+        Plotly.animate('marketGrowthChart', {
+            data: data,
+            traces: data.map((_, i) => i),
+            layout: {}
+        }, {
+            transition: {
+                duration: 1500,
+                easing: 'cubic-in-out'
+            },
+            frame: {
+                duration: 1500
+            }
+        });
+    }
+
+    // Make chart responsive to window resize
+    window.addEventListener('resize', function() {
+        Plotly.Plots.resize('marketGrowthChart');
+    });
+});
+</script>
+
+<style>
+  .chart-container {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(4, 163, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .chart-container:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow: 0 6px 30px rgba(4, 163, 255, 0.15);
+  }
+
+  /* Accessibility improvements */
+  #marketGrowthChart {
+    outline: none;
+  }
+
+  #marketGrowthChart:focus-visible {
+    outline: 2px solid #04a3ff;
+    outline-offset: 4px;
+    border-radius: 8px;
+  }
+
+  /* Dark mode optimization */
+  @media (prefers-color-scheme: dark) {
+    .chart-container {
+      background: rgba(0, 2, 18, 0.5);
+    }
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .chart-container {
+      padding: 12px;
+      margin: 1rem 0;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .chart-container {
+      border: 1px solid #333;
+      box-shadow: none;
+      page-break-inside: avoid;
+    }
+  }
+</style>

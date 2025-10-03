@@ -1,0 +1,6 @@
+---
+// Market slide with complex interactive charts - keep as React component with client:visible
+import MarketSlide from './MarketSlide';
+---
+
+<MarketSlide client:visible />

@@ -1,0 +1,234 @@
+/* Card component overrides for business plan deck */
+/* Applies QDaria design system to card components */
+
+.business-plan-card-base {
+  @apply relative rounded-lg border border-[#04a3ff]/30 bg-[#000212];
+  box-shadow: 0 0 25px rgba(4, 163, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.business-plan-card-base:hover {
+  @apply border-[#04a3ff]/50;
+  box-shadow: 0 0 35px rgba(4, 163, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Card with gradient background */
+.business-plan-card-gradient::before {
+  content: "";
+  @apply absolute inset-0 -z-10 rounded-lg opacity-50;
+  background: linear-gradient(135deg, rgba(4, 163, 255, 0.05) 0%, rgba(0, 255, 211, 0.05) 100%);
+}
+
+/* Card Header */
+.business-plan-card-header {
+  @apply border-b border-[#04a3ff]/20 p-6;
+}
+
+.business-plan-card-title {
+  @apply text-2xl font-semibold;
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.business-plan-card-description {
+  @apply mt-2 text-sm text-[#e5e7eb]/70;
+}
+
+/* Card Content */
+.business-plan-card-content {
+  @apply p-6;
+}
+
+/* Card Footer */
+.business-plan-card-footer {
+  @apply flex items-center justify-between border-t border-[#04a3ff]/20 p-6;
+}
+
+/* Feature Card Variant */
+.business-plan-feature-card {
+  @apply business-plan-card-base p-6;
+}
+
+.business-plan-feature-card:hover {
+  @apply transform -translate-y-1;
+}
+
+.business-plan-feature-card-icon {
+  @apply mb-4 flex h-12 w-12 items-center justify-center rounded-lg;
+  background: linear-gradient(135deg, rgba(4, 163, 255, 0.2) 0%, rgba(0, 255, 211, 0.2) 100%);
+  border: 1px solid rgba(4, 163, 255, 0.3);
+}
+
+.business-plan-feature-card:hover .business-plan-feature-card-icon {
+  box-shadow: 0 0 20px rgba(4, 163, 255, 0.4);
+}
+
+/* Metric Card Variant */
+.business-plan-metric-card {
+  @apply business-plan-card-base p-6 text-center;
+}
+
+.business-plan-metric-card-value {
+  @apply text-5xl font-bold;
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.business-plan-metric-card-label {
+  @apply mt-2 text-sm text-[#e5e7eb]/70;
+}
+
+.business-plan-metric-card-change {
+  @apply mt-2 inline-flex items-center gap-1 text-xs;
+}
+
+.business-plan-metric-card-change.positive {
+  @apply text-green-400;
+}
+
+.business-plan-metric-card-change.negative {
+  @apply text-red-400;
+}
+
+/* Timeline Card Variant */
+.business-plan-timeline-card {
+  @apply business-plan-card-base relative p-6 pl-12;
+}
+
+.business-plan-timeline-card::before {
+  content: "";
+  @apply absolute left-6 top-0 h-full w-0.5 bg-gradient-to-b from-[#04a3ff] to-[#00ffd3];
+}
+
+.business-plan-timeline-card-marker {
+  @apply absolute left-3 top-6 h-6 w-6 rounded-full border-2 border-[#04a3ff] bg-[#000212];
+  box-shadow: 0 0 15px rgba(4, 163, 255, 0.5);
+}
+
+/* Info Card Variant */
+.business-plan-info-card {
+  @apply business-plan-card-base flex items-start gap-4 p-6;
+}
+
+.business-plan-info-card-icon {
+  @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-lg;
+  background: rgba(4, 163, 255, 0.15);
+  border: 1px solid rgba(4, 163, 255, 0.3);
+}
+
+.business-plan-info-card.success {
+  @apply border-green-500/30;
+  box-shadow: 0 0 25px rgba(34, 197, 94, 0.15);
+}
+
+.business-plan-info-card.warning {
+  @apply border-yellow-500/30;
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.15);
+}
+
+.business-plan-info-card.error {
+  @apply border-red-500/30;
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.15);
+}
+
+/* Interactive Card */
+.business-plan-card-interactive {
+  @apply business-plan-card-base cursor-pointer p-6;
+}
+
+.business-plan-card-interactive:active {
+  transform: scale(0.98);
+}
+
+/* Card Grid */
+.business-plan-card-grid {
+  @apply grid gap-6;
+}
+
+.business-plan-card-grid-2 {
+  @apply grid-cols-1 md:grid-cols-2;
+}
+
+.business-plan-card-grid-3 {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.business-plan-card-grid-4 {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+}
+
+/* Card with Image */
+.business-plan-card-image {
+  @apply business-plan-card-base overflow-hidden;
+}
+
+.business-plan-card-image-container {
+  @apply relative h-48 w-full overflow-hidden;
+}
+
+.business-plan-card-image-container img {
+  @apply h-full w-full object-cover transition-transform duration-300;
+}
+
+.business-plan-card-image:hover .business-plan-card-image-container img {
+  transform: scale(1.05);
+}
+
+/* Compact Card Variant */
+.business-plan-card-compact {
+  @apply business-plan-card-base p-4;
+}
+
+/* Elevated Card Variant */
+.business-plan-card-elevated {
+  @apply business-plan-card-base;
+  box-shadow: 0 4px 30px rgba(4, 163, 255, 0.2);
+}
+
+.business-plan-card-elevated:hover {
+  box-shadow: 0 8px 40px rgba(4, 163, 255, 0.3);
+}
+
+/* Animations */
+@keyframes business-plan-card-shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.business-plan-card-loading {
+  @apply relative overflow-hidden;
+  background: linear-gradient(
+    90deg,
+    rgba(4, 163, 255, 0.05) 0%,
+    rgba(4, 163, 255, 0.15) 50%,
+    rgba(4, 163, 255, 0.05) 100%
+  );
+  background-size: 1000px 100%;
+  animation: business-plan-card-shimmer 2s infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .business-plan-card-base {
+    @apply p-4;
+  }
+
+  .business-plan-card-header,
+  .business-plan-card-content,
+  .business-plan-card-footer {
+    @apply p-4;
+  }
+
+  .business-plan-metric-card-value {
+    @apply text-4xl;
+  }
+}

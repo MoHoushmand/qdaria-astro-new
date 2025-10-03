@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import FontLoader from "../components/business-plan-deck/FontLoader.astro";
+import "../styles/business-plan-brand.css";
+import "../components/business-plan-deck/styles/index.css";
 
 interface Props {
   frontmatter: {
@@ -11,9 +14,13 @@ interface Props {
 const { frontmatter } = Astro.props;
 ---
 
+<FontLoader />
 <BaseLayout title={frontmatter.title} description={frontmatter.description}>
-  <main class="relative bg-dark-bg">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8 py-24">
+  <main class="relative business-plan-container qdaria-bg">
+    <!-- Hexagonal Background Pattern Overlay -->
+    <div class="hex-pattern absolute inset-0 pointer-events-none"></div>
+
+    <div class="relative mx-auto max-w-7xl px-6 lg:px-8 py-24">
       <div class="prose prose-invert max-w-none">
         <slot />
       </div>
@@ -22,25 +29,259 @@ const { frontmatter } = Astro.props;
 </BaseLayout>
 
 <style is:global>
-  .prose {
-    @apply prose-invert prose-headings:text-white prose-a:text-primary-400 hover:prose-a:text-primary-300;
+  /* QDaria Design System - CSS Variables */
+  :root {
+    /* Primary Colors */
+    --qdaria-primary: #04a3ff;      /* Electric blue */
+    --qdaria-secondary: #00ffd3;    /* Teal/cyan */
+    --qdaria-accent: #65ff00;       /* Bright green */
+
+    /* Background */
+    --qdaria-bg-dark: #000212;      /* Deep navy/black */
+    --qdaria-bg-card: rgba(255, 255, 255, 0.05);
+
+    /* Gradients */
+    --qdaria-gradient: linear-gradient(to right, #04a3ff, #00ffd3, #65ff00);
+    --qdaria-gradient-radial: radial-gradient(circle at center, #04a3ff, #000212);
+
+    /* Text */
+    --qdaria-text-white: #ffffff;
+    --qdaria-text-gray: rgba(255, 255, 255, 0.8);
+    --qdaria-text-muted: rgba(255, 255, 255, 0.6);
   }
+
+  /* Background */
+  .qdaria-bg {
+    background: linear-gradient(to bottom right, #0f172a, #1e3a8a, #581c87);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Hexagonal Pattern Overlay */
+  .hex-pattern {
+    background-image:
+      repeating-linear-gradient(60deg, transparent, transparent 100px, rgba(4, 163, 255, 0.03) 100px, rgba(4, 163, 255, 0.03) 200px),
+      repeating-linear-gradient(120deg, transparent, transparent 100px, rgba(0, 255, 211, 0.03) 100px, rgba(0, 255, 211, 0.03) 200px);
+  }
+
+  /* Gradient Text Utility */
+  .text-gradient-blue {
+    background: var(--qdaria-gradient);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animations */
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .gradient-animate {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  /* Glassmorphic Card Styles */
+  .qdaria-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .qdaria-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(4, 163, 255, 0.3);
+    box-shadow: 0 12px 48px rgba(4, 163, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Prose Styling with QDaria Design System */
+  .prose {
+    @apply prose-invert max-w-none;
+    color: var(--qdaria-text-gray);
+  }
+
+  .prose a {
+    color: var(--qdaria-primary);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+
+  .prose a:hover {
+    color: var(--qdaria-secondary);
+    border-bottom-color: var(--qdaria-secondary);
+  }
+
+  /* Headings with Gradient Text */
+  .prose h1 {
+    @apply text-6xl font-bold mb-8;
+    background: var(--qdaria-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   .prose h2 {
     @apply text-4xl font-bold mt-24 mb-12 pb-6;
+    background: var(--qdaria-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    border-bottom: 2px solid rgba(4, 163, 255, 0.3);
   }
-  .prose h2 span {
-    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
-  }
+
   .prose h3 {
-    @apply text-2xl font-bold mt-16 mb-8 pl-6;
+    @apply text-2xl font-bold mt-16 mb-8;
+    background: var(--qdaria-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .prose h3 span {
-    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
-  }
+
   .prose h4 {
-    @apply text-xl font-semibold mt-12 mb-6 pl-4;
+    @apply text-xl font-semibold mt-12 mb-6;
+    background: var(--qdaria-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .prose h4 span {
-    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+
+  .prose h5 {
+    @apply text-lg font-semibold mt-8 mb-4;
+    color: var(--qdaria-secondary);
+  }
+
+  .prose h6 {
+    @apply text-base font-semibold mt-6 mb-3;
+    color: var(--qdaria-accent);
+  }
+
+  /* Lists */
+  .prose ul,
+  .prose ol {
+    color: var(--qdaria-text-gray);
+  }
+
+  .prose li::marker {
+    color: var(--qdaria-primary);
+  }
+
+  /* Blockquotes */
+  .prose blockquote {
+    border-left: 4px solid var(--qdaria-primary);
+    background: rgba(4, 163, 255, 0.05);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--qdaria-text-muted);
+  }
+
+  /* Code Blocks */
+  .prose pre {
+    background: rgba(0, 2, 18, 0.8);
+    border: 1px solid rgba(4, 163, 255, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+
+  .prose code {
+    color: var(--qdaria-accent);
+    background: rgba(101, 255, 0, 0.1);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .prose pre code {
+    background: transparent;
+    padding: 0;
+  }
+
+  /* Tables */
+  .prose table {
+    background: var(--qdaria-bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .prose thead {
+    background: rgba(4, 163, 255, 0.1);
+  }
+
+  .prose th {
+    color: var(--qdaria-text-white);
+    font-weight: 600;
+    border-bottom: 2px solid var(--qdaria-primary);
+  }
+
+  .prose td {
+    color: var(--qdaria-text-gray);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .prose tr:hover {
+    background: rgba(4, 163, 255, 0.05);
+  }
+
+  /* Strong/Bold */
+  .prose strong {
+    color: var(--qdaria-text-white);
+    font-weight: 700;
+  }
+
+  /* Horizontal Rules */
+  .prose hr {
+    border-color: rgba(4, 163, 255, 0.2);
+    margin: 3rem 0;
+  }
+
+  /* Images */
+  .prose img {
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Paragraph spacing */
+  .prose p {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.75;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .prose h1 {
+      @apply text-4xl;
+    }
+
+    .prose h2 {
+      @apply text-3xl mt-16 mb-8;
+    }
+
+    .prose h3 {
+      @apply text-xl mt-12 mb-6;
+    }
+
+    .hex-pattern {
+      background-size: 50px 50px;
+    }
+  }
+
+  /* Dark theme adjustments */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+    }
   }
 </style>

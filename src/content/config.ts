@@ -5,7 +5,11 @@ const otherPages = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
-    date: z.date().optional(),
+    date: z.union([
+      z.string().transform((str) => new Date(str)),
+      z.date()
+    ]).optional(),
+    draft: z.boolean().optional(),
   }),
 });
 

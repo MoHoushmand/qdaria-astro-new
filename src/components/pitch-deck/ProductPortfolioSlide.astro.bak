@@ -1,0 +1,9 @@
+---
+// Product Portfolio slide with interactive charts and state - keep as React component with client:visible
+import ProductPortfolioSlide from './ProductPortfolioSlide';
+
+// Get scenario from Astro props if available, default to 'base'
+const { scenario = 'base' } = Astro.props;
+---
+
+<ProductPortfolioSlide scenario={scenario} client:visible />

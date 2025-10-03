@@ -1,0 +1,186 @@
+/* Tabs styling matching qdaria.com design system */
+/* Applies QDaria brand colors and effects to tab components */
+
+.business-plan-tabs {
+  @apply flex gap-2 border-b border-[#04a3ff]/30;
+}
+
+.business-plan-tab {
+  @apply relative px-6 py-3 text-[#e5e7eb]/70 transition-all duration-300;
+  border-bottom: 2px solid transparent;
+}
+
+.business-plan-tab:hover {
+  @apply text-[#e5e7eb];
+  border-bottom-color: rgba(4, 163, 255, 0.5);
+}
+
+.business-plan-tab[data-state="active"] {
+  @apply text-[#04a3ff];
+  border-bottom-color: #04a3ff;
+  box-shadow: 0 0 15px rgba(4, 163, 255, 0.3);
+}
+
+/* Tab List Container */
+.business-plan-tabs-list {
+  @apply inline-flex h-10 items-center justify-center rounded-md bg-[#000212]/50 p-1;
+  border: 1px solid rgba(4, 163, 255, 0.2);
+}
+
+/* Tab Trigger */
+.business-plan-tabs-trigger {
+  @apply inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5;
+  @apply text-sm font-medium ring-offset-[#000212] transition-all;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#04a3ff] focus-visible:ring-offset-2;
+  @apply disabled:pointer-events-none disabled:opacity-50;
+  @apply text-[#e5e7eb]/70;
+}
+
+.business-plan-tabs-trigger:hover {
+  @apply text-[#e5e7eb];
+  background: rgba(4, 163, 255, 0.1);
+}
+
+.business-plan-tabs-trigger[data-state="active"] {
+  @apply text-[#04a3ff] shadow-sm;
+  background: rgba(4, 163, 255, 0.15);
+  box-shadow: 0 0 10px rgba(4, 163, 255, 0.2);
+}
+
+/* Tab Content */
+.business-plan-tabs-content {
+  @apply mt-6 ring-offset-[#000212];
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#04a3ff] focus-visible:ring-offset-2;
+}
+
+/* Vertical Tabs */
+.business-plan-tabs-vertical {
+  @apply flex gap-6;
+}
+
+.business-plan-tabs-vertical .business-plan-tabs-list {
+  @apply flex-col items-stretch border-r border-[#04a3ff]/30;
+  border-bottom: none;
+}
+
+.business-plan-tabs-vertical .business-plan-tab {
+  @apply border-b-0 border-r-2 pl-4 pr-6;
+}
+
+.business-plan-tabs-vertical .business-plan-tab:hover {
+  border-right-color: rgba(4, 163, 255, 0.5);
+}
+
+.business-plan-tabs-vertical .business-plan-tab[data-state="active"] {
+  border-right-color: #04a3ff;
+}
+
+/* Pill-style Tabs */
+.business-plan-tabs-pill {
+  @apply inline-flex gap-1 rounded-full bg-[#000212]/50 p-1;
+  border: 1px solid rgba(4, 163, 255, 0.2);
+}
+
+.business-plan-tabs-pill .business-plan-tab {
+  @apply rounded-full border-0 px-6 py-2;
+}
+
+.business-plan-tabs-pill .business-plan-tab:hover {
+  background: rgba(4, 163, 255, 0.1);
+}
+
+.business-plan-tabs-pill .business-plan-tab[data-state="active"] {
+  @apply text-[#000212];
+  background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%);
+  box-shadow: 0 0 20px rgba(4, 163, 255, 0.4);
+}
+
+/* Underline-style Tabs */
+.business-plan-tabs-underline {
+  @apply flex gap-8 border-b-2 border-[#04a3ff]/20;
+}
+
+.business-plan-tabs-underline .business-plan-tab {
+  @apply -mb-0.5 border-b-2 border-transparent px-1 pb-3 transition-all;
+}
+
+.business-plan-tabs-underline .business-plan-tab:hover {
+  border-bottom-color: rgba(4, 163, 255, 0.5);
+}
+
+.business-plan-tabs-underline .business-plan-tab[data-state="active"] {
+  border-bottom-color: #04a3ff;
+  box-shadow: 0 2px 15px rgba(4, 163, 255, 0.3);
+}
+
+/* Tab Icon Support */
+.business-plan-tab-icon {
+  @apply mr-2 h-4 w-4;
+}
+
+.business-plan-tab[data-state="active"] .business-plan-tab-icon {
+  filter: drop-shadow(0 0 5px rgba(4, 163, 255, 0.5));
+}
+
+/* Tab Badge/Count */
+.business-plan-tab-badge {
+  @apply ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full;
+  @apply bg-[#04a3ff]/20 text-xs text-[#04a3ff];
+}
+
+.business-plan-tab[data-state="active"] .business-plan-tab-badge {
+  @apply bg-[#04a3ff] text-[#000212];
+  box-shadow: 0 0 10px rgba(4, 163, 255, 0.5);
+}
+
+/* Animations */
+@keyframes business-plan-tab-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(4, 163, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(4, 163, 255, 0.4);
+  }
+}
+
+.business-plan-tab[data-state="active"] {
+  animation: business-plan-tab-glow 2s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .business-plan-tabs {
+    @apply flex-wrap;
+  }
+
+  .business-plan-tab {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .business-plan-tabs-vertical {
+    @apply flex-col;
+  }
+
+  .business-plan-tabs-vertical .business-plan-tabs-list {
+    @apply flex-row border-b border-r-0;
+  }
+}
+
+/* Accessibility Enhancements */
+.business-plan-tab:focus-visible {
+  @apply outline-none ring-2 ring-[#04a3ff] ring-offset-2 ring-offset-[#000212];
+}
+
+.business-plan-tab[aria-disabled="true"] {
+  @apply cursor-not-allowed opacity-50;
+}
+
+/* Loading State */
+.business-plan-tab-loading {
+  @apply relative;
+}
+
+.business-plan-tab-loading::after {
+  content: "";
+  @apply absolute inset-0 animate-pulse rounded bg-[#04a3ff]/10;
+}

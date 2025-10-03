@@ -1,0 +1,128 @@
+import React from 'react';
+import { Card } from '@/components/pitch-deck/ui/card';
+import { Badge } from '@/components/pitch-deck/ui/badge';
+import { Sparkles, TrendingUp } from 'lucide-react';
+
+const TitleSlide: React.FC = () => {
+  const companies = [
+    'Volkswagen', 'Mercedes-Benz', 'BMW', 'Equinor', 'DNB', 
+    'Telenor', 'Siemens', 'Bosch', 'BASF'
+  ];
+
+  return (
+    <div className="space-y-6 md:space-y-8 font-['Inter',sans-serif] px-4 md:px-0">
+      {/* Hero Section */}
+      <div className="text-center space-y-4 md:space-y-6">
+        <div className="space-y-3 md:space-y-4">
+          <img src="/QDaria.svg" alt="QDaria Wordmark" className="w-48 sm:w-64 md:w-80 lg:w-96 mx-auto" loading="eager" />
+          <Badge className="px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-lg bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 border border-cyan-400/50 mb-3 md:mb-4">
+            Norway's First Commercial Quantum Computer Company
+          </Badge>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-400 mb-3 md:mb-4 px-2">
+            Norway's Quantum Computing Gap Crisis
+          </h1>
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-300 font-light tracking-wide mb-3 md:mb-4 px-2">
+            QDaria: Acquiring Rigetti Novera QPU to Make Norway Quantum-Ready
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 text-base md:text-lg text-orange-400 px-2">
+            <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
+            <span className="text-center">First-Mover Advantage in Nordic Quantum Computing</span>
+            <Sparkles className="w-5 h-5 md:w-6 md:h-6 hidden sm:inline" />
+          </div>
+        </div>
+      </div>
+
+      {/* Platform Overview */}
+      <Card className="qdaria-card p-4 md:p-8 border-2">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center qdaria-gradient-text">Platform Suite</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+          <div className="text-center space-y-2 md:space-y-4 group">
+            <div className="qdaria-product-container zipminator h-12 md:h-16 flex items-center justify-center">
+              <img src="/Zipminator.svg" alt="Zipminator" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-red" loading="lazy" />
+            </div>
+            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">Zipminator</h3>
+            <p className="text-xs md:text-sm text-slate-300">Post-Quantum Cryptography</p>
+          </div>
+          <div className="text-center space-y-2 md:space-y-4 group">
+            <div className="qdaria-product-container qm9 h-12 md:h-16 flex items-center justify-center">
+              <img src="/Qm9.svg" alt="Qm9" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-primary" loading="lazy" />
+            </div>
+            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">Qm9</h3>
+            <p className="text-xs md:text-sm text-slate-300">FinTech Solutions</p>
+          </div>
+          <div className="text-center space-y-2 md:space-y-4 group">
+            <div className="qdaria-product-container qmike h-12 md:h-16 flex items-center justify-center">
+              <img src="/QMike.svg" alt="QMike" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-green" loading="lazy" />
+            </div>
+            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">QMike</h3>
+            <p className="text-xs md:text-sm text-slate-300">HPC & Engineering</p>
+          </div>
+          <div className="text-center space-y-2 md:space-y-4 group">
+            <div className="qdaria-product-container qdiana h-12 md:h-16 flex items-center justify-center">
+              <img src="/QDiana.svg" alt="QDiana" className="w-12 h-12 md:w-16 md:h-16 mx-auto transition-transform group-hover:scale-110 qdaria-icon-purple" loading="lazy" />
+            </div>
+            <h3 className="font-bold text-sm md:text-lg qdaria-gradient-text">QDiana</h3>
+            <p className="text-xs md:text-sm text-slate-300">Education Platform</p>
+          </div>
+        </div>
+      </Card>
+
+      {/* Target Companies */}
+      <Card className="qdaria-card p-4 md:p-8 border-2">
+        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+          <TrendingUp className="w-6 h-6 md:w-8 md:h-8 text-red-400 flex-shrink-0" />
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold qdaria-gradient-text">Norway & Northern Europe: Quantum Computing Gap</h2>
+        </div>
+        <div className="flex flex-wrap gap-2 md:gap-3">
+          {companies.map((company) => (
+            <Badge
+              key={company}
+              className="px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 border border-cyan-400/30 hover:border-cyan-400/50 transition-all shadow-lg"
+            >
+              {company}
+            </Badge>
+          ))}
+        </div>
+        <div className="mt-4 md:mt-6 p-3 md:p-4 bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-lg border border-red-400/20">
+          <p className="text-sm md:text-base text-slate-300 font-medium">
+            <span className="text-red-400 font-bold">Zero</span> commercial quantum computers in Norway •
+            <span className="text-orange-400 font-bold">€441B</span> Nordic digital transformation at risk •
+            <span className="text-yellow-400 font-bold">Rigetti Novera QPU</span> is the solution
+          </p>
+        </div>
+      </Card>
+
+      {/* Strategic Partners */}
+      <Card className="qdaria-card p-4 md:p-8 border-2">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center qdaria-gradient-text">Strategic Partnership Framework</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div className="text-center space-y-3 md:space-y-4">
+            <img src="/Rigetti.svg" alt="Rigetti" className="h-12 md:h-16 mx-auto" loading="lazy" />
+            <h3 className="text-lg md:text-xl font-bold qdaria-gradient-text">Quantum Hardware Partner</h3>
+            <p className="text-sm md:text-base text-slate-300 px-2">Rigetti Novera QPU - Making Norway Quantum-Ready</p>
+            <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-purple-600 to-pink-600 border border-purple-400/50">
+              Hardware Acquisition Target
+            </Badge>
+          </div>
+          <div className="text-center space-y-3 md:space-y-4">
+            <img src="/management-events.svg" alt="Management Events" className="h-12 md:h-16 mx-auto" loading="lazy" />
+            <h3 className="text-lg md:text-xl font-bold qdaria-gradient-text">European Expansion Partner</h3>
+            <p className="text-sm md:text-base text-slate-300 px-2">Strategic Partnership: 60 Prime European Executive Meetings</p>
+            <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-green-600 to-emerald-600 border border-green-400/50">
+              Market Access Partnership
+            </Badge>
+          </div>
+        </div>
+      </Card>
+
+      {/* Presenter Info */}
+      <div className="text-center px-2">
+        <p className="text-slate-400 text-sm md:text-lg">
+          Presented by <span className="qdaria-gradient-text font-semibold">QDaria Team</span> • 2024 Investor Series
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default TitleSlide;

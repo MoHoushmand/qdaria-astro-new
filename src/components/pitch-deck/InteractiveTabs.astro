@@ -1,0 +1,39 @@
+---
+/**
+ * Interactive Tabs Component
+ *
+ * Astro wrapper for the Tabs UI component with proper client directive.
+ * Handles tab switching state properly in Astro context.
+ */
+
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+
+interface Tab {
+  value: string;
+  label: string;
+  content?: any;
+}
+
+interface Props {
+  defaultValue: string;
+  tabs: Tab[];
+  class?: string;
+}
+
+const { defaultValue, tabs, class: className } = Astro.props;
+---
+
+<Tabs client:load defaultValue={defaultValue} class={className}>
+  <TabsList>
+    {tabs.map(tab => (
+      <TabsTrigger value={tab.value}>
+        {tab.label}
+      </TabsTrigger>
+    ))}
+  </TabsList>
+  {tabs.map(tab => (
+    <TabsContent value={tab.value}>
+      <slot name={tab.value} />
+    </TabsContent>
+  ))}
+</Tabs>

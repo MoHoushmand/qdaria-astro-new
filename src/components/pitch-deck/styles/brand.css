@@ -1,0 +1,391 @@
+/* QDaria Brand Colors - Quantum Computing Dark Blue/Cyan Theme */
+:root {
+  /* Primary Dark Background Colors - Deep Navy/Black */
+  --qdaria-bg-primary: #0a0f1c;
+  --qdaria-bg-secondary: #0f1419;
+  --qdaria-bg-tertiary: #1a1f2e;
+  --qdaria-bg-card: #0d1117;
+  
+  /* Card Backgrounds - Dark Navy with Subtle Transparency */
+  --qdaria-card-bg: rgba(13, 17, 23, 0.95);
+  --qdaria-card-bg-hover: rgba(15, 20, 25, 0.98);
+  
+  /* Bright Cyan/Blue Colors */
+  --qdaria-primary: #00d4ff;
+  --qdaria-secondary: #0099cc;
+  --qdaria-accent: #66b3ff;
+  --qdaria-bright: #33ccff;
+  
+  /* Glow Effects - Cyan Blue */
+  --qdaria-glow-primary: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
+  --qdaria-glow-secondary: 0 0 20px rgba(0, 153, 204, 0.5), 0 0 40px rgba(0, 153, 204, 0.2);
+  --qdaria-glow-accent: 0 0 20px rgba(102, 179, 255, 0.4), 0 0 40px rgba(102, 179, 255, 0.2);
+  
+  /* Border Colors with Glow */
+  --qdaria-border-primary: rgba(0, 212, 255, 0.7);
+  --qdaria-border-secondary: rgba(0, 153, 204, 0.5);
+  --qdaria-border-accent: rgba(102, 179, 255, 0.4);
+  
+  /* Gradients */
+  --qdaria-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #66b3ff 100%);
+  --qdaria-gradient-subtle: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(102, 179, 255, 0.1) 100%);
+  
+  /* Text Colors */
+  --qdaria-text-primary: #e2e8f0;
+  --qdaria-text-secondary: #94a3b8;
+  --qdaria-text-muted: #64748b;
+}
+
+/* Dark Cards with Cyan Borders - DEFAULT STATE */
+.qdaria-card {
+  background: var(--qdaria-card-bg) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  backdrop-filter: blur(12px);
+  color: var(--qdaria-text-primary) !important;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.qdaria-card:hover {
+  background: var(--qdaria-card-bg-hover) !important;
+  box-shadow: var(--qdaria-glow-secondary) !important;
+  border-color: var(--qdaria-border-secondary) !important;
+  transform: translateY(-2px);
+}
+
+/* Cyan Gradient Text */
+.qdaria-gradient-text {
+  background: var(--qdaria-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* Cyan Buttons */
+.qdaria-button {
+  background: var(--qdaria-gradient) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  color: var(--qdaria-bg-primary) !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.qdaria-button:hover {
+  box-shadow: var(--qdaria-glow-secondary) !important;
+  transform: translateY(-2px);
+  border-color: var(--qdaria-border-secondary) !important;
+}
+
+/* Chart Styling */
+.qdaria-chart {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--qdaria-glow-primary) !important;
+}
+
+/* Progress Bars with Cyan Glow */
+.qdaria-progress {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.qdaria-progress-bar {
+  background: var(--qdaria-gradient) !important;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.6) !important;
+  transition: all 0.3s ease;
+}
+
+/* Stat Cards with Cyan Glow */
+.qdaria-stat-card {
+  background: var(--qdaria-card-bg) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  border-radius: 12px;
+  color: var(--qdaria-text-primary) !important;
+}
+
+/* Badge Styling */
+.qdaria-badge {
+  background: var(--qdaria-gradient) !important;
+  color: var(--qdaria-bg-primary) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4) !important;
+  font-weight: 600;
+}
+
+/* Tabs Styling */
+.qdaria-tabs-list {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.qdaria-tab {
+  background: transparent !important;
+  color: var(--qdaria-text-secondary) !important;
+  border: 1px solid transparent !important;
+  transition: all 0.3s ease;
+}
+
+.qdaria-tab[data-state="active"] {
+  background: var(--qdaria-gradient) !important;
+  color: var(--qdaria-bg-primary) !important;
+  border-color: var(--qdaria-border-primary) !important;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4) !important;
+}
+
+.qdaria-tab:hover {
+  background: rgba(0, 212, 255, 0.1) !important;
+  color: var(--qdaria-primary) !important;
+}
+
+/* Force Dark Backgrounds on All Chart Components */
+.recharts-wrapper,
+.recharts-surface,
+.recharts-cartesian-grid-bg {
+  background: var(--qdaria-bg-secondary) !important;
+}
+
+.recharts-default-tooltip {
+  background: var(--qdaria-bg-primary) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+}
+
+/* Table Styling */
+.qdaria-table {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 1px solid var(--qdaria-border-primary) !importanT;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.qdaria-table th {
+  background: var(--qdaria-bg-primary) !important;
+  color: var(--qdaria-primary) !important;
+  border-bottom: 1px solid var(--qdaria-border-primary) !important;
+}
+
+.qdaria-table td {
+  background: var(--qdaria-bg-secondary) !important;
+  color: var(--qdaria-text-primary) !important;
+  border-bottom: 1px solid var(--qdaria-border-accent) !important;
+}
+
+/* Timeline Styling */
+.qdaria-timeline {
+  position: relative;
+}
+
+.qdaria-timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--qdaria-gradient);
+  box-shadow: var(--qdaria-glow-primary);
+}
+
+.qdaria-timeline-item {
+  position: relative;
+  padding-left: 60px;
+  margin-bottom: 40px;
+}
+
+.qdaria-timeline-marker {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--qdaria-primary);
+  border: 3px solid var(--qdaria-bg-primary);
+  box-shadow: var(--qdaria-glow-primary);
+}
+
+/* Footer Styling */
+.qdaria-footer {
+  background: var(--qdaria-bg-primary) !important;
+  border-top: 1px solid var(--qdaria-border-primary) !important;
+  color: var(--qdaria-text-secondary) !important;
+}
+
+.qdaria-footer a {
+  color: var(--qdaria-primary) !important;
+  transition: color 0.3s ease;
+}
+
+.qdaria-footer a:hover {
+  color: var(--qdaria-bright) !important;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+}
+
+/* SVG Icon Color Filters for QDaria Brand */
+.qdaria-icon-primary {
+  filter: brightness(0) saturate(100%) invert(65%) sepia(98%) saturate(3213%) hue-rotate(175deg) brightness(103%) contrast(101%);
+}
+
+.qdaria-icon-red {
+  filter: brightness(0) saturate(100%) invert(29%) sepia(98%) saturate(6744%) hue-rotate(2deg) brightness(109%) contrast(105%);
+}
+
+.qdaria-icon-green {
+  filter: brightness(0) saturate(100%) invert(55%) sepia(91%) saturate(2574%) hue-rotate(92deg) brightness(107%) contrast(101%);
+}
+
+.qdaria-icon-purple {
+  filter: brightness(0) saturate(100%) invert(50%) sepia(84%) saturate(2758%) hue-rotate(264deg) brightness(98%) contrast(101%);
+}
+
+/* Product Icon Containers */
+.qdaria-product-container {
+  @apply relative rounded-lg border transition-all duration-300;
+  background: rgba(13, 17, 23, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.qdaria-product-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.15);
+}
+
+.qdaria-product-container.zipminator {
+  @apply border-red-400/30 bg-gradient-to-br from-red-500/20 to-orange-500/20;
+}
+
+.qdaria-product-container.qm9 {
+  @apply border-cyan-400/30 bg-gradient-to-br from-cyan-500/20 to-blue-500/20;
+}
+
+.qdaria-product-container.qmike {
+  @apply border-green-400/30 bg-gradient-to-br from-green-500/20 to-emerald-500/20;
+}
+
+.qdaria-product-container.qdiana {
+  @apply border-purple-400/30 bg-gradient-to-br from-purple-500/20 to-pink-500/20;
+}
+
+.qdaria-product-container.zipminator:hover {
+  @apply border-red-400/50;
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
+}
+
+.qdaria-product-container.qm9:hover {
+  @apply border-cyan-400/50;
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.15);
+}
+
+.qdaria-product-container.qmike:hover {
+  @apply border-green-400/50;
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.15);
+}
+
+.qdaria-product-container.qdiana:hover {
+  @apply border-purple-400/50;
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.15);
+}
+
+/* Enhanced Chart Components */
+.qdaria-chart-container {
+  background: var(--qdaria-card-bg) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  backdrop-filter: blur(12px);
+  color: var(--qdaria-text-primary) !important;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.qdaria-chart-container:hover {
+  background: var(--qdaria-card-bg-hover) !important;
+  box-shadow: var(--qdaria-glow-secondary) !important;
+  border-color: var(--qdaria-border-secondary) !important;
+  transform: translateY(-2px);
+}
+
+.qdaria-chart-title {
+  background: var(--qdaria-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+.qdaria-chart-content {
+  background: transparent;
+  border-radius: 8px;
+}
+
+.qdaria-chart-tabs {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.qdaria-chart-tab {
+  background: transparent !important;
+  color: var(--qdaria-text-secondary) !important;
+  border: 1px solid transparent !important;
+  transition: all 0.3s ease;
+}
+
+.qdaria-chart-tab[data-state="active"] {
+  background: var(--qdaria-gradient) !important;
+  color: var(--qdaria-bg-primary) !important;
+  border-color: var(--qdaria-border-primary) !important;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4) !important;
+}
+
+.qdaria-chart-tab:hover {
+  background: rgba(0, 212, 255, 0.1) !important;
+  color: var(--qdaria-primary) !important;
+}
+
+.qdaria-table-toggle {
+  background: var(--qdaria-gradient) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  color: var(--qdaria-bg-primary) !important;
+  box-shadow: var(--qdaria-glow-primary) !important;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.qdaria-table-toggle:hover {
+  box-shadow: var(--qdaria-glow-secondary) !important;
+  transform: translateY(-2px);
+  border-color: var(--qdaria-border-secondary) !important;
+}
+
+.qdaria-data-table {
+  background: var(--qdaria-bg-secondary) !important;
+  border: 1px solid var(--qdaria-border-primary) !important;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.qdaria-data-table th {
+  background: var(--qdaria-bg-primary) !important;
+  color: var(--qdaria-primary) !important;
+  border-bottom: 1px solid var(--qdaria-border-primary) !important;
+}
+
+.qdaria-data-table td {
+  background: var(--qdaria-bg-secondary) !important;
+  color: var(--qdaria-text-primary) !important;
+  border-bottom: 1px solid var(--qdaria-border-accent) !important;
+}

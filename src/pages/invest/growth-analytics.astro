@@ -1,0 +1,145 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { UserGrowthChart } from '@/components/qdaria-business-plan/charts/UserGrowthChart';
+import { ScenarioComparisonChart } from '@/components/qdaria-business-plan/charts/ScenarioComparisonChart';
+
+const metadata = {
+  title: 'Growth Analytics & Scenario Planning | QDaria',
+  description: 'Interactive user growth metrics and financial scenario comparison for QDaria quantum computing platform',
+  ogImage: '/images/QDaria-logo.jpg',
+};
+---
+
+<BaseLayout metadata={metadata}>
+  <div class="min-h-screen bg-gradient-to-b from-black via-[#000212] to-black py-12 px-4">
+    <div class="max-w-7xl mx-auto space-y-12">
+      {/* Page Header */}
+      <header class="text-center space-y-4">
+        <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+          Growth Analytics & Scenario Planning
+        </h1>
+        <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+          Comprehensive user growth projections and financial scenario analysis for QDaria's quantum computing platform
+        </p>
+      </header>
+
+      {/* User Growth Chart */}
+      <section>
+        <UserGrowthChart client:load />
+      </section>
+
+      {/* Scenario Comparison Chart */}
+      <section class="mt-16">
+        <ScenarioComparisonChart client:load />
+      </section>
+
+      {/* Key Insights */}
+      <section class="mt-16 grid md:grid-cols-2 gap-8">
+        <div class="bg-gradient-to-br from-cyan-900/20 to-blue-900/20 border border-cyan-500/30 rounded-lg p-6">
+          <h2 class="text-2xl font-bold text-cyan-400 mb-4">User Growth Highlights</h2>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 mt-1">•</span>
+              <span><strong>50,000 total users</strong> by Q4 2030 with 75% activation rate</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 mt-1">•</span>
+              <span><strong>€15M monthly recurring revenue</strong> from 10,000 paying customers</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 mt-1">•</span>
+              <span><strong>500 enterprise accounts</strong> generating majority of revenue</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 mt-1">•</span>
+              <span><strong>10% average churn rate</strong> with improving cohort retention</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 mt-1">•</span>
+              <span><strong>Viral coefficient of 1.2</strong> driving sustainable organic growth</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/30 rounded-lg p-6">
+          <h2 class="text-2xl font-bold text-purple-400 mb-4">Scenario Planning Insights</h2>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 mt-1">•</span>
+              <span><strong>Base scenario (60% probability)</strong>: €350M revenue by 2030</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 mt-1">•</span>
+              <span><strong>Conservative scenario</strong>: €28M with 50% CAGR, 15% churn</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 mt-1">•</span>
+              <span><strong>Optimistic scenario</strong>: €1.2B with 200% CAGR, 5% churn</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 mt-1">•</span>
+              <span><strong>Risk-adjusted NPV</strong> accounts for scenario probabilities</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 mt-1">•</span>
+              <span><strong>Monte Carlo simulation</strong> validates 90% confidence intervals</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Investment Rationale */}
+      <section class="mt-16">
+        <div class="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-lg p-8">
+          <h2 class="text-3xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            Investment Rationale
+          </h2>
+
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="space-y-2">
+              <h3 class="text-lg font-semibold text-blue-400">Strong Unit Economics</h3>
+              <p class="text-gray-400 text-sm">
+                LTV:CAC ratio of 5:1 with 8-month payback period demonstrates efficient customer acquisition
+              </p>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="text-lg font-semibold text-green-400">Scalable Growth Model</h3>
+              <p class="text-gray-400 text-sm">
+                Viral coefficient above 1.0 enables compounding organic growth with declining CAC over time
+              </p>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="text-lg font-semibold text-purple-400">De-Risked Projections</h3>
+              <p class="text-gray-400 text-sm">
+                Multiple scenarios with probability weighting and Monte Carlo validation provide investor confidence
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-gray-700">
+            <p class="text-gray-300 text-center">
+              <strong class="text-cyan-400">Key Assumption:</strong> Base scenario requires €12M Series A+B funding over 2025-2027
+              to achieve 100% CAGR with 10% churn rate and 1% market share by 2030
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Data Sources */}
+      <footer class="mt-12 text-center text-sm text-gray-500">
+        <p class="mb-2">
+          <strong>Data Sources:</strong> Business Plan Section 6 (Go-to-Market), Financial Projections (FINANCIAL-PROJECTIONS-CONSOLIDATED.md Section 12),
+          Customer Success Analytics, Market Research Reports
+        </p>
+        <p>
+          All projections validated against comparable company analysis and industry benchmarks for quantum computing SaaS platforms
+        </p>
+      </footer>
+    </div>
+  </div>
+</BaseLayout>

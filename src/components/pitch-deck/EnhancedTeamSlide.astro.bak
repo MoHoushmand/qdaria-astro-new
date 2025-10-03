@@ -1,0 +1,5 @@
+---
+import EnhancedTeamSlideClient from './EnhancedTeamSlideClient';
+---
+
+<EnhancedTeamSlideClient client:visible />

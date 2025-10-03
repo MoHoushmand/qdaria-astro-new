@@ -19,6 +19,8 @@ import { slugify, humanize } from "@js/textUtils";
 import { getLocaleFromUrl } from "@js/localeUtils";
 import { defaultLocale } from "@config/siteSettings.json";
 
+export const prerender = true;
+
 // generate pagination for tag pages if there are a bunch of posts for a single tag
 export async function getStaticPaths() {
   const posts = await getAllPosts("fr");

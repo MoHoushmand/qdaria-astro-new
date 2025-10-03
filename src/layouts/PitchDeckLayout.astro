@@ -1,7 +1,9 @@
 ---
 // This is a standalone layout for the pitch deck only
 // It doesn't include the main site's navbar or other components
-import '../components/pitch-deck/styles.css'; // Only pitch deck specific styles
+import '../components/pitch-deck/styles/brand.css';
+import '../components/pitch-deck/styles/chart-system.css';
+import '../components/pitch-deck/styles/mobile-responsive.css';
 
 interface Props {
   title?: string;
@@ -21,18 +23,46 @@ const { title = "QDaria Pitch Deck" } = Astro.props;
       html, body {
         margin: 0;
         padding: 0;
-        height: 100vh;
-        overflow: hidden;
+        min-height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
-      /* Ensure the pitch deck takes full viewport */
+      /* Mobile-friendly responsive container */
       .pitch-deck-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      /* Desktop: fixed layout */
+      @media (min-width: 769px) {
+        html, body {
+          height: 100vh;
+          overflow: hidden;
+        }
+
+        .pitch-deck-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
+        }
+      }
+
+      /* Mobile: scrollable layout */
+      @media (max-width: 768px) {
+        html, body {
+          overflow-y: auto !important;
+          height: auto !important;
+        }
+
+        .pitch-deck-container {
+          position: relative !important;
+          overflow-y: auto !important;
+        }
       }
     </style>
   </head>

@@ -1,0 +1,107 @@
+---
+import RiskRadarChartClient from './RiskRadarChart';
+---
+
+<div class="risk-radar-container">
+  <div class="chart-header">
+    <h3>Risk Assessment & Mitigation Strategy</h3>
+    <p class="chart-subtitle">Current risks, mitigation progress, and target goals</p>
+  </div>
+  <RiskRadarChartClient client:load />
+  <div class="risk-legend-info">
+    <div class="legend-item">
+      <span class="dot current"></span>
+      <strong>Current Risk:</strong> Unmitigated baseline risk level
+    </div>
+    <div class="legend-item">
+      <span class="dot mitigated"></span>
+      <strong>Mitigated:</strong> Risk after current controls applied
+    </div>
+    <div class="legend-item">
+      <span class="dot target"></span>
+      <strong>Target:</strong> Desired risk level post-strategy
+    </div>
+  </div>
+</div>
+
+<style>
+  .risk-radar-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin: 24px 0;
+  }
+
+  .chart-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .chart-header h3 {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .chart-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .risk-legend-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 14px;
+  }
+
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .dot.current {
+    background: #e74c3c;
+  }
+
+  .dot.mitigated {
+    background: #f39c12;
+  }
+
+  .dot.target {
+    background: #65ff00;
+  }
+
+  @media (max-width: 768px) {
+    .risk-radar-container {
+      padding: 20px;
+    }
+
+    .chart-header h3 {
+      font-size: 22px;
+    }
+
+    .risk-legend-info {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,6 @@
+---
+// Re-export the Enhanced version as the default Problem slide
+import EnhancedProblemSlide from './EnhancedProblemSlide';
+---
+
+<EnhancedProblemSlide client:visible />

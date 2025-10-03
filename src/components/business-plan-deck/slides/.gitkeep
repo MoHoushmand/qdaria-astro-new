@@ -1,0 +1,17 @@
+# Placeholder for slide components
+# Individual slide components will be created by other agents:
+# - ExecutiveSummarySlide.tsx
+# - CompanyOverviewSlide.tsx
+# - MarketAnalysisSlide.tsx
+# - CustomerSegmentsSlide.tsx
+# - CompetitiveAnalysisSlide.tsx
+# - ProductServicesSlide.tsx
+# - MarketingStrategySlide.tsx
+# - SalesStrategySlide.tsx
+# - OperationsPlanSlide.tsx
+# - ManagementTeamSlide.tsx
+# - FinancialProjectionsSlide.tsx
+# - FundingRequirementsSlide.tsx
+# - RiskAnalysisSlide.tsx
+# - MilestonesSlide.tsx
+# - AppendixSlide.tsx

@@ -1,0 +1,206 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductPortfolioChart from '@/components/qdaria-business-plan/charts/ProductPortfolioChart';
+import MarketSegmentationChart from '@/components/qdaria-business-plan/charts/MarketSegmentationChart';
+
+const title = 'QDaria Business Plan - Strategic Charts Preview';
+const description = 'Product Portfolio & Market Segmentation Analysis';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div class="container mx-auto px-4 py-12">
+      <!-- Page Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-5xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            QDaria Business Plan
+          </span>
+        </h1>
+        <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+          Strategic Visualization Charts for Investor Presentations
+        </p>
+        <div class="flex gap-4 justify-center mt-6 text-sm text-slate-500">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-cyan-500"></div>
+            <span>Total Market: $1.3T by 2035</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+            <span>QDaria Revenue: $350M by 2030</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Portfolio Chart -->
+      <section class="mb-16">
+        <div class="mb-6">
+          <h2 class="text-3xl font-bold text-white mb-2">Chart 10: Product Portfolio Analysis</h2>
+          <p class="text-slate-400">
+            7-product ecosystem with revenue breakdown and growth trajectories
+          </p>
+        </div>
+        <ProductPortfolioChart client:load />
+      </section>
+
+      <!-- Market Segmentation Chart -->
+      <section class="mb-16">
+        <div class="mb-6">
+          <h2 class="text-3xl font-bold text-white mb-2">Chart 11: Market Segmentation Analysis</h2>
+          <p class="text-slate-400">
+            Hierarchical view of $1.3T quantum computing market opportunity across 5 major sectors
+          </p>
+        </div>
+        <MarketSegmentationChart client:load />
+      </section>
+
+      <!-- Chart Features Grid -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-white mb-8 text-center">Chart Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Feature 1 -->
+          <div class="bg-slate-800/50 border border-cyan-500/20 rounded-lg p-6">
+            <div class="text-cyan-400 text-2xl mb-3">🎯</div>
+            <h3 class="text-white font-semibold mb-2">Interactive Navigation</h3>
+            <p class="text-slate-400 text-sm">
+              Click to drill down, breadcrumb navigation, and reset zoom functionality
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-slate-800/50 border border-purple-500/20 rounded-lg p-6">
+            <div class="text-purple-400 text-2xl mb-3">📊</div>
+            <h3 class="text-white font-semibold mb-2">Real-time Metrics</h3>
+            <p class="text-slate-400 text-sm">
+              Live TAM/SAM/SOM calculations, growth rates, and revenue projections
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-slate-800/50 border border-green-500/20 rounded-lg p-6">
+            <div class="text-green-400 text-2xl mb-3">🎨</div>
+            <h3 class="text-white font-semibold mb-2">QDaria Brand System</h3>
+            <p class="text-slate-400 text-sm">
+              Consistent colors, gradients, and glassmorphic design language
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="bg-slate-800/50 border border-orange-500/20 rounded-lg p-6">
+            <div class="text-orange-400 text-2xl mb-3">🔍</div>
+            <h3 class="text-white font-semibold mb-2">Search & Filter</h3>
+            <p class="text-slate-400 text-sm">
+              Keyword search, sector filtering, and market size range selection
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="bg-slate-800/50 border border-blue-500/20 rounded-lg p-6">
+            <div class="text-blue-400 text-2xl mb-3">♿</div>
+            <h3 class="text-white font-semibold mb-2">Accessibility</h3>
+            <p class="text-slate-400 text-sm">
+              Keyboard navigation, screen reader support, and WCAG 2.1 AA compliance
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="bg-slate-800/50 border border-pink-500/20 rounded-lg p-6">
+            <div class="text-pink-400 text-2xl mb-3">💾</div>
+            <h3 class="text-white font-semibold mb-2">Export Ready</h3>
+            <p class="text-slate-400 text-sm">
+              PNG export, print-friendly styling, and JSON data export
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Sources -->
+      <section class="mb-16">
+        <div class="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-lg p-8">
+          <h2 class="text-2xl font-bold text-white mb-4">Data Sources & Methodology</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+              <h3 class="text-cyan-400 font-semibold mb-2">Product Revenue Data</h3>
+              <ul class="text-slate-300 space-y-1">
+                <li>• QDaria Business Plan Section 3</li>
+                <li>• Financial Projections 2025-2030</li>
+                <li>• Individual product roadmaps</li>
+                <li>• Stage-based growth models (MVP/Beta/GA)</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-purple-400 font-semibold mb-2">Market Data</h3>
+              <ul class="text-slate-300 space-y-1">
+                <li>• Business Plan Section 2 (Market Analysis)</li>
+                <li>• McKinsey Quantum Computing Report 2024</li>
+                <li>• TAM/SAM/SOM calculations (lines 120-180)</li>
+                <li>• Industry sector breakdowns by vertical</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-6 pt-6 border-t border-slate-700">
+            <p class="text-slate-400 text-xs">
+              <strong class="text-white">Note:</strong> All projections based on conservative growth estimates
+              and validated against industry benchmarks. Market data sourced from authoritative reports
+              (McKinsey, BCG, Gartner) and adjusted for quantum computing sector specifics.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Usage Instructions -->
+      <section class="mb-16">
+        <div class="bg-slate-800/30 border border-slate-700 rounded-lg p-8">
+          <h2 class="text-2xl font-bold text-white mb-4">Integration Guide</h2>
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-cyan-400 font-semibold mb-2">Import Components</h3>
+              <pre class="bg-slate-900 border border-slate-700 rounded p-4 text-sm overflow-x-auto"><code class="text-green-400">import {{ ProductPortfolioChart, MarketSegmentationChart }} from '@/components/qdaria-business-plan/charts';</code></pre>
+            </div>
+            <div>
+              <h3 class="text-purple-400 font-semibold mb-2">Usage in Astro</h3>
+              <pre class="bg-slate-900 border border-slate-700 rounded p-4 text-sm overflow-x-auto"><code class="text-blue-400">&lt;ProductPortfolioChart client:load /&gt;
+&lt;MarketSegmentationChart client:load /&gt;</code></pre>
+            </div>
+            <div>
+              <h3 class="text-orange-400 font-semibold mb-2">TypeScript Types</h3>
+              <pre class="bg-slate-900 border border-slate-700 rounded p-4 text-sm overflow-x-auto"><code class="text-yellow-400">import type {{ ProductData, MarketNode, QDARIA_COLORS }} from '@/components/qdaria-business-plan/charts';</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="text-center text-slate-500 text-sm">
+        <p>QDaria Business Plan Charts • Built with Nivo & React • Designed for Investor Presentations</p>
+        <p class="mt-2">© 2025 QDaria AS • All Rights Reserved</p>
+      </footer>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Ensure charts render properly */
+  :global(.chart-container) {
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 0.75rem;
+    padding: 1rem;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Print styles */
+  @media print {
+    .bg-gradient-to-br {
+      background: white !important;
+    }
+
+    .text-slate-400,
+    .text-slate-500 {
+      color: #334155 !important;
+    }
+  }
+</style>

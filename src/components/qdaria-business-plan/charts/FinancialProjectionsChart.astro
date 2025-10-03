@@ -1,0 +1,31 @@
+---
+import { FinancialProjectionsChart } from './FinancialProjectionsChart.tsx';
+
+interface Props {
+  title?: string;
+  description?: string;
+  height?: number;
+}
+
+const {
+  title = 'Financial Projections (2025-2030)',
+  description = 'Three-scenario revenue and profitability projections',
+  height = 500
+} = Astro.props;
+---
+
+<div class="financial-projections-chart-wrapper">
+  <FinancialProjectionsChart
+    client:load
+    title={title}
+    description={description}
+    height={height}
+  />
+</div>
+
+<style>
+  .financial-projections-chart-wrapper {
+    width: 100%;
+    margin: 2rem 0;
+  }
+</style>

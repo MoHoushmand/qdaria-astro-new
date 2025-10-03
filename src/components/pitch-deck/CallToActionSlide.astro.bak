@@ -1,0 +1,11 @@
+---
+import CallToActionSlideClient from './CallToActionSlideClient';
+
+interface Props {
+  scenario?: 'base' | 'upside' | 'conservative';
+}
+
+const { scenario = 'base' } = Astro.props;
+---
+
+<CallToActionSlideClient scenario={scenario} client:visible />

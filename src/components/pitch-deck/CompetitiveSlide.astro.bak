@@ -1,0 +1,11 @@
+---
+import CompetitiveSlideClient from './CompetitiveSlideClient';
+
+interface Props {
+  scenario?: 'base' | 'upside' | 'conservative';
+}
+
+const { scenario = 'base' } = Astro.props;
+---
+
+<CompetitiveSlideClient scenario={scenario} client:visible />

@@ -1,0 +1,815 @@
+/**
+ * QDaria Pitch Deck Design System
+ *
+ * Brand Colors:
+ * - Primary Cyan: #04a3ff
+ * - Teal: #00ffd3
+ * - Green: #65ff00
+ *
+ * Typography:
+ * - Headings: Audiowide
+ * - Body: Inter
+ *
+ * Design Principles:
+ * - Glassmorphism with subtle transparency
+ * - Border glow effects with brand colors
+ * - Smooth animations and transitions
+ * - Mouse tracking for interactive elements
+ * - Dark mode optimized
+ */
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES (CSS VARIABLES)
+   ============================================================ */
+
+:root {
+  /* Brand Colors */
+  --qdaria-cyan: #04a3ff;
+  --qdaria-teal: #00ffd3;
+  --qdaria-green: #65ff00;
+  --qdaria-dark-bg: #000212;
+  --qdaria-dark-surface: rgba(0, 2, 18, 0.8);
+
+  /* Gradient Definitions */
+  --qdaria-gradient: linear-gradient(135deg, #04a3ff 0%, #00ffd3 50%, #65ff00 100%);
+  --qdaria-gradient-horizontal: linear-gradient(90deg, #04a3ff 0%, #00ffd3 50%, #65ff00 100%);
+  --qdaria-gradient-radial: radial-gradient(circle, #04a3ff 0%, #00ffd3 50%, #65ff00 100%);
+
+  /* Glow Effects */
+  --qdaria-glow-cyan: 0 0 25px rgba(4, 163, 255, 0.4);
+  --qdaria-glow-cyan-strong: 0 0 50px rgba(4, 163, 255, 0.6);
+  --qdaria-glow-teal: 0 0 25px rgba(0, 255, 211, 0.4);
+  --qdaria-glow-green: 0 0 25px rgba(101, 255, 0, 0.4);
+  --qdaria-glow-multi: 0 0 30px rgba(4, 163, 255, 0.3), 0 0 60px rgba(0, 255, 211, 0.2);
+
+  /* Border Colors */
+  --qdaria-border-primary: rgba(4, 163, 255, 0.3);
+  --qdaria-border-hover: rgba(4, 163, 255, 0.5);
+
+  /* Backdrop Blur */
+  --qdaria-backdrop-blur: blur(12px);
+  --qdaria-backdrop-blur-strong: blur(20px);
+
+  /* Mouse Tracking */
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+
+  /* Animation Timings */
+  --qdaria-transition-fast: 0.2s ease-in-out;
+  --qdaria-transition-normal: 0.3s ease-in-out;
+  --qdaria-transition-slow: 0.5s ease-in-out;
+}
+
+/* ============================================================
+   TYPOGRAPHY SYSTEM - QDaria.com Specification
+   ============================================================ */
+
+/* Gradient Text Effect with Pulse Animation */
+.qdaria-gradient-text {
+  background: var(--qdaria-gradient-horizontal);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: brightness(1.8) saturate(1.4);
+  text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+  animation: pulse-gradient 4s ease-in-out infinite;
+}
+
+.qdaria-gradient-text-vertical {
+  background: var(--qdaria-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: brightness(1.8) saturate(1.4);
+  animation: pulse-gradient 4s ease-in-out infinite;
+}
+
+/* Heading Styles - Matching qdaria.com Typography */
+h1, .qdaria-heading-xl {
+  font-family: 'Audiowide', system-ui, -apple-system, sans-serif;
+  font-size: 3.75rem; /* 60px - qdaria.com spec */
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h2, .qdaria-heading-lg {
+  font-family: 'Audiowide', system-ui, -apple-system, sans-serif;
+  font-size: 2.25rem; /* 36px - qdaria.com spec */
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+h3, .qdaria-heading-md {
+  font-family: 'Audiowide', system-ui, -apple-system, sans-serif;
+  font-size: 1.5rem; /* 24px - qdaria.com spec */
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+h4, .qdaria-heading-sm {
+  font-family: 'Audiowide', system-ui, -apple-system, sans-serif;
+  font-size: 1.25rem; /* 20px - qdaria.com spec */
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Body Text */
+.qdaria-body-lg {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.qdaria-body-md {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.qdaria-body-sm {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* ============================================================
+   CARD COMPONENTS
+   ============================================================ */
+
+/* Base Card with Glassmorphism */
+.qdaria-card {
+  position: relative;
+  border-radius: 1rem;
+  border: 1px solid var(--qdaria-border-primary);
+  background: var(--qdaria-dark-surface);
+  backdrop-filter: var(--qdaria-backdrop-blur);
+  -webkit-backdrop-filter: var(--qdaria-backdrop-blur);
+  box-shadow: var(--qdaria-glow-cyan);
+  transition: all var(--qdaria-transition-slow);
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.qdaria-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(4, 163, 255, 0.15),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity var(--qdaria-transition-slow);
+  pointer-events: none;
+}
+
+.qdaria-card:hover {
+  border-color: var(--qdaria-border-hover);
+  background: rgba(0, 2, 18, 0.9);
+  box-shadow: var(--qdaria-glow-cyan-strong);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.qdaria-card:hover::before {
+  opacity: 1;
+}
+
+/* Card Variants */
+.qdaria-card-elevated {
+  box-shadow: var(--qdaria-glow-multi), 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.qdaria-card-interactive {
+  cursor: pointer;
+  animation: pulse-card 2s ease-in-out infinite;
+}
+
+.qdaria-card-teal {
+  border-color: rgba(0, 255, 211, 0.3);
+  box-shadow: var(--qdaria-glow-teal);
+}
+
+.qdaria-card-teal:hover {
+  border-color: rgba(0, 255, 211, 0.5);
+  box-shadow: 0 0 50px rgba(0, 255, 211, 0.6);
+}
+
+.qdaria-card-green {
+  border-color: rgba(101, 255, 0, 0.3);
+  box-shadow: var(--qdaria-glow-green);
+}
+
+.qdaria-card-green:hover {
+  border-color: rgba(101, 255, 0, 0.5);
+  box-shadow: 0 0 50px rgba(101, 255, 0, 0.6);
+}
+
+/* Compact Card */
+.qdaria-card-compact {
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+/* Feature Card (larger with icon) */
+.qdaria-feature-card {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid var(--qdaria-border-primary);
+  background: var(--qdaria-dark-surface);
+  backdrop-filter: var(--qdaria-backdrop-blur);
+  -webkit-backdrop-filter: var(--qdaria-backdrop-blur);
+  box-shadow: var(--qdaria-glow-cyan);
+  transition: all var(--qdaria-transition-slow);
+  overflow: visible;
+  padding: 2rem;
+}
+
+.qdaria-feature-card:hover {
+  box-shadow: var(--qdaria-glow-cyan-strong);
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--qdaria-border-hover);
+  background: rgba(0, 2, 18, 0.9);
+  animation: pulse-card 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   BUTTON COMPONENTS
+   ============================================================ */
+
+/* Primary Button with Gradient */
+.qdaria-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--qdaria-border-primary);
+  background: var(--qdaria-gradient-horizontal);
+  color: white;
+  box-shadow: var(--qdaria-glow-cyan);
+  cursor: pointer;
+  transition: all var(--qdaria-transition-normal);
+  overflow: hidden;
+}
+
+.qdaria-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #00ffd3 0%, #65ff00 100%);
+  opacity: 0;
+  transition: opacity var(--qdaria-transition-normal);
+}
+
+.qdaria-button:hover {
+  box-shadow: var(--qdaria-glow-cyan-strong), 0 0 70px rgba(4, 163, 255, 0.8);
+  transform: translateY(-2px);
+  border-color: var(--qdaria-border-hover);
+}
+
+.qdaria-button:hover::before {
+  opacity: 1;
+}
+
+.qdaria-button:active {
+  transform: translateY(0);
+}
+
+.qdaria-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Button Variants */
+.qdaria-button-outline {
+  background: transparent;
+  border: 2px solid var(--qdaria-cyan);
+  color: var(--qdaria-cyan);
+  box-shadow: none;
+}
+
+.qdaria-button-outline:hover {
+  background: rgba(4, 163, 255, 0.1);
+  border-color: var(--qdaria-teal);
+  color: var(--qdaria-teal);
+  box-shadow: var(--qdaria-glow-cyan);
+}
+
+.qdaria-button-ghost {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: var(--qdaria-cyan);
+}
+
+.qdaria-button-ghost:hover {
+  background: rgba(4, 163, 255, 0.1);
+  color: var(--qdaria-teal);
+}
+
+.qdaria-button-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.qdaria-button-lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+/* Icon Button */
+.qdaria-button-icon {
+  padding: 0.75rem;
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+/* ============================================================
+   TABS COMPONENT
+   ============================================================ */
+
+.qdaria-tabs {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  background: rgba(0, 2, 18, 0.6);
+  border-radius: 0.75rem;
+  border: 1px solid var(--qdaria-border-primary);
+  backdrop-filter: var(--qdaria-backdrop-blur);
+}
+
+.qdaria-tab {
+  position: relative;
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all var(--qdaria-transition-normal);
+  white-space: nowrap;
+}
+
+.qdaria-tab:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(4, 163, 255, 0.1);
+}
+
+.qdaria-tab.active,
+.qdaria-tab[aria-selected="true"] {
+  color: white;
+  background: var(--qdaria-gradient-horizontal);
+  box-shadow: var(--qdaria-glow-cyan);
+  font-weight: 600;
+}
+
+.qdaria-tab-content {
+  padding: 1.5rem 0;
+}
+
+/* Vertical Tabs */
+.qdaria-tabs-vertical {
+  flex-direction: column;
+  width: fit-content;
+}
+
+.qdaria-tabs-vertical .qdaria-tab {
+  text-align: left;
+}
+
+/* ============================================================
+   BACKGROUNDS & GRADIENTS
+   ============================================================ */
+
+/* Animated Gradient Background */
+.qdaria-background {
+  position: relative;
+  background: var(--qdaria-dark-bg);
+  overflow: hidden;
+}
+
+.qdaria-background::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(
+    circle at 20% 50%,
+    rgba(4, 163, 255, 0.15) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    circle at 80% 80%,
+    rgba(0, 255, 211, 0.1) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    circle at 40% 20%,
+    rgba(101, 255, 0, 0.08) 0%,
+    transparent 50%
+  );
+  animation: gradient-flow 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Static Gradient Overlay */
+.qdaria-gradient-overlay {
+  position: relative;
+}
+
+.qdaria-gradient-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--qdaria-gradient);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* Mesh Gradient Background */
+.qdaria-mesh-gradient {
+  background:
+    radial-gradient(at 27% 37%, rgba(4, 163, 255, 0.1) 0px, transparent 50%),
+    radial-gradient(at 97% 21%, rgba(0, 255, 211, 0.08) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, rgba(101, 255, 0, 0.06) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, rgba(4, 163, 255, 0.07) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, rgba(0, 255, 211, 0.05) 0px, transparent 50%);
+  background-color: var(--qdaria-dark-bg);
+}
+
+/* ============================================================
+   MOUSE GLOW EFFECT
+   ============================================================ */
+
+.qdaria-mouse-glow {
+  position: relative;
+}
+
+.qdaria-mouse-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(4, 163, 255, 0.15),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity var(--qdaria-transition-normal);
+  pointer-events: none;
+}
+
+.qdaria-mouse-glow:hover::before {
+  opacity: 1;
+}
+
+/* Strong Mouse Glow */
+.qdaria-mouse-glow-strong::before {
+  background: radial-gradient(
+    500px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(4, 163, 255, 0.25),
+    transparent 40%
+  );
+}
+
+/* Multi-color Mouse Glow */
+.qdaria-mouse-glow-multi::before {
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+    rgba(4, 163, 255, 0.15),
+    rgba(0, 255, 211, 0.1) 30%,
+    transparent 60%
+  );
+}
+
+/* ============================================================
+   BORDER EFFECTS
+   ============================================================ */
+
+.qdaria-border-glow {
+  border: 1px solid var(--qdaria-border-primary);
+  box-shadow: var(--qdaria-glow-cyan);
+}
+
+.qdaria-border-glow:hover {
+  border-color: var(--qdaria-border-hover);
+  box-shadow: var(--qdaria-glow-cyan-strong);
+}
+
+/* Animated Border */
+.qdaria-border-animated {
+  position: relative;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--qdaria-dark-bg), var(--qdaria-dark-bg)) padding-box,
+    var(--qdaria-gradient-horizontal) border-box;
+  border-radius: 1rem;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* Glass Effect */
+.qdaria-glass {
+  background: rgba(0, 2, 18, 0.6);
+  backdrop-filter: var(--qdaria-backdrop-blur);
+  -webkit-backdrop-filter: var(--qdaria-backdrop-blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.qdaria-glass-strong {
+  background: rgba(0, 2, 18, 0.8);
+  backdrop-filter: var(--qdaria-backdrop-blur-strong);
+  -webkit-backdrop-filter: var(--qdaria-backdrop-blur-strong);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Glow Text */
+.qdaria-glow-text {
+  text-shadow: 0 0 20px currentColor;
+}
+
+.qdaria-glow-text-cyan {
+  color: var(--qdaria-cyan);
+  text-shadow: 0 0 20px rgba(4, 163, 255, 0.6);
+}
+
+.qdaria-glow-text-teal {
+  color: var(--qdaria-teal);
+  text-shadow: 0 0 20px rgba(0, 255, 211, 0.6);
+}
+
+.qdaria-glow-text-green {
+  color: var(--qdaria-green);
+  text-shadow: 0 0 20px rgba(101, 255, 0, 0.6);
+}
+
+/* Dividers */
+.qdaria-divider {
+  height: 1px;
+  background: var(--qdaria-gradient-horizontal);
+  opacity: 0.3;
+  margin: 2rem 0;
+}
+
+.qdaria-divider-vertical {
+  width: 1px;
+  height: 100%;
+  background: var(--qdaria-gradient);
+  opacity: 0.3;
+}
+
+/* Badge */
+.qdaria-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  background: var(--qdaria-gradient-horizontal);
+  color: white;
+  box-shadow: var(--qdaria-glow-cyan);
+}
+
+.qdaria-badge-outline {
+  background: transparent;
+  border: 1px solid var(--qdaria-cyan);
+  color: var(--qdaria-cyan);
+  box-shadow: none;
+}
+
+/* Pulse Effect */
+.qdaria-pulse {
+  animation: qdaria-pulse 2s ease-in-out infinite;
+}
+
+/* Floating Effect */
+.qdaria-float {
+  animation: qdaria-float 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   ANIMATIONS & KEYFRAMES
+   ============================================================ */
+
+@keyframes pulse-gradient {
+  0%, 100% {
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+  }
+  50% {
+    filter: brightness(2) saturate(1.6);
+    text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+  }
+}
+
+@keyframes pulse-card {
+  0%, 100% {
+    box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+  }
+}
+
+@keyframes gradient-flow {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30%, -50%) rotate(120deg);
+  }
+  66% {
+    transform: translate(-20%, 20%) rotate(240deg);
+  }
+}
+
+@keyframes qdaria-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes qdaria-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes qdaria-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(4, 163, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(4, 163, 255, 0.6);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE UTILITIES
+   ============================================================ */
+
+@media (max-width: 768px) {
+  h1, .qdaria-heading-xl {
+    font-size: 2.5rem; /* 40px on tablet */
+  }
+
+  h2, .qdaria-heading-lg {
+    font-size: 2rem; /* 32px on tablet */
+  }
+
+  h3, .qdaria-heading-md {
+    font-size: 1.5rem; /* 24px on tablet */
+  }
+
+  h4, .qdaria-heading-sm {
+    font-size: 1.125rem; /* 18px on tablet */
+  }
+
+  .qdaria-card {
+    padding: 1rem;
+  }
+
+  .qdaria-feature-card {
+    padding: 1.5rem;
+  }
+
+  .qdaria-button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  h1, .qdaria-heading-xl {
+    font-size: 2rem; /* 32px on mobile */
+  }
+
+  h2, .qdaria-heading-lg {
+    font-size: 1.75rem; /* 28px on mobile */
+  }
+
+  h3, .qdaria-heading-md {
+    font-size: 1.25rem; /* 20px on mobile */
+  }
+
+  h4, .qdaria-heading-sm {
+    font-size: 1rem; /* 16px on mobile */
+  }
+
+  .qdaria-tabs {
+    flex-direction: column;
+  }
+
+  .qdaria-tab {
+    text-align: left;
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY & REDUCED MOTION
+   ============================================================ */
+
+/* Focus Indicators */
+.qdaria-button:focus-visible,
+.qdaria-tab:focus-visible,
+.qdaria-card:focus-visible {
+  outline: 3px solid var(--qdaria-cyan);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(4, 163, 255, 0.2);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .qdaria-gradient-text,
+  .qdaria-card-interactive,
+  .qdaria-pulse,
+  .qdaria-float,
+  .qdaria-background::before {
+    animation: none !important;
+  }
+}
+
+/* Screen Reader Only */
+.qdaria-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================================
+   DARK MODE OPTIMIZATIONS
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --qdaria-dark-bg: #000212;
+    --qdaria-dark-surface: rgba(0, 2, 18, 0.9);
+  }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+
+@media print {
+  .qdaria-background::before,
+  .qdaria-mouse-glow::before,
+  .qdaria-card::before {
+    display: none;
+  }
+
+  .qdaria-card,
+  .qdaria-button,
+  .qdaria-badge {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .qdaria-gradient-text {
+    -webkit-text-fill-color: currentColor;
+    background: none;
+  }
+}

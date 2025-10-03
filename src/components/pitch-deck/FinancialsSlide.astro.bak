@@ -1,0 +1,11 @@
+---
+import FinancialsSlideClient from './FinancialsSlideClient';
+
+interface Props {
+  scenario?: 'base' | 'upside' | 'conservative';
+}
+
+const { scenario = 'base' } = Astro.props;
+---
+
+<FinancialsSlideClient client:visible />
