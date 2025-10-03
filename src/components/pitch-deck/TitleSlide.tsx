@@ -70,7 +70,7 @@ const TitleSlide: React.FC = () => {
           {companies.map((company) => (
             <Badge
               key={company}
-              className="px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 border border-cyan-400/30 hover:border-cyan-400/50 transition-all shadow-lg"
+              className="px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base font-semibold text-white bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 border border-cyan-400/30 hover:border-cyan-400/50 transition-all shadow-lg"
             >
               {company}
             </Badge>
