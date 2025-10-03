@@ -95,19 +95,23 @@ const TitleSlide: React.FC = () => {
             </div>
             <h3 className="text-lg md:text-xl font-bold qdaria-gradient-text">Quantum Hardware Partner</h3>
             <p className="text-sm md:text-base text-slate-400 font-light px-2"><span className="font-semibold text-slate-200">Rigetti Novera QPU</span> - Making <span className="font-semibold text-slate-200">Norway</span> Quantum-Ready</p>
-            <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-purple-600 to-pink-600 border border-purple-400/50">
-              Hardware Acquisition Target
-            </Badge>
+            <div className="flex justify-center">
+              <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-purple-600 to-pink-600 border border-purple-400/50">
+                Hardware Acquisition Target
+              </Badge>
+            </div>
           </div>
           <div className="text-center space-y-3 md:space-y-4 flex flex-col">
             <div className="h-16 md:h-24 flex items-center justify-center">
               <img src="/icons/qdaria/Managementevents-logo-white.png.webp" alt="Management Events" className="h-12 md:h-18 mx-auto" loading="lazy" />
             </div>
             <h3 className="text-lg md:text-xl font-bold qdaria-gradient-text">European Expansion Partner</h3>
-            <p className="text-sm md:text-base text-slate-400 font-light px-2">Strategic Partnership: <span className="font-semibold text-slate-200">60 Prime European Executive Meetings</span></p>
-            <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-green-600 to-emerald-600 border border-green-400/50">
-              Market Access Partnership
-            </Badge>
+            <p className="text-sm md:text-base text-slate-400 font-light px-2"><span className="font-semibold text-slate-200">Strategic Partnership</span>: 60 Prime European Executive Meetings</p>
+            <div className="flex justify-center">
+              <Badge className="px-3 py-1 text-xs md:text-sm bg-gradient-to-r from-green-600 to-emerald-600 border border-green-400/50">
+                Market Access Partnership
+              </Badge>
+            </div>
           </div>
         </div>
       </Card>
