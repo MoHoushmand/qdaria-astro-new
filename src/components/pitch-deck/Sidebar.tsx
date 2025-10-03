@@ -111,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Slide Navigation */}
-      <div className="flex-1 overflow-auto p-3 md:p-4" role="list" aria-label="Slide list">
+      <div className="flex-1 overflow-y-auto p-3 md:p-4" role="list" aria-label="Slide list" style={{maxHeight: 'calc(100vh - 400px)'}}>
         <h3 className="text-xs md:text-sm font-semibold mb-3 text-white" id="slides-heading">
           Slides
         </h3>

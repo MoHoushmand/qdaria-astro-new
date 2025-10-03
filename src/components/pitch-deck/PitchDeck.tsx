@@ -40,7 +40,7 @@ const SlideLoader = () => (
 const PitchDeck: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [scenario, setScenario] = useState<'base' | 'upside' | 'conservative'>('base');
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Start closed on mobile
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Start open by default
   const [isHydrated, setIsHydrated] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -53,24 +53,24 @@ const PitchDeck: React.FC = () => {
   }, []);
 
   const slides = [
-    { id: 0, title: '01 QDaria - Quantum+AI', component: TitleSlide },
-    { id: 1, title: 'Problem', component: ProblemSlide },
-    { id: 2, title: 'Solution', component: EnhancedSolutionSlide },
-    { id: 3, title: 'Market Opportunity', component: MarketSlide },
-    { id: 4, title: 'Business Model', component: BusinessModelSlide },
-    { id: 5, title: 'Revenue Streams', component: RevenueStreamsSlide },
-    { id: 6, title: 'Product Portfolio', component: ProductPortfolioSlide },
-    { id: 7, title: 'Technology Advantage', component: TechnologySlide },
-    { id: 8, title: 'Traction & Milestones', component: TractionSlide },
-    { id: 9, title: 'Customer Validation', component: CustomerValidationSlide },
-    { id: 10, title: 'Go-to-Market Strategy', component: GoToMarketSlide },
-    { id: 11, title: 'IP & Patents', component: IPPatentsSlide },
-    { id: 12, title: 'Team', component: TeamSlide },
-    { id: 13, title: 'Financial Projections', component: FinancialsSlide },
-    { id: 14, title: 'Competitive Analysis', component: CompetitiveSlide },
-    { id: 15, title: 'Risk & Mitigation', component: RiskMitigationSlide },
-    { id: 16, title: 'Investor FAQ', component: InvestorFAQSlide },
-    { id: 17, title: 'Call to Action', component: CallToActionSlide },
+    { id: 0, title: '01. QDaria - Quantum+AI', component: TitleSlide },
+    { id: 1, title: '02. Problem', component: ProblemSlide },
+    { id: 2, title: '03. Solution', component: EnhancedSolutionSlide },
+    { id: 3, title: '04. Market Opportunity', component: MarketSlide },
+    { id: 4, title: '05. Business Model', component: BusinessModelSlide },
+    { id: 5, title: '06. Revenue Streams', component: RevenueStreamsSlide },
+    { id: 6, title: '07. Product Portfolio', component: ProductPortfolioSlide },
+    { id: 7, title: '08. Technology Advantage', component: TechnologySlide },
+    { id: 8, title: '09. Traction & Milestones', component: TractionSlide },
+    { id: 9, title: '10. Customer Validation', component: CustomerValidationSlide },
+    { id: 10, title: '11. Go-to-Market Strategy', component: GoToMarketSlide },
+    { id: 11, title: '12. IP & Patents', component: IPPatentsSlide },
+    { id: 12, title: '13. Team', component: TeamSlide },
+    { id: 13, title: '14. Financial Projections', component: FinancialsSlide },
+    { id: 14, title: '15. Competitive Analysis', component: CompetitiveSlide },
+    { id: 15, title: '16. Risk & Mitigation', component: RiskMitigationSlide },
+    { id: 16, title: '17. Investor FAQ', component: InvestorFAQSlide },
+    { id: 17, title: '18. Call to Action', component: CallToActionSlide },
   ];
 
   const nextSlide = () => {
