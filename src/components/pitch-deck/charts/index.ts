@@ -10,17 +10,21 @@ export { AnimatedPieChart } from './AnimatedPieChart';
 export { AnimatedCountUp, AnimatedMetricCard } from './AnimatedCountUp';
 
 // Advanced Chart Components for QDaria Pitch Deck
-// Using ECharts, Plotly, ApexCharts, @nivo, @visx, and Recharts
-export { default as MarketSizeChart } from './MarketSizeChart';
+// Using Recharts only for SSR compatibility
+// ECharts, Plotly, and other heavy libraries are excluded to prevent SSR errors
 export { default as GrowthMetricsChart } from './GrowthMetricsChart';
 export { default as RevenueProjectionsChart } from './RevenueProjectionsChart';
 export { default as ProductComparisonChart } from './ProductComparisonChart';
 export { default as CompetitiveMatrixChart } from './CompetitiveMatrixChart';
-export { default as TechnologyArchitectureChart } from './TechnologyArchitectureChart';
 export { default as RevenueStreamsChart } from './RevenueStreamsChart';
 export { default as TeamGrowthChart } from './TeamGrowthChart';
 export { default as IncomeBreakdownChart } from './IncomeBreakdownChart';
 export { default as KeyMetricsChart } from './KeyMetricsChart';
+
+// ECharts-based charts are commented out to prevent SSR "self is not defined" errors
+// Uncomment and use dynamic imports if needed client-side only
+// export { default as MarketSizeChart } from './MarketSizeChart';
+// export { default as TechnologyArchitectureChart } from './TechnologyArchitectureChart';
 
 // Chart configuration types
 export interface ChartConfig {
