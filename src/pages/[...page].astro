@@ -27,7 +27,7 @@ export async function getStaticPaths() {
     return locale === defaultLocale;
   });
 
-  return Promise.all(
+  const paths = await Promise.all(
     filteredPages.map(async (page: CollectionEntry<"otherPages">) => {
       const { Content } = await page.render();
       return {
@@ -38,6 +38,19 @@ export async function getStaticPaths() {
         },
       };
     })
+  );
+
+  // Exclude static file paths to prevent 404 warnings
+  const staticExclusions = [
+    'meta.json',
+    'favicon.svg',
+    'logomark.webp',
+    'logomark.png',
+    'fonts/inter.woff2'
+  ];
+
+  return paths.filter(path =>
+    !staticExclusions.some(exclude => path.params.page.includes(exclude))
   );
 }
 

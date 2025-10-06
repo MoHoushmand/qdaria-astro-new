@@ -116,7 +116,7 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
     # Performance Headers
-    Content-Encoding = "gzip, br"
+    # Removed Content-Encoding to prevent double compression (Netlify handles this automatically)
     Vary = "Accept-Encoding"
 
     # Resource hints for performance

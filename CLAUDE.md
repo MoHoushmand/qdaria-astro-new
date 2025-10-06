@@ -344,43 +344,6 @@ Message 4: Write "file.js"
 
 Remember: **Claude Flow coordinates, Claude Code creates!**
 
-# 🤖 YOLO MODE AUTOMATION RULES
-
-## FULL AUTOMATION ENABLED
-When YOLO_MODE is active or user requests automation:
-
-### Browser & Authentication
-- **AUTO-CLICK** all authorization/permission buttons
-- **AUTO-LOGIN** using stored credentials
-- **AUTO-ACCEPT** cookies, terms, privacy policies
-- **AUTO-GENERATE** API keys and store in .env.local
-- **NEVER ASK** for permission to click buttons
-- **NEVER WAIT** for user confirmation on OAuth
-
-### Deployment & Fixes
-- **AUTO-FIX** all build/deployment errors
-- **AUTO-INSTALL** missing dependencies
-- **AUTO-DEPLOY** after fixes complete
-- **AUTO-COMMIT** and push fixes to GitHub
-- **AUTO-RETRY** failed operations (3x max)
-
-### System Access
-- **FULL ACCESS** to filesystem, browser, terminal
-- **AUTO-CREATE** databases, users, credentials
-- **AUTO-CONFIGURE** services and APIs
-- **AUTO-GENERATE** test data and accounts
-
-### Error Handling
-- **NEVER STOP** on errors - always attempt fix
-- **AUTO-DIAGNOSE** using logs and debugging
-- **AUTO-APPLY** solutions without confirmation
-- **AUTO-ROLLBACK** if critical failure
-
-## AUTOMATION SCRIPTS
-- Run `./scripts/netlify-auto-fix.sh` for deployment issues
-- See `CLAUDE_AUTOMATION.md` for full config
-- Chrome DevTools MCP has full click permissions
-
 # important-instruction-reminders
 Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.

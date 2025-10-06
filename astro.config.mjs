@@ -10,13 +10,13 @@ export default defineConfig({
   adapter: netlify(),
   integrations: [
     tailwind({
-      applyBaseStyles: true,
+      applyBaseStyles: true, // Re-enabled for proper base styles
     }),
     react({
       include: ['**/react/*', '**/pitch-deck/*'],
     }),
     mdx(),
-    compress({
+    ...(process.env.NODE_ENV === 'production' ? [compress({
       CSS: true,
       HTML: {
         removeAttributeQuotes: false,
@@ -27,7 +27,7 @@ export default defineConfig({
       JavaScript: true,
       SVG: true,
       Logger: 1, // Minimal logging
-    })
+    })] : [])
   ],
   build: {
     inlineStylesheets: 'never', // Never inline for better caching
@@ -193,6 +193,8 @@ export default defineConfig({
   server: {
     host: true, // Listen on all available network interfaces
     port: 4321, // Explicitly set the default port
+    // Disable compression in dev mode to prevent double encoding (gzip+br)
+    compress: false,
     headers: {
       'Content-Security-Policy': `
         default-src 'self';

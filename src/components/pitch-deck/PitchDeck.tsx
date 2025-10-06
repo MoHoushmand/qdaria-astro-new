@@ -1,31 +1,30 @@
 /** @jsxImportSource react */
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/pitch-deck/ui/button';
 import { ChevronLeft, ChevronRight, Download, Menu, X } from 'lucide-react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import Sidebar from './Sidebar';
 import ErrorBoundary from './ErrorBoundary';
 
-// Lazy load all slides for optimal bundle splitting
-// NOTE: Fixed re-export pattern - importing Enhanced versions directly
-const TitleSlide = lazy(() => import('./TitleSlide'));
-const ProblemSlide = lazy(() => import('./EnhancedProblemSlide'));
-const EnhancedSolutionSlide = lazy(() => import('./EnhancedSolutionSlide'));
-const MarketSlide = lazy(() => import('./MarketSlide'));
-const BusinessModelSlide = lazy(() => import('./EnhancedBusinessModelSlide'));
-const RevenueStreamsSlide = lazy(() => import('./RevenueStreamsSlide'));
-const ProductPortfolioSlide = lazy(() => import('./ProductPortfolioSlide'));
-const TechnologySlide = lazy(() => import('./TechnologySlide'));
-const TractionSlide = lazy(() => import('./TractionSlide'));
-const CustomerValidationSlide = lazy(() => import('./CustomerValidationSlide'));
-const GoToMarketSlide = lazy(() => import('./GoToMarketSlide'));
-const IPPatentsSlide = lazy(() => import('./IPPatentsSlide'));
-const TeamSlide = lazy(() => import('./EnhancedTeamSlide'));
-const FinancialsSlide = lazy(() => import('./FinancialsSlide'));
-const CompetitiveSlide = lazy(() => import('./CompetitiveSlide'));
-const RiskMitigationSlide = lazy(() => import('./RiskMitigationSlide'));
-const InvestorFAQSlide = lazy(() => import('./InvestorFAQSlide'));
-const CallToActionSlide = lazy(() => import('./CallToActionSlide'));
+// Import slides directly to avoid hydration failures from dynamic chunk loading
+import TitleSlide from './TitleSlide';
+import ProblemSlide from './EnhancedProblemSlide';
+import EnhancedSolutionSlide from './EnhancedSolutionSlide';
+import MarketSlide from './MarketSlide';
+import BusinessModelSlide from './EnhancedBusinessModelSlide';
+import RevenueStreamsSlide from './RevenueStreamsSlide';
+import ProductPortfolioSlide from './ProductPortfolioSlide';
+import TechnologySlide from './TechnologySlide';
+import TractionSlide from './TractionSlide';
+import CustomerValidationSlide from './CustomerValidationSlide';
+import GoToMarketSlide from './GoToMarketSlide';
+import IPPatentsSlide from './IPPatentsSlide';
+import TeamSlide from './EnhancedTeamSlide';
+import FinancialsSlide from './FinancialsSlide';
+import CompetitiveSlide from './CompetitiveSlide';
+import RiskMitigationSlide from './RiskMitigationSlide';
+import InvestorFAQSlide from './InvestorFAQSlide';
+import CallToActionSlide from './CallToActionSlide';
 
 // Loading component for slides with accessibility
 const SlideLoader = () => (
@@ -260,11 +259,9 @@ const PitchDeck: React.FC = () => {
 
         <div id="main-content" className="flex-1 p-3 md:p-6 overflow-y-auto" role="region" aria-label="Pitch deck slide content">
           <div className="max-w-6xl mx-auto">
-            <ErrorBoundary>
-              <Suspense fallback={<SlideLoader />}>
+              <ErrorBoundary>
                 <CurrentSlideComponent scenario={scenario} />
-              </Suspense>
-            </ErrorBoundary>
+              </ErrorBoundary>
           </div>
         </div>
 

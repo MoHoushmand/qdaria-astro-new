@@ -7,18 +7,39 @@ interface Props {
 }
 
 const { navItem } = Astro.props;
+// Generate unique ID for accessibility
+const dropdownId = `dropdown-${navItem.text.toLowerCase().replace(/\s+/g, '-')}`;
 ---
 
-<div class="nav-dropdown relative group">
+<!--
+  NAVIGATION DROPDOWN COMPONENT
+
+  Features:
+  - Desktop: Hover-based interaction with keyboard navigation support
+  - Mobile: Click/tap-based interaction with proper touch handling
+  - Full ARIA support for screen readers
+  - Keyboard navigation (Tab, Enter, Space, Escape, Arrow keys)
+  - Proper focus management and visual indicators
+-->
+<div
+  class="nav-dropdown relative group"
+  data-dropdown-container
+  role="navigation"
+  aria-label={`${navItem.text} menu`}
+>
   <button
     type="button"
     class="nav-item inline-flex items-center gap-2 nav-dropdown-toggle"
     aria-expanded="false"
+    aria-haspopup="true"
+    aria-controls={dropdownId}
     data-dropdown-toggle
+    tabindex="0"
   >
     <span>{navItem.text}</span>
     <svg
-      class="h-4 w-4 text-base-400 transition-transform md:group-hover:rotate-180"
+      class="h-4 w-4 text-base-400 transition-transform duration-200 ease-in-out"
+      aria-hidden="true"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -32,18 +53,28 @@ const { navItem } = Astro.props;
     </svg>
   </button>
 
-  <div class="nav-dropdown-panel absolute left-0 top-full z-10 mt-1 hidden w-max min-w-[240px] origin-top-left opacity-0 transition-all duration-200 md:group-hover:block md:group-hover:opacity-100" aria-hidden="true">
+  <div
+    id={dropdownId}
+    class="nav-dropdown-panel absolute left-0 top-full z-[9999] mt-0 hidden w-max min-w-[240px] origin-top-left opacity-0 transition-all duration-200 ease-in-out pointer-events-none"
+    role="menu"
+    aria-hidden="true"
+    data-dropdown-panel
+  >
     <div class="rounded-xl border border-primary-500/30 bg-dark-bg p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
       <div class="py-1">
-        {isNavDropdownItem(navItem) && navItem.dropdown.map((item) => (
-          <div class="relative group/sub">
+        {isNavDropdownItem(navItem) && navItem.dropdown.map((item, index) => (
+          <div class="relative group/sub" role="none">
             {isNavDropdownItem(item) ? (
               <>
                 <button
                   type="button"
                   class="nav-dropdown-item flex w-full items-center justify-between nav-dropdown-toggle"
                   aria-expanded="false"
+                  aria-haspopup="true"
+                  aria-controls={`${dropdownId}-sub-${index}`}
                   data-dropdown-toggle
+                  role="menuitem"
+                  tabindex="-1"
                 >
                   <div>
                     <div class="font-medium">{item.text}</div>
@@ -52,7 +83,8 @@ const { navItem } = Astro.props;
                     )}
                   </div>
                   <svg
-                    class="ml-2 h-4 w-4 text-base-400 transition-transform group-hover/sub:translate-x-1"
+                    class="ml-2 h-4 w-4 text-base-400 transition-transform duration-200 ease-in-out"
+                    aria-hidden="true"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -65,13 +97,21 @@ const { navItem } = Astro.props;
                     />
                   </svg>
                 </button>
-                <div class="nav-dropdown-sub absolute left-full top-0 hidden min-w-[240px] pl-2 md:group-hover/sub:block" aria-hidden="true">
+                <div
+                  id={`${dropdownId}-sub-${index}`}
+                  class="nav-dropdown-sub absolute left-full top-0 hidden min-w-[240px] pl-2 opacity-0 transition-all duration-200 ease-in-out pointer-events-none"
+                  role="menu"
+                  aria-hidden="true"
+                  data-dropdown-panel
+                >
                   <div class="rounded-xl border border-primary-500/30 bg-dark-bg p-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="py-1">
                       {isNavDropdownItem(item) && item.dropdown.map((child) => (
                         <a
                           href={child.link}
                           class="nav-dropdown-item flex w-full items-start"
+                          role="menuitem"
+                          tabindex="-1"
                         >
                           <div>
                             <div class="font-medium">{child.text}</div>
@@ -89,6 +129,8 @@ const { navItem } = Astro.props;
               <a
                 href={item.link}
                 class="nav-dropdown-item flex w-full items-start"
+                role="menuitem"
+                tabindex="-1"
               >
                 <div>
                   <div class="font-medium">{item.text}</div>
@@ -106,30 +148,66 @@ const { navItem } = Astro.props;
 </div>
 
 <style>
-  /* Desktop styles */
+  /* Base styles - Apply to all screen sizes */
+  .nav-dropdown-toggle {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-bg rounded-lg;
+  }
+
+  .nav-dropdown-toggle[aria-expanded="true"] svg {
+    @apply rotate-180;
+  }
+
+  .nav-dropdown-item {
+    @apply rounded-lg px-4 py-2 text-sm text-base-200 transition-all;
+    @apply hover:bg-primary-500/10 focus:bg-primary-500/20;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500/50;
+    @apply cursor-pointer;
+  }
+
+  /* Desktop styles - Hover-based interaction */
   @media (min-width: 768px) {
-    .nav-dropdown-panel {
+    .nav-dropdown-panel,
+    .nav-dropdown-sub {
       @apply transform;
       animation: fadeIn 0.2s ease-out;
     }
 
-    .nav-dropdown-sub {
-      @apply transform;
-      animation: fadeIn 0.2s ease-out;
+    /* Show dropdown on hover */
+    .nav-dropdown:hover > .nav-dropdown-panel,
+    .nav-dropdown:focus-within > .nav-dropdown-panel {
+      @apply block opacity-100 pointer-events-auto;
+    }
+
+    /* Show sub-dropdown on hover */
+    .group\/sub:hover > .nav-dropdown-sub,
+    .group\/sub:focus-within > .nav-dropdown-sub {
+      @apply block opacity-100 pointer-events-auto;
+    }
+
+    /* Update ARIA on desktop hover */
+    .nav-dropdown:hover > button[aria-expanded] {
+      aria-expanded: true;
+    }
+
+    /* Ensure panels stay visible when hovered directly */
+    .nav-dropdown-panel:hover,
+    .nav-dropdown-sub:hover {
+      @apply block opacity-100 pointer-events-auto;
     }
   }
 
-  /* Mobile styles */
+  /* Mobile styles - Click/tap-based interaction */
   @media (max-width: 767px) {
     .nav-dropdown-panel,
     .nav-dropdown-sub {
-      @apply block transform opacity-0;
-      transition: opacity 0.2s ease-out;
+      @apply transform;
+      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     }
 
+    /* Show dropdown when aria-hidden is false */
     .nav-dropdown-panel[aria-hidden="false"],
     .nav-dropdown-sub[aria-hidden="false"] {
-      @apply opacity-100;
+      @apply block opacity-100 pointer-events-auto;
     }
 
     /* Position sub-dropdowns below on mobile instead of to the side */
@@ -137,12 +215,19 @@ const { navItem } = Astro.props;
       @apply left-0 top-full pl-4;
       position: relative !important;
     }
+
+    /* Ensure touch targets are large enough (44px minimum) */
+    .nav-dropdown-toggle,
+    .nav-dropdown-item {
+      @apply min-h-[44px] flex items-center;
+    }
   }
 
+  /* Animation keyframes */
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-8px);
     }
     to {
       opacity: 1;
@@ -150,89 +235,291 @@ const { navItem } = Astro.props;
     }
   }
 
-  .nav-dropdown-item {
-    @apply rounded-lg px-4 py-2 text-sm text-base-200 transition-all hover:bg-primary-500/10;
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .nav-dropdown-item:hover,
+    .nav-dropdown-item:focus {
+      @apply bg-primary-500/30;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dropdown-panel,
+    .nav-dropdown-sub,
+    .nav-dropdown-toggle svg {
+      @apply transition-none;
+      animation: none;
+    }
   }
 </style>
 
 <script>
+  /**
+   * NAVIGATION DROPDOWN FUNCTIONALITY
+   *
+   * Features:
+   * - Mobile: Click/tap interaction with proper touch handling
+   * - Desktop: Hover interaction with keyboard support
+   * - Full keyboard navigation (Tab, Enter, Space, Escape, Arrow keys)
+   * - ARIA compliance for screen readers
+   * - Focus management and trapping
+   * - Outside click detection
+   */
+
+  type DropdownButton = HTMLButtonElement & { dataset: { dropdownToggle: string } };
+  type DropdownPanel = HTMLElement & { dataset: { dropdownPanel: string } };
+
+  /**
+   * Toggle dropdown state on mobile devices
+   */
   function handleDropdownToggle(e: Event) {
-    if (window.innerWidth >= 768) return; // Only handle clicks on mobile
-    
-    const button = e.currentTarget as HTMLButtonElement;
-    const panel = button.nextElementSibling as HTMLElement;
+    // On desktop, use CSS hover - only handle clicks on mobile
+    if (window.innerWidth >= 768) return;
+
+    const button = e.currentTarget as DropdownButton;
+    const panel = button.nextElementSibling as DropdownPanel;
     if (!panel) return;
-    
+
     e.preventDefault();
     e.stopPropagation();
-    
+
     const isExpanded = button.getAttribute('aria-expanded') === 'true';
-    
-    // Close other dropdowns at the same level
-    const parent = button.closest('.nav-dropdown')?.parentElement;
-    if (parent) {
-      parent.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle][aria-expanded="true"]').forEach(otherButton => {
-        if (otherButton !== button) {
-          otherButton.setAttribute('aria-expanded', 'false');
-          const otherPanel = otherButton.nextElementSibling as HTMLElement;
-          if (otherPanel) {
-            otherPanel.setAttribute('aria-hidden', 'true');
-          }
-        }
-      });
-    }
+
+    // Close sibling dropdowns at the same level
+    closeOtherDropdowns(button);
 
     // Toggle current dropdown
-    button.setAttribute('aria-expanded', (!isExpanded).toString());
-    panel.setAttribute('aria-hidden', isExpanded.toString());
+    setDropdownState(button, panel, !isExpanded);
 
-    // Handle sub-dropdowns
+    // If closing, close all nested sub-dropdowns
     if (isExpanded) {
-      panel.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle][aria-expanded="true"]').forEach(subButton => {
-        subButton.setAttribute('aria-expanded', 'false');
-        const subPanel = subButton.nextElementSibling as HTMLElement;
-        if (subPanel) {
-          subPanel.setAttribute('aria-hidden', 'true');
-        }
-      });
+      closeNestedDropdowns(panel);
+    }
+
+    // Set focus on first item when opening
+    if (!isExpanded) {
+      focusFirstMenuItem(panel);
     }
   }
 
-  // Initialize dropdowns
-  function initDropdowns() {
-    document.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle]').forEach(button => {
-      button.addEventListener('click', handleDropdownToggle);
+  /**
+   * Handle keyboard navigation within dropdowns
+   */
+  function handleKeyboardNavigation(e: KeyboardEvent) {
+    const target = e.target as HTMLElement;
+    const button = target.closest('[data-dropdown-toggle]') as DropdownButton;
+    const menuItem = target.closest('[role="menuitem"]') as HTMLElement;
+    const container = target.closest('[data-dropdown-container]') as HTMLElement;
+
+    // Handle dropdown toggle button
+    if (button) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleDropdownToggle(e);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeDropdown(button);
+        button.focus();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const panel = button.nextElementSibling as DropdownPanel;
+        if (panel) {
+          const isExpanded = button.getAttribute('aria-expanded') === 'true';
+          if (!isExpanded) {
+            setDropdownState(button, panel, true);
+          }
+          focusFirstMenuItem(panel);
+        }
+      }
+    }
+
+    // Handle menu items
+    if (menuItem && container) {
+      const panel = menuItem.closest('[data-dropdown-panel]') as DropdownPanel;
+      const allItems = Array.from(panel?.querySelectorAll('[role="menuitem"]') || []) as HTMLElement[];
+      const currentIndex = allItems.indexOf(menuItem);
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % allItems.length;
+        allItems[nextIndex]?.focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIndex = (currentIndex - 1 + allItems.length) % allItems.length;
+        allItems[prevIndex]?.focus();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        const parentButton = panel?.previousElementSibling as DropdownButton;
+        if (parentButton) {
+          closeDropdown(parentButton);
+          parentButton.focus();
+        }
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        allItems[0]?.focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        allItems[allItems.length - 1]?.focus();
+      }
+    }
+  }
+
+  /**
+   * Set dropdown open/closed state with proper ARIA attributes
+   */
+  function setDropdownState(button: DropdownButton, panel: DropdownPanel, isOpen: boolean) {
+    button.setAttribute('aria-expanded', isOpen.toString());
+    panel.setAttribute('aria-hidden', (!isOpen).toString());
+
+    // Update menu item tabindex for keyboard navigation
+    const menuItems = panel.querySelectorAll('[role="menuitem"]');
+    menuItems.forEach((item) => {
+      (item as HTMLElement).setAttribute('tabindex', isOpen ? '0' : '-1');
     });
   }
 
-  // Close dropdowns when clicking outside
-  document.addEventListener('click', (e: MouseEvent) => {
-    if (window.innerWidth >= 768) return; // Only handle clicks on mobile
-    
-    const target = e.target as HTMLElement;
-    if (!target.closest('.nav-dropdown')) {
-      document.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle]').forEach(button => {
-        button.setAttribute('aria-expanded', 'false');
-        const panel = button.nextElementSibling as HTMLElement;
-        if (panel) {
-          panel.setAttribute('aria-hidden', 'true');
-          // Also close any open sub-dropdowns
-          panel.querySelectorAll<HTMLButtonElement>('[data-dropdown-toggle][aria-expanded="true"]').forEach(subButton => {
-            subButton.setAttribute('aria-expanded', 'false');
-            const subPanel = subButton.nextElementSibling as HTMLElement;
-            if (subPanel) {
-              subPanel.setAttribute('aria-hidden', 'true');
-            }
-          });
+  /**
+   * Close a specific dropdown
+   */
+  function closeDropdown(button: DropdownButton) {
+    const panel = button.nextElementSibling as DropdownPanel;
+    if (panel) {
+      setDropdownState(button, panel, false);
+      closeNestedDropdowns(panel);
+    }
+  }
+
+  /**
+   * Close all nested sub-dropdowns within a panel
+   */
+  function closeNestedDropdowns(panel: HTMLElement) {
+    panel.querySelectorAll<DropdownButton>('[data-dropdown-toggle][aria-expanded="true"]').forEach(subButton => {
+      const subPanel = subButton.nextElementSibling as DropdownPanel;
+      if (subPanel) {
+        setDropdownState(subButton, subPanel, false);
+      }
+    });
+  }
+
+  /**
+   * Close sibling dropdowns at the same level
+   */
+  function closeOtherDropdowns(currentButton: DropdownButton) {
+    const parent = currentButton.closest('.nav-dropdown')?.parentElement;
+    if (parent) {
+      parent.querySelectorAll<DropdownButton>('[data-dropdown-toggle][aria-expanded="true"]').forEach(otherButton => {
+        if (otherButton !== currentButton) {
+          closeDropdown(otherButton);
         }
       });
     }
-  });
+  }
+
+  /**
+   * Focus the first menu item in a panel
+   */
+  function focusFirstMenuItem(panel: DropdownPanel) {
+    const firstItem = panel.querySelector('[role="menuitem"]') as HTMLElement;
+    if (firstItem) {
+      setTimeout(() => firstItem.focus(), 100); // Small delay for transition
+    }
+  }
+
+  /**
+   * Handle desktop hover interactions
+   */
+  function handleDesktopHover() {
+    if (window.innerWidth < 768) return;
+
+    document.querySelectorAll('[data-dropdown-container]').forEach(container => {
+      const button = container.querySelector('[data-dropdown-toggle]') as DropdownButton;
+      const panel = container.querySelector('[data-dropdown-panel]') as DropdownPanel;
+
+      if (!button || !panel) return;
+
+      container.addEventListener('mouseenter', () => {
+        setDropdownState(button, panel, true);
+      });
+
+      container.addEventListener('mouseleave', () => {
+        setDropdownState(button, panel, false);
+      });
+    });
+  }
+
+  /**
+   * Initialize all dropdown event listeners
+   */
+  function initDropdowns() {
+    // Click handlers for mobile
+    document.querySelectorAll<DropdownButton>('[data-dropdown-toggle]').forEach(button => {
+      button.addEventListener('click', handleDropdownToggle);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', handleKeyboardNavigation);
+
+    // Desktop hover (only on desktop)
+    handleDesktopHover();
+
+    // Close all dropdowns when clicking outside
+    document.addEventListener('click', handleOutsideClick);
+
+    // Handle window resize
+    window.addEventListener('resize', handleResize);
+  }
+
+  /**
+   * Close dropdowns when clicking outside on mobile
+   */
+  function handleOutsideClick(e: MouseEvent) {
+    if (window.innerWidth >= 768) return; // Only on mobile
+
+    const target = e.target as HTMLElement;
+    if (!target.closest('[data-dropdown-container]')) {
+      document.querySelectorAll<DropdownButton>('[data-dropdown-toggle]').forEach(button => {
+        closeDropdown(button);
+      });
+    }
+  }
+
+  /**
+   * Handle window resize - close all dropdowns on resize
+   */
+  let resizeTimer: number;
+  function handleResize() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      document.querySelectorAll<DropdownButton>('[data-dropdown-toggle]').forEach(button => {
+        closeDropdown(button);
+      });
+    }, 250);
+  }
+
+  /**
+   * Cleanup function to remove event listeners
+   */
+  function cleanupDropdowns() {
+    document.removeEventListener('keydown', handleKeyboardNavigation);
+    document.removeEventListener('click', handleOutsideClick);
+    window.removeEventListener('resize', handleResize);
+  }
 
   // Initialize on page load
   initDropdowns();
 
   // Re-initialize after Astro page transitions
-  document.addEventListener('astro:page-load', initDropdowns);
-  document.addEventListener('astro:after-swap', initDropdowns);
+  document.addEventListener('astro:page-load', () => {
+    cleanupDropdowns();
+    initDropdowns();
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    cleanupDropdowns();
+    initDropdowns();
+  });
+
+  // Cleanup before page navigation
+  document.addEventListener('astro:before-preparation', cleanupDropdowns);
 </script>

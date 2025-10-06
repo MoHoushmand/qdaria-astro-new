@@ -86,6 +86,31 @@ export const navData: navItem[] = [
     ],
   },
   {
+    text: "Invest",
+    dropdown: [
+      {
+        text: "Pitch Deck",
+        link: "/invest/pitch",
+        description: "Series A funding pitch presentation"
+      },
+      {
+        text: "Business Plan",
+        link: "/invest/business-plan",
+        description: "Comprehensive business strategy and financial projections"
+      },
+      {
+        text: "Growth Analytics",
+        link: "/invest/growth-analytics",
+        description: "Market analysis and growth metrics"
+      },
+      {
+        text: "Investors",
+        link: "/invest/investors",
+        description: "Investment opportunities and partnerships"
+      }
+    ],
+  },
+  {
     text: "Whitepaper",
     link: "/whitepaper",
   },

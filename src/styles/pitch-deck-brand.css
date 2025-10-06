@@ -48,9 +48,15 @@
 /* Global Pitch Deck Styling */
 .pitch-deck-container,
 [class*="pitch-deck"] {
-  background: var(--qdaria-bg-primary) !important;
+  background: var(--qdaria-bg-primary);
   color: var(--qdaria-text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Pitch deck specific wrapper - higher specificity */
+#pitch-deck-root,
+.pitch-deck-wrapper {
+  background: var(--qdaria-bg-primary) !important;
 }
 
 /* Gradient Text Headings - EXACT MATCH to qdaria.com */
@@ -77,9 +83,7 @@ h3.qdaria-gradient-text,
 
 /* Glassmorphic Cards - EXACT MATCH */
 .qdaria-card,
-[class*="qdaria"][class*="card"],
-.card,
-[class*="Card"] {
+[class*="qdaria"][class*="card"] {
   background: var(--qdaria-card-bg) !important;
   border: 1px solid var(--qdaria-border-primary) !important;
   border-radius: 12px !important;
@@ -89,12 +93,31 @@ h3.qdaria-gradient-text,
   transition: all 0.3s ease;
 }
 
+/* Lower specificity for shadcn/ui cards - let Tailwind override */
+.card,
+[class*="Card"] {
+  background: var(--qdaria-card-bg);
+  border: 1px solid var(--qdaria-border-primary);
+  border-radius: 12px;
+  box-shadow: var(--qdaria-glow-primary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
 .qdaria-card:hover,
-.card:hover,
-[class*="Card"]:hover {
+[class*="qdaria"][class*="card"]:hover {
   background: var(--qdaria-card-bg-hover) !important;
   box-shadow: var(--qdaria-glow-secondary) !important;
   border-color: var(--qdaria-cyan) !important;
+  transform: translateY(-2px);
+}
+
+.card:hover,
+[class*="Card"]:hover {
+  background: var(--qdaria-card-bg-hover);
+  box-shadow: var(--qdaria-glow-secondary);
+  border-color: var(--qdaria-cyan);
   transform: translateY(-2px);
 }
 
@@ -305,32 +328,36 @@ svg[class*="recharts"] {
   padding: 2rem !important;
 }
 
-/* Typography */
-h1 {
-  font-size: 2.5rem !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
-  margin-bottom: 1rem !important;
+/* Typography - Pitch Deck Specific */
+.pitch-deck-wrapper h1,
+.pitch-deck-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
-h2 {
-  font-size: 2rem !important;
-  font-weight: 700 !important;
-  line-height: 1.3 !important;
-  margin-bottom: 0.875rem !important;
+.pitch-deck-wrapper h2,
+.pitch-deck-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.875rem;
 }
 
-h3 {
-  font-size: 1.5rem !important;
-  font-weight: 600 !important;
-  line-height: 1.4 !important;
-  margin-bottom: 0.75rem !important;
+.pitch-deck-wrapper h3,
+.pitch-deck-container h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
 }
 
-p {
-  color: var(--qdaria-text-secondary) !important;
-  line-height: 1.7 !important;
-  margin-bottom: 1rem !important;
+.pitch-deck-wrapper p,
+.pitch-deck-container p {
+  color: var(--qdaria-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
 }
 
 /* Links */
@@ -428,4 +455,23 @@ svg,
 ::selection {
   background: rgba(4, 163, 255, 0.3);
   color: var(--qdaria-bg-primary);
+}
+
+/* Spin animation for loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Enable scrolling for mobile devices */
+:root {
+  min-height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  :root {
+    overflow-y: auto !important;
+    height: auto;
+  }
 }
