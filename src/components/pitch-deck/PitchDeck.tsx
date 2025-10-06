@@ -40,16 +40,10 @@ const PitchDeck: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [scenario, setScenario] = useState<'base' | 'upside' | 'conservative'>('base');
   const [sidebarOpen, setSidebarOpen] = useState(true); // Start open by default
-  const [isHydrated, setIsHydrated] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   // Announce slide changes to screen readers
   const [announcement, setAnnouncement] = React.useState('');
-
-  // Handle hydration
-  React.useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   const slides = [
     { id: 0, title: '01. QDaria - Quantum+AI', component: TitleSlide },
@@ -164,8 +158,8 @@ const PitchDeck: React.FC = () => {
 
   const CurrentSlideComponent = slides[currentSlide]?.component;
 
-  // Don't render until hydrated to prevent SSR mismatch
-  if (!isHydrated || !CurrentSlideComponent) {
+  // Fallback if no component found
+  if (!CurrentSlideComponent) {
     return (
       <div className="flex items-center justify-center min-h-screen" style={{background: '#000212'}}>
         <SlideLoader />
