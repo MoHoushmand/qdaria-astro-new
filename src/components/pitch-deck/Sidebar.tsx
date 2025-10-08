@@ -74,18 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       {/* Header Section */}
       <div className="p-4 md:p-6 border-b border-cyan-400/20 bg-gradient-to-r from-cyan-400/20 to-orange-400/20">
-        <div className="flex items-center justify-between gap-3">
-          <img
-            src="/icons/qdaria/QDlogomark.svg"
-            alt="QDaria logomark"
-            className="h-10 md:h-12 flex-shrink-0"
-            loading="eager"
-          />
-          <div className="flex-1">
-            <p className="text-cyan-300 text-sm md:text-base font-semibold" aria-label="Platform tagline">
-              Quantum+AI Platform
-            </p>
-          </div>
+        <div className="flex items-center justify-end">
           {!isMobile && (
             <Button
               variant="ghost"

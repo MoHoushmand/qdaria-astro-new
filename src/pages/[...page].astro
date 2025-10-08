@@ -10,7 +10,7 @@ import ExternalLink from "../components/MarkdownComponents/ExternalLink.astro";
 // utils
 import { defaultLocale } from "../config/siteSettings.json";
 
-export const prerender = true;
+export const prerender = false;
 
 export async function getStaticPaths() {
   const otherPages = await getCollection(
@@ -42,6 +42,7 @@ export async function getStaticPaths() {
 
   // Exclude static file paths to prevent 404 warnings
   const staticExclusions = [
+    '_astro',
     'meta.json',
     'favicon.svg',
     'logomark.webp',
