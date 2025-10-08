@@ -228,12 +228,6 @@ const PitchDeck: React.FC = () => {
                   <span className="sr-only">Open sidebar</span>
                 </Button>
               )}
-              <img
-                src="/icons/qdaria/QDwordmark2.svg"
-                alt="QDaria wordmark"
-                className="h-8 md:h-10"
-                loading="eager"
-              />
             </div>
 
             <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 /*
   X-Frame-Options: ALLOW-FROM https://www.beautiful.ai
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net; frame-ancestors 'self' https://www.beautiful.ai; connect-src 'self' https://www.google-analytics.com;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net; frame-ancestors 'self' https://www.beautiful.ai; connect-src 'self' https://www.google-analytics.com;
   # REMOVED: Clear-Site-Data was causing MIME type errors by clearing cache on every request
   # REMOVED: Aggressive cache-busting headers that prevented proper module loading
   # Allow browser caching for better performance and module loading
