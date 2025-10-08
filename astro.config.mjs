@@ -201,7 +201,7 @@ export default defineConfig({
         script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         img-src 'self' data: https:;
-        font-src 'self' https://fonts.gstatic.com;
+        font-src 'self' data: https://fonts.gstatic.com;
         connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
       `.replace(/\s+/g, ' ').trim()
     }

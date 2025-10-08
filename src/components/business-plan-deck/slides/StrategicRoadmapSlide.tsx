@@ -275,7 +275,7 @@ export const StrategicRoadmapSlide: React.FC = () => {
     }
   ];
 
-  const ipoData = [
+  const ipoData: Array<{ year: string; value: number; ipo?: string }> = [
     { year: '2027', value: 0 },
     { year: '2028', value: 1, ipo: 'Zipminator' },
     { year: '2029', value: 3, ipo: 'Qm9, QDiana' },

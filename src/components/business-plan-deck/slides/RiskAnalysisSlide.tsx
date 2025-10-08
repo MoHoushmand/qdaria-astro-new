@@ -254,8 +254,10 @@ export const RiskAnalysisSlide: React.FC = () => {
                   <CardContent>
                     <AnimatedRadarChart
                       data={riskRadarData}
-                      dataKey="value"
-                      categoryKey="category"
+                      radars={[
+                        { dataKey: 'value', stroke: '#00d4ff', fill: '#00d4ff', fillOpacity: 0.5, name: 'Risk Level' }
+                      ]}
+                      angleKey="category"
                       height={400}
                     />
                   </CardContent>

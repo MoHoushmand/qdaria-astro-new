@@ -99,6 +99,11 @@ export const navData: navItem[] = [
         description: "Comprehensive business strategy and financial projections"
       },
       {
+        text: "Whitepaper",
+        link: "/invest/whitepaper",
+        description: "Technical whitepaper and platform architecture"
+      },
+      {
         text: "Growth Analytics",
         link: "/invest/growth-analytics",
         description: "Market analysis and growth metrics"
@@ -109,14 +114,6 @@ export const navData: navItem[] = [
         description: "Investment opportunities and partnerships"
       }
     ],
-  },
-  {
-    text: "Whitepaper",
-    link: "/whitepaper",
-  },
-  {
-    text: "Pitch",
-    link: "/pitch",
   }
 ];
 

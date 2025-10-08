@@ -259,18 +259,19 @@ export const FinancialProjectionsSlide: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="chart-container-professional">
-                  <AnimatedAreaChart
-                    data={revenueData[scenario]}
-                    areas={[
-                      { dataKey: 'hardware', fill: '#65ff00', stroke: '#65ff00', name: 'Hardware Rentals' },
-                      { dataKey: 'software', fill: '#00d4ff', stroke: '#00d4ff', name: 'Software Platforms' },
-                      { dataKey: 'ai', fill: '#ff00ff', stroke: '#ff00ff', name: 'AI Services' }
-                    ]}
-                    xAxisKey="year"
-                    height={400}
-                    showGrid={true}
-                    showLegend={true}
-                  />
+                    <AnimatedAreaChart
+                      data={revenueData[scenario]}
+                      areas={[
+                        { dataKey: 'hardware', fill: '#65ff00', stroke: '#65ff00', name: 'Hardware Rentals' },
+                        { dataKey: 'software', fill: '#00d4ff', stroke: '#00d4ff', name: 'Software Platforms' },
+                        { dataKey: 'ai', fill: '#ff00ff', stroke: '#ff00ff', name: 'AI Services' }
+                      ]}
+                      xAxisKey="year"
+                      height={400}
+                      showGrid={true}
+                      showLegend={true}
+                    />
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -600,8 +601,6 @@ export const FinancialProjectionsSlide: React.FC = () => {
                   <CardContent>
                     <AnimatedPieChart
                       data={revenueBreakdown2030}
-                      dataKey="value"
-                      nameKey="name"
                       height={400}
                       showLegend={true}
                     />
