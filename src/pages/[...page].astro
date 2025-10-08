@@ -10,7 +10,7 @@ import ExternalLink from "../components/MarkdownComponents/ExternalLink.astro";
 // utils
 import { defaultLocale } from "../config/siteSettings.json";
 
-export const prerender = false;
+export const prerender = true;
 
 export async function getStaticPaths() {
   const otherPages = await getCollection(

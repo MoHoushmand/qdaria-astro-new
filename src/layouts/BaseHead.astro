@@ -1,7 +1,4 @@
 ---
-import "../styles/globals.css";
-import "../styles/global.scss";
-
 interface Props {
   title: string;
   description: string;
@@ -160,3 +157,9 @@ const ogImage = "/icons/qdaria/QDlogomark.svg"; // Updated to use QDaria logo
   http-equiv="Content-Security-Policy"
   content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob: ws:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com;"
 />
+
+<!-- Global Styles -->
+<style is:global>
+  @import '../styles/globals.css';
+  @import '../styles/global.scss';
+</style>
