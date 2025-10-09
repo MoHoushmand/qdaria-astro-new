@@ -5,6 +5,7 @@ import NavDropdownToggle from "./NavDropdown/NavDropdownToggle.astro";
 import MobileNav from "./MobileNav.astro";
 import Button from "../Button/Button.astro";
 import ThemeToggle from "../ThemeToggle/ThemeToggle.astro";
+import DevelopmentWarningModal from "./DevelopmentWarningModal.astro";
 
 /** Example navData (customize to your needs) */
 import type { navItem } from "../../config/types/configDataTypes";
@@ -260,6 +261,9 @@ const navData: navItem[] = [
   <!-- Mobile Navigation -->
   <MobileNav navData={navData} />
 </div>
+
+<!-- Development Warning Modal -->
+<DevelopmentWarningModal />
 
 <style>
   .navbar--scrolled {

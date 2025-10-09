@@ -624,6 +624,11 @@ const timeline = [
   }
 
   .reveal-element {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-element.gsap-ready {
     opacity: 0;
     transform: translateY(20px);
   }
@@ -835,10 +840,11 @@ const timeline = [
   }
 
   function initAnimations() {
+    const elements = document.querySelectorAll(".reveal-element");
+
     // Skip GSAP animations if user prefers reduced motion
     if (prefersReducedMotion) {
-      // Immediately show all elements without animation
-      const elements = document.querySelectorAll(".reveal-element");
+      // Elements are already visible, just ensure no transforms
       elements.forEach((element) => {
         (element as HTMLElement).style.opacity = '1';
         (element as HTMLElement).style.transform = 'none';
@@ -846,7 +852,8 @@ const timeline = [
       return;
     }
 
-    const elements = document.querySelectorAll(".reveal-element");
+    // Mark elements as ready for GSAP animation
+    elements.forEach(el => el.classList.add('gsap-ready'));
 
     // Batch GSAP animations with optimized settings
     const batchSize = 5; // Process elements in batches

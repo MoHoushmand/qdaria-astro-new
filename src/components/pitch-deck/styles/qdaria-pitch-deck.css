@@ -336,6 +336,18 @@ h4, .qdaria-heading-sm {
   aspect-ratio: 1;
 }
 
+/* Ensure button interactivity - prevents CSS from blocking clicks */
+button:not(:disabled),
+.qdaria-button:not(:disabled) {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+button:not(:disabled):hover,
+.qdaria-button:not(:disabled):hover {
+  cursor: pointer !important;
+}
+
 /* ============================================================
    TABS COMPONENT
    ============================================================ */

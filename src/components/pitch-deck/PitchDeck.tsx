@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/pitch-deck/ui/button';
-import { ChevronLeft, ChevronRight, Download, Menu, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Menu } from 'lucide-react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import Sidebar from './Sidebar';
 import ErrorBoundary from './ErrorBoundary';
@@ -26,6 +26,27 @@ import RiskMitigationSlide from './RiskMitigationSlide';
 import InvestorFAQSlide from './InvestorFAQSlide';
 import CallToActionSlide from './CallToActionSlide';
 
+const SLIDES = [
+  { id: 0, title: '01. QDaria - Quantum+AI', component: TitleSlide },
+  { id: 1, title: '02. Problem', component: ProblemSlide },
+  { id: 2, title: '03. Solution', component: EnhancedSolutionSlide },
+  { id: 3, title: '04. Market Opportunity', component: MarketSlide },
+  { id: 4, title: '05. Business Model', component: BusinessModelSlide },
+  { id: 5, title: '06. Revenue Streams', component: RevenueStreamsSlide },
+  { id: 6, title: '07. Product Portfolio', component: ProductPortfolioSlide },
+  { id: 7, title: '08. Technology Advantage', component: TechnologySlide },
+  { id: 8, title: '09. Traction & Milestones', component: TractionSlide },
+  { id: 9, title: '10. Customer Validation', component: CustomerValidationSlide },
+  { id: 10, title: '11. Go-to-Market Strategy', component: GoToMarketSlide },
+  { id: 11, title: '12. IP & Patents', component: IPPatentsSlide },
+  { id: 12, title: '13. Team', component: TeamSlide },
+  { id: 13, title: '14. Financial Projections', component: FinancialsSlide },
+  { id: 14, title: '15. Competitive Analysis', component: CompetitiveSlide },
+  { id: 15, title: '16. Risk & Mitigation', component: RiskMitigationSlide },
+  { id: 16, title: '17. Investor FAQ', component: InvestorFAQSlide },
+  { id: 17, title: '18. Call to Action', component: CallToActionSlide },
+] as const;
+
 // Loading component for slides with accessibility
 const SlideLoader = () => (
   <div className="flex items-center justify-center h-96" role="status" aria-label="Loading slide content">
@@ -43,47 +64,63 @@ const PitchDeck: React.FC = () => {
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   // Announce slide changes to screen readers
-  const [announcement, setAnnouncement] = React.useState('');
+  const [announcement, setAnnouncement] = useState('');
+  const slides = SLIDES;
 
-  const slides = [
-    { id: 0, title: '01. QDaria - Quantum+AI', component: TitleSlide },
-    { id: 1, title: '02. Problem', component: ProblemSlide },
-    { id: 2, title: '03. Solution', component: EnhancedSolutionSlide },
-    { id: 3, title: '04. Market Opportunity', component: MarketSlide },
-    { id: 4, title: '05. Business Model', component: BusinessModelSlide },
-    { id: 5, title: '06. Revenue Streams', component: RevenueStreamsSlide },
-    { id: 6, title: '07. Product Portfolio', component: ProductPortfolioSlide },
-    { id: 7, title: '08. Technology Advantage', component: TechnologySlide },
-    { id: 8, title: '09. Traction & Milestones', component: TractionSlide },
-    { id: 9, title: '10. Customer Validation', component: CustomerValidationSlide },
-    { id: 10, title: '11. Go-to-Market Strategy', component: GoToMarketSlide },
-    { id: 11, title: '12. IP & Patents', component: IPPatentsSlide },
-    { id: 12, title: '13. Team', component: TeamSlide },
-    { id: 13, title: '14. Financial Projections', component: FinancialsSlide },
-    { id: 14, title: '15. Competitive Analysis', component: CompetitiveSlide },
-    { id: 15, title: '16. Risk & Mitigation', component: RiskMitigationSlide },
-    { id: 16, title: '17. Investor FAQ', component: InvestorFAQSlide },
-    { id: 17, title: '18. Call to Action', component: CallToActionSlide },
-  ];
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.body.classList.add('pitch-deck-active');
 
-  const nextSlide = () => {
+    // Disable the development warning modal on pitch deck
+    const modal = document.getElementById('dev-warning-modal');
+    if (modal) {
+      modal.style.display = 'none';
+      modal.style.pointerEvents = 'none';
+    }
+
+    return () => {
+      document.body.classList.remove('pitch-deck-active');
+      if (modal) {
+        modal.style.display = '';
+        modal.style.pointerEvents = '';
+      }
+    };
+  }, []);
+
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => {
-      const next = (prev + 1) % slides.length;
+      if (prev >= slides.length - 1) {
+        return prev;
+      }
+      const next = prev + 1;
       setAnnouncement(`Navigated to slide ${next + 1} of ${slides.length}: ${slides[next].title}`);
       return next;
     });
-  };
+  }, [slides]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => {
-      const next = (prev - 1 + slides.length) % slides.length;
+      if (prev <= 0) {
+        return prev;
+      }
+      const next = prev - 1;
       setAnnouncement(`Navigated to slide ${next + 1} of ${slides.length}: ${slides[next].title}`);
       return next;
     });
-  };
+  }, [slides]);
+
+  const handleSlideSelect = useCallback((slide: number) => {
+    setCurrentSlide((prev) => {
+      const bounded = Math.min(Math.max(slide, 0), slides.length - 1);
+      if (bounded !== prev) {
+        setAnnouncement(`Navigated to slide ${bounded + 1} of ${slides.length}: ${slides[bounded].title}`);
+      }
+      return bounded;
+    });
+  }, [slides]);
 
   // Keyboard navigation for accessibility
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if user is typing in an input or textarea
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
@@ -94,29 +131,35 @@ const PitchDeck: React.FC = () => {
         case 'ArrowRight':
         case 'PageDown':
           e.preventDefault();
-          if (currentSlide < slides.length - 1) nextSlide();
+          nextSlide();
           break;
         case 'ArrowLeft':
         case 'PageUp':
           e.preventDefault();
-          if (currentSlide > 0) prevSlide();
+          prevSlide();
           break;
         case 'Home':
           e.preventDefault();
-          setCurrentSlide(0);
-          setAnnouncement(`Jumped to first slide: ${slides[0].title}`);
+          setCurrentSlide((prev) => {
+            if (prev === 0) return prev;
+            setAnnouncement(`Jumped to first slide: ${SLIDES[0].title}`);
+            return 0;
+          });
           break;
         case 'End':
           e.preventDefault();
-          setCurrentSlide(slides.length - 1);
-          setAnnouncement(`Jumped to last slide: ${slides[slides.length - 1].title}`);
+          setCurrentSlide((prev) => {
+            if (prev === SLIDES.length - 1) return prev;
+            setAnnouncement(`Jumped to last slide: ${SLIDES[SLIDES.length - 1].title}`);
+            return SLIDES.length - 1;
+          });
           break;
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlide, slides.length]);
+  }, [nextSlide, prevSlide]);
 
   const exportToPDF = () => {
     setAnnouncement('Exporting pitch deck to PDF');
@@ -156,7 +199,7 @@ const PitchDeck: React.FC = () => {
     }
   };
 
-  const CurrentSlideComponent = slides[currentSlide]?.component;
+  const CurrentSlideComponent = SLIDES[currentSlide]?.component;
 
   // Fallback if no component found
   if (!CurrentSlideComponent) {
@@ -182,13 +225,13 @@ const PitchDeck: React.FC = () => {
       {/* Sidebar - hidden on mobile (rendered as Sheet drawer instead) */}
       {!isMobile && (
         <div
-          className={`transition-all duration-300 ${sidebarOpen ? 'w-80' : 'w-0'} overflow-hidden`}
+          className={`transition-all duration-300 ${sidebarOpen ? 'w-80' : 'w-0'} overflow-hidden relative z-30`}
           id="sidebar-navigation"
         >
           <Sidebar
-            slides={slides}
+            slides={SLIDES}
             currentSlide={currentSlide}
-            setCurrentSlide={setCurrentSlide}
+            setCurrentSlide={handleSlideSelect}
             scenario={scenario}
             setScenario={setScenario}
             isOpen={sidebarOpen}
@@ -200,9 +243,9 @@ const PitchDeck: React.FC = () => {
       {/* Mobile sidebar as Sheet drawer */}
       {isMobile && (
         <Sidebar
-          slides={slides}
+          slides={SLIDES}
           currentSlide={currentSlide}
-          setCurrentSlide={setCurrentSlide}
+          setCurrentSlide={handleSlideSelect}
           scenario={scenario}
           setScenario={setScenario}
           isOpen={sidebarOpen}
@@ -219,7 +262,7 @@ const PitchDeck: React.FC = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setSidebarOpen(true)}
-                  className="text-white hover:bg-white/10 focus:ring-2 focus:ring-cyan-400"
+                  className="text-white hover:bg-white/10 focus:ring-2 focus:ring-cyan-400 cursor-pointer"
                   aria-label="Open navigation sidebar"
                   aria-expanded={false}
                   aria-controls="sidebar-navigation"
@@ -228,6 +271,11 @@ const PitchDeck: React.FC = () => {
                   <span className="sr-only">Open sidebar</span>
                 </Button>
               )}
+              <img
+                src="/icons/qdaria/QDwordmark2.svg"
+                alt="QDaria wordmark"
+                className="h-8 sm:h-10 lg:h-12 w-auto drop-shadow-[0_0_10px_rgba(4,163,255,0.35)]"
+              />
             </div>
 
             <div className="flex items-center gap-2">
@@ -246,10 +294,10 @@ const PitchDeck: React.FC = () => {
         </header>
 
         <div id="main-content" className="flex-1 p-3 md:p-6 overflow-y-auto" role="region" aria-label="Pitch deck slide content">
-          <div className="max-w-6xl mx-auto">
-              <ErrorBoundary>
-                <CurrentSlideComponent scenario={scenario} />
-              </ErrorBoundary>
+          <div className="max-w-6xl mx-auto w-full">
+            <ErrorBoundary>
+              <CurrentSlideComponent scenario={scenario} />
+            </ErrorBoundary>
           </div>
         </div>
 
@@ -260,8 +308,8 @@ const PitchDeck: React.FC = () => {
               onClick={prevSlide}
               disabled={currentSlide === 0}
               size={isMobile ? "sm" : "default"}
-              aria-label={`Previous slide. Currently on slide ${currentSlide + 1} of ${slides.length}`}
-              className="focus:ring-2 focus:ring-cyan-600"
+              aria-label={`Previous slide. Currently on slide ${currentSlide + 1} of ${SLIDES.length}`}
+              className="focus:ring-2 focus:ring-cyan-600 cursor-pointer"
             >
               <ChevronLeft className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" aria-hidden="true" />
               <span className="hidden sm:inline">Previous</span>
@@ -269,37 +317,26 @@ const PitchDeck: React.FC = () => {
             </Button>
 
             <div className="text-xs md:text-sm font-medium px-2 text-center" aria-live="off">
-              <div className="hidden md:block font-semibold text-slate-700">
-                {slides[currentSlide].title}
+              <div className="hidden md:block font-semibold text-white/90">
+                {SLIDES[currentSlide].title}
               </div>
-              <div className="text-slate-600">
-                Slide {currentSlide + 1} of {slides.length}
+              <div className="text-white/70">
+                Slide {currentSlide + 1} of {SLIDES.length}
               </div>
             </div>
 
             <Button
               variant="outline"
               onClick={nextSlide}
-              disabled={currentSlide === slides.length - 1}
+              disabled={currentSlide === SLIDES.length - 1}
               size={isMobile ? "sm" : "default"}
-              aria-label={`Next slide. Currently on slide ${currentSlide + 1} of ${slides.length}`}
-              className="focus:ring-2 focus:ring-cyan-600"
+              aria-label={`Next slide. Currently on slide ${currentSlide + 1} of ${SLIDES.length}`}
+              className="focus:ring-2 focus:ring-cyan-600 cursor-pointer"
             >
               <span className="hidden sm:inline">Next</span>
               <span className="sm:hidden">Next</span>
               <ChevronRight className="w-3 h-3 md:w-4 md:h-4 ml-1 md:ml-2" aria-hidden="true" />
             </Button>
-          </div>
-          <div className="text-center mt-2 text-xs text-slate-600" role="note" aria-label="Keyboard navigation instructions">
-            <span className="sr-only">Keyboard shortcuts:</span>
-            <kbd className="px-2 py-1 bg-slate-200 rounded border border-slate-300" aria-label="Left arrow key">←</kbd>
-            {" / "}
-            <kbd className="px-2 py-1 bg-slate-200 rounded border border-slate-300" aria-label="Right arrow key">→</kbd>
-            {" or "}
-            <kbd className="px-2 py-1 bg-slate-200 rounded border border-slate-300" aria-label="Page up key">PageUp</kbd>
-            {" / "}
-            <kbd className="px-2 py-1 bg-slate-200 rounded border border-slate-300" aria-label="Page down key">PageDown</kbd>
-            {" to navigate"}
           </div>
         </footer>
       </main>

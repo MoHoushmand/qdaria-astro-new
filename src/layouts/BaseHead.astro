@@ -5,6 +5,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const enableServiceWorker = import.meta.env.PROD;
 
 // Site metadata
 const siteName = "QDaria";
@@ -13,16 +14,20 @@ const twitterHandle = "@QDaria"; // Replace with actual handle
 const ogImage = "/icons/qdaria/QDlogomark.svg"; // Updated to use QDaria logo
 ---
 
-<!-- Register Service Worker for offline support -->
-<script is:inline>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('SW registered'))
-        .catch(err => console.log('SW registration failed'));
-    });
-  }
-</script>
+{enableServiceWorker && (
+  <>
+    <!-- Register Service Worker for offline support -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW registered'))
+            .catch(err => console.log('SW registration failed'));
+        });
+      }
+    </script>
+  </>
+)}
 
 <!-- Primary Meta Tags -->
 <meta charset="utf-8" />

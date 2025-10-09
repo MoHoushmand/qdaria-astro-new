@@ -1,0 +1,202 @@
+---
+// Development Warning Modal for Invest section pages
+---
+
+<div
+  id="dev-warning-modal"
+  class="dev-warning-modal fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div class="modal-content relative mx-4 w-full max-w-md rounded-2xl border border-primary-500/30 bg-dark-bg p-6 shadow-2xl">
+    <!-- Warning Icon -->
+    <div class="mb-4 flex justify-center">
+      <div class="rounded-full bg-amber-500/10 p-3">
+        <svg
+          class="h-8 w-8 text-amber-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Modal Title -->
+    <h2 id="modal-title" class="mb-2 text-center text-xl font-bold text-base-100">
+      Page Under Development
+    </h2>
+
+    <!-- Modal Message -->
+    <p class="mb-6 text-center text-base-300">
+      This page is currently under active development and may contain incomplete content or experience instability.
+      We're working hard to deliver a complete experience soon.
+    </p>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-3">
+      <button
+        id="modal-cancel"
+        type="button"
+        class="flex-1 rounded-lg border border-base-600 bg-base-800 px-4 py-2.5 font-medium text-base-200 transition-all hover:bg-base-700"
+      >
+        Go Back
+      </button>
+      <button
+        id="modal-proceed"
+        type="button"
+        class="flex-1 rounded-lg border border-primary-500 bg-primary-500 px-4 py-2.5 font-medium text-white transition-all hover:bg-primary-600"
+      >
+        Continue Anyway
+      </button>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      id="modal-close"
+      type="button"
+      class="absolute right-4 top-4 rounded-lg p-1 text-base-400 transition-colors hover:bg-base-800 hover:text-base-200"
+      aria-label="Close modal"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  // Modal state management
+  let pendingUrl: string | null = null;
+
+  function showModal(url: string) {
+    pendingUrl = url;
+    const modal = document.getElementById('dev-warning-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hideModal() {
+    const modal = document.getElementById('dev-warning-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    pendingUrl = null;
+  }
+
+  function proceedToUrl() {
+    if (pendingUrl) {
+      window.location.href = pendingUrl;
+    }
+    hideModal();
+  }
+
+  // Set up event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    // Modal close buttons
+    document.getElementById('modal-close')?.addEventListener('click', hideModal);
+    document.getElementById('modal-cancel')?.addEventListener('click', hideModal);
+    document.getElementById('modal-proceed')?.addEventListener('click', proceedToUrl);
+
+    // Close on backdrop click
+    document.getElementById('dev-warning-modal')?.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        hideModal();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hideModal();
+      }
+    });
+
+    // Intercept clicks on Invest section links
+    const investPaths = [
+      '/invest/investors',
+      '/invest/business-plan',
+      '/invest/pitch',
+      '/invest/whitepaper'
+    ];
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[href]') as HTMLAnchorElement;
+
+      if (link && investPaths.includes(link.getAttribute('href') || '')) {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal(link.href);
+      }
+    }, true);
+  });
+
+  // Expose functions globally for potential external use
+  (window as any).showDevWarningModal = showModal;
+  (window as any).hideDevWarningModal = hideModal;
+</script>
+
+<style>
+  .dev-warning-modal {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .modal-content {
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 40px rgba(4, 163, 255, 0.3);
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .dev-warning-modal.hidden {
+    animation: fadeOut 0.2s ease-in;
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+</style>

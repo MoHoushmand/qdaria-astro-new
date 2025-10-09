@@ -38,7 +38,7 @@ import { useMediaQuery } from '@/hooks/use-media-query';
  */
 interface SidebarProps {
   /** Array of slide objects with id, title, and optional component reference */
-  slides: Array<{ id: number; title: string; component?: React.ComponentType<any> | string }>;
+  slides: ReadonlyArray<{ id: number; title: string; component?: React.ComponentType<any> | string }>;
   /** Current active slide index (0-based) */
   currentSlide: number;
   /** Callback to change the current slide */
@@ -68,19 +68,24 @@ const Sidebar: React.FC<SidebarProps> = ({
   // Sidebar content component to avoid duplication
   const SidebarContent = () => (
     <nav
-      className="bg-gradient-to-b from-slate-900 to-slate-800 border-r border-cyan-400/20 shadow-2xl flex flex-col h-full"
+      className="bg-gradient-to-b from-slate-900 to-slate-800 border-r border-cyan-400/20 shadow-2xl flex flex-col h-full relative z-50"
       aria-label="Slide navigation"
       role="navigation"
     >
       {/* Header Section */}
       <div className="p-4 md:p-6 border-b border-cyan-400/20 bg-gradient-to-r from-cyan-400/20 to-orange-400/20">
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-between gap-3">
+          <img
+            src="/icons/qdaria/QDlogomark.svg"
+            alt="QDaria logomark"
+            className="h-8 w-auto drop-shadow-[0_0_18px_rgba(4,163,255,0.45)]"
+          />
           {!isMobile && (
             <Button
               variant="ghost"
               size="sm"
               onClick={onToggle}
-              className="text-white hover:bg-white/10 focus:ring-2 focus:ring-cyan-400 flex-shrink-0"
+              className="text-white hover:bg-white/10 focus:ring-2 focus:ring-cyan-400 flex-shrink-0 cursor-pointer"
               aria-label="Close navigation sidebar"
             >
               <X className="w-4 h-4" aria-hidden="true" />
@@ -111,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               <Button
                 key={slide.id}
                 variant={isActive ? "default" : "ghost"}
-                className={`w-full justify-start text-left h-auto p-2 md:p-3 transition-all duration-200 focus:ring-2 focus:ring-cyan-400 ${
+                className={`w-full justify-start text-left h-auto p-2 md:p-3 transition-all duration-200 focus:ring-2 focus:ring-cyan-400 cursor-pointer ${
                   isActive
                     ? 'bg-gradient-to-r from-cyan-400/20 to-orange-400/20 text-white border border-cyan-400/30 shadow-lg'
                     : 'hover:bg-white/10 text-gray-300 hover:text-white'
@@ -194,7 +199,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <Button
             variant="ghost"
             size="icon"
-            className="fixed top-4 left-4 z-50 bg-slate-900/90 text-white hover:bg-slate-800 md:hidden focus:ring-2 focus:ring-cyan-400"
+            className="fixed top-4 left-4 z-50 bg-slate-900/90 text-white hover:bg-slate-800 md:hidden focus:ring-2 focus:ring-cyan-400 cursor-pointer"
             aria-label="Open navigation menu"
             aria-expanded={isOpen}
           >
@@ -204,7 +209,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="w-80 p-0 bg-transparent border-0"
+          className="w-80 p-0 bg-transparent border-0 z-50"
           aria-label="Navigation drawer"
         >
           <SidebarContent />
@@ -216,7 +221,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   // Desktop: Render as fixed sidebar
   return (
     <div
-      className={`${isOpen ? 'w-80' : 'w-0'} transition-all duration-300 overflow-hidden`}
+      className={`${isOpen ? 'w-80' : 'w-0'} transition-all duration-300 overflow-hidden h-full`}
       aria-hidden={!isOpen}
     >
       <SidebarContent />

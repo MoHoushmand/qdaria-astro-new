@@ -6,18 +6,19 @@ import Button from "@components/Button/Button.astro";
 const equipment = [
   {
     category: "Quantum Optics",
-    description: "Advanced optical equipment for quantum experiments",
+    description: "Advanced optical equipment for quantum experiments - Available for rental and demonstration in 2026",
     items: [
       "Quantum Optics Kit",
       "Breadboard and Damping Feet",
       "Quantum Cryptography Kit",
       "Quantum Eraser Demonstration",
-      "Time-Resolved Absorption Spectroscopy",
+      "Bomb Tester Demonstration",
+      "Time-Resolved Absorption Spectroscopy Kit",
     ],
   },
   {
     category: "Measurement & Analysis",
-    description: "High-precision measurement tools",
+    description: "High-precision measurement and imaging tools - Available for rental and demonstration in 2026",
     items: [
       "Educational Atomic Force Microscope",
       "Optical Microscopy Course Kit",
@@ -28,13 +29,10 @@ const equipment = [
   },
   {
     category: "Advanced Tools",
-    description: "Specialized quantum research equipment",
+    description: "Specialized optical and quantum research equipment - Available for rental and demonstration in 2026",
     items: [
       "Portable Optical Tweezers Kit",
-      "Bomb Tester Demonstration",
-      "Polarization and 3D Cinema Technology",
-      "Custom Quantum Measurement Tools",
-      "Data Acquisition Systems",
+      "Polarization and 3D Cinema Technology Kit",
     ],
   },
 ];
@@ -88,14 +86,14 @@ const researchAreas = [
 
 const services = [
   {
-    title: "Equipment Rental",
-    description: "Access to state-of-the-art quantum mechanics experimental kits for research and education.",
-    availability: "Available Now",
+    title: "Equipment Rental & Demonstrations",
+    description: "Access to state-of-the-art quantum mechanics and optical experimental kits for research and education.",
+    availability: "2026 Availability",
     details: [
-      "Research equipment",
-      "Educational kits",
-      "Measurement tools",
-      "Custom setups"
+      "Complete quantum optics kits",
+      "Educational demonstration systems",
+      "High-precision measurement tools",
+      "Imaging and spectroscopy equipment"
     ]
   },
   {
@@ -177,10 +175,10 @@ const facilities = [
       <div class="site-container">
         <div class="mx-auto max-w-4xl text-center">
           <Badge>Core Research</Badge>
-          <h1 class="h1 mb-8 text-gradient-blue select-none">
+          <h1 class="h1 mb-8 text-gradient-blue">
             Experimental Quantum Lab
           </h1>
-          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl select-none">
+          <p class="description mx-auto mb-8 max-w-2xl text-lg md:text-xl">
             State-of-the-art research facilities dedicated to advancing quantum computing technology through experimental R&D.
           </p>
           <div class="flex flex-wrap justify-center gap-4">
@@ -209,7 +207,7 @@ const facilities = [
         <div class="mx-auto mb-16 text-center md:max-w-2xl">
           <Badge>Research</Badge>
           <h2 class="h2 mb-4 text-gradient-blue">Research Areas</h2>
-          <p class="description text-lg md:text-xl select-none">
+          <p class="description text-lg md:text-xl">
             Pushing the boundaries of quantum computing technology.
           </p>
         </div>
@@ -222,12 +220,12 @@ const facilities = [
                   {area.status}
                 </span>
               </div>
-              <p class="description mb-6 select-none">
+              <p class="description mb-6">
                 {area.description}
               </p>
               <div>
                 <h4 class="text-sm font-medium text-blue-400">Key Areas</h4>
-                <ul class="mt-2 space-y-2 select-none">
+                <ul class="mt-2 space-y-2">
                   {area.details.map((detail) => (
                     <li class="flex items-start gap-2">
                       <span class="mt-1 text-blue-400">•</span>
@@ -248,7 +246,7 @@ const facilities = [
         <div class="mx-auto mb-16 text-center md:max-w-2xl">
           <Badge>Equipment</Badge>
           <h2 class="h2 mb-4 text-gradient-blue">Laboratory Equipment</h2>
-          <p class="description text-lg md:text-xl select-none">
+          <p class="description text-lg md:text-xl">
             State-of-the-art tools for quantum research.
           </p>
         </div>
@@ -256,10 +254,10 @@ const facilities = [
           {equipment.map((category) => (
             <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
               <h3 class="h4 mb-4 text-gradient-blue">{category.category}</h3>
-              <p class="description mb-6 select-none">
+              <p class="description mb-6">
                 {category.description}
               </p>
-              <ul class="space-y-2 select-none">
+              <ul class="space-y-2">
                 {category.items.map((item) => (
                   <li class="flex items-start gap-2">
                     <span class="mt-1 text-blue-400">•</span>
@@ -279,7 +277,7 @@ const facilities = [
         <div class="mx-auto mb-16 text-center md:max-w-2xl">
           <Badge>Facilities</Badge>
           <h2 class="h2 mb-4 text-gradient-blue">Research Facilities</h2>
-          <p class="description text-lg md:text-xl select-none">
+          <p class="description text-lg md:text-xl">
             Advanced laboratories for quantum experimentation.
           </p>
         </div>
@@ -287,10 +285,10 @@ const facilities = [
           {facilities.map((facility) => (
             <div class="feature-card rounded-xl p-8 transition-transform duration-300 hover:scale-105">
               <h3 class="h4 mb-4 text-gradient-blue">{facility.name}</h3>
-              <p class="description mb-6 select-none">
+              <p class="description mb-6">
                 {facility.description}
               </p>
-              <ul class="space-y-2 select-none">
+              <ul class="space-y-2">
                 {facility.features.map((feature) => (
                   <li class="flex items-start gap-2">
                     <span class="mt-1 text-blue-400">•</span>
@@ -310,7 +308,7 @@ const facilities = [
         <div class="mx-auto mb-16 text-center md:max-w-2xl">
           <Badge>Services</Badge>
           <h2 class="h2 mb-4 text-gradient-blue">Lab Services</h2>
-          <p class="description text-lg md:text-xl select-none">
+          <p class="description text-lg md:text-xl">
             Comprehensive support for quantum research.
           </p>
         </div>
@@ -323,12 +321,12 @@ const facilities = [
                   {service.availability}
                 </span>
               </div>
-              <p class="description mb-6 select-none">
+              <p class="description mb-6">
                 {service.description}
               </p>
               <div>
                 <h4 class="text-sm font-medium text-blue-400">Features</h4>
-                <ul class="mt-2 space-y-2 select-none">
+                <ul class="mt-2 space-y-2">
                   {service.details.map((detail) => (
                     <li class="flex items-start gap-2">
                       <span class="mt-1 text-blue-400">•</span>
@@ -347,8 +345,8 @@ const facilities = [
     <section class="py-16 md:py-20">
       <div class="site-container">
         <div class="feature-card mx-auto max-w-4xl rounded-xl p-8 text-center">
-          <h2 class="h2 mb-4 text-gradient-blue select-none">Access Our Facilities</h2>
-          <p class="description mx-auto mb-8 max-w-2xl text-lg select-none">
+          <h2 class="h2 mb-4 text-gradient-blue">Access Our Facilities</h2>
+          <p class="description mx-auto mb-8 max-w-2xl text-lg">
             Whether you're a researcher, educational institution, or industry partner, we invite you to explore our quantum lab facilities.
           </p>
           <div class="flex flex-wrap justify-center gap-4">

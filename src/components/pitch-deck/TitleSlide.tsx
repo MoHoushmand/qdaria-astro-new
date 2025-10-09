@@ -14,17 +14,16 @@ const TitleSlide: React.FC = () => {
       {/* Hero Section */}
       <div className="text-center space-y-4 md:space-y-6">
         <div className="space-y-3 md:space-y-4">
-          <picture>
-            <source srcSet="/icons/qdaria/QDaria.svg" type="image/svg+xml" />
+          <div className="flex justify-center pt-2">
             <img
-              src="/icons/qdaria/QDaria_logo_teal Large.png"
-              alt="QDaria Logo"
-              className="w-64 sm:w-80 md:w-96 lg:w-[28rem] mx-auto"
+              src="/icons/qdaria/QDaria_logo_teal.png"
+              alt="QDaria logomark"
+              className="w-44 sm:w-52 md:w-64 lg:w-72 xl:w-80 mx-auto drop-shadow-[0_0_22px_rgba(4,163,255,0.45)]"
               loading="eager"
-              width="448"
+              width="320"
               height="auto"
             />
-          </picture>
+          </div>
           <Badge className="px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-lg bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 border border-cyan-400/50 mb-3 md:mb-4">
             Norway's First Commercial Quantum Computer Company
           </Badge>

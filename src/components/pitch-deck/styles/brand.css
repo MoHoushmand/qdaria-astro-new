@@ -38,6 +38,43 @@
   --qdaria-text-muted: #64748b;
 }
 
+/* Hide main site navigation completely when pitch deck is active */
+body.pitch-deck-active #nav__container {
+  display: none !important;
+}
+
+/* Hide footer when pitch deck is active */
+body.pitch-deck-active footer {
+  display: none !important;
+}
+
+/* Hide development warning modal on pitch deck */
+body.pitch-deck-active #dev-warning-modal {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Ensure all pitch deck buttons are clickable and interactive */
+.pitch-deck-wrapper button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+.pitch-deck-wrapper button:disabled {
+  cursor: not-allowed !important;
+  pointer-events: auto !important;
+}
+
+/* Ensure sidebar navigation is clickable */
+#sidebar-navigation {
+  pointer-events: auto !important;
+}
+
+#sidebar-navigation button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
 /* Dark Cards with Cyan Borders - DEFAULT STATE */
 .qdaria-card {
   background: var(--qdaria-card-bg) !important;
