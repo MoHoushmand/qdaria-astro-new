@@ -86,7 +86,7 @@ const CompetitiveSlideClient: React.FC<CompetitiveSlideClientProps> = ({ scenari
     {
       id: "qdaria",
       name: "QDaria",
-      category: "nordic-leader",
+      category: "emerging-nordic",
       qubitTechnology: "Topological (Anyon)",
       qubitCount: 9,
       qubitRoadmap: "64+ by 2026",
@@ -97,14 +97,14 @@ const CompetitiveSlideClient: React.FC<CompetitiveSlideClientProps> = ({ scenari
       softwarePlatform: "PyQuil + QAI",
       pricingModel: "Consulting + credits",
       targetIndustries: ["Finance", "Pharma", "Energy"],
-      geographicFocus: "Nordic exclusive",
+      geographicFocus: "Nordic focus",
       fundingRaised: "$2.5M (Series A ready)",
-      stage: "Production",
+      stage: "Early Stage",
       nordicPresence: 100,
       marketShare: 100,
-      strengths: ["Only Nordic quantum computer", "Physical hardware ownership", "Rigetti partnership"],
-      weaknesses: ["Early stage funding", "Small team"],
-      threat: "Market Leader"
+      strengths: ["First Nordic quantum initiative", "Physical hardware planned", "Rigetti partnership"],
+      weaknesses: ["Early stage funding", "Small team", "Building market presence"],
+      threat: "Emerging Player"
     },
     {
       id: "ibm-quantum",
@@ -423,7 +423,7 @@ const CompetitiveSlideClient: React.FC<CompetitiveSlideClientProps> = ({ scenari
 
   const getCategoryBadge = (category: string) => {
     const badges: Record<string, { text: string; className: string }> = {
-      'nordic-leader': { text: 'Nordic Leader', className: 'qdaria-badge' },
+      'emerging-nordic': { text: 'Nordic Emerging', className: 'qdaria-badge' },
       'enterprise': { text: 'Enterprise', className: 'bg-blue-400/20 text-blue-300 border-blue-400/50' },
       'cloud': { text: 'Cloud', className: 'bg-green-400/20 text-green-300 border-green-400/50' },
       'research': { text: 'Research', className: 'bg-purple-400/20 text-purple-300 border-purple-400/50' },

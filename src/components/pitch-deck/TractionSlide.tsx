@@ -14,12 +14,12 @@ const TractionSlide: React.FC<TractionSlideProps> = ({ scenario }) => {
   const [activeTab, setActiveTab] = useState('growth');
 
   const growthData = [
-    { month: 'Jan', users: 120, revenue: 15000, partnerships: 2 },
-    { month: 'Feb', users: 280, revenue: 32000, partnerships: 4 },
-    { month: 'Mar', users: 450, revenue: 58000, partnerships: 6 },
-    { month: 'Apr', users: 720, revenue: 89000, partnerships: 8 },
-    { month: 'May', users: 1100, revenue: 125000, partnerships: 12 },
-    { month: 'Jun', users: 1650, revenue: 180000, partnerships: 15 }
+    { month: 'Q4 2025', users: 0, revenue: 0, partnerships: 2 },
+    { month: 'Q1 2026', users: 50, revenue: 15000, partnerships: 2 },
+    { month: 'Q2 2026', users: 150, revenue: 45000, partnerships: 3 },
+    { month: 'Q3 2026', users: 300, revenue: 95000, partnerships: 4 },
+    { month: 'Q4 2026', users: 500, revenue: 180000, partnerships: 5 },
+    { month: 'Q1 2027', users: 800, revenue: 320000, partnerships: 6 }
   ];
 
   const milestoneData = [
@@ -36,17 +36,17 @@ const TractionSlide: React.FC<TractionSlideProps> = ({ scenario }) => {
   ];
 
   const roadmapData = [
-    { quarter: 'Q1 2024', achievements: ['Beta Launch', 'First Enterprise Client', '€50K ARR'], status: 'completed' },
-    { quarter: 'Q2 2024', achievements: ['Series A Funding', '15 Partnerships', '€180K ARR'], status: 'current' },
-    { quarter: 'Q3 2024', achievements: ['EU Expansion', '50 Enterprise Clients', '€500K ARR'], status: 'planned' },
-    { quarter: 'Q4 2024', achievements: ['US Market Entry', '100 Clients', '€1M ARR'], status: 'planned' }
+    { quarter: 'Q4 2025', achievements: ['Company Launch', 'Rigetti Partnership Secured', 'Management Events Partnership'], status: 'current' },
+    { quarter: 'Q1 2026', achievements: ['Series A Funding', 'First Customer Validation', 'Platform Beta'], status: 'planned' },
+    { quarter: 'Q2 2026', achievements: ['QPU Deployment', 'Initial Customer Pilots', '€100K ARR Target'], status: 'planned' },
+    { quarter: 'Q4 2026', achievements: ['Nordic Market Entry', '10+ Enterprise Clients Target', '€500K ARR Target'], status: 'planned' }
   ];
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-5xl font-bold qdaria-gradient-text">Crisis Validation: Real Enterprise Adoption</h1>
-        <p className="text-2xl text-slate-400 font-light mt-4">Proven Market Traction Solving Actual Computing Crises</p>
+        <h1 className="text-5xl font-bold qdaria-gradient-text">Traction & Milestones</h1>
+        <p className="text-2xl text-slate-400 font-light mt-4">Strategic Partnerships & Projected Growth Trajectory</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -170,15 +170,21 @@ const TractionSlide: React.FC<TractionSlideProps> = ({ scenario }) => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
                   <Building className="w-5 h-5 text-cyan-400" />
-                  Key Customer Wins
+                  Strategic Partnerships
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {['Enterprise A (€50K ARR)', 'Tech Corp B (€35K ARR)', 'Manufacturing C (€28K ARR)', 'Financial D (€22K ARR)'].map((customer, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-cyan-400/20">
-                      <span className="text-white font-medium">{customer}</span>
-                      <Badge className="qdaria-badge">Active</Badge>
+                  {[
+                    { name: 'Rigetti Computing', desc: 'Quantum Hardware (Novera QPU)', status: 'Active' },
+                    { name: 'Management Events', desc: 'Executive Access & Network (€15.6M partnership)', status: 'Active' }
+                  ].map((partner, index) => (
+                    <div key={index} className="p-3 bg-slate-800/50 rounded-lg border border-cyan-400/20">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white font-medium">{partner.name}</span>
+                        <Badge className="qdaria-badge">{partner.status}</Badge>
+                      </div>
+                      <p className="text-sm text-slate-400 font-light">{partner.desc}</p>
                     </div>
                   ))}
                 </div>

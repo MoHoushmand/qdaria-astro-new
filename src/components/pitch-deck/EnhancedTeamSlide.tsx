@@ -14,14 +14,11 @@ const EnhancedTeamSlide: React.FC = () => {
     recognition: [
       { title: 'Top 5 Startup in Europe', year: '2024-2025', icon: 'Award' },
       { title: 'Top 25 Startup Globally', year: '2024-2025', icon: 'Globe' },
-      { title: 'Davos Innovation Week 2025 Keynote', speaker: 'CEO Daniel Mo Houshmand', icon: 'Star' },
-      { title: 'IQT Nordics 2026 Host Candidate', location: 'Oslo, Norway', icon: 'Briefcase' }
+      { title: 'Davos Innovation Week 2025 Keynote', speaker: 'CEO Daniel Mo Houshmand', icon: 'Star' }
     ],
     partnerships: [
       { name: 'Rigetti Computing', focus: 'Quantum Hardware (Novera QPU)', status: 'Active' },
-      { name: 'NTNU', focus: 'Research Collaboration', status: 'Active' },
-      { name: 'University of Oslo', focus: 'Academic Partnership', status: 'Active' },
-      { name: 'Bluefors', focus: 'Dilution Refrigerator Technology', status: 'Active' }
+      { name: 'Management Events', focus: 'Executive Access & Strategic Network', status: 'Active' }
     ],
     milestones: [
       { title: 'Founded', date: 'Q1 2025', description: 'QDaria officially established' },
@@ -59,9 +56,8 @@ const EnhancedTeamSlide: React.FC = () => {
         'Led QDaria to Top 5 in Europe, Top 25 Globally recognition',
         'Keynote Speaker at Davos Innovation Week 2025',
         'IQT New York Speaker',
-        'Candidate to host IQT Nordics 2026 in Oslo',
         'Secured €15.6M Management Events partnership (406x ROI)',
-        'Led Norway\'s first commercial QPU acquisition (Rigetti Novera)',
+        'Leading Norway\'s first commercial QPU acquisition (Rigetti Novera)',
         'Established strategic partnerships with Rigetti, NTNU, University of Oslo'
       ],
       verifiable: {

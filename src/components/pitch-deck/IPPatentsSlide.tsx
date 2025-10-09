@@ -25,41 +25,65 @@ const IPPatentsSlide: React.FC = () => {
   // Patent Portfolio Data
   const patentPortfolio = [
     {
-      status: 'Granted',
-      count: 3,
-      category: 'Quantum Algorithms',
+      status: 'In Preparation',
+      count: 8,
+      category: 'Quantum Algorithms & AI Integration',
       patents: [
         {
           title: 'Variational Quantum Eigensolver Optimization',
-          number: 'NO-2023-001245',
-          filed: '2023-Q1',
-          granted: '2024-Q2',
-          regions: ['Norway', 'EU', 'US (Pending)'],
-          value: '€2.5M'
+          target: 'Q2 2026',
+          regions: ['Norway', 'EU', 'US'],
+          value: '€2.5M (Projected)'
         },
         {
           title: 'Quantum-Classical Hybrid Architecture',
-          number: 'NO-2023-002156',
-          filed: '2023-Q2',
-          granted: '2024-Q3',
+          target: 'Q2 2026',
           regions: ['Norway', 'EU'],
-          value: '€3.2M'
+          value: '€3.2M (Projected)'
         },
         {
           title: 'Anyon Braiding Error Correction',
-          number: 'NO-2023-003489',
-          filed: '2023-Q3',
-          granted: '2024-Q4',
+          target: 'Q3 2026',
           regions: ['Norway', 'Nordic Region'],
-          value: '€1.8M'
+          value: '€1.8M (Projected)'
+        },
+        {
+          title: 'Quantum Machine Learning Acceleration',
+          target: 'Q3 2026',
+          regions: ['EU', 'US', 'China'],
+          value: '€4.5M (Projected)'
+        },
+        {
+          title: 'Post-Quantum Cryptography System (Zipminator)',
+          target: 'Q4 2026',
+          regions: ['PCT (140+ countries)'],
+          value: '€8.2M (Projected)'
+        },
+        {
+          title: 'Distributed Quantum Computing Orchestration',
+          target: 'Q1 2027',
+          regions: ['US', 'EU', 'Japan'],
+          value: '€5.1M (Projected)'
+        },
+        {
+          title: 'Quantum-Enhanced Neural Network Training',
+          target: 'Q2 2027',
+          regions: ['EU', 'Nordic', 'UK'],
+          value: '€3.8M (Projected)'
+        },
+        {
+          title: 'Real-time Quantum Error Mitigation',
+          target: 'Q2 2027',
+          regions: ['Norway', 'EU'],
+          value: '€2.9M (Projected)'
         }
       ],
-      icon: CheckCircle2,
-      color: 'green'
+      icon: Lightbulb,
+      color: 'cyan'
     },
     {
-      status: 'Pending',
-      count: 5,
+      status: 'Future Pipeline',
+      count: 4,
       category: 'AI Enhancement & Security',
       patents: [
         {
@@ -107,9 +131,9 @@ const IPPatentsSlide: React.FC = () => {
       color: 'orange'
     },
     {
-      status: 'In Preparation',
+      status: 'Research Pipeline',
       count: 4,
-      category: 'Future Innovation',
+      category: 'Advanced Research',
       patents: [
         {
           title: 'Topological Quantum Computing Methods',
@@ -192,36 +216,36 @@ const IPPatentsSlide: React.FC = () => {
   // IP Value Metrics
   const ipMetrics = {
     totalPatents: 12,
-    grantedPatents: 3,
-    pendingPatents: 5,
-    plannedPatents: 4,
+    grantedPatents: 0,
+    pendingPatents: 0,
+    inPreparation: 8,
+    researchPipeline: 4,
     countriesProtected: 15,
-    estimatedValue: '€55.9M',
+    estimatedValue: '€55.9M (Projected)',
     tradeSecrets: 12,
-    licenseRevenuePotential: '€2-5M/year'
+    licenseRevenuePotential: '€2-5M/year (Projected 2027+)'
   };
 
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-white mb-4 qdaria-gradient-text">
-          Intellectual Property: Competitive Moat
+          Intellectual Property: Building Competitive Moat
         </h1>
         <p className="text-xl text-slate-400 font-light max-w-4xl mx-auto">
-          €55.9M estimated IP portfolio value protecting our quantum-AI innovation with 12 patents across 15+ countries
+          Working on 12+ patent applications targeting €55.9M estimated IP portfolio value protecting our quantum-AI innovation
         </p>
+        <div className="mt-4 px-6 py-3 bg-orange-500/20 border-2 border-orange-400/50 rounded-lg inline-block">
+          <p className="text-orange-300 font-semibold">⚠️ No Patents Granted Yet - All applications in preparation/planning phase</p>
+        </div>
         <div className="mt-4 flex justify-center gap-4 flex-wrap">
-          <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
-            <CheckCircle2 className="w-4 h-4 mr-1" />
-            {ipMetrics.grantedPatents} Granted
+          <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+            <Lightbulb className="w-4 h-4 mr-1" />
+            8 In Preparation
           </Badge>
           <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30">
             <Clock className="w-4 h-4 mr-1" />
-            {ipMetrics.pendingPatents} Pending
-          </Badge>
-          <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
-            <Globe className="w-4 h-4 mr-1" />
-            {ipMetrics.countriesProtected}+ Countries
+            4 Research Pipeline
           </Badge>
           <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
             <Shield className="w-4 h-4 mr-1" />
@@ -340,12 +364,12 @@ const IPPatentsSlide: React.FC = () => {
                     <div className="text-xs text-gray-400">Granted</div>
                   </div>
                   <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                    <div className="text-2xl font-bold text-orange-400">{ipMetrics.pendingPatents}</div>
-                    <div className="text-xs text-gray-400">Pending</div>
+                    <div className="text-2xl font-bold text-cyan-400">{ipMetrics.inPreparation}</div>
+                    <div className="text-xs text-gray-400">In Preparation</div>
                   </div>
                   <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                    <div className="text-2xl font-bold text-cyan-400">{ipMetrics.plannedPatents}</div>
-                    <div className="text-xs text-gray-400">Planned</div>
+                    <div className="text-2xl font-bold text-orange-400">{ipMetrics.researchPipeline}</div>
+                    <div className="text-xs text-gray-400">Research Pipeline</div>
                   </div>
                   <div className="text-center p-4 bg-slate-800/50 rounded-lg">
                     <div className="text-2xl font-bold text-purple-400">{ipMetrics.totalPatents}</div>

@@ -70,11 +70,14 @@ const ProductPortfolioSlide: React.FC<ProductPortfolioSlideProps> = ({ scenario 
     <div className="space-y-6">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold qdaria-gradient-text mb-4">
-          Crisis-Tested Solutions: 1500+ AI Products
+          Projected Product Portfolio: Quantum+AI Solutions
         </h1>
         <p className="text-lg text-slate-400 font-light max-w-3xl mx-auto">
-          Proven Performance When Legacy Systems Collapse - Quantum+AI Solutions at Scale
+          Target Market Launch Q4 2025 - Quantum+AI Solutions for Enterprise
         </p>
+        <div className="mt-4 px-6 py-3 bg-orange-500/20 border-2 border-orange-400/50 rounded-lg inline-block">
+          <p className="text-orange-300 font-semibold">⚠️ Projected Portfolio - Launch targeted Q4 2025</p>
+        </div>
       </div>
 
       <Tabs value={activeProduct} onValueChange={setActiveProduct} className="w-full">

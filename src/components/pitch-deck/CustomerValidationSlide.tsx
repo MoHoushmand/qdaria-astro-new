@@ -26,10 +26,10 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
     const interval = duration / steps;
 
     const targets = {
-      users: 32,
-      deployments: 15,
-      pilots: 42,
-      pipeline: 8.2
+      users: 0,
+      deployments: 0,
+      pilots: 0,
+      pipeline: 0
     };
 
     let step = 0;
@@ -229,16 +229,19 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-5xl font-bold qdaria-gradient-text">Customer Validation & Proof of Value</h1>
-        <p className="text-2xl text-slate-400 font-light mt-4">Real Enterprise Customers, Measurable Results</p>
+        <h1 className="text-5xl font-bold qdaria-gradient-text">Projected Customer Validation & Target Value</h1>
+        <p className="text-2xl text-slate-400 font-light mt-4">First Customer Validation Targeted Q1 2026</p>
+        <div className="mt-4 px-6 py-3 bg-orange-500/20 border-2 border-orange-400/50 rounded-lg inline-block">
+          <p className="text-orange-300 font-semibold">⚠️ Projections Only - First customers expected Q1 2026</p>
+        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="qdaria-tabs-list grid w-full grid-cols-4">
-          <TabsTrigger value="testimonials" className="qdaria-tab">Testimonials</TabsTrigger>
-          <TabsTrigger value="case-study" className="qdaria-tab">Case Study</TabsTrigger>
-          <TabsTrigger value="customers" className="qdaria-tab">Customer Base</TabsTrigger>
-          <TabsTrigger value="metrics" className="qdaria-tab">Traction Metrics</TabsTrigger>
+          <TabsTrigger value="testimonials" className="qdaria-tab">Projected Testimonials</TabsTrigger>
+          <TabsTrigger value="case-study" className="qdaria-tab">Target Case Study</TabsTrigger>
+          <TabsTrigger value="customers" className="qdaria-tab">Target Customer Base</TabsTrigger>
+          <TabsTrigger value="metrics" className="qdaria-tab">Projected Metrics</TabsTrigger>
         </TabsList>
 
         {/* Testimonials Tab */}
