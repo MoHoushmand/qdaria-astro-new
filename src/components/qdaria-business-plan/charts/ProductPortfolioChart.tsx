@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-dec
 import { Button } from '@/components/pitch-deck/ui/button';
 import { Download, TrendingUp, Rocket, FlaskConical } from 'lucide-react';
 
-interface ProductData {
+export interface ProductData {
   id: string;
   label: string;
   value: number;

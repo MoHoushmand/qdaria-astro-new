@@ -4,27 +4,24 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import compress from "astro-compress";
 
+import sentry from '@sentry/astro';
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    tailwind({
-      applyBaseStyles: true,
-    }),
-    react(),
-    mdx(),
-    ...(process.env.NODE_ENV === 'production' ? [compress({
-      CSS: true,
-      HTML: {
-        removeAttributeQuotes: false,
-        collapseWhitespace: true,
-        removeComments: true,
-      },
-      Image: false, // We're handling images separately with sharp
-      JavaScript: true,
-      SVG: true,
-      Logger: 1, // Minimal logging
-    })] : [])
-  ],
+  integrations: [tailwind({
+    applyBaseStyles: true,
+  }), react(), mdx(), ...(process.env.NODE_ENV === 'production' ? [compress({
+    CSS: true,
+    HTML: {
+      removeAttributeQuotes: false,
+      collapseWhitespace: true,
+      removeComments: true,
+    },
+    Image: false, // We're handling images separately with sharp
+    JavaScript: true,
+    SVG: true,
+    Logger: 1, // Minimal logging
+  })] : []), sentry()],
   build: {
     inlineStylesheets: 'never', // Never inline for better caching
     assetsInlineLimit: 1024, // Inline only very small assets (1KB threshold)
