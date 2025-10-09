@@ -1,4 +1,3 @@
-/** @jsxImportSource react */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/pitch-deck/ui/button';
 import { ChevronLeft, ChevronRight, Download, Menu } from 'lucide-react';
