@@ -13,7 +13,7 @@ export default defineConfig({
       applyBaseStyles: true, // Re-enabled for proper base styles
     }),
     react({
-      include: ['**/react/*', '**/pitch-deck/*'],
+      include: ['**/react/**', '**/pitch-deck/**', '**/qdaria-business-plan/**'],
     }),
     mdx(),
     ...(process.env.NODE_ENV === 'production' ? [compress({
@@ -76,95 +76,42 @@ export default defineConfig({
           entryFileNames: '_astro/[name].[hash].js',
           chunkFileNames: '_astro/[name].[hash].js',
           assetFileNames: '_astro/[name].[hash][extname]',
+          // Simplified chunking for better Netlify compatibility
           manualChunks: (id) => {
-            // Core vendor splitting - smaller chunks for better caching
             if (id.includes('node_modules')) {
-              // React core - critical, load first
-              if (id.includes('react/') || id.includes('react-dom/') || id.includes('scheduler')) {
-                return 'vendor-react-core';
+              // React core
+              if (id.includes('react') || id.includes('scheduler')) {
+                return 'vendor-react';
               }
-              // Chart libraries - heavy, load on demand
-              if (id.includes('recharts') || id.includes('@nivo')) {
-                return 'vendor-charts-primary';
+              // Chart libraries
+              if (id.includes('chart') || id.includes('@nivo') || id.includes('recharts') || id.includes('echarts') || id.includes('plotly')) {
+                return 'vendor-charts';
               }
-              if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
-                return 'vendor-charts-secondary';
+              // UI libraries
+              if (id.includes('@radix-ui') || id.includes('lucide')) {
+                return 'vendor-ui';
               }
-              if (id.includes('echarts') || id.includes('plotly')) {
-                return 'vendor-charts-advanced';
+              // 3D and animation
+              if (id.includes('three') || id.includes('gsap') || id.includes('framer')) {
+                return 'vendor-3d-animation';
               }
-              // Icon libraries
-              if (id.includes('lucide-react') || id.includes('@radix-ui/react-icons')) {
-                return 'vendor-icons';
-              }
-              // UI component libraries
-              if (id.includes('@radix-ui')) {
-                return 'vendor-radix-ui';
-              }
-              // 3D libraries - very heavy
-              if (id.includes('three') || id.includes('@react-three')) {
-                return 'vendor-three-js';
-              }
-              // Animation libraries
-              if (id.includes('gsap') || id.includes('framer-motion')) {
-                return 'vendor-animation';
-              }
-              // D3 and visualization
-              if (id.includes('d3-') || id.includes('@visx')) {
-                return 'vendor-d3-visx';
-              }
-              // Other vendors
-              return 'vendor-misc';
-            }
-
-            // Ultra-aggressive slide chunking - each slide is its own chunk
-            if (id.includes('pitch-deck/')) {
-              // Critical first slide - inline this
-              if (id.includes('TitleSlide')) return 'slide-01-title';
-
-              // Individual slides for maximum lazy loading
-              if (id.includes('ProblemSlide') || id.includes('EnhancedProblemSlide')) return 'slide-02-problem';
-              if (id.includes('SolutionSlide') || id.includes('EnhancedSolutionSlide')) return 'slide-03-solution';
-              if (id.includes('MarketSlide')) return 'slide-04-market';
-              if (id.includes('BusinessModelSlide') || id.includes('EnhancedBusinessModelSlide')) return 'slide-05-business';
-              if (id.includes('RevenueStreamsSlide')) return 'slide-06-revenue';
-              if (id.includes('ProductPortfolioSlide')) return 'slide-07-product';
-              if (id.includes('TechnologySlide')) return 'slide-08-tech';
-              if (id.includes('TractionSlide')) return 'slide-09-traction';
-              if (id.includes('CustomerValidationSlide')) return 'slide-10-customer';
-              if (id.includes('GoToMarketSlide')) return 'slide-11-gtm';
-              if (id.includes('IPPatentsSlide')) return 'slide-12-ip';
-              if (id.includes('TeamSlide') || id.includes('EnhancedTeamSlide')) return 'slide-13-team';
-              if (id.includes('FinancialsSlide')) return 'slide-14-financials';
-              if (id.includes('CompetitiveSlide')) return 'slide-15-competitive';
-              if (id.includes('RiskMitigationSlide')) return 'slide-16-risk';
-              if (id.includes('InvestorFAQSlide')) return 'slide-17-faq';
-              if (id.includes('CallToActionSlide')) return 'slide-18-cta';
-
-              // UI components
-              if (id.includes('pitch-deck/ui/')) {
-                return 'ui-components';
-              }
-
-              // Chart components
-              if (id.includes('pitch-deck/charts/')) {
-                return 'chart-components';
-              }
-
-              // Shared utilities
-              if (id.includes('pitch-deck/lib/')) {
-                return 'pitch-utilities';
-              }
-
-              // Fallback
-              return 'slides-misc';
             }
           },
         },
       },
     },
     ssr: {
-      noExternal: ['chart.js', 'react-chartjs-2', 'recharts'],
+      noExternal: [
+        'chart.js',
+        'react-chartjs-2',
+        'recharts',
+        '@nivo/core',
+        '@nivo/pie',
+        '@nivo/sunburst',
+        '@nivo/bar',
+        '@nivo/line',
+        '@nivo/radar'
+      ],
       external: ['echarts-gl', 'echarts']
     },
     optimizeDeps: {
