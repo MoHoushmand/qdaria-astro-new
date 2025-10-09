@@ -70,17 +70,18 @@
   force = true
 
 # Performance optimizations
-[[plugins]]
-  package = "netlify-plugin-cache"
-  [plugins.inputs]
-    paths = ["node_modules", ".astro"]
+# Commented out until plugins are installed in package.json
+# [[plugins]]
+#   package = "netlify-plugin-cache"
+#   [plugins.inputs]
+#     paths = ["node_modules", ".astro"]
 
-[[plugins]]
-  package = "netlify-plugin-image-optim"
-  [plugins.inputs]
-    # Enable all image optimizations
-    quality = 85
-    formats = ["webp", "avif"]
+# [[plugins]]
+#   package = "netlify-plugin-image-optim"
+#   [plugins.inputs]
+#     # Enable all image optimizations
+#     quality = 85
+#     formats = ["webp", "avif"]
 
 # Lighthouse CI for continuous performance monitoring
 # Re-enable when ready for production monitoring
