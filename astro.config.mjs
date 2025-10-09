@@ -3,18 +3,14 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import compress from "astro-compress";
-import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: netlify(),
   integrations: [
     tailwind({
-      applyBaseStyles: true, // Re-enabled for proper base styles
+      applyBaseStyles: true,
     }),
-    react({
-      include: ['**/react/**', '**/pitch-deck/**', '**/qdaria-business-plan/**'],
-    }),
+    react(),
     mdx(),
     ...(process.env.NODE_ENV === 'production' ? [compress({
       CSS: true,
@@ -61,7 +57,7 @@ export default defineConfig({
     }
   },
   site: 'https://qdaria.com',
-  output: 'server',
+  output: 'static',
   vite: {
     build: {
       // Target modern browsers for smaller bundles (es2022 supports top-level await)
@@ -72,31 +68,9 @@ export default defineConfig({
       chunkSizeWarningLimit: 500,
       rollupOptions: {
         output: {
-          // Optimal chunk naming for long-term caching
           entryFileNames: '_astro/[name].[hash].js',
           chunkFileNames: '_astro/[name].[hash].js',
           assetFileNames: '_astro/[name].[hash][extname]',
-          // Simplified chunking for better Netlify compatibility
-          manualChunks: (id) => {
-            if (id.includes('node_modules')) {
-              // React core
-              if (id.includes('react') || id.includes('scheduler')) {
-                return 'vendor-react';
-              }
-              // Chart libraries
-              if (id.includes('chart') || id.includes('@nivo') || id.includes('recharts') || id.includes('echarts') || id.includes('plotly')) {
-                return 'vendor-charts';
-              }
-              // UI libraries
-              if (id.includes('@radix-ui') || id.includes('lucide')) {
-                return 'vendor-ui';
-              }
-              // 3D and animation
-              if (id.includes('three') || id.includes('gsap') || id.includes('framer')) {
-                return 'vendor-3d-animation';
-              }
-            }
-          },
         },
       },
     },
