@@ -3,183 +3,175 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Privacy Policy - Qdaria">
-  <div class="max-w-4xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-8">Privacy Policy</h1>
-
-    <p class="text-gray-600 mb-8">
-      <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-    </p>
-
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">1. Introduction</h2>
-      <p class="mb-4">
-        Qdaria ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services, including authentication through LinkedIn OAuth.
+  <div class="max-w-5xl mx-auto px-6 py-20">
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+      <div class="inline-block px-4 py-1 mb-6 text-sm font-medium text-cyan-400 border border-cyan-400/30 rounded-full">
+        Legal
+      </div>
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+        Privacy Policy
+      </h1>
+      <p class="text-gray-400 text-lg">
+        <strong class="text-white">Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
       </p>
-    </section>
+    </div>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">2. Information We Collect</h2>
+    <!-- Content Sections -->
+    <div class="space-y-12">
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">1. Introduction</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          Qdaria ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services, including authentication through LinkedIn OAuth.
+        </p>
+      </section>
 
-      <h3 class="text-xl font-semibold mb-3">2.1 LinkedIn OAuth Data</h3>
-      <p class="mb-4">
-        When you authenticate using LinkedIn, we may collect:
-      </p>
-      <ul class="list-disc pl-6 mb-4 space-y-2">
-        <li>Basic profile information (name, email address, profile photo)</li>
-        <li>Professional information (current position, company, industry)</li>
-        <li>LinkedIn profile URL</li>
-        <li>Other information you grant us permission to access</li>
-      </ul>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">2. Information We Collect</h2>
 
-      <h3 class="text-xl font-semibold mb-3">2.2 Automatically Collected Information</h3>
-      <p class="mb-4">
-        We automatically collect certain information when you visit our website:
-      </p>
-      <ul class="list-disc pl-6 mb-4 space-y-2">
-        <li>IP address and browser type</li>
-        <li>Device information and operating system</li>
-        <li>Pages visited and time spent on pages</li>
-        <li>Referring website addresses</li>
-      </ul>
-    </section>
+        <h3 class="text-2xl font-semibold mb-4 text-blue-400">2.1 LinkedIn OAuth Data</h3>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          When you authenticate using LinkedIn, we may collect:
+        </p>
+        <ul class="list-disc pl-6 mb-6 space-y-2 text-gray-300">
+          <li>Basic profile information (name, email address, profile photo)</li>
+          <li>Professional information (current position, company, industry)</li>
+          <li>LinkedIn profile URL</li>
+          <li>Other information you grant us permission to access</li>
+        </ul>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
-      <p class="mb-4">We use the collected information to:</p>
-      <ul class="list-disc pl-6 mb-4 space-y-2">
-        <li>Provide, operate, and maintain our services</li>
-        <li>Authenticate and verify your identity</li>
-        <li>Personalize your experience</li>
-        <li>Communicate with you about updates and features</li>
-        <li>Analyze usage patterns to improve our services</li>
-        <li>Detect, prevent, and address technical issues</li>
-        <li>Comply with legal obligations</li>
-      </ul>
-    </section>
+        <h3 class="text-2xl font-semibold mb-4 text-blue-400">2.2 Automatically Collected Information</h3>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          We automatically collect certain information when you visit our website:
+        </p>
+        <ul class="list-disc pl-6 mb-4 space-y-2 text-gray-300">
+          <li>IP address and browser type</li>
+          <li>Device information and operating system</li>
+          <li>Pages visited and time spent on pages</li>
+          <li>Referring website addresses</li>
+        </ul>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">4. Data Sharing and Disclosure</h2>
-      <p class="mb-4">
-        We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
-      </p>
-      <ul class="list-disc pl-6 mb-4 space-y-2">
-        <li><strong>Service Providers:</strong> With trusted third-party service providers who assist in operating our website and services</li>
-        <li><strong>Legal Requirements:</strong> When required by law, court order, or government regulation</li>
-        <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
-        <li><strong>With Your Consent:</strong> When you explicitly authorize us to share your information</li>
-      </ul>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">3. How We Use Your Information</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">We use the collected information to:</p>
+        <ul class="list-disc pl-6 mb-4 space-y-2 text-gray-300">
+          <li>Provide, operate, and maintain our services</li>
+          <li>Authenticate and verify your identity</li>
+          <li>Personalize your experience</li>
+          <li>Communicate with you about updates and features</li>
+          <li>Analyze usage patterns to improve our services</li>
+          <li>Detect, prevent, and address technical issues</li>
+          <li>Comply with legal obligations</li>
+        </ul>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">5. Data Security</h2>
-      <p class="mb-4">
-        We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">4. Data Sharing and Disclosure</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          We do not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
+        </p>
+        <ul class="list-disc pl-6 mb-4 space-y-3 text-gray-300">
+          <li><strong class="text-white">Service Providers:</strong> With trusted third-party service providers who assist in operating our website and services</li>
+          <li><strong class="text-white">Legal Requirements:</strong> When required by law, court order, or government regulation</li>
+          <li><strong class="text-white">Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
+          <li><strong class="text-white">With Your Consent:</strong> When you explicitly authorize us to share your information</li>
+        </ul>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">6. LinkedIn OAuth Integration</h2>
-      <p class="mb-4">
-        Our use of information received from LinkedIn APIs adheres to the LinkedIn API Terms of Use. We only access information you explicitly grant us permission to access. You can revoke our access at any time through your LinkedIn account settings.
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">5. Data Security</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.
+        </p>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">7. Your Rights and Choices</h2>
-      <p class="mb-4">You have the right to:</p>
-      <ul class="list-disc pl-6 mb-4 space-y-2">
-        <li>Access the personal information we hold about you</li>
-        <li>Request correction of inaccurate information</li>
-        <li>Request deletion of your personal information</li>
-        <li>Object to processing of your personal information</li>
-        <li>Revoke consent for LinkedIn OAuth access</li>
-        <li>Opt-out of marketing communications</li>
-      </ul>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">6. LinkedIn OAuth Integration</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          Our use of information received from LinkedIn APIs adheres to the LinkedIn API Terms of Use. We only access information you explicitly grant us permission to access. You can revoke our access at any time through your LinkedIn account settings.
+        </p>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">8. Data Retention</h2>
-      <p class="mb-4">
-        We retain your personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required by law. When you revoke LinkedIn OAuth access, we will delete or anonymize your data within 30 days.
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">7. Your Rights and Choices</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">You have the right to:</p>
+        <ul class="list-disc pl-6 mb-4 space-y-2 text-gray-300">
+          <li>Access the personal information we hold about you</li>
+          <li>Request correction of inaccurate information</li>
+          <li>Request deletion of your personal information</li>
+          <li>Object to processing of your personal information</li>
+          <li>Revoke consent for LinkedIn OAuth access</li>
+          <li>Opt-out of marketing communications</li>
+        </ul>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">9. Cookies and Tracking Technologies</h2>
-      <p class="mb-4">
-        We use cookies and similar tracking technologies to track activity on our website and store certain information. You can instruct your browser to refuse all cookies or indicate when a cookie is being sent.
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">8. Data Retention</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          We retain your personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required by law. When you revoke LinkedIn OAuth access, we will delete or anonymize your data within 30 days.
+        </p>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">10. Children's Privacy</h2>
-      <p class="mb-4">
-        Our services are not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">9. Cookies and Tracking Technologies</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          We use cookies and similar tracking technologies to track activity on our website and store certain information. You can instruct your browser to refuse all cookies or indicate when a cookie is being sent.
+        </p>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">11. International Data Transfers</h2>
-      <p class="mb-4">
-        Your information may be transferred to and maintained on computers located outside of your state, province, country, or other governmental jurisdiction where data protection laws may differ. By using our services, you consent to such transfers.
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">10. Children's Privacy</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          Our services are not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
+        </p>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">12. Changes to This Privacy Policy</h2>
-      <p class="mb-4">
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">11. International Data Transfers</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          Your information may be transferred to and maintained on computers located outside of your state, province, country, or other governmental jurisdiction where data protection laws may differ. By using our services, you consent to such transfers.
+        </p>
+      </section>
+
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">12. Changes to This Privacy Policy</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
         We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.
       </p>
     </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">13. Contact Us</h2>
-      <p class="mb-4">
-        If you have any questions about this Privacy Policy, please contact us at:
-      </p>
-      <div class="bg-gray-50 p-6 rounded-lg">
-        <p class="mb-2"><strong>Qdaria</strong></p>
-        <p class="mb-2">Email: privacy@qdaria.com</p>
-        <p>Website: <a href="https://qdaria.com" class="text-blue-600 hover:underline">https://qdaria.com</a></p>
-      </div>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">13. Contact Us</h2>
+        <p class="mb-6 text-gray-300 leading-relaxed">
+          If you have any questions about this Privacy Policy, please contact us at:
+        </p>
+        <div class="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-8 rounded-xl border border-cyan-400/30">
+          <p class="mb-3 text-xl font-bold text-white">Qdaria</p>
+          <p class="mb-3 text-gray-300">
+            <span class="text-cyan-400 font-semibold">Email:</span>
+            <a href="mailto:privacy@qdaria.com" class="text-white hover:text-cyan-400 transition-colors">privacy@qdaria.com</a>
+          </p>
+          <p class="text-gray-300">
+            <span class="text-cyan-400 font-semibold">Website:</span>
+            <a href="https://qdaria.com" class="text-white hover:text-cyan-400 transition-colors underline">https://qdaria.com</a>
+          </p>
+        </div>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">14. GDPR Compliance (EU Users)</h2>
-      <p class="mb-4">
-        If you are located in the European Economic Area (EEA), you have additional rights under the General Data Protection Regulation (GDPR), including the right to data portability and the right to lodge a complaint with a supervisory authority.
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">14. GDPR Compliance (EU Users)</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          If you are located in the European Economic Area (EEA), you have additional rights under the General Data Protection Regulation (GDPR), including the right to data portability and the right to lodge a complaint with a supervisory authority.
+        </p>
+      </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">15. CCPA Compliance (California Users)</h2>
-      <p class="mb-4">
-        If you are a California resident, you have specific rights under the California Consumer Privacy Act (CCPA), including the right to know what personal information is collected and the right to opt-out of the sale of personal information (we do not sell personal information).
-      </p>
-    </section>
+      <section class="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-400">15. CCPA Compliance (California Users)</h2>
+        <p class="mb-4 text-gray-300 leading-relaxed">
+          If you are a California resident, you have specific rights under the California Consumer Privacy Act (CCPA), including the right to know what personal information is collected and the right to opt-out of the sale of personal information (we do not sell personal information).
+        </p>
+      </section>
+    </div>
   </div>
 </BaseLayout>
-
-<style>
-  h1, h2, h3 {
-    color: #1a202c;
-  }
-
-  p, li {
-    color: #4a5568;
-    line-height: 1.75;
-  }
-
-  ul {
-    color: #4a5568;
-  }
-
-  section {
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 2rem;
-  }
-
-  section:last-child {
-    border-bottom: none;
-  }
-</style>
