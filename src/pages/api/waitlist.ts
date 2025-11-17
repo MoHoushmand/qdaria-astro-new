@@ -193,7 +193,7 @@ export const POST: APIRoute = async ({ request }) => {
     const referrer = request.headers.get('referer') || undefined;
     const userAgent = request.headers.get('user-agent') || undefined;
 
-    // Prepare data for database (exclude coupon_code if not in schema)
+    // Prepare data for database
     const insertData: any = {
       full_name: data.fullName,
       company_name: data.companyName,
@@ -201,7 +201,7 @@ export const POST: APIRoute = async ({ request }) => {
       industry: data.industry,
       expected_volume: data.expectedVolume,
       use_case: data.useCase || undefined,
-      // coupon_code: data.couponCode || undefined, // Column missing - run: ALTER TABLE waitlist ADD COLUMN coupon_code VARCHAR(50);
+      coupon_code: data.couponCode || undefined,
       nda_consent: data.ndaConsent,
       status: 'pending',
       referrer: data.referrer || referrer,
@@ -305,7 +305,7 @@ export const POST: APIRoute = async ({ request }) => {
     console.error(`[${requestId}] Unexpected error:`, error);
     return new Response(
       JSON.stringify({
-        error: 'An unexpected error occurred. Please try again later or contact sales@qdaria.com',
+        error: 'An unexpected error occurred. Please try again later or contact mo@qdaria.com',
         code: 'INTERNAL_ERROR',
       }),
       {
