@@ -201,7 +201,7 @@ export const POST: APIRoute = async ({ request }) => {
       industry: data.industry,
       expected_volume: data.expectedVolume,
       use_case: data.useCase || undefined,
-      // coupon_code: data.couponCode || undefined, // TODO: Add column to database
+      // coupon_code: data.couponCode || undefined, // Column missing - run: ALTER TABLE waitlist ADD COLUMN coupon_code VARCHAR(50);
       nda_consent: data.ndaConsent,
       status: 'pending',
       referrer: data.referrer || referrer,
