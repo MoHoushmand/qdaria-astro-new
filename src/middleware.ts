@@ -1,35 +1,27 @@
 import { defineMiddleware } from 'astro:middleware';
+import { getSession } from 'auth-astro/server';
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Middleware temporarily disabled to fix loading error
-  // Authentication will be re-enabled after proper auth-astro configuration
+  const { pathname } = context.url;
 
-  // const { pathname } = context.url;
-  //
-  // // Protected routes - all Invest pages
-  // const protectedRoutes = [
-  //   '/invest/investors',
-  //   '/invest/business-plan',
-  //   '/pitch',
-  //   '/whitepaper',
-  // ];
-  //
-  // // Check if current path matches any protected route
-  // const isProtected = protectedRoutes.some(route => pathname.startsWith(route));
-  //
-  // if (isProtected) {
-  //   try {
-  //     const { getSession } = await import('auth-astro/server');
-  //     const session = await getSession(context.request);
-  //
-  //     if (!session) {
-  //       // Redirect to signin page with callback URL
-  //       return context.redirect(`/auth/signin?callbackUrl=${encodeURIComponent(pathname)}`);
-  //     }
-  //   } catch (error) {
-  //     console.error('Auth middleware error:', error);
-  //   }
-  // }
+  // Protected routes - only specific Invest pages
+  const protectedRoutes = [
+    '/invest/business-plan',
+    '/invest/pitch',
+    '/invest/whitepaper',
+  ];
+
+  // Check if current path matches any protected route
+  const isProtected = protectedRoutes.some(route => pathname.startsWith(route));
+
+  if (isProtected) {
+    const session = await getSession(context.request);
+
+    if (!session) {
+      // Redirect to login page with callback URL
+      return context.redirect(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
+    }
+  }
 
   return next();
 });

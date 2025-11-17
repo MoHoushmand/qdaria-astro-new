@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-deck/ui/card';
-import { Button } from '@/components/pitch-deck/ui/button';
-import { Badge } from '@/components/pitch-deck/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/qdaria-business-plan/ui/card';
+import { Button } from '@/components/qdaria-business-plan/ui/button';
+import { Badge } from '@/components/qdaria-business-plan/ui/badge';
 import { AlertTriangle, Shield, TrendingDown } from 'lucide-react';
 
 // QDaria Brand Colors
@@ -245,6 +245,13 @@ export const RiskAssessmentChart: React.FC<RiskAssessmentChartProps> = ({ classN
               : 'bg-gray-800/50 border border-gray-700/50'
           }`}
           aria-pressed={showCurrent}
+          aria-label={`${showCurrent ? 'Hide' : 'Show'} current risk levels on radar chart`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setShowCurrent(!showCurrent);
+            }
+          }}
         >
           <div
             className={`w-3 h-3 rounded-full ${showCurrent ? 'bg-red-400' : 'bg-gray-600'}`}
@@ -261,6 +268,13 @@ export const RiskAssessmentChart: React.FC<RiskAssessmentChartProps> = ({ classN
               : 'bg-gray-800/50 border border-gray-700/50'
           }`}
           aria-pressed={showMitigated}
+          aria-label={`${showMitigated ? 'Hide' : 'Show'} mitigated risk levels with reduction strategies on radar chart`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setShowMitigated(!showMitigated);
+            }
+          }}
         >
           <div
             className={`w-3 h-3 rounded-full ${showMitigated ? 'bg-green-400' : 'bg-gray-600'}`}
@@ -272,7 +286,12 @@ export const RiskAssessmentChart: React.FC<RiskAssessmentChartProps> = ({ classN
       </div>
 
       {/* Radar Chart */}
-      <div className="h-[500px] w-full">
+      <div
+        className="h-[500px] w-full"
+        role="region"
+        aria-label={`Risk assessment radar showing ${showCurrent ? 'current' : ''} ${showCurrent && showMitigated ? 'and' : ''} ${showMitigated ? 'mitigated' : ''} risk levels across 6 dimensions: Technical (${riskData[0]['Current Risk']}/10), Market (${riskData[1]['Current Risk']}/10), Financial (${riskData[2]['Current Risk']}/10), Operational (${riskData[3]['Current Risk']}/10), Regulatory (${riskData[4]['Current Risk']}/10), and Competitive (${riskData[5]['Current Risk']}/10). Average risk reduced from ${currentAvg} to ${mitigatedAvg}, a ${reduction}% improvement`}
+        tabIndex={0}
+      >
         <ResponsiveRadar
           data={riskData}
           keys={[
@@ -280,6 +299,7 @@ export const RiskAssessmentChart: React.FC<RiskAssessmentChartProps> = ({ classN
             ...(showMitigated ? ['Mitigated Risk'] : []),
           ]}
           indexBy="dimension"
+          title="Risk assessment across technical, market, financial, operational, regulatory, and competitive dimensions"
           maxValue={10}
           margin={{ top: 70, right: 80, bottom: 70, left: 80 }}
           curve="linearClosed"

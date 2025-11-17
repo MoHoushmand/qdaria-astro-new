@@ -17,6 +17,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../..
 import { Badge } from '../../pitch-deck/ui/badge';
 import { Button } from '../../pitch-deck/ui/button';
 import { Download, TrendingUp, Users, DollarSign } from 'lucide-react';
+import {
+  CHART_THEME,
+  standardTooltipStyle,
+  standardAxisStyle,
+  standardTickStyle,
+  standardGridStyle,
+  standardLegendStyle,
+} from '@/styles/chart-theme';
 
 interface UserGrowthData {
   quarter: string;
@@ -104,23 +112,31 @@ export const UserGrowthChart: React.FC = () => {
     console.log('Exporting user growth dashboard as PDF...');
   };
 
+  // Custom Tooltip with theme styling
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-gray-900/95 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4 shadow-2xl">
-          <p className="text-cyan-400 font-semibold mb-2">{data.quarter}</p>
-          <div className="space-y-1 text-sm">
-            <p className="text-blue-300">Total Users: {data.total.toLocaleString()}</p>
-            <p className="text-cyan-300">Active Users: {data.active.toLocaleString()}</p>
-            <p className="text-green-300">Paying: {data.paying.toLocaleString()}</p>
-            <p className="text-purple-300">Enterprise: {data.enterprise}</p>
-            <p className="text-yellow-300">MRR: ${(data.mrr / 1000).toFixed(0)}K</p>
-            <div className="border-t border-gray-700 mt-2 pt-2">
-              <p className="text-orange-300">Growth Rate: {data.growthRate}%</p>
-              <p className="text-pink-300">Churn: {data.churnRate}%</p>
-              <p className="text-indigo-300">Activation: {data.activationRate}%</p>
-              <p className="text-teal-300">Viral Coeff: {data.viralCoefficient.toFixed(1)}</p>
+        <div style={{
+          backgroundColor: CHART_THEME.colors.background.dark,
+          border: `${CHART_THEME.colors.chart.tooltip.borderWidth} solid ${CHART_THEME.colors.chart.tooltip.border}`,
+          borderRadius: CHART_THEME.borderRadius.md,
+          padding: '12px 16px',
+          boxShadow: CHART_THEME.shadows.glow,
+          minWidth: '200px',
+        }}>
+          <p style={{ color: CHART_THEME.colors.primary, fontWeight: 600, marginBottom: '8px' }}>{data.quarter}</p>
+          <div style={{ fontSize: CHART_THEME.typography.sizes.sm + 'px', lineHeight: CHART_THEME.typography.lineHeight.relaxed }}>
+            <p style={{ color: CHART_THEME.colors.palette.blue }}>Total Users: {data.total.toLocaleString()}</p>
+            <p style={{ color: CHART_THEME.colors.palette.cyan }}>Active Users: {data.active.toLocaleString()}</p>
+            <p style={{ color: CHART_THEME.colors.palette.green }}>Paying: {data.paying.toLocaleString()}</p>
+            <p style={{ color: CHART_THEME.colors.palette.purple }}>Enterprise: {data.enterprise}</p>
+            <p style={{ color: CHART_THEME.colors.palette.yellow }}>MRR: ${(data.mrr / 1000).toFixed(0)}K</p>
+            <div style={{ borderTop: `1px solid ${CHART_THEME.colors.chart.grid}`, marginTop: '8px', paddingTop: '8px' }}>
+              <p style={{ color: CHART_THEME.colors.palette.orange }}>Growth Rate: {data.growthRate}%</p>
+              <p style={{ color: CHART_THEME.colors.palette.pink }}>Churn: {data.churnRate}%</p>
+              <p style={{ color: CHART_THEME.colors.text.secondary }}>Activation: {data.activationRate}%</p>
+              <p style={{ color: CHART_THEME.colors.secondary }}>Viral Coeff: {data.viralCoefficient.toFixed(1)}</p>
             </div>
           </div>
         </div>
@@ -148,8 +164,9 @@ export const UserGrowthChart: React.FC = () => {
               variant="outline"
               size="sm"
               className="border-cyan-500/50 hover:bg-cyan-500/10"
+              aria-label="Export user growth dashboard as PDF"
             >
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="w-4 h-4 mr-2" aria-hidden="true" />
               Export PDF
             </Button>
           </div>
@@ -162,6 +179,8 @@ export const UserGrowthChart: React.FC = () => {
             variant={viewMode === 'cumulative' ? 'default' : 'outline'}
             size="sm"
             className={viewMode === 'cumulative' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600'}
+            aria-pressed={viewMode === 'cumulative'}
+            aria-label="View cumulative user growth over time"
           >
             Cumulative
           </Button>
@@ -170,6 +189,8 @@ export const UserGrowthChart: React.FC = () => {
             variant={viewMode === 'net-adds' ? 'default' : 'outline'}
             size="sm"
             className={viewMode === 'net-adds' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-gray-600'}
+            aria-pressed={viewMode === 'net-adds'}
+            aria-label="View net new user additions per quarter"
           >
             Net Adds
           </Button>
@@ -178,8 +199,10 @@ export const UserGrowthChart: React.FC = () => {
             variant="outline"
             size="sm"
             className="border-purple-500/50 hover:bg-purple-500/10 ml-auto"
+            aria-expanded={showCohortAnalysis}
+            aria-label={`${showCohortAnalysis ? 'Hide' : 'Show'} cohort retention analysis showing user retention rates at 1, 3, 6, 12, and 24 months`}
           >
-            <Users className="w-4 h-4 mr-2" />
+            <Users className="w-4 h-4 mr-2" aria-hidden="true" />
             {showCohortAnalysis ? 'Hide' : 'Show'} Cohort Analysis
           </Button>
         </div>
@@ -187,12 +210,12 @@ export const UserGrowthChart: React.FC = () => {
         {/* Key Metrics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
-            <p className="text-blue-400 text-xs font-medium">Total Users (Q4 2030)</p>
-            <p className="text-2xl font-bold text-white">50,000</p>
+            <p className="text-blue-400 text-xs font-medium">Total Customers (2030)</p>
+            <p className="text-2xl font-bold text-white">2,755</p>
           </div>
           <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
-            <p className="text-green-400 text-xs font-medium">MRR (Q4 2030)</p>
-            <p className="text-2xl font-bold text-white">$15.0M</p>
+            <p className="text-green-400 text-xs font-medium">ARR (2030)</p>
+            <p className="text-2xl font-bold text-white">$100M</p>
           </div>
           <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3">
             <p className="text-orange-400 text-xs font-medium">Avg Churn Rate</p>
@@ -221,8 +244,18 @@ export const UserGrowthChart: React.FC = () => {
 
       <CardContent>
         {/* Main Chart */}
-        <ResponsiveContainer width="100%" height={550}>
-          <ComposedChart data={displayData} margin={{ top: 20, right: 80, bottom: 20, left: 20 }}>
+        <ResponsiveContainer
+          width="100%"
+          height={550}
+          role="region"
+          aria-label={`User growth metrics from Q1 2025 to Q4 2030 in ${viewMode} view. 2030 totals: 50,000 total users, 37,500 active users, 10,000 paying customers, 500 enterprise accounts, $15M MRR. Average churn rate: 10%, Activation rate: 75%. Key milestones: First 100 users Q2 2025, Product-Market Fit Q4 2025 (1,000 users), Unicorn Metrics Q4 2027 (10,000 users), IPO Readiness Q4 2029 (45,000 users)`}
+          tabIndex={0}
+        >
+          <ComposedChart
+            data={displayData}
+            margin={{ top: 20, right: 80, bottom: 20, left: 20 }}
+            title="Multi-series user growth showing total, active, paying customers, and enterprise accounts with growth rate overlay"
+          >
             <defs>
               <linearGradient id="totalGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
@@ -234,12 +267,12 @@ export const UserGrowthChart: React.FC = () => {
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+            <CartesianGrid {...standardGridStyle} />
 
             <XAxis
               dataKey="quarter"
-              stroke="#9ca3af"
-              tick={{ fill: '#9ca3af', fontSize: 11 }}
+              {...standardAxisStyle}
+              tick={standardTickStyle}
               angle={-45}
               textAnchor="end"
               height={80}
@@ -247,8 +280,8 @@ export const UserGrowthChart: React.FC = () => {
 
             <YAxis
               yAxisId="left"
-              stroke="#9ca3af"
-              tick={{ fill: '#9ca3af' }}
+              {...standardAxisStyle}
+              tick={standardTickStyle}
               scale={viewMode === 'cumulative' ? 'log' : 'linear'}
               domain={viewMode === 'cumulative' ? [10, 100000] : ['auto', 'auto']}
             >
@@ -256,30 +289,27 @@ export const UserGrowthChart: React.FC = () => {
                 value="Users (log scale)"
                 angle={-90}
                 position="insideLeft"
-                style={{ fill: '#9ca3af', fontSize: 12 }}
+                style={{ fill: CHART_THEME.colors.chart.axis, fontSize: CHART_THEME.typography.sizes.sm }}
               />
             </YAxis>
 
             <YAxis
               yAxisId="right"
               orientation="right"
-              stroke="#f59e0b"
-              tick={{ fill: '#f59e0b' }}
+              stroke={CHART_THEME.colors.palette.orange}
+              tick={{ fill: CHART_THEME.colors.palette.orange, fontSize: CHART_THEME.typography.sizes.sm }}
             >
               <Label
                 value="Growth Rate (%)"
                 angle={90}
                 position="insideRight"
-                style={{ fill: '#f59e0b', fontSize: 12 }}
+                style={{ fill: CHART_THEME.colors.palette.orange, fontSize: CHART_THEME.typography.sizes.sm }}
               />
             </YAxis>
 
             <Tooltip content={<CustomTooltip />} />
 
-            <Legend
-              wrapperStyle={{ paddingTop: '20px' }}
-              iconType="line"
-            />
+            <Legend {...standardLegendStyle} />
 
             {/* Milestone Reference Lines */}
             {milestones.map((milestone) => (
@@ -300,7 +330,7 @@ export const UserGrowthChart: React.FC = () => {
               type="monotone"
               dataKey="total"
               name="Total Users"
-              stroke="#3b82f6"
+              stroke={CHART_THEME.colors.palette.blue}
               strokeWidth={2}
               fill="url(#totalGradient)"
             />
@@ -310,9 +340,9 @@ export const UserGrowthChart: React.FC = () => {
               type="monotone"
               dataKey="active"
               name="Active Users"
-              stroke="#06b6d4"
+              stroke={CHART_THEME.colors.secondary}
               strokeWidth={2}
-              dot={{ r: 3 }}
+              dot={{ r: 3, fill: CHART_THEME.colors.secondary }}
             />
 
             <Line
@@ -320,9 +350,9 @@ export const UserGrowthChart: React.FC = () => {
               type="monotone"
               dataKey="paying"
               name="Paying Customers"
-              stroke="#10b981"
+              stroke={CHART_THEME.colors.accent}
               strokeWidth={2}
-              dot={{ r: 3 }}
+              dot={{ r: 3, fill: CHART_THEME.colors.accent }}
             />
 
             <Bar
@@ -338,10 +368,10 @@ export const UserGrowthChart: React.FC = () => {
               type="monotone"
               dataKey="growthRate"
               name="Growth Rate %"
-              stroke="#f59e0b"
+              stroke={CHART_THEME.colors.palette.orange}
               strokeWidth={2}
               strokeDasharray="5 5"
-              dot={{ r: 2 }}
+              dot={{ r: 2, fill: CHART_THEME.colors.palette.orange }}
             />
           </ComposedChart>
         </ResponsiveContainer>

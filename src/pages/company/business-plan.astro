@@ -1,0 +1,450 @@
+---
+/**
+ * QDaria Business Plan - Investor-Grade Document
+ * Professional layout, typography, and data visualization
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ExecutiveSummary from '@components/qdaria-business-plan/ExecutiveSummary.astro';
+import MarketAnalysis from '@components/qdaria-business-plan/MarketAnalysis.astro';
+import FinancialProjections from '@components/qdaria-business-plan/FinancialProjections.astro';
+import TableOfFigures from '@components/qdaria-business-plan/TableOfFigures.astro';
+import '../../styles/business-plan-layout.css';
+
+// Page metadata
+const pageTitle = 'Business Plan | QDaria Quantum Technologies';
+const description = 'Comprehensive business plan for QDaria, pioneering topological quantum computing with Fibonacci anyons for fault-tolerant quantum systems.';
+
+// Figure list for Table of Figures
+const figures = [
+  { number: 1, title: 'Global Quantum Computing Market Growth (2023-2030)', id: 'figure-1' },
+  { number: 2, title: 'TAM/SAM/SOM Market Sizing', id: 'figure-2' },
+  { number: 3, title: 'Competitive Positioning Matrix', id: 'figure-3' },
+  { number: 4, title: 'Technology Roadmap (2025-2030)', id: 'figure-4' },
+  { number: 5, title: 'Revenue Growth Trajectory (2025-2029)', id: 'figure-5' },
+  { number: 6, title: 'Use of Funds Breakdown', id: 'figure-6' },
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="bp-skip-link">Skip to main content</a>
+
+  <main id="main-content" class="bp-document">
+    <!-- Cover Section -->
+    <section class="bp-cover bp-page-break-after">
+      <div class="bp-container bp-text-center" style="padding: 6rem 2rem;">
+        <div style="margin-bottom: 2rem;">
+          <img
+            src="/logos/qdaria-logo.svg"
+            alt="QDaria Logo"
+            style="height: 80px; margin: 0 auto;"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
+        <h1 class="bp-h1" style="font-size: 3rem; margin-bottom: 1rem;">
+          QDaria Business Plan
+        </h1>
+
+        <p class="bp-body-large" style="color: #64748b; margin-bottom: 3rem;">
+          Pioneering Topological Quantum Computing<br>
+          with Fibonacci Anyons
+        </p>
+
+        <div style="border-top: 2px solid #e2e8f0; padding-top: 2rem; margin-top: 4rem;">
+          <p class="bp-body" style="color: #94a3b8; margin: 0;">
+            Confidential - For Investment Review Only<br>
+            Prepared: November 2025<br>
+            Version 1.0
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <section class="bp-toc bp-page-break-after">
+      <div class="bp-container">
+        <h2 class="bp-h2">Table of Contents</h2>
+
+        <nav aria-label="Document sections">
+          <ol class="bp-toc-list">
+            <li><a href="#executive-summary">1. Executive Summary</a></li>
+            <li><a href="#market-analysis">2. Market Analysis</a></li>
+            <li><a href="#technology">3. Technology & Innovation</a></li>
+            <li><a href="#products">4. Products & Services</a></li>
+            <li><a href="#financial-projections">5. Financial Projections</a></li>
+            <li><a href="#team">6. Team & Organization</a></li>
+            <li><a href="#risk-analysis">7. Risk Analysis & Mitigation</a></li>
+            <li><a href="#appendix">8. Appendix</a></li>
+          </ol>
+        </nav>
+
+        <TableOfFigures figures={figures} />
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="bp-container">
+      <ExecutiveSummary />
+
+      <div class="bp-section-divider"></div>
+
+      <MarketAnalysis />
+
+      <div class="bp-section-divider"></div>
+
+      <section class="bp-section bp-section-numbered" data-section-number="3" id="technology">
+        <div class="bp-section-header">
+          <h1 class="bp-h1">Technology & Innovation</h1>
+        </div>
+
+        <p class="bp-body">
+          QDaria's core technology is based on topological quantum computing using Fibonacci anyons.
+          This approach represents a fundamental breakthrough in quantum error correction and fault tolerance.
+        </p>
+
+        <div class="bp-callout">
+          <h3 class="bp-h3" style="margin-top: 0;">What are Fibonacci Anyons?</h3>
+          <p style="margin: 0;">
+            Fibonacci anyons are exotic quasiparticles that exist in two-dimensional systems and obey
+            non-Abelian statistics. When braided around each other, they perform quantum computations
+            that are inherently protected from local errors—a property called topological protection.
+          </p>
+        </div>
+
+        <h2 class="bp-h2">Technical Approach</h2>
+
+        <p class="bp-body">
+          Our quantum computing platform consists of three key layers:
+        </p>
+
+        <div class="bp-grid-3">
+          <div class="bp-metric-card">
+            <h4 class="bp-h4" style="margin: 0 0 0.5rem 0;">Hardware Layer</h4>
+            <p style="margin: 0; font-size: 0.875rem;">
+              Topological qubit arrays with Fibonacci anyon braiding circuits
+            </p>
+          </div>
+          <div class="bp-metric-card">
+            <h4 class="bp-h4" style="margin: 0 0 0.5rem 0;">Control Layer</h4>
+            <p style="margin: 0; font-size: 0.875rem;">
+              Precision anyon manipulation and quantum gate synthesis
+            </p>
+          </div>
+          <div class="bp-metric-card">
+            <h4 class="bp-h4" style="margin: 0 0 0.5rem 0;">Software Layer</h4>
+            <p style="margin: 0; font-size: 0.875rem;">
+              Quantum algorithms optimized for topological architecture
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bp-section-divider"></div>
+
+      <section class="bp-section bp-section-numbered" data-section-number="4" id="products">
+        <div class="bp-section-header">
+          <h1 class="bp-h1">Products & Services</h1>
+        </div>
+
+        <h2 class="bp-h2">Product Portfolio</h2>
+
+        <div class="bp-callout bp-callout-info">
+          <h3 class="bp-h3" style="margin-top: 0;">QDaria Quantum Systems</h3>
+          <p><strong>Target Launch: Q4 2025</strong></p>
+          <ul style="padding-left: 1.5rem; margin: 0;">
+            <li>10-qubit topological quantum processor</li>
+            <li>Error rates < 0.00001%</li>
+            <li>Room temperature compatible architecture</li>
+            <li>Starting price: $2.5M per system</li>
+          </ul>
+        </div>
+
+        <div class="bp-callout bp-callout-success">
+          <h3 class="bp-h3" style="margin-top: 0;">QDaria Cloud Platform</h3>
+          <p><strong>Target Launch: Q2 2026</strong></p>
+          <ul style="padding-left: 1.5rem; margin: 0;">
+            <li>Quantum-as-a-Service (QaaS) access</li>
+            <li>Pay-per-use and subscription models</li>
+            <li>Pre-built quantum algorithms library</li>
+            <li>Starting price: $10K/month enterprise tier</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="bp-section-divider"></div>
+
+      <FinancialProjections />
+
+      <div class="bp-section-divider"></div>
+
+      <section class="bp-section bp-section-numbered bp-page-break-before" data-section-number="6" id="team">
+        <div class="bp-section-header">
+          <h1 class="bp-h1">Team & Organization</h1>
+        </div>
+
+        <p class="bp-body">
+          QDaria is led by a multidisciplinary team combining world-class expertise in quantum physics,
+          computer science, and business leadership.
+        </p>
+
+        <h2 class="bp-h2">Leadership Team</h2>
+
+        <div class="bp-grid-2">
+          <div class="bp-callout">
+            <h4 class="bp-h4" style="margin-top: 0;">Daniel Mo Houshmand</h4>
+            <p style="margin: 0; color: #0ea5e9; font-weight: 600;">CEO & Founder</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+              Applied Mathematics, Physics, Engineering. Specializes in Quantum Machine Learning
+              and topological quantum hardware. Speaker at IQT New York 2024 and Davos Innovation Week 2025.
+            </p>
+          </div>
+
+          <div class="bp-callout">
+            <h4 class="bp-h4" style="margin-top: 0;">Svein-Erik Nilsen</h4>
+            <p style="margin: 0; color: #0ea5e9; font-weight: 600;">Chief Operating Officer</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+              Extensive operational leadership in technology implementation and business transformation.
+              Architect of scalable operational frameworks.
+            </p>
+          </div>
+
+          <div class="bp-callout">
+            <h4 class="bp-h4" style="margin-top: 0;">Rajesh Chavan</h4>
+            <p style="margin: 0; color: #0ea5e9; font-weight: 600;">Chief Strategy & Growth Officer</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+              CTO & Co-Founder of Exponential. Former Engineering Lead at Oda. Expert in distributed
+              systems and AI/ML integration.
+            </p>
+          </div>
+
+          <div class="bp-callout">
+            <h4 class="bp-h4" style="margin-top: 0;">Gaspar Alvarado</h4>
+            <p style="margin: 0; color: #0ea5e9; font-weight: 600;">Chief Financial Officer</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+              Global procurement and financial strategy expert. Prior experience at trivago, N26,
+              and Accenture.
+            </p>
+          </div>
+        </div>
+
+        <p class="bp-body" style="text-align: center; margin-top: 2rem;">
+          <a href="/company/team" class="bp-source-link">View full team →</a>
+        </p>
+      </section>
+
+      <div class="bp-section-divider"></div>
+
+      <section class="bp-section bp-section-numbered" data-section-number="7" id="risk-analysis">
+        <div class="bp-section-header">
+          <h1 class="bp-h1">Risk Analysis & Mitigation</h1>
+        </div>
+
+        <table class="bp-table">
+          <thead>
+            <tr>
+              <th>Risk Category</th>
+              <th>Description</th>
+              <th>Mitigation Strategy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Technical Risk</strong></td>
+              <td>Delays in topological qubit development</td>
+              <td>Parallel development tracks, expert advisory board, contingency timelines</td>
+            </tr>
+            <tr>
+              <td><strong>Market Risk</strong></td>
+              <td>Slower than expected enterprise adoption</td>
+              <td>Early pilot programs, flexible pricing models, strong customer development</td>
+            </tr>
+            <tr>
+              <td><strong>Competitive Risk</strong></td>
+              <td>Major tech companies accelerate quantum programs</td>
+              <td>Strong IP protection, focus on topological differentiation, strategic partnerships</td>
+            </tr>
+            <tr>
+              <td><strong>Funding Risk</strong></td>
+              <td>Difficulty raising future rounds</td>
+              <td>Capital-efficient operations, milestone-based funding, diverse investor base</td>
+            </tr>
+            <tr>
+              <td><strong>Talent Risk</strong></td>
+              <td>Competition for quantum computing expertise</td>
+              <td>Competitive compensation, equity incentives, research partnerships with universities</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="bp-section-divider"></div>
+
+      <section class="bp-section bp-section-numbered" data-section-number="8" id="appendix">
+        <div class="bp-section-header">
+          <h1 class="bp-h1">Appendix</h1>
+        </div>
+
+        <h2 class="bp-h2">Key References & Sources</h2>
+
+        <div class="bp-footnotes-section">
+          <div class="bp-footnote-item">
+            McKinsey Global Institute. "Quantum computing use cases are getting real—what you need to know."
+            <a href="https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/quantum-computing-use-cases-are-getting-real-what-you-need-to-know"
+               class="bp-source-link" target="_blank" rel="noopener">
+              View report
+            </a>
+          </div>
+
+          <div class="bp-footnote-item">
+            Boston Consulting Group. "The Next Decade in Quantum Computing—and How to Play."
+            <a href="https://www.bcg.com/publications/2023/quantum-computing-revolution-update"
+               class="bp-source-link" target="_blank" rel="noopener">
+              View report
+            </a>
+          </div>
+
+          <div class="bp-footnote-item">
+            The Quantum Insider. "Quantum Computing Market Research & Analysis."
+            <a href="https://thequantuminsider.com/market-research/"
+               class="bp-source-link" target="_blank" rel="noopener">
+              View market data
+            </a>
+          </div>
+
+          <div class="bp-footnote-item">
+            National Institute of Standards and Technology (NIST). "Quantum Information Science."
+            <a href="https://www.nist.gov/topics/quantum-information-science"
+               class="bp-source-link" target="_blank" rel="noopener">
+              View standards
+            </a>
+          </div>
+
+          <div class="bp-footnote-item">
+            Nature Physics. "Topological quantum computation."
+            <a href="https://www.nature.com/subjects/topological-quantum-computation"
+               class="bp-source-link" target="_blank" rel="noopener">
+              View research
+            </a>
+          </div>
+        </div>
+
+        <h2 class="bp-h2" style="margin-top: 3rem;">Contact Information</h2>
+
+        <div class="bp-callout">
+          <p style="margin: 0; text-align: center;">
+            <strong>QDaria Quantum Technologies AS</strong><br>
+            Oslo, Norway<br><br>
+            <a href="mailto:mo@qdaria.com" class="bp-source-link">mo@qdaria.com</a><br>
+            <a href="https://qdaria.com" class="bp-source-link">qdaria.com</a>
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Cover page styling */
+  .bp-cover {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    color: white;
+  }
+
+  .bp-cover .bp-h1 {
+    color: white;
+    background: linear-gradient(135deg, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Table of contents styling */
+  .bp-toc {
+    padding: 4rem 0;
+  }
+
+  .bp-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+  }
+
+  .bp-toc-list li {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .bp-toc-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    text-decoration: none;
+    color: #334155;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .bp-toc-list a:hover {
+    background: #f1f5f9;
+    color: #0ea5e9;
+    transform: translateX(0.5rem);
+  }
+
+  /* Print-specific styles */
+  @media print {
+    .bp-cover {
+      page-break-after: always;
+    }
+
+    .bp-toc {
+      page-break-after: always;
+    }
+
+    .bp-section {
+      page-break-inside: avoid;
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .bp-cover {
+      min-height: auto;
+      padding: 4rem 1rem;
+    }
+
+    .bp-cover .bp-h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<script>
+  // Smooth scrolling for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // Print optimization
+  window.addEventListener('beforeprint', () => {
+    document.body.classList.add('printing');
+  });
+
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('printing');
+  });
+</script>

@@ -11,18 +11,18 @@ import {
   YAxis,
   Tooltip,
 } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-deck/ui/card';
-import { Button } from '@/components/pitch-deck/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/qdaria-business-plan/ui/card';
+import { Button } from '@/components/qdaria-business-plan/ui/button';
 import { Download, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 // Financial data
 const revenueData = [
-  { month: 'Q1', value: 45 },
-  { month: 'Q2', value: 78 },
-  { month: 'Q3', value: 125 },
-  { month: 'Q4', value: 195 },
-  { month: 'Q1', value: 280 },
-  { month: 'Q2', value: 350 },
+  { month: 'Q1 25', value: 0.5 },
+  { month: 'Q2 26', value: 1.0 },
+  { month: 'Q3 27', value: 5.0 },
+  { month: 'Q4 27', value: 8.0 },
+  { month: 'Q2 28', value: 15.0 },
+  { month: 'Q4 30', value: 100 },
 ];
 
 const ebitdaData = [
@@ -44,17 +44,17 @@ const arrGrowthData = [
 ];
 
 const burnRateData = [
-  { month: 'Q1', burn: 3.2, revenue: 1.2 },
-  { month: 'Q2', burn: 2.9, revenue: 2.1 },
-  { month: 'Q3', burn: 2.7, revenue: 3.8 },
-  { month: 'Q4', burn: 2.5, revenue: 5.2 },
-  { month: 'Q1', burn: 2.2, revenue: 7.5 },
-  { month: 'Q2', burn: 0, revenue: 12.3 },
+  { month: 'Q1 25', burn: 3.2, revenue: 0.5 },
+  { month: 'Q2 26', burn: 2.9, revenue: 1.0 },
+  { month: 'Q3 27', burn: 2.4, revenue: 5.0 },
+  { month: 'Q4 27', burn: 1.8, revenue: 8.0 },
+  { month: 'Q2 28', burn: 0.8, revenue: 15.0 },
+  { month: 'Q4 28', burn: 0, revenue: 25.0 },
 ];
 
 const cacLtvData = [
   { metric: 'CAC', value: 10.8 },
-  { metric: 'LTV', value: 158 },
+  { metric: 'LTV', value: 86.4 },
 ];
 
 const customerData = [
@@ -182,7 +182,11 @@ export const FinancialDashboard: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#000212] p-4 md:p-8">
+    <div
+      className="w-full min-h-screen bg-[#000212] p-4 md:p-8"
+      role="region"
+      aria-label="Financial Dashboard showing key performance indicators including revenue, EBITDA, ARR growth, cash runway, unit economics, customer base, gross margin, and IPO readiness metrics"
+    >
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex items-center justify-between">
@@ -199,6 +203,7 @@ export const FinancialDashboard: React.FC = () => {
             onClick={handleExportPDF}
             disabled={exportLoading}
             className="bg-[#04a3ff] hover:bg-[#0389d6] text-white"
+            aria-label="Export financial dashboard as PDF"
           >
             <Download className="w-4 h-4 mr-2" />
             {exportLoading ? 'Exporting...' : 'Export PDF'}
@@ -211,13 +216,18 @@ export const FinancialDashboard: React.FC = () => {
         {/* Revenue Card */}
         <KPICard
           title="Total Revenue"
-          value="$350M"
-          change="+110% YoY"
+          value="$100M"
+          change="+158% CAGR"
           changeType="up"
-          subtitle="2030 Projection"
-          benchmark="Industry avg: $180M"
+          subtitle="2030 Base Case"
+          benchmark="Industry avg: $50M"
           chart={
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+              role="img"
+              aria-label="Revenue growth trend from Q1 2025 to Q4 2030, showing progression from $0.5M to $100M"
+            >
               <AreaChart data={revenueData}>
                 <defs>
                   <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
@@ -241,10 +251,10 @@ export const FinancialDashboard: React.FC = () => {
         {/* EBITDA Card */}
         <KPICard
           title="EBITDA Margin"
-          value="30%"
+          value="40%"
           change="+45pp"
           changeType="up"
-          subtitle="$105M EBITDA"
+          subtitle="$40M EBITDA (2030)"
           benchmark="SaaS leaders: 25%"
           chart={
             <ResponsiveContainer width="100%" height="100%">
@@ -265,11 +275,11 @@ export const FinancialDashboard: React.FC = () => {
         {/* ARR Growth Card */}
         <KPICard
           title="ARR Growth"
-          value="200%"
-          change="CAGR 24-30"
+          value="158%"
+          change="CAGR 25-30"
           changeType="up"
-          subtitle="$315M ARR"
-          benchmark="Target: 150%"
+          subtitle="$90M ARR"
+          benchmark="Highly aggressive"
           chart={
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={arrGrowthData}>
@@ -288,7 +298,7 @@ export const FinancialDashboard: React.FC = () => {
         <KPICard
           title="Cash Runway"
           value="Profitable"
-          change="Q2 2025"
+          change="Q4 2028"
           changeType="up"
           subtitle="Was $2.5M/mo burn"
           benchmark="Breakeven achieved"
@@ -325,11 +335,11 @@ export const FinancialDashboard: React.FC = () => {
         {/* CAC/LTV Card */}
         <KPICard
           title="Unit Economics"
-          value="14.6:1"
-          change="LTV/CAC"
+          value="8:1"
+          change="LTV/CAC (excellent)"
           changeType="up"
-          subtitle="CAC: $10,800"
-          benchmark="Target: >3:1"
+          subtitle="CAC: $12.5K | LTV: $100K"
+          benchmark="Industry avg: 3:1"
           chart={
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={cacLtvData} layout="vertical">
@@ -426,13 +436,13 @@ export const FinancialDashboard: React.FC = () => {
       {/* Summary Stats */}
       <div className="max-w-7xl mx-auto mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-gradient-to-br from-[#000212]/90 to-[#04a3ff]/10 border border-[#04a3ff]/30 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-[#04a3ff]">$45M</div>
-          <div className="text-sm text-gray-400">Raised to Date</div>
+          <div className="text-2xl font-bold text-[#04a3ff]">$87M</div>
+          <div className="text-sm text-gray-400">Raised by 2030</div>
         </div>
 
         <div className="bg-gradient-to-br from-[#000212]/90 to-[#10b981]/10 border border-[#10b981]/30 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-[#10b981]">18 Months</div>
-          <div className="text-sm text-gray-400">To Profitability</div>
+          <div className="text-2xl font-bold text-[#10b981]">Q4 2028</div>
+          <div className="text-sm text-gray-400">Break-even Target</div>
         </div>
 
         <div className="bg-gradient-to-br from-[#000212]/90 to-[#8b5cf6]/10 border border-[#8b5cf6]/30 rounded-lg p-4 text-center">
@@ -441,17 +451,23 @@ export const FinancialDashboard: React.FC = () => {
         </div>
 
         <div className="bg-gradient-to-br from-[#000212]/90 to-[#fbbf24]/10 border border-[#fbbf24]/30 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-[#fbbf24]">3.2x</div>
-          <div className="text-sm text-gray-400">Revenue Multiple</div>
+          <div className="text-2xl font-bold text-[#fbbf24]">8:1</div>
+          <div className="text-sm text-gray-400">LTV/CAC Ratio</div>
         </div>
       </div>
 
       {/* Footer Note */}
       <div className="max-w-7xl mx-auto mt-8 text-center text-sm text-gray-500">
         <p>
-          All projections based on conservative models and validated market assumptions.
+          All projections based on validated market assumptions and financial modeling.
           <br />
-          Last updated: {new Date().toLocaleDateString()} | Confidence: 87%
+          8:1 LTV/CAC ratio reflects excellent retention (95%) and strong unit economics in quantum enterprise market.
+          <br />
+          158% CAGR represents aggressive growth trajectory requiring successful execution across all seven product lines.
+          <br />
+          Base case scenario: $100M revenue by 2030, break-even Q4 2028.
+          <br />
+          Last updated: {new Date().toLocaleDateString()} | Model Confidence: 85%
         </p>
       </div>
     </div>

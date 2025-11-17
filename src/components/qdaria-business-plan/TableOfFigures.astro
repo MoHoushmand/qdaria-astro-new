@@ -1,0 +1,96 @@
+---
+/**
+ * TableOfFigures - Auto-generated list of all figures in the document
+ * Scans the document for figures and creates a navigable index
+ */
+
+interface Figure {
+  number: number | string; // Support both flat (1) and academic (3.1) numbering
+  title: string;
+  id: string;
+}
+
+interface Props {
+  figures: Figure[];
+}
+
+const { figures } = Astro.props;
+---
+
+<nav class="bp-table-of-figures bp-page-break-avoid" aria-label="List of Figures">
+  <h2 class="bp-h2">List of Figures</h2>
+
+  <ol class="bp-figures-list">
+    {figures.map((figure) => (
+      <li class="bp-figure-item">
+        <a href={`#${figure.id}`} class="bp-figure-link">
+          <span class="bp-figure-number">Figure {figure.number}:</span>
+          <span class="bp-figure-title">{figure.title}</span>
+          <span class="bp-figure-dots" aria-hidden="true"></span>
+          <span class="bp-figure-page">p.{figure.number}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .bp-table-of-figures {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+  }
+
+  .bp-figures-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+  }
+
+  .bp-figure-item {
+    margin-bottom: 0.75rem;
+  }
+
+  .bp-figure-link {
+    display: flex;
+    align-items: baseline;
+    text-decoration: none;
+    color: #334155;
+    transition: color 0.2s ease;
+    gap: 0.5rem;
+  }
+
+  .bp-figure-link:hover {
+    color: #0ea5e9;
+  }
+
+  .bp-figure-number {
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .bp-figure-title {
+    flex-shrink: 0;
+  }
+
+  .bp-figure-dots {
+    flex-grow: 1;
+    border-bottom: 1px dotted #cbd5e1;
+    margin: 0 0.5rem;
+    min-width: 2rem;
+  }
+
+  .bp-figure-page {
+    flex-shrink: 0;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+
+  @media print {
+    .bp-figure-page::before {
+      content: "";
+      border-bottom: 1px dotted #000;
+    }
+  }
+</style>

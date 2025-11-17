@@ -9,7 +9,7 @@ import Badge from "@components/Badge/Badge.astro";
 import Button from "@components/Button/Button.astro";
 
 // Team member image paths - using optimized versions
-const moImage = "/images/team-optimized/mo";
+const moImage = "/images/team-optimized/daniel-mo-houhsmand";
 const johnImage = "/images/team-optimized/john";
 const nickImage = "/images/team-optimized/nick";
 const fredrikImage = "/images/team-optimized/fredrik";
@@ -20,6 +20,8 @@ const carolineImage = "/images/team-optimized/caroline";
 const nilsImage = "/images/team-optimized/nils";
 const dariaImage = "/images/team-optimized/daria";
 const shararehImage = "/images/team-optimized/sharareh";
+const rajeshImage = "/images/team-optimized/rajesh-chavan";
+const sveinErikImage = "/images/team-optimized/svein-erik-nilsen";
 
 // Debug logging
 console.log('Team images loaded:', {
@@ -33,7 +35,9 @@ console.log('Team images loaded:', {
   carolineImage,
   nilsImage,
   dariaImage,
-  shararehImage
+  shararehImage,
+  rajeshImage,
+  sveinErikImage
 });
 
 // Page metadata
@@ -46,68 +50,39 @@ const teamMembers = [
   {
     name: "Caroline Woie",
     role: "Chief Content Officer (CCO)",
-    bio: `Caroline Woie, QDaria's Chief Content Officer, is a seasoned director, photographer, editor, 
-and journalist with over two decades of experience in film, television, and documentary sectors. 
-Her storied career includes notable collaborations with Norwegian broadcasters like NRK, where 
-she contributed to productions that garnered Emmy nominations and Gullruten awards. At QDaria, 
-Caroline applies her extensive media expertise to translate the often complex world of quantum 
-computing into captivating, easily digestible stories. She oversees the development of video content, 
-press materials, and strategic campaigns, ensuring that QDaria's breakthroughs resonate with both 
-technical audiences and the broader public. In building cross-platform narratives that span social 
-media, broadcast channels, and live events, Caroline highlights the transformative potential of 
-quantum research. Her knack for orchestrating large-scale productions dovetails with QDaria's 
-innovative culture, enabling her to guide creative teams in presenting quantum technology with 
-compelling clarity. With a passion for documentary storytelling and a drive to communicate the 
-significance of next-gen solutions, Caroline plays an integral role in shaping QDaria's brand 
-and amplifying its global impact.`,
+    bio: `Caroline Woie translates quantum complexity into compelling narratives that bridge scientific innovation and public understanding. As Chief Content Officer and accomplished director with credits including NRK's 24-episode series "Gym" and documentary "Fetisha sveiper," she brings cinematic storytelling expertise to quantum technology communication. Caroline's documentary-style approach demystifies abstract quantum concepts through visual storytelling, photography, and multimedia content that engages investors, partners, and the broader public. Her editorial vision positions QDaria's research breakthroughs within broader technological and societal contexts, articulating how topological quantum computing addresses real-world challenges in drug discovery, climate modeling, and artificial intelligence. Caroline directs content strategy across scientific publications, investor communications, educational initiatives, and brand storytelling—ensuring QDaria's innovations resonate with diverse stakeholders. Her production expertise transforms technical achievements into accessible, inspiring narratives that accelerate quantum literacy and position QDaria as a thought leader in the quantum revolution.`,
     image: carolineImage,
     email: "caroline.woie@qdaria.com",
     linkedin: "https://www.linkedin.com/in/caroline-woie-5b3b5a25/",
   },
   {
-    name: "John Kristiansen",
+    name: "Svein-Erik Nilsen",
     role: "Chief Operating Officer (COO)",
-    bio: `John Kristiansen brings over two decades of diverse leadership experience to QDaria, 
-where he serves as Chief Operating Officer. With a notable background in real estate development, 
-entrepreneurship, and executive management—including 20 years as a prominent property developer 
-in Oslo—John offers a keen understanding of operational scalability in cutting-edge tech sectors. 
-He co-founded the mobile service provider Hello Com, sits on the Board of New Adventure AS, 
-and has excelled in guiding complex business environments to success. At QDaria, he aligns daily 
-operations with strategic objectives, ensuring that the company's quantum computing infrastructure 
-is robust, efficient, and ready to meet global demands. By emphasizing innovation and sustainable 
-growth, John has played a pivotal role in streamlining internal processes, enhancing cross-departmental 
-collaboration, and implementing frameworks that support QDaria's rapid expansion. His leadership 
-style is grounded in creating a culture that not only nurtures talent but encourages bold thought 
-and continuous learning—essential in attracting top professionals in the highly competitive quantum 
-field. As QDaria challenges the boundaries of quantum innovation, John's operational insights and 
-focus on strategic growth remain indispensable. His dedication to excellence has helped sustain 
-QDaria's momentum as a global quantum leader, ensuring that governance, resource allocation, 
-and process optimization keep pace with the company's visionary leaps forward.`,
+    bio: `Svein-Erik Nilsen transforms operational complexity into competitive advantage, orchestrating QDaria's infrastructure, resource allocation, and process excellence. As Chief Operating Officer, he implements scalable systems that support rapid innovation while maintaining operational rigor across research, development, and business functions. Svein-Erik's expertise in organizational design enables QDaria to balance scientific exploration with commercial execution, establishing workflows that accelerate quantum algorithm development, hardware prototyping, and market deployment. His strategic resource management optimizes laboratory capabilities, computational infrastructure, and talent deployment—ensuring research teams access cutting-edge tools while maintaining fiscal discipline. Svein-Erik champions operational transparency and cross-functional collaboration, breaking down silos between quantum physicists, software engineers, and business developers. His process optimization initiatives reduce development cycles, enhance quality control, and position QDaria for exponential scaling as quantum technologies mature from experimental systems to production-ready platforms.`,
+    image: sveinErikImage,
+    email: "svein-erik@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/svein-erik-nilsen-a197b13/",
+  },
+  {
+    name: "John Kristiansen",
+    role: "Head of Networking",
+    bio: `John Kristiansen cultivates strategic relationships that amplify QDaria's influence across quantum computing, research institutions, and investment communities. Leveraging extensive property development experience that honed his partnership-building capabilities, John orchestrates networking initiatives connecting QDaria with key stakeholders in academia, industry, and government. His strategic relationship management opens doors to collaborative research opportunities, technology transfer agreements, and commercial partnerships that accelerate quantum innovation deployment. John's networking expertise identifies synergies between QDaria's capabilities and market needs, facilitating introductions that translate into funded research projects, pilot programs, and strategic alliances. He spearheads QDaria's presence at international quantum conferences, investor forums, and industry summits—positioning the company as an accessible partner for organizations seeking quantum computing expertise. John's relationship infrastructure supports business development, talent acquisition, and market intelligence gathering, creating a robust ecosystem that sustains QDaria's growth trajectory.`,
     image: johnImage,
     email: "john@qdaria.com",
     linkedin: "https://www.linkedin.com/in/john-kristiansen/",
   },
   {
+    name: "Rajesh Chavan",
+    role: "Chief Strategy & Growth Officer (CSGO)",
+    bio: `Rajesh Chavan architects QDaria's strategic expansion and technology partnership ecosystem with precision and foresight. As Chief Strategy & Growth Officer, he orchestrates market evaluation, competitive intelligence, and partnership development that position QDaria at the forefront of quantum computing commercialization. Rajesh's strategic acumen transforms emerging quantum technologies into viable business opportunities, identifying high-value market segments and cultivating relationships with research institutions, enterprise clients, and investment partners. His data-driven approach to growth strategy balances aggressive market penetration with sustainable scaling, ensuring QDaria's innovations reach industries primed for quantum transformation. Rajesh leads technology assessment initiatives that guide R&D prioritization, aligning scientific breakthroughs with market demands in finance, pharmaceuticals, logistics, and cybersecurity. His strategic vision extends beyond immediate growth metrics to long-term ecosystem development, positioning QDaria as an anchor player in the global quantum economy.`,
+    image: rajeshImage,
+    email: "rajesh@qdaria.com",
+    linkedin: "https://www.linkedin.com/in/rajesh-chavan/",
+  },
+  {
     name: "Nick Saaf",
     role: "Chief Sales Officer (CSO)",
-    bio: `Nick Saaf, Chief Sales Officer at QDaria, merges customer relations expertise with an 
-entrepreneurial spirit to excel in the quantum technology sphere. Initially honing his skills 
-in high-end hospitality as a Head Sommelier, Nick later founded Alfresco Cookery s.r.o., 
-diversifying his experience across both service and tech-focused ventures. At QDaria, he 
-develops and executes strategic sales initiatives that drive market penetration in an industry 
-known for its scientific complexity. His ability to communicate quantum solutions effectively 
-to stakeholders—ranging from corporate clients to academic researchers—ensures that groundbreaking 
-technology is both accessible and aligned with real-world business needs. Nick's approach pairs 
-deep client satisfaction with forward-looking market vision, identifying key opportunities in 
-sectors like finance, pharmaceuticals, and advanced data analytics. Under his leadership, QDaria 
-has successfully entered multiple new markets, forging high-value partnerships that bolster 
-the company's global reach. Beyond sales metrics, Nick fosters an environment where innovation 
-and client-centricity intersect, reinforcing QDaria's commitment to transforming quantum research 
-into tangible solutions. By staying abreast of industry trends and customer demands, he has 
-secured the company's foothold in emerging areas while maintaining longstanding client 
-relationships. Nick's overarching goal is to ensure that QDaria's quantum breakthroughs are 
-adopted worldwide, fueling the company's rise as a transformative force in the quantum 
-computing revolution.`,
+    bio: `Nick Saaf drives QDaria's sales strategy and customer relationship excellence, translating quantum computing capabilities into compelling value propositions for enterprise clients. As Chief Sales Officer and founder of Alfresco Cookery s.r.o., Nick brings hospitality industry insights—where customer experience defines success—to quantum technology commercialization. His sales approach demystifies quantum computing's technical complexity, articulating clear ROI for organizations in finance, pharmaceuticals, logistics, and cybersecurity exploring quantum advantage. Nick develops sales frameworks that navigate quantum computing's extended sales cycles, building trust with technical decision-makers and C-suite executives through education-focused selling. His customer relationship management ensures clients understand quantum capabilities, limitations, and roadmap—fostering partnerships built on realistic expectations and mutual growth. Nick's sales strategy balances immediate revenue opportunities with long-term ecosystem development, positioning QDaria as a trusted quantum computing partner. His hospitality background informs a customer-centric approach that prioritizes client success, ensuring quantum implementations deliver measurable business impact.`,
     image: nickImage,
     email: "nick@qdaria.com",
     linkedin: "https://www.linkedin.com/in/nick-saaf-8a18b3314/",
@@ -115,21 +90,7 @@ computing revolution.`,
   {
     name: "Gaspar Alvarado",
     role: "Chief Financial Officer (CFO)",
-    bio: `Gaspar Alvarado is QDaria's Chief Financial Officer, commanding a robust portfolio in global 
-procurement, category management, and financial strategy. Prior to joining QDaria, he shaped 
-procurement frameworks for major tech companies like trivago, N26, and Accenture, consistently 
-demonstrating his aptitude for optimizing resource allocation and fostering cost-effective 
-innovations. In his role at QDaria, Gaspar ensures that the company's ambitious research 
-objectives are underpinned by sound financial planning and rigorous oversight. His approach 
-to budgeting and capital deployment balances fiscal responsibility with an entrepreneurial 
-drive, allowing QDaria to invest boldly in topological quantum hardware, AI integration, 
-and emergent R&D opportunities. With a keen eye for analyzing market risks and leveraging 
-partnerships, Gaspar plays a pivotal role in steering the organization toward sustainable 
-growth. He also collaborates closely with other C-level executives, aligning financial goals 
-with operational milestones to keep the company's quantum and AI innovations on track. 
-Ultimately, Gaspar's expertise in strategic sourcing and financial governance helps QDaria 
-navigate the competitive technology landscape, ensuring that breakthroughs in quantum 
-computing are matched by a solid foundation of financial stability.`,
+    bio: `Gaspar Alvarado architects QDaria's financial foundation with strategic precision, balancing aggressive R&D investment with sustainable fiscal management. As Chief Financial Officer, he implements financial systems that support quantum computing's long development cycles while maintaining investor confidence and operational flexibility. Gaspar's procurement expertise optimizes resource allocation across quantum hardware acquisition, computational infrastructure, and talent investment—ensuring maximum research impact per dollar invested. His financial modeling anticipates quantum technology commercialization timelines, structuring funding rounds and partnerships that provide runway for breakthrough innovation. Gaspar champions transparent financial reporting and risk management, establishing controls that protect QDaria's assets while enabling calculated risks essential to scientific advancement. His strategic financial planning positions QDaria for multiple funding scenarios—from grant-based research support to venture capital and strategic corporate partnerships—ensuring capital availability through quantum computing's maturation phases. Gaspar's fiscal discipline enables ambitious innovation without compromising organizational stability.`,
     image: gasparImage,
     email: "gaspar@qdaria.com",
     linkedin: "https://www.linkedin.com/in/gaspar-alvarado-78204219/",
@@ -137,23 +98,7 @@ computing are matched by a solid foundation of financial stability.`,
   {
     name: "Sharareh Movahed Shariat Panahi",
     role: "Assistant Chief Executive Officer (ACEO)",
-    bio: `Sharareh Movahed Shariat Panahi serves as QDarias Assistant Chief Executive Officer (ACEO), 
-bridging the realms of legal acumen and project management to drive forward the companys quantum 
-ambitions. With a background that spans law, corporate strategy, and operational leadership, she 
-plays a pivotal role in ensuring that QDarias cutting-edge research aligns seamlessly with 
-regulatory compliance and long-term business objectives. Shararehs steadfast dedication to 
-organizational clarity has been instrumental in refining QDarias internal processes, offering 
-guidance that helps individual teams stay focused while balancing innovation with due diligence. 
-Her approach is at once humble—acknowledging the shared expertise of scientists, engineers, 
-and executives—and bold, championing audacious goals that keep QDaria at the forefront of quantum 
-discovery. Shararehs legal background enables her to anticipate potential hurdles in a rapidly 
-evolving industry, proactively shaping agreements and frameworks that preserve QDarias innovative 
-edge. Beyond her formal role, she cultivates an environment of mutual support and transparency, 
-bridging the gap between technical teams and executive stakeholders. By uniting diligence, strategic 
-vision, and a collaborative mindset, Sharareh fortifies QDarias ability to tackle emerging 
-challenges—both operational and regulatory—on the path toward quantum breakthroughs. In doing so, 
-she exemplifies QDarias core belief that transformative technology flourishes best under robust 
-yet flexible governance.`,
+    bio: `Sharareh Movahed Shariat Panahi ensures organizational excellence and regulatory compliance as QDaria navigates quantum computing's complex legal and governance landscape. As Assistant CEO with legal expertise, she establishes frameworks that balance innovation velocity with intellectual property protection, data security, and regulatory adherence. Sharareh's governance systems support QDaria's multi-stakeholder environment—coordinating research teams, business units, and external partnerships while maintaining organizational coherence. Her legal acumen addresses quantum computing's emerging regulatory challenges, from export controls on quantum technologies to data privacy in quantum-enhanced systems. Sharareh champions compliance frameworks that anticipate future regulations while preserving research freedom and commercial flexibility. Her strategic coordination ensures executive decisions align with long-term vision, facilitating communication between technical leadership and business operations. Sharareh's organizational leadership creates structured flexibility—enabling rapid response to scientific breakthroughs and market opportunities while maintaining operational discipline essential for scaling quantum ventures.`,
     image: shararehImage,
     email: "sharareh@qdaria.com",
     linkedin: "https://www.linkedin.com/in/sharareh/",
@@ -161,24 +106,7 @@ yet flexible governance.`,
   {
     name: "Daniel Mo Houshmand",
     role: "CEO & Founder",
-    bio: `Daniel Mo Houshmand leads QDaria with a distinctive fusion of scientific expertise 
-and visionary leadership. His strong background in Applied Mathematics, Physics, Engineering, 
-Fine Art, and Design underpins his ability to navigate the complexities of quantum computing 
-through an interdisciplinary lens. Specializing in Quantum Machine Learning and "AI Whispering," 
-Daniel aims to steer QDaria's research in Topological Quantum Hardware, Q-AI integration, and 
-Experimental Quantum Mechanics. Beyond day-to-day leadership, he champions quantum education and 
-collaborative initiatives that will expand industry-wide knowledge. Under his guidance, QDaria 
-aims to become Norway's foremost quantum computing company, translating cutting-edge theory into 
-real-world solutions for finance, healthcare, and more. Daniel's commitment to global discourse 
-is evident in his invitation to speak at IQT New York (October 2024), the exclusive Davos 
-Innovation Week (January 2025), and his vision for QDaria's ambitious roadmap to launch 7–12 
-independent, cutting-edge emerging companies by 2025–2030. His leadership has positioned QDaria 
-among the top 25 most promising startups worldwide (top 5 in Europe), earning nominations for 
-the Global Impact Award, Disruptive Technology Excellence Award, and Innovation Pioneer Award. 
-With a keen focus on Topological Quantum Computing and Fibonacci anyons, Daniel envisions a 
-future where quantum breakthroughs will fundamentally transform industries. His unrelenting 
-drive and passion for harnessing quantum technology underscore QDaria's dedication to solving 
-humanity's greatest challenges.`,
+    bio: `Daniel Mo Houshmand pioneers topological quantum computing at the intersection of pure mathematics and quantum physics. With a Master's in Applied Mathematics and Bachelor's in Engineering, he drives QDaria's groundbreaking work in Fibonacci anyon-based quantum systems—a frontier poised to revolutionize error-resistant quantum computation. As an invited speaker at IQT New York 2024 and Davos 2025, Daniel articulates a transformative vision: building 7-12 quantum-focused companies by 2030 that democratize access to quantum technologies. His leadership philosophy centers on aggressive R&D investment, rapid iteration, and strategic global partnerships to accelerate quantum computing's transition from laboratory curiosity to industrial necessity. Under his direction, QDaria advances proprietary algorithms in topological quantum error correction while cultivating Norway's quantum ecosystem through talent development and international collaboration. Daniel's strategic roadmap positions QDaria as a catalyst for quantum-era innovation across finance, cryptography, materials science, and artificial intelligence.`,
     image: moImage,
     email: "mo@qdaria.com",
     linkedin: "https://www.linkedin.com/in/mohoushmand/",
@@ -186,20 +114,7 @@ humanity's greatest challenges.`,
   {
     name: "Nils Bjelland Grønvold",
     role: "Chief Culture Officer (CCO)",
-    bio: `Nils Bjelland Grønvold, widely recognized as "Nils m/Skils," serves as QDaria's Chief Culture 
-Officer. A renowned improvisational rapper and performer, Nils built a dynamic career leading groups 
-like RatPack, RIP Crew, and Stor Overraskelse, gracing stages such as the Roskilde Festival and 
-Norway's Fritt Ords Ærespris events. At QDaria, he leverages his creative energy and deep understanding 
-of audience engagement to cultivate a vibrant internal culture that inspires ingenuity and inclusivity. 
-Nils's hands-on experience in rapid ideation and collaboration—core aspects of successful 
-improvisation—translates into a corporate environment where risk-taking and out-of-the-box thinking 
-are both celebrated and structurally supported. He works closely with leadership and HR to develop 
-programs that encourage open dialogue, foster diversity of thought, and unify employees around 
-QDaria's mission to push the frontiers of quantum innovation. As the organization grows, Nils ensures 
-that each individual's creative potential is recognized, helping to sustain an environment that not 
-only attracts top talent but retains it through shared purpose and dynamic engagement. In fusing 
-artistic expression with groundbreaking science, he embodies QDaria's commitment to shaping the 
-future through collaborative, human-centered innovation.`,
+    bio: `Nils Bjelland Grønvold cultivates QDaria's innovative culture through creative leadership informed by his multifaceted artistic career. As a rapper who performed at Roskilde Festival and co-founded RatPack, Nils understands how creative collaboration sparks breakthrough innovation. He channels this artistic sensibility into organizational culture design, fostering environments where quantum physicists, engineers, and business minds collaborate with creative fluidity. Nils champions psychological safety and intellectual risk-taking—essential ingredients for quantum computing breakthroughs that challenge conventional thinking. His culture initiatives blend scientific rigor with creative experimentation, establishing rituals, spaces, and norms that celebrate both analytical precision and imaginative problem-solving. Nils leads diversity and inclusion efforts that ensure QDaria attracts talent from varied backgrounds, recognizing that quantum revolution demands perspectives beyond traditional physics pipelines. His artistic background informs team-building approaches that strengthen interpersonal bonds, enhance communication, and sustain motivation through quantum computing's long development cycles. Nils transforms organizational culture into competitive advantage.`,
     image: nilsImage,
     email: "nils@qdaria.com",
     linkedin: "https://www.linkedin.com/in/nils-bjelland-gr%C3%B8nvold-63815b19/",
@@ -207,20 +122,7 @@ future through collaborative, human-centered innovation.`,
   {
     name: "Daria (Søreide) Houshmand",
     role: "Developer (Intern) & Board Member",
-    bio: `Daria (Søreide) Houshmand stands at the intersection of art, technology, and quantum innovation 
-as a Developer Intern and Board Member at QDaria. With a strong affinity for mathematics, physics, 
-and programming, she dove into the realm of generative AI at an early stage, embracing GPT-2 in 2019 
-to create novel AI-powered applications. Her portfolio spans autocoding, app development, and 
-e-commerce solutions, reflecting her fascination with how emerging technologies reshape everyday 
-experiences. At QDaria, Daria contributes to ongoing R&D efforts, focusing on ways to integrate AI 
-solutions into quantum computing platforms—a pursuit aligned with her broader vision of designing 
-tools that are both technologically advanced and human-centric. Whether shes assisting in code reviews, 
-prototyping new AI-driven features, or participating in strategic discussions at the Board level, 
-Darias multipronged approach pushes QDaria to explore untapped frontiers. Her inquisitive nature 
-and collaborative spirit enrich the organizational culture, demonstrating that the fusion of creative 
-perspectives and rigorous technical expertise can drive meaningful breakthroughs in quantum research. 
-As she continues developing her skillset, Daria embodies QDarias commitment to nurturing the next 
-generation of innovators who will pioneer the quantum revolution.`,
+    bio: `Daria Houshmand brings pioneering AI expertise and multidisciplinary scientific insight to QDaria's quantum computing initiatives. As an early adopter who explored GPT-2 in 2019—years before mainstream AI adoption—Daria demonstrates the technical curiosity and foresight that drives quantum innovation. Her passion for mathematics, physics, and programming creates natural synergies with quantum algorithm development and quantum machine learning applications. Daria contributes to QDaria's R&D initiatives at the intersection of quantum computing and artificial intelligence, exploring how quantum systems can enhance machine learning capabilities and vice versa. Her board membership provides strategic perspective that balances technical feasibility with business viability, ensuring QDaria's research agenda aligns with emerging market opportunities. Daria's developer background enables hands-on contributions to quantum software development while her broad scientific interests foster cross-pollination between quantum physics, computer science, and mathematical theory. Her technical leadership inspires QDaria's engineering teams to push boundaries at quantum computing's frontier.`,
     image: dariaImage,
     email: "daria@qdaria.com",
     linkedin: "https://www.linkedin.com/in/dariasoreidehoushmand/",
@@ -228,24 +130,7 @@ generation of innovators who will pioneer the quantum revolution.`,
   {
     name: "Fredrik Krey Stubberud",
     role: "Chief Information Officer (CIO)",
-    bio: `Fredrik Krey Stubberud, Chief Information Officer at QDaria, is an accomplished IT professional 
-with a strong grounding in service management, systems integration, and operational excellence. 
-He holds a Bachelor's degree in Information Technology from the University of Oslo and has 
-contributed to forward-thinking IT solutions at prominent companies such as Squarehead 
-Technology and Olav Thon Gruppen. In his role at QDaria, Fredrik drives the adoption of 
-innovative tools and processes, ensuring the company's IT infrastructure remains both robust 
-and agile amidst the rapidly evolving landscape of quantum computing. By establishing secure 
-networks, seamless data pipelines, and effective knowledge-sharing platforms, he supports 
-cross-functional teams in leveraging quantum research to address real-world challenges. 
-Fredrik's commitment to operational efficiency extends beyond technical oversight; he fosters 
-inter-departmental collaboration to maintain alignment between business goals and IT strategy. 
-Under his stewardship, QDaria's technology backbone integrates next-generation computing hardware, 
-AI-driven analytics, and cloud-based services, all while adhering to the rigorous requirements 
-of a security-conscious industry. With a vision for scaling QDaria's infrastructure in sync 
-with the company's cutting-edge research, Fredrik ensures that the tech environment remains 
-a catalyst for innovation. His leadership style emphasizes adaptability, continuous learning, 
-and streamlined communication, laying a solid groundwork for QDaria's continued advancement 
-in the quantum domain.`,
+    bio: `Fredrik Krey Stubberud architects QDaria's technology infrastructure, ensuring robust IT systems support quantum computing's demanding computational and security requirements. As Chief Information Officer, Fredrik builds scalable infrastructure that bridges classical computing needs with quantum hardware integration, enabling seamless workflows for researchers and developers. His technology operations expertise addresses quantum computing's unique challenges—from cryogenic hardware monitoring systems to secure quantum key distribution networks. Fredrik implements cybersecurity frameworks protecting QDaria's intellectual property and research data while facilitating collaborative development across distributed teams. His systems management ensures high availability for computationally intensive quantum simulations, algorithm testing, and hardware control systems. Fredrik champions technology standardization and automation that accelerate development cycles while maintaining quality and security. His infrastructure vision anticipates QDaria's scaling requirements, establishing cloud-hybrid architectures and quantum-classical computing interfaces that support current research while remaining adaptable to emerging quantum technologies. Fredrik's IT leadership transforms technology from operational necessity into strategic enabler of quantum innovation.`,
     image: fredrikImage,
     email: "fredrik@qdaria.com",
     linkedin: "https://www.linkedin.com/in/fredrik-krey-stubberud",

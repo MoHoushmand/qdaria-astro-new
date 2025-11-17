@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { ResponsiveSunburst } from '@nivo/sunburst';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-deck/ui/card';
-import { Button } from '@/components/pitch-deck/ui/button';
-import { Input } from '@/components/pitch-deck/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/qdaria-business-plan/ui/card';
+import { Button } from '@/components/qdaria-business-plan/ui/button';
+import { Input } from '@/components/qdaria-business-plan/ui/input';
 import { Home, Search, X } from 'lucide-react';
 
 interface MarketNode {
@@ -389,7 +389,7 @@ const MarketSegmentationChart: React.FC = () => {
           </div>
 
           <p className="text-slate-400 text-sm">
-            Total Market: $1.3T by 2035 - Click to explore sectors and use cases
+            Total Addressable Market: $1.3T by 2035 (verified sources) - Click to explore sectors
           </p>
 
           {/* Breadcrumb Navigation */}
@@ -403,6 +403,14 @@ const MarketSegmentationChart: React.FC = () => {
                       ? 'bg-cyan-500/20 text-cyan-400 font-semibold'
                       : 'text-slate-400 hover:text-cyan-400 hover:bg-slate-800'
                   }`}
+                  aria-label={`Navigate to ${crumb} ${index === breadcrumb.length - 1 ? '(current)' : 'sector'}`}
+                  aria-current={index === breadcrumb.length - 1 ? 'location' : undefined}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigateToBreadcrumb(index);
+                    }
+                  }}
                 >
                   {crumb}
                 </button>
@@ -435,12 +443,18 @@ const MarketSegmentationChart: React.FC = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-[600px] relative">
+        <div
+          className="h-[600px] relative"
+          role="region"
+          aria-label={`Market segmentation sunburst chart showing $1.3 trillion quantum computing TAM by 2035, broken down by sectors: Fintech ($390B), Healthcare ($325B), Cybersecurity ($260B), Enterprise AI ($195B), and Research ($130B). Currently viewing: ${breadcrumb.join(' > ')}`}
+          tabIndex={0}
+        >
           <ResponsiveSunburst
             data={filteredData}
             margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
             id="name"
             value="value"
+            title="Market segmentation by sector with TAM, SAM, and SOM breakdown"
             cornerRadius={3}
             borderWidth={2}
             borderColor="#000212"

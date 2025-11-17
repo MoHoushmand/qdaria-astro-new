@@ -1,0 +1,291 @@
+{
+  "audit_date": "2025-11-09",
+  "total_charts_found": 107,
+  "charts_in_business_plan": 19,
+  "status": "CRITICAL_ISSUES_FOUND",
+
+  "critical_issues": {
+    "missing_charts": [
+      {
+        "name": "Zipminator QCaaS Revenue Projection (2026-2030)",
+        "priority": "CRITICAL",
+        "reason": "Zipminator pricing tiers mentioned in Section 5 but no revenue visualization exists",
+        "required_data": {
+          "starter_plan": "€495/month",
+          "professional_plan": "€2,495/month",
+          "enterprise_plan": "€9,995/month",
+          "government_plan": "Custom pricing",
+          "projected_customers_2030": "500-2000 range",
+          "revenue_projection_2030": "€15-50M range"
+        }
+      }
+    ],
+
+    "broken_imports": [
+      {
+        "chart": "MarketSegmentationChart",
+        "file": "/Users/mos/dev/qdaria-astro-new/src/components/qdaria-business-plan/charts/MarketSegmentationChart.tsx",
+        "issue": "Imports from @/components/pitch-deck/ui/* instead of @/components/qdaria-business-plan/ui/*",
+        "status": "RENDERS_BUT_INCONSISTENT",
+        "fix_required": "Update import paths"
+      },
+      {
+        "chart": "FinancialDashboard",
+        "file": "/Users/mos/dev/qdaria-astro-new/src/components/qdaria-business-plan/charts/FinancialDashboard.tsx",
+        "issue": "Imports from @/components/pitch-deck/ui/* instead of @/components/qdaria-business-plan/ui/*",
+        "status": "RENDERS_BUT_INCONSISTENT",
+        "fix_required": "Update import paths"
+      }
+    ],
+
+    "data_outdated": [
+      {
+        "chart": "EnhancedMarketGrowthChart",
+        "issue": "Uses $12M Series A instead of €15M",
+        "location": "Line 2, business-plan.mdx title"
+      },
+      {
+        "chart": "FinancialProjectionsChart",
+        "issue": "May use outdated Series A amount",
+        "requires_verification": true
+      }
+    ],
+
+    "missing_figure_numbering": {
+      "status": "NOT_IMPLEMENTED",
+      "required_charts": 15,
+      "current_implementation": "None - no figure numbering system exists"
+    }
+  },
+
+  "charts_audited": {
+    "working": [
+      {
+        "name": "EnhancedMarketGrowthChart",
+        "file": "EnhancedMarketGrowthChart.astro",
+        "type": "Plotly",
+        "status": "✅ WORKING",
+        "features": ["Interactive", "3 scenarios", "Responsive", "QDaria revenue projection"],
+        "location": "Section 3 - Market Analysis",
+        "data_accuracy": "Needs €15M update"
+      },
+      {
+        "name": "MarketSegmentationChart",
+        "file": "MarketSegmentationChart.tsx",
+        "type": "Nivo Sunburst",
+        "status": "✅ WORKING",
+        "features": ["Interactive drill-down", "TAM/SAM/SOM data", "Search filter", "Breadcrumb navigation"],
+        "location": "Section 3 - Market Analysis",
+        "import_issue": "Uses pitch-deck UI components"
+      },
+      {
+        "name": "SWOTAnalysisChart",
+        "file": "SWOTAnalysisChart.astro",
+        "type": "Plotly",
+        "status": "✅ WORKING",
+        "location": "Section 4 - Competitive Landscape"
+      },
+      {
+        "name": "RiskRadarChart",
+        "file": "RiskRadarChart.astro",
+        "type": "Plotly",
+        "status": "✅ WORKING",
+        "location": "Section 8 - Risk Factors"
+      },
+      {
+        "name": "RiskAssessmentChart",
+        "file": "RiskAssessmentChart.tsx",
+        "type": "Recharts Radar",
+        "status": "✅ WORKING",
+        "location": "Section 8 - Risk Factors"
+      },
+      {
+        "name": "CompetitiveLandscapeChart",
+        "file": "CompetitiveLandscapeChart.tsx",
+        "type": "Recharts 3D Bubble",
+        "status": "✅ WORKING",
+        "features": ["3D visualization", "Interactive rotation", "15 competitors"],
+        "location": "Section 4 - Competitive Landscape"
+      },
+      {
+        "name": "ProductPortfolioChart",
+        "file": "ProductPortfolioChart.tsx",
+        "type": "Nivo Pie",
+        "status": "✅ WORKING",
+        "features": ["7 products", "Stage badges", "Growth rates"],
+        "location": "Section 5 - Products Portfolio",
+        "note": "Uses pitch-deck UI imports"
+      },
+      {
+        "name": "RevenueProjectionsChart",
+        "file": "RevenueProjectionsChart.tsx",
+        "type": "Recharts Stacked Area",
+        "status": "✅ WORKING",
+        "features": ["Scenario comparison", "CSV export"],
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "FinancialProjectionsChart",
+        "file": "FinancialProjectionsChart.astro",
+        "type": "Plotly",
+        "status": "✅ WORKING",
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "FinancialDashboard",
+        "file": "FinancialDashboard.tsx",
+        "type": "Recharts Multi-chart",
+        "status": "✅ WORKING",
+        "features": ["8 KPI cards", "Sparklines", "Export PDF"],
+        "location": "Section 7 - Financial Plan",
+        "import_issue": "Uses pitch-deck UI components"
+      },
+      {
+        "name": "CashFlowChart",
+        "file": "CashFlowChart.tsx",
+        "type": "Recharts Bar+Line",
+        "status": "✅ WORKING",
+        "features": ["Quarterly/Annual toggle", "Funding markers"],
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "UnitEconomicsChart",
+        "file": "UnitEconomicsChart.tsx",
+        "type": "Recharts Waterfall",
+        "status": "✅ WORKING",
+        "features": ["CAC to LTV breakdown", "Product drill-down"],
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "BurnRateChart",
+        "file": "BurnRateChart.tsx",
+        "type": "Recharts Composed",
+        "status": "✅ WORKING",
+        "features": ["Runway projection", "Scenario planning"],
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "ScenarioComparisonChart",
+        "file": "ScenarioComparisonChart.tsx",
+        "type": "Recharts + Monte Carlo",
+        "status": "✅ WORKING",
+        "features": ["10,000 simulation runs", "Risk-adjusted NPV", "Interactive sliders"],
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "UserGrowthChart",
+        "file": "UserGrowthChart.tsx",
+        "type": "Recharts Multi-series",
+        "status": "✅ WORKING",
+        "features": ["5 metrics tracked", "Cohort retention heatmap"],
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "FundingFlowChart",
+        "file": "FundingFlowChart.tsx",
+        "type": "Recharts Sankey",
+        "status": "✅ WORKING",
+        "features": ["Capital allocation flow", "ROI indicators", "Multi-round support"],
+        "location": "Section 7 - Financial Plan"
+      },
+      {
+        "name": "StrategicTimelineChart",
+        "file": "StrategicTimelineChart.astro",
+        "type": "Plotly",
+        "status": "✅ WORKING",
+        "location": "Section 6 - Strategic Roadmap"
+      },
+      {
+        "name": "MilestoneGanttChart",
+        "file": "MilestoneGanttChart.astro",
+        "type": "Plotly",
+        "status": "✅ WORKING",
+        "location": "Section 6 - Strategic Roadmap"
+      },
+      {
+        "name": "TimelineChart",
+        "file": "TimelineChart.tsx",
+        "type": "Recharts",
+        "status": "✅ WORKING",
+        "location": "Section 6 - Strategic Roadmap"
+      }
+    ]
+  },
+
+  "figure_numbering_plan": {
+    "implementation": "CSS + wrapper component",
+    "figures": [
+      {"number": 1, "title": "Market Growth Projections (2024-2035)", "chart": "EnhancedMarketGrowthChart", "section": 3},
+      {"number": 2, "title": "Market Segmentation (TAM/SAM/SOM)", "chart": "MarketSegmentationChart", "section": 3},
+      {"number": 3, "title": "SWOT Analysis", "chart": "SWOTAnalysisChart", "section": 4},
+      {"number": 4, "title": "Risk Assessment Radar", "chart": "RiskRadarChart", "section": 8},
+      {"number": 5, "title": "Competitive Landscape 3D Analysis", "chart": "CompetitiveLandscapeChart", "section": 4},
+      {"number": 6, "title": "Product Portfolio (7 ventures)", "chart": "ProductPortfolioChart", "section": 5},
+      {"number": 7, "title": "Zipminator QCaaS Revenue Projections (2026-2030)", "chart": "ZipminatorRevenueChart", "section": 5, "status": "NEEDS_CREATION"},
+      {"number": 8, "title": "Revenue Projections by Product (2025-2030)", "chart": "RevenueProjectionsChart", "section": 7},
+      {"number": 9, "title": "Financial Performance Dashboard", "chart": "FinancialDashboard", "section": 7},
+      {"number": 10, "title": "Cash Flow Analysis (Quarterly)", "chart": "CashFlowChart", "section": 7},
+      {"number": 11, "title": "Unit Economics (CAC/LTV/Payback)", "chart": "UnitEconomicsChart", "section": 7},
+      {"number": 12, "title": "Burn Rate & Runway Projection", "chart": "BurnRateChart", "section": 7},
+      {"number": 13, "title": "Scenario Comparison (Monte Carlo)", "chart": "ScenarioComparisonChart", "section": 7},
+      {"number": 14, "title": "User Growth & Retention", "chart": "UserGrowthChart", "section": 7},
+      {"number": 15, "title": "Funding Allocation Flow", "chart": "FundingFlowChart", "section": 7},
+      {"number": 16, "title": "Strategic Timeline (2025-2030)", "chart": "StrategicTimelineChart", "section": 6},
+      {"number": 17, "title": "Milestone Gantt Chart", "chart": "MilestoneGanttChart", "section": 6}
+    ]
+  },
+
+  "action_items": {
+    "immediate": [
+      {
+        "priority": 1,
+        "task": "Create ZipminatorRevenueChart component",
+        "description": "Build interactive chart showing Zipminator QCaaS pricing tiers and revenue projections 2026-2030",
+        "estimated_time": "30 minutes",
+        "dependencies": []
+      },
+      {
+        "priority": 2,
+        "task": "Implement figure numbering system",
+        "description": "Create FigureWrapper component with auto-numbering, captions, and source citations",
+        "estimated_time": "20 minutes",
+        "dependencies": []
+      },
+      {
+        "priority": 3,
+        "task": "Fix import paths",
+        "description": "Update MarketSegmentationChart, FinancialDashboard, ProductPortfolioChart to use qdaria-business-plan UI imports",
+        "estimated_time": "10 minutes",
+        "dependencies": []
+      },
+      {
+        "priority": 4,
+        "task": "Update €15M Series A data",
+        "description": "Update business-plan.mdx title and all chart data to reflect €15M instead of $12M",
+        "estimated_time": "15 minutes",
+        "dependencies": []
+      }
+    ],
+    "nice_to_have": [
+      {
+        "task": "Add chart export functionality",
+        "description": "Enable SVG/PNG export for all charts for investor presentations"
+      },
+      {
+        "task": "Add chart animation on scroll",
+        "description": "Implement intersection observer for progressive chart reveals"
+      },
+      {
+        "task": "Create chart accessibility enhancements",
+        "description": "Add ARIA labels, keyboard navigation, and screen reader support"
+      }
+    ]
+  },
+
+  "recommendations": {
+    "chart_library_consolidation": "Consider standardizing on Recharts for consistency (currently using mix of Plotly, Nivo, Recharts)",
+    "performance_optimization": "Implement lazy loading for charts below fold",
+    "data_management": "Centralize chart data in /src/data/business-plan/ for easier updates",
+    "testing": "Add visual regression tests for charts using Playwright or Chromatic"
+  }
+}

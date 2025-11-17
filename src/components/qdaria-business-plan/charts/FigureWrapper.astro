@@ -1,0 +1,406 @@
+---
+/**
+ * FigureWrapper - Standardized chart wrapper with figure numbering
+ *
+ * Provides consistent styling, numbering, captions, and source citations
+ * for all charts in the business plan.
+ *
+ * Usage:
+ * <FigureWrapper number={1} title="Market Growth Projections" caption="Sources: McKinsey, BCG">
+ *   <YourChart />
+ * </FigureWrapper>
+ */
+
+interface Props {
+  number: number;
+  sectionNumber?: number; // Optional section number for academic format (e.g., 3.1, 3.2)
+  title: string;
+  caption?: string;
+  sources?: string[];
+  dataDate?: string;
+  className?: string;
+  id?: string;
+}
+
+const {
+  number,
+  sectionNumber,
+  title,
+  caption,
+  sources = [],
+  dataDate,
+  className = '',
+  id
+} = Astro.props;
+
+// Generate academic figure number if sectionNumber is provided (e.g., "3.1")
+// Otherwise use flat numbering (e.g., "1")
+const figureNumber = sectionNumber ? `${sectionNumber}.${number}` : number.toString();
+const figureId = id || `figure-${figureNumber.replace('.', '-')}`;
+---
+
+<figure
+  id={figureId}
+  class={`figure-wrapper ${className}`}
+  role="figure"
+  aria-labelledby={`${figureId}-title`}
+  aria-describedby={caption ? `${figureId}-caption` : undefined}
+>
+  <!-- Figure Number Badge -->
+  <div class="figure-number-badge" aria-label={`Figure ${figureNumber}`}>
+    <span class="figure-number-label">Figure</span>
+    <span class="figure-number-value">{figureNumber}</span>
+  </div>
+
+  <!-- Figure Title -->
+  <h3
+    id={`${figureId}-title`}
+    class="figure-title"
+  >
+    {title}
+  </h3>
+
+  <!-- Chart Content -->
+  <div class="figure-content">
+    <slot />
+  </div>
+
+  <!-- Caption and Sources -->
+  {(caption || sources.length > 0 || dataDate) && (
+    <figcaption
+      id={`${figureId}-caption`}
+      class="figure-caption"
+    >
+      {caption && (
+        <p class="caption-text">{caption}</p>
+      )}
+
+      {sources.length > 0 && (
+        <div class="figure-sources">
+          <span class="sources-label">Sources:</span>
+          <ul class="sources-list">
+            {sources.map((source, index) => (
+              <li key={index}>
+                {source.startsWith('http') ? (
+                  <a
+                    href={source}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="source-link"
+                  >
+                    {new URL(source).hostname}
+                  </a>
+                ) : (
+                  <span>{source}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {dataDate && (
+        <div class="figure-date">
+          <span class="date-label">Data as of:</span>
+          <time class="date-value" datetime={dataDate}>{dataDate}</time>
+        </div>
+      )}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .figure-wrapper {
+    position: relative;
+    margin: 3rem 0;
+    padding: 2rem;
+    background: rgba(0, 2, 18, 0.3);
+    border: 1px solid rgba(4, 163, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .figure-wrapper:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow: 0 6px 30px rgba(4, 163, 255, 0.15);
+  }
+
+  .figure-number-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #04a3ff 0%, #0389d6 100%);
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(4, 163, 255, 0.3);
+    font-weight: 600;
+    color: white;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+  }
+
+  .figure-number-label {
+    opacity: 0.9;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+
+  .figure-number-value {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .figure-title {
+    margin: 0.5rem 0 1.5rem 0;
+    padding-top: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #04a3ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.4;
+  }
+
+  .figure-content {
+    margin: 1.5rem 0;
+    min-height: 200px;
+  }
+
+  .figure-caption {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .caption-text {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .figure-sources {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .sources-label {
+    font-weight: 600;
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  .figure-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+  }
+
+  .date-label {
+    font-weight: 500;
+  }
+
+  .date-value {
+    color: rgba(4, 163, 255, 0.7);
+    font-weight: 600;
+  }
+
+  .sources-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sources-list li {
+    position: relative;
+  }
+
+  .sources-list li:not(:last-child)::after {
+    content: '•';
+    position: absolute;
+    right: -8px;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .source-link {
+    color: #04a3ff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .source-link:hover {
+    color: #00CED1;
+    text-decoration: underline;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .figure-wrapper {
+      padding: 1rem;
+      margin: 2rem 0;
+    }
+
+    .figure-number-badge {
+      top: -10px;
+      left: 12px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+    }
+
+    .figure-title {
+      font-size: 1.25rem;
+      margin: 0.25rem 0 1rem 0;
+    }
+
+    .figure-sources {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sources-list {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sources-list li:not(:last-child)::after {
+      display: none;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .figure-wrapper {
+      page-break-inside: avoid;
+      border: 1px solid #333;
+      box-shadow: none;
+      background: white;
+    }
+
+    .figure-number-badge {
+      background: #333;
+      box-shadow: none;
+    }
+
+    .figure-title {
+      color: #000;
+      -webkit-text-fill-color: initial;
+    }
+
+    .caption-text {
+      color: #333;
+    }
+
+    .figure-sources {
+      color: #666;
+    }
+
+    .source-link {
+      color: #0066cc;
+    }
+  }
+
+  /* Dark mode optimization */
+  @media (prefers-color-scheme: dark) {
+    .figure-wrapper {
+      background: rgba(0, 2, 18, 0.5);
+    }
+  }
+
+  /* Accessibility: High contrast mode */
+  @media (prefers-contrast: high) {
+    .figure-wrapper {
+      border-width: 2px;
+      border-color: #04a3ff;
+    }
+
+    .figure-number-badge {
+      border: 2px solid white;
+    }
+
+    .caption-text {
+      color: white;
+    }
+  }
+
+  /* Accessibility: Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .figure-wrapper {
+      transition: none;
+    }
+  }
+
+  /* Focus states for keyboard navigation */
+  .figure-wrapper:focus-within {
+    outline: 2px solid #04a3ff;
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+</style>
+
+<script>
+  // Add intersection observer for progressive reveal animation
+  if ('IntersectionObserver' in window) {
+    const figures = document.querySelectorAll('.figure-wrapper');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('figure-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    figures.forEach(figure => observer.observe(figure));
+  }
+</script>
+
+<style is:global>
+  @keyframes figureReveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .figure-wrapper {
+    opacity: 0;
+  }
+
+  .figure-visible {
+    animation: figureReveal 0.6s ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .figure-wrapper {
+      opacity: 1;
+    }
+
+    .figure-visible {
+      animation: none;
+    }
+  }
+</style>

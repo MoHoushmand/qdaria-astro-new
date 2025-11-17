@@ -1,0 +1,278 @@
+{
+  "pricing_research": {
+    "competitive_analysis": {
+      "AWS_KMS": {
+        "key_storage": "$1/month per key",
+        "operations": "$0.03 per 10,000 requests",
+        "HSM_custom_key_store": "$1.03/hour (~$745/month)",
+        "annual_typical": "$15,000-50,000"
+      },
+      "Azure_Key_Vault": {
+        "standard": "$0.03 per 10,000 transactions",
+        "premium_HSM": "$5/key/month + $0.03 per 10,000 ops",
+        "managed_HSM": "$3.20/hour (~$2,304/month)",
+        "annual_typical": "$25,000-75,000"
+      },
+      "Thales_Luna_HSM": {
+        "network_HSM": "$25,000-40,000 one-time",
+        "cloud_HSM": "$1,500-3,000/month",
+        "annual_typical": "$18,000-36,000"
+      },
+      "HashiCorp_Vault": {
+        "enterprise": "$50,000-100,000/year",
+        "plus_HSM": "$75,000-150,000/year"
+      },
+      "YubiHSM": {
+        "hardware": "$650 one-time",
+        "enterprise_support": "$10,000-25,000/year"
+      }
+    },
+    "quantum_computing_costs": {
+      "IBM_quantum": "$1.60 per second runtime",
+      "IonQ": "$0.01 per shot + $0.30 per gate",
+      "AWS_Braket": "$0.30 per task + $0.00019 per shot",
+      "calculated_entropy_cost": "$0.00067/KB (optimized)"
+    }
+  },
+  "qcaas_pricing_tiers": {
+    "QCaaS_Starter": {
+      "name": "QCaaS Starter",
+      "target": "Small to Medium Business",
+      "monthly_price": "$2,499",
+      "annual_price": "$24,990",
+      "annual_discount": "17% off monthly",
+      "features": [
+        "Up to 100,000 cryptographic operations/month",
+        "NIST ML-KEM-768 post-quantum encryption",
+        "IBM quantum entropy (simulated fallback)",
+        "99.9% availability SLA",
+        "Email support (24-hour response)",
+        "5 API keys included",
+        "Basic compliance reporting",
+        "Standard integration support"
+      ],
+      "overage": "$0.025 per 1,000 operations",
+      "ideal_for": [
+        "E-commerce platforms",
+        "SaaS applications",
+        "Small financial services",
+        "Healthcare clinics"
+      ]
+    },
+    "QCaaS_Professional": {
+      "name": "QCaaS Professional",
+      "target": "Mid-Market Enterprise",
+      "monthly_price": "$9,999",
+      "annual_price": "$99,990",
+      "annual_discount": "17% off monthly",
+      "features": [
+        "Up to 1,000,000 cryptographic operations/month",
+        "NIST ML-KEM-768 + ML-KEM-1024 options",
+        "Multi-provider quantum entropy (IBM, IonQ)",
+        "99.95% availability SLA",
+        "Priority support (4-hour response)",
+        "25 API keys included",
+        "Advanced compliance reporting (HIPAA, PCI-DSS)",
+        "Dedicated integration engineer",
+        "Custom SDK development",
+        "Quarterly security reviews"
+      ],
+      "overage": "$0.020 per 1,000 operations",
+      "ideal_for": [
+        "Regional banks",
+        "Gaming operators",
+        "Healthcare networks",
+        "Government contractors"
+      ]
+    },
+    "QCaaS_Enterprise": {
+      "name": "QCaaS Enterprise",
+      "target": "Fortune 500 & Global Organizations",
+      "monthly_price": "Custom",
+      "annual_price": "$200,000+",
+      "features": [
+        "Unlimited cryptographic operations",
+        "Full quantum provider access (IBM, IonQ, Rigetti, AWS, OQC)",
+        "Dedicated quantum capacity reservation",
+        "99.99% availability SLA",
+        "24/7 dedicated support team",
+        "Unlimited API keys",
+        "Full compliance suite (FIPS, CNSA 2.0, GDPR)",
+        "HSM integration support",
+        "On-premise deployment options",
+        "Custom algorithm development",
+        "Quarterly executive briefings",
+        "Disaster recovery planning",
+        "Training and certification programs"
+      ],
+      "pricing_factors": [
+        "Volume commitments",
+        "Geographic distribution",
+        "Compliance requirements",
+        "Integration complexity"
+      ],
+      "ideal_for": [
+        "Global financial institutions",
+        "Defense contractors",
+        "Critical infrastructure",
+        "Multinational corporations"
+      ]
+    },
+    "QCaaP": {
+      "name": "Quantum Cryptography as a Platform",
+      "target": "Technology Partners & OEMs",
+      "pricing_model": "Revenue share or volume licensing",
+      "base_price": "$500,000+/year",
+      "features": [
+        "White-label deployment",
+        "Full API access and SDK",
+        "Custom branding options",
+        "Multi-tenant architecture",
+        "Platform integration toolkit",
+        "Partner training programs",
+        "Co-marketing opportunities",
+        "Joint go-to-market support",
+        "Technical advisory board access",
+        "Roadmap influence"
+      ],
+      "revenue_models": [
+        "10-20% revenue share",
+        "Volume-based licensing tiers",
+        "Hybrid fixed + usage model"
+      ],
+      "ideal_partners": [
+        "Cloud service providers",
+        "Cybersecurity vendors",
+        "System integrators",
+        "Managed security providers"
+      ]
+    }
+  },
+  "cost_structure": {
+    "quantum_computing": {
+      "average_cost_per_customer": "$50-200/month",
+      "bulk_reservation_discount": "40-60%"
+    },
+    "infrastructure": {
+      "cloud_hosting": "$5,000-10,000/month",
+      "redundancy": "$3,000-5,000/month"
+    },
+    "personnel": {
+      "quantum_engineers": "$300,000/year (2 FTE)",
+      "support_team": "$200,000/year (3 FTE)",
+      "sales_marketing": "$250,000/year"
+    },
+    "gross_margin_target": "70-80%"
+  },
+  "value_proposition": {
+    "vs_traditional_HSM": {
+      "cost_advantage": "50-70% lower TCO over 3 years",
+      "features": "Quantum-safe + real quantum entropy",
+      "deployment": "Minutes vs weeks",
+      "scalability": "Unlimited vs hardware-constrained"
+    },
+    "vs_cloud_KMS": {
+      "security": "Post-quantum ready today",
+      "entropy": "True quantum vs pseudo-random",
+      "compliance": "Future-proof for 2027+ requirements",
+      "performance": "50-100μs vs 5-10ms latency"
+    },
+    "unique_differentiators": [
+      "Only solution with real quantum hardware integration",
+      "First to market with NIST ML-KEM-768 implementation",
+      "15x cost efficiency through 120-qubit optimization",
+      "7 deployment methods vs API-only competitors",
+      "Memory-safe Rust eliminating 70% of vulnerabilities"
+    ]
+  },
+  "revenue_projections": {
+    "2026": {
+      "customers": {
+        "starter": 50,
+        "professional": 20,
+        "enterprise": 5,
+        "platform": 2
+      },
+      "arr": "$4,495,800",
+      "breakdown": {
+        "starter": "$1,249,500",
+        "professional": "$1,999,800",
+        "enterprise": "$1,000,000",
+        "platform": "$1,000,000"
+      }
+    },
+    "2027": {
+      "customers": {
+        "starter": 150,
+        "professional": 60,
+        "enterprise": 15,
+        "platform": 5
+      },
+      "arr": "$13,487,400",
+      "growth": "200%"
+    },
+    "2028": {
+      "customers": {
+        "starter": 400,
+        "professional": 150,
+        "enterprise": 35,
+        "platform": 10
+      },
+      "arr": "$34,468,500",
+      "growth": "156%"
+    },
+    "2029": {
+      "customers": {
+        "starter": 800,
+        "professional": 300,
+        "enterprise": 70,
+        "platform": 20
+      },
+      "arr": "$69,487,000",
+      "growth": "102%"
+    },
+    "2030": {
+      "customers": {
+        "starter": 1500,
+        "professional": 500,
+        "enterprise": 120,
+        "platform": 35
+      },
+      "arr": "$121,475,500",
+      "growth": "75%"
+    }
+  },
+  "go_to_market": {
+    "phase1_q1_2026": {
+      "focus": "Early adopters in gaming and fintech",
+      "channels": ["Direct sales", "AWS Marketplace"],
+      "marketing": "$500K budget",
+      "target": "25 enterprise pilots"
+    },
+    "phase2_q2_2026": {
+      "focus": "Healthcare and government",
+      "channels": ["Partner channel", "System integrators"],
+      "certifications": ["FedRAMP", "HIPAA"],
+      "target": "50 production deployments"
+    },
+    "phase3_q3_2026": {
+      "focus": "Platform partnerships",
+      "channels": ["OEM agreements", "White-label"],
+      "partners": ["Top 3 cloud providers", "5 MSPs"],
+      "target": "3 platform deals"
+    },
+    "phase4_q4_2026": {
+      "focus": "International expansion",
+      "regions": ["EU", "APAC"],
+      "compliance": ["GDPR", "Regional standards"],
+      "target": "100+ total customers"
+    }
+  },
+  "competitive_positioning": {
+    "pricing_strategy": "Premium but justified",
+    "vs_aws_kms": "3-5x price for 10x value (quantum-safe)",
+    "vs_hsm": "Similar price, superior features",
+    "vs_status_quo": "Insurance against $10M+ quantum breach",
+    "roi_messaging": "Break-even in 18 months vs potential breach costs"
+  }
+}

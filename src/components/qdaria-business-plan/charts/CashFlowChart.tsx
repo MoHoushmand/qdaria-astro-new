@@ -1,4 +1,17 @@
-import React, { useState } from 'react';
+/**
+ * CashFlowChart displays comprehensive cash flow breakdown with activity analysis
+ *
+ * Features:
+ * - Toggle between annual and quarterly views
+ * - Operating, Investing, and Financing CF breakdown
+ * - Cumulative cash flow tracking
+ * - CSV export functionality
+ * - Fully accessible with ARIA labels
+ *
+ * @module charts/CashFlowChart
+ */
+
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   ComposedChart,
   Line,
@@ -12,23 +25,20 @@ import {
   ReferenceLine,
   Cell,
 } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-deck/ui/card';
-import { Button } from '@/components/pitch-deck/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/qdaria-business-plan/ui/card';
+import { Button } from '@/components/qdaria-business-plan/ui/button';
 import { Download, TrendingUp, Calendar } from 'lucide-react';
-
-// QDaria Brand Colors
-const COLORS = {
-  primary: '#04a3ff',
-  secondary: '#00ffd3',
-  tertiary: '#65ff00',
-  positive: '#65ff00',
-  negative: '#ff4444',
-  neutral: '#04a3ff',
-  bg: '#000212',
-  grid: '#1a1a2e',
-  text: '#e0e0e0',
-  textMuted: '#a0a0a0',
-};
+import {
+  CHART_THEME,
+  standardTooltipStyle,
+  standardAxisStyle,
+  standardTickStyle,
+  standardGridStyle,
+  standardLegendStyle,
+  formatCurrency,
+} from '@/styles/chart-theme';
+import type { CustomTooltipProps } from './types';
+import { exportToCSV } from './utils';
 
 // Annual cash flow data (in millions USD)
 const annualData = [
@@ -36,7 +46,7 @@ const annualData = [
     year: '2025',
     operating: -0.5,
     investing: -3,
-    financing: 12,
+    financing: 15,
     net: 8.5,
     cumulative: 8.5,
   },
@@ -58,11 +68,11 @@ const annualData = [
   },
   {
     year: '2028',
-    operating: 5,
+    operating: 2,
     investing: -2,
     financing: 100,
-    net: 103,
-    cumulative: 131.5,
+    net: 100,
+    cumulative: 128.5,
   },
   {
     year: '2029',
@@ -134,92 +144,84 @@ const quarterlyData = [
   },
 ];
 
-// Custom tooltip
-const CustomTooltip = ({ active, payload, label }: any) => {
+/**
+ * Custom tooltip component with proper typing
+ * Displays operating, investing, and financing cash flows with color coding
+ */
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
   if (!active || !payload || !payload.length) return null;
 
   const data = payload[0].payload;
 
   return (
-    <div
-      className="custom-tooltip"
-      style={{
-        backgroundColor: 'rgba(0, 2, 18, 0.95)',
-        border: `1px solid ${COLORS.primary}`,
-        borderRadius: '8px',
-        padding: '12px 16px',
-        boxShadow: '0 4px 12px rgba(4, 163, 255, 0.3)',
-        minWidth: '200px',
-      }}
-    >
-      <p style={{ color: COLORS.text, fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>
+    <div style={{
+      backgroundColor: CHART_THEME.colors.background.dark,
+      border: `${CHART_THEME.colors.chart.tooltip.borderWidth} solid ${CHART_THEME.colors.chart.tooltip.border}`,
+      borderRadius: CHART_THEME.borderRadius.md,
+      padding: '12px 16px',
+      boxShadow: CHART_THEME.shadows.glow,
+      minWidth: '200px',
+    }}>
+      <p style={{
+        color: CHART_THEME.colors.text.primary,
+        fontWeight: CHART_THEME.typography.weights.bold,
+        marginBottom: '8px',
+        fontSize: CHART_THEME.typography.sizes.base + 'px',
+      }}>
         {label}
       </p>
-      <div style={{ fontSize: '12px', lineHeight: '1.8' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            color: data.operating >= 0 ? COLORS.positive : COLORS.negative,
-          }}
-        >
+      <div style={{
+        fontSize: CHART_THEME.typography.sizes.sm + 'px',
+        lineHeight: CHART_THEME.typography.lineHeight.relaxed,
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          color: data.operating >= 0 ? CHART_THEME.colors.semantic.positive : CHART_THEME.colors.semantic.negative,
+        }}>
           <span>Operating CF:</span>
           <span style={{ fontWeight: 'bold' }}>
-            ${data.operating >= 0 ? '+' : ''}
-            {data.operating.toFixed(1)}M
+            ${data.operating >= 0 ? '+' : ''}{data.operating.toFixed(1)}M
           </span>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            color: data.investing >= 0 ? COLORS.positive : COLORS.negative,
-          }}
-        >
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          color: data.investing >= 0 ? CHART_THEME.colors.semantic.positive : CHART_THEME.colors.semantic.negative,
+        }}>
           <span>Investing CF:</span>
           <span style={{ fontWeight: 'bold' }}>
-            ${data.investing >= 0 ? '+' : ''}
-            {data.investing.toFixed(1)}M
+            ${data.investing >= 0 ? '+' : ''}{data.investing.toFixed(1)}M
           </span>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            color: data.financing >= 0 ? COLORS.positive : COLORS.negative,
-          }}
-        >
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          color: data.financing >= 0 ? CHART_THEME.colors.semantic.positive : CHART_THEME.colors.semantic.negative,
+        }}>
           <span>Financing CF:</span>
           <span style={{ fontWeight: 'bold' }}>
-            ${data.financing >= 0 ? '+' : ''}
-            {data.financing.toFixed(1)}M
+            ${data.financing >= 0 ? '+' : ''}{data.financing.toFixed(1)}M
           </span>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginTop: '8px',
-            paddingTop: '8px',
-            borderTop: `1px solid ${COLORS.grid}`,
-            color: data.net >= 0 ? COLORS.positive : COLORS.negative,
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '8px',
+          paddingTop: '8px',
+          borderTop: `1px solid ${CHART_THEME.colors.chart.grid}`,
+          color: data.net >= 0 ? CHART_THEME.colors.semantic.positive : CHART_THEME.colors.semantic.negative,
+          fontWeight: 'bold',
+        }}>
           <span>Net Cash Flow:</span>
-          <span>
-            ${data.net >= 0 ? '+' : ''}
-            {data.net.toFixed(1)}M
-          </span>
+          <span>${data.net >= 0 ? '+' : ''}{data.net.toFixed(1)}M</span>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            color: COLORS.primary,
-            fontWeight: 'bold',
-          }}
-        >
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          color: CHART_THEME.colors.primary,
+          fontWeight: 'bold',
+        }}>
           <span>Cumulative Cash:</span>
           <span>${data.cumulative.toFixed(1)}M</span>
         </div>
@@ -282,51 +284,68 @@ interface CashFlowChartProps {
   className?: string;
 }
 
-export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) => {
+/**
+ * CashFlowChart Component - Displays comprehensive cash flow analysis
+ * @component
+ * @example
+ * ```tsx
+ * <CashFlowChart className="my-6" />
+ * ```
+ */
+export const CashFlowChart = React.memo<CashFlowChartProps>(({ className = '' }) => {
   const [viewMode, setViewMode] = useState<'annual' | 'quarterly'>('annual');
   const [exportLoading, setExportLoading] = useState(false);
 
-  const data = viewMode === 'annual' ? annualData : quarterlyData;
-  const xAxisKey = viewMode === 'annual' ? 'year' : 'period';
+  // Memoize data selection
+  const data = useMemo(
+    () => (viewMode === 'annual' ? annualData : quarterlyData),
+    [viewMode]
+  );
 
-  const handleExportData = async () => {
+  const xAxisKey = useMemo(
+    () => (viewMode === 'annual' ? 'year' : 'period'),
+    [viewMode]
+  );
+
+  /**
+   * Export cash flow data to CSV with proper formatting
+   */
+  const handleExportData = useCallback(async () => {
     setExportLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Create CSV data
-    const headers = ['Period', 'Operating CF', 'Investing CF', 'Financing CF', 'Net CF', 'Cumulative'];
-    const rows = data.map((d) => [
-      d[xAxisKey as keyof typeof d],
-      d.operating,
-      d.investing,
-      d.financing,
-      d.net,
-      d.cumulative,
-    ]);
+    const csvData = data.map((d) => ({
+      Period: d[xAxisKey as keyof typeof d],
+      'Operating CF ($M)': d.operating,
+      'Investing CF ($M)': d.investing,
+      'Financing CF ($M)': d.financing,
+      'Net CF ($M)': d.net,
+      'Cumulative ($M)': d.cumulative,
+    }));
 
-    const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `qdaria-cash-flow-${viewMode}-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
+    exportToCSV(
+      csvData,
+      `qdaria-cash-flow-${viewMode}.csv`,
+      ['Period', 'Operating CF ($M)', 'Investing CF ($M)', 'Financing CF ($M)', 'Net CF ($M)', 'Cumulative ($M)']
+    );
 
     setExportLoading(false);
-  };
+  }, [data, xAxisKey, viewMode]);
 
-  // Calculate key metrics
-  const totalOperating = data.reduce((sum, d) => sum + d.operating, 0);
-  const totalInvesting = data.reduce((sum, d) => sum + d.investing, 0);
-  const totalFinancing = data.reduce((sum, d) => sum + d.financing, 0);
-  const finalCumulative = data[data.length - 1].cumulative;
+  // Memoize calculated metrics
+  const { totalOperating, totalInvesting, totalFinancing, finalCumulative } = useMemo(() => ({
+    totalOperating: data.reduce((sum, d) => sum + d.operating, 0),
+    totalInvesting: data.reduce((sum, d) => sum + d.investing, 0),
+    totalFinancing: data.reduce((sum, d) => sum + d.financing, 0),
+    finalCumulative: data[data.length - 1].cumulative,
+  }), [data]);
 
   return (
     <div
       className={`w-full bg-gradient-to-br from-[#000212] to-[#04a3ff]/5 p-6 rounded-xl border border-[#04a3ff]/30 ${className}`}
-      role="img"
-      aria-label="Cash Flow Analysis Chart showing operating, investing, and financing cash flows with cumulative total"
+      role="region"
+      aria-label="Cash Flow Analysis Chart showing operating, investing, and financing cash flows with cumulative total from 2025 to 2030, including Series A, Series B, and IPO funding events"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -362,6 +381,13 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
                 : 'text-gray-400 hover:text-white'
             }`}
             aria-pressed={viewMode === 'quarterly'}
+            aria-label="View quarterly cash flow data"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setViewMode('quarterly');
+              }
+            }}
           >
             Quarterly
           </button>
@@ -373,6 +399,13 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
                 : 'text-gray-400 hover:text-white'
             }`}
             aria-pressed={viewMode === 'annual'}
+            aria-label="View annual cash flow data"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setViewMode('annual');
+              }
+            }}
           >
             Annual
           </button>
@@ -406,25 +439,32 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
       </div>
 
       {/* Chart */}
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer
+        width="100%"
+        height={500}
+        role="img"
+        aria-label={`Cash flow breakdown showing operating, investing, and financing activities for ${viewMode === 'annual' ? 'annual' : 'quarterly'} periods. Total operating CF: $${totalOperating.toFixed(1)}M, Total investing CF: $${totalInvesting.toFixed(1)}M, Total financing CF: $${totalFinancing.toFixed(1)}M, Cumulative cash: $${finalCumulative.toFixed(1)}M`}
+        tabIndex={0}
+      >
         <ComposedChart
           data={data}
           margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+          title="Cash flow analysis by operating, investing, and financing activities"
         >
           <defs>
-            {/* Gradient for cumulative line */}
+            {/* Gradient for cumulative line using theme colors */}
             <linearGradient id="cumulativeGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={COLORS.primary} stopOpacity={0.8} />
-              <stop offset="100%" stopColor={COLORS.secondary} stopOpacity={0.8} />
+              <stop offset="0%" stopColor={CHART_THEME.colors.primary} stopOpacity={0.8} />
+              <stop offset="100%" stopColor={CHART_THEME.colors.secondary} stopOpacity={0.8} />
             </linearGradient>
           </defs>
 
-          <CartesianGrid strokeDasharray="3 3" stroke={COLORS.grid} opacity={0.3} />
+          <CartesianGrid {...standardGridStyle} />
 
           <XAxis
             dataKey={xAxisKey}
-            stroke={COLORS.textMuted}
-            tick={{ fill: COLORS.textMuted, fontSize: 12 }}
+            {...standardAxisStyle}
+            tick={standardTickStyle}
             angle={-45}
             textAnchor="end"
             height={60}
@@ -432,23 +472,23 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
               value: viewMode === 'annual' ? 'Year' : 'Quarter',
               position: 'insideBottom',
               offset: -50,
-              fill: COLORS.text,
-              fontSize: 14,
+              fill: CHART_THEME.colors.text.primary,
+              fontSize: CHART_THEME.typography.sizes.base,
             }}
           />
 
           {/* Primary Y-axis (Cash Flow) */}
           <YAxis
             yAxisId="left"
-            stroke={COLORS.textMuted}
-            tick={{ fill: COLORS.textMuted, fontSize: 12 }}
+            {...standardAxisStyle}
+            tick={standardTickStyle}
             tickFormatter={formatYAxis}
             label={{
               value: 'Cash Flow ($M)',
               angle: -90,
               position: 'insideLeft',
-              fill: COLORS.text,
-              fontSize: 14,
+              fill: CHART_THEME.colors.text.primary,
+              fontSize: CHART_THEME.typography.sizes.base,
             }}
           />
 
@@ -456,15 +496,15 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
           <YAxis
             yAxisId="right"
             orientation="right"
-            stroke={COLORS.textMuted}
-            tick={{ fill: COLORS.textMuted, fontSize: 12 }}
+            stroke={CHART_THEME.colors.primary}
+            tick={{ fill: CHART_THEME.colors.primary, fontSize: CHART_THEME.typography.sizes.sm }}
             tickFormatter={formatYAxis}
             label={{
               value: 'Cumulative ($M)',
               angle: 90,
               position: 'insideRight',
-              fill: COLORS.primary,
-              fontSize: 14,
+              fill: CHART_THEME.colors.primary,
+              fontSize: CHART_THEME.typography.sizes.base,
             }}
           />
 
@@ -472,24 +512,33 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
           <Legend content={<CustomLegend />} />
 
           {/* Zero line reference */}
-          <ReferenceLine yAxisId="left" y={0} stroke={COLORS.textMuted} strokeDasharray="3 3" />
+          <ReferenceLine yAxisId="left" y={0} stroke={CHART_THEME.colors.chart.axis} strokeDasharray="3 3" />
 
           {/* Bar charts for cash flow components */}
           <Bar yAxisId="left" dataKey="operating" name="Operating CF" stackId="cf" radius={[0, 0, 0, 0]}>
             {data.map((entry, index) => (
-              <Cell key={`cell-operating-${index}`} fill={entry.operating >= 0 ? COLORS.positive : COLORS.negative} />
+              <Cell
+                key={`cell-operating-${index}`}
+                fill={entry.operating >= 0 ? CHART_THEME.colors.semantic.positive : CHART_THEME.colors.semantic.negative}
+              />
             ))}
           </Bar>
 
           <Bar yAxisId="left" dataKey="investing" name="Investing CF" stackId="cf" radius={[0, 0, 0, 0]}>
             {data.map((entry, index) => (
-              <Cell key={`cell-investing-${index}`} fill={entry.investing >= 0 ? COLORS.positive : COLORS.negative} />
+              <Cell
+                key={`cell-investing-${index}`}
+                fill={entry.investing >= 0 ? CHART_THEME.colors.semantic.positive : CHART_THEME.colors.semantic.negative}
+              />
             ))}
           </Bar>
 
           <Bar yAxisId="left" dataKey="financing" name="Financing CF" stackId="cf" radius={[4, 4, 0, 0]}>
             {data.map((entry, index) => (
-              <Cell key={`cell-financing-${index}`} fill={entry.financing >= 0 ? COLORS.neutral : COLORS.negative} />
+              <Cell
+                key={`cell-financing-${index}`}
+                fill={entry.financing >= 0 ? CHART_THEME.colors.primary : CHART_THEME.colors.semantic.negative}
+              />
             ))}
           </Bar>
 
@@ -500,7 +549,7 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
             dataKey="cumulative"
             stroke="url(#cumulativeGradient)"
             strokeWidth={3}
-            dot={{ fill: COLORS.primary, r: 5, strokeWidth: 2, stroke: COLORS.bg }}
+            dot={{ fill: CHART_THEME.colors.primary, r: 5, strokeWidth: 2, stroke: CHART_THEME.colors.background.primary }}
             activeDot={{ r: 7, strokeWidth: 3 }}
             name="Cumulative Cash"
           />
@@ -512,13 +561,15 @@ export const CashFlowChart: React.FC<CashFlowChartProps> = ({ className = '' }) 
         <p className="text-xs text-gray-400 leading-relaxed">
           <strong className="text-white">Cash Flow Methodology:</strong> Operating CF shows business
           operations, Investing CF shows capital expenditures (Novera QPU, R&D infrastructure),
-          Financing CF shows funding rounds (Seed $12M, Series A $8M, Series B $20M, IPO $100M).
-          Break-even operating cash flow achieved in 2028. Cumulative line shows total cash position
-          over time.
+          Financing CF shows funding rounds (Seed €15M, Series A $8M, Series B $20M, planned IPO $100M).
+          Break-even operating cash flow achieved in Q4 2028. Cumulative line shows total cash position
+          over time. All projections based on QDaria Financial Model v4.1 (2025).
         </p>
       </div>
     </div>
   );
-};
+});
+
+CashFlowChart.displayName = 'CashFlowChart';
 
 export default CashFlowChart;

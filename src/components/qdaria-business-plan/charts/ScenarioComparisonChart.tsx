@@ -40,18 +40,18 @@ interface ScenarioAssumptions {
 }
 
 const baseScenarioData: ScenarioData[] = [
-  { year: '2025', conservative: 1, base: 1, optimistic: 1 },
-  { year: '2026', conservative: 2, base: 4, optimistic: 8 },
-  { year: '2027', conservative: 4, base: 16, optimistic: 40 },
-  { year: '2028', conservative: 8, base: 64, optimistic: 160 },
-  { year: '2029', conservative: 15, base: 150, optimistic: 500 },
-  { year: '2030', conservative: 28, base: 350, optimistic: 1200 },
+  { year: '2025', conservative: 0.35, base: 0.5, optimistic: 0.75 },
+  { year: '2026', conservative: 0.7, base: 1.0, optimistic: 1.5 },
+  { year: '2027', conservative: 3.5, base: 5.0, optimistic: 7.5 },
+  { year: '2028', conservative: 14.0, base: 20.0, optimistic: 30.0 },
+  { year: '2029', conservative: 35.0, base: 50.0, optimistic: 75.0 },
+  { year: '2030', conservative: 70.0, base: 100.0, optimistic: 150.0 },
 ];
 
 const defaultAssumptions = {
   conservative: { cagr: 50, churnRate: 15, fundingAmount: 8, marketShare: 0.1 },
-  base: { cagr: 100, churnRate: 10, fundingAmount: 12, marketShare: 1.0 },
-  optimistic: { cagr: 200, churnRate: 5, fundingAmount: 20, marketShare: 5.0 },
+  base: { cagr: 158, churnRate: 10, fundingAmount: 15, marketShare: 1.2 },
+  optimistic: { cagr: 180, churnRate: 5, fundingAmount: 20, marketShare: 3.0 },
 };
 
 const scenarioProbabilities = {
@@ -163,7 +163,7 @@ export const ScenarioComparisonChart: React.FC = () => {
         <div className="flex items-start justify-between">
           <div>
             <CardTitle className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent flex items-center gap-2">
-              <DollarSign className="text-cyan-400" />
+              <DollarSign className="text-cyan-400" aria-hidden="true" />
               Financial Scenario Comparison
             </CardTitle>
             <CardDescription className="text-gray-400 mt-2">
@@ -286,8 +286,9 @@ export const ScenarioComparisonChart: React.FC = () => {
               variant="outline"
               size="sm"
               className="border-cyan-500/50 hover:bg-cyan-500/10"
+              aria-label="Export scenario comparison data to Excel"
             >
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="w-4 h-4 mr-2" aria-hidden="true" />
               Export Excel
             </Button>
           </div>
@@ -300,8 +301,10 @@ export const ScenarioComparisonChart: React.FC = () => {
             variant={selectedScenario === 'conservative' ? 'default' : 'outline'}
             size="sm"
             className={selectedScenario === 'conservative' ? 'bg-gray-600 hover:bg-gray-700' : 'border-gray-600'}
+            aria-pressed={selectedScenario === 'conservative'}
+            aria-label="Select conservative revenue scenario projecting $70M by 2030"
           >
-            <AlertTriangle className="w-4 h-4 mr-2" />
+            <AlertTriangle className="w-4 h-4 mr-2" aria-hidden="true" />
             Conservative
           </Button>
           <Button
@@ -309,8 +312,10 @@ export const ScenarioComparisonChart: React.FC = () => {
             variant={selectedScenario === 'base' ? 'default' : 'outline'}
             size="sm"
             className={selectedScenario === 'base' ? 'bg-cyan-500 hover:bg-cyan-600' : 'border-cyan-600'}
+            aria-pressed={selectedScenario === 'base'}
+            aria-label="Select base revenue scenario projecting $100M by 2030 - recommended"
           >
-            <CheckCircle2 className="w-4 h-4 mr-2" />
+            <CheckCircle2 className="w-4 h-4 mr-2" aria-hidden="true" />
             Base (Recommended)
           </Button>
           <Button
@@ -318,8 +323,10 @@ export const ScenarioComparisonChart: React.FC = () => {
             variant={selectedScenario === 'optimistic' ? 'default' : 'outline'}
             size="sm"
             className={selectedScenario === 'optimistic' ? 'bg-green-500 hover:bg-green-600' : 'border-green-600'}
+            aria-pressed={selectedScenario === 'optimistic'}
+            aria-label="Select optimistic revenue scenario projecting $150M by 2030"
           >
-            <TrendingUp className="w-4 h-4 mr-2" />
+            <TrendingUp className="w-4 h-4 mr-2" aria-hidden="true" />
             Optimistic
           </Button>
         </div>
@@ -360,8 +367,18 @@ export const ScenarioComparisonChart: React.FC = () => {
 
       <CardContent>
         {/* Main Chart */}
-        <ResponsiveContainer width="100%" height={450}>
-          <BarChart data={scenarioData} margin={{ top: 20, right: 30, bottom: 20, left: 20 }}>
+        <ResponsiveContainer
+          width="100%"
+          height={450}
+          role="region"
+          aria-label={`Financial scenario comparison showing conservative, base, and optimistic revenue projections from 2025 to 2030. ${selectedScenario} scenario selected with 2030 revenue of $${scenarioData[5][selectedScenario].toFixed(0)}M. Risk-adjusted NPV: $${riskAdjustedNPV.toFixed(0)}M. Conservative 2030: $${scenarioData[5].conservative.toFixed(0)}M (${scenarioProbabilities.conservative}% probability), Base 2030: $${scenarioData[5].base.toFixed(0)}M (${scenarioProbabilities.base}% probability), Optimistic 2030: $${scenarioData[5].optimistic.toFixed(0)}M (${scenarioProbabilities.optimistic}% probability)`}
+          tabIndex={0}
+        >
+          <BarChart
+            data={scenarioData}
+            margin={{ top: 20, right: 30, bottom: 20, left: 20 }}
+            title="Revenue scenario comparison with probability-weighted analysis"
+          >
             <defs>
               <linearGradient id="baseGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#04a3ff" stopOpacity={0.9} />
@@ -458,6 +475,8 @@ export const ScenarioComparisonChart: React.FC = () => {
             onClick={handleMonteCarloSimulation}
             disabled={isMonteCarloRunning}
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+            aria-label="Run Monte Carlo simulation with 10,000 iterations to model revenue uncertainty"
+            aria-busy={isMonteCarloRunning}
           >
             {isMonteCarloRunning ? 'Running 10,000 Simulations...' : 'Run Monte Carlo Simulation (10K runs)'}
           </Button>

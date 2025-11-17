@@ -6,7 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/pitch-deck/ui/
 import { Progress } from '@/components/pitch-deck/ui/progress';
 import ChartTab from './ChartTab';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
-import { Users, Award, Brain, Rocket, Globe, Star, Briefcase, GraduationCap, Shield, Atom, Cpu, Zap, Target, TrendingUp, MapPin, Calendar, Medal, BookOpen, Code2, Trophy } from 'lucide-react';
+import { Users, Award, Brain, Rocket, Globe, Star, Briefcase, GraduationCap, Shield, Atom, Cpu, Zap, Target, TrendingUp, MapPin, Calendar, BookOpen, Trophy } from 'lucide-react';
 
 const EnhancedTeamSlide: React.FC = () => {
   // Company Achievements & Milestones (from Business Plan)

@@ -27,7 +27,7 @@ interface CompanyProfile {
 }
 
 const competitorsData: CompetitorData[] = [
-  { name: 'QDaria', x: 45, y: 0.1, z: 12, revenue: 1, stage: 'startup', tech: 'topological', country: 'Norway' },
+  { name: 'QDaria', x: 45, y: 0.1, z: 87, revenue: 100, stage: 'growth', tech: 'topological', country: 'Norway' },
   { name: 'IBM Quantum', x: 85, y: 8, z: 6000, revenue: 2500, stage: 'public', tech: 'superconducting', country: 'USA' },
   { name: 'Google Quantum AI', x: 90, y: 9, z: 8000, revenue: 3000, stage: 'public', tech: 'superconducting', country: 'USA' },
   { name: 'Rigetti', x: 70, y: 2, z: 250, revenue: 15, stage: 'growth', tech: 'superconducting', country: 'USA' },
@@ -102,12 +102,12 @@ export default function CompetitiveLandscapeChart({
     };
 
     const trajectoryData = showTrajectory ? [
-      [45, 0.1, 12], // 2025
-      [52, 0.3, 25], // 2026
-      [60, 0.8, 50], // 2027
-      [68, 1.5, 80], // 2028
-      [75, 2.5, 120], // 2029
-      [82, 4.0, 180], // 2030
+      [45, 0.1, 12],  // 2025 - Series A
+      [52, 0.2, 12],  // 2026
+      [60, 0.5, 37],  // 2027 - Series B
+      [68, 1.2, 37],  // 2028
+      [75, 2.0, 87],  // 2029 - Series C
+      [82, 4.0, 87],  // 2030 - $100M revenue (base case)
     ] : [];
 
     if (currentView === '3d') {
@@ -379,6 +379,13 @@ export default function CompetitiveLandscapeChart({
         <button
           onClick={() => setCurrentView(currentView === '3d' ? '2d' : '3d')}
           className="px-4 py-2 bg-gradient-to-r from-[#04a3ff] to-[#00ffd3] text-white rounded-lg hover:opacity-90 transition-opacity text-sm font-medium"
+          aria-label={`Switch to ${currentView === '3d' ? '2D' : '3D'} view of competitive landscape`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setCurrentView(currentView === '3d' ? '2d' : '3d');
+            }
+          }}
         >
           {currentView === '3d' ? 'Switch to 2D' : 'Switch to 3D'}
         </button>
@@ -387,6 +394,7 @@ export default function CompetitiveLandscapeChart({
           value={selectedStage}
           onChange={(e) => setSelectedStage(e.target.value)}
           className="px-3 py-2 bg-gray-800/90 text-white rounded-lg border border-gray-700 text-sm"
+          aria-label="Filter companies by stage: all, startups, growth, or public"
         >
           <option value="all">All Stages</option>
           <option value="startup">Startups</option>
@@ -398,6 +406,7 @@ export default function CompetitiveLandscapeChart({
           value={selectedTech}
           onChange={(e) => setSelectedTech(e.target.value)}
           className="px-3 py-2 bg-gray-800/90 text-white rounded-lg border border-gray-700 text-sm"
+          aria-label="Filter companies by technology: all, topological, superconducting, ion trap, photonic, or neutral atom"
         >
           <option value="all">All Technologies</option>
           <option value="topological">Topological</option>
@@ -414,6 +423,14 @@ export default function CompetitiveLandscapeChart({
               ? 'bg-[#04a3ff] text-white'
               : 'bg-gray-800/90 text-gray-300 border border-gray-700'
           }`}
+          aria-pressed={showTrajectory}
+          aria-label={`${showTrajectory ? 'Hide' : 'Show'} QDaria projected growth trajectory from 2025 to 2030`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setShowTrajectory(!showTrajectory);
+            }
+          }}
         >
           QDaria Trajectory
         </button>
@@ -421,6 +438,13 @@ export default function CompetitiveLandscapeChart({
         <button
           onClick={exportChart}
           className="px-4 py-2 bg-gray-800/90 text-white rounded-lg border border-gray-700 hover:bg-gray-700 transition-colors text-sm"
+          aria-label="Export competitive landscape chart as PNG image"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              exportChart();
+            }
+          }}
         >
           Export Image
         </button>
@@ -430,8 +454,9 @@ export default function CompetitiveLandscapeChart({
       <div
         ref={chartRef}
         className="w-full h-[600px] rounded-xl"
-        role="img"
-        aria-label="3D competitive landscape showing quantum computing companies by technology maturity, market share, and funding"
+        role="region"
+        aria-label={`${currentView === '3d' ? '3D' : '2D'} competitive landscape showing quantum computing companies by technology maturity, market share, and funding. Displaying ${selectedStage === 'all' ? 'all stages' : selectedStage + ' stage companies'} and ${selectedTech === 'all' ? 'all technologies' : selectedTech + ' technology'}. QDaria positioned at 45% maturity, 0.1% market share with trajectory to 82% maturity and 4% share by 2030`}
+        tabIndex={0}
       />
 
       {/* Strategic Quadrants Legend */}

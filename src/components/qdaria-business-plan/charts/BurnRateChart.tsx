@@ -1,4 +1,18 @@
-import React, { useState } from 'react';
+/**
+ * BurnRateChart displays cash burn rate trajectory with scenario planning
+ *
+ * Features:
+ * - Interactive scenario selection (Conservative, Base, Optimistic)
+ * - Monthly burn rate, runway, and cash balance projections
+ * - Funding event markers
+ * - Break-even point visualization
+ * - CSV export functionality
+ * - Fully accessible with ARIA labels
+ *
+ * @module charts/BurnRateChart
+ */
+
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   ComposedChart,
   Area,
@@ -14,8 +28,12 @@ import {
   ReferenceArea,
 } from 'recharts';
 import { Download } from 'lucide-react';
+import type { CustomTooltipProps } from './types';
+import { formatCurrency, exportToCSV } from './utils';
 
-// TypeScript interfaces
+/**
+ * Monthly burn rate data point
+ */
 interface MonthlyBurnData {
   month: string;
   date: string;
@@ -25,6 +43,9 @@ interface MonthlyBurnData {
   scenario: 'actual' | 'projected';
 }
 
+/**
+ * Funding event data structure
+ */
 interface FundingEvent {
   month: string;
   amount: number;
@@ -32,10 +53,21 @@ interface FundingEvent {
   description: string;
 }
 
+/**
+ * Scenario configuration
+ */
 interface ScenarioData {
   name: string;
   burnMultiplier: number;
   description: string;
+}
+
+/**
+ * Component props
+ */
+interface BurnRateChartProps {
+  /** Optional CSS class names */
+  className?: string;
 }
 
 // QDaria brand colors
@@ -63,7 +95,12 @@ const scenarios: ScenarioData[] = [
   { name: 'Optimistic', burnMultiplier: 1.3, description: 'Aggressive growth investment' },
 ];
 
-// Generate monthly burn rate data
+/**
+ * Generate monthly burn rate data for given scenario
+ *
+ * @param scenarioMultiplier - Multiplier for burn rate (0.7-1.3)
+ * @returns Array of monthly burn data points
+ */
 const generateBurnData = (scenarioMultiplier: number = 1.0): MonthlyBurnData[] => {
   const months = [
     'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025', 'May 2025', 'Jun 2025',
@@ -111,46 +148,64 @@ const generateBurnData = (scenarioMultiplier: number = 1.0): MonthlyBurnData[] =
   return data;
 };
 
-interface BurnRateChartProps {
-  className?: string;
-}
-
-export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) => {
+/**
+ * BurnRateChart Component - Displays cash burn rate analysis
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <BurnRateChart className="my-6" />
+ * ```
+ */
+export const BurnRateChart = React.memo<BurnRateChartProps>(({ className = '' }) => {
   const [selectedScenario, setSelectedScenario] = useState<string>('Base');
   const [showRunwayExtension, setShowRunwayExtension] = useState<boolean>(false);
 
-  const currentScenario = scenarios.find((s) => s.name === selectedScenario) || scenarios[1];
-  const burnData = generateBurnData(currentScenario.burnMultiplier);
+  // Memoize scenario selection
+  const currentScenario = useMemo(
+    () => scenarios.find((s) => s.name === selectedScenario) || scenarios[1],
+    [selectedScenario]
+  );
 
-  // Find break-even point (when burn becomes positive cash flow)
-  const breakEvenMonth = 'Q2 2027';
+  // Memoize burn data calculation
+  const burnData = useMemo(
+    () => generateBurnData(currentScenario.burnMultiplier),
+    [currentScenario.burnMultiplier]
+  );
 
-  // Export to CSV
-  const exportToCSV = () => {
-    const headers = ['Month', 'Burn Rate ($K)', 'Runway (months)', 'Cash Balance ($K)'];
-    const rows = burnData.map((d) => [
-      d.month,
-      d.burnRate.toString(),
-      d.runway.toString(),
-      d.cashBalance.toString(),
-    ]);
+  // Break-even point aligned with financial projections
+  const breakEvenMonth = 'Q4 2028';
 
-    const csvContent = [
-      headers.join(','),
-      ...rows.map((row) => row.join(',')),
-    ].join('\n');
+  // Memoize CSV export handler
+  const handleExportCSV = useCallback(() => {
+    const csvData = burnData.map((d) => ({
+      Month: d.month,
+      'Burn Rate ($K)': d.burnRate,
+      'Runway (months)': d.runway,
+      'Cash Balance ($K)': d.cashBalance,
+    }));
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `qdaria-burn-rate-${selectedScenario.toLowerCase()}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
+    exportToCSV(
+      csvData,
+      `qdaria-burn-rate-${selectedScenario.toLowerCase()}.csv`,
+      ['Month', 'Burn Rate ($K)', 'Runway (months)', 'Cash Balance ($K)']
+    );
+  }, [burnData, selectedScenario]);
 
-  // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  // Memoize scenario selection handler
+  const handleScenarioChange = useCallback((scenarioName: string) => {
+    setSelectedScenario(scenarioName);
+  }, []);
+
+  // Memoize runway extension toggle
+  const handleToggleRunwayExtension = useCallback(() => {
+    setShowRunwayExtension((prev) => !prev);
+  }, []);
+
+  /**
+   * Custom tooltip component with proper typing
+   */
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
     if (!active || !payload || !payload.length) return null;
 
     const data = payload[0].payload;
@@ -194,7 +249,11 @@ export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) 
   };
 
   return (
-    <div className={`bg-gradient-to-br from-[#000212] to-[#001a2e] rounded-xl p-6 border border-[#04a3ff]/30 ${className}`}>
+    <div
+      className={`bg-gradient-to-br from-[#000212] to-[#001a2e] rounded-xl p-6 border border-[#04a3ff]/30 ${className}`}
+      role="region"
+      aria-label="Cash burn rate and runway analysis showing monthly burn trajectory from January 2025 to December 2027, with funding events and runway projections"
+    >
       {/* Header */}
       <div className="mb-6 flex justify-between items-start">
         <div>
@@ -204,11 +263,17 @@ export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) 
           </p>
         </div>
         <button
-          onClick={exportToCSV}
+          onClick={handleExportCSV}
           className="flex items-center gap-2 px-4 py-2 bg-[#04a3ff]/20 hover:bg-[#04a3ff]/30 text-white rounded-lg transition-all"
-          aria-label="Export data to CSV"
+          aria-label="Export burn rate data to CSV"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleExportCSV();
+            }
+          }}
         >
-          <Download size={16} />
+          <Download size={16} aria-hidden="true" />
           <span className="text-sm">Export CSV</span>
         </button>
       </div>
@@ -250,12 +315,20 @@ export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) 
           {scenarios.map((scenario) => (
             <button
               key={scenario.name}
-              onClick={() => setSelectedScenario(scenario.name)}
+              onClick={() => handleScenarioChange(scenario.name)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 selectedScenario === scenario.name
                   ? 'bg-[#04a3ff] text-white'
                   : 'bg-[#04a3ff]/20 text-gray-300 hover:bg-[#04a3ff]/30'
               }`}
+              aria-pressed={selectedScenario === scenario.name}
+              aria-label={`Select ${scenario.name} burn rate scenario: ${scenario.description}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleScenarioChange(scenario.name);
+                }
+              }}
             >
               {scenario.name}
               <span className="block text-xs opacity-75 mt-1">{scenario.description}</span>
@@ -265,10 +338,17 @@ export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) 
       </div>
 
       {/* Main Chart */}
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer
+        width="100%"
+        height={500}
+        role="img"
+        aria-label={`Cash burn rate analysis for ${selectedScenario} scenario showing monthly burn rate, runway in months, and cash balance from January 2025 to December 2027, with funding events at March 2025 (€12M Series A) and September 2027 (€20M Series B), and break-even projected at Q4 2028`}
+        tabIndex={0}
+      >
         <ComposedChart
           data={burnData}
           margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+          title="Cash burn rate and runway analysis with funding events"
         >
           <defs>
             <linearGradient id="burnGradient" x1="0" y1="0" x2="0" y2="1">
@@ -381,8 +461,16 @@ export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) 
       {/* Runway Extension Scenarios */}
       <div className="mt-6">
         <button
-          onClick={() => setShowRunwayExtension(!showRunwayExtension)}
+          onClick={handleToggleRunwayExtension}
           className="text-[#04a3ff] hover:text-[#65ff00] font-semibold text-sm mb-3"
+          aria-expanded={showRunwayExtension}
+          aria-label={`${showRunwayExtension ? 'Hide' : 'Show'} runway extension scenarios`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleToggleRunwayExtension();
+            }
+          }}
         >
           {showRunwayExtension ? '▼' : '▶'} Show Runway Extension Scenarios
         </button>
@@ -425,7 +513,7 @@ export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) 
           </li>
           <li className="flex items-start gap-2">
             <span className="text-[#65ff00] mt-1">•</span>
-            <span>Break-even projected Q2 2027, before Series B deployment</span>
+            <span>Break-even projected Q4 2028, before Series B deployment</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="text-[#ffbb00] mt-1">•</span>
@@ -440,6 +528,9 @@ export const BurnRateChart: React.FC<BurnRateChartProps> = ({ className = '' }) 
       </div>
     </div>
   );
-};
+});
+
+// Display name for React DevTools
+BurnRateChart.displayName = 'BurnRateChart';
 
 export default BurnRateChart;

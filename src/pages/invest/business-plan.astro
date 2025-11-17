@@ -2,7 +2,7 @@
 import BusinessPlanLayout from "../../layouts/BusinessPlanLayout.astro";
 import { getEntry } from 'astro:content';
 
-export const prerender = true;
+export const prerender = false;
 
 const businessPlan = await getEntry('otherPages', 'en/business-plan');
 if (!businessPlan) {

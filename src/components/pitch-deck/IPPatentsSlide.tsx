@@ -15,7 +15,6 @@ import {
   Clock,
   Target,
   Lightbulb,
-  FileCheck,
   BookOpen
 } from 'lucide-react';
 

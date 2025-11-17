@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ResponsivePie } from '@nivo/pie';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-deck/ui/card';
-import { Button } from '@/components/pitch-deck/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/qdaria-business-plan/ui/card';
+import { Button } from '@/components/qdaria-business-plan/ui/button';
 import { Download, TrendingUp, Rocket, FlaskConical } from 'lucide-react';
 
 export interface ProductData {
@@ -18,7 +18,7 @@ const productData: ProductData[] = [
   {
     id: 'Qm9',
     label: 'Qm9 Platform',
-    value: 105000000,
+    value: 25000000,
     stage: 'Beta',
     growth: 200,
     description: 'Quantum Fintech Platform',
@@ -27,7 +27,7 @@ const productData: ProductData[] = [
   {
     id: 'QDiana',
     label: 'QDiana',
-    value: 87500000,
+    value: 20000000,
     stage: 'Beta',
     growth: 180,
     description: 'AI Governance & Education',
@@ -36,47 +36,20 @@ const productData: ProductData[] = [
   {
     id: 'Zipminator',
     label: 'Zipminator',
-    value: 52500000,
+    value: 20000000,
     stage: 'Beta',
     growth: 150,
     description: 'Quantum Compression',
     color: '#3498db'
   },
   {
-    id: 'QMikeAI',
-    label: 'QMikeAI',
+    id: 'Other',
+    label: 'Other Products',
     value: 35000000,
     stage: 'MVP',
-    growth: 120,
-    description: 'Quantum HPC',
-    color: '#e74c3c'
-  },
-  {
-    id: 'QNilaya',
-    label: 'QNilaya',
-    value: 28000000,
-    stage: 'MVP',
     growth: 100,
-    description: 'Health-tech Platform',
-    color: '#2ecc71'
-  },
-  {
-    id: 'TeHaA',
-    label: 'TeHaA',
-    value: 21000000,
-    stage: 'MVP',
-    growth: 90,
-    description: 'Quantum NLP',
-    color: '#f39c12'
-  },
-  {
-    id: 'Damon',
-    label: 'Damon',
-    value: 21000000,
-    stage: 'MVP',
-    growth: 85,
-    description: 'Quantum Robotics',
-    color: '#1abc9c'
+    description: 'QMikeAI, QNilaya, TeHaA, Damon, and others',
+    color: '#95a5a6'
   }
 ];
 
@@ -161,18 +134,23 @@ const ProductPortfolioChart: React.FC = () => {
             variant="outline"
             size="sm"
             className="border-cyan-500/30 hover:bg-cyan-500/10"
+            aria-label="Export product portfolio chart as PNG"
           >
-            <Download className="w-4 h-4 mr-2" />
+            <Download className="w-4 h-4 mr-2" aria-hidden="true" />
             Export PNG
           </Button>
         </div>
-        <p className="text-slate-400 text-sm">Revenue breakdown by 2030 - Total: {formatCurrency(totalRevenue)}</p>
+        <p className="text-slate-400 text-sm">Revenue breakdown by 2030 - Total: $100M (base case)</p>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Chart Section */}
-          <div className="lg:col-span-2">
-            <div id="product-portfolio-chart" className="h-[500px] relative">
+          <div
+            className="lg:col-span-2"
+            role="region"
+            aria-label="Product portfolio pie chart showing revenue breakdown by 2030: Qm9 Platform $25M (25%), QDiana $20M (20%), Zipminator $20M (20%), Other Products $35M (35%), totaling $100M. All products showing 150-200% growth rates"
+          >
+            <div id="product-portfolio-chart" className="h-[500px] relative" tabIndex={0}>
               <ResponsivePie
                 data={productData.map(p => ({
                   id: p.id,
@@ -181,6 +159,7 @@ const ProductPortfolioChart: React.FC = () => {
                   color: p.color
                 }))}
                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                title="Product portfolio revenue distribution by 2030"
                 innerRadius={0.6}
                 padAngle={2}
                 cornerRadius={4}
@@ -297,6 +276,17 @@ const ProductPortfolioChart: React.FC = () => {
                 onClick={() => {
                   setSelectedProduct(product.id);
                   setShowDetails(true);
+                }}
+                role="button"
+                tabIndex={0}
+                aria-pressed={selectedProduct === product.id}
+                aria-label={`${product.label}: ${formatCurrency(product.value)} revenue (${getPercentage(product.value)}% of portfolio), ${product.stage} stage, ${product.growth}% growth`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelectedProduct(product.id);
+                    setShowDetails(true);
+                  }
                 }}
               >
                 <div className="flex items-center justify-between mb-2">

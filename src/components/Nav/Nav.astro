@@ -6,9 +6,13 @@ import MobileNav from "./MobileNav.astro";
 import Button from "../Button/Button.astro";
 import ThemeToggle from "../ThemeToggle/ThemeToggle.astro";
 import DevelopmentWarningModal from "./DevelopmentWarningModal.astro";
+import { getSession } from 'auth-astro/server';
 
 /** Example navData (customize to your needs) */
 import type { navItem } from "../../config/types/configDataTypes";
+
+// Get current session
+const session = await getSession(Astro.request);
 
 const navData: navItem[] = [
   {
@@ -219,6 +223,29 @@ const navData: navItem[] = [
         <!-- Right-side Actions -->
         <div class="flex justify-end gap-4">
           <ThemeToggle class="my-auto hidden md:block" />
+
+          <!-- Auth UI -->
+          {session ? (
+            <div class="hidden md:flex items-center gap-3">
+              <div class="text-sm text-base-200">
+                {session.user?.name || session.user?.email}
+              </div>
+              <a
+                href="/api/auth/signout"
+                class="nav-button rounded-lg border border-primary-500/30 bg-dark-bg px-4 py-1.5 text-sm text-base-200 transition-all hover:bg-primary-500/10"
+              >
+                Sign Out
+              </a>
+            </div>
+          ) : (
+            <Button
+              variant="primary"
+              class="nav-button hidden rounded-lg border border-primary-500 bg-transparent px-4 py-1.5 text-primary-500 transition-all hover:bg-primary-500 hover:text-white md:flex"
+              href="/login"
+            >
+              Sign In
+            </Button>
+          )}
 
           <!-- Contact Button -->
           <Button

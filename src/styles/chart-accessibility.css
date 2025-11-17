@@ -1,0 +1,481 @@
+/**
+ * Chart Accessibility Styles
+ * Provides visual styles for accessible chart features
+ * Follows WCAG 2.1 AA standards for color contrast and focus indicators
+ */
+
+/* ============================================================================
+   Screen Reader Only Utility
+   ============================================================================ */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+/* Show sr-only elements on focus for debugging/testing */
+.sr-only:focus,
+.sr-only:active {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* ============================================================================
+   Accessible Chart Container
+   ============================================================================ */
+
+.accessible-chart-container {
+  position: relative;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus styles - WCAG 2.1 Level AA compliant */
+.accessible-chart-container:focus,
+.accessible-chart-container:focus-visible {
+  outline: 3px solid #0066CC;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* High contrast mode focus */
+@media (prefers-contrast: high) {
+  .accessible-chart-container:focus,
+  .accessible-chart-container:focus-visible {
+    outline: 4px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
+/* Focus indicator overlay */
+.accessible-chart-container .focus-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border: 3px solid #0066CC;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.accessible-chart-container:focus .focus-indicator {
+  opacity: 1;
+}
+
+/* ============================================================================
+   Accessible Data Table
+   ============================================================================ */
+
+.accessible-data-table {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+  border-collapse: collapse;
+}
+
+/* Table headers */
+.accessible-data-table th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+/* Table cells */
+.accessible-data-table td {
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+/* Show data table on focus for accessibility testing */
+.accessible-data-table:focus,
+.accessible-data-table:focus-within {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  margin: 1rem 0;
+}
+
+/* ============================================================================
+   High Contrast Mode
+   ============================================================================ */
+
+@media (prefers-contrast: high) {
+  .accessible-chart-container {
+    border: 2px solid currentColor;
+  }
+
+  .accessible-chart-container[data-high-contrast="true"] {
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+
+  /* Ensure all text has sufficient contrast */
+  .accessible-chart-container[data-high-contrast="true"] * {
+    color: inherit;
+  }
+
+  /* High contrast data table */
+  .accessible-data-table th,
+  .accessible-data-table td {
+    border-color: currentColor;
+    border-width: 2px;
+  }
+}
+
+/* ============================================================================
+   Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .accessible-chart-container *,
+  .accessible-chart-container *::before,
+  .accessible-chart-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .accessible-chart-container[data-reduced-motion="true"] {
+    /* Disable all animations */
+  }
+}
+
+/* ============================================================================
+   Keyboard Navigation Hints
+   ============================================================================ */
+
+.keyboard-hints {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #1f2937;
+  color: #ffffff;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.accessible-chart-container:focus .keyboard-hints {
+  opacity: 1;
+}
+
+.keyboard-hints kbd {
+  display: inline-block;
+  padding: 0.125rem 0.375rem;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  margin: 0 0.25rem;
+}
+
+/* ============================================================================
+   Selected Data Point Indicator
+   ============================================================================ */
+
+.chart-data-point {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.chart-data-point:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.chart-data-point.selected {
+  stroke: #0066CC;
+  stroke-width: 3px;
+  filter: drop-shadow(0 0 6px rgba(0, 102, 204, 0.5));
+}
+
+.chart-data-point:focus {
+  outline: 2px solid #0066CC;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-data-point:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================================
+   Accessible Tooltip
+   ============================================================================ */
+
+.accessible-tooltip {
+  position: absolute;
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #ffffff;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.accessible-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+/* High contrast tooltip */
+@media (prefers-contrast: high) {
+  .accessible-tooltip {
+    background-color: #000000;
+    border: 2px solid #FFFFFF;
+  }
+
+  .accessible-tooltip::before {
+    border-top-color: #000000;
+  }
+}
+
+/* ============================================================================
+   Chart Legend Accessibility
+   ============================================================================ */
+
+.accessible-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  list-style: none;
+}
+
+.accessible-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.accessible-legend-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.accessible-legend-item:focus {
+  outline: 2px solid #0066CC;
+  outline-offset: 2px;
+}
+
+.accessible-legend-color {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.accessible-legend-label {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* High contrast legend */
+@media (prefers-contrast: high) {
+  .accessible-legend-color {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+
+  .accessible-legend-label {
+    color: inherit;
+  }
+}
+
+/* ============================================================================
+   Loading State
+   ============================================================================ */
+
+.chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: #6b7280;
+}
+
+.chart-loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-loading-spinner {
+    animation: none;
+  }
+}
+
+/* ============================================================================
+   Error State
+   ============================================================================ */
+
+.chart-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 2rem;
+  color: #dc2626;
+  text-align: center;
+}
+
+.chart-error-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.chart-error-message {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ============================================================================
+   Print Styles
+   ============================================================================ */
+
+@media print {
+  .accessible-chart-container {
+    outline: none !important;
+  }
+
+  .focus-indicator,
+  .keyboard-hints {
+    display: none !important;
+  }
+
+  .accessible-data-table {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* ============================================================================
+   Dark Mode Support
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  .accessible-chart-container:focus,
+  .accessible-chart-container:focus-visible {
+    outline-color: #60a5fa;
+  }
+
+  .accessible-data-table th {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .accessible-data-table td {
+    border-color: #374151;
+    color: #e5e7eb;
+  }
+
+  .accessible-legend-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .accessible-legend-label {
+    color: #e5e7eb;
+  }
+
+  .chart-loading {
+    color: #9ca3af;
+  }
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 640px) {
+  .accessible-chart-container {
+    outline-offset: 1px;
+  }
+
+  .keyboard-hints {
+    font-size: 0.75rem;
+  }
+
+  .accessible-legend {
+    gap: 0.5rem;
+  }
+
+  .accessible-legend-item {
+    font-size: 0.75rem;
+  }
+}
+
+/* ============================================================================
+   Touch Device Support
+   ============================================================================ */
+
+@media (hover: none) and (pointer: coarse) {
+  .chart-data-point {
+    /* Increase touch target size */
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .accessible-legend-item {
+    padding: 0.5rem 0.75rem;
+  }
+}

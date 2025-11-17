@@ -53,23 +53,23 @@ const COLORS = {
   gradient2: '#65ff00',
 };
 
-// Unit economics data
+// Unit economics data (standardized across business plan)
 const unitEconomics: UnitEconomicsData = {
-  cac: 15000,
-  ltv: 219000,
-  ratio: 14.6,
+  cac: 12500,
+  ltv: 100000,
+  ratio: 8.0,
   paybackMonths: 4.2,
-  firstYearValue: 60000,
-  expansionRevenue: 80000,
-  retentionValue: 79000,
-  grossMargin: 0.92,
+  firstYearValue: 35000,
+  expansionRevenue: 40000,
+  retentionValue: 25000,
+  grossMargin: 0.70, // Aligned with 2030 gross margin projection
 };
 
 // Product-level breakdown
 const productBreakdown: ProductBreakdown[] = [
-  { product: 'Qm9 (Finance)', cac: 18000, ltv: 280000, ratio: 15.6, paybackMonths: 3.8 },
-  { product: 'QDiana (Education)', cac: 12000, ltv: 180000, ratio: 15.0, paybackMonths: 4.5 },
-  { product: 'Zipminator (Security)', cac: 15000, ltv: 200000, ratio: 13.3, paybackMonths: 4.8 },
+  { product: 'Qm9 (Finance)', cac: 15000, ltv: 120000, ratio: 8.0, paybackMonths: 4.0 },
+  { product: 'QDiana (Education)', cac: 10000, ltv: 80000, ratio: 8.0, paybackMonths: 4.2 },
+  { product: 'Zipminator (Security)', cac: 12500, ltv: 100000, ratio: 8.0, paybackMonths: 4.5 },
 ];
 
 // Calculate waterfall steps
@@ -194,7 +194,11 @@ export const UnitEconomicsChart: React.FC<UnitEconomicsChartProps> = ({ classNam
   };
 
   return (
-    <div className={`bg-gradient-to-br from-[#000212] to-[#001a2e] rounded-xl p-6 border border-[#04a3ff]/30 ${className}`}>
+    <div
+      className={`bg-gradient-to-br from-[#000212] to-[#001a2e] rounded-xl p-6 border border-[#04a3ff]/30 ${className}`}
+      role="region"
+      aria-label="Unit Economics Waterfall showing customer acquisition cost of $12.5K flowing to lifetime value of $100K with 8:1 LTV/CAC ratio and 4.2 month payback period"
+    >
       {/* Header */}
       <div className="mb-6">
         <h3 className="text-2xl font-bold text-white mb-2">Unit Economics Waterfall</h3>
@@ -218,12 +222,12 @@ export const UnitEconomicsChart: React.FC<UnitEconomicsChartProps> = ({ classNam
         <div className="bg-[#000212]/60 rounded-lg p-4 border border-[#04a3ff]/20">
           <div className="text-gray-400 text-xs mb-1">Gross Margin</div>
           <div className="text-2xl font-bold text-[#04a3ff]">{(unitEconomics.grossMargin * 100).toFixed(0)}%</div>
-          <div className="text-xs text-gray-500 mt-1">Premium tier</div>
+          <div className="text-xs text-gray-500 mt-1">2030 projection</div>
         </div>
         <div className="bg-[#000212]/60 rounded-lg p-4 border border-[#04a3ff]/20">
           <div className="text-gray-400 text-xs mb-1">Customer LTV</div>
           <div className="text-2xl font-bold text-[#04a3ff]">${(unitEconomics.ltv / 1000).toFixed(0)}K</div>
-          <div className="text-xs text-gray-500 mt-1">+76% vs benchmark</div>
+          <div className="text-xs text-gray-500 mt-1">Enterprise segment</div>
         </div>
       </div>
 
@@ -238,6 +242,8 @@ export const UnitEconomicsChart: React.FC<UnitEconomicsChartProps> = ({ classNam
                 ? 'bg-[#04a3ff] text-white'
                 : 'bg-[#04a3ff]/20 text-gray-300 hover:bg-[#04a3ff]/30'
             }`}
+            aria-pressed={selectedProduct === 'All Products'}
+            aria-label="View all products unit economics"
           >
             All Products
           </button>
@@ -250,6 +256,14 @@ export const UnitEconomicsChart: React.FC<UnitEconomicsChartProps> = ({ classNam
                   ? 'bg-[#65ff00] text-black'
                   : 'bg-[#65ff00]/20 text-gray-300 hover:bg-[#65ff00]/30'
               }`}
+              aria-pressed={selectedProduct === product.product}
+              aria-label={`View ${product.product} unit economics details`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedProduct(product.product);
+                }
+              }}
             >
               {product.product}
             </button>
@@ -258,10 +272,17 @@ export const UnitEconomicsChart: React.FC<UnitEconomicsChartProps> = ({ classNam
       </div>
 
       {/* Waterfall Chart */}
-      <ResponsiveContainer width="100%" height={450}>
+      <ResponsiveContainer
+        width="100%"
+        height={450}
+        role="region"
+        aria-label={`Unit economics waterfall for ${selectedProduct} showing progression from customer acquisition cost of $12.5K through first year revenue $${unitEconomics.firstYearValue.toLocaleString()}, expansion revenue $${unitEconomics.expansionRevenue.toLocaleString()}, and retention value $${unitEconomics.retentionValue.toLocaleString()} to final lifetime value of $100K with industry-leading 8:1 LTV/CAC ratio, 4.2 month payback period, and 70% gross margin`}
+        tabIndex={0}
+      >
         <ComposedChart
           data={waterfallData}
           margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+          title="Unit economics from acquisition to lifetime value with waterfall visualization"
         >
           <defs>
             <linearGradient id="waterfallGradient" x1="0" y1="0" x2="0" y2="1">
@@ -358,17 +379,17 @@ export const UnitEconomicsChart: React.FC<UnitEconomicsChartProps> = ({ classNam
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-[#000212]/60 rounded-lg p-4 border border-[#65ff00]/20">
           <h4 className="text-white font-semibold mb-2 text-sm">QDaria</h4>
-          <div className="text-[#65ff00] text-2xl font-bold">14.6:1</div>
+          <div className="text-[#65ff00] text-2xl font-bold">8:1</div>
           <div className="text-gray-400 text-xs mt-1">LTV/CAC Ratio</div>
         </div>
         <div className="bg-[#000212]/60 rounded-lg p-4 border border-[#ffbb00]/20">
           <h4 className="text-white font-semibold mb-2 text-sm">Industry Average</h4>
-          <div className="text-[#ffbb00] text-2xl font-bold">6:1</div>
+          <div className="text-[#ffbb00] text-2xl font-bold">3:1</div>
           <div className="text-gray-400 text-xs mt-1">LTV/CAC Ratio</div>
         </div>
         <div className="bg-[#000212]/60 rounded-lg p-4 border border-[#04a3ff]/20">
           <h4 className="text-white font-semibold mb-2 text-sm">Advantage</h4>
-          <div className="text-[#04a3ff] text-2xl font-bold">+143%</div>
+          <div className="text-[#04a3ff] text-2xl font-bold">+167%</div>
           <div className="text-gray-400 text-xs mt-1">Better than avg</div>
         </div>
       </div>

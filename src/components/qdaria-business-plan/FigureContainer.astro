@@ -1,0 +1,109 @@
+---
+/**
+ * FigureContainer - Reusable component for charts, diagrams, and visual data
+ * Handles automatic numbering, captions, and source citations
+ */
+
+interface Props {
+  number: number;
+  title: string;
+  source?: string;
+  sourceUrl?: string;
+  className?: string;
+  exportable?: boolean;
+}
+
+const { number, title, source, sourceUrl, className = '', exportable = false } = Astro.props;
+---
+
+<figure class={`bp-figure ${className}`} id={`figure-${number}`}>
+  <figcaption class="bp-figure-caption">
+    <span class="bp-figure-number">Figure {number}:</span> {title}
+  </figcaption>
+
+  <div class="bp-figure-container">
+    <slot />
+  </div>
+
+  {(source || sourceUrl) && (
+    <div class="bp-figure-source">
+      Source: {sourceUrl ? (
+        <a href={sourceUrl} class="bp-source-link" target="_blank" rel="noopener noreferrer">
+          {source || sourceUrl}
+        </a>
+      ) : (
+        source
+      )}
+    </div>
+  )}
+
+  {exportable && (
+    <button
+      class="bp-export-button bp-no-print"
+      data-figure={number}
+      aria-label={`Export Figure ${number} as image`}
+    >
+      Export as PNG
+    </button>
+  )}
+</figure>
+
+<style>
+  .bp-export-button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .bp-export-button:hover {
+    background: #0284c7;
+  }
+
+  .bp-export-button:active {
+    transform: scale(0.98);
+  }
+</style>
+
+<script>
+  // Export functionality using html2canvas
+  document.querySelectorAll('.bp-export-button').forEach(button => {
+    button.addEventListener('click', async (e) => {
+      const figureNumber = (e.target as HTMLElement).dataset.figure;
+      const figure = document.getElementById(`figure-${figureNumber}`);
+
+      if (!figure) return;
+
+      try {
+        // Dynamic import to reduce bundle size
+        const html2canvas = await import('html2canvas');
+        const canvas = await html2canvas.default(figure, {
+          backgroundColor: '#ffffff',
+          scale: 2, // Higher quality
+          logging: false
+        });
+
+        // Convert to blob and download
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `qdaria-business-plan-figure-${figureNumber}.png`;
+          a.click();
+
+          URL.revokeObjectURL(url);
+        });
+      } catch (error) {
+        console.error('Export failed:', error);
+        alert('Failed to export figure. Please try again.');
+      }
+    });
+  });
+</script>

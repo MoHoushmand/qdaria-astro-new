@@ -11,35 +11,36 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { Button } from '@/components/pitch-deck/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-deck/ui/card';
+import { Button } from '@/components/qdaria-business-plan/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/qdaria-business-plan/ui/card';
 import { Download } from 'lucide-react';
+import { CHART_THEME, standardTooltipStyle, standardAxisStyle, standardGridStyle } from '@/styles/chart-theme';
 
 // Revenue data with three scenarios
 const revenueDataByScenario = {
   conservative: [
-    { year: 2025, qm9: 0.2, qdiana: 0.15, zipminator: 0.1, other: 0.25 },
-    { year: 2026, qm9: 1.8, qdiana: 1.2, zipminator: 0.9, other: 2.1 },
-    { year: 2027, qm9: 4.5, qdiana: 3.75, zipminator: 2.25, other: 4.5 },
-    { year: 2028, qm9: 11.25, qdiana: 9.375, zipminator: 5.625, other: 11.25 },
-    { year: 2029, qm9: 33.75, qdiana: 28.125, zipminator: 16.875, other: 33.75 },
-    { year: 2030, qm9: 78.75, qdiana: 65.625, zipminator: 39.375, other: 78.75 },
+    { year: 2025, qm9: 0.15, qdiana: 0.1, zipminator: 0.08, other: 0.2 },
+    { year: 2026, qm9: 1.2, qdiana: 0.8, zipminator: 0.6, other: 1.4 },
+    { year: 2027, qm9: 3.0, qdiana: 2.5, zipminator: 1.5, other: 3.0 },
+    { year: 2028, qm9: 7.5, qdiana: 6.25, zipminator: 3.75, other: 7.5 },
+    { year: 2029, qm9: 22.5, qdiana: 18.75, zipminator: 11.25, other: 22.5 },
+    { year: 2030, qm9: 52.5, qdiana: 43.75, zipminator: 26.25, other: 52.5 },
   ],
   base: [
+    { year: 2025, qm9: 0.125, qdiana: 0.1, zipminator: 0.1, other: 0.175 },
+    { year: 2026, qm9: 0.25, qdiana: 0.2, zipminator: 0.2, other: 0.35 },
+    { year: 2027, qm9: 1.25, qdiana: 1.0, zipminator: 1.0, other: 1.75 },
+    { year: 2028, qm9: 5.0, qdiana: 4.0, zipminator: 4.0, other: 7.0 },
+    { year: 2029, qm9: 12.5, qdiana: 10.0, zipminator: 10.0, other: 17.5 },
+    { year: 2030, qm9: 25.0, qdiana: 20.0, zipminator: 20.0, other: 35.0 },
+  ],
+  optimistic: [
     { year: 2025, qm9: 0.3, qdiana: 0.2, zipminator: 0.15, other: 0.35 },
     { year: 2026, qm9: 2.4, qdiana: 1.6, zipminator: 1.2, other: 2.8 },
     { year: 2027, qm9: 6.0, qdiana: 5.0, zipminator: 3.0, other: 6.0 },
     { year: 2028, qm9: 15.0, qdiana: 12.5, zipminator: 7.5, other: 15.0 },
     { year: 2029, qm9: 45.0, qdiana: 37.5, zipminator: 22.5, other: 45.0 },
     { year: 2030, qm9: 105.0, qdiana: 87.5, zipminator: 52.5, other: 105.0 },
-  ],
-  optimistic: [
-    { year: 2025, qm9: 0.4, qdiana: 0.3, zipminator: 0.2, other: 0.5 },
-    { year: 2026, qm9: 3.2, qdiana: 2.4, zipminator: 1.6, other: 4.0 },
-    { year: 2027, qm9: 8.0, qdiana: 7.0, zipminator: 4.2, other: 8.4 },
-    { year: 2028, qm9: 20.0, qdiana: 17.5, zipminator: 10.5, other: 21.0 },
-    { year: 2029, qm9: 60.0, qdiana: 52.5, zipminator: 31.5, other: 63.0 },
-    { year: 2030, qm9: 140.0, qdiana: 122.5, zipminator: 73.5, other: 147.0 },
   ],
 };
 
@@ -52,11 +53,12 @@ interface ProductVisibility {
   other: boolean;
 }
 
+// Use theme colors
 const PRODUCT_COLORS = {
-  qm9: '#04a3ff',
-  qdiana: '#00ffd3',
-  zipminator: '#65ff00',
-  other: '#9b59b6',
+  qm9: CHART_THEME.colors.primary,
+  qdiana: CHART_THEME.colors.secondary,
+  zipminator: CHART_THEME.colors.accent,
+  other: CHART_THEME.colors.palette.purple,
 } as const;
 
 const PRODUCT_LABELS = {
@@ -87,26 +89,30 @@ export const RevenueProjectionsChart: React.FC = () => {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-xl">
-          <p className="text-white font-bold mb-2">{label}</p>
+        <div style={standardTooltipStyle}>
+          <p style={{ color: CHART_THEME.colors.text.primary, fontWeight: 'bold', marginBottom: '8px' }}>{label}</p>
           {payload.reverse().map((entry: any, index: number) => (
-            <div key={`item-${index}`} className="flex items-center gap-2 mb-1">
+            <div key={`item-${index}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
               <div
-                className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: entry.color }}
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor: entry.color
+                }}
               />
-              <span className="text-gray-300 text-sm">
+              <span style={{ color: CHART_THEME.colors.text.secondary, fontSize: CHART_THEME.typography.sizes.sm }}>
                 {PRODUCT_LABELS[entry.dataKey as keyof typeof PRODUCT_LABELS]}:
               </span>
-              <span className="text-white font-semibold">
+              <span style={{ color: CHART_THEME.colors.text.primary, fontWeight: CHART_THEME.typography.weights.bold }}>
                 ${entry.value.toFixed(1)}M
               </span>
             </div>
           ))}
-          <div className="border-t border-gray-700 mt-2 pt-2">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-300 text-sm">Total:</span>
-              <span className="text-white font-bold">
+          <div style={{ borderTop: `1px solid ${CHART_THEME.colors.chart.grid}`, marginTop: '8px', paddingTop: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ color: CHART_THEME.colors.text.secondary, fontSize: CHART_THEME.typography.sizes.sm }}>Total:</span>
+              <span style={{ color: CHART_THEME.colors.text.primary, fontWeight: CHART_THEME.typography.weights.bold }}>
                 ${payload.reduce((sum: number, p: any) => sum + p.value, 0).toFixed(1)}M
               </span>
             </div>
@@ -172,6 +178,14 @@ export const RevenueProjectionsChart: React.FC = () => {
                       ? 'bg-blue-600 text-white'
                       : 'text-gray-400 hover:text-white hover:bg-gray-700'
                   }`}
+                  aria-pressed={scenario === s}
+                  aria-label={`Select ${s} revenue scenario`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setScenario(s);
+                    }
+                  }}
                 >
                   {s.charAt(0).toUpperCase() + s.slice(1)}
                 </button>
@@ -222,10 +236,17 @@ export const RevenueProjectionsChart: React.FC = () => {
         </div>
 
         {/* Stacked Area Chart */}
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer
+          width="100%"
+          height={400}
+          role="region"
+          aria-label={`Revenue projections for ${scenario} scenario from 2025 to 2030. Total 2025: $${enrichedData[0].total.toFixed(1)}M, Total 2030: $${enrichedData[enrichedData.length - 1].total.toFixed(1)}M. Products: Qm9 Neural Processor, QDiana AI Platform, Zipminator Framework, and Other Products`}
+          tabIndex={0}
+        >
           <AreaChart
             data={enrichedData}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            title={`Revenue projections by product for ${scenario} scenario`}
           >
             <defs>
               <linearGradient id="colorQm9" x1="0" y1="0" x2="0" y2="1">
@@ -245,17 +266,14 @@ export const RevenueProjectionsChart: React.FC = () => {
                 <stop offset="95%" stopColor={PRODUCT_COLORS.other} stopOpacity={0.2} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <CartesianGrid {...standardGridStyle} />
             <XAxis
               dataKey="year"
-              stroke="#9CA3AF"
-              tick={{ fill: '#9CA3AF' }}
-              tickLine={{ stroke: '#374151' }}
+              {...standardAxisStyle}
+              tickFormatter={(value) => value}
             />
             <YAxis
-              stroke="#9CA3AF"
-              tick={{ fill: '#9CA3AF' }}
-              tickLine={{ stroke: '#374151' }}
+              {...standardAxisStyle}
               tickFormatter={(value) => `$${value}M`}
             />
             <Tooltip content={<CustomTooltip />} />
@@ -312,35 +330,22 @@ export const RevenueProjectionsChart: React.FC = () => {
               data={enrichedData}
               margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <CartesianGrid {...standardGridStyle} />
               <XAxis
                 dataKey="year"
-                stroke="#9CA3AF"
-                tick={{ fill: '#9CA3AF' }}
-                tickLine={{ stroke: '#374151' }}
+                {...standardAxisStyle}
               />
               <YAxis
-                stroke="#9CA3AF"
-                tick={{ fill: '#9CA3AF' }}
-                tickLine={{ stroke: '#374151' }}
+                {...standardAxisStyle}
                 tickFormatter={(value) => `$${value}M`}
               />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#1F2937',
-                  border: '1px solid #374151',
-                  borderRadius: '0.5rem',
-                }}
-                labelStyle={{ color: '#fff' }}
-                itemStyle={{ color: '#fff' }}
-                formatter={(value: number) => [`$${value.toFixed(1)}M`, 'Total Revenue']}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Line
                 type="monotone"
                 dataKey="total"
-                stroke="#FBBF24"
+                stroke={CHART_THEME.colors.accent}
                 strokeWidth={3}
-                dot={{ fill: '#FBBF24', r: 5 }}
+                dot={{ fill: CHART_THEME.colors.accent, r: 5 }}
                 activeDot={{ r: 7 }}
               />
             </LineChart>

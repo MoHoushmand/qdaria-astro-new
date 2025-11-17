@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/pitch-deck/ui/card';
-import { Badge } from '@/components/pitch-deck/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/qdaria-business-plan/ui/card';
+import { Badge } from '@/components/qdaria-business-plan/ui/badge';
 
 interface SWOTItem {
   category: string;
@@ -105,6 +105,16 @@ export const SWOTChart: React.FC = () => {
           isSelected ? 'ring-4 ring-white/20 scale-105' : 'hover:scale-102'
         }`}
         onClick={() => setSelectedQuadrant(isSelected ? null : quadrant)}
+        role="button"
+        tabIndex={0}
+        aria-pressed={isSelected}
+        aria-label={`${title} quadrant with ${items.length} items. ${items.map(i => `${i.category}: ${i.item} (${i.score}/10)`).join(', ')}. Click to ${isSelected ? 'collapse' : 'expand'}`}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setSelectedQuadrant(isSelected ? null : quadrant);
+          }
+        }}
       >
         <CardHeader className="pb-3">
           <CardTitle className={`flex items-center gap-2 text-lg ${colors.text}`}>
@@ -154,11 +164,17 @@ export const SWOTChart: React.FC = () => {
           </p>
         </CardHeader>
         <CardContent>
-          <div className="h-[500px] w-full">
+          <div
+            className="h-[500px] w-full"
+            role="region"
+            aria-label="SWOT analysis radar chart showing QDaria's strategic position across 5 metrics: Technology, Market, Competition, Resources, and Innovation. Strengths: Fibonacci anyon technology (9/10), 7 venture products (9/10), Rigetti collaboration (8/10). Opportunities: $1.3T market by 2035 (10/10), Nordic first-mover (9/10). Weaknesses: Startup scale (3/10), unproven topological qubits (4/10). Threats: IBM/Google competition (7/10), technical scaling risk (6/10)"
+            tabIndex={0}
+          >
             <ResponsiveRadar
               data={radarData}
               keys={['Strengths', 'Opportunities', 'Weaknesses', 'Threats']}
               indexBy="metric"
+              title="SWOT analysis across technology, market, competition, resources, and innovation"
               maxValue={10}
               margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
               curve="linearClosed"

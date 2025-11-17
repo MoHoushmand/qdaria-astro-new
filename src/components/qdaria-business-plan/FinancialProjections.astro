@@ -1,0 +1,356 @@
+---
+/**
+ * Financial Projections - 5-year revenue model, cost structure, funding requirements
+ * Conservative projections with market validation
+ */
+import FigureContainer from './FigureContainer.astro';
+import SourceLink from './SourceLink.astro';
+---
+
+<section class="bp-section bp-section-numbered bp-page-break-before" data-section-number="5" id="financial-projections">
+  <div class="bp-section-header">
+    <h1 class="bp-h1">Financial Projections</h1>
+  </div>
+
+  <p class="bp-body">
+    QDaria's financial model is built on conservative assumptions validated by market research
+    and comparable company analysis. Our projections reflect a capital-efficient path to
+    profitability while investing aggressively in R&D and talent acquisition.
+  </p>
+
+  <h2 class="bp-h2">Revenue Model</h2>
+
+  <h3 class="bp-h3">Revenue Streams</h3>
+
+  <div class="bp-grid-3 bp-mb-medium">
+    <div class="bp-callout">
+      <h4 class="bp-h4" style="margin-top: 0; font-size: 1rem;">Hardware Sales</h4>
+      <p style="margin: 0; font-size: 0.875rem;">
+        Topological quantum processors and complete quantum computing systems
+      </p>
+    </div>
+    <div class="bp-callout">
+      <h4 class="bp-h4" style="margin-top: 0; font-size: 1rem;">Cloud Access</h4>
+      <p style="margin: 0; font-size: 0.875rem;">
+        Quantum-as-a-Service platform with pay-per-use pricing
+      </p>
+    </div>
+    <div class="bp-callout">
+      <h4 class="bp-h4" style="margin-top: 0; font-size: 1rem;">Consulting & Support</h4>
+      <p style="margin: 0; font-size: 0.875rem;">
+        Algorithm development, optimization, and enterprise integration
+      </p>
+    </div>
+  </div>
+
+  <h3 class="bp-h3">5-Year Revenue Projection</h3>
+
+  <table class="bp-table">
+    <thead>
+      <tr>
+        <th>Revenue Stream</th>
+        <th>2025</th>
+        <th>2026</th>
+        <th>2027</th>
+        <th>2028</th>
+        <th>2029</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Hardware Sales</strong></td>
+        <td class="bp-number">$0M</td>
+        <td class="bp-number">$8M</td>
+        <td class="bp-number">$45M</td>
+        <td class="bp-number">$120M</td>
+        <td class="bp-number">$250M</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 2rem; font-size: 0.875rem;">Early Adopter Systems</td>
+        <td class="bp-number">—</td>
+        <td class="bp-number">$5M</td>
+        <td class="bp-number">$20M</td>
+        <td class="bp-number">$40M</td>
+        <td class="bp-number">$60M</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 2rem; font-size: 0.875rem;">Commercial Systems</td>
+        <td class="bp-number">—</td>
+        <td class="bp-number">$3M</td>
+        <td class="bp-number">$25M</td>
+        <td class="bp-number">$80M</td>
+        <td class="bp-number">$190M</td>
+      </tr>
+      <tr>
+        <td><strong>Cloud Access (QaaS)</strong></td>
+        <td class="bp-number">$0M</td>
+        <td class="bp-number">$5M</td>
+        <td class="bp-number">$28M</td>
+        <td class="bp-number">$75M</td>
+        <td class="bp-number">$140M</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 2rem; font-size: 0.875rem;">Enterprise Subscriptions</td>
+        <td class="bp-number">—</td>
+        <td class="bp-number">$3M</td>
+        <td class="bp-number">$18M</td>
+        <td class="bp-number">$50M</td>
+        <td class="bp-number">$90M</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 2rem; font-size: 0.875rem;">Research Access</td>
+        <td class="bp-number">—</td>
+        <td class="bp-number">$2M</td>
+        <td class="bp-number">$10M</td>
+        <td class="bp-number">$25M</td>
+        <td class="bp-number">$50M</td>
+      </tr>
+      <tr>
+        <td><strong>Consulting & Support</strong></td>
+        <td class="bp-number">$2M</td>
+        <td class="bp-number">$8M</td>
+        <td class="bp-number">$20M</td>
+        <td class="bp-number">$35M</td>
+        <td class="bp-number">$60M</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 2rem; font-size: 0.875rem;">Algorithm Development</td>
+        <td class="bp-number">$1M</td>
+        <td class="bp-number">$4M</td>
+        <td class="bp-number">$10M</td>
+        <td class="bp-number">$18M</td>
+        <td class="bp-number">$30M</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 2rem; font-size: 0.875rem;">Integration Services</td>
+        <td class="bp-number">$1M</td>
+        <td class="bp-number">$4M</td>
+        <td class="bp-number">$10M</td>
+        <td class="bp-number">$17M</td>
+        <td class="bp-number">$30M</td>
+      </tr>
+      <tr class="bp-total">
+        <td><strong>Total Revenue</strong></td>
+        <td class="bp-number"><strong>$2M</strong></td>
+        <td class="bp-number"><strong>$21M</strong></td>
+        <td class="bp-number"><strong>$93M</strong></td>
+        <td class="bp-number"><strong>$230M</strong></td>
+        <td class="bp-number"><strong>$450M</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <FigureContainer
+    number={5}
+    title="Revenue Growth Trajectory (2025-2029)"
+    source="QDaria Internal Financial Model"
+    exportable={true}
+  >
+    <div class="bp-chart">
+      <div style="padding: 2rem; text-align: center;">
+        <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 200px; border-bottom: 2px solid #cbd5e1;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 60px; background: linear-gradient(to top, #0ea5e9, #06b6d4); height: 10px; border-radius: 4px 4px 0 0;"></div>
+            <div style="margin-top: 0.5rem; font-weight: 600;">$2M</div>
+            <div style="font-size: 0.75rem; color: #64748b;">2025</div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 60px; background: linear-gradient(to top, #0ea5e9, #06b6d4); height: 40px; border-radius: 4px 4px 0 0;"></div>
+            <div style="margin-top: 0.5rem; font-weight: 600;">$21M</div>
+            <div style="font-size: 0.75rem; color: #64748b;">2026</div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 60px; background: linear-gradient(to top, #0ea5e9, #06b6d4); height: 90px; border-radius: 4px 4px 0 0;"></div>
+            <div style="margin-top: 0.5rem; font-weight: 600;">$93M</div>
+            <div style="font-size: 0.75rem; color: #64748b;">2027</div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 60px; background: linear-gradient(to top, #0ea5e9, #06b6d4); height: 140px; border-radius: 4px 4px 0 0;"></div>
+            <div style="margin-top: 0.5rem; font-weight: 600;">$230M</div>
+            <div style="font-size: 0.75rem; color: #64748b;">2028</div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 60px; background: linear-gradient(to top, #0ea5e9, #06b6d4); height: 180px; border-radius: 4px 4px 0 0;"></div>
+            <div style="margin-top: 0.5rem; font-weight: 600;">$450M</div>
+            <div style="font-size: 0.75rem; color: #64748b;">2029</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </FigureContainer>
+
+  <h2 class="bp-h2">Cost Structure</h2>
+
+  <table class="bp-table">
+    <thead>
+      <tr>
+        <th>Expense Category</th>
+        <th>2025</th>
+        <th>2026</th>
+        <th>2027</th>
+        <th>2028</th>
+        <th>2029</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>R&D</strong></td>
+        <td class="bp-number">$25M</td>
+        <td class="bp-number">$38M</td>
+        <td class="bp-number">$52M</td>
+        <td class="bp-number">$75M</td>
+        <td class="bp-number">$95M</td>
+      </tr>
+      <tr>
+        <td><strong>Personnel</strong></td>
+        <td class="bp-number">$8M</td>
+        <td class="bp-number">$15M</td>
+        <td class="bp-number">$28M</td>
+        <td class="bp-number">$48M</td>
+        <td class="bp-number">$75M</td>
+      </tr>
+      <tr>
+        <td><strong>Manufacturing & Infrastructure</strong></td>
+        <td class="bp-number">$5M</td>
+        <td class="bp-number">$12M</td>
+        <td class="bp-number">$25M</td>
+        <td class="bp-number">$42M</td>
+        <td class="bp-number">$65M</td>
+      </tr>
+      <tr>
+        <td><strong>Sales & Marketing</strong></td>
+        <td class="bp-number">$3M</td>
+        <td class="bp-number">$6M</td>
+        <td class="bp-number">$12M</td>
+        <td class="bp-number">$22M</td>
+        <td class="bp-number">$38M</td>
+      </tr>
+      <tr>
+        <td><strong>General & Administrative</strong></td>
+        <td class="bp-number">$4M</td>
+        <td class="bp-number">$7M</td>
+        <td class="bp-number">$12M</td>
+        <td class="bp-number">$18M</td>
+        <td class="bp-number">$27M</td>
+      </tr>
+      <tr class="bp-total">
+        <td><strong>Total Operating Expenses</strong></td>
+        <td class="bp-number"><strong>$45M</strong></td>
+        <td class="bp-number"><strong>$78M</strong></td>
+        <td class="bp-number"><strong>$129M</strong></td>
+        <td class="bp-number"><strong>$205M</strong></td>
+        <td class="bp-number"><strong>$300M</strong></td>
+      </tr>
+      <tr style="background: #fee2e2;">
+        <td><strong>EBITDA</strong></td>
+        <td class="bp-number"><strong>($43M)</strong></td>
+        <td class="bp-number"><strong>($57M)</strong></td>
+        <td class="bp-number"><strong>($36M)</strong></td>
+        <td class="bp-number"><strong>$25M</strong></td>
+        <td class="bp-number"><strong>$150M</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="bp-h2">Funding Requirements</h2>
+
+  <div class="bp-callout bp-callout-info">
+    <h3 class="bp-h3" style="margin-top: 0;">Series A: $50M</h3>
+    <p style="margin-bottom: 1rem;">
+      QDaria is seeking $50M in Series A funding to achieve critical technical milestones
+      and establish market leadership in topological quantum computing.
+    </p>
+
+    <h4 class="bp-h4">Use of Funds</h4>
+    <table class="bp-table" style="margin: 0;">
+      <tbody>
+        <tr>
+          <td><strong>R&D & Product Development</strong></td>
+          <td class="bp-number">$22M (44%)</td>
+        </tr>
+        <tr>
+          <td><strong>Talent Acquisition</strong></td>
+          <td class="bp-number">$12M (24%)</td>
+        </tr>
+        <tr>
+          <td><strong>Infrastructure & Equipment</strong></td>
+          <td class="bp-number">$8M (16%)</td>
+        </tr>
+        <tr>
+          <td><strong>Strategic Partnerships</strong></td>
+          <td class="bp-number">$4M (8%)</td>
+        </tr>
+        <tr>
+          <td><strong>IP & Legal</strong></td>
+          <td class="bp-number">$2M (4%)</td>
+        </tr>
+        <tr>
+          <td><strong>Working Capital</strong></td>
+          <td class="bp-number">$2M (4%)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="bp-h3">Funding Milestones</h3>
+
+  <div class="bp-grid-2">
+    <div>
+      <h4 class="bp-h4">Year 1-2 Milestones ($50M Series A)</h4>
+      <ul class="bp-body-small">
+        <li>5-qubit topological prototype (Q2 2025)</li>
+        <li>10-qubit demonstration system (Q4 2025)</li>
+        <li>First enterprise pilot programs (Q2 2026)</li>
+        <li>Team expansion to 80 employees</li>
+        <li>3-5 key patent filings</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="bp-h4">Year 3-4 Milestones ($120M Series B)</h4>
+      <ul class="bp-body-small">
+        <li>50-qubit commercial system (Q2 2027)</li>
+        <li>Cloud platform launch (Q4 2027)</li>
+        <li>10+ enterprise customers</li>
+        <li>Team expansion to 250 employees</li>
+        <li>European market leadership</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="bp-h2">Path to Profitability</h2>
+
+  <p class="bp-body">
+    QDaria projects positive EBITDA by Q3 2028, achieving operational profitability ahead
+    of comparable quantum computing companies. Our path to profitability is accelerated by:
+  </p>
+
+  <ul class="bp-body">
+    <li><strong>Capital efficiency:</strong> Topological approach requires fewer physical qubits, reducing manufacturing costs</li>
+    <li><strong>Premium pricing:</strong> Fault-tolerant systems command 3-5x price premium over NISQ devices</li>
+    <li><strong>Recurring revenue:</strong> Cloud platform generates high-margin subscription revenue</li>
+    <li><strong>Strategic focus:</strong> Target high-value enterprise customers with complex quantum computing needs</li>
+  </ul>
+
+  <div class="bp-callout bp-callout-success">
+    <p style="margin: 0; text-align: center;">
+      <strong>Projected Break-Even:</strong> Q3 2028<br>
+      <strong>Projected Positive Cash Flow:</strong> Q1 2029
+    </p>
+  </div>
+</section>
+
+<style>
+  .bp-grid-2,
+  .bp-grid-3 {
+    margin-bottom: 2rem;
+  }
+
+  ul.bp-body-small {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+  }
+
+  ul.bp-body-small li {
+    margin-bottom: 0.5rem;
+  }
+</style>

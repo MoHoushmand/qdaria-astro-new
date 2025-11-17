@@ -1,0 +1,118 @@
+{
+  "default": {
+    "sources": [
+      "QDaria Financial Model v4.1 (2025)",
+      "Company Internal Projections"
+    ],
+    "dataDate": "January 2025"
+  },
+  "market": {
+    "sources": [
+      "McKinsey Global Institute Quantum Report (2024)",
+      "BCG Quantum Computing Market Analysis (2024)",
+      "Gartner Emerging Technologies: Quantum Computing (2024)",
+      "IDC Quantum Computing Market Forecast (2024-2030)"
+    ],
+    "dataDate": "December 2024"
+  },
+  "financial": {
+    "sources": [
+      "QDaria Financial Model v4.1 (2025)",
+      "SaaS Capital Benchmarking Report (2024)",
+      "PitchBook SaaS Metrics Dashboard (2024)"
+    ],
+    "dataDate": "January 2025"
+  },
+  "quantum-industry": {
+    "sources": [
+      "Quantum Computing Report Industry Analysis (2024)",
+      "Nature: Quantum Computing Progress Review (2024)",
+      "IEEE Quantum Technology Roadmap (2024)",
+      "NIST Post-Quantum Cryptography Standards (2024)"
+    ],
+    "dataDate": "Q4 2024"
+  },
+  "competitors": {
+    "sources": [
+      "Crunchbase Company Database (2024)",
+      "PitchBook Quantum Computing Sector Report (2024)",
+      "Company Public Filings and Announcements",
+      "QDaria Competitive Intelligence Analysis"
+    ],
+    "dataDate": "December 2024"
+  },
+  "risk": {
+    "sources": [
+      "QDaria Internal Risk Assessment v3.2",
+      "KPMG Technology Risk Framework (2024)",
+      "Deloitte Quantum Computing Risk Report (2024)"
+    ],
+    "dataDate": "January 2025"
+  },
+  "zipminator": {
+    "sources": [
+      "QDaria Zipminator Product Roadmap v2.4",
+      "NIST Post-Quantum Cryptography Standards (2024)",
+      "Gartner Post-Quantum Cryptography Market Report (2024)",
+      "QDaria Pricing Strategy Model"
+    ],
+    "dataDate": "January 2025"
+  },
+  "tam-sam-som": {
+    "sources": [
+      "McKinsey Global Institute: $1.3T Quantum Market TAM (2024)",
+      "BCG: Serviceable Market Analysis (2024)",
+      "QDaria Market Penetration Model v3.1",
+      "Frost & Sullivan: Quantum Computing Adoption Forecast"
+    ],
+    "dataDate": "Q4 2024"
+  },
+  "roadmap": {
+    "sources": [
+      "QDaria Strategic Roadmap 2024-2030",
+      "Product Development Timeline v5.2",
+      "Engineering Capacity Planning Model"
+    ],
+    "dataDate": "January 2025"
+  },
+  "team": {
+    "sources": [
+      "QDaria Organizational Structure (2025)",
+      "LinkedIn Talent Intelligence (2024)",
+      "Radford Global Technology Survey (2024)"
+    ],
+    "dataDate": "January 2025"
+  },
+  "ipo": {
+    "sources": [
+      "QDaria IPO Readiness Assessment (2024)",
+      "Renaissance Capital IPO Market Report (2024)",
+      "PwC Technology IPO Trends (2024)"
+    ],
+    "dataDate": "Q4 2024"
+  },
+  "unit-economics": {
+    "sources": [
+      "QDaria Unit Economics Model v4.0",
+      "SaaS Capital CAC/LTV Benchmarks (2024)",
+      "OpenView SaaS Benchmarks Report (2024)"
+    ],
+    "dataDate": "January 2025"
+  },
+  "swot": {
+    "sources": [
+      "QDaria Strategic Analysis Framework (2024)",
+      "Porter's Five Forces Analysis - Quantum Computing",
+      "Internal Strategy Review Q4 2024"
+    ],
+    "dataDate": "December 2024"
+  },
+  "funding": {
+    "sources": [
+      "QDaria Funding History and Projections",
+      "Crunchbase Quantum Computing Funding Data (2024)",
+      "PitchBook Venture Capital Analysis (2024)"
+    ],
+    "dataDate": "January 2025"
+  }
+}

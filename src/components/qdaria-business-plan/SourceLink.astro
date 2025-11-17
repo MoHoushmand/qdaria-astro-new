@@ -1,0 +1,56 @@
+---
+/**
+ * SourceLink - Hyperlinked citations with automatic footnote generation
+ * Converts mentions to clickable links with proper attribution
+ */
+
+interface Props {
+  url: string;
+  text?: string;
+  footnote?: boolean;
+  inline?: boolean;
+}
+
+const { url, text, footnote = false, inline = true } = Astro.props;
+
+// Extract domain for display if no text provided
+const displayText = text || new URL(url).hostname.replace('www.', '');
+
+// Generate footnote ID if needed
+const footnoteId = footnote ? `fn-${Math.random().toString(36).substr(2, 9)}` : null;
+---
+
+{inline ? (
+  <>
+    <a
+      href={url}
+      class="bp-source-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Link to ${displayText}`}
+    >
+      {displayText}
+    </a>
+    {footnote && <sup class="bp-footnote" id={`ref-${footnoteId}`}>[{footnoteId}]</sup>}
+  </>
+) : (
+  <div class="bp-citation">
+    <a
+      href={url}
+      class="bp-source-link"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {displayText}
+    </a>
+    {footnote && <sup class="bp-footnote">[{footnoteId}]</sup>}
+  </div>
+)}
+
+<style>
+  .bp-citation {
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+</style>

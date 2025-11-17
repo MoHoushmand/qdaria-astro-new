@@ -3,25 +3,51 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import compress from "astro-compress";
+import node from '@astrojs/node';
+import auth from 'auth-astro';
 
 import sentry from '@sentry/astro';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind({
-    applyBaseStyles: true,
-  }), react(), mdx(), ...(process.env.NODE_ENV === 'production' ? [compress({
-    CSS: true,
-    HTML: {
-      removeAttributeQuotes: false,
-      collapseWhitespace: true,
-      removeComments: true,
-    },
-    Image: false, // We're handling images separately with sharp
-    JavaScript: true,
-    SVG: true,
-    Logger: 1, // Minimal logging
-  })] : []), sentry()],
+  integrations: [
+    auth(),
+    tailwind({
+      applyBaseStyles: true,
+    }),
+    react(),
+    mdx(),
+    ...(process.env.NODE_ENV === 'production' ? [compress({
+      CSS: true,
+      HTML: {
+        removeAttributeQuotes: false,
+        collapseWhitespace: true,
+        removeComments: true,
+      },
+      Image: false, // We're handling images separately with sharp
+      JavaScript: true,
+      SVG: true,
+      Logger: 1, // Minimal logging
+    })] : []),
+    // Sentry error tracking - only upload source maps in production with valid token
+    ...(process.env.NODE_ENV === 'production' && process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_AUTH_TOKEN !== 'placeholder'
+      ? [sentry({
+          sourceMapsUploadOptions: {
+            telemetry: false,
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          },
+        })]
+      : [sentry({
+          sourceMapsUploadOptions: {
+            enabled: false,
+            telemetry: false,
+          },
+        })]
+    )
+  ],
+  adapter: node({
+    mode: 'standalone',
+  }),
   build: {
     inlineStylesheets: 'never', // Never inline for better caching
     assetsInlineLimit: 1024, // Inline only very small assets (1KB threshold)
@@ -54,7 +80,7 @@ export default defineConfig({
     }
   },
   site: 'https://qdaria.com',
-  output: 'static',
+  output: 'server',
   vite: {
     build: {
       // Target modern browsers for smaller bundles (es2022 supports top-level await)

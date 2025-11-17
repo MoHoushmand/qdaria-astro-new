@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/pitch-dec
 import { Badge } from '@/components/pitch-deck/ui/badge';
 import ChartTab from './ChartTab';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, FunnelChart, Funnel, RadialBarChart, RadialBar } from 'recharts';
-import { DollarSign, Repeat, Users, Zap, Target, TrendingUp, Building, Layers } from 'lucide-react';
+import { DollarSign, Users, Zap, Target, TrendingUp, Building, Layers } from 'lucide-react';
 
 const EnhancedBusinessModelSlide: React.FC = () => {
   const customerSegments = [
