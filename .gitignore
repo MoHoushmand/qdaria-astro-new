@@ -62,6 +62,7 @@ Thumbs.db
 !/QDaria.pdf
 !/olaf.md
 !/yonas.md
+!/scripts
 
 # Local Netlify folder
 .netlify
