@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
 
 // components
 import Accordion from "@components/Accordion/Accordion.astro";
@@ -13,27 +13,27 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     question: "What is topological quantum computing?",
-    answer: "Topological quantum computing is a revolutionary approach that uses special quantum states called anyons to create inherently stable qubits. Unlike traditional quantum computers that require complex error correction, our topological qubits are protected by the fundamental laws of physics, making them naturally resistant to errors and decoherence."
+    answer: "Topological quantum computing is a promising approach that uses special quantum states called anyons to create inherently stable qubits. Unlike traditional quantum computers that require complex error correction, topological qubits are protected by the fundamental laws of physics, making them naturally resistant to errors and decoherence. This is the approach QDaria is researching and developing."
   },
   {
     question: "What are Fibonacci anyons and why are they important?",
-    answer: "Fibonacci anyons are exotic quantum particles that exist in two-dimensional systems. They are crucial for quantum computing because their braiding operations are naturally universal for quantum computation. This means they can perform any quantum calculation while maintaining topological protection, making them ideal for building reliable quantum computers."
+    answer: "Fibonacci anyons are exotic quantum particles that exist in two-dimensional systems. They are theoretically crucial for quantum computing because their braiding operations are naturally universal for quantum computation. This means they could perform any quantum calculation while maintaining topological protection, making them promising candidates for building reliable quantum computers."
   },
   {
-    question: "How does your technology achieve quantum advantage?",
-    answer: "Our platform achieves quantum advantage through three key innovations: 1) Topologically protected qubits with error rates below 0.01%, 2) Long coherence times up to 1000x greater than traditional approaches, and 3) Scalable architecture supporting 100+ logical qubits. This enables us to solve complex problems in optimization, cryptography, and simulation that are intractable for classical computers."
+    question: "What is QDaria's approach to quantum computing?",
+    answer: "QDaria is researching Fibonacci anyon-based topological quantum computing. Our focus is on: 1) Developing theoretical frameworks for topologically protected qubits, 2) Exploring material systems that could host anyons, and 3) Building toward a scalable architecture. We're in the R&D phase, working to demonstrate these capabilities in future experimental implementations."
   },
   {
-    question: "What industries can benefit from your quantum solutions?",
-    answer: "Our quantum computing platform offers advantages across multiple industries: Financial services (portfolio optimization, risk analysis), Pharmaceuticals (drug discovery, molecular modeling), Cybersecurity (post-quantum cryptography), Logistics (supply chain optimization), and AI/ML (quantum machine learning, pattern recognition)."
+    question: "What industries could benefit from topological quantum computing?",
+    answer: "Once developed, topological quantum computing could offer advantages across multiple industries: Financial services (portfolio optimization, risk analysis), Pharmaceuticals (drug discovery, molecular modeling), Cybersecurity (post-quantum cryptography), Logistics (supply chain optimization), and AI/ML (quantum machine learning, pattern recognition)."
   },
   {
-    question: "How can organizations start using your quantum platform?",
-    answer: "Organizations can access our quantum computing capabilities through our secure cloud platform, which provides a comprehensive API and development tools. We offer flexible engagement models from proof-of-concept projects to full enterprise integration, along with expert consultation to identify and implement quantum solutions for your specific needs."
+    question: "How can organizations get involved with QDaria?",
+    answer: "Organizations interested in quantum computing can partner with QDaria through research collaborations, join our early access program for future platforms, or engage with our consulting services to prepare for the quantum era. Contact us to discuss partnership opportunities and stay updated on our progress."
   },
   {
-    question: "What makes your approach more reliable than other quantum computers?",
-    answer: "Traditional quantum computers rely on active error correction and require thousands of physical qubits to create a single logical qubit. Our topological approach using Fibonacci anyons provides inherent stability at the hardware level, requiring minimal error correction and enabling reliable scaling of logical qubits. This results in higher computational capacity and more reliable quantum operations."
+    question: "What makes topological quantum computing promising?",
+    answer: "Traditional quantum computers rely on active error correction and require thousands of physical qubits to create a single logical qubit. Topological approaches using Fibonacci anyons could provide inherent stability at the hardware level, potentially requiring minimal error correction and enabling reliable scaling of logical qubits. This is why QDaria is focused on this approach for long-term quantum computing solutions."
   }
 ];
 ---
@@ -46,7 +46,7 @@ const faqData: FaqItem[] = [
         Understanding Topological Quantum Computing
       </h2>
       <p class="description mt-6 md:text-lg">
-        Learn how our revolutionary approach using Fibonacci anyons enables stable, scalable quantum computing for real-world applications.
+        Learn about our research into Fibonacci anyon-based quantum computing and how this approach could enable stable, scalable quantum systems.
       </p>
     </div>
     <div class="flex flex-col gap-3" data-aos="fade-left">

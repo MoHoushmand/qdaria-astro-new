@@ -417,26 +417,26 @@ const TechnologySlide: React.FC = () => {
             </div>
           </Card>
 
-          {/* Algorithm Performance Benefits */}
+          {/* Research Application Targets */}
           <Card className="qdaria-card p-6">
             <h3 className="text-xl font-semibold text-white mb-6 text-center">
-              Quantum Advantage in Real-World Applications
+              Research Application Targets
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-cyan-400/20">
-                <div className="text-3xl font-bold text-cyan-400 mb-2">10,000x</div>
+                <div className="text-3xl font-bold text-cyan-400 mb-2">VQE</div>
                 <div className="text-sm text-slate-400 font-light font-semibold mb-2">Chemistry Simulation</div>
-                <p className="text-xs text-gray-400">VQE accelerates molecular modeling for drug discovery</p>
+                <p className="text-xs text-gray-400">Researching variational quantum eigensolver for molecular modeling</p>
               </div>
               <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-green-400/20">
-                <div className="text-3xl font-bold text-green-400 mb-2">100x</div>
+                <div className="text-3xl font-bold text-green-400 mb-2">QAOA</div>
                 <div className="text-sm text-slate-400 font-light font-semibold mb-2">Optimization</div>
-                <p className="text-xs text-gray-400">QAOA solves complex logistics and portfolio problems</p>
+                <p className="text-xs text-gray-400">Developing quantum approximate optimization algorithms</p>
               </div>
               <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-purple-400/20">
-                <div className="text-3xl font-bold text-purple-400 mb-2">50x</div>
+                <div className="text-3xl font-bold text-purple-400 mb-2">QML</div>
                 <div className="text-sm text-slate-400 font-light font-semibold mb-2">Pattern Recognition</div>
-                <p className="text-xs text-gray-400">QML enhances AI training and inference speed</p>
+                <p className="text-xs text-gray-400">Exploring quantum machine learning approaches</p>
               </div>
             </div>
           </Card>

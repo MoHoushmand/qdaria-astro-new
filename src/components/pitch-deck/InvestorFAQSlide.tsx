@@ -87,12 +87,12 @@ const InvestorFAQSlide: React.FC = () => {
     {
       id: 'tech-4',
       category: 'technical',
-      question: 'What\'s your quantum advantage over classical systems?',
-      answer: 'We demonstrate quantum advantage in three validated use cases: (1) Drug discovery molecular simulation: 10,000x speedup for molecules with 50+ atoms, (2) Portfolio optimization: 100x faster for 200+ asset portfolios, (3) Machine learning: 50x acceleration in pattern recognition tasks. Our advantage comes from hybrid quantum-classical algorithms that intelligently route problems to optimal compute resources.',
+      question: 'What\'s your expected quantum advantage over classical systems?',
+      answer: 'Our research targets quantum advantage in three key areas: (1) Drug discovery molecular simulation: potential for significant speedup for complex molecules, (2) Portfolio optimization: faster analysis for large asset portfolios, (3) Machine learning: accelerated pattern recognition. These are research targets based on theoretical projections for topological quantum computing once operational.',
       supportingData: [
-        { label: 'Chemistry Simulation', value: '10,000x speedup', icon: <TrendingUp className="w-4 h-4" /> },
-        { label: 'Optimization', value: '100x faster', icon: <BarChart3 className="w-4 h-4" /> },
-        { label: 'Pattern Recognition', value: '50x acceleration', icon: <Cpu className="w-4 h-4" /> }
+        { label: 'Chemistry Simulation', value: 'Research target', icon: <TrendingUp className="w-4 h-4" /> },
+        { label: 'Optimization', value: 'In development', icon: <BarChart3 className="w-4 h-4" /> },
+        { label: 'Pattern Recognition', value: 'Projected', icon: <Cpu className="w-4 h-4" /> }
       ],
       relatedSlides: ['Technology', 'Product', 'Solution']
     },
@@ -101,12 +101,12 @@ const InvestorFAQSlide: React.FC = () => {
     {
       id: 'business-1',
       category: 'business',
-      question: 'Who are your main customers and why do they buy?',
-      answer: 'Our customers are Fortune 500 enterprises facing computational crises: (1) Pharmaceutical companies spending $2.6B/drug on molecular simulations, (2) Financial institutions running billion-dollar portfolios requiring real-time risk analysis, (3) Energy companies optimizing trillion-dollar grids. They buy QDaria because we deliver enterprise-ready quantum solutions TODAY—not research projects or cloud experiments, but production-deployed systems with 99.9% uptime SLAs.',
+      question: 'Who are your target customers?',
+      answer: 'We target Fortune 500 enterprises facing computational challenges: (1) Pharmaceutical companies spending $2.6B/drug on molecular simulations, (2) Financial institutions running large portfolios requiring complex risk analysis, (3) Energy companies optimizing grids. Our research focuses on developing quantum solutions that could address these computational needs as the technology matures.',
       supportingData: [
         { label: 'Target Market', value: 'Fortune 500 Enterprises', icon: <Building2 className="w-4 h-4" /> },
-        { label: 'Pharma Savings', value: '$2.6B/drug reduction potential', icon: <DollarSign className="w-4 h-4" /> },
-        { label: 'Deployment Status', value: 'Production-ready (99.9% SLA)', icon: <CheckCircle className="w-4 h-4" /> }
+        { label: 'Pharma Opportunity', value: '$2.6B/drug simulation costs', icon: <DollarSign className="w-4 h-4" /> },
+        { label: 'Development Stage', value: 'R&D Phase', icon: <CheckCircle className="w-4 h-4" /> }
       ],
       relatedSlides: ['Market', 'Solution', 'Customers']
     },
@@ -240,11 +240,11 @@ const InvestorFAQSlide: React.FC = () => {
       id: 'risks-2',
       category: 'risks',
       question: 'What are the biggest risks to this investment?',
-      answer: 'Key risks & mitigations: (1) Technology risk: Quantum computing fails to deliver advantage → Mitigation: Already demonstrating 10,000x speedups in drug discovery, hybrid quantum-AI approach provides value regardless, (2) Competition: Tech giants enter market → Mitigation: Hardware ownership + vertical specialization + Management Events exclusivity create defensible moat, (3) Market timing: Enterprises delay adoption → Mitigation: 32 paying customers TODAY prove demand, Management Events pipeline validates urgency, (4) Talent: Cannot hire quantum engineers → Mitigation: 96% retention, U. Oslo partnership, only Nordic commercial QPU attracts top talent.',
+      answer: 'Key risks & mitigations: (1) Technology risk: Quantum computing takes longer than expected → Mitigation: Topological approach offers theoretical advantages, hybrid quantum-AI research provides intermediate value, (2) Competition: Tech giants enter market → Mitigation: Specialized focus on topological qubits and Nordic market positioning, (3) Market timing: Enterprises delay adoption → Mitigation: Building relationships and educating market now, (4) Talent: Quantum engineering talent scarcity → Mitigation: University partnerships (U. Oslo, NTNU), competitive compensation.',
       supportingData: [
-        { label: 'Technology Validation', value: '10,000x drug discovery speedup', icon: <CheckCircle className="w-4 h-4" /> },
-        { label: 'Market Proof', value: '32 customers, €180K ARR', icon: <Users className="w-4 h-4" /> },
-        { label: 'Talent Success', value: '96% retention, U. Oslo partnership', icon: <Award className="w-4 h-4" /> }
+        { label: 'Technology Approach', value: 'Topological qubits R&D', icon: <CheckCircle className="w-4 h-4" /> },
+        { label: 'Market Strategy', value: 'Nordic market focus', icon: <Users className="w-4 h-4" /> },
+        { label: 'Talent Pipeline', value: 'University partnerships', icon: <Award className="w-4 h-4" /> }
       ],
       relatedSlides: ['Risk Mitigation', 'Competitive']
     },
@@ -252,11 +252,11 @@ const InvestorFAQSlide: React.FC = () => {
       id: 'risks-3',
       category: 'risks',
       question: 'Why should I invest in QDaria vs other quantum startups?',
-      answer: 'QDaria\'s unique advantages: (1) Hardware ownership: We OWN Novera QPU (€2.8M invested)—competitors rent cloud access, (2) First-mover: ONLY commercial quantum computer in Norway, 18-month head start, 18.7% Nordic market share, (3) Proven sales: Management Events 406x ROI (€38.4K → €15.6M pipeline), 60 C-suite meetings competitors cannot access, (4) Capital efficiency: 14.6:1 LTV/CAC (industry: 6:1), 6.2-month payback (industry: 12), (5) European advantage: GDPR data sovereignty moat vs US competitors. Top 5 European quantum startup (Startup Genome).',
+      answer: 'QDaria\'s differentiation: (1) Topological approach: Researching Fibonacci anyon-based qubits for inherent error protection, (2) Nordic positioning: Building presence in Norway with access to strong academic institutions, (3) Team expertise: Combined quantum physics, applied mathematics, and enterprise experience, (4) European focus: Positioned for GDPR-compliant, European data sovereignty requirements, (5) Long-term vision: Focused on fundamental breakthrough rather than incremental improvements.',
       supportingData: [
-        { label: 'Hardware Moat', value: '€2.8M Novera QPU ownership', icon: <Cpu className="w-4 h-4" /> },
-        { label: 'Market Position', value: 'Only Nordic commercial QPU', icon: <Award className="w-4 h-4" /> },
-        { label: 'Capital Efficiency', value: '14.6:1 LTV/CAC, 6.2mo payback', icon: <BarChart3 className="w-4 h-4" /> }
+        { label: 'Technical Approach', value: 'Topological qubits research', icon: <Cpu className="w-4 h-4" /> },
+        { label: 'Market Position', value: 'Nordic quantum focus', icon: <Award className="w-4 h-4" /> },
+        { label: 'Team', value: 'Physics + Math + Enterprise', icon: <BarChart3 className="w-4 h-4" /> }
       ],
       relatedSlides: ['Competitive', 'Financials', 'Traction']
     }

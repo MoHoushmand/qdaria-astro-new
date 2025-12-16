@@ -7,42 +7,43 @@ import Aniket from "../../assets/images/aniket_p.jpg";
 import David from "../../assets/images/david-g-davedev.png";
 import Damiano from "../../assets/images/damiano.jpg";
 
+// Note: These are vision statements about topological quantum computing, not endorsements of existing products
 export const testimonialData: TestimonialItem[] = [
   {
     avatar: Aniket,
-    name: "Dr. Sarah Chen",
-    title: "Quantum Research Director, BlueFors",
-    testimonial: "QDaria's Fibonacci anyon platform represents a fundamental breakthrough in quantum computing. Their topological protection approach achieves unprecedented stability in quantum operations."
+    name: "Industry Perspective",
+    title: "Quantum Computing Research",
+    testimonial: "Topological quantum computing using Fibonacci anyons represents one of the most promising paths toward fault-tolerant quantum systems. This approach could fundamentally change how we think about qubit stability."
   },
   {
     avatar: BowTiedFocus,
-    name: "Prof. Michael Schmidt",
-    title: "Head of Quantum Computing, ETH Zürich",
-    testimonial: "The coherence times and error rates we've observed in QDaria's system are remarkable. Their topological approach could be the key to scaling quantum computers."
+    name: "Academic Viewpoint",
+    title: "Theoretical Physics",
+    testimonial: "The topological approach to quantum computing offers inherent error protection that conventional methods struggle to achieve. Research in this area could unlock scalable quantum architectures."
   },
   {
     avatar: TravisB,
-    name: "Dr. James Wilson",
-    title: "Chief Scientist, Rigetti Computing",
-    testimonial: "QDaria's innovative use of Fibonacci anyons for quantum computation is impressive. Their platform shows great promise for achieving quantum advantage in real-world applications."
+    name: "Research Insight",
+    title: "Quantum Technology",
+    testimonial: "Fibonacci anyons have unique mathematical properties that make them theoretically ideal for universal quantum computation. Advancing this research is critical for the field."
   },
   {
     avatar: Isaac,
-    name: "Dr. Elena Rodriguez",
-    title: "Quantum Applications Lead, QM9",
-    testimonial: "We've successfully implemented quantum optimization algorithms on QDaria's platform. The stability and coherence times are unlike anything we've seen before."
+    name: "Future Applications",
+    title: "Quantum Algorithms",
+    testimonial: "Once topological qubits are realized, they could enable quantum algorithms to run with unprecedented reliability, opening doors for optimization, simulation, and cryptography applications."
   },
   {
     avatar: David,
-    name: "Dr. Thomas Anderson",
-    title: "Research Director, Z Quantum Labs",
-    testimonial: "QDaria's topological quantum computing platform has enabled us to explore entirely new approaches to quantum simulation. The results are extremely promising."
+    name: "Technology Vision",
+    title: "Quantum Innovation",
+    testimonial: "The race toward practical quantum computing requires exploring all promising approaches. Topological methods offer a compelling path that deserves continued investment and research."
   },
   {
     avatar: Damiano,
-    name: "Dr. Maria Petrov",
-    title: "Head of Quantum Research, CTD Systems",
-    testimonial: "The integration of QDaria's quantum platform with our existing systems has been seamless. Their cloud interface and development tools are exceptionally well-designed."
+    name: "Industry Outlook",
+    title: "Enterprise Technology",
+    testimonial: "Organizations preparing for the quantum era should understand different qubit technologies. Topological approaches promise easier scaling and better coherence for future enterprise applications."
   }
 ];
 
