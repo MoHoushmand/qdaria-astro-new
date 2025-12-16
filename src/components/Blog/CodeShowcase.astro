@@ -1,0 +1,134 @@
+---
+/**
+ * CodeShowcase - Tabbed code display for blog articles
+ * Usage in MDX:
+ * <CodeShowcase
+ *   title="Implementation Example"
+ *   tabs={[
+ *     { language: "Python", icon: "simple-icons:python", code: "..." },
+ *     { language: "Julia", icon: "simple-icons:julia", code: "..." }
+ *   ]}
+ * />
+ */
+import { Icon } from "astro-icon/components";
+import { Code } from "astro:components";
+
+interface CodeTab {
+  language: string;
+  icon?: string;
+  code: string;
+  lang?: "python" | "julia" | "javascript" | "typescript" | "rust" | "cpp" | "latex" | "bash" | "json";
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  tabs: CodeTab[];
+  id?: string;
+}
+
+const { title, description, tabs, id = `code-${Math.random().toString(36).slice(2, 9)}` } = Astro.props;
+
+// Map language names to Shiki language identifiers
+const langMap: Record<string, string> = {
+  python: "python",
+  julia: "julia",
+  javascript: "javascript",
+  typescript: "typescript",
+  rust: "rust",
+  cpp: "cpp",
+  latex: "latex",
+  bash: "bash",
+  json: "json",
+  default: "plaintext"
+};
+---
+
+<div class="code-showcase my-10 overflow-hidden rounded-xl border border-white/10 bg-base-950/80 backdrop-blur-sm">
+  {(title || description) && (
+    <div class="border-b border-white/10 px-5 py-4">
+      {title && <h3 class="text-lg font-semibold text-primary-400">{title}</h3>}
+      {description && <p class="mt-1 text-sm text-base-400">{description}</p>}
+    </div>
+  )}
+
+  <div class="tabs flex gap-1 overflow-x-auto border-b border-white/10 bg-base-900/50 px-3 py-2">
+    {tabs.map((tab, idx) => (
+      <button
+        class:list={[
+          "code-tab flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all",
+          "text-base-400 hover:bg-base-800 hover:text-base-200",
+          idx === 0 && "active"
+        ]}
+        data-showcase-id={id}
+        data-tab-idx={idx}
+        type="button"
+      >
+        {tab.icon && <Icon name={tab.icon} class="size-4" />}
+        <span>{tab.language}</span>
+      </button>
+    ))}
+  </div>
+
+  <div class="code-panels relative">
+    {tabs.map((tab, idx) => (
+      <div
+        class:list={[
+          "code-panel max-h-[500px] overflow-auto p-4",
+          idx !== 0 && "hidden"
+        ]}
+        data-showcase-id={id}
+        data-panel-idx={idx}
+      >
+        <Code
+          code={tab.code.trim()}
+          lang={tab.lang || langMap[tab.language.toLowerCase()] || "plaintext"}
+          theme="github-dark"
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  function setupCodeShowcase() {
+    document.querySelectorAll('.code-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const showcaseId = tab.getAttribute('data-showcase-id');
+        const tabIdx = tab.getAttribute('data-tab-idx');
+
+        // Update tabs
+        document.querySelectorAll(`.code-tab[data-showcase-id="${showcaseId}"]`).forEach(t => {
+          t.classList.remove('active');
+        });
+        tab.classList.add('active');
+
+        // Update panels
+        document.querySelectorAll(`.code-panel[data-showcase-id="${showcaseId}"]`).forEach(panel => {
+          if (panel.getAttribute('data-panel-idx') === tabIdx) {
+            panel.classList.remove('hidden');
+          } else {
+            panel.classList.add('hidden');
+          }
+        });
+      });
+    });
+  }
+
+  setupCodeShowcase();
+  document.addEventListener('astro:after-swap', setupCodeShowcase);
+</script>
+
+<style>
+  .code-tab.active {
+    @apply bg-primary-500/20 text-primary-400;
+  }
+
+  .code-showcase :global(pre) {
+    @apply m-0 bg-transparent;
+  }
+
+  .code-showcase :global(code) {
+    @apply text-sm;
+  }
+</style>

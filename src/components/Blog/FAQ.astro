@@ -1,0 +1,53 @@
+---
+/**
+ * FAQ component for blog articles with collapsible items
+ * Usage: <FAQ items={[{question: "...", answer: "..."}]} />
+ */
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+  title?: string;
+}
+
+const { items, title = "Frequently Asked Questions" } = Astro.props;
+---
+
+<section class="faq-section my-12">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    {title}
+  </h2>
+
+  <div class="space-y-4">
+    {items.map((item, index) => (
+      <details class="faq-item group" id={`faq-${index + 1}`}>
+        <summary class="faq-question cursor-pointer list-none flex items-center justify-between p-4 bg-slate-800/50 rounded-lg border border-cyan-400/20 hover:border-cyan-400/40 transition-all">
+          <span class="font-medium text-white pr-4">{item.question}</span>
+          <svg class="w-5 h-5 text-cyan-400 transition-transform group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="faq-answer mt-2 p-4 bg-slate-900/50 rounded-lg border border-slate-700/50 text-gray-300">
+          <Fragment set:html={item.answer} />
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item[open] summary {
+    border-color: rgba(0, 212, 255, 0.5);
+    background: rgba(0, 212, 255, 0.1);
+  }
+</style>

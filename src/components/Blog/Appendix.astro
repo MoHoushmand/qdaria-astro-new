@@ -1,0 +1,28 @@
+---
+/**
+ * Appendix wrapper component for academic papers
+ * Usage: <Appendix title="Appendix A: Additional Data">...</Appendix>
+ */
+interface Props {
+  title?: string;
+  id?: string;
+}
+
+const { title = "Appendix", id = "appendix" } = Astro.props;
+---
+
+<section class="appendix-section mt-16 pt-8 border-t-2 border-cyan-400/30" id={id}>
+  <h2 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-orange-400 bg-clip-text text-transparent mb-8">
+    {title}
+  </h2>
+
+  <div class="appendix-content space-y-8">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .appendix-section {
+    background: linear-gradient(180deg, rgba(0, 212, 255, 0.02) 0%, transparent 100%);
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+/**
+ * Numbered equation component for academic-style papers
+ * Usage: <Equation number="1" label="samples-ratio">...</Equation>
+ */
+interface Props {
+  number: number | string;
+  label?: string;
+}
+
+const { number, label } = Astro.props;
+const id = label ? `eq:${label}` : `eq:${number}`;
+---
+
+<div class="equation-container my-6 flex items-center justify-center gap-4" id={id}>
+  <div class="equation-content flex-1 text-center overflow-x-auto py-4">
+    <slot />
+  </div>
+  <span class="equation-number text-gray-400 font-mono text-sm whitespace-nowrap">
+    ({number})
+  </span>
+</div>
+
+<style>
+  .equation-container {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+    border-left: 3px solid rgba(0, 212, 255, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .equation-content :global(.katex) {
+    font-size: 1.1em;
+  }
+
+  .equation-number {
+    min-width: 2.5rem;
+    text-align: right;
+  }
+</style>

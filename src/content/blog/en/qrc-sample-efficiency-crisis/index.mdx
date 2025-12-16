@@ -1,0 +1,376 @@
+---
+title: "156-Qubit Quantum Reservoir Computing: The Largest Demonstration on Real Hardware"
+description: "We pushed quantum reservoir computing to 156 qubits on IBM's Heron processor, revealing a critical sample efficiency crisis that reshapes our understanding of quantum machine learning scalability."
+authors: ["daniel-mo-houshmand"]
+pubDate: "2025-12-13"
+heroImage: "/images/research/qrc/figure0_circuit_architecture.png"
+categories: ["Research", "Quantum Computing", "Machine Learning"]
+tags: ["QRC", "IBM Quantum", "Rigetti", "Reservoir Computing", "Sample Efficiency"]
+---
+
+import Appendix from '@components/Blog/Appendix.astro';
+import ListOfFigures from '@components/Blog/ListOfFigures.astro';
+import ListOfTables from '@components/Blog/ListOfTables.astro';
+import Nomenclature from '@components/Blog/Nomenclature.astro';
+import FAQ from '@components/Blog/FAQ.astro';
+import Equation from '@components/Blog/Equation.astro';
+
+We have completed the largest quantum reservoir computing experiment ever performed on real quantum hardware. Using IBM's 156-qubit Heron r1 processor, we surpassed all previous demonstrations in the field. But the most important discovery was not about scale. It was about a fundamental crisis that changes how we must think about quantum machine learning.
+
+## What is Quantum Reservoir Computing?
+
+Before diving into our results, let us explain what quantum reservoir computing actually does. If you have ever seen a pond rippling after you throw a stone, you have seen a reservoir in action.
+
+A reservoir is any complex dynamical system that transforms inputs into rich patterns. When you throw a stone into a pond, the simple input (the splash) creates complex rippling patterns across the entire surface. These patterns encode information about the stone's size, speed, and entry angle in ways that would be difficult to compute directly.
+
+Reservoir computing harnesses this principle for machine learning. Instead of training every connection in a neural network (which is computationally expensive), you use a fixed dynamical system as your reservoir. You only train a simple linear readout that interprets the reservoir's patterns.
+
+Quantum reservoir computing uses a quantum system as the reservoir. Quantum systems are extraordinarily complex. Even a modest 50-qubit system has more possible states than there are atoms in the observable universe. This complexity could provide computational power that no classical reservoir can match.
+
+![Circuit Architecture](/images/research/qrc/figure0_circuit_architecture.png)
+*Figure 1: The quantum reservoir circuit architecture. Parameterized rotation gates (Ry) encode input data, while CNOT gates create entanglement between qubits. The measurement outcomes form the reservoir's feature vector.*
+
+## Our Circuit Architecture
+
+Our quantum reservoir uses a layered circuit design with three key components.
+
+The first component is input encoding. We use parameterized Ry rotation gates to encode classical data into the quantum state. Each data point gets mapped to a rotation angle. This transforms our time series data into quantum amplitudes.
+
+The second component is entanglement generation. CNOT gates create quantum correlations between qubits. These correlations are essential. Without entanglement, our quantum system would just be many independent classical bits. The entanglement creates the rich, complex dynamics that make quantum reservoirs powerful.
+
+The third component is measurement. We measure each qubit and record the expectation values. These measurements form our feature vector. A 156-qubit system produces 156 raw features, which we then expand through polynomial feature engineering.
+
+## The Three Systems We Tested
+
+We designed our experiment to systematically compare quantum reservoirs across different scales and configurations.
+
+### System 1: Small-Scale IBM (4 Qubits)
+
+Our first system used just 4 qubits on IBM hardware with 50 training samples. This represents a well-controlled regime where we have abundant data relative to the number of features.
+
+With 4 qubits producing 9 features (after our feature engineering), we achieve 5.56 samples per feature. This is a comfortable operating point. The classical readout layer has plenty of examples to learn from.
+
+### System 2: Large-Scale IBM Heron r1 (156 Qubits)
+
+Our second system scaled to IBM's full 156-qubit Heron r1 processor with 200 training samples. This is the largest quantum reservoir computing experiment on real hardware ever reported.
+
+The Heron r1 is IBM's latest generation of quantum processors, featuring improved coherence times and gate fidelities compared to earlier generations. We chose this system specifically to push the boundaries of what is possible on current hardware.
+
+With 156 qubits, we generate 156 raw features. The samples-per-feature ratio drops to just 1.28. This is dangerously low.
+
+### System 3: Simulated Rigetti Novera (9 Qubits)
+
+Our third system used a high-fidelity simulation of Rigetti's Novera processor with 640 training samples. We applied the full Steinegger-Räth feature engineering methodology, expanding the 9-qubit measurements to 3,375 features.
+
+Despite having just 9 qubits, this system represents the state of the art in quantum reservoir feature extraction. The polynomial expansion captures nonlinear combinations that dramatically increase representational power.
+
+## The Task: Spectral Energy Prediction
+
+All three systems tackled the same prediction task: forecasting the evolution of spectral energy data. This is a challenging time series prediction problem that requires the reservoir to capture both short-term dynamics and longer-range patterns.
+
+![Spectral Energy Data](/images/research/qrc/figure9_spectral_energy.png)
+*Figure 2: The spectral energy time series used in our experiments. The data exhibits complex oscillatory behavior with multiple frequency components, making it an ideal benchmark for reservoir computing.*
+
+Spectral energy prediction matters for applications ranging from audio processing to financial forecasting to physical simulations. A quantum reservoir that can predict spectral evolution could have immediate practical applications.
+
+## Performance Results: The Surprise
+
+Here are the $R^2$ scores (a measure of prediction accuracy, where $1.0$ is perfect):
+
+The 4-qubit system achieved $R^2 = 0.784$. This is solid performance. The quantum reservoir successfully captures the dynamics of the spectral data and produces accurate forecasts.
+
+The 156-qubit system achieved $R^2 = 0.723$. Despite having $39\times$ more qubits, performance actually decreased. More quantum resources led to worse results.
+
+The 9-qubit Rigetti simulation achieved $R^2 = 0.959$. The smallest qubit count produced the best performance by a significant margin.
+
+![Performance Comparison](/images/research/qrc/figure1_performance_comparison.png)
+*Figure 3: Performance comparison across our three quantum systems. The inverse relationship between qubit count and prediction accuracy reveals the sample efficiency crisis.*
+
+These results were not what we expected. The conventional wisdom in quantum machine learning has been that more qubits provide more computational power. Our experiments show this is dangerously oversimplified.
+
+## The Sample Efficiency Crisis Explained
+
+Why did more qubits lead to worse performance? The answer lies in sample efficiency.
+
+Machine learning requires data. Every feature you extract from your quantum system is a dimension that your classical readout must learn to interpret. More features means you need more training samples to avoid overfitting.
+
+Overfitting happens when your model memorizes the training data instead of learning the underlying patterns. A model with 156 features and only 200 training samples has enormous capacity to memorize. It fits the training data perfectly but fails on new data.
+
+![Sample Efficiency Analysis](/images/research/qrc/figure3_sample_efficiency.png)
+*Figure 4: Sample efficiency analysis showing the critical relationship between samples-per-feature ratio and model performance. Below roughly 2 samples per feature, overfitting dominates.*
+
+The mathematics is straightforward. If you have $N$ features and $M$ training samples, your samples-per-feature ratio is $M/N$. When this ratio drops below approximately $2$, you enter a danger zone where overfitting becomes severe.
+
+<Equation number={1} label="samples-ratio">
+$$\text{Samples-per-feature ratio} = \frac{M}{N}$$
+</Equation>
+
+Our 4-qubit system: $50 / 9 = 5.56$ — Safe.
+
+Our 156-qubit system: $200 / 156 = 1.28$ — Dangerous.
+
+Our 9-qubit simulation: $640 / 3375 = 0.19$ — This should be catastrophic, but aggressive ridge regularization saves it.
+
+## Why Ridge Regularization Matters
+
+Ridge regularization is a technique that penalizes large weights in the readout layer. Instead of finding the weights that perfectly fit the training data, ridge regression finds weights that fit reasonably well while staying small.
+
+Small weights mean the model cannot memorize individual training examples. It is forced to find patterns that generalize.
+
+The Rigetti simulation demonstrates the power of proper regularization. Even with an extremely low samples-per-feature ratio, careful tuning of the regularization strength achieves excellent performance.
+
+![Learning Curves](/images/research/qrc/figure8_learning_curves.png)
+*Figure 5: Learning curves showing how prediction error decreases with training samples. The gap between training and validation error indicates overfitting, which is most severe for the 156-qubit system.*
+
+The learning curves reveal the overfitting directly. For the 156-qubit system, training error is near zero (perfect memorization) while validation error remains high (poor generalization). The 9-qubit system with proper regularization shows training and validation errors converging, indicating genuine learning.
+
+## Forecast Trajectories: Seeing the Predictions
+
+What do the actual predictions look like? Here we show forecast trajectories comparing ground truth with each system's predictions.
+
+![Forecast Trajectories](/images/research/qrc/figure2_forecast_trajectories.png)
+*Figure 6: Forecast trajectories showing predicted versus actual spectral evolution. The 9-qubit Rigetti system tracks the ground truth most closely, while the 156-qubit system shows systematic deviations.*
+
+The 9-qubit system (green) closely tracks the ground truth (black dashed). It captures both the amplitude and phase of the oscillations with remarkable accuracy.
+
+The 4-qubit system (blue) performs reasonably well but shows some phase drift on longer time horizons. This is expected given the limited representational capacity of 4 qubits.
+
+The 156-qubit system (red) shows the largest deviations. Despite having the most quantum resources, it produces the least accurate forecasts. This is the sample efficiency crisis made visible.
+
+## Validating on Chaotic Systems
+
+Time series prediction is most challenging for chaotic systems, where small errors compound exponentially. To validate our findings, we tested on two canonical chaotic attractors.
+
+### The Lorenz-63 Attractor
+
+The Lorenz attractor is the original "butterfly effect" system, discovered by meteorologist Edward Lorenz in 1963. It has a Lyapunov exponent of $\lambda = 0.906$, meaning nearby trajectories diverge by a factor of e every 1.1 time units.
+
+Our QRC achieved $R^2 = 0.796$ on Lorenz prediction. This is impressive given the system's extreme sensitivity to initial conditions.
+
+### The Rössler Attractor
+
+The Rössler attractor has milder chaos with a Lyapunov exponent of $\lambda = 0.071$. Trajectories diverge more slowly, making prediction somewhat easier.
+
+Here we achieved $R^2 = 0.969$, near-perfect prediction of a chaotic system.
+
+![Lyapunov Comparison](/images/research/qrc/figure6_lyapunov_comparison.png)
+*Figure 7: QRC performance across chaotic systems with different Lyapunov exponents. The 13-fold range in chaos intensity demonstrates robust generalization.*
+
+The 13-fold range in Lyapunov exponents shows our approach works across the chaos spectrum. As expected from dynamical systems theory, prediction accuracy correlates inversely with the Lyapunov exponent. More chaotic systems are harder to predict.
+
+## The Steinegger-Räth Methodology
+
+Our best results came from applying the feature engineering framework developed by Steinegger and Räth in 2025. This methodology systematically expands the information extracted from quantum measurements.
+
+![Steinegger Flowchart](/images/research/qrc/figure7_steinegger_flowchart.png)
+*Figure 8: The Steinegger-Räth feature engineering pipeline. Raw quantum measurements flow through temporal multiplexing, spatial reservoir copies, and polynomial expansion to create rich feature vectors.*
+
+### Temporal Multiplexing (V = 5)
+
+Instead of measuring the quantum system once, we sample at multiple evolution times. This creates "virtual nodes" that capture how the quantum state develops.
+
+We used V = 5, meaning we take 5 measurement snapshots per input. This multiplies our feature count by 5 without adding physical qubits.
+
+### Spatial Reservoirs (r = 3)
+
+We run 3 independent copies of the quantum evolution with different random initializations. Each copy sees the same input but responds differently due to the random components.
+
+This is analogous to ensemble methods in classical machine learning. Multiple independent predictors combine to give more robust results.
+
+### Polynomial Expansion (G = 3)
+
+Raw expectation values are linear features. By computing products of measurements up to degree 3, we capture nonlinear interactions.
+
+If qi and qj are two qubit expectation values, we include not just qi and qj, but also qi×qj, qi², qj², qi²×qj, qi×qj², qi³, qj³, and qi×qj×qk for three-qubit combinations.
+
+Combined, these techniques transform 9 raw qubit measurements into 3,375 features: 5 (temporal) × 3 (spatial) × 225 (polynomial combinations of 9 qubits at degree 3).
+
+## Noise Characterization
+
+Real quantum hardware is noisy. Understanding how noise affects our results is essential for practical applications.
+
+![Noise Characterization](/images/research/qrc/figure11_noise_characterization.png)
+*Figure 9: Noise characterization across the IBM Heron r1 processor. Gate errors and decoherence vary significantly across the chip, affecting different qubit subsets differently.*
+
+The Heron r1 processor shows significant variation in noise levels across the chip. Some qubits have error rates below 0.1%, while others exceed 1%. We characterized readout errors, single-qubit gate errors, and two-qubit gate errors for the full processor.
+
+Interestingly, some noise may actually help reservoir computing. Noise introduces the kind of irreversibility that reservoirs need for the "fading memory" property. The optimal noise level balances information injection (which requires some noise) against information corruption (which destroys the signal).
+
+## Correlation Analysis
+
+What patterns does the quantum reservoir learn? We analyzed the correlation structure of our feature vectors.
+
+![Correlation Matrix](/images/research/qrc/figure10_correlation_matrix.png)
+*Figure 10: Correlation matrix of quantum reservoir features. Strong correlations appear in blocks corresponding to physically connected qubits, reflecting the entanglement structure of the circuit.*
+
+The correlation matrix reveals interesting structure. Features from physically connected qubits (those linked by CNOT gates) show strong correlations. This is the entanglement making itself visible in the measurements.
+
+Uncorrelated features are more informative, since each provides independent information. The off-diagonal structure suggests our circuit could be optimized to reduce redundant correlations.
+
+## Ablation Studies
+
+Which components of our methodology matter most? We performed ablation studies, systematically removing each component and measuring the impact.
+
+![Ablation Study](/images/research/qrc/figure5_ablation_study.png)
+*Figure 11: Ablation study results. Removing polynomial expansion has the largest impact, followed by temporal multiplexing. Spatial reservoirs contribute least to final performance.*
+
+Polynomial expansion is the most critical component. Without it, performance drops by 35%. The nonlinear feature combinations capture essential dynamics that linear features miss.
+
+Temporal multiplexing is second most important. Without multiple measurement times, we lose 20% performance. The quantum state's evolution contains information that a single snapshot misses.
+
+Spatial reservoirs contribute least. Removing them only costs 8% performance. This suggests that for our task, a single well-tuned reservoir may be nearly as good as an ensemble.
+
+## Topology Comparison
+
+We compared different circuit topologies to understand how connectivity affects reservoir quality.
+
+![Topology Comparison](/images/research/qrc/figure4_topology_comparison.png)
+*Figure 12: Performance comparison across circuit topologies. All-to-all connectivity performs best, but linear chains are surprisingly competitive and much easier to implement.*
+
+All-to-all connectivity (where every qubit can interact with every other) gives the best performance. This maximizes the reservoir's ability to mix information across all inputs.
+
+Surprisingly, simple linear chains (where each qubit connects only to its neighbors) are competitive. They achieve 90% of the all-to-all performance while being much easier to implement on real hardware.
+
+Ring topologies fall between these extremes. The additional connection from the last qubit to the first provides modest improvement over linear chains.
+
+## Computational Cost Analysis
+
+Quantum computing is expensive. We analyzed the computational cost of each approach.
+
+![Computational Cost](/images/research/qrc/figure12_computational_cost.png)
+*Figure 13: Computational cost breakdown showing circuit executions, classical post-processing, and total wall-clock time. The 156-qubit system requires the most resources despite worse performance.*
+
+The 156-qubit system requires the most quantum resources by far. Each circuit execution takes longer due to the larger circuit depth, and we need more shots (repeated measurements) to get reliable statistics from a larger system.
+
+Paradoxically, we pay more for worse results. The 9-qubit simulation delivers the best performance at the lowest quantum cost. The classical post-processing for polynomial expansion is cheap compared to quantum circuit execution.
+
+This has major implications for practical quantum machine learning. Throwing more qubits at a problem may waste quantum resources while degrading results.
+
+## Implications for Quantum Machine Learning
+
+Our findings challenge conventional wisdom in several ways.
+
+### Qubit Count is Not Everything
+
+The quantum machine learning community has celebrated each increase in qubit count as progress. Our results show this is dangerously naive. A 156-qubit system performs worse than a 9-qubit system when sample efficiency is ignored.
+
+Future benchmarks must report samples-per-feature ratios alongside qubit counts. A paper claiming "quantum advantage with 1000 qubits" means nothing without knowing how much training data was used.
+
+### Classical Post-Processing is Not Auxiliary
+
+The quantum community sometimes treats classical components as "just" readout, focusing attention on the quantum parts. Our results show classical post-processing is essential.
+
+The Rigetti simulation's success comes from careful regularization and feature engineering. Without this classical sophistication, the quantum features would be useless.
+
+Quantum and classical components must be co-designed. The best quantum reservoir is worthless without proper classical interpretation.
+
+### The Optimal Scale is Task-Dependent
+
+There is no universal "best" qubit count. The optimal scale depends on available training data, the prediction task's complexity, and the feature engineering approach.
+
+For typical experimental data volumes of 100-1000 samples, 8-16 qubits appears optimal. Scaling beyond this requires exponentially more training data to maintain sample efficiency.
+
+## Future Directions
+
+Several research directions emerge from our work.
+
+Adaptive feature selection could identify which quantum features are most informative for a given task. Instead of using all polynomial combinations, we could select a sparse subset that maximizes predictive power.
+
+Data augmentation techniques from classical machine learning might help stretch limited training sets. If we can synthetically generate additional training samples, we could support larger quantum reservoirs.
+
+Transfer learning could allow models trained on one task to bootstrap learning on related tasks. This would effectively increase the sample efficiency by reusing learned representations.
+
+Hardware-aware circuit design could optimize topologies for specific quantum processors. If we know which qubits are noisiest, we can design circuits that minimize their impact.
+
+## Conclusion
+
+We have presented the largest quantum reservoir computing experiment on real quantum hardware: 156 qubits on IBM's Heron r1 processor. But our key contribution is not the scale. It is the discovery of a fundamental sample efficiency crisis.
+
+More qubits do not automatically mean better results. Without proportional increases in training data, larger quantum systems perform worse due to overfitting. The field must move beyond qubit counting toward sample-efficient quantum machine learning.
+
+Our results point toward practical quantum reservoir computing. Small, well-engineered systems with sophisticated classical post-processing outperform large, naively deployed quantum processors. This is good news for near-term applications, as small systems are easier to build and operate.
+
+The path to quantum advantage in machine learning runs through sample efficiency, not just scale.
+
+## Read the Full Paper
+
+The complete paper with additional technical details is available:
+
+- [Zenodo (Open Access)](https://doi.org/10.5281/zenodo.17910992)
+- [ResearchGate](https://www.researchgate.net/publication/398615515)
+
+This research was conducted as part of QDaria's quantum machine learning program. For collaboration inquiries, contact mo@qdaria.com.
+
+---
+
+<Appendix title="Appendix">
+
+<ListOfFigures figures={[
+  { number: 1, caption: "The quantum reservoir circuit architecture with parameterized rotation gates and CNOT entanglement" },
+  { number: 2, caption: "Spectral energy time series used in experiments" },
+  { number: 3, caption: "Performance comparison across three quantum systems" },
+  { number: 4, caption: "Sample efficiency analysis showing samples-per-feature relationship" },
+  { number: 5, caption: "Learning curves showing overfitting behavior" },
+  { number: 6, caption: "Forecast trajectories comparing predictions vs ground truth" },
+  { number: 7, caption: "QRC performance across chaotic systems with different Lyapunov exponents" },
+  { number: 8, caption: "Steinegger-Räth feature engineering pipeline" },
+  { number: 9, caption: "Noise characterization across IBM Heron r1 processor" },
+  { number: 10, caption: "Correlation matrix of quantum reservoir features" },
+  { number: 11, caption: "Ablation study results" },
+  { number: 12, caption: "Performance comparison across circuit topologies" },
+  { number: 13, caption: "Computational cost breakdown" }
+]} />
+
+<ListOfTables tables={[]} />
+
+<Nomenclature items={[
+  { symbol: "$R^2$", definition: "Coefficient of determination (prediction accuracy)", unit: "—" },
+  { symbol: "$\\lambda$", definition: "Lyapunov exponent (chaos measure)", unit: "1/time" },
+  { symbol: "$N$", definition: "Number of features", unit: "—" },
+  { symbol: "$M$", definition: "Number of training samples", unit: "—" },
+  { symbol: "$V$", definition: "Number of temporal multiplexing steps", unit: "—" },
+  { symbol: "$r$", definition: "Number of spatial reservoir copies", unit: "—" },
+  { symbol: "$G$", definition: "Polynomial expansion degree", unit: "—" },
+  { symbol: "QRC", definition: "Quantum Reservoir Computing", unit: "—" },
+  { symbol: "CNOT", definition: "Controlled-NOT quantum gate", unit: "—" },
+  { symbol: "$R_y$", definition: "Rotation gate around Y-axis", unit: "radians" },
+  { symbol: "LTV:CAC", definition: "Lifetime Value to Customer Acquisition Cost ratio", unit: "—" },
+  { symbol: "CAGR", definition: "Compound Annual Growth Rate", unit: "%" }
+]} />
+
+<FAQ items={[
+  {
+    question: "What is quantum reservoir computing and how does it differ from classical reservoir computing?",
+    answer: "Quantum reservoir computing uses a quantum system as the dynamical reservoir instead of a classical one. The exponentially large Hilbert space of quantum systems (2^n states for n qubits) provides potentially richer dynamics than classical reservoirs. However, this also creates challenges with sample efficiency as shown in our research."
+  },
+  {
+    question: "Why did the 156-qubit system perform worse than the 9-qubit system?",
+    answer: "The 156-qubit system suffered from severe overfitting due to insufficient training data. With 156 features but only 200 training samples (1.28 samples per feature), the classical readout layer memorized the training data rather than learning generalizable patterns. The 9-qubit system with proper regularization achieved better generalization despite fewer quantum resources."
+  },
+  {
+    question: "What is the sample efficiency crisis?",
+    answer: "The sample efficiency crisis refers to the fundamental problem that larger quantum systems require exponentially more training data to avoid overfitting. Each additional qubit adds features that need to be learned, but training data in real applications is often limited. This means simply adding more qubits can actually degrade performance."
+  },
+  {
+    question: "How many qubits are optimal for quantum reservoir computing?",
+    answer: "Based on our experiments, 8-16 qubits appears optimal for typical experimental data volumes of 100-1000 samples. The optimal scale depends on available training data, task complexity, and feature engineering approach. More qubits require proportionally more training data."
+  },
+  {
+    question: "What is the Steinegger-Räth methodology?",
+    answer: "The Steinegger-Räth methodology is a feature engineering framework that systematically expands quantum measurements through: (1) temporal multiplexing (multiple measurement snapshots), (2) spatial reservoirs (multiple independent quantum evolutions), and (3) polynomial expansion (computing products of measurements). This transforms 9 raw qubit measurements into 3,375 rich features."
+  },
+  {
+    question: "Can noise help quantum reservoir computing?",
+    answer: "Interestingly, some noise may actually help reservoir computing by introducing irreversibility needed for the 'fading memory' property. The optimal noise level balances information injection against information corruption. However, excessive noise destroys the quantum signal entirely."
+  },
+  {
+    question: "What are the practical implications for quantum machine learning?",
+    answer: "Our findings suggest that: (1) qubit count alone is not a useful metric for quantum ML progress, (2) classical post-processing is essential and not auxiliary, (3) small well-engineered systems can outperform large naive ones, and (4) future benchmarks must report samples-per-feature ratios alongside qubit counts."
+  },
+  {
+    question: "Where can I access the full research paper?",
+    answer: "The complete paper with additional technical details is available on <a href='https://doi.org/10.5281/zenodo.17910992' class='text-cyan-400 hover:underline'>Zenodo (Open Access)</a> and <a href='https://www.researchgate.net/publication/398615515' class='text-cyan-400 hover:underline'>ResearchGate</a>."
+  }
+]} />
+
+</Appendix>
