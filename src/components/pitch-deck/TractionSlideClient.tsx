@@ -13,40 +13,48 @@ interface TractionSlideClientProps {
 const TractionSlideClient: React.FC<TractionSlideClientProps> = ({ scenario }) => {
   const [activeTab, setActiveTab] = useState('growth');
 
+  // NOTE: QDaria is in R&D phase - these are PROJECTED milestones, not actual data
+  // No customers, revenue, or deployments exist yet
   const growthData = [
-    { month: 'Jan', users: 120, revenue: 15000, partnerships: 2 },
-    { month: 'Feb', users: 280, revenue: 32000, partnerships: 4 },
-    { month: 'Mar', users: 450, revenue: 58000, partnerships: 6 },
-    { month: 'Apr', users: 720, revenue: 89000, partnerships: 8 },
-    { month: 'May', users: 1100, revenue: 125000, partnerships: 12 },
-    { month: 'Jun', users: 1650, revenue: 180000, partnerships: 15 }
+    { month: '2025 Q1', users: 0, revenue: 0, partnerships: 0 },
+    { month: '2025 Q2', users: 0, revenue: 0, partnerships: 0 },
+    { month: '2025 Q3', users: 0, revenue: 0, partnerships: 0 },
+    { month: '2025 Q4', users: 0, revenue: 0, partnerships: 0 },
+    { month: '2026 Q1', users: 0, revenue: 0, partnerships: 0 },
+    { month: '2026 Q2', users: 0, revenue: 0, partnerships: 0 }
   ];
 
+  // NOTE: These are R&D milestones - not product/revenue milestones
   const milestoneData = [
-    { category: 'Product', completed: 85, total: 100, color: '#CCFF00' },
-    { category: 'Partnerships', completed: 12, total: 15, color: '#9AFF00' },
-    { category: 'Revenue', completed: 180000, total: 250000, color: '#66FF00' },
-    { category: 'Team', completed: 18, total: 25, color: '#00d4ff' }
+    { category: 'Research', completed: 35, total: 100, color: '#CCFF00' },
+    { category: 'Partnerships', completed: 2, total: 15, color: '#9AFF00' },
+    { category: 'Funding', completed: 0, total: 100, color: '#66FF00' },
+    { category: 'Team', completed: 5, total: 25, color: '#00d4ff' }
   ];
 
+  // NOTE: These are TARGET customer segments - no customers exist yet
   const customerSegments = [
-    { name: 'Enterprise', value: 65, color: '#CCFF00' },
-    { name: 'Mid-Market', value: 25, color: '#9AFF00' },
-    { name: 'Startups', value: 10, color: '#66FF00' }
+    { name: 'Target: Enterprise', value: 60, color: '#CCFF00' },
+    { name: 'Target: Research', value: 30, color: '#9AFF00' },
+    { name: 'Target: Government', value: 10, color: '#66FF00' }
   ];
 
+  // NOTE: These are PLANNED milestones - nothing completed yet
   const roadmapData = [
-    { quarter: 'Q1 2024', achievements: ['Beta Launch', 'First Enterprise Client', '€50K ARR'], status: 'completed' },
-    { quarter: 'Q2 2024', achievements: ['Series A Funding', '15 Partnerships', '€180K ARR'], status: 'current' },
-    { quarter: 'Q3 2024', achievements: ['EU Expansion', '50 Enterprise Clients', '€500K ARR'], status: 'planned' },
-    { quarter: 'Q4 2024', achievements: ['US Market Entry', '100 Clients', '€1M ARR'], status: 'planned' }
+    { quarter: 'Q4 2024', achievements: ['Research phase', 'Team building', 'Initial funding'], status: 'current' },
+    { quarter: 'Q1 2025', achievements: ['Prototype development', 'Academic partnerships', 'Seed funding target'], status: 'planned' },
+    { quarter: 'Q2-Q4 2025', achievements: ['Lab validation', 'Patent filings', 'Series A preparation'], status: 'planned' },
+    { quarter: '2026+', achievements: ['First pilots (target)', 'Initial customers (target)', 'Revenue generation (target)'], status: 'planned' }
   ];
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-5xl font-bold qdaria-gradient-text">Crisis Validation: Real Enterprise Adoption</h1>
-        <p className="text-2xl text-gray-300 mt-4">Proven Market Traction Solving Actual Computing Crises</p>
+        <h1 className="text-5xl font-bold qdaria-gradient-text">R&D Progress & Development Roadmap</h1>
+        <p className="text-2xl text-gray-300 mt-4">Building Toward Topological Quantum Computing</p>
+        <div className="mt-4 px-6 py-3 bg-orange-500/20 border-2 border-orange-400/50 rounded-lg inline-block">
+          <p className="text-orange-300 font-semibold">R&D Phase - No customers or revenue yet</p>
+        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -63,7 +71,7 @@ const TractionSlideClient: React.FC<TractionSlideClientProps> = ({ scenario }) =
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
                   <TrendingUp className="w-5 h-5 text-cyan-400" />
-                  User Growth Trajectory
+                  Projected Growth (Target)
                 </CardTitle>
               </CardHeader>
               <CardContent className="qdaria-chart">
@@ -83,7 +91,7 @@ const TractionSlideClient: React.FC<TractionSlideClientProps> = ({ scenario }) =
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
                   <Target className="w-5 h-5 text-cyan-400" />
-                  Revenue & Partnerships
+                  Projected Revenue & Partnerships
                 </CardTitle>
               </CardHeader>
               <CardContent className="qdaria-chart">
@@ -141,7 +149,7 @@ const TractionSlideClient: React.FC<TractionSlideClientProps> = ({ scenario }) =
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
                   <Users className="w-5 h-5 text-cyan-400" />
-                  Customer Segmentation
+                  Target Customer Segmentation
                 </CardTitle>
               </CardHeader>
               <CardContent className="qdaria-chart">
@@ -170,15 +178,15 @@ const TractionSlideClient: React.FC<TractionSlideClientProps> = ({ scenario }) =
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
                   <Building className="w-5 h-5 text-cyan-400" />
-                  Key Customer Wins
+                  Target Customer Sectors
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {['Enterprise A (€50K ARR)', 'Tech Corp B (€35K ARR)', 'Manufacturing C (€28K ARR)', 'Financial D (€22K ARR)'].map((customer, index) => (
+                  {['Target: Financial Services', 'Target: Manufacturing', 'Target: Healthcare Research', 'Target: Energy Sector'].map((customer, index) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-cyan-400/20">
                       <span className="text-white font-medium">{customer}</span>
-                      <Badge className="qdaria-badge">Active</Badge>
+                      <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/50">Prospecting</Badge>
                     </div>
                   ))}
                 </div>
@@ -192,7 +200,7 @@ const TractionSlideClient: React.FC<TractionSlideClientProps> = ({ scenario }) =
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
                 <Rocket className="w-5 h-5 text-cyan-400" />
-                Quarterly Roadmap & Achievements
+                Development Roadmap & Targets
               </CardTitle>
             </CardHeader>
             <CardContent>

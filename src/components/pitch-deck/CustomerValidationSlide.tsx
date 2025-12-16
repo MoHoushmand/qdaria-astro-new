@@ -58,91 +58,92 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
     return () => clearInterval(timer);
   }, []);
 
-  // Enhanced testimonials with more details
+  // NOTE: These are ILLUSTRATIVE USE CASES showing potential applications
+  // QDaria is in R&D phase - these are not actual customer testimonials
   const testimonials = [
     {
       id: 1,
-      quote: "QDaria's quantum-enhanced optimization reduced our computation time from 6 hours to 12 minutes. This allows us to run 40x more analysis cycles per day.",
-      author: "Chief Technology Officer",
-      company: "European Financial Services Firm",
+      quote: "Financial services firms face computational bottlenecks in portfolio optimization. Topological quantum computing could dramatically reduce analysis time, enabling more comprehensive risk assessment.",
+      author: "Industry Use Case",
+      company: "Financial Services Sector",
       industry: "Financial Services",
-      companySize: "Fortune 500",
+      companySize: "Target Market",
       rating: 5,
-      date: "March 2025",
-      videoAvailable: true,
-      verified: true,
+      date: "Projected Application",
+      videoAvailable: false,
+      verified: false,
       metrics: [
-        { icon: Clock, label: 'Time Reduction', value: '97%' },
-        { icon: DollarSign, label: 'Annual Savings', value: '€850K' },
-        { icon: Target, label: 'Accuracy', value: '99.7%' }
+        { icon: Clock, label: 'Potential Benefit', value: 'Faster analysis' },
+        { icon: DollarSign, label: 'Value Proposition', value: 'Cost reduction' },
+        { icon: Target, label: 'Goal', value: 'Higher accuracy' }
       ]
     },
     {
       id: 2,
-      quote: "The quantum-AI integration delivered results we couldn't achieve with classical systems. Portfolio optimization that took weeks now completes in hours.",
-      author: "Head of Innovation",
-      company: "Leading Investment Bank",
+      quote: "Investment portfolios with hundreds of assets require optimization that scales exponentially. Quantum algorithms like QAOA could provide significant speedups for these complex calculations.",
+      author: "Industry Use Case",
+      company: "Banking & Investment Sector",
       industry: "Banking & Investment",
-      companySize: "€50B+ Assets",
+      companySize: "Target Market",
       rating: 5,
-      date: "February 2025",
+      date: "Projected Application",
       videoAvailable: false,
-      verified: true,
+      verified: false,
       metrics: [
-        { icon: Zap, label: 'Speed Increase', value: '30x' },
-        { icon: Target, label: 'Portfolio Performance', value: '+18%' },
-        { icon: TrendingUp, label: 'ROI', value: '420%' }
+        { icon: Zap, label: 'Potential', value: 'Faster optimization' },
+        { icon: Target, label: 'Application', value: 'Portfolio management' },
+        { icon: TrendingUp, label: 'Goal', value: 'Better returns' }
       ]
     },
     {
       id: 3,
-      quote: "QDaria's platform solved a problem that was literally unsolvable with our existing infrastructure. The quantum advantage is real and measurable.",
-      author: "VP of Engineering",
-      company: "Nordic Logistics Company",
+      quote: "Logistics and supply chain optimization involves solving NP-hard problems. Topological quantum computing offers a promising approach to tackle these computationally intensive challenges.",
+      author: "Industry Use Case",
+      company: "Supply Chain & Logistics Sector",
       industry: "Supply Chain & Logistics",
-      companySize: "Enterprise",
+      companySize: "Target Market",
       rating: 5,
-      date: "January 2025",
-      videoAvailable: true,
-      verified: true,
+      date: "Projected Application",
+      videoAvailable: false,
+      verified: false,
       metrics: [
-        { icon: Clock, label: 'Route Optimization', value: '94% faster' },
-        { icon: DollarSign, label: 'Cost Reduction', value: '€2.1M/year' },
-        { icon: CheckCircle, label: 'Delivery Accuracy', value: '99.4%' }
+        { icon: Clock, label: 'Potential', value: 'Route optimization' },
+        { icon: DollarSign, label: 'Goal', value: 'Cost efficiency' },
+        { icon: CheckCircle, label: 'Target', value: 'Better delivery' }
       ]
     },
     {
       id: 4,
-      quote: "We evaluated 5 quantum computing platforms. QDaria was the only one that delivered production-ready results within our first month. The team's expertise in both quantum physics and enterprise software is unmatched.",
-      author: "Director of Advanced Analytics",
-      company: "German Manufacturing Conglomerate",
+      quote: "Manufacturing quality control and process optimization present ideal use cases for quantum computing. Complex simulations could help predict defects and optimize production parameters.",
+      author: "Industry Use Case",
+      company: "Manufacturing Sector",
       industry: "Manufacturing",
-      companySize: "€12B Revenue",
+      companySize: "Target Market",
       rating: 5,
-      date: "April 2025",
+      date: "Projected Application",
       videoAvailable: false,
-      verified: true,
+      verified: false,
       metrics: [
-        { icon: Zap, label: 'Implementation Speed', value: '4 weeks' },
-        { icon: Target, label: 'Quality Improvement', value: '+23%' },
-        { icon: DollarSign, label: 'Defect Reduction Cost', value: '€1.4M/year' }
+        { icon: Zap, label: 'Application', value: 'Process optimization' },
+        { icon: Target, label: 'Goal', value: 'Quality improvement' },
+        { icon: DollarSign, label: 'Benefit', value: 'Defect reduction' }
       ]
     },
     {
       id: 5,
-      quote: "The drug discovery simulations we're running with QDaria would have been impossible two years ago. We're seeing molecular interaction predictions that are 10x more accurate than our previous methods.",
-      author: "Head of Computational Biology",
-      company: "Scandinavian Biotech Research Institute",
+      quote: "Drug discovery requires simulating molecular interactions at quantum scale. Quantum computers could model these interactions natively, potentially accelerating pharmaceutical research.",
+      author: "Industry Use Case",
+      company: "Healthcare & Life Sciences Sector",
       industry: "Healthcare & Life Sciences",
-      companySize: "Research Institution",
+      companySize: "Target Market",
       rating: 5,
-      date: "May 2025",
-      videoAvailable: true,
-      verified: true,
+      date: "Projected Application",
+      videoAvailable: false,
+      verified: false,
       metrics: [
-        { icon: Target, label: 'Prediction Accuracy', value: '+10x' },
-        { icon: Clock, label: 'Time to Insight', value: '85% faster' },
-        { icon: TrendingUp, label: 'Research Throughput', value: '+340%' }
+        { icon: Target, label: 'Application', value: 'Molecular simulation' },
+        { icon: Clock, label: 'Goal', value: 'Faster discovery' },
+        { icon: TrendingUp, label: 'Potential', value: 'Research acceleration' }
       ]
     }
   ];
@@ -155,58 +156,62 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
   // Get unique industries for filter
   const industries = ['all', ...Array.from(new Set(testimonials.map(t => t.industry)))];
 
-  // Detailed case study
+  // NOTE: This is an ILLUSTRATIVE case study showing potential application
+  // QDaria is in R&D phase - this is not an actual customer implementation
   const caseStudy = {
-    title: "Quantum-Enhanced Portfolio Risk Analysis",
-    client: "Anonymized European Investment Bank",
+    title: "Potential Use Case: Portfolio Risk Analysis",
+    client: "Illustrative Financial Services Example",
     industry: "Financial Services",
-    companySize: "€50B+ Assets Under Management",
-    challenge: "Risk analysis for complex multi-asset portfolios taking 6+ hours with classical computing, limiting ability to respond to market changes in real-time.",
-    solution: "Deployed QDaria Qm9 quantum optimization platform with 32-qubit processing for portfolio rebalancing and risk calculation.",
+    companySize: "Target: Large Asset Managers",
+    challenge: "Risk analysis for complex multi-asset portfolios can take hours with classical computing, limiting ability to respond to market changes quickly.",
+    solution: "Topological quantum computing could enable faster portfolio rebalancing and risk calculation through quantum optimization algorithms.",
     implementation: [
-      "Phase 1: Pilot with 3 portfolios (€500M combined)",
-      "Phase 2: Scale to 25 portfolios (€8B combined)",
-      "Phase 3: Full deployment across all divisions"
+      "Phase 1: Proof of concept with select portfolios",
+      "Phase 2: Expanded pilot with partner institutions",
+      "Phase 3: Production deployment (target: 2027+)"
     ],
     results: [
-      { metric: 'Analysis Time', before: '6 hours', after: '12 minutes', improvement: '97% reduction' },
-      { metric: 'Daily Analysis Cycles', before: '1x', after: '40x', improvement: '4,000% increase' },
-      { metric: 'Portfolio Performance', before: 'Baseline', after: '+18% returns', improvement: '18% improvement' },
-      { metric: 'Annual Cost Savings', before: 'N/A', after: '€850,000', improvement: 'New benefit' },
-      { metric: 'Risk Detection Accuracy', before: '87%', after: '99.7%', improvement: '14.6% improvement' }
+      { metric: 'Analysis Time', before: 'Hours', after: 'Target: Minutes', improvement: 'Projected benefit' },
+      { metric: 'Analysis Cycles', before: 'Limited', after: 'Target: More frequent', improvement: 'Projected benefit' },
+      { metric: 'Portfolio Performance', before: 'Baseline', after: 'Target: Improved', improvement: 'Projected benefit' },
+      { metric: 'Cost Impact', before: 'High compute costs', after: 'Target: Reduced', improvement: 'Projected benefit' },
+      { metric: 'Risk Detection', before: 'Current methods', after: 'Target: Enhanced', improvement: 'Projected benefit' }
     ],
-    quote: "The quantum advantage is not theoretical anymore. We're seeing measurable, quantifiable improvements in our most critical operations.",
-    quoteAuthor: "Chief Risk Officer"
+    quote: "Topological quantum computing offers promising potential for financial risk analysis applications.",
+    quoteAuthor: "Industry Analysis"
   };
 
-  // Customer segments with real data
+  // NOTE: These are TARGET customer segments - no current customers exist
+  // QDaria is in R&D phase
   const customerSegments = [
-    { name: 'Financial Services', count: 8, revenue: 65000, logo: '/images/industries/finance.svg' },
-    { name: 'Healthcare & Life Sciences', count: 6, revenue: 42000, logo: '/images/industries/healthcare.svg' },
-    { name: 'Manufacturing', count: 5, revenue: 38000, logo: '/images/industries/manufacturing.svg' },
-    { name: 'Logistics & Supply Chain', count: 4, revenue: 28000, logo: '/images/industries/logistics.svg' },
-    { name: 'Energy & Utilities', count: 3, revenue: 22000, logo: '/images/industries/energy.svg' },
-    { name: 'Technology', count: 6, revenue: 35000, logo: '/images/industries/tech.svg' }
+    { name: 'Financial Services', count: 0, revenue: 0, logo: '/images/industries/finance.svg' },
+    { name: 'Healthcare & Life Sciences', count: 0, revenue: 0, logo: '/images/industries/healthcare.svg' },
+    { name: 'Manufacturing', count: 0, revenue: 0, logo: '/images/industries/manufacturing.svg' },
+    { name: 'Logistics & Supply Chain', count: 0, revenue: 0, logo: '/images/industries/logistics.svg' },
+    { name: 'Energy & Utilities', count: 0, revenue: 0, logo: '/images/industries/energy.svg' },
+    { name: 'Technology', count: 0, revenue: 0, logo: '/images/industries/tech.svg' }
   ];
 
-  // Deployment metrics over time
+  // NOTE: These are PROJECTED deployment metrics - not actual data
+  // First deployments targeted for 2027+
   const deploymentGrowth = [
-    { month: 'Jan', deployments: 5, pilots: 12, pipeline: 2800000 },
-    { month: 'Feb', deployments: 7, pilots: 18, pipeline: 3600000 },
-    { month: 'Mar', deployments: 9, pilots: 24, pipeline: 4500000 },
-    { month: 'Apr', deployments: 11, pilots: 32, pipeline: 5800000 },
-    { month: 'May', deployments: 13, pilots: 38, pipeline: 7200000 },
-    { month: 'Jun', deployments: 15, pilots: 42, pipeline: 8200000 }
+    { month: '2026 Q1', deployments: 0, pilots: 0, pipeline: 0 },
+    { month: '2026 Q2', deployments: 0, pilots: 0, pipeline: 0 },
+    { month: '2026 Q3', deployments: 0, pilots: 0, pipeline: 0 },
+    { month: '2026 Q4', deployments: 0, pilots: 0, pipeline: 0 },
+    { month: '2027 Q1', deployments: 0, pilots: 0, pipeline: 0 },
+    { month: '2027 Q2', deployments: 0, pilots: 0, pipeline: 0 }
   ];
 
-  // Enhanced customer wins with partnership details
+  // NOTE: These are TARGET customer types - not actual customers
+  // QDaria has no paying customers yet
   const customerWins = [
-    { name: 'European Investment Bank', industry: 'Financial Services', size: '€50B+ AUM', arr: 125000, status: 'Production', logo: '/images/partners/finance-1.svg', deploymentDate: 'Q4 2024' },
-    { name: 'Nordic Manufacturing Group', industry: 'Manufacturing', size: '€8B Revenue', arr: 89000, status: 'Production', logo: '/images/partners/manufacturing-1.svg', deploymentDate: 'Q1 2025' },
-    { name: 'Healthcare Research Institute', industry: 'Life Sciences', size: 'Fortune 500', arr: 76000, status: 'Production', logo: '/images/partners/healthcare-1.svg', deploymentDate: 'Q2 2025' },
-    { name: 'Energy Optimization Firm', industry: 'Energy', size: 'Enterprise', arr: 64000, status: 'Pilot → Production', logo: '/images/partners/energy-1.svg', deploymentDate: 'Q2 2025' },
-    { name: 'Logistics Technology Company', industry: 'Supply Chain', size: '€2B Revenue', arr: 58000, status: 'Production', logo: '/images/partners/logistics-1.svg', deploymentDate: 'Q1 2025' },
-    { name: 'Financial Tech Platform', industry: 'FinTech', size: 'Scale-up', arr: 42000, status: 'Pilot', logo: '/images/partners/fintech-1.svg', deploymentDate: 'Q2 2025' }
+    { name: 'Target: Financial Services', industry: 'Financial Services', size: 'Enterprise', arr: 0, status: 'Prospecting', logo: '/images/partners/finance-1.svg', deploymentDate: 'Target: 2027+' },
+    { name: 'Target: Manufacturing', industry: 'Manufacturing', size: 'Enterprise', arr: 0, status: 'Prospecting', logo: '/images/partners/manufacturing-1.svg', deploymentDate: 'Target: 2027+' },
+    { name: 'Target: Healthcare Research', industry: 'Life Sciences', size: 'Research Institution', arr: 0, status: 'Prospecting', logo: '/images/partners/healthcare-1.svg', deploymentDate: 'Target: 2027+' },
+    { name: 'Target: Energy Sector', industry: 'Energy', size: 'Enterprise', arr: 0, status: 'Prospecting', logo: '/images/partners/energy-1.svg', deploymentDate: 'Target: 2027+' },
+    { name: 'Target: Logistics', industry: 'Supply Chain', size: 'Enterprise', arr: 0, status: 'Prospecting', logo: '/images/partners/logistics-1.svg', deploymentDate: 'Target: 2027+' },
+    { name: 'Target: FinTech', industry: 'FinTech', size: 'Scale-up', arr: 0, status: 'Prospecting', logo: '/images/partners/fintech-1.svg', deploymentDate: 'Target: 2027+' }
   ];
 
   // Trust indicators and certifications
@@ -217,13 +222,14 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
     { name: 'EU Cloud Code', icon: Shield, description: 'European Standards' }
   ];
 
-  // Customer satisfaction metrics
+  // NOTE: These are TARGET satisfaction metrics - no customers yet
+  // QDaria is in R&D phase - first customers expected Q1 2026
   const satisfactionData = [
-    { metric: 'Performance', score: 98 },
-    { metric: 'Support', score: 96 },
-    { metric: 'Innovation', score: 99 },
-    { metric: 'Reliability', score: 97 },
-    { metric: 'Value', score: 95 }
+    { metric: 'Performance', score: 0 },
+    { metric: 'Support', score: 0 },
+    { metric: 'Innovation', score: 0 },
+    { metric: 'Reliability', score: 0 },
+    { metric: 'Value', score: 0 }
   ];
 
   return (
@@ -486,7 +492,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                   <Star className="w-5 h-5 text-cyan-400" />
                   Customer Satisfaction Score
                 </CardTitle>
-                <p className="text-sm text-gray-400 mt-2">Average: 97/100 across all metrics</p>
+                <p className="text-sm text-gray-400 mt-2">No customer data yet - R&D phase</p>
               </CardHeader>
               <CardContent className="qdaria-chart">
                 <ResponsiveContainer width="100%" height={300}>
@@ -607,7 +613,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                 <Users className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">{animatedMetrics.users}</p>
                 <p className="text-slate-400 font-light mt-1">Active Customers</p>
-                <Badge className="qdaria-badge mt-2">+200% YoY</Badge>
+                <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/50 mt-2">Target: 2026</Badge>
               </CardContent>
             </Card>
 
@@ -616,7 +622,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                 <Building className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">{animatedMetrics.deployments}+</p>
                 <p className="text-slate-400 font-light mt-1">Production Deployments</p>
-                <Badge className="bg-green-500/20 text-green-300 border-green-500/50 mt-2">Live</Badge>
+                <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/50 mt-2">Target: 2027+</Badge>
               </CardContent>
             </Card>
 
@@ -625,7 +631,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                 <Target className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">{animatedMetrics.pilots}</p>
                 <p className="text-slate-400 font-light mt-1">Active Pilot Projects</p>
-                <Badge className="qdaria-badge mt-2">+150% QoQ</Badge>
+                <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/50 mt-2">Target: 2026</Badge>
               </CardContent>
             </Card>
 
@@ -634,7 +640,7 @@ const CustomerValidationSlide: React.FC<CustomerValidationSlideProps> = ({ scena
                 <DollarSign className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
                 <p className="text-4xl font-bold qdaria-gradient-text">€{animatedMetrics.pipeline}M</p>
                 <p className="text-slate-400 font-light mt-1">Sales Pipeline</p>
-                <Badge className="qdaria-badge mt-2">Growing</Badge>
+                <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/50 mt-2">Projected</Badge>
               </CardContent>
             </Card>
           </div>

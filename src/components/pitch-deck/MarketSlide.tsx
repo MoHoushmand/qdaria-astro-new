@@ -103,68 +103,70 @@ const MarketSlide: React.FC = () => {
     }
   ];
 
-  // Enhanced SOM with European market focus and competitive positioning
+  // NOTE: QDaria is in R&D phase - these are TARGET markets, not current market share
+  // QDaria has 0% market share currently - no quantum computer built yet
   const somRegionalData = [
-    { 
-      region: 'DACH', 
-      companies: 3200, 
-      value: 12.8, 
-      penetration: 15, 
-      qdariaShare: 8.5, 
+    {
+      region: 'DACH',
+      companies: 3200,
+      value: 12.8,
+      penetration: 15,
+      qdariaShare: 0, // Target market - no current share
       competitors: ['IBM', 'Google', 'Rigetti'],
-      managementEvents: 30,
+      managementEvents: 0,
       quantumReady: 850
     },
-    { 
-      region: 'Nordics', 
-      companies: 1850, 
-      value: 7.2, 
-      penetration: 12, 
-      qdariaShare: 18.7, 
+    {
+      region: 'Nordics',
+      companies: 1850,
+      value: 7.2,
+      penetration: 12,
+      qdariaShare: 0, // Target market - no current share
       competitors: ['IBM', 'Cambridge Quantum'],
-      managementEvents: 30,
+      managementEvents: 0,
       quantumReady: 620,
-      firstMover: true
+      firstMover: false // Not yet - in R&D phase
     },
-    { 
-      region: 'Benelux', 
-      companies: 1200, 
-      value: 4.8, 
-      penetration: 18, 
-      qdariaShare: 15.7, 
+    {
+      region: 'Benelux',
+      companies: 1200,
+      value: 4.8,
+      penetration: 18,
+      qdariaShare: 0, // Target market - no current share
       competitors: ['Xanadu', 'IBM'],
       managementEvents: 0,
       quantumReady: 285
     },
-    { 
-      region: 'UK', 
-      companies: 2400, 
-      value: 9.6, 
-      penetration: 14, 
-      qdariaShare: 6.8, 
+    {
+      region: 'UK',
+      companies: 2400,
+      value: 9.6,
+      penetration: 14,
+      qdariaShare: 0, // Target market - no current share
       competitors: ['Cambridge Quantum', 'IBM', 'Google'],
       managementEvents: 0,
       quantumReady: 580
     },
-    { 
-      region: 'France', 
-      companies: 1950, 
-      value: 7.8, 
-      penetration: 11, 
-      qdariaShare: 4.2, 
+    {
+      region: 'France',
+      companies: 1950,
+      value: 7.8,
+      penetration: 11,
+      qdariaShare: 0, // Target market - no current share
       competitors: ['IBM', 'Atos Quantum'],
       managementEvents: 0,
       quantumReady: 420
     }
   ];
 
-  // Management Events Partnership Data
+  // NOTE: Partnership data - verify actual status before claims
+  // These are PLANNED targets, not actual results
   const managementEventsData = {
-    investment: 38400,
-    totalMeetings: 60,
-    norway: 30,
-    germany: 30,
-    executiveLevel: 'Prime-level',
+    investment: 0, // No partnership investment confirmed
+    totalMeetings: 0, // Planned target
+    norway: 0,
+    germany: 0,
+    executiveLevel: 'Target',
     targetIndustries: [
       'Financial Services',
       'Manufacturing',
@@ -173,41 +175,44 @@ const MarketSlide: React.FC = () => {
       'Technology',
       'Automotive'
     ],
-    expectedRevenue: 15600000 // €15.6M projected from partnership
+    expectedRevenue: 0 // No projected revenue yet - R&D phase
   };
 
-  // Novera QPU Competitive Advantage
+  // NOTE: QDaria is researching Fibonacci anyon-based topological quantum computing
+  // No quantum computer has been built yet - these are RESEARCH TARGETS
   const noveraAdvantage = {
-    qubits: 256,
-    coherenceTime: '100μs',
-    gateSpeed: '10ns',
-    errorRate: '0.05%',
+    qubits: 'TBD', // Research target - not yet achieved
+    coherenceTime: 'Target: ms+', // Topological protection goal
+    gateSpeed: 'Research', // Under development
+    errorRate: 'Target: <0.1%', // Theoretical advantage of topological approach
     competitorComparison: [
-      { metric: 'Gate Speed', qdaria: '10ns', competitor: '25ns', advantage: '150% faster' },
-      { metric: 'Error Rate', qdaria: '0.05%', competitor: '0.15%', advantage: '3x better' },
-      { metric: 'Coherence', qdaria: '100μs', competitor: '45μs', advantage: '2.2x longer' }
+      { metric: 'Error Protection', qdaria: 'Topological', competitor: 'Surface codes', advantage: 'Different approach' },
+      { metric: 'Scalability', qdaria: 'Research', competitor: 'Various', advantage: 'Theoretical' },
+      { metric: 'Stability', qdaria: 'Target', competitor: 'Various', advantage: 'Projected' }
     ]
   };
 
-  // European Expansion Timeline
+  // NOTE: QDaria is in R&D phase - no market expansion yet
+  // These are PLANNED milestones for when product is ready
   const expansionTimeline = [
-    { phase: 'Q1 2024', milestone: 'Management Events Partnership Launch', status: 'completed' },
-    { phase: 'Q2 2024', milestone: 'Novera QPU Deployment', status: 'completed' },
-    { phase: 'Q3 2024', milestone: 'Nordic Market Entry', status: 'in-progress' },
-    { phase: 'Q4 2024', milestone: 'German Market Penetration', status: 'planned' },
-    { phase: 'Q1 2025', milestone: 'European Quantum Leadership', status: 'planned' }
+    { phase: '2024-2025', milestone: 'R&D and prototype development', status: 'in-progress' },
+    { phase: '2025-2026', milestone: 'Lab validation and partnerships', status: 'planned' },
+    { phase: '2026-2027', milestone: 'First customer pilots (target)', status: 'planned' },
+    { phase: '2027+', milestone: 'Market entry (target)', status: 'planned' },
+    { phase: '2028+', milestone: 'European expansion (target)', status: 'planned' }
   ];
 
-  // Competitive landscape data for market opportunity
+  // NOTE: QDaria is in R&D phase with 0% market share
+  // Competitive data shows industry landscape - QDaria is not yet a market participant
   const competitorData = [
-    { name: 'QDaria', marketShare: 8.2, funding: 12, focus: 'Enterprise AI+Quantum', strength: 95 },
+    { name: 'QDaria', marketShare: 0, funding: 0, focus: 'Topological QC R&D', strength: 0 }, // R&D phase
     { name: 'IBM Quantum', marketShare: 28.5, funding: 1000, focus: 'Hardware + Cloud', strength: 88 },
     { name: 'Google Quantum', marketShare: 22.1, funding: 800, focus: 'Research + Cloud', strength: 92 },
     { name: 'Rigetti', marketShare: 8.7, funding: 200, focus: 'Hardware QPUs', strength: 78 },
     { name: 'IonQ', marketShare: 6.4, funding: 150, focus: 'Trapped Ion', strength: 82 },
-    { name: 'Cambridge Quantum', marketShare: 5.8, funding: 80, focus: 'Software Stack', strength: 75 },
+    { name: 'Quantinuum', marketShare: 5.8, funding: 80, focus: 'Trapped Ion', strength: 75 },
     { name: 'Xanadu', marketShare: 4.2, funding: 100, focus: 'Photonic Quantum', strength: 73 },
-    { name: 'Others', marketShare: 16.1, funding: 500, focus: 'Various', strength: 65 }
+    { name: 'Others', marketShare: 24.3, funding: 500, focus: 'Various', strength: 65 }
   ];
 
   return (
@@ -216,50 +221,52 @@ const MarketSlide: React.FC = () => {
       <div className="text-center space-y-4 md:space-y-6">
         <div className="space-y-3 md:space-y-4">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold qdaria-gradient-text px-2">
-            €441B European Quantum Market: QDaria's Strategic Partnership Advantage
+            European Quantum Computing Market Opportunity
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white px-2">
-            Management Events Partnership + Novera QPU = European Market Dominance
+            QDaria's Target Market for Topological Quantum Computing
           </p>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 font-light max-w-4xl mx-auto px-2">
-            QDaria's €38,400 investment in 60 prime-level executive meetings across Nordic and German
-            quantum-ready markets, powered by first-mover Novera QPU advantage
+            Researching Fibonacci anyon-based topological quantum computing for future enterprise applications
           </p>
+          <div className="mt-4 px-6 py-3 bg-orange-500/20 border-2 border-orange-400/50 rounded-lg inline-block">
+            <p className="text-orange-300 font-semibold">R&D Phase - No quantum computer built yet</p>
+          </div>
         </div>
 
-        {/* Market Metrics Row */}
+        {/* Market Opportunity Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 max-w-5xl mx-auto">
           <div className="qdaria-stat-card p-3 md:p-6">
-            <Users className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
-            <div className="text-xl md:text-3xl font-bold text-white">60</div>
-            <div className="text-xs md:text-sm text-slate-400 font-light">Executive Meetings</div>
-          </div>
-          <div className="qdaria-stat-card p-3 md:p-6">
-            <DollarSign className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
-            <div className="text-xl md:text-3xl font-bold text-white">€15.6M</div>
-            <div className="text-xs md:text-sm text-slate-400 font-light">Projected Revenue</div>
-          </div>
-          <div className="qdaria-stat-card p-3 md:p-6">
-            <Zap className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
-            <div className="text-xl md:text-3xl font-bold text-white">18.7%</div>
-            <div className="text-xs md:text-sm text-slate-400 font-light">Nordic Market Share</div>
+            <Globe className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
+            <div className="text-xl md:text-3xl font-bold text-white">€441B</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">TAM by 2028</div>
           </div>
           <div className="qdaria-stat-card p-3 md:p-6">
             <Target className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
-            <div className="text-xl md:text-3xl font-bold text-white">406x</div>
-            <div className="text-xs md:text-sm text-slate-400 font-light">Partnership ROI</div>
+            <div className="text-xl md:text-3xl font-bold text-white">€92B</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">SAM Opportunity</div>
+          </div>
+          <div className="qdaria-stat-card p-3 md:p-6">
+            <Zap className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
+            <div className="text-xl md:text-3xl font-bold text-white">42%</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">Market CAGR</div>
+          </div>
+          <div className="qdaria-stat-card p-3 md:p-6">
+            <Building2 className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 mx-auto mb-2 md:mb-3" />
+            <div className="text-xl md:text-3xl font-bold text-white">R&D</div>
+            <div className="text-xs md:text-sm text-slate-400 font-light">Current Phase</div>
           </div>
         </div>
 
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mt-6 md:mt-8">
           <Badge className="qdaria-badge text-xs sm:text-sm md:text-lg px-3 py-1.5 md:px-6 md:py-3">
-            <Users className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />Management Events Partnership
+            <Zap className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />Topological QC Research
           </Badge>
           <Badge className="qdaria-badge text-xs sm:text-sm md:text-lg px-3 py-1.5 md:px-6 md:py-3">
-            <Zap className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />Novera QPU Advantage
+            <Shield className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />Fibonacci Anyons
           </Badge>
           <Badge className="qdaria-badge text-xs sm:text-sm md:text-lg px-3 py-1.5 md:px-6 md:py-3">
-            <Globe className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />Nordic First-Mover
+            <Globe className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />European Focus
           </Badge>
         </div>
       </div>
@@ -964,10 +971,10 @@ const MarketSlide: React.FC = () => {
               <CardHeader>
                 <CardTitle className="qdaria-chart-title text-center">
                   <Zap className="text-cyan-400 mx-auto mb-2" />
-                  Novera QPU: First-Mover Quantum Hardware Advantage
+                  Topological Quantum Computing: Research Targets
                 </CardTitle>
                 <CardDescription className="qdaria-chart-description text-center">
-                  QDaria's proprietary quantum processing unit delivering unprecedented performance for European enterprises
+                  QDaria's research into Fibonacci anyon-based quantum computing - R&D phase, no hardware built yet
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -998,10 +1005,10 @@ const MarketSlide: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="qdaria-chart-title">
                     <Shield className="text-cyan-400" />
-                    Novera vs. Competition
+                    Topological vs. Other Approaches
                   </CardTitle>
                   <CardDescription className="qdaria-chart-description">
-                    Technical superiority across key quantum computing metrics
+                    Theoretical advantages of topological quantum computing (research phase)
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -1035,38 +1042,38 @@ const MarketSlide: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="qdaria-chart-title">
                     <Target className="text-cyan-400" />
-                    Nordic First-Mover Impact
+                    Nordic Market Opportunity
                   </CardTitle>
                   <CardDescription className="qdaria-chart-description">
-                    Novera QPU deployment driving QDaria's market leadership in Nordics
+                    Target market for future topological quantum computing deployment
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="p-4 bg-cyan-400/10 border border-cyan-400/30 rounded-lg">
-                      <div className="font-semibold text-cyan-400 mb-2">Market Share Growth</div>
+                    <div className="p-4 bg-orange-500/10 border border-orange-400/30 rounded-lg">
+                      <div className="font-semibold text-orange-400 mb-2">Current Status</div>
                       <div className="text-sm text-slate-400 font-light space-y-1">
-                        <div>Pre-Novera: 12.3%</div>
-                        <div>Post-Novera: 18.7%</div>
-                        <div className="text-cyan-400 font-medium">+6.4% market share increase</div>
+                        <div>Phase: R&D</div>
+                        <div>Market Share: 0%</div>
+                        <div className="text-orange-400 font-medium">No quantum computer built yet</div>
                       </div>
                     </div>
-                    
+
                     <div className="p-4 bg-gray-800/50 border border-gray-600/30 rounded-lg">
-                      <div className="font-semibold text-white mb-2">Customer Wins</div>
+                      <div className="font-semibold text-white mb-2">Target Milestones</div>
                       <div className="text-sm text-slate-400 font-light space-y-1">
-                        <div>Enterprise Deployments: 15+</div>
-                        <div>Pilot Projects: 42</div>
-                        <div>Pipeline: €8.2M</div>
+                        <div>Prototype: 2025-2026 (target)</div>
+                        <div>First Pilots: 2026-2027 (target)</div>
+                        <div>Market Entry: 2027+ (target)</div>
                       </div>
                     </div>
-                    
-                    <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-                      <div className="font-semibold text-green-400 mb-2">Technical Recognition</div>
+
+                    <div className="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
+                      <div className="font-semibold text-cyan-400 mb-2">Research Focus</div>
                       <div className="text-sm text-slate-400 font-light space-y-1">
-                        <div>Nordic Quantum Award 2024</div>
-                        <div>Best QPU Performance</div>
-                        <div>Industry Leadership Status</div>
+                        <div>Fibonacci anyon research</div>
+                        <div>Topological protection</div>
+                        <div>Error-resistant architecture</div>
                       </div>
                     </div>
                   </div>
@@ -1115,11 +1122,11 @@ const MarketSlide: React.FC = () => {
                     <div className="w-12 h-12 rounded-full bg-cyan-400/20 flex items-center justify-center mb-4 mx-auto">
                       <Target className="w-6 h-6 text-cyan-400" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white text-center mb-3">Proven Reliability</h3>
+                    <h3 className="text-lg font-semibold text-white text-center mb-3">Research Goals</h3>
                     <div className="text-sm text-slate-400 font-light space-y-2">
-                      <div>99.9% uptime SLA</div>
-                      <div>Extended coherence times</div>
-                      <div>Production-ready stability</div>
+                      <div>Topological protection (target)</div>
+                      <div>Extended coherence (research)</div>
+                      <div>Inherent error resistance</div>
                     </div>
                   </div>
                 </div>
