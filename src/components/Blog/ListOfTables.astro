@@ -1,0 +1,47 @@
+---
+/**
+ * List of Tables component for academic papers
+ * Usage: <ListOfTables tables={[{number: 1, caption: "..."}]} />
+ */
+interface TableItem {
+  number: number;
+  caption: string;
+  id?: string;
+}
+
+interface Props {
+  tables: TableItem[];
+  title?: string;
+}
+
+const { tables, title = "List of Tables" } = Astro.props;
+---
+
+<section class="list-of-tables-section my-12">
+  <h2 class="text-2xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+    </svg>
+    {title}
+  </h2>
+
+  {tables.length > 0 ? (
+    <div class="space-y-2">
+      {tables.map((table) => (
+        <a
+          href={table.id ? `#${table.id}` : `#table-${table.number}`}
+          class="flex items-start gap-4 p-3 rounded-lg hover:bg-slate-800/50 transition-colors group"
+        >
+          <span class="font-mono text-cyan-400 font-semibold whitespace-nowrap">
+            Table {table.number}
+          </span>
+          <span class="text-gray-300 group-hover:text-white transition-colors flex-1">
+            {table.caption}
+          </span>
+        </a>
+      ))}
+    </div>
+  ) : (
+    <p class="text-gray-400 italic">No tables in this article.</p>
+  )}
+</section>
