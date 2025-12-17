@@ -8,6 +8,11 @@ categories: ["Research", "Quantum Computing", "Theory"]
 tags: ["TQRC", "Fibonacci Anyons", "Echo State Property", "No-Go Theorem", "Topological Computing"]
 ---
 
+import Appendix from '@components/Blog/Appendix.astro';
+import ListOfFigures from '@components/Blog/ListOfFigures.astro';
+import Nomenclature from '@components/Blog/Nomenclature.astro';
+import FAQ from '@components/Blog/FAQ.astro';
+
 Topological quantum computing promises fault-tolerant quantum operations protected by the geometry of space itself. Reservoir computing promises powerful machine learning without complex training. What happens when you combine them?
 
 Nothing good, as it turns out. In this paper, we prove a fundamental no-go theorem: the properties that make topological systems attractive for quantum computing are exactly what makes them impossible to use as reservoirs.
@@ -302,77 +307,76 @@ This research establishes fundamental boundaries for topological quantum reservo
 
 ---
 
-## Appendix
+<Appendix title="Appendix">
 
-### List of Figures
+<ListOfFigures figures={[
+  { number: 1, caption: "Worldlines of anyons showing braiding operations in 2+1 dimensional spacetime" },
+  { number: 2, caption: "Fibonacci anyon fusion trees showing exponential growth of computational space" },
+  { number: 3, caption: "Proposed architecture for topological quantum reservoir computing" },
+  { number: 4, caption: "The proposed TQRC architecture with Fibonacci anyon reservoir" },
+  { number: 5, caption: "The fundamental tension between topological protection and reservoir computing" },
+  { number: 6, caption: "Visualization of the unitarity-ESP tension" },
+  { number: 7, caption: "Quantitative ESP violation in Fibonacci anyon systems" },
+  { number: 8, caption: "Root cause analysis showing topological protection opposes ESP" },
+  { number: 9, caption: "Scaling of fusion space dimension with number of Fibonacci anyons" },
+  { number: 10, caption: "The R and F matrices defining Fibonacci anyon braiding operations" },
+  { number: 11, caption: "Effects of adding dissipation to topological systems" },
+  { number: 12, caption: "The protection-ESP tradeoff Pareto frontier" },
+  { number: 13, caption: "Information flow in reservoir computing" },
+  { number: 14, caption: "Memory capacity scaling comparison" },
+  { number: 15, caption: "Alternative readout strategies attempted" },
+  { number: 16, caption: "Open problems in hybrid topological-reservoir architectures" },
+  { number: 17, caption: "Timeline of key developments in topological QC and reservoir computing" },
+  { number: 18, caption: "Summary of key results" },
+  { number: 19, caption: "Braiding position independence of the no-go theorem" },
+  { number: 20, caption: "Key takeaways from the analysis" }
+]} />
 
-| Figure | Description |
-|--------|-------------|
-| 1 | Worldlines of anyons showing braiding operations in 2+1 dimensional spacetime |
-| 2 | Fibonacci anyon fusion trees showing exponential growth of computational space |
-| 3 | Proposed architecture for topological quantum reservoir computing |
-| 4 | The proposed TQRC architecture with Fibonacci anyon reservoir |
-| 5 | The fundamental tension between topological protection and reservoir computing |
-| 6 | Visualization of the unitarity-ESP tension |
-| 7 | Quantitative ESP violation in Fibonacci anyon systems |
-| 8 | Root cause analysis showing topological protection opposes ESP |
-| 9 | Scaling of fusion space dimension with number of Fibonacci anyons |
-| 10 | The R and F matrices defining Fibonacci anyon braiding operations |
-| 11 | Effects of adding dissipation to topological systems |
-| 12 | The protection-ESP tradeoff Pareto frontier |
-| 13 | Information flow in reservoir computing |
-| 14 | Memory capacity scaling comparison |
-| 15 | Alternative readout strategies attempted |
-| 16 | Open problems in hybrid topological-reservoir architectures |
-| 17 | Timeline of key developments in topological QC and reservoir computing |
-| 18 | Summary of key results |
-| 19 | Braiding position independence of the no-go theorem |
-| 20 | Key takeaways from the analysis |
+<Nomenclature items={[
+  { symbol: "$\\tau$", definition: "Fibonacci anyon", unit: "—" },
+  { symbol: "ESP", definition: "Echo State Property", unit: "—" },
+  { symbol: "$D(\\rho,\\sigma)$", definition: "Trace distance between quantum states", unit: "—" },
+  { symbol: "$U$", definition: "Unitary operator", unit: "—" },
+  { symbol: "$\\lambda_i$", definition: "Eigenvalue of transition operator", unit: "—" },
+  { symbol: "TQRC", definition: "Topological Quantum Reservoir Computing", unit: "—" },
+  { symbol: "$T_1$", definition: "Relaxation time", unit: "seconds" },
+  { symbol: "$T_2$", definition: "Decoherence time", unit: "seconds" },
+  { symbol: "$F_n$", definition: "nth Fibonacci number", unit: "—" }
+]} />
 
-### Nomenclature
+<FAQ items={[
+  {
+    question: "What is the Echo State Property (ESP)?",
+    answer: "The ESP is a technical requirement for reservoir computing that ensures the reservoir 'forgets' its initial state over time. Different initial configurations must converge to the same state when fed the same inputs. This 'fading memory' is essential for the reservoir to learn meaningful patterns from input sequences rather than being dominated by arbitrary initialization details."
+  },
+  {
+    question: "Why can't Fibonacci anyon braiding satisfy the ESP?",
+    answer: "Fibonacci anyon braiding operations are unitary—they preserve quantum information perfectly. Unitary operators maintain the distance between quantum states exactly, meaning states that start far apart stay far apart forever. The ESP requires states to converge, which is mathematically incompatible with unitary evolution."
+  },
+  {
+    question: "What is the key difference between topological and non-topological quantum reservoirs?",
+    answer: "Topological quantum systems are designed to preserve information through their inherent error protection. Non-topological systems (like superconducting qubits) naturally experience decoherence, which provides the information loss needed for fading memory. This makes non-topological systems suitable for reservoir computing while topological systems are not."
+  },
+  {
+    question: "Could adding noise to a topological system make it work as a reservoir?",
+    answer: "Technically yes, but this defeats the purpose. Adding enough decoherence to enable reservoir behavior destroys the topological protection that makes the system attractive in the first place. You end up with a poorly-performing non-topological system rather than getting the best of both worlds."
+  },
+  {
+    question: "What does the no-go theorem mean for quantum machine learning?",
+    answer: "It clarifies which quantum systems are suitable for which tasks. Topological systems excel at error-protected computation and quantum memory. Non-topological systems with controlled decoherence are better for reservoir computing. Hybrid architectures should keep these components separate and let each do what it does best."
+  },
+  {
+    question: "Are there any loopholes to the no-go theorem?",
+    answer: "We prove three independent arguments, each sufficient on its own: (1) trace distance preservation under unitary evolution, (2) spectral constraints requiring eigenvalues on the unit circle, and (3) topological protection explicitly preventing the information loss ESP requires. There are no known loopholes."
+  },
+  {
+    question: "What quantum systems DO work for reservoir computing?",
+    answer: "Standard superconducting qubits, trapped ions with tunable dissipation, and photonic systems with natural loss all work well. The key is having controlled, tunable decoherence that balances memory retention against information loss."
+  },
+  {
+    question: "Where can I access the full mathematical proofs?",
+    answer: "The complete paper with all mathematical proofs is available on Zenodo (Open Access), TechRxiv, and ResearchGate. See the links in the 'Read the Full Paper' section above."
+  }
+]} />
 
-| Symbol | Definition | Unit |
-|--------|------------|------|
-| $\tau$ | Fibonacci anyon | — |
-| ESP | Echo State Property | — |
-| $D(\rho,\sigma)$ | Trace distance between quantum states | — |
-| $U$ | Unitary operator | — |
-| $\lambda_i$ | Eigenvalue of transition operator | — |
-| TQRC | Topological Quantum Reservoir Computing | — |
-| $T_1$ | Relaxation time | seconds |
-| $T_2$ | Decoherence time | seconds |
-| $F_n$ | nth Fibonacci number | — |
-
-### Frequently Asked Questions
-
-**What is the Echo State Property (ESP)?**
-
-The ESP is a technical requirement for reservoir computing that ensures the reservoir "forgets" its initial state over time. Different initial configurations must converge to the same state when fed the same inputs. This "fading memory" is essential for the reservoir to learn meaningful patterns from input sequences rather than being dominated by arbitrary initialization details.
-
-**Why can't Fibonacci anyon braiding satisfy the ESP?**
-
-Fibonacci anyon braiding operations are unitary—they preserve quantum information perfectly. Unitary operators maintain the distance between quantum states exactly, meaning states that start far apart stay far apart forever. The ESP requires states to converge, which is mathematically incompatible with unitary evolution.
-
-**What is the key difference between topological and non-topological quantum reservoirs?**
-
-Topological quantum systems are designed to preserve information through their inherent error protection. Non-topological systems (like superconducting qubits) naturally experience decoherence, which provides the information loss needed for fading memory. This makes non-topological systems suitable for reservoir computing while topological systems are not.
-
-**Could adding noise to a topological system make it work as a reservoir?**
-
-Technically yes, but this defeats the purpose. Adding enough decoherence to enable reservoir behavior destroys the topological protection that makes the system attractive in the first place. You end up with a poorly-performing non-topological system rather than getting the best of both worlds.
-
-**What does the no-go theorem mean for quantum machine learning?**
-
-It clarifies which quantum systems are suitable for which tasks. Topological systems excel at error-protected computation and quantum memory. Non-topological systems with controlled decoherence are better for reservoir computing. Hybrid architectures should keep these components separate and let each do what it does best.
-
-**Are there any loopholes to the no-go theorem?**
-
-We prove three independent arguments, each sufficient on its own: (1) trace distance preservation under unitary evolution, (2) spectral constraints requiring eigenvalues on the unit circle, and (3) topological protection explicitly preventing the information loss ESP requires. There are no known loopholes.
-
-**What quantum systems DO work for reservoir computing?**
-
-Standard superconducting qubits, trapped ions with tunable dissipation, and photonic systems with natural loss all work well. The key is having controlled, tunable decoherence that balances memory retention against information loss.
-
-**Where can I access the full mathematical proofs?**
-
-The complete paper with all mathematical proofs is available on [Zenodo (Open Access)](https://doi.org/10.5281/zenodo.17889778), [TechRxiv](https://doi.org/10.22541/au.176549133.31550916/v1), and [ResearchGate](https://www.researchgate.net/publication/398605611).
+</Appendix>
