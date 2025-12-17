@@ -55,6 +55,7 @@ Thumbs.db
 !/.prettierrc.mjs
 !/keystatic.config.tsx
 !/netlify.toml
+!/auth.config.ts
 !/aider.conf.yml
 !/prompt.md
 !/prompt.xml
