@@ -3,7 +3,13 @@ import Google from '@auth/core/providers/google';
 import LinkedIn from '@auth/core/providers/linkedin';
 import { defineConfig } from 'auth-astro';
 
+// Provide a fallback secret for build phase - this MUST be overridden in production
+// by setting AUTH_SECRET environment variable
+const AUTH_SECRET_FALLBACK = 'build-time-placeholder-secret-do-not-use-in-production';
+
 export default defineConfig({
+  // Use env var if available, otherwise fallback for build
+  secret: import.meta.env.AUTH_SECRET || AUTH_SECRET_FALLBACK,
   providers: [
     GitHub({
       clientId: import.meta.env.GITHUB_ID,

@@ -11,8 +11,17 @@ import { getSession } from 'auth-astro/server';
 /** Example navData (customize to your needs) */
 import type { navItem } from "../../config/types/configDataTypes";
 
-// Get current session
-const session = await getSession(Astro.request);
+// Get current session - guard against missing AUTH_SECRET during build
+let session = null;
+try {
+  // Only attempt to get session if AUTH_SECRET is configured
+  if (import.meta.env.AUTH_SECRET) {
+    session = await getSession(Astro.request);
+  }
+} catch (e) {
+  // Silently fail during static build - session features won't be available
+  console.warn('[Nav] Auth session unavailable:', e instanceof Error ? e.message : 'Unknown error');
+}
 
 const navData: navItem[] = [
   {
