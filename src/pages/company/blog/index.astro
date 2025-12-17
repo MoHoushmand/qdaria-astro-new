@@ -23,7 +23,7 @@ const posts = await getAllPosts(currLocale);
     <div class="pt-28 md:pt-36">
       <div class="mr-auto flex w-fit max-w-[950px] flex-col">
         <!-- <Badge>Blog</Badge> -->
-        <h1 class="h1">Latest Articles</h1>
+        <h1 class="h1 text-gradient-blue">Latest Articles</h1>
         <!-- <p class="description mx-auto mt-0 max-w-2xl text-center md:text-lg">
           Use and re-use tons of responsive sections to create the perfect
           layout. Sections are organised into convenient categories.
@@ -38,3 +38,10 @@ const posts = await getAllPosts(currLocale);
     <BlogPostsLayout posts={posts} />
   </section>
 </BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+  }
+</style>

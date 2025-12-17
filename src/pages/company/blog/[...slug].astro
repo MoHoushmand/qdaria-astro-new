@@ -7,6 +7,7 @@ import BlogLayoutSidebars from "../../../layouts/BlogLayoutSidebars.astro";
 // components
 import ExternalLink from "../../../components/MarkdownComponents/ExternalLink.astro";
 import Admonition from "../../../components/Admonition/Admonition.astro";
+import CodeShowcase from "../../../components/Blog/CodeShowcase.astro";
 
 // utils
 import { getAllPosts } from "../../../js/blogUtils";
@@ -29,5 +30,5 @@ const { Content, headings } = await post.render();
 ---
 
 <BlogLayoutSidebars post={post} headings={headings}>
-  <Content components={{ a: ExternalLink, Admonition }} />
+  <Content components={{ a: ExternalLink, Admonition, CodeShowcase }} />
 </BlogLayoutSidebars>

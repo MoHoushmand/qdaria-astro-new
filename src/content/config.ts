@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const otherPages = defineCollection({
   type: 'content',
@@ -30,6 +31,7 @@ const blog = defineCollection({
     ]).optional(),
     heroImage: z.any(),
     categories: z.array(z.string()).default([]),
+    tags: z.array(z.string()).default([]),
   }),
 });
 
@@ -46,8 +48,19 @@ const authors = defineCollection({
   }),
 });
 
+const codeToggles = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/data/codeToggles" }),
+  schema: z.object({
+    language: z.string(),
+    order: z.number(),
+    icon: z.string().optional(),
+    draft: z.boolean().optional(),
+  }),
+});
+
 export const collections = {
   otherPages,
   blog,
   authors,
+  codeToggles,
 };

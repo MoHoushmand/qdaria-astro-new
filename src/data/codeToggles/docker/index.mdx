@@ -1,0 +1,14 @@
+---
+language: Docker
+order: 5
+draft: false
+---
+
+```bash
+docker run -d \
+  --name zipminator-proxy \
+  -p 443:443 \
+  -e ZIPMINATOR_ENTROPY_SOURCE="ibm_brisbane" \
+  -e ZIPMINATOR_PQC_ALGO="ml-kem-768" \
+  qdaria/zipminator-proxy:latest
+```

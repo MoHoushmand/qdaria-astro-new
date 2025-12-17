@@ -5,6 +5,9 @@ import mdx from "@astrojs/mdx";
 import compress from "astro-compress";
 import node from '@astrojs/node';
 import auth from 'auth-astro';
+import icon from "astro-icon";
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 import sentry from '@sentry/astro';
 
@@ -16,7 +19,11 @@ export default defineConfig({
       applyBaseStyles: true,
     }),
     react(),
-    mdx(),
+    mdx({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
+    }),
+    icon(),
     ...(process.env.NODE_ENV === 'production' ? [compress({
       CSS: true,
       HTML: {

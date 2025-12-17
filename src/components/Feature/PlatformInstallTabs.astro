@@ -1,0 +1,352 @@
+---
+/**
+ * Platform Installation Tabs Component
+ *
+ * Displays installation commands for 7 platforms with tab switching.
+ * Based on the FeatureCodeToggle pattern with dark theme styling.
+ */
+
+interface Platform {
+  id: string;
+  name: string;
+  command: string;
+  icon: string;
+}
+
+const platforms: Platform[] = [
+  {
+    id: 'python',
+    name: 'Python (PyO3)',
+    command: 'pip install zipminator-pqc',
+    icon: 'tabler:brand-python'
+  },
+  {
+    id: 'rust',
+    name: 'Rust (Cargo)',
+    command: 'cargo install zipminator',
+    icon: 'tabler:brand-rust'
+  },
+  {
+    id: 'macos',
+    name: 'macOS (Homebrew)',
+    command: 'brew install zipminator',
+    icon: 'tabler:brand-apple'
+  },
+  {
+    id: 'nodejs',
+    name: 'Node.js (npm)',
+    command: 'npm install -g @qdaria/zipminator',
+    icon: 'tabler:brand-nodejs'
+  },
+  {
+    id: 'docker',
+    name: 'Docker',
+    command: 'docker pull qdaria/zipminator',
+    icon: 'tabler:brand-docker'
+  },
+  {
+    id: 'linux',
+    name: 'Linux (curl)',
+    command: 'curl -sSf https://install.zipminator.zip | sh',
+    icon: 'tabler:brand-ubuntu'
+  },
+  {
+    id: 'windows',
+    name: 'Windows (PowerShell)',
+    command: 'iwr https://install.zipminator.zip/win | iex',
+    icon: 'tabler:brand-windows'
+  }
+];
+---
+
+<div class="platform-install-tabs">
+  <!-- Tab Navigation -->
+  <div
+    class="tab-list"
+    role="tablist"
+    aria-label="Platform installation options"
+  >
+    {platforms.map((platform, index) => (
+      <button
+        class={`tab-button ${index === 0 ? 'active' : ''}`}
+        role="tab"
+        id={`tab-${platform.id}`}
+        aria-controls={`panel-${platform.id}`}
+        aria-selected={index === 0 ? 'true' : 'false'}
+        tabindex={index === 0 ? 0 : -1}
+        data-platform={platform.id}
+      >
+        <span class="tab-icon">
+          <svg class="w-5 h-5" aria-hidden="true">
+            <use href={`/icons/tabler-sprite.svg#${platform.icon.replace('tabler:', '')}`}></use>
+          </svg>
+        </span>
+        <span class="tab-label">{platform.name}</span>
+      </button>
+    ))}
+  </div>
+
+  <!-- Tab Panels -->
+  <div class="tab-panels">
+    {platforms.map((platform, index) => (
+      <div
+        class={`tab-panel ${index === 0 ? 'active' : ''}`}
+        role="tabpanel"
+        id={`panel-${platform.id}`}
+        aria-labelledby={`tab-${platform.id}`}
+        tabindex="0"
+        hidden={index !== 0}
+      >
+        <div class="command-container">
+          <div class="command-header">
+            <span class="command-label">Installation Command</span>
+            <button
+              class="copy-button"
+              data-command={platform.command}
+              aria-label={`Copy ${platform.name} installation command`}
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+              </svg>
+              <span class="copy-text">Copy</span>
+            </button>
+          </div>
+          <pre class="command-code"><code class="language-bash">{platform.command}</code></pre>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .platform-install-tabs {
+    @apply w-full;
+  }
+
+  /* Tab List */
+  .tab-list {
+    @apply flex flex-wrap gap-2 mb-6 p-2 rounded-lg bg-base-900/50 border border-primary-500/30;
+  }
+
+  /* Tab Buttons */
+  .tab-button {
+    @apply flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200;
+    @apply text-base-300 bg-transparent border border-transparent;
+    @apply hover:text-primary-400 hover:bg-base-800/50;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 focus:ring-offset-base-900;
+  }
+
+  .tab-button.active {
+    @apply text-white bg-primary-600 border-primary-500 shadow-lg;
+    box-shadow: 0 0 20px rgba(4, 163, 255, 0.4);
+  }
+
+  .tab-button:hover.active {
+    @apply bg-primary-700;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.5);
+  }
+
+  .tab-icon {
+    @apply flex items-center justify-center;
+  }
+
+  .tab-icon svg {
+    @apply w-5 h-5;
+  }
+
+  .tab-label {
+    @apply hidden sm:inline;
+  }
+
+  /* Tab Panels */
+  .tab-panels {
+    @apply relative;
+    min-height: 200px;
+  }
+
+  .tab-panel {
+    @apply opacity-0 transition-opacity duration-300;
+  }
+
+  .tab-panel.active {
+    @apply opacity-100;
+  }
+
+  .tab-panel:not(.active) {
+    @apply absolute top-0 left-0 w-full pointer-events-none;
+  }
+
+  /* Command Container */
+  .command-container {
+    @apply rounded-xl border border-primary-500/30 bg-base-900/80 backdrop-blur-sm overflow-hidden;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.3);
+  }
+
+  .command-header {
+    @apply flex items-center justify-between px-6 py-3 bg-base-950/50 border-b border-primary-500/30;
+  }
+
+  .command-label {
+    @apply text-sm font-semibold text-primary-400;
+  }
+
+  .copy-button {
+    @apply flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-base-300 bg-base-800/50 rounded border border-primary-500/30;
+    @apply hover:text-white hover:bg-primary-600/20 hover:border-primary-500/50;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500/50;
+    @apply transition-all duration-200;
+  }
+
+  .copy-button:active {
+    @apply scale-95;
+  }
+
+  .copy-button.copied {
+    @apply text-green-400 border-green-500/50 bg-green-600/20;
+  }
+
+  .command-code {
+    @apply block px-6 py-4 text-base font-mono text-green-400 bg-base-950/30 overflow-x-auto;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .tab-button {
+      @apply px-3 py-2;
+    }
+
+    .tab-icon svg {
+      @apply w-4 h-4;
+    }
+  }
+
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .tab-panel.active {
+    animation: fadeIn 0.3s ease-out;
+  }
+</style>
+
+<script>
+  // Tab switching functionality
+  function initPlatformTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    // Handle tab click
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const platformId = button.getAttribute('data-platform');
+        if (!platformId) return;
+
+        switchTab(platformId);
+      });
+    });
+
+    // Handle keyboard navigation
+    const tabList = document.querySelector('.tab-list');
+    if (tabList) {
+      tabList.addEventListener('keydown', (e) => {
+        const currentButton = document.activeElement as HTMLButtonElement;
+        if (!currentButton || !currentButton.classList.contains('tab-button')) return;
+
+        const buttons = Array.from(tabButtons);
+        const currentIndex = buttons.indexOf(currentButton);
+        let targetIndex = currentIndex;
+
+        // Arrow key navigation
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          targetIndex = (currentIndex + 1) % buttons.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          targetIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          targetIndex = 0;
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          targetIndex = buttons.length - 1;
+        } else {
+          return;
+        }
+
+        const targetButton = buttons[targetIndex] as HTMLButtonElement;
+        targetButton.focus();
+        const platformId = targetButton.getAttribute('data-platform');
+        if (platformId) {
+          switchTab(platformId);
+        }
+      });
+    }
+
+    function switchTab(platformId: string) {
+      // Update buttons
+      tabButtons.forEach(btn => {
+        const isActive = btn.getAttribute('data-platform') === platformId;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        btn.setAttribute('tabindex', isActive ? '0' : '-1');
+      });
+
+      // Update panels
+      tabPanels.forEach(panel => {
+        const panelId = panel.id;
+        const isActive = panelId === `panel-${platformId}`;
+        panel.classList.toggle('active', isActive);
+        panel.setAttribute('hidden', isActive ? '' : 'true');
+      });
+    }
+  }
+
+  // Copy to clipboard functionality
+  function initCopyButtons() {
+    const copyButtons = document.querySelectorAll('.copy-button');
+
+    copyButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const command = button.getAttribute('data-command');
+        if (!command) return;
+
+        try {
+          await navigator.clipboard.writeText(command);
+
+          // Visual feedback
+          const copyText = button.querySelector('.copy-text');
+          const originalText = copyText?.textContent || 'Copy';
+
+          button.classList.add('copied');
+          if (copyText) copyText.textContent = 'Copied!';
+
+          setTimeout(() => {
+            button.classList.remove('copied');
+            if (copyText) copyText.textContent = originalText;
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  }
+
+  // Initialize on DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initPlatformTabs();
+      initCopyButtons();
+    });
+  } else {
+    initPlatformTabs();
+    initCopyButtons();
+  }
+</script>

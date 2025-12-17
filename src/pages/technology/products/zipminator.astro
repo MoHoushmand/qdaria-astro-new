@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import FeatureCodeToggle from "@components/Feature/FeatureCodeToggle.astro";
 
 // Source: AgentDB convergent analysis (6 features validated)
 // References: zipminator/quantum-hardware, zipminator/nist-compliance,
@@ -302,84 +303,9 @@ const specifications = [
           </p>
         </div>
 
-        <!-- Preview Grid with Disabled State -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto opacity-60">
-          <!-- Python -->
-          <div class="feature-card rounded-xl p-6 relative">
-            <div class="absolute top-3 right-3">
-              <span class="text-xs px-2 py-1 bg-primary-600/30 text-primary-300 rounded">Beta Soon</span>
-            </div>
-            <h3 class="text-lg font-bold text-primary-400 mb-3">Python (PyO3)</h3>
-            <code class="block bg-base-950 text-base-500 p-3 rounded text-sm font-mono select-none">
-              pip install zipminator-pqc
-            </code>
-          </div>
-
-          <!-- Rust -->
-          <div class="feature-card rounded-xl p-6 relative">
-            <div class="absolute top-3 right-3">
-              <span class="text-xs px-2 py-1 bg-primary-600/30 text-primary-300 rounded">Beta Soon</span>
-            </div>
-            <h3 class="text-lg font-bold text-primary-400 mb-3">Rust (Cargo)</h3>
-            <code class="block bg-base-950 text-base-500 p-3 rounded text-sm font-mono select-none">
-              cargo install zipminator
-            </code>
-          </div>
-
-          <!-- macOS -->
-          <div class="feature-card rounded-xl p-6 relative">
-            <div class="absolute top-3 right-3">
-              <span class="text-xs px-2 py-1 bg-primary-600/30 text-primary-300 rounded">Beta Soon</span>
-            </div>
-            <h3 class="text-lg font-bold text-primary-400 mb-3">macOS (Homebrew)</h3>
-            <code class="block bg-base-950 text-base-500 p-3 rounded text-sm font-mono select-none">
-              brew install zipminator
-            </code>
-          </div>
-
-          <!-- Node.js -->
-          <div class="feature-card rounded-xl p-6 relative">
-            <div class="absolute top-3 right-3">
-              <span class="text-xs px-2 py-1 bg-primary-600/30 text-primary-300 rounded">Beta Soon</span>
-            </div>
-            <h3 class="text-lg font-bold text-primary-400 mb-3">Node.js (npm)</h3>
-            <code class="block bg-base-950 text-base-500 p-3 rounded text-sm font-mono select-none">
-              npm install -g @qdaria/zipminator
-            </code>
-          </div>
-
-          <!-- Docker -->
-          <div class="feature-card rounded-xl p-6 relative">
-            <div class="absolute top-3 right-3">
-              <span class="text-xs px-2 py-1 bg-primary-600/30 text-primary-300 rounded">Beta Soon</span>
-            </div>
-            <h3 class="text-lg font-bold text-primary-400 mb-3">Docker</h3>
-            <code class="block bg-base-950 text-base-500 p-3 rounded text-sm font-mono select-none">
-              docker pull qdaria/zipminator
-            </code>
-          </div>
-
-          <!-- Linux -->
-          <div class="feature-card rounded-xl p-6 relative">
-            <div class="absolute top-3 right-3">
-              <span class="text-xs px-2 py-1 bg-primary-600/30 text-primary-300 rounded">Beta Soon</span>
-            </div>
-            <h3 class="text-lg font-bold text-primary-400 mb-3">Linux (curl)</h3>
-            <code class="block bg-base-950 text-base-500 p-3 rounded text-sm font-mono overflow-x-auto select-none">
-              curl -sSf https://install.zipminator.zip | sh
-            </code>
-          </div>
-
-          <!-- Windows -->
-          <div class="feature-card rounded-xl p-6 relative">
-            <div class="absolute top-3 right-3">
-              <span class="text-xs px-2 py-1 bg-primary-600/30 text-primary-300 rounded">Beta Soon</span>
-            </div>
-            <h3 class="text-lg font-bold text-primary-400 mb-3">Windows (PowerShell)</h3>
-            <code class="block bg-base-950 text-base-500 p-3 rounded text-sm font-mono overflow-x-auto select-none">
-              iwr https://install.zipminator.zip/win | iex
-            </code>
-          </div>
+        <!-- Platform Installation Code Toggles -->
+        <div class="code-toggle-wrapper">
+          <FeatureCodeToggle />
         </div>
 
         <!-- CTA to Join Waitlist -->

@@ -85,3 +85,36 @@
     }
   }
 }
+
+@layer utilities {
+  /* Glow effect on hover - matching Amplify template exactly */
+  .hover-border-glow {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .hover-border-glow::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    border-radius: 0.75rem;
+    background-color: #3b82f6;
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity 0.3s ease;
+  }
+
+  .hover-border-glow:hover {
+    border-color: #7dd3fc !important;
+  }
+
+  .hover-border-glow:hover::before {
+    opacity: 1;
+  }
+
+  /* Text gradient for brand */
+  .text-gradient-brand {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+  }
+}

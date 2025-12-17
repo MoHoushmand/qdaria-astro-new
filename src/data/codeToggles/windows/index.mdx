@@ -1,0 +1,16 @@
+---
+language: Windows
+order: 7
+draft: false
+---
+
+```powershell
+# Install via Winget
+winget install Qdaria.Zipminator
+
+# Create encrypted volume
+New-ZipVolume -Path "D:\SecureData" -Size 50GB -Algo ML-KEM-768
+
+# Mount volume
+Mount-ZipVolume -Path "D:\SecureData" -DriveLetter Z
+```

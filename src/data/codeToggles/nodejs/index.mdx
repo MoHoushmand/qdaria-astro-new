@@ -1,0 +1,29 @@
+---
+language: Node.js
+order: 4
+draft: false
+---
+
+```javascript
+import { Zipminator, KEM } from 'zipminator-pqc';
+
+async function secureChannel() {
+  // Initialize with quantum entropy pool
+  const zip = await Zipminator.init({ 
+    entropySource: 'quantum-hybrid' 
+  });
+
+  // Generate NIST ML-KEM-768 keys
+  const keypair = await zip.kem.generateKeypair(KEM.ML_KEM_768);
+
+  // Encrypt message
+  const result = await zip.kem.encapsulate(
+    keypair.publicKey
+  );
+
+  console.log('Ciphertext:', result.ciphertext.toString('hex'));
+  console.log('Shared Secret:', result.sharedSecret.toString('hex'));
+}
+
+secureChannel();
+```

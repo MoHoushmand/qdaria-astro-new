@@ -1,0 +1,17 @@
+---
+language: macOS
+order: 3
+draft: false
+---
+
+```bash
+# Install via Homebrew
+brew install zipminator-pqc
+
+# Initialize secure tunnel
+zipminator tunnel --target 192.168.1.50:22 --pqc ml-kem-768
+
+# Verify quantum entropy source
+zipminator status --check-entropy
+> Entropy Source: IBM Brisbane (127-qubit) [ONLINE]
+```

@@ -1,0 +1,24 @@
+---
+language: Python (PyO3)
+order: 1
+draft: false
+---
+
+```python
+from zipminator import QuantumRNG, ML_KEM_768
+
+# Initialize quantum-backed RNG
+rng = QuantumRNG(provider="ibm_brisbane")
+
+# Generate keypair
+pk, sk = ML_KEM_768.keygen(rng)
+
+# Encapsulate (Encryption)
+ciphertext, shared_secret_a = ML_KEM_768.encaps(pk, rng)
+
+# Decapsulate (Decryption)
+shared_secret_b = ML_KEM_768.decaps(ciphertext, sk)
+
+assert shared_secret_a == shared_secret_b
+print(f"Shared Secret: {shared_secret_a.hex()[:16]}...")
+```

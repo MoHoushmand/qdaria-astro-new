@@ -1,0 +1,16 @@
+---
+language: Linux
+order: 6
+draft: false
+---
+
+```bash
+# Install
+curl -sSL https://get.qdaria.com/install.sh | bash
+
+# Generate quantum-safe keys
+zipminator keygen --algo ml-kem-768 --out identity.pem
+
+# Encrypt file using quantum entropy
+zipminator encrypt --in secret.pdf --out secret.enc.zip
+```

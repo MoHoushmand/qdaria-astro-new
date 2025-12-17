@@ -1,0 +1,29 @@
+---
+language: Rust
+order: 2
+
+draft: false
+---
+
+```rust
+use zipminator_pqc::kem::ml_kem_768;
+use zipminator_pqc::rng::QuantumRng;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Initialize quantum-seeded RNG
+    let mut rng = QuantumRng::new()?;
+
+    // Generate keypair (Alice)
+    let (pk, sk) = ml_kem_768::keypair(&mut rng);
+
+    // Encapsulate secret (Bob)
+    let (ct, ss_bob) = ml_kem_768::encaps(&pk, &mut rng);
+
+    // Decapsulate secret (Alice)
+    let ss_alice = ml_kem_768::decaps(&ct, &sk);
+
+    assert_eq!(ss_bob, ss_alice);
+    println!("Quantum-safe shared secret established!");
+    Ok(())
+}
+```

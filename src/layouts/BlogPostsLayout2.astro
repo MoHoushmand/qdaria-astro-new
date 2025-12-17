@@ -15,21 +15,46 @@ interface Props {
 const { posts } = Astro.props as Props;
 ---
 
-<di class="grid gap-6 gap-y-16 md:grid-cols-3">
-  {
-    posts.map((post, idx) => (
-      <>
-        {idx === 0 ? (
-          <PostCardLarge
+{/* Responsive blog grid with proper spacing */}
+<div class="pb-16 md:pb-24">
+  {/* When only 1 post, show as large card */}
+  {posts.length === 1 && (
+    <PostCardLarge
+      post={posts[0]}
+      showDescription={true}
+      data-aos="fade-up"
+    />
+  )}
+
+  {/* When 2 posts, show side by side with equal sizing */}
+  {posts.length === 2 && (
+    <div class="grid gap-8 md:gap-10 md:grid-cols-2">
+      {posts.map((post) => (
+        <PostCard post={post} showDescription={true} data-aos="fade-up" class="h-full" />
+      ))}
+    </div>
+  )}
+
+  {/* When 3+ posts: featured large card + responsive grid (3→2→1 columns) */}
+  {posts.length >= 3 && (
+    <>
+      <PostCardLarge
+        post={posts[0]}
+        showDescription={true}
+        class="mb-10 md:mb-16"
+        data-aos="fade-up"
+      />
+      <div class="grid gap-8 md:gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.slice(1).map((post, index) => (
+          <PostCard
             post={post}
-            showDescription={true}
-            class="md:col-span-3"
+            showDescription={false}
             data-aos="fade-up"
+            data-aos-delay={index * 100}
+            class="h-full"
           />
-        ) : (
-          <PostCard post={post} showDescription={false} data-aos="fade-up" />
-        )}
-      </>
-    ))
-  }
-</di>
+        ))}
+      </div>
+    </>
+  )}
+</div>
