@@ -94,13 +94,7 @@ export default defineConfig({
       cssMinify: true,
       // Chunk size warnings
       chunkSizeWarningLimit: 500,
-      rollupOptions: {
-        output: {
-          entryFileNames: '_astro/[name].[hash].js',
-          chunkFileNames: '_astro/[name].[hash].js',
-          assetFileNames: '_astro/[name].[hash][extname]',
-        },
-      },
+      // Note: Custom rollupOptions output removed - interferes with Netlify adapter's internal SSR files
     },
     ssr: {
       noExternal: [
