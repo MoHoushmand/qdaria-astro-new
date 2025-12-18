@@ -1,7 +1,10 @@
 ---
 /**
  * Nomenclature/Symbol definitions component for academic papers
- * Usage: <Nomenclature items={[{symbol: "λ", definition: "Lyapunov exponent"}]} />
+ * With glowing borders and KaTeX LaTeX rendering (client-side)
+ *
+ * Usage: <Nomenclature items={[{symbol: "\\lambda", definition: "Lyapunov exponent"}]} />
+ * Note: Symbols should be raw LaTeX without $ delimiters
  */
 interface NomenclatureItem {
   symbol: string;
@@ -17,34 +20,225 @@ interface Props {
 const { items, title = "Nomenclature" } = Astro.props;
 ---
 
-<section class="nomenclature-section my-12">
-  <h2 class="text-2xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<section class="nomenclature-section" data-katex-render>
+  <div class="nomenclature-header">
+    <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
     </svg>
-    {title}
-  </h2>
+    <h3 class="header-title">{title}</h3>
+  </div>
 
-  <div class="overflow-x-auto">
-    <table class="w-full border-collapse">
+  <div class="nomenclature-table-wrapper">
+    <table class="nomenclature-table">
       <thead>
-        <tr class="border-b border-cyan-400/30">
-          <th class="text-left py-3 px-4 text-cyan-400 font-semibold w-24">Symbol</th>
-          <th class="text-left py-3 px-4 text-cyan-400 font-semibold">Definition</th>
-          <th class="text-left py-3 px-4 text-cyan-400 font-semibold w-32">Unit</th>
+        <tr>
+          <th class="col-symbol">Symbol</th>
+          <th class="col-definition">Definition</th>
+          <th class="col-unit">Unit</th>
         </tr>
       </thead>
       <tbody>
         {items.map((item, index) => (
-          <tr class={`border-b border-slate-700/50 ${index % 2 === 0 ? 'bg-slate-800/20' : ''}`}>
-            <td class="py-3 px-4 font-mono text-orange-400">
-              <Fragment set:html={item.symbol} />
+          <tr class={index % 2 === 0 ? 'row-even' : 'row-odd'}>
+            <td class="cell-symbol">
+              <span class="katex-formula" data-formula={item.symbol}></span>
             </td>
-            <td class="py-3 px-4 text-gray-300">{item.definition}</td>
-            <td class="py-3 px-4 text-gray-400 font-mono text-sm">{item.unit || '—'}</td>
+            <td class="cell-definition">{item.definition}</td>
+            <td class="cell-unit">
+              {item.unit && item.unit !== '—' ? (
+                <span class="katex-formula" data-formula={item.unit}></span>
+              ) : '—'}
+            </td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
 </section>
+
+<script>
+  import katex from 'katex';
+
+  function renderKatexFormulas() {
+    document.querySelectorAll('.katex-formula[data-formula]').forEach((el) => {
+      const formula = el.getAttribute('data-formula');
+      if (formula && !el.classList.contains('katex-rendered')) {
+        try {
+          katex.render(formula, el as HTMLElement, {
+            throwOnError: false,
+            displayMode: false
+          });
+          el.classList.add('katex-rendered');
+        } catch (e) {
+          console.error('KaTeX render error:', e);
+          el.textContent = formula;
+        }
+      }
+    });
+  }
+
+  // Run on load and after navigation
+  renderKatexFormulas();
+  document.addEventListener('astro:page-load', renderKatexFormulas);
+</script>
+
+<style>
+  .nomenclature-section {
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 2, 18, 0.4);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .nomenclature-section:hover {
+    border-color: rgba(4, 163, 255, 0.5);
+    box-shadow:
+      0 0 30px rgba(4, 163, 255, 0.2),
+      0 8px 40px rgba(4, 163, 255, 0.15);
+  }
+
+  /* Glowing border effect */
+  .nomenclature-section::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 13px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(4, 163, 255, 0.3),
+      rgba(0, 206, 209, 0.2),
+      rgba(4, 163, 255, 0.3)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .nomenclature-section:hover::before {
+    opacity: 1;
+  }
+
+  .nomenclature-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #04a3ff;
+  }
+
+  .header-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #04a3ff 0%, #00ced1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nomenclature-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .nomenclature-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .nomenclature-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #04a3ff;
+    border-bottom: 2px solid rgba(4, 163, 255, 0.3);
+  }
+
+  .col-symbol {
+    width: 120px;
+  }
+
+  .col-unit {
+    width: 100px;
+  }
+
+  .nomenclature-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .row-even {
+    background: rgba(4, 163, 255, 0.03);
+  }
+
+  .row-odd {
+    background: transparent;
+  }
+
+  .nomenclature-table tr:hover {
+    background: rgba(4, 163, 255, 0.08);
+  }
+
+  .cell-symbol {
+    font-family: 'KaTeX_Math', 'Times New Roman', serif;
+    font-size: 1.1rem;
+    color: #ff9f43;
+  }
+
+  .cell-symbol :global(.katex) {
+    font-size: 1.1rem;
+  }
+
+  .cell-definition {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+  }
+
+  .cell-unit {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .nomenclature-section {
+      padding: 1rem;
+    }
+
+    .nomenclature-table th,
+    .nomenclature-table td {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .col-symbol {
+      width: 80px;
+    }
+
+    .col-unit {
+      width: 70px;
+    }
+  }
+</style>

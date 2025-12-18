@@ -125,6 +125,102 @@
       opacity: 1;
     }
   }
+
+  /* --- Blog Prose Overrides (Definitive Fix) --- */
+  
+  /* Force gradient text on headings */
+  .blog-prose h1, .blog-prose h2, .blog-prose h3, .blog-prose h4, .blog-prose h5, .blog-prose h6 {
+    background: linear-gradient(135deg, #04a3ff 0%, #00ffd3 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    display: inline-block !important;
+    width: fit-content !important;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    position: relative;
+  }
+
+  /* Decorative line below H2/H3 */
+  .blog-prose h2::after, .blog-prose h3::after {
+    content: '' !important;
+    display: block !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: linear-gradient(90deg, rgba(4, 163, 255, 0.5), rgba(0, 255, 211, 0.5), transparent) !important;
+    border-radius: 2px !important;
+    opacity: 0.8 !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+  }
+
+  /* Tables - Interactive Island Style */
+  .blog-prose table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    margin: 2.5rem 0 !important;
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
+    background: rgba(0, 2, 18, 0.6) !important;
+    border: 1px solid rgba(4, 163, 255, 0.25) !important;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    display: table !important;
+  }
+
+  .blog-prose table:hover {
+    border-color: rgba(4, 163, 255, 0.6) !important;
+    box-shadow: 0 0 40px rgba(4, 163, 255, 0.2), 0 10px 40px rgba(4, 163, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-4px) scale(1.01) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  }
+
+  .blog-prose th {
+    background: linear-gradient(90deg, rgba(4, 163, 255, 0.1), transparent) !important;
+    color: #04a3ff !important;
+    font-weight: 700 !important;
+    padding: 1rem 1.5rem !important;
+    text-align: left !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-size: 0.875rem !important;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.3) !important;
+  }
+
+  .blog-prose td {
+    padding: 1rem 1.5rem !important;
+    color: #cbd5e1 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .blog-prose tr:last-child td {
+    border-bottom: none !important;
+  }
+
+  .blog-prose tr:hover td {
+    background: rgba(4, 163, 255, 0.05) !important;
+    color: #fff !important;
+  }
+
+  /* Inline Math & Code - JupyterBook Style */
+  .blog-prose :not(pre) > code,
+  .blog-prose .katex-inline,
+  .blog-prose .katex-html,
+  .blog-prose span.katex,
+  .blog-prose p .katex,
+  .blog-prose li .katex,
+  .blog-prose td .katex {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ff7b72 !important;
+    border-radius: 0.25rem !important;
+    padding: 0.125rem 0.375rem !important;
+    font-family: monospace !important;
+    font-size: 0.9em !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
 }
 
 @layer utilities {

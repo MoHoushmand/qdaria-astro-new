@@ -1,0 +1,195 @@
+---
+/**
+ * Figure - Interactive figure wrapper with attached caption and glowing borders
+ *
+ * Usage in MDX:
+ * <Figure number={1} caption="Description of the figure">
+ *   <img src="/images/research/qrc/figure1.png" alt="Figure 1" />
+ * </Figure>
+ *
+ * Or with image prop:
+ * <Figure number={1} src="/images/research/qrc/figure1.png" caption="Description" />
+ */
+
+interface Props {
+  number: number;
+  caption: string;
+  src?: string;
+  alt?: string;
+  id?: string;
+  className?: string;
+}
+
+const { number, caption, src, alt, id, className = '' } = Astro.props;
+const figureId = id || `figure-${number}`;
+const imageAlt = alt || `Figure ${number}: ${caption}`;
+---
+
+<figure
+  id={figureId}
+  class={`blog-figure ${className}`}
+  role="figure"
+  aria-labelledby={`${figureId}-caption`}
+>
+  <!-- Figure Content (Image) -->
+  <div class="figure-content">
+    {src ? (
+      <img src={src} alt={imageAlt} loading="lazy" />
+    ) : (
+      <slot />
+    )}
+  </div>
+
+  <!-- Attached Caption with Figure Number -->
+  <figcaption id={`${figureId}-caption`} class="figure-caption">
+    <span class="figure-label">Figure {number}:</span> {caption}
+  </figcaption>
+</figure>
+
+<style>
+  .blog-figure {
+    position: relative;
+    margin: 2.5rem 0;
+    background: rgba(0, 2, 18, 0.6);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 4px 20px rgba(4, 163, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .blog-figure:hover {
+    border-color: rgba(4, 163, 255, 0.6);
+    box-shadow:
+      0 0 40px rgba(4, 163, 255, 0.25),
+      0 0 80px rgba(4, 163, 255, 0.1),
+      0 8px 40px rgba(4, 163, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Glowing border effect on hover */
+  .blog-figure::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      rgba(4, 163, 255, 0.5),
+      rgba(0, 206, 209, 0.3),
+      rgba(4, 163, 255, 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .blog-figure:hover::before {
+    opacity: 1;
+  }
+
+  .figure-content {
+    padding: 1.25rem;
+    padding-bottom: 0;
+  }
+
+  .figure-content img,
+  .figure-content :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-figure:hover .figure-content img,
+  .blog-figure:hover .figure-content :global(img) {
+    transform: scale(1.005);
+  }
+
+  /* Caption attached at bottom - joint with figure */
+  .figure-caption {
+    margin: 0;
+    padding: 1rem 1.25rem;
+    background: rgba(4, 163, 255, 0.08);
+    border-top: 1px solid rgba(4, 163, 255, 0.2);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.3s ease;
+  }
+
+  .blog-figure:hover .figure-caption {
+    background: rgba(4, 163, 255, 0.12);
+    border-top-color: rgba(4, 163, 255, 0.35);
+  }
+
+  .figure-label {
+    font-weight: 700;
+    color: #04a3ff;
+    margin-right: 0.25rem;
+  }
+
+  /* Animation on scroll into view */
+  @keyframes figureReveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .blog-figure {
+    animation: figureReveal 0.5s ease-out;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .blog-figure {
+      margin: 2rem 0;
+    }
+
+    .figure-content {
+      padding: 1rem;
+      padding-bottom: 0;
+    }
+
+    .figure-caption {
+      padding: 0.875rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .blog-figure {
+      animation: none;
+      transition: none;
+    }
+
+    .blog-figure:hover {
+      transform: none;
+    }
+
+    .figure-content img,
+    .figure-content :global(img) {
+      transition: none;
+    }
+  }
+</style>

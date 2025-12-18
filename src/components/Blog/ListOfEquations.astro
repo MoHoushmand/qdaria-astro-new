@@ -1,0 +1,236 @@
+---
+/**
+ * List of Equations component for academic paper appendices
+ * Displays numbered equations with descriptions and links
+ *
+ * Usage: <ListOfEquations equations={[{number: 1, label: "samples-ratio", name: "Sample Efficiency", description: "..."}]} />
+ */
+interface EquationEntry {
+  number: number | string;
+  label?: string;
+  name: string;
+  description: string;
+  latex?: string;
+}
+
+interface Props {
+  equations: EquationEntry[];
+  title?: string;
+}
+
+const { equations, title = "List of Equations" } = Astro.props;
+---
+
+<section class="list-of-equations" data-katex-render>
+  <div class="loe-header">
+    <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    </svg>
+    <h3 class="header-title">{title}</h3>
+  </div>
+
+  <div class="equations-list">
+    {equations.map((eq) => {
+      const href = eq.label ? `#eq:${eq.label}` : `#eq:${eq.number}`;
+      return (
+        <a href={href} class="equation-entry">
+          <div class="equation-entry-header">
+            <span class="equation-badge">Eq. {eq.number}</span>
+            <span class="equation-name">{eq.name}</span>
+          </div>
+          {eq.latex && (
+            <div class="equation-preview">
+              <span class="katex-display-formula" data-formula={eq.latex}></span>
+            </div>
+          )}
+          <p class="equation-description">{eq.description}</p>
+        </a>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  import katex from 'katex';
+
+  function renderKatexDisplayFormulas() {
+    document.querySelectorAll('.katex-display-formula[data-formula]').forEach((el) => {
+      const formula = el.getAttribute('data-formula');
+      if (formula && !el.classList.contains('katex-rendered')) {
+        try {
+          katex.render(formula, el as HTMLElement, {
+            throwOnError: false,
+            displayMode: true
+          });
+          el.classList.add('katex-rendered');
+        } catch (e) {
+          console.error('KaTeX render error:', e);
+          el.textContent = formula;
+        }
+      }
+    });
+  }
+
+  // Run on load and after navigation
+  renderKatexDisplayFormulas();
+  document.addEventListener('astro:page-load', renderKatexDisplayFormulas);
+</script>
+
+<style>
+  .list-of-equations {
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 2, 18, 0.4);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .list-of-equations:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow:
+      0 0 30px rgba(4, 163, 255, 0.15),
+      0 8px 40px rgba(4, 163, 255, 0.1);
+  }
+
+  /* Glowing border effect */
+  .list-of-equations::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 13px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(4, 163, 255, 0.3),
+      rgba(0, 206, 209, 0.2),
+      rgba(4, 163, 255, 0.3)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .list-of-equations:hover::before {
+    opacity: 1;
+  }
+
+  .loe-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #04a3ff;
+  }
+
+  .header-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #04a3ff 0%, #00ced1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .equations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .equation-entry {
+    display: block;
+    padding: 1rem 1.25rem;
+    background: rgba(4, 163, 255, 0.03);
+    border: 1px solid rgba(4, 163, 255, 0.15);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .equation-entry:hover {
+    background: rgba(4, 163, 255, 0.08);
+    border-color: rgba(4, 163, 255, 0.35);
+    transform: translateX(4px);
+  }
+
+  .equation-entry-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .equation-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    background: linear-gradient(135deg, #04a3ff 0%, #0389d6 100%);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.02em;
+  }
+
+  .equation-name {
+    font-weight: 600;
+    color: #04a3ff;
+    font-size: 1rem;
+  }
+
+  .equation-preview {
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 2, 18, 0.4);
+    border-radius: 4px;
+    overflow-x: auto;
+    text-align: center;
+  }
+
+  .equation-preview :global(.katex) {
+    font-size: 0.95em;
+  }
+
+  .equation-description {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .list-of-equations {
+      padding: 1rem;
+    }
+
+    .equation-entry {
+      padding: 0.75rem 1rem;
+    }
+
+    .equation-entry-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+</style>

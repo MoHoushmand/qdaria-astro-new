@@ -1,40 +1,144 @@
 ---
 /**
  * Numbered equation component for academic-style papers
- * Usage: <Equation number="1" label="samples-ratio">...</Equation>
+ * Interactive island with glowing borders and proper LaTeX rendering
+ * Usage: <Equation number="1" label="samples-ratio">$$...$$</Equation>
  */
 interface Props {
   number: number | string;
   label?: string;
+  description?: string;
 }
 
-const { number, label } = Astro.props;
+const { number, label, description } = Astro.props;
 const id = label ? `eq:${label}` : `eq:${number}`;
 ---
 
-<div class="equation-container my-6 flex items-center justify-center gap-4" id={id}>
-  <div class="equation-content flex-1 text-center overflow-x-auto py-4">
-    <slot />
+<div class="equation-island" id={id}>
+  <div class="equation-container">
+    <div class="equation-content">
+      <slot />
+    </div>
+    <span class="equation-number">({number})</span>
   </div>
-  <span class="equation-number text-gray-400 font-mono text-sm whitespace-nowrap">
-    ({number})
-  </span>
+  {description && (
+    <div class="equation-description">{description}</div>
+  )}
 </div>
 
 <style>
+  .equation-island {
+    position: relative;
+    margin: 2rem 0;
+    background: rgba(0, 2, 18, 0.5);
+    border: 1px solid rgba(4, 163, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .equation-island:hover {
+    border-color: rgba(4, 163, 255, 0.5);
+    box-shadow:
+      0 0 30px rgba(4, 163, 255, 0.2),
+      0 0 60px rgba(4, 163, 255, 0.08),
+      0 4px 20px rgba(4, 163, 255, 0.1);
+  }
+
+  /* Glowing border effect */
+  .equation-island::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 13px;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(4, 163, 255, 0.4),
+      rgba(0, 206, 209, 0.25),
+      rgba(4, 163, 255, 0.4)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .equation-island:hover::before {
+    opacity: 1;
+  }
+
   .equation-container {
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
-    border-left: 3px solid rgba(0, 212, 255, 0.3);
-    padding: 0.5rem 1rem;
-    border-radius: 0 8px 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(
+      135deg,
+      rgba(4, 163, 255, 0.06) 0%,
+      rgba(0, 206, 209, 0.03) 50%,
+      rgba(4, 163, 255, 0.06) 100%
+    );
+  }
+
+  .equation-content {
+    flex: 1;
+    text-align: center;
+    overflow-x: auto;
+    padding: 0.5rem 0;
   }
 
   .equation-content :global(.katex) {
-    font-size: 1.1em;
+    font-size: 1.15em;
+  }
+
+  .equation-content :global(.katex-display) {
+    margin: 0;
+    padding: 0;
   }
 
   .equation-number {
-    min-width: 2.5rem;
+    min-width: 3rem;
     text-align: right;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #04a3ff;
+    white-space: nowrap;
+  }
+
+  .equation-description {
+    padding: 0.75rem 1.5rem;
+    background: rgba(4, 163, 255, 0.05);
+    border-top: 1px solid rgba(4, 163, 255, 0.15);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .equation-container {
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+
+    .equation-number {
+      text-align: center;
+    }
+
+    .equation-description {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
   }
 </style>

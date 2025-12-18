@@ -1,7 +1,9 @@
 ---
 /**
  * List of Figures component for academic papers
- * Usage: <ListOfFigures figures={[{number: 1, caption: "...", page: "..."}]} />
+ * Interactive navigation with glowing border effects
+ *
+ * Usage: <ListOfFigures figures={[{number: 1, caption: "..."}]} />
  */
 interface FigureItem {
   number: number;
@@ -17,27 +19,173 @@ interface Props {
 const { figures, title = "List of Figures" } = Astro.props;
 ---
 
-<section class="list-of-figures-section my-12">
-  <h2 class="text-2xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<section class="list-of-figures-section">
+  <div class="section-header">
+    <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
     </svg>
-    {title}
-  </h2>
+    <h3 class="header-title">{title}</h3>
+    <span class="figure-count">{figures.length} figures</span>
+  </div>
 
-  <div class="space-y-2">
+  <div class="figures-list">
     {figures.map((fig) => (
       <a
         href={fig.id ? `#${fig.id}` : `#figure-${fig.number}`}
-        class="flex items-start gap-4 p-3 rounded-lg hover:bg-slate-800/50 transition-colors group"
+        class="figure-item"
       >
-        <span class="font-mono text-cyan-400 font-semibold whitespace-nowrap">
-          Figure {fig.number}
+        <span class="figure-number">
+          <span class="number-prefix">Fig.</span>
+          <span class="number-value">{fig.number}</span>
         </span>
-        <span class="text-gray-300 group-hover:text-white transition-colors flex-1">
-          {fig.caption}
-        </span>
+        <span class="figure-caption">{fig.caption}</span>
+        <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
       </a>
     ))}
   </div>
 </section>
+
+<style>
+  .list-of-figures-section {
+    position: relative;
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 2, 18, 0.4);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .list-of-figures-section:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow:
+      0 0 25px rgba(4, 163, 255, 0.15),
+      0 6px 30px rgba(4, 163, 255, 0.12);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #04a3ff;
+  }
+
+  .header-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #04a3ff 0%, #00ced1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    flex: 1;
+  }
+
+  .figure-count {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 4px 10px;
+    background: rgba(4, 163, 255, 0.1);
+    border-radius: 12px;
+  }
+
+  .figures-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .figure-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(4, 163, 255, 0.03);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .figure-item:hover {
+    background: rgba(4, 163, 255, 0.1);
+    border-color: rgba(4, 163, 255, 0.3);
+    transform: translateX(4px);
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.15);
+  }
+
+  .figure-number {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    min-width: 60px;
+    color: #04a3ff;
+    font-weight: 600;
+  }
+
+  .number-prefix {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .number-value {
+    font-size: 1rem;
+  }
+
+  .figure-caption {
+    flex: 1;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .figure-item:hover .figure-caption {
+    color: white;
+  }
+
+  .arrow-icon {
+    width: 1rem;
+    height: 1rem;
+    color: rgba(4, 163, 255, 0.5);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.2s ease;
+  }
+
+  .figure-item:hover .arrow-icon {
+    opacity: 1;
+    transform: translateX(0);
+    color: #04a3ff;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .list-of-figures-section {
+      padding: 1rem;
+    }
+
+    .figure-item {
+      padding: 0.6rem 0.75rem;
+    }
+
+    .figure-caption {
+      font-size: 0.875rem;
+    }
+
+    .arrow-icon {
+      display: none;
+    }
+  }
+</style>

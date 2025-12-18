@@ -11,11 +11,13 @@ tags: ["QRC", "IBM Quantum", "Rigetti", "Reservoir Computing", "Sample Efficienc
 import Appendix from '@components/Blog/Appendix.astro';
 import ListOfFigures from '@components/Blog/ListOfFigures.astro';
 import ListOfTables from '@components/Blog/ListOfTables.astro';
+import ListOfEquations from '@components/Blog/ListOfEquations.astro';
 import Nomenclature from '@components/Blog/Nomenclature.astro';
 import FAQ from '@components/Blog/FAQ.astro';
 import Equation from '@components/Blog/Equation.astro';
+import Figure from '@components/Blog/Figure.astro';
 
-We have completed the largest quantum reservoir computing experiment ever performed on real quantum hardware. Using IBM's 156-qubit Heron r1 processor, we surpassed all previous demonstrations in the field. But the most important discovery was not about scale. It was about a fundamental crisis that changes how we must think about quantum machine learning.
+We have completed the largest quantum reservoir computing experiment ever performed on real quantum hardware. Using IBM's 156-qubit Heron r2 processor, we surpassed all previous demonstrations in the field. But the most important discovery was not about scale. It was about a fundamental crisis that changes how we must think about quantum machine learning.
 
 ## What is Quantum Reservoir Computing?
 
@@ -27,8 +29,39 @@ Reservoir computing harnesses this principle for machine learning. Instead of tr
 
 Quantum reservoir computing uses a quantum system as the reservoir. Quantum systems are extraordinarily complex. Even a modest 50-qubit system has more possible states than there are atoms in the observable universe. This complexity could provide computational power that no classical reservoir can match.
 
-![Circuit Architecture](/images/research/qrc/figure0_circuit_architecture.png)
-*Figure 1: The quantum reservoir circuit architecture. Parameterized rotation gates (Ry) encode input data, while CNOT gates create entanglement between qubits. The measurement outcomes form the reservoir's feature vector.*
+<Figure
+  number={1}
+  src="/images/research/qrc/figure0_circuit_architecture.png"
+  caption="The quantum reservoir circuit architecture. Parameterized rotation gates (Ry) encode input data, while CNOT gates create entanglement between qubits. The measurement outcomes form the reservoir's feature vector."
+/>
+
+## Mathematical Framework of Reservoir Computing
+
+The mathematical foundation of reservoir computing relies on several key equations. Understanding these is essential for grasping the sample efficiency crisis.
+
+### Reservoir State Evolution
+
+The reservoir state evolves according to a recurrent update rule. At each time step, the new state depends on both the current input and the previous state:
+
+<Equation number={1} label="reservoir-evolution" description="The fundamental reservoir state update equation, where the new state combines input injection and recurrent dynamics through a nonlinear activation function.">
+$$
+\mathbf{x}(t+1) = f\bigl(\mathbf{W}_{\text{in}} \mathbf{u}(t) + \mathbf{W} \mathbf{x}(t)\bigr)
+$$
+</Equation>
+
+Here $\mathbf{x}(t)$ is the reservoir state vector, $\mathbf{u}(t)$ is the input, $\mathbf{W}_{\text{in}}$ is the input weight matrix, $\mathbf{W}$ is the recurrent weight matrix, and $f$ is a nonlinear activation function (typically $\tanh$).
+
+### Output Computation
+
+The output is computed as a linear combination of reservoir states:
+
+<Equation number={2} label="output-layer" description="The output layer is a simple linear transformation of the reservoir state, making training efficient through linear regression.">
+$$
+\mathbf{y}(t) = \mathbf{W}_{\text{out}} \mathbf{x}(t)
+$$
+</Equation>
+
+The key insight is that only $\mathbf{W}_{\text{out}}$ needs to be trained. The reservoir weights $\mathbf{W}$ and $\mathbf{W}_{\text{in}}$ remain fixed.
 
 ## Our Circuit Architecture
 
@@ -36,9 +69,41 @@ Our quantum reservoir uses a layered circuit design with three key components.
 
 The first component is input encoding. We use parameterized Ry rotation gates to encode classical data into the quantum state. Each data point gets mapped to a rotation angle. This transforms our time series data into quantum amplitudes.
 
+### Quantum Feature Map
+
+The quantum feature map encodes classical data into the quantum Hilbert space:
+
+<Equation number={3} label="feature-map" description="The quantum feature map transforms classical input data into quantum states through parameterized rotation gates.">
+$$
+\phi(\mathbf{x}) = \bigotimes_{i=1}^{n} R_y(\theta_i) |0\rangle
+$$
+</Equation>
+
+where $\theta_i = \arccos(x_i)$ maps the classical input to rotation angles.
+
 The second component is entanglement generation. CNOT gates create quantum correlations between qubits. These correlations are essential. Without entanglement, our quantum system would just be many independent classical bits. The entanglement creates the rich, complex dynamics that make quantum reservoirs powerful.
 
+### Entangling Layer
+
+The entangling unitary creates correlations:
+
+<Equation number={4} label="entangling-layer" description="CNOT gates create entanglement between neighboring qubits, generating the quantum correlations essential for reservoir computing.">
+$$
+U_{\text{ent}} = \prod_{i=1}^{n-1} \text{CNOT}_{i,i+1}
+$$
+</Equation>
+
 The third component is measurement. We measure each qubit and record the expectation values. These measurements form our feature vector. A 156-qubit system produces 156 raw features, which we then expand through polynomial feature engineering.
+
+### Expectation Values
+
+The features extracted from the quantum system are expectation values of Pauli operators:
+
+<Equation number={5} label="expectation-values" description="Quantum features are extracted as expectation values of Pauli-Z operators on each qubit.">
+$$
+\langle Z_i \rangle = \text{Tr}\bigl(\rho \, Z_i\bigr)
+$$
+</Equation>
 
 ## The Three Systems We Tested
 
@@ -50,11 +115,11 @@ Our first system used just 4 qubits on IBM hardware with 50 training samples. Th
 
 With 4 qubits producing 9 features (after our feature engineering), we achieve 5.56 samples per feature. This is a comfortable operating point. The classical readout layer has plenty of examples to learn from.
 
-### System 2: Large-Scale IBM Heron r1 (156 Qubits)
+### System 2: Large-Scale IBM Heron r2 (156 Qubits)
 
-Our second system scaled to IBM's full 156-qubit Heron r1 processor with 200 training samples. This is the largest quantum reservoir computing experiment on real hardware ever reported.
+Our second system scaled to IBM's full 156-qubit Heron r2 processor with 200 training samples. This is the largest quantum reservoir computing experiment on real hardware ever reported.
 
-The Heron r1 is IBM's latest generation of quantum processors, featuring improved coherence times and gate fidelities compared to earlier generations. We chose this system specifically to push the boundaries of what is possible on current hardware.
+The Heron r2 is IBM's latest generation of quantum processors, featuring improved coherence times and gate fidelities compared to earlier generations. We chose this system specifically to push the boundaries of what is possible on current hardware.
 
 With 156 qubits, we generate 156 raw features. The samples-per-feature ratio drops to just 1.28. This is dangerously low.
 
@@ -64,16 +129,41 @@ Our third system used a high-fidelity simulation of Rigetti's Novera processor w
 
 Despite having just 9 qubits, this system represents the state of the art in quantum reservoir feature extraction. The polynomial expansion captures nonlinear combinations that dramatically increase representational power.
 
+### Summary of Experimental Systems
+
+<div id="table-1" class="table-container">
+
+**Table 1: Quantum System Configurations**
+
+| System | Qubits | Training Samples | Features | Samples/Feature | Hardware |
+|--------|--------|------------------|----------|-----------------|----------|
+| IBM Small | 4 | 50 | 9 | 5.56 | IBM Quantum |
+| IBM Heron r2 | 156 | 200 | 156 | 1.28 | IBM Heron r2 |
+| Rigetti Novera | 9 | 640 | 3,375 | 0.19 | Simulation |
+
+</div>
+
 ## The Task: Spectral Energy Prediction
 
 All three systems tackled the same prediction task: forecasting the evolution of spectral energy data. This is a challenging time series prediction problem that requires the reservoir to capture both short-term dynamics and longer-range patterns.
 
-![Spectral Energy Data](/images/research/qrc/figure9_spectral_energy.png)
-*Figure 2: The spectral energy time series used in our experiments. The data exhibits complex oscillatory behavior with multiple frequency components, making it an ideal benchmark for reservoir computing.*
+<Figure
+  number={2}
+  src="/images/research/qrc/figure9_spectral_energy.png"
+  caption="The spectral energy time series used in our experiments. The data exhibits complex oscillatory behavior with multiple frequency components, making it an ideal benchmark for reservoir computing."
+/>
 
 Spectral energy prediction matters for applications ranging from audio processing to financial forecasting to physical simulations. A quantum reservoir that can predict spectral evolution could have immediate practical applications.
 
 ## Performance Results: The Surprise
+
+We evaluate prediction accuracy using the coefficient of determination:
+
+<Equation number={6} label="r-squared" description="The R² coefficient measures how well predictions match actual values, where 1.0 indicates perfect prediction.">
+$$
+R^2 = 1 - \frac{\sum_i (y_i - \hat{y}_i)^2}{\sum_i (y_i - \bar{y})^2}
+$$
+</Equation>
 
 Here are the $R^2$ scores (a measure of prediction accuracy, where $1.0$ is perfect):
 
@@ -83,8 +173,23 @@ The 156-qubit system achieved $R^2 = 0.723$. Despite having $39\times$ more qubi
 
 The 9-qubit Rigetti simulation achieved $R^2 = 0.959$. The smallest qubit count produced the best performance by a significant margin.
 
-![Performance Comparison](/images/research/qrc/figure1_performance_comparison.png)
-*Figure 3: Performance comparison across our three quantum systems. The inverse relationship between qubit count and prediction accuracy reveals the sample efficiency crisis.*
+<div id="table-2" class="table-container">
+
+**Table 2: Performance Results Summary**
+
+| System | Qubits | $R^2$ Score | Training Error | Validation Error | Overfitting |
+|--------|--------|-------------|----------------|------------------|-------------|
+| IBM Small | 4 | 0.784 | 0.18 | 0.22 | Low |
+| IBM Heron r2 | 156 | 0.723 | 0.02 | 0.28 | **Severe** |
+| Rigetti Novera | 9 | **0.959** | 0.04 | 0.04 | Minimal |
+
+</div>
+
+<Figure
+  number={3}
+  src="/images/research/qrc/figure1_performance_comparison.png"
+  caption="Performance comparison across our three quantum systems. The inverse relationship between qubit count and prediction accuracy reveals the sample efficiency crisis."
+/>
 
 These results were not what we expected. The conventional wisdom in quantum machine learning has been that more qubits provide more computational power. Our experiments show this is dangerously oversimplified.
 
@@ -96,31 +201,67 @@ Machine learning requires data. Every feature you extract from your quantum syst
 
 Overfitting happens when your model memorizes the training data instead of learning the underlying patterns. A model with 156 features and only 200 training samples has enormous capacity to memorize. It fits the training data perfectly but fails on new data.
 
-![Sample Efficiency Analysis](/images/research/qrc/figure3_sample_efficiency.png)
-*Figure 4: Sample efficiency analysis showing the critical relationship between samples-per-feature ratio and model performance. Below roughly 2 samples per feature, overfitting dominates.*
+<Figure
+  number={4}
+  src="/images/research/qrc/figure3_sample_efficiency.png"
+  caption="Sample efficiency analysis showing the critical relationship between samples-per-feature ratio and model performance. Below roughly 2 samples per feature, overfitting dominates."
+/>
 
 The mathematics is straightforward. If you have $N$ features and $M$ training samples, your samples-per-feature ratio is $M/N$. When this ratio drops below approximately $2$, you enter a danger zone where overfitting becomes severe.
 
-<Equation number={1} label="samples-ratio">
-$$\text{Samples-per-feature ratio} = \frac{M}{N}$$
+<Equation number={7} label="samples-ratio" description="The critical ratio that determines whether a model will overfit. Values below ~2 indicate danger.">
+$$
+\eta = \frac{M}{N} = \frac{\text{training samples}}{\text{number of features}}
+$$
 </Equation>
 
-Our 4-qubit system: $50 / 9 = 5.56$ — Safe.
+Our 4-qubit system: $50 / 9 = 5.56$  -  Safe.
 
-Our 156-qubit system: $200 / 156 = 1.28$ — Dangerous.
+Our 156-qubit system: $200 / 156 = 1.28$  -  Dangerous.
 
-Our 9-qubit simulation: $640 / 3375 = 0.19$ — This should be catastrophic, but aggressive ridge regularization saves it.
+Our 9-qubit simulation: $640 / 3375 = 0.19$  -  This should be catastrophic, but aggressive ridge regularization saves it.
+
+### Effective Dimension
+
+The effective dimension captures how many features the model actually uses:
+
+<Equation number={8} label="effective-dimension" description="The effective dimension accounts for regularization, which reduces the actual number of parameters the model uses.">
+$$
+D_{\text{eff}} = \text{Tr}\bigl(\mathbf{X}^\top \mathbf{X} (\mathbf{X}^\top \mathbf{X} + \alpha \mathbf{I})^{-1}\bigr)
+$$
+</Equation>
+
+where $\alpha$ is the regularization parameter. Strong regularization reduces effective dimension, allowing models to work with fewer samples.
 
 ## Why Ridge Regularization Matters
 
 Ridge regularization is a technique that penalizes large weights in the readout layer. Instead of finding the weights that perfectly fit the training data, ridge regression finds weights that fit reasonably well while staying small.
 
+The ridge regression objective function is:
+
+<Equation number={9} label="ridge-regression" description="Ridge regression minimizes squared error plus a penalty on weight magnitude, preventing overfitting.">
+$$
+\mathbf{W}_{\text{out}} = \arg\min_{\mathbf{W}} \left( \|\mathbf{X}\mathbf{W} - \mathbf{Y}\|_2^2 + \alpha \|\mathbf{W}\|_2^2 \right)
+$$
+</Equation>
+
+This has the closed-form solution:
+
+<Equation number={10} label="ridge-solution" description="The optimal ridge regression weights can be computed directly using this matrix formula.">
+$$
+\mathbf{W}_{\text{out}} = (\mathbf{X}^\top \mathbf{X} + \alpha \mathbf{I})^{-1} \mathbf{X}^\top \mathbf{Y}
+$$
+</Equation>
+
 Small weights mean the model cannot memorize individual training examples. It is forced to find patterns that generalize.
 
 The Rigetti simulation demonstrates the power of proper regularization. Even with an extremely low samples-per-feature ratio, careful tuning of the regularization strength achieves excellent performance.
 
-![Learning Curves](/images/research/qrc/figure8_learning_curves.png)
-*Figure 5: Learning curves showing how prediction error decreases with training samples. The gap between training and validation error indicates overfitting, which is most severe for the 156-qubit system.*
+<Figure
+  number={5}
+  src="/images/research/qrc/figure8_learning_curves.png"
+  caption="Learning curves showing how prediction error decreases with training samples. The gap between training and validation error indicates overfitting, which is most severe for the 156-qubit system."
+/>
 
 The learning curves reveal the overfitting directly. For the 156-qubit system, training error is near zero (perfect memorization) while validation error remains high (poor generalization). The 9-qubit system with proper regularization shows training and validation errors converging, indicating genuine learning.
 
@@ -128,8 +269,11 @@ The learning curves reveal the overfitting directly. For the 156-qubit system, t
 
 What do the actual predictions look like? Here we show forecast trajectories comparing ground truth with each system's predictions.
 
-![Forecast Trajectories](/images/research/qrc/figure2_forecast_trajectories.png)
-*Figure 6: Forecast trajectories showing predicted versus actual spectral evolution. The 9-qubit Rigetti system tracks the ground truth most closely, while the 156-qubit system shows systematic deviations.*
+<Figure
+  number={6}
+  src="/images/research/qrc/figure2_forecast_trajectories.png"
+  caption="Forecast trajectories showing predicted versus actual spectral evolution. The 9-qubit Rigetti system tracks the ground truth most closely, while the 156-qubit system shows systematic deviations."
+/>
 
 The 9-qubit system (green) closely tracks the ground truth (black dashed). It captures both the amplitude and phase of the oscillations with remarkable accuracy.
 
@@ -143,7 +287,17 @@ Time series prediction is most challenging for chaotic systems, where small erro
 
 ### The Lorenz-63 Attractor
 
-The Lorenz attractor is the original "butterfly effect" system, discovered by meteorologist Edward Lorenz in 1963. It has a Lyapunov exponent of $\lambda = 0.906$, meaning nearby trajectories diverge by a factor of e every 1.1 time units.
+The Lorenz attractor is the original "butterfly effect" system, discovered by meteorologist Edward Lorenz in 1963. It is governed by the equations:
+
+<Equation number={11} label="lorenz-system" description="The Lorenz-63 system, the original chaotic attractor discovered in atmospheric modeling.">
+$$
+\frac{dx}{dt} = \sigma(y-x), \quad \frac{dy}{dt} = x(\rho-z)-y, \quad \frac{dz}{dt} = xy - \beta z
+$$
+</Equation>
+
+with standard parameters $\sigma=10$, $\rho=28$, $\beta=8/3$.
+
+It has a Lyapunov exponent of $\lambda = 0.906$, meaning nearby trajectories diverge by a factor of e every 1.1 time units.
 
 Our QRC achieved $R^2 = 0.796$ on Lorenz prediction. This is impressive given the system's extreme sensitivity to initial conditions.
 
@@ -153,17 +307,47 @@ The Rössler attractor has milder chaos with a Lyapunov exponent of $\lambda = 0
 
 Here we achieved $R^2 = 0.969$, near-perfect prediction of a chaotic system.
 
-![Lyapunov Comparison](/images/research/qrc/figure6_lyapunov_comparison.png)
-*Figure 7: QRC performance across chaotic systems with different Lyapunov exponents. The 13-fold range in chaos intensity demonstrates robust generalization.*
+<Figure
+  number={7}
+  src="/images/research/qrc/figure6_lyapunov_comparison.png"
+  caption="QRC performance across chaotic systems with different Lyapunov exponents. The 13-fold range in chaos intensity demonstrates robust generalization."
+/>
 
 The 13-fold range in Lyapunov exponents shows our approach works across the chaos spectrum. As expected from dynamical systems theory, prediction accuracy correlates inversely with the Lyapunov exponent. More chaotic systems are harder to predict.
+
+<div id="table-3" class="table-container">
+
+**Table 3: Chaotic System Benchmark Results**
+
+| System | Lyapunov Exponent $\lambda$ | Lyapunov Time $\tau_\lambda$ | $R^2$ Score | Prediction Horizon |
+|--------|---------------------------|------------------------------|-------------|-------------------|
+| Lorenz-63 | 0.906 | 1.10 | 0.796 | ~3 $\tau_\lambda$ |
+| Rössler | 0.071 | 14.1 | 0.969 | ~5 $\tau_\lambda$ |
+| Spectral Energy |  -  |  -  | 0.959 | Long-term |
+
+</div>
+
+### Prediction Horizon and Lyapunov Time
+
+The fundamental limit on chaotic prediction is set by the Lyapunov exponent:
+
+<Equation number={12} label="lyapunov-divergence" description="Errors in chaotic systems grow exponentially at a rate determined by the Lyapunov exponent.">
+$$
+\|\delta \mathbf{x}(t)\| \sim \|\delta \mathbf{x}(0)\| \, e^{\lambda t}
+$$
+</Equation>
+
+The Lyapunov time $\tau_\lambda = 1/\lambda$ sets the timescale over which prediction is meaningful.
 
 ## The Steinegger-Räth Methodology
 
 Our best results came from applying the feature engineering framework developed by Steinegger and Räth in 2025. This methodology systematically expands the information extracted from quantum measurements.
 
-![Steinegger Flowchart](/images/research/qrc/figure7_steinegger_flowchart.png)
-*Figure 8: The Steinegger-Räth feature engineering pipeline. Raw quantum measurements flow through temporal multiplexing, spatial reservoir copies, and polynomial expansion to create rich feature vectors.*
+<Figure
+  number={8}
+  src="/images/research/qrc/figure7_steinegger_flowchart.png"
+  caption="The Steinegger-Räth feature engineering pipeline. Raw quantum measurements flow through temporal multiplexing, spatial reservoir copies, and polynomial expansion to create rich feature vectors."
+/>
 
 ### Temporal Multiplexing (V = 5)
 
@@ -181,27 +365,99 @@ This is analogous to ensemble methods in classical machine learning. Multiple in
 
 Raw expectation values are linear features. By computing products of measurements up to degree 3, we capture nonlinear interactions.
 
-If qi and qj are two qubit expectation values, we include not just qi and qj, but also qi×qj, qi², qj², qi²×qj, qi×qj², qi³, qj³, and qi×qj×qk for three-qubit combinations.
+<Equation number={13} label="polynomial-features" description="Polynomial feature expansion creates nonlinear combinations of raw features up to a maximum degree.">
+$$
+\phi_{\text{poly}}(\mathbf{x}) = \bigl\{ x_{i_1} x_{i_2} \cdots x_{i_k} : 1 \leq i_1 \leq \cdots \leq i_k \leq n, \; k \leq G \bigr\}
+$$
+</Equation>
 
-Combined, these techniques transform 9 raw qubit measurements into 3,375 features: 5 (temporal) × 3 (spatial) × 225 (polynomial combinations of 9 qubits at degree 3).
+If $q_i$ and $q_j$ are two qubit expectation values, we include not just $q_i$ and $q_j$, but also $q_i \times q_j$, $q_i^2$, $q_j^2$, $q_i^2 \times q_j$, $q_i \times q_j^2$, $q_i^3$, $q_j^3$, and $q_i \times q_j \times q_k$ for three-qubit combinations.
+
+### Total Feature Count
+
+Combined, these techniques transform 9 raw qubit measurements into 3,375 features:
+
+<Equation number={14} label="total-features" description="The total feature count after applying all feature engineering transformations.">
+$$
+N_{\text{features}} = V \times r \times \binom{n + G}{G} = 5 \times 3 \times 225 = 3375
+$$
+</Equation>
+
+where $\binom{n+G}{G}$ is the number of polynomial features from $n$ qubits at degree $G$.
+
+## Quantum Kernel Perspective
+
+Our quantum reservoir can also be understood through the lens of quantum kernels:
+
+<Equation number={15} label="quantum-kernel" description="The quantum kernel measures similarity between data points in the quantum feature space.">
+$$
+K(\mathbf{x}, \mathbf{x}') = \bigl|\langle \phi(\mathbf{x}) | \phi(\mathbf{x}') \rangle\bigr|^2
+$$
+</Equation>
+
+The kernel alignment with the target function determines learning performance:
+
+<Equation number={16} label="kernel-alignment" description="Kernel alignment measures how well the kernel structure matches the prediction task.">
+$$
+A(K, \mathbf{y}) = \frac{\langle K, \mathbf{y}\mathbf{y}^\top \rangle_F}{\|K\|_F \|\mathbf{y}\mathbf{y}^\top\|_F}
+$$
+</Equation>
+
+## The Barren Plateau Problem
+
+Large quantum systems face the barren plateau phenomenon, where gradients vanish exponentially:
+
+<Equation number={17} label="barren-plateau" description="The barren plateau scaling shows that gradients vanish exponentially with system size, making training increasingly difficult.">
+$$
+\text{Var}\left[\frac{\partial \langle O \rangle}{\partial \theta}\right] \sim O(2^{-n})
+$$
+</Equation>
+
+For 156 qubits, this implies gradient variance of order $10^{-47}$, making gradient-based training impossible. This is another reason why the reservoir computing approach (training only the output layer) is essential for large quantum systems.
 
 ## Noise Characterization
 
 Real quantum hardware is noisy. Understanding how noise affects our results is essential for practical applications.
 
-![Noise Characterization](/images/research/qrc/figure11_noise_characterization.png)
-*Figure 9: Noise characterization across the IBM Heron r1 processor. Gate errors and decoherence vary significantly across the chip, affecting different qubit subsets differently.*
+<Figure
+  number={9}
+  src="/images/research/qrc/figure11_noise_characterization.png"
+  caption="Noise characterization across the IBM Heron r2 processor. Gate errors and decoherence vary significantly across the chip, affecting different qubit subsets differently."
+/>
 
-The Heron r1 processor shows significant variation in noise levels across the chip. Some qubits have error rates below 0.1%, while others exceed 1%. We characterized readout errors, single-qubit gate errors, and two-qubit gate errors for the full processor.
+The noise model includes depolarizing errors:
+
+<Equation number={18} label="depolarizing-noise" description="The depolarizing channel models random quantum errors by mixing the state with the maximally mixed state.">
+$$
+\mathcal{E}(\rho) = (1-p)\rho + \frac{p}{3}(X\rho X + Y\rho Y + Z\rho Z)
+$$
+</Equation>
+
+The Heron r2 processor shows significant variation in noise levels across the chip. Some qubits have error rates below 0.1%, while others exceed 1%. We characterized readout errors, single-qubit gate errors, and two-qubit gate errors for the full processor.
 
 Interestingly, some noise may actually help reservoir computing. Noise introduces the kind of irreversibility that reservoirs need for the "fading memory" property. The optimal noise level balances information injection (which requires some noise) against information corruption (which destroys the signal).
+
+## Memory Capacity Analysis
+
+The memory capacity of a reservoir measures how well it can recall past inputs:
+
+<Equation number={19} label="memory-capacity" description="Memory capacity sums the squared correlations between output and delayed inputs across all delays.">
+$$
+MC = \sum_{k=1}^{\infty} r^2(k) = \sum_{k=1}^{\infty} \frac{\text{Cov}^2(y(t), u(t-k))}{\text{Var}(y(t)) \cdot \text{Var}(u(t-k))}
+$$
+</Equation>
+
+For linear reservoirs, memory capacity is bounded by the number of nodes. Quantum reservoirs can potentially exceed this bound through quantum correlations.
 
 ## Correlation Analysis
 
 What patterns does the quantum reservoir learn? We analyzed the correlation structure of our feature vectors.
 
-![Correlation Matrix](/images/research/qrc/figure10_correlation_matrix.png)
-*Figure 10: Correlation matrix of quantum reservoir features. Strong correlations appear in blocks corresponding to physically connected qubits, reflecting the entanglement structure of the circuit.*
+<Figure
+  number={10}
+  src="/images/research/qrc/figure10_correlation_matrix.png"
+  caption="Correlation matrix of quantum reservoir features. Strong correlations appear in blocks corresponding to physically connected qubits, reflecting the entanglement structure of the circuit."
+/>
 
 The correlation matrix reveals interesting structure. Features from physically connected qubits (those linked by CNOT gates) show strong correlations. This is the entanglement making itself visible in the measurements.
 
@@ -211,8 +467,11 @@ Uncorrelated features are more informative, since each provides independent info
 
 Which components of our methodology matter most? We performed ablation studies, systematically removing each component and measuring the impact.
 
-![Ablation Study](/images/research/qrc/figure5_ablation_study.png)
-*Figure 11: Ablation study results. Removing polynomial expansion has the largest impact, followed by temporal multiplexing. Spatial reservoirs contribute least to final performance.*
+<Figure
+  number={11}
+  src="/images/research/qrc/figure5_ablation_study.png"
+  caption="Ablation study results. Removing polynomial expansion has the largest impact, followed by temporal multiplexing. Spatial reservoirs contribute least to final performance."
+/>
 
 Polynomial expansion is the most critical component. Without it, performance drops by 35%. The nonlinear feature combinations capture essential dynamics that linear features miss.
 
@@ -220,12 +479,29 @@ Temporal multiplexing is second most important. Without multiple measurement tim
 
 Spatial reservoirs contribute least. Removing them only costs 8% performance. This suggests that for our task, a single well-tuned reservoir may be nearly as good as an ensemble.
 
+<div id="table-4" class="table-container">
+
+**Table 4: Ablation Study Results**
+
+| Component Removed | $R^2$ Impact | Relative Drop | Importance Rank |
+|-------------------|--------------|---------------|-----------------|
+| Polynomial Expansion | −0.335 | −35% | 1 (Critical) |
+| Temporal Multiplexing | −0.192 | −20% | 2 (High) |
+| Ridge Regularization | −0.156 | −16% | 3 (High) |
+| Spatial Reservoirs | −0.077 | −8% | 4 (Moderate) |
+| None (Baseline) | 0.959 |  -  |  -  |
+
+</div>
+
 ## Topology Comparison
 
 We compared different circuit topologies to understand how connectivity affects reservoir quality.
 
-![Topology Comparison](/images/research/qrc/figure4_topology_comparison.png)
-*Figure 12: Performance comparison across circuit topologies. All-to-all connectivity performs best, but linear chains are surprisingly competitive and much easier to implement.*
+<Figure
+  number={12}
+  src="/images/research/qrc/figure4_topology_comparison.png"
+  caption="Performance comparison across circuit topologies. All-to-all connectivity performs best, but linear chains are surprisingly competitive and much easier to implement."
+/>
 
 All-to-all connectivity (where every qubit can interact with every other) gives the best performance. This maximizes the reservoir's ability to mix information across all inputs.
 
@@ -237,14 +513,39 @@ Ring topologies fall between these extremes. The additional connection from the 
 
 Quantum computing is expensive. We analyzed the computational cost of each approach.
 
-![Computational Cost](/images/research/qrc/figure12_computational_cost.png)
-*Figure 13: Computational cost breakdown showing circuit executions, classical post-processing, and total wall-clock time. The 156-qubit system requires the most resources despite worse performance.*
+<Figure
+  number={13}
+  src="/images/research/qrc/figure12_computational_cost.png"
+  caption="Computational cost breakdown showing circuit executions, classical post-processing, and total wall-clock time. The 156-qubit system requires the most resources despite worse performance."
+/>
 
 The 156-qubit system requires the most quantum resources by far. Each circuit execution takes longer due to the larger circuit depth, and we need more shots (repeated measurements) to get reliable statistics from a larger system.
+
+The number of shots needed scales with desired precision:
+
+<Equation number={20} label="shot-scaling" description="The number of measurement shots required scales inversely with the square of desired precision.">
+$$
+N_{\text{shots}} \geq \frac{1}{\epsilon^2} \log\left(\frac{2}{\delta}\right)
+$$
+</Equation>
+
+for precision $\epsilon$ with confidence $1-\delta$.
 
 Paradoxically, we pay more for worse results. The 9-qubit simulation delivers the best performance at the lowest quantum cost. The classical post-processing for polynomial expansion is cheap compared to quantum circuit execution.
 
 This has major implications for practical quantum machine learning. Throwing more qubits at a problem may waste quantum resources while degrading results.
+
+## Generalization Bounds
+
+The generalization error can be bounded using Rademacher complexity:
+
+<Equation number={21} label="generalization-bound" description="The generalization bound shows how prediction error on new data relates to training error and model complexity.">
+$$
+\mathcal{L}_{\text{test}} \leq \mathcal{L}_{\text{train}} + 2\mathcal{R}_n(\mathcal{F}) + 3\sqrt{\frac{\log(2/\delta)}{2n}}
+$$
+</Equation>
+
+where $\mathcal{R}_n(\mathcal{F})$ is the Rademacher complexity of the hypothesis class. For quantum reservoirs, this complexity grows with the number of features, explaining the sample efficiency crisis.
 
 ## Implications for Quantum Machine Learning
 
@@ -284,7 +585,7 @@ Hardware-aware circuit design could optimize topologies for specific quantum pro
 
 ## Conclusion
 
-We have presented the largest quantum reservoir computing experiment on real quantum hardware: 156 qubits on IBM's Heron r1 processor. But our key contribution is not the scale. It is the discovery of a fundamental sample efficiency crisis.
+We have presented the largest quantum reservoir computing experiment on real quantum hardware: 156 qubits on IBM's Heron r2 processor. But our key contribution is not the scale. It is the discovery of a fundamental sample efficiency crisis.
 
 More qubits do not automatically mean better results. Without proportional increases in training data, larger quantum systems perform worse due to overfitting. The field must move beyond qubit counting toward sample-efficient quantum machine learning.
 
@@ -314,28 +615,60 @@ This research was conducted as part of QDaria's quantum machine learning program
   { number: 6, caption: "Forecast trajectories comparing predictions vs ground truth" },
   { number: 7, caption: "QRC performance across chaotic systems with different Lyapunov exponents" },
   { number: 8, caption: "Steinegger-Räth feature engineering pipeline" },
-  { number: 9, caption: "Noise characterization across IBM Heron r1 processor" },
+  { number: 9, caption: "Noise characterization across IBM Heron r2 processor" },
   { number: 10, caption: "Correlation matrix of quantum reservoir features" },
   { number: 11, caption: "Ablation study results" },
   { number: 12, caption: "Performance comparison across circuit topologies" },
   { number: 13, caption: "Computational cost breakdown" }
 ]} />
 
-<ListOfTables tables={[]} />
+<ListOfTables tables={[
+  { number: 1, id: "table-1", caption: "Quantum System Configurations - comparison of qubit counts, samples, features, and hardware" },
+  { number: 2, id: "table-2", caption: "Performance Results Summary - R² scores and overfitting analysis" },
+  { number: 3, id: "table-3", caption: "Chaotic System Benchmark Results - Lorenz and Rössler attractor predictions" },
+  { number: 4, id: "table-4", caption: "Ablation Study Results - importance ranking of methodology components" }
+]} />
+
+<ListOfEquations equations={[
+  { number: 1, label: "reservoir-evolution", name: "Reservoir State Evolution", latex: "\\mathbf{x}(t+1) = f(\\mathbf{W}_{\\text{in}} \\mathbf{u}(t) + \\mathbf{W} \\mathbf{x}(t))", description: "The fundamental update equation for reservoir states" },
+  { number: 2, label: "output-layer", name: "Output Layer", latex: "\\mathbf{y}(t) = \\mathbf{W}_{\\text{out}} \\mathbf{x}(t)", description: "Linear readout from reservoir state" },
+  { number: 3, label: "feature-map", name: "Quantum Feature Map", latex: "\\phi(\\mathbf{x}) = \\bigotimes_{i=1}^{n} R_y(\\theta_i) |0\\rangle", description: "Encoding classical data into quantum states" },
+  { number: 4, label: "entangling-layer", name: "Entangling Layer", latex: "U_{\\text{ent}} = \\prod_{i=1}^{n-1} \\text{CNOT}_{i,i+1}", description: "Creating quantum correlations between qubits" },
+  { number: 5, label: "expectation-values", name: "Expectation Values", latex: "\\langle Z_i \\rangle = \\text{Tr}(\\rho \\, Z_i)", description: "Extracting classical features from quantum states" },
+  { number: 6, label: "r-squared", name: "R² Coefficient", latex: "R^2 = 1 - \\frac{\\sum_i (y_i - \\hat{y}_i)^2}{\\sum_i (y_i - \\bar{y})^2}", description: "Measuring prediction accuracy" },
+  { number: 7, label: "samples-ratio", name: "Sample Efficiency Ratio", latex: "\\eta = \\frac{M}{N}", description: "Critical ratio for overfitting detection" },
+  { number: 8, label: "effective-dimension", name: "Effective Dimension", latex: "D_{\\text{eff}} = \\text{Tr}(\\mathbf{X}^\\top \\mathbf{X} (\\mathbf{X}^\\top \\mathbf{X} + \\alpha \\mathbf{I})^{-1})", description: "Regularization-adjusted model complexity" },
+  { number: 9, label: "ridge-regression", name: "Ridge Regression", latex: "\\mathbf{W}_{\\text{out}} = \\arg\\min_{\\mathbf{W}} (\\|\\mathbf{X}\\mathbf{W} - \\mathbf{Y}\\|_2^2 + \\alpha \\|\\mathbf{W}\\|_2^2)", description: "Regularized training objective" },
+  { number: 10, label: "ridge-solution", name: "Ridge Solution", latex: "\\mathbf{W}_{\\text{out}} = (\\mathbf{X}^\\top \\mathbf{X} + \\alpha \\mathbf{I})^{-1} \\mathbf{X}^\\top \\mathbf{Y}", description: "Closed-form optimal weights" },
+  { number: 11, label: "lorenz-system", name: "Lorenz-63 System", latex: "\\frac{dx}{dt} = \\sigma(y-x), \\; \\frac{dy}{dt} = x(\\rho-z)-y, \\; \\frac{dz}{dt} = xy - \\beta z", description: "Canonical chaotic attractor equations" },
+  { number: 12, label: "lyapunov-divergence", name: "Lyapunov Divergence", latex: "\\|\\delta \\mathbf{x}(t)\\| \\sim \\|\\delta \\mathbf{x}(0)\\| e^{\\lambda t}", description: "Exponential error growth in chaos" },
+  { number: 13, label: "polynomial-features", name: "Polynomial Features", latex: "\\phi_{\\text{poly}}(\\mathbf{x}) = \\{ x_{i_1} x_{i_2} \\cdots x_{i_k} : k \\leq G \\}", description: "Nonlinear feature expansion" },
+  { number: 14, label: "total-features", name: "Total Feature Count", latex: "N_{\\text{features}} = V \\times r \\times \\binom{n + G}{G}", description: "Combined feature engineering formula" },
+  { number: 15, label: "quantum-kernel", name: "Quantum Kernel", latex: "K(\\mathbf{x}, \\mathbf{x}') = |\\langle \\phi(\\mathbf{x}) | \\phi(\\mathbf{x}') \\rangle|^2", description: "Similarity measure in quantum feature space" },
+  { number: 16, label: "kernel-alignment", name: "Kernel Alignment", latex: "A(K, \\mathbf{y}) = \\frac{\\langle K, \\mathbf{y}\\mathbf{y}^\\top \\rangle_F}{\\|K\\|_F \\|\\mathbf{y}\\mathbf{y}^\\top\\|_F}", description: "Measuring kernel-task compatibility" },
+  { number: 17, label: "barren-plateau", name: "Barren Plateau Scaling", latex: "\\text{Var}[\\partial \\langle O \\rangle / \\partial \\theta] \\sim O(2^{-n})", description: "Exponential gradient vanishing" },
+  { number: 18, label: "depolarizing-noise", name: "Depolarizing Channel", latex: "\\mathcal{E}(\\rho) = (1-p)\\rho + \\frac{p}{3}(X\\rho X + Y\\rho Y + Z\\rho Z)", description: "Standard quantum noise model" },
+  { number: 19, label: "memory-capacity", name: "Memory Capacity", latex: "MC = \\sum_{k=1}^{\\infty} r^2(k)", description: "Total reservoir memory measure" },
+  { number: 20, label: "shot-scaling", name: "Shot Scaling", latex: "N_{\\text{shots}} \\geq \\frac{1}{\\epsilon^2} \\log(\\frac{2}{\\delta})", description: "Required measurements for precision" },
+  { number: 21, label: "generalization-bound", name: "Generalization Bound", latex: "\\mathcal{L}_{\\text{test}} \\leq \\mathcal{L}_{\\text{train}} + 2\\mathcal{R}_n(\\mathcal{F}) + 3\\sqrt{\\frac{\\log(2/\\delta)}{2n}}", description: "Theoretical error bound" }
+]} />
 
 <Nomenclature items={[
-  { symbol: "$R^2$", definition: "Coefficient of determination (prediction accuracy)", unit: "—" },
-  { symbol: "$\\lambda$", definition: "Lyapunov exponent (chaos measure)", unit: "1/time" },
-  { symbol: "$N$", definition: "Number of features", unit: "—" },
-  { symbol: "$M$", definition: "Number of training samples", unit: "—" },
-  { symbol: "$V$", definition: "Number of temporal multiplexing steps", unit: "—" },
-  { symbol: "$r$", definition: "Number of spatial reservoir copies", unit: "—" },
-  { symbol: "$G$", definition: "Polynomial expansion degree", unit: "—" },
-  { symbol: "QRC", definition: "Quantum Reservoir Computing", unit: "—" },
-  { symbol: "CNOT", definition: "Controlled-NOT quantum gate", unit: "—" },
-  { symbol: "$R_y$", definition: "Rotation gate around Y-axis", unit: "radians" },
-  { symbol: "LTV:CAC", definition: "Lifetime Value to Customer Acquisition Cost ratio", unit: "—" },
-  { symbol: "CAGR", definition: "Compound Annual Growth Rate", unit: "%" }
+  { symbol: "R^2", definition: "Coefficient of determination (prediction accuracy)", unit: " - " },
+  { symbol: "\\lambda", definition: "Lyapunov exponent (chaos measure)", unit: "\\text{time}^{-1}" },
+  { symbol: "N", definition: "Number of features", unit: " - " },
+  { symbol: "M", definition: "Number of training samples", unit: " - " },
+  { symbol: "V", definition: "Number of temporal multiplexing steps", unit: " - " },
+  { symbol: "r", definition: "Number of spatial reservoir copies", unit: " - " },
+  { symbol: "G", definition: "Polynomial expansion degree", unit: " - " },
+  { symbol: "\\alpha", definition: "Ridge regularization parameter", unit: " - " },
+  { symbol: "\\eta", definition: "Sample efficiency ratio", unit: " - " },
+  { symbol: "D_{\\text{eff}}", definition: "Effective dimension", unit: " - " },
+  { symbol: "\\text{QRC}", definition: "Quantum Reservoir Computing", unit: " - " },
+  { symbol: "\\text{CNOT}", definition: "Controlled-NOT quantum gate", unit: " - " },
+  { symbol: "R_y(\\theta)", definition: "Rotation gate around Y-axis by angle θ", unit: "\\text{rad}" },
+  { symbol: "\\rho", definition: "Quantum density matrix", unit: " - " },
+  { symbol: "Z_i", definition: "Pauli-Z operator on qubit i", unit: " - " }
 ]} />
 
 <FAQ items={[

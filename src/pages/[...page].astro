@@ -50,7 +50,7 @@ export async function getStaticPaths() {
     'fonts/inter.woff2'
   ];
 
-  return paths.filter(path =>
+  return paths.filter(path => 
     !staticExclusions.some(exclude => path.params.page.includes(exclude))
   );
 }

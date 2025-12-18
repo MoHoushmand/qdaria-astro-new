@@ -170,213 +170,26 @@ const authorEntries = authors
   </article>
 </BaseLayout>
 
-<style is:global>
-  .text-gradient-blue {
-    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
-    filter: brightness(1.8) saturate(1.4);
-  }
 
-  .blog-prose {
-    /* Headings with brand gradient on hover */
-    & h1, & h2, & h3, & h4 {
-      @apply font-semibold text-base-100;
-      transition: all 0.3s ease;
-    }
 
-    & h2 {
-      @apply mt-12 mb-5 text-2xl md:text-3xl;
-      @apply bg-gradient-to-r from-[#04a3ff] to-[#00ffd3] bg-clip-text text-transparent;
+<!-- KaTeX JS + Auto-render for inline math -->
+<script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Ber8FGl9kMxFhlFMKxS4JTGhFvqklnJlqSNJJJVF" crossorigin="anonymous"></script>
+<script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    var blogContent = document.getElementById('blog-post-content');
+    if (blogContent && typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(blogContent, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError: false,
+        trust: true,
+        strict: false
+      });
     }
-
-    & h3 {
-      @apply mt-10 mb-4 text-xl md:text-2xl text-primary-400;
-    }
-
-    & h4 {
-      @apply mt-8 mb-3 text-lg md:text-xl text-primary-300;
-    }
-
-    /* Paragraphs and text */
-    & p {
-      @apply text-base-300 leading-relaxed mb-5;
-    }
-
-    & strong {
-      @apply text-base-100 font-semibold;
-    }
-
-    /* Links */
-    & a {
-      @apply text-primary-400 underline decoration-primary-400/30 underline-offset-2;
-      @apply hover:text-primary-300 hover:decoration-primary-300;
-      transition: all 0.2s ease;
-    }
-
-    /* Lists */
-    & ul, & ol {
-      @apply text-base-300 mb-5;
-    }
-
-    & li::marker {
-      @apply text-primary-500;
-    }
-
-    & li {
-      @apply mb-2;
-    }
-
-    /* Code blocks */
-    & pre {
-      @apply rounded-xl border border-white/10 bg-base-950 my-6;
-    }
-
-    & code {
-      @apply text-primary-300;
-    }
-
-    /* Blockquotes */
-    & blockquote {
-      @apply border-l-4 border-primary-500 bg-base-900/50 pl-4 italic text-base-300 my-6;
-    }
-
-    /* Inline code (backticks) - like JupyterBook */
-    & :not(pre) > code {
-      @apply rounded-md bg-primary-500/20 px-1.5 py-0.5 text-primary-300 font-mono text-[0.9em];
-      border: 1px solid rgba(4, 163, 255, 0.2);
-    }
-
-    /* Math equations (KaTeX) - JupyterBook-style inline code appearance */
-    /* Display math - centered block with subtle background */
-    & .katex-display {
-      @apply my-6 overflow-x-auto rounded-xl py-4 px-5;
-      @apply bg-primary-500/10;
-      border: 1px solid rgba(4, 163, 255, 0.2);
-    }
-
-    & .katex {
-      @apply text-base-100;
-      font-size: 1.1em;
-    }
-
-    & .katex-display > .katex {
-      font-size: 1.2em;
-    }
-
-    /* Inline math - JupyterBook style like `Anyons` */
-    & .katex-inline,
-    & p .katex,
-    & li .katex,
-    & td .katex {
-      @apply rounded-md bg-primary-500/20 px-1.5 py-0.5 text-primary-200;
-      border: 1px solid rgba(4, 163, 255, 0.2);
-      font-size: 0.95em;
-    }
-
-    /* Inline math and numbers styling */
-    & sup, & sub {
-      @apply text-primary-300;
-    }
-
-    /* Style bold numbers/results like R² = 0.784 */
-    & strong {
-      @apply text-base-100;
-    }
-
-    /* Mathematical expressions in bold get special treatment */
-    & strong:has(sup),
-    & p strong {
-      @apply font-mono;
-    }
-
-    /* Style standalone equations/formulas */
-    & p:has(strong:only-child) {
-      @apply my-6 text-center;
-    }
-
-    /* Highlight key metrics/numbers */
-    & strong em,
-    & em strong {
-      @apply text-primary-400 not-italic;
-    }
-
-    /* Figure container - simple border glow like Amplify cards */
-    & p:has(> img) {
-      @apply rounded-xl overflow-hidden my-6;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 300ms;
-    }
-
-    & p:has(> img):hover {
-      border-color: #7dd3fc;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-    }
-
-    /* Images inside figure containers */
-    & img {
-      @apply rounded-t-xl block w-full;
-      height: auto;
-    }
-
-    /* Figure captions - attached to bottom of figure */
-    & img + em {
-      @apply block px-4 py-3 text-center text-sm;
-      @apply text-base-400 not-italic leading-relaxed;
-      @apply rounded-b-xl;
-      background: rgba(30, 41, 59, 0.6);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      margin: 0;
-    }
-
-    & img + em strong {
-      @apply text-primary-400 font-semibold;
-    }
-
-    /* Standalone figure element - simple border glow */
-    & figure {
-      @apply rounded-xl overflow-hidden my-6;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 300ms;
-    }
-
-    & figure:hover {
-      border-color: #7dd3fc;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-    }
-
-    & figcaption {
-      @apply block px-4 py-3 text-center text-sm;
-      @apply text-base-400 leading-relaxed;
-      background: rgba(30, 41, 59, 0.6);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    & figcaption strong {
-      @apply text-primary-400 font-semibold;
-    }
-
-    /* Tables */
-    & table {
-      @apply w-full border-collapse my-8 rounded-xl overflow-hidden;
-      border: 1px solid rgba(4, 163, 255, 0.2);
-    }
-
-    & th {
-      @apply bg-base-900 text-primary-400 font-semibold px-4 py-3 text-left;
-      border-bottom: 1px solid rgba(4, 163, 255, 0.2);
-    }
-
-    & td {
-      @apply border-t border-white/10 px-4 py-3 text-base-300;
-    }
-
-    & tr:hover td {
-      @apply bg-base-900/50;
-    }
-
-    /* Horizontal rules */
-    & hr {
-      @apply my-12 border-0 h-px;
-      background: linear-gradient(90deg, transparent, rgba(4, 163, 255, 0.3), transparent);
-    }
-  }
-</style>
+  });
+</script>

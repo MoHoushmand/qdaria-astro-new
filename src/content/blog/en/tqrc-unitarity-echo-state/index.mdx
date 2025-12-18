@@ -10,8 +10,12 @@ tags: ["TQRC", "Fibonacci Anyons", "Echo State Property", "No-Go Theorem", "Topo
 
 import Appendix from '@components/Blog/Appendix.astro';
 import ListOfFigures from '@components/Blog/ListOfFigures.astro';
+import ListOfTables from '@components/Blog/ListOfTables.astro';
+import ListOfEquations from '@components/Blog/ListOfEquations.astro';
 import Nomenclature from '@components/Blog/Nomenclature.astro';
 import FAQ from '@components/Blog/FAQ.astro';
+import Equation from '@components/Blog/Equation.astro';
+import Figure from '@components/Blog/Figure.astro';
 
 Topological quantum computing promises fault-tolerant quantum operations protected by the geometry of space itself. Reservoir computing promises powerful machine learning without complex training. What happens when you combine them?
 
@@ -31,8 +35,11 @@ Even more exotic are non-abelian anyons. When you exchange non-abelian anyons, t
 
 This is profoundly different from ordinary particles. Exchanging electrons A and B, then B and C, gives the same result as exchanging B and C first, then A and B. For non-abelian anyons, the order matters.
 
-![Braiding Worldlines](/images/research/tqrc/fig_braiding_worldlines.png)
-*Figure 1: Worldlines of anyons showing braiding operations. As anyons move around each other in two-dimensional space, their worldlines form braids in 2+1 dimensional spacetime.*
+<Figure
+  number={1}
+  src="/images/research/tqrc/fig_braiding_worldlines.png"
+  caption="Worldlines of anyons showing braiding operations. As anyons move around each other in two-dimensional space, their worldlines form braids in 2+1 dimensional spacetime."
+/>
 
 ## Fibonacci Anyons: The Holy Grail
 
@@ -40,12 +47,27 @@ Among non-abelian anyons, Fibonacci anyons are special. They are "universal" for
 
 The fusion rules of Fibonacci anyons follow the famous Fibonacci sequence. When two Fibonacci anyons come together, they can fuse into either the vacuum (nothing) or another Fibonacci anyon:
 
-$$\tau \times \tau = 1 + \tau$$
+<Equation number={1} label="fusion-rule" description="The fundamental fusion rule for Fibonacci anyons. Two τ anyons can fuse to either vacuum (1) or another τ anyon.">
+$$
+\tau \times \tau = 1 + \tau
+$$
+</Equation>
 
-This simple rule encodes profound computational power. The number of states in a system of $n$ Fibonacci anyons grows as the $n$th Fibonacci number. For 100 anyons, this is approximately $3.5 \times 10^{20}$ states.
+This simple rule encodes profound computational power. The number of states in a system of $n$ Fibonacci anyons grows as the $n$th Fibonacci number:
 
-![Fusion Trees](/images/research/tqrc/fig_fusion_trees.png)
-*Figure 2: Fibonacci anyon fusion trees showing how anyons combine. The number of valid fusion outcomes grows exponentially, providing the computational space for topological quantum computing.*
+<Equation number={2} label="hilbert-dimension" description="The Hilbert space dimension grows according to the Fibonacci sequence, providing exponential computational space.">
+$$
+\dim(\mathcal{H}_n) = F_n \approx \frac{\phi^n}{\sqrt{5}}
+$$
+</Equation>
+
+where $\phi = (1 + \sqrt{5})/2 \approx 1.618$ is the golden ratio. For 100 anyons, this is approximately $3.5 \times 10^{20}$ states.
+
+<Figure
+  number={2}
+  src="/images/research/tqrc/fig_fusion_trees.png"
+  caption="Fibonacci anyon fusion trees showing how anyons combine. The number of valid fusion outcomes grows exponentially, providing the computational space for topological quantum computing."
+/>
 
 ## Why Topological Systems Are Attractive
 
@@ -55,10 +77,58 @@ Traditional quantum error correction requires measuring error syndromes and acti
 
 Topological systems offer an alternative. The quantum information is encoded in global properties of the system that cannot be affected by local perturbations. No active error correction needed. The physics provides protection automatically.
 
-![Architecture](/images/research/tqrc/fig01_architecture.png)
-*Figure 3: Proposed architecture for topological quantum reservoir computing. Input data is encoded through anyon positions, braiding operations process the data, and measurements extract features.*
+<Figure
+  number={3}
+  src="/images/research/tqrc/fig01_architecture.png"
+  caption="Proposed architecture for topological quantum reservoir computing. Input data is encoded through anyon positions, braiding operations process the data, and measurements extract features."
+/>
 
-The braiding operations on Fibonacci anyons are exactly unitary. They preserve quantum information perfectly. Any braiding sequence can be reversed to recover the original state. This is exactly what you want for fault-tolerant quantum gates.
+### Braiding Operations Are Unitary
+
+The braiding operations on Fibonacci anyons are exactly unitary. They preserve quantum information perfectly:
+
+<Equation number={3} label="unitarity" description="Unitary operators preserve inner products and probability, the hallmark of reversible quantum evolution.">
+$$
+U^\dagger U = U U^\dagger = \mathbf{I}
+$$
+</Equation>
+
+Any braiding sequence can be reversed to recover the original state. This is exactly what you want for fault-tolerant quantum gates.
+
+### The F and R Matrices
+
+Fibonacci anyon braiding is characterized by two fundamental matrices. The R-matrix describes the phase acquired when exchanging two anyons:
+
+<Equation number={4} label="r-matrix" description="The R-matrix gives the phase acquired when two Fibonacci anyons are exchanged.">
+$$
+R = \begin{pmatrix} e^{-4\pi i/5} & 0 \\ 0 & e^{3\pi i/5} \end{pmatrix}
+$$
+</Equation>
+
+The F-matrix describes the transformation when changing the order of fusion:
+
+<Equation number={5} label="f-matrix" description="The F-matrix relates different fusion orderings, satisfying the pentagon equation for consistency.">
+$$
+F = \begin{pmatrix} \phi^{-1} & \phi^{-1/2} \\ \phi^{-1/2} & -\phi^{-1} \end{pmatrix}
+$$
+</Equation>
+
+where $\phi$ is the golden ratio. Both matrices are unitary.
+
+<div id="table-1" class="table-container">
+
+**Table 1: Comparison of Topological vs Non-Topological Quantum Systems**
+
+| Property | Topological (Fibonacci Anyons) | Non-Topological (Superconducting) |
+|----------|-------------------------------|-----------------------------------|
+| Error Protection | Inherent topological protection | Requires active error correction |
+| Information Preservation | Perfect (unitary evolution) | Partial (decoherence occurs) |
+| Spectral Radius | Exactly 1 | Can be < 1 with dissipation |
+| ESP Compatibility | **Impossible** | Possible with tuning |
+| Reservoir Suitability | Not suitable | Well-suited |
+| Gate Fidelity | Very high | Moderate |
+
+</div>
 
 ## What is Reservoir Computing?
 
@@ -66,10 +136,25 @@ Reservoir computing emerged from recurrent neural network research. Training rec
 
 The key insight: you do not need to train the recurrent connections. Use any sufficiently complex dynamical system as a "reservoir." Feed inputs into the reservoir and let it evolve. The reservoir transforms inputs into a high-dimensional feature space. Train only a simple linear readout on top.
 
-![TQRC Architecture](/images/research/tqrc/fig_tqrc_architecture_pro.png)
-*Figure 4: The proposed TQRC architecture. Fibonacci anyons serve as the reservoir, with braiding operations processing sequential inputs and interferometric measurements extracting output features.*
+<Figure
+  number={4}
+  src="/images/research/tqrc/fig_tqrc_architecture_pro.png"
+  caption="The proposed TQRC architecture. Fibonacci anyons serve as the reservoir, with braiding operations processing sequential inputs and interferometric measurements extracting output features."
+/>
 
 The approach works remarkably well for time series prediction, speech recognition, and dynamical system modeling. The reservoir does not need to be carefully designed. Almost any complex nonlinear system works. Even a bucket of water can serve as a reservoir.
+
+### Reservoir State Dynamics
+
+The reservoir state evolves according to:
+
+<Equation number={6} label="reservoir-dynamics" description="The reservoir update equation combines input injection with recurrent dynamics through a nonlinear function.">
+$$
+\mathbf{x}(t+1) = f\bigl(\mathbf{W}_{\text{in}} \mathbf{u}(t) + \mathbf{W} \mathbf{x}(t)\bigr)
+$$
+</Equation>
+
+where $\mathbf{x}(t)$ is the reservoir state, $\mathbf{u}(t)$ is the input, $\mathbf{W}_{\text{in}}$ maps inputs to the reservoir, and $\mathbf{W}$ is the recurrent weight matrix.
 
 ## The Echo State Property
 
@@ -79,10 +164,48 @@ Imagine you start two identical reservoirs in different initial configurations, 
 
 This "fading memory" is essential. Without it, the reservoir's output would depend on arbitrary details of initialization, not on the input sequence. You could not learn anything meaningful.
 
-![Tension Diagram](/images/research/tqrc/fig04_tension.png)
-*Figure 5: The fundamental tension between topological protection and reservoir computing. Topological systems preserve information exactly, while reservoirs must lose information about initial conditions.*
+<Figure
+  number={5}
+  src="/images/research/tqrc/fig04_tension.png"
+  caption="The fundamental tension between topological protection and reservoir computing. Topological systems preserve information exactly, while reservoirs must lose information about initial conditions."
+/>
 
-Mathematically, the ESP requires the reservoir's state transition operator to be contractive. Different states must get closer together over time. All eigenvalues must lie strictly inside the unit circle.
+### Mathematical Definition of ESP
+
+Mathematically, the ESP requires the reservoir's state transition operator to be contractive:
+
+<Equation number={7} label="esp-definition" description="The Echo State Property requires different initial states to converge under the same input sequence.">
+$$
+\lim_{t \to \infty} \|\mathbf{x}(t) - \mathbf{x}'(t)\| = 0 \quad \text{for all initial states } \mathbf{x}(0), \mathbf{x}'(0)
+$$
+</Equation>
+
+Different states must get closer together over time.
+
+### Spectral Condition for ESP
+
+For linear systems, ESP is equivalent to a spectral condition on the weight matrix:
+
+<Equation number={8} label="spectral-condition" description="ESP holds when all eigenvalues of the transition operator lie strictly inside the unit circle.">
+$$
+\rho(\mathbf{W}) = \max_i |\lambda_i| < 1
+$$
+</Equation>
+
+where $\rho(\mathbf{W})$ is the spectral radius. All eigenvalues must lie strictly inside the unit circle.
+
+<div id="table-2" class="table-container">
+
+**Table 2: Echo State Property Requirements**
+
+| Requirement | Mathematical Condition | Topological Systems | Result |
+|-------------|----------------------|---------------------|--------|
+| State Convergence | $\lim_{t\to\infty} \|\mathbf{x}(t) - \mathbf{x}'(t)\| = 0$ | States remain separated | **Violated** |
+| Spectral Radius | $\rho(\mathbf{W}) < 1$ | $\rho(U) = 1$ exactly | **Violated** |
+| Fading Memory | $\frac{\partial \mathbf{x}(t)}{\partial \mathbf{u}(t-k)} \to 0$ | Perfect memory | **Violated** |
+| Trace Distance Decay | $D(\rho_t, \sigma_t) \to 0$ | $D$ preserved exactly | **Violated** |
+
+</div>
 
 ## The Fundamental Tension
 
@@ -92,10 +215,43 @@ Topological systems are designed to preserve quantum information. That is their 
 
 But the ESP requires states to converge. Different initial states must become the same over time. This is the opposite of what unitary evolution does.
 
-![Unitarity ESP Tension](/images/research/tqrc/fig_unitarity_esp_tension.png)
-*Figure 6: Visualization of the unitarity-ESP tension. Unitary evolution preserves the trace distance between states (left), while ESP requires trace distance to decrease to zero (right).*
+<Figure
+  number={6}
+  src="/images/research/tqrc/fig_unitarity_esp_tension.png"
+  caption="Visualization of the unitarity-ESP tension. Unitary evolution preserves the trace distance between states (left), while ESP requires trace distance to decrease to zero (right)."
+/>
 
-The mathematics is unambiguous. Unitary operators have all eigenvalues on the unit circle. The ESP requires all eigenvalues strictly inside the unit circle. These conditions are mutually exclusive. No unitary operator can satisfy the ESP.
+### Trace Distance Preservation
+
+The trace distance between quantum states measures their distinguishability:
+
+<Equation number={9} label="trace-distance" description="The trace distance quantifies how distinguishable two quantum states are, ranging from 0 (identical) to 1 (orthogonal).">
+$$
+D(\rho, \sigma) = \frac{1}{2}\|\rho - \sigma\|_1 = \frac{1}{2}\text{Tr}\sqrt{(\rho - \sigma)^\dagger(\rho - \sigma)}
+$$
+</Equation>
+
+Under unitary evolution, trace distance is exactly preserved:
+
+<Equation number={10} label="unitary-trace-preservation" description="Unitary operators preserve trace distance exactly, meaning distinguishable states remain equally distinguishable.">
+$$
+D(U\rho U^\dagger, U\sigma U^\dagger) = D(\rho, \sigma)
+$$
+</Equation>
+
+This is fatal for ESP.
+
+### ESP Requires Contraction
+
+The ESP demands that trace distance decrease to zero:
+
+<Equation number={11} label="esp-contraction" description="The Echo State Property requires the trace distance between states to vanish asymptotically.">
+$$
+\lim_{t \to \infty} D(\rho_t, \sigma_t) = 0
+$$
+</Equation>
+
+But Equation (10) shows unitary evolution maintains constant trace distance. These requirements are mutually exclusive.
 
 ## The Three Proofs
 
@@ -103,20 +259,27 @@ Our no-go theorem follows from three independent arguments. Each is sufficient o
 
 ### Proof 1: Trace Distance Preservation
 
-The trace distance between two quantum states measures how distinguishable they are. For density matrices $\rho$ and $\sigma$, the trace distance is $D(\rho,\sigma) = \frac{1}{2}||\rho - \sigma||_1$.
+For density matrices $\rho$ and $\sigma$, unitary evolution preserves trace distance exactly. States that start far apart stay far apart. The ESP cannot be satisfied.
 
-Unitary evolution preserves trace distance exactly. If $U$ is unitary, then $D(U\rho U^\dagger, U\sigma U^\dagger) = D(\rho,\sigma)$. States that start far apart stay far apart.
-
-The ESP requires $D(\rho_t, \sigma_t) \to 0$ as $t \to \infty$. States must converge. But unitary evolution prevents convergence. The ESP cannot be satisfied.
-
-![ESP Violation](/images/research/tqrc/fig05_esp_violation.png)
-*Figure 7: Quantitative ESP violation in Fibonacci anyon systems. The trace distance between initially different states remains constant under braiding evolution, regardless of braiding depth.*
+<Figure
+  number={7}
+  src="/images/research/tqrc/fig05_esp_violation.png"
+  caption="Quantitative ESP violation in Fibonacci anyon systems. The trace distance between initially different states remains constant under braiding evolution, regardless of braiding depth."
+/>
 
 ### Proof 2: Spectral Constraints
 
 The ESP imposes conditions on the eigenvalues of the state transition operator. For the reservoir to have fading memory, all eigenvalues must satisfy $|\lambda_i| < 1$.
 
-Unitary operators have all eigenvalues on the unit circle: $|\lambda_i| = 1$ for all eigenvalues. Not less than 1. Exactly equal to 1.
+Unitary operators have all eigenvalues on the unit circle:
+
+<Equation number={12} label="unitary-eigenvalues" description="All eigenvalues of unitary operators have unit magnitude, lying exactly on the unit circle.">
+$$
+|\lambda_i| = 1 \quad \text{for all eigenvalues of } U
+$$
+</Equation>
+
+Not less than 1. Exactly equal to 1.
 
 There is no wiggle room. The spectral radius of a unitary operator is exactly 1. The ESP needs spectral radius strictly less than 1. These requirements contradict each other directly.
 
@@ -128,20 +291,47 @@ But the ESP requires information about initial conditions to be gradually lost. 
 
 You cannot have both topological protection and fading memory. They are opposite requirements. A system that satisfies one cannot satisfy the other.
 
-![Root Cause](/images/research/tqrc/fig07_root_cause.png)
-*Figure 8: Root cause analysis showing why topological protection opposes ESP. Information preservation (required for fault tolerance) directly contradicts information loss (required for fading memory).*
+<Figure
+  number={8}
+  src="/images/research/tqrc/fig07_root_cause.png"
+  caption="Root cause analysis showing why topological protection opposes ESP. Information preservation (required for fault tolerance) directly contradicts information loss (required for fading memory)."
+/>
 
 ## Quantifying the ESP Violation
 
 How badly do Fibonacci anyons violate the ESP? We computed the violation quantitatively for systems of varying size.
 
-![Fusion Scaling](/images/research/tqrc/fig02_fusion_scaling.png)
-*Figure 9: Scaling of fusion space dimension with number of Fibonacci anyons. The exponential growth follows the Fibonacci sequence, providing vast computational space but also making ESP violation more severe.*
+<Figure
+  number={9}
+  src="/images/research/tqrc/fig02_fusion_scaling.png"
+  caption="Scaling of fusion space dimension with number of Fibonacci anyons. The exponential growth follows the Fibonacci sequence, providing vast computational space but also making ESP violation more severe."
+/>
 
-For n Fibonacci anyons, the fusion space dimension grows as Fₙ (the nth Fibonacci number). The number of independent braiding operations grows even faster. Yet every single braiding operation is unitary. The ESP violation is complete regardless of system size.
+For n Fibonacci anyons, the fusion space dimension grows as $F_n$ (the nth Fibonacci number). The number of independent braiding operations grows even faster. Yet every single braiding operation is unitary. The ESP violation is complete regardless of system size.
 
-![RF Matrices](/images/research/tqrc/fig03_rf_matrices.png)
-*Figure 10: The R and F matrices that define Fibonacci anyon braiding operations. Both are unitary, preserving quantum information exactly.*
+### Braiding Operators
+
+The elementary braiding operator $\sigma_i$ exchanges anyons $i$ and $i+1$:
+
+<Equation number={13} label="braiding-operator" description="Elementary braiding operators exchange adjacent anyons, generating the braid group representation.">
+$$
+\sigma_i: \tau_i \otimes \tau_{i+1} \to \tau_{i+1} \otimes \tau_i
+$$
+</Equation>
+
+These operators satisfy the Yang-Baxter equation:
+
+<Equation number={14} label="yang-baxter" description="The Yang-Baxter equation ensures consistency of braiding operations, a fundamental requirement for topological quantum computing.">
+$$
+\sigma_i \sigma_{i+1} \sigma_i = \sigma_{i+1} \sigma_i \sigma_{i+1}
+$$
+</Equation>
+
+<Figure
+  number={10}
+  src="/images/research/tqrc/fig03_rf_matrices.png"
+  caption="The R and F matrices that define Fibonacci anyon braiding operations. Both are unitary, preserving quantum information exactly."
+/>
 
 We computed the spectral radius of randomly composed braiding sequences up to depth 1000. In every case, the spectral radius remained exactly 1. There is no sequence of braidings that makes the spectral radius drop below 1. The ESP cannot be approached, let alone satisfied.
 
@@ -151,17 +341,44 @@ One might hope that adding noise could save topological reservoir computing. Rea
 
 This is technically correct. Sufficient decoherence would cause states to converge toward equilibrium, producing something like the ESP.
 
+### Lindblad Master Equation
+
+Decoherence can be modeled by the Lindblad master equation:
+
+<Equation number={15} label="lindblad" description="The Lindblad equation describes non-unitary evolution including decoherence, with dissipator terms that can induce information loss.">
+$$
+\frac{d\rho}{dt} = -i[H, \rho] + \sum_k \gamma_k \left( L_k \rho L_k^\dagger - \frac{1}{2}\{L_k^\dagger L_k, \rho\} \right)
+$$
+</Equation>
+
+where $L_k$ are Lindblad operators and $\gamma_k$ are decay rates.
+
 But consider what this means. The entire motivation for topological quantum computing is decoherence resistance. If we deliberately add decoherence to enable reservoir computing, we destroy the error protection that made the topological approach attractive.
 
-![Dissipative Results](/images/research/tqrc/fig06_dissipative_results.png)
-*Figure 11: Effects of adding dissipation to topological systems. ESP-like behavior emerges, but at the cost of destroying topological protection. The error rate increases proportionally with the dissipation strength needed for ESP.*
+<Figure
+  number={11}
+  src="/images/research/tqrc/fig06_dissipative_results.png"
+  caption="Effects of adding dissipation to topological systems. ESP-like behavior emerges, but at the cost of destroying topological protection. The error rate increases proportionally with the dissipation strength needed for ESP."
+/>
 
-This creates an impossible tradeoff:
-- More topological protection means better quantum gates but worse reservoir behavior
-- Less protection means the reservoir might work but the gates become unreliable
+### The Impossible Tradeoff
 
-![Tradeoff](/images/research/tqrc/fig11_tradeoff.png)
-*Figure 12: The protection-ESP tradeoff. No operating point provides both good error protection and ESP satisfaction. The Pareto frontier shows they are fundamentally incompatible.*
+This creates an impossible tradeoff. Define the protection strength $P$ and ESP satisfaction $E$:
+
+<Equation number={16} label="tradeoff" description="The fundamental tradeoff between topological protection and ESP satisfaction - they cannot both be maximized.">
+$$
+P + E \leq 1
+$$
+</Equation>
+
+- More topological protection ($P \to 1$) means better quantum gates but worse reservoir behavior ($E \to 0$)
+- Less protection ($P \to 0$) means the reservoir might work ($E \to 1$) but the gates become unreliable
+
+<Figure
+  number={12}
+  src="/images/research/tqrc/fig11_tradeoff.png"
+  caption="The protection-ESP tradeoff. No operating point provides both good error protection and ESP satisfaction. The Pareto frontier shows they are fundamentally incompatible."
+/>
 
 You cannot have both. This is not an engineering challenge. It is a mathematical fact about the structure of quantum mechanics.
 
@@ -171,8 +388,35 @@ To understand the conflict more deeply, consider what reservoirs actually do wit
 
 A good reservoir has two competing requirements. It must have enough memory to capture temporal dependencies in the input. But it must also forget old inputs to make room for new ones. This balance is the "fading memory" property.
 
-![Information Loss](/images/research/tqrc/fig08_information_loss.png)
-*Figure 13: Information flow in reservoir computing. Input information enters, persists for a time (the memory horizon), then fades away. This information loss is essential, not a bug.*
+### Memory Capacity
+
+The memory capacity of a reservoir is defined as:
+
+<Equation number={17} label="memory-capacity" description="Memory capacity measures how well the reservoir can reconstruct past inputs, bounded by the number of nodes.">
+$$
+MC = \sum_{k=1}^{\infty} \max_{f_k} r^2(y_k(t), u(t-k))
+$$
+</Equation>
+
+where $r^2$ is the squared correlation between output and delayed input.
+
+<Figure
+  number={13}
+  src="/images/research/tqrc/fig08_information_loss.png"
+  caption="Information flow in reservoir computing. Input information enters, persists for a time (the memory horizon), then fades away. This information loss is essential, not a bug."
+/>
+
+### Fading Memory Function
+
+The memory function describes how information decays:
+
+<Equation number={18} label="fading-memory" description="The fading memory function shows exponential decay of sensitivity to past inputs.">
+$$
+M(k) = \frac{\partial \mathbf{x}(t)}{\partial \mathbf{u}(t-k)} \sim e^{-k/\tau}
+$$
+</Equation>
+
+where $\tau$ is the memory timescale.
 
 Topological systems are designed to never lose information. Every braiding operation is reversible. Given the final state, you can always recover the initial state by applying the inverse braiding sequence. Information is preserved perfectly.
 
@@ -182,21 +426,45 @@ This is wonderful for quantum computing. It is fatal for reservoir computing.
 
 We analyzed how memory capacity scales in both topological and non-topological quantum reservoirs.
 
-![Memory Scaling](/images/research/tqrc/fig10_memory_scaling.png)
-*Figure 14: Memory capacity scaling comparison. Non-topological reservoirs (with controlled dissipation) show finite memory that enables ESP. Topological reservoirs have infinite memory, precluding ESP.*
+<Figure
+  number={14}
+  src="/images/research/tqrc/fig10_memory_scaling.png"
+  caption="Memory capacity scaling comparison. Non-topological reservoirs (with controlled dissipation) show finite memory that enables ESP. Topological reservoirs have infinite memory, precluding ESP."
+/>
 
 Non-topological quantum reservoirs, like those built from superconducting qubits with natural decoherence, show finite memory horizons. They remember recent inputs but forget older ones. This is exactly what the ESP requires.
 
-Topological reservoirs have effectively infinite memory. They never forget anything. This sounds good, but it means they cannot satisfy the ESP. Without fading memory, they cannot function as reservoirs.
+Topological reservoirs have effectively infinite memory. They never forget anything:
+
+<Equation number={19} label="infinite-memory" description="Topological systems preserve all information, giving effectively infinite memory capacity.">
+$$
+MC_{\text{topological}} = \infty \quad \text{(all information preserved)}
+$$
+</Equation>
+
+This sounds good, but it means they cannot satisfy the ESP. Without fading memory, they cannot function as reservoirs.
 
 ## Alternative Readout Strategies
 
 Could clever readout strategies circumvent the no-go theorem? We investigated several possibilities.
 
-![Complex Readout](/images/research/tqrc/fig09_complex_readout.png)
-*Figure 15: Alternative readout strategies attempted. Nonlinear readouts, ensemble methods, and hybrid classical-quantum approaches all fail to restore ESP when the underlying dynamics are unitary.*
+<Figure
+  number={15}
+  src="/images/research/tqrc/fig09_complex_readout.png"
+  caption="Alternative readout strategies attempted. Nonlinear readouts, ensemble methods, and hybrid classical-quantum approaches all fail to restore ESP when the underlying dynamics are unitary."
+/>
 
-Nonlinear readouts do not help. The problem is in the reservoir dynamics, not the readout. No readout function can extract fading memory from a system that preserves all information.
+### Nonlinear Readouts
+
+Adding nonlinearity to the readout:
+
+<Equation number={20} label="nonlinear-readout" description="Nonlinear readout functions cannot compensate for unitary reservoir dynamics.">
+$$
+\mathbf{y}(t) = g(\mathbf{W}_{\text{out}} \mathbf{x}(t))
+$$
+</Equation>
+
+does not help. The problem is in the reservoir dynamics, not the readout. No readout function can extract fading memory from a system that preserves all information.
 
 Ensemble methods (averaging over multiple reservoir copies) reduce variance but do not address the fundamental ESP violation.
 
@@ -205,6 +473,18 @@ Hybrid approaches that use topological systems for some components and non-topol
 ## What Does Work for Quantum Reservoir Computing?
 
 Our no-go result does not kill quantum reservoir computing. It clarifies which quantum systems can serve as reservoirs.
+
+### Decoherence Rate Requirement
+
+For ESP, the system needs sufficient decoherence characterized by:
+
+<Equation number={21} label="decoherence-rate" description="The minimum decoherence rate required to achieve the Echo State Property in a quantum reservoir.">
+$$
+\gamma > \gamma_{\text{crit}} = \frac{1}{\tau_{\text{ESP}}}
+$$
+</Equation>
+
+where $\tau_{\text{ESP}}$ is the required memory timescale.
 
 Standard superconducting qubits with controlled decoherence work beautifully. The T1 and T2 relaxation processes that limit gate fidelity actually help reservoir computing. They provide the information loss needed for fading memory.
 
@@ -220,8 +500,11 @@ Our results suggest a clear architectural principle: keep topological and reserv
 
 Use topological systems for what they are good at: error-protected quantum memory and high-fidelity gates. Use non-topological systems for reservoir processing.
 
-![Open Problems](/images/research/tqrc/fig12_open_problems.png)
-*Figure 16: Open problems in hybrid topological-reservoir architectures. The interface between protected and unprotected regions requires careful design.*
+<Figure
+  number={16}
+  src="/images/research/tqrc/fig12_open_problems.png"
+  caption="Open problems in hybrid topological-reservoir architectures. The interface between protected and unprotected regions requires careful design."
+/>
 
 The interface between these components requires care. Information must flow from the topological sector to the reservoir without destroying the topological protection or violating the reservoir requirements.
 
@@ -231,8 +514,11 @@ This architectural separation may actually be easier than building a unified top
 
 Our result builds on decades of research in both topological quantum computing and reservoir computing.
 
-![Timeline](/images/research/tqrc/fig13_timeline.png)
-*Figure 17: Timeline of key developments in topological quantum computing and reservoir computing. Our no-go theorem connects these previously separate lines of research.*
+<Figure
+  number={17}
+  src="/images/research/tqrc/fig13_timeline.png"
+  caption="Timeline of key developments in topological quantum computing and reservoir computing. Our no-go theorem connects these previously separate lines of research."
+/>
 
 Topological quantum computing was proposed by Kitaev in 1997. Fibonacci anyons were identified as universal for quantum computation in the early 2000s. Microsoft began its topological quantum program around 2005.
 
@@ -242,8 +528,11 @@ Our work is the first to rigorously analyze the intersection of these fields, sh
 
 ## Summary of Key Results
 
-![Summary Table](/images/research/tqrc/fig14_summary_table.png)
-*Figure 18: Summary of key results. Topological systems excel at information preservation but fail at the information loss required for reservoir computing.*
+<Figure
+  number={18}
+  src="/images/research/tqrc/fig14_summary_table.png"
+  caption="Summary of key results. Topological systems excel at information preservation but fail at the information loss required for reservoir computing."
+/>
 
 The table makes the conflict clear. Every property that makes topological systems good for quantum computing makes them bad for reservoir computing. These are not independent tradeoffs. They all stem from the same root cause: unitarity.
 
@@ -251,15 +540,29 @@ The table makes the conflict clear. Every property that makes topological system
 
 One might wonder if the no-go theorem depends on the specific braiding sequence. Perhaps some special sequence of braidings could induce contractive dynamics?
 
-![Braiding Position](/images/research/tqrc/fig15_braiding_position.png)
-*Figure 19: Braiding position independence of the no-go theorem. The ESP violation is the same regardless of which anyons are braided or in what order.*
+<Figure
+  number={19}
+  src="/images/research/tqrc/fig15_braiding_position.png"
+  caption="Braiding position independence of the no-go theorem. The ESP violation is the same regardless of which anyons are braided or in what order."
+/>
 
-We proved this is impossible. Every braiding operation is unitary. Compositions of unitary operations are unitary. No sequence of braidings, no matter how clever, can produce non-unitary dynamics. The no-go theorem holds for all possible braiding patterns.
+We proved this is impossible. For any braiding sequence $B = \sigma_{i_1} \sigma_{i_2} \cdots \sigma_{i_k}$:
+
+<Equation number={22} label="braiding-composition" description="Compositions of unitary braiding operators remain unitary, regardless of the sequence.">
+$$
+B^\dagger B = \mathbf{I} \quad \text{(unitarity preserved)}
+$$
+</Equation>
+
+Every braiding operation is unitary. Compositions of unitary operations are unitary. No sequence of braidings, no matter how clever, can produce non-unitary dynamics. The no-go theorem holds for all possible braiding patterns.
 
 ## Key Takeaways
 
-![Takeaways](/images/research/tqrc/fig16_takeaways.png)
-*Figure 20: Key takeaways from our analysis. The no-go theorem establishes fundamental limits, but also points toward productive research directions.*
+<Figure
+  number={20}
+  src="/images/research/tqrc/fig16_takeaways.png"
+  caption="Key takeaways from our analysis. The no-go theorem establishes fundamental limits, but also points toward productive research directions."
+/>
 
 Our main conclusions:
 
@@ -332,16 +635,56 @@ This research establishes fundamental boundaries for topological quantum reservo
   { number: 20, caption: "Key takeaways from the analysis" }
 ]} />
 
+<ListOfTables tables={[
+  { number: 1, id: "table-1", caption: "Comparison of Topological vs Non-Topological Quantum Systems - properties affecting reservoir suitability" },
+  { number: 2, id: "table-2", caption: "Echo State Property Requirements - mathematical conditions violated by topological systems" }
+]} />
+
+<ListOfEquations equations={[
+  { number: 1, label: "fusion-rule", name: "Fibonacci Fusion Rule", latex: "\\tau \\times \\tau = 1 + \\tau", description: "The fundamental fusion rule for Fibonacci anyons" },
+  { number: 2, label: "hilbert-dimension", name: "Hilbert Space Dimension", latex: "\\dim(\\mathcal{H}_n) = F_n \\approx \\phi^n/\\sqrt{5}", description: "Exponential growth of computational space" },
+  { number: 3, label: "unitarity", name: "Unitarity Condition", latex: "U^\\dagger U = U U^\\dagger = \\mathbf{I}", description: "Defining property of unitary operators" },
+  { number: 4, label: "r-matrix", name: "R-Matrix", latex: "R = \\begin{pmatrix} e^{-4\\pi i/5} & 0 \\\\ 0 & e^{3\\pi i/5} \\end{pmatrix}", description: "Braiding phase matrix for Fibonacci anyons" },
+  { number: 5, label: "f-matrix", name: "F-Matrix", latex: "F = \\begin{pmatrix} \\phi^{-1} & \\phi^{-1/2} \\\\ \\phi^{-1/2} & -\\phi^{-1} \\end{pmatrix}", description: "Fusion transformation matrix" },
+  { number: 6, label: "reservoir-dynamics", name: "Reservoir Dynamics", latex: "\\mathbf{x}(t+1) = f(\\mathbf{W}_{\\text{in}} \\mathbf{u}(t) + \\mathbf{W} \\mathbf{x}(t))", description: "Standard reservoir state update equation" },
+  { number: 7, label: "esp-definition", name: "ESP Definition", latex: "\\lim_{t \\to \\infty} \\|\\mathbf{x}(t) - \\mathbf{x}'(t)\\| = 0", description: "States must converge regardless of initialization" },
+  { number: 8, label: "spectral-condition", name: "Spectral Condition", latex: "\\rho(\\mathbf{W}) = \\max_i |\\lambda_i| < 1", description: "All eigenvalues inside unit circle for ESP" },
+  { number: 9, label: "trace-distance", name: "Trace Distance", latex: "D(\\rho, \\sigma) = \\frac{1}{2}\\|\\rho - \\sigma\\|_1", description: "Measure of quantum state distinguishability" },
+  { number: 10, label: "unitary-trace-preservation", name: "Trace Preservation", latex: "D(U\\rho U^\\dagger, U\\sigma U^\\dagger) = D(\\rho, \\sigma)", description: "Unitarity preserves trace distance exactly" },
+  { number: 11, label: "esp-contraction", name: "ESP Contraction", latex: "\\lim_{t \\to \\infty} D(\\rho_t, \\sigma_t) = 0", description: "ESP requires trace distance to vanish" },
+  { number: 12, label: "unitary-eigenvalues", name: "Unitary Eigenvalues", latex: "|\\lambda_i| = 1 \\text{ for all eigenvalues}", description: "All eigenvalues lie on unit circle" },
+  { number: 13, label: "braiding-operator", name: "Braiding Operator", latex: "\\sigma_i: \\tau_i \\otimes \\tau_{i+1} \\to \\tau_{i+1} \\otimes \\tau_i", description: "Elementary anyon exchange operation" },
+  { number: 14, label: "yang-baxter", name: "Yang-Baxter Equation", latex: "\\sigma_i \\sigma_{i+1} \\sigma_i = \\sigma_{i+1} \\sigma_i \\sigma_{i+1}", description: "Consistency condition for braiding" },
+  { number: 15, label: "lindblad", name: "Lindblad Equation", latex: "\\frac{d\\rho}{dt} = -i[H, \\rho] + \\sum_k \\gamma_k (L_k \\rho L_k^\\dagger - \\frac{1}{2}\\{L_k^\\dagger L_k, \\rho\\})", description: "Master equation for open quantum systems" },
+  { number: 16, label: "tradeoff", name: "Protection-ESP Tradeoff", latex: "P + E \\leq 1", description: "Fundamental bound on simultaneous achievement" },
+  { number: 17, label: "memory-capacity", name: "Memory Capacity", latex: "MC = \\sum_{k=1}^{\\infty} \\max_{f_k} r^2(y_k(t), u(t-k))", description: "Measure of input reconstruction ability" },
+  { number: 18, label: "fading-memory", name: "Fading Memory", latex: "M(k) = \\frac{\\partial \\mathbf{x}(t)}{\\partial \\mathbf{u}(t-k)} \\sim e^{-k/\\tau}", description: "Exponential decay of past input influence" },
+  { number: 19, label: "infinite-memory", name: "Topological Memory", latex: "MC_{\\text{topological}} = \\infty", description: "Perfect information preservation in topological systems" },
+  { number: 20, label: "nonlinear-readout", name: "Nonlinear Readout", latex: "\\mathbf{y}(t) = g(\\mathbf{W}_{\\text{out}} \\mathbf{x}(t))", description: "Nonlinear output transformation" },
+  { number: 21, label: "decoherence-rate", name: "Decoherence Rate", latex: "\\gamma > \\gamma_{\\text{crit}} = 1/\\tau_{\\text{ESP}}", description: "Minimum dissipation for ESP" },
+  { number: 22, label: "braiding-composition", name: "Braiding Composition", latex: "B^\\dagger B = \\mathbf{I}", description: "Unitarity preserved under composition" }
+]} />
+
 <Nomenclature items={[
-  { symbol: "$\\tau$", definition: "Fibonacci anyon", unit: "—" },
-  { symbol: "ESP", definition: "Echo State Property", unit: "—" },
-  { symbol: "$D(\\rho,\\sigma)$", definition: "Trace distance between quantum states", unit: "—" },
-  { symbol: "$U$", definition: "Unitary operator", unit: "—" },
-  { symbol: "$\\lambda_i$", definition: "Eigenvalue of transition operator", unit: "—" },
-  { symbol: "TQRC", definition: "Topological Quantum Reservoir Computing", unit: "—" },
-  { symbol: "$T_1$", definition: "Relaxation time", unit: "seconds" },
-  { symbol: "$T_2$", definition: "Decoherence time", unit: "seconds" },
-  { symbol: "$F_n$", definition: "nth Fibonacci number", unit: "—" }
+  { symbol: "\\tau", definition: "Fibonacci anyon", unit: "—" },
+  { symbol: "\\phi", definition: "Golden ratio (1 + √5)/2 ≈ 1.618", unit: "—" },
+  { symbol: "F_n", definition: "nth Fibonacci number", unit: "—" },
+  { symbol: "U", definition: "Unitary operator", unit: "—" },
+  { symbol: "\\rho, \\sigma", definition: "Quantum density matrices", unit: "—" },
+  { symbol: "D(\\rho,\\sigma)", definition: "Trace distance between quantum states", unit: "—" },
+  { symbol: "\\lambda_i", definition: "Eigenvalues of transition operator", unit: "—" },
+  { symbol: "\\rho(\\mathbf{W})", definition: "Spectral radius of matrix W", unit: "—" },
+  { symbol: "R", definition: "R-matrix (braiding phase)", unit: "—" },
+  { symbol: "F", definition: "F-matrix (fusion transformation)", unit: "—" },
+  { symbol: "\\sigma_i", definition: "Braiding operator for anyons i and i+1", unit: "—" },
+  { symbol: "\\gamma", definition: "Decoherence/dissipation rate", unit: "\\text{s}^{-1}" },
+  { symbol: "L_k", definition: "Lindblad (jump) operators", unit: "—" },
+  { symbol: "MC", definition: "Memory capacity", unit: "—" },
+  { symbol: "\\tau_{\\text{ESP}}", definition: "Memory timescale for ESP", unit: "\\text{s}" },
+  { symbol: "\\text{ESP}", definition: "Echo State Property", unit: "—" },
+  { symbol: "\\text{TQRC}", definition: "Topological Quantum Reservoir Computing", unit: "—" },
+  { symbol: "T_1", definition: "Relaxation time", unit: "\\text{s}" },
+  { symbol: "T_2", definition: "Decoherence time", unit: "\\text{s}" }
 ]} />
 
 <FAQ items={[
