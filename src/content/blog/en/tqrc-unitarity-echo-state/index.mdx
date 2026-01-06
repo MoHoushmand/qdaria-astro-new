@@ -1,11 +1,12 @@
 ---
-title: "A No-Go Theorem for Topological Quantum Reservoir Computing"
-description: "We prove that Fibonacci anyon braiding cannot satisfy the Echo State Property, establishing fundamental limits on using topological quantum systems for reservoir computing."
+title: "The Fundamental Tension in Topological Quantum Reservoir Computing"
+description: "We prove that unitarity and the Echo State Property are mathematically incompatible in Fibonacci anyon systems, establishing a no-go theorem for TQRC with rigorous 30-trial statistical validation."
 authors: ["daniel-mo-houshmand"]
-pubDate: "2025-12-13"
+pubDate: "2026-01-06"
+updatedDate: "2026-01-06"
 heroImage: "/images/research/tqrc/fig_tqrc_architecture_pro.png"
 categories: ["Research", "Quantum Computing", "Theory"]
-tags: ["TQRC", "Fibonacci Anyons", "Echo State Property", "No-Go Theorem", "Topological Computing"]
+tags: ["TQRC", "Fibonacci Anyons", "Echo State Property", "No-Go Theorem", "Topological Computing", "Statistical Validation"]
 ---
 
 import Appendix from '@components/Blog/Appendix.astro';
@@ -22,6 +23,8 @@ Topological quantum computing promises fault-tolerant quantum operations protect
 Nothing good, as it turns out. In this paper, we prove a fundamental no-go theorem: the properties that make topological systems attractive for quantum computing are exactly what makes them impossible to use as reservoirs.
 
 This is not an engineering problem to be solved with better technology. It is a mathematical incompatibility rooted in the foundations of quantum mechanics.
+
+**Version 2 Update (January 2026):** This article reflects the revised paper with 30-trial statistical validation, bootstrap 95% confidence intervals, new quantum state evolution visualizations (Figure 9), NARMA-10 benchmark results, and updated literature through 2025 including Google and Quantinuum Fibonacci anyon demonstrations.
 
 ## What Are Anyons?
 
@@ -598,13 +601,41 @@ For topological quantum computing, our result reinforces the value proposition. 
 
 The path forward combines the best of both worlds. Topological systems for memory and gates. Non-topological systems for reservoir processing. Careful interfaces between them. This hybrid architecture leverages the strengths of each approach.
 
+## Visualizing the No-Go Theorem: Quantum State Evolution
+
+Version 2 of the paper introduces a new figure showing the actual simulated Fibonacci anyon dynamics. This visualization makes the abstract mathematical argument concrete.
+
+<Figure
+  number={21}
+  src="/images/research/tqrc/fig_quantum_state_evolution.png"
+  caption="Fibonacci anyon quantum state evolution during TQRC simulation. (a) Pure unitary TQRC shows persistent state mixing with no convergence. (b) Dissipative TQRC shows ground state convergence but destroys topological protection. (c-d) Probability trajectories confirm the unitarity-ESP tension. (e) von Neumann entropy evolution demonstrates information preservation in unitary case versus information loss in dissipative case."
+/>
+
+The figure demonstrates:
+
+1. **Pure unitary evolution** (panels a, c): States mix but never converge. The von Neumann entropy oscillates, reflecting reversible dynamics. Initial conditions persist indefinitely.
+
+2. **Dissipative evolution** (panels b, d): States collapse toward the ground state. ESP-like behavior emerges, but at the cost of destroying the topological protection.
+
+3. **The fundamental choice** (panel e): You can have information preservation (unitary, good for TQC) or information loss (dissipative, good for RC), but not both simultaneously.
+
+## Statistical Validation
+
+All benchmark results in version 2 are based on 30 independent trials with different random seeds. We report:
+
+- **Bootstrap 95% confidence intervals** for all performance metrics
+- **Statistical significance testing** between TQRC variants and ESN baselines
+- **Both Mackey-Glass and NARMA-10** benchmarks for task diversity
+
+This addresses a common weakness in quantum ML papers that report single-run results without statistical context.
+
 ## Read the Full Paper
 
 The complete paper with all mathematical proofs is available:
 
-- [Zenodo (Open Access)](https://doi.org/10.5281/zenodo.17889778)
-- [TechRxiv](https://doi.org/10.22541/au.176549133.31550916/v1)
-- [ResearchGate](https://www.researchgate.net/publication/398605611)
+- [TechRxiv (v2)](https://doi.org/10.22541/au.176549133.31550916/v2) - Primary preprint with statistical validation
+- [Zenodo](https://doi.org/10.5281/zenodo.17889778) - Code and data archive
+- [GitHub](https://github.com/QDaria/tqrc) - Reproducible source code with Docker
 
 This research establishes fundamental boundaries for topological quantum reservoir computing. Questions and collaboration inquiries welcome at mo@qdaria.com.
 
@@ -632,7 +663,8 @@ This research establishes fundamental boundaries for topological quantum reservo
   { number: 17, caption: "Timeline of key developments in topological QC and reservoir computing" },
   { number: 18, caption: "Summary of key results" },
   { number: 19, caption: "Braiding position independence of the no-go theorem" },
-  { number: 20, caption: "Key takeaways from the analysis" }
+  { number: 20, caption: "Key takeaways from the analysis" },
+  { number: 21, caption: "Fibonacci anyon quantum state evolution during TQRC simulation (v2)" }
 ]} />
 
 <ListOfTables tables={[
