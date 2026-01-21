@@ -105,18 +105,18 @@ const authorEntries = authors
       </div>
 
       <!-- blog post main image -->
-      <div
-        class="mt-6 overflow-hidden rounded-xl border border-base-300 dark:border-base-700"
-      >
-        <img
-          src={heroImage}
-          alt={`Cover for ${title}`}
-          width="1408"
-          height="800"
-          class="max-h-[70vh] w-full object-cover"
-          loading="eager"
-        />
-      </div>
+      {heroImage && (
+        <div class="hero-image-wrapper">
+          <img
+            src={heroImage}
+            alt={`Cover for ${title}`}
+            width="1408"
+            height="800"
+            class="max-h-[70vh] w-full object-cover"
+            loading="eager"
+          />
+        </div>
+      )}
     </div>
 
     <!-- article content -->
@@ -172,24 +172,141 @@ const authorEntries = authors
 
 
 
-<!-- KaTeX JS + Auto-render for inline math -->
-<script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Ber8FGl9kMxFhlFMKxS4JTGhFvqklnJlqSNJJJVF" crossorigin="anonymous"></script>
-<script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', function() {
-    var blogContent = document.getElementById('blog-post-content');
-    if (blogContent && typeof renderMathInElement !== 'undefined') {
-      renderMathInElement(blogContent, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ],
-        throwOnError: false,
-        trust: true,
-        strict: false
-      });
+<!--
+  KaTeX rendering is handled at build-time via remark-math + rehype-katex in astro.config.mjs
+  DO NOT add client-side auto-render scripts here - it causes DOUBLE RENDERING
+  which creates "double button" visual artifacts on equations.
+
+  The build-time pipeline is:
+  1. remark-math identifies $$...$$ and $...$ delimiters
+  2. rehype-katex converts them to rendered .katex HTML
+  3. KaTeX CSS (imported in BaseLayout) styles them
+
+  If you see math not rendering, check astro.config.mjs, not this file.
+-->
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
     }
-  });
-</script>
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  /* Style for inline math to look like subtle buttons */
+  :global(.blog-prose .katex) {
+    background: rgba(4, 163, 255, 0.1) !important;
+    border: 1px solid rgba(4, 163, 255, 0.2) !important;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin: 0 2px;
+    box-shadow: 0 0 10px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+    font-size: 0.95em;
+  }
+
+  :global(.blog-prose .katex:hover) {
+    background: rgba(4, 163, 255, 0.2) !important;
+    border-color: rgba(4, 163, 255, 0.4) !important;
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.3);
+  }
+
+  /* Reset style for display math to keep it clean */
+  :global(.blog-prose .katex-display .katex) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Style for all images in the blog content */
+  :global(.blog-prose img) {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    background-color: rgba(13, 17, 23, 0.8);
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Hero Image Wrapper - Interactive Island Style */
+  .hero-image-wrapper {
+    position: relative;
+    margin: 2rem 0;
+    padding: 0.75rem; /* Create space for the image inside the island */
+    background: rgba(0, 2, 18, 0.6);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow:
+      0 4px 20px rgba(4, 163, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    /* overflow: hidden; Removed to ensure glowing border is visible */
+  }
+
+  .hero-image-wrapper:hover {
+    border-color: rgba(4, 163, 255, 0.6);
+    box-shadow:
+      0 0 40px rgba(4, 163, 255, 0.25),
+      0 0 80px rgba(4, 163, 255, 0.1),
+      0 8px 40px rgba(4, 163, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Glowing border effect on hover */
+  .hero-image-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      rgba(4, 163, 255, 0.5),
+      rgba(0, 206, 209, 0.3),
+      rgba(4, 163, 255, 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .hero-image-wrapper:hover::before {
+    opacity: 1;
+  }
+
+  .hero-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px; /* Slightly less than wrapper to fit inside */
+    transition: transform 0.3s ease;
+  }
+
+  .hero-image-wrapper:hover img {
+    transform: scale(1.005);
+  }
+</style>

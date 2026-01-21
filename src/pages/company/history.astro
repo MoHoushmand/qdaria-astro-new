@@ -1,0 +1,535 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import HeroSideElectric from "@components/Hero/HeroSideElectric.astro";
+
+const timeline = [
+  {
+    date: "April 2018",
+    title: "DariaSH — Predecessor to QDaria",
+    description: `
+      DariaSH is founded by a multidisciplinary team of leading professors in Quantum Physics,
+      Applied Mathematics, PhD candidates in Stem Cell Engineering, Neuroscience, Data Science,
+      Computational Science, Engineering, and Economics from top Norwegian institutions.
+      We envision four divisions—Quantum AI Laboratory, Quantum Biology Laboratory, Q-Educational
+      Hub, and Q-Investment Hub—to drive self-sufficiency and innovation. We decide to focus on
+      topological qubits, partly inspired by discoveries from our CEO's former professor
+      (Jon Magne Leinaas). We also develop a Machine Learning and Reinforcement Learning Oracle,
+      although various challenges prevent DariaSH from fully materializing.
+    `,
+  },
+  {
+    date: "November 2019",
+    title: "Quantum Machine Learning, AI-Politician & Early GPT-2 Access",
+    description: `
+      We introduce an early Quantum Machine Learning program, and our internal "Master Data Scientist"
+      Oracle evolves into AI-Politician (see AGI-Politician Whitepaper). We also begin experimenting
+      with GPT-2, marking our initial steps in advanced language model research, which later informs
+      our AI-driven policy and analytics platforms.
+    `,
+  },
+  {
+    date: "April 2020",
+    title: "Foundation of QDaria",
+    description: `
+      We officially establish QDaria in Norway, aiming to make the nation Quantum Ready. However,
+      the onset of the COVID-19 pandemic and limited funding soon place the project in hibernation.
+      Despite these setbacks, we retain our commitment to advancing quantum computing.
+    `,
+  },
+  {
+    date: "May 2021",
+    title: "GPT-3 Integration",
+    description: `
+      We adopt GPT-3 for internal research and external pilot projects, providing a major boost
+      to our AI-Politician platform (AGI-Politician Whitepaper is available upon request).
+      This move positions us to pioneer AI-driven policymaking and enhances our machine learning
+      capabilities for future quantum applications.
+    `,
+  },
+  {
+    date: "October 2022",
+    title: "The Birth of Zipminator",
+    description: `
+      We conceptualize Zipminator, aiming to deliver quantum-safe cybersecurity solutions.
+      Early prototypes focus on protecting communications in a future where classical encryption
+      may be vulnerable to quantum attacks, setting the groundwork for eventual commercial release.
+    `,
+  },
+  {
+    date: "April 2024",
+    title: "Renaissance of QDaria — Strategic Partnership with Rigetti",
+    description: `
+      We reawaken QDaria with renewed momentum, evolving into a fully fledged quantum computing
+      startup. Forming a key alliance with Rigetti Computing, we focus on accelerating quantum
+      hardware and establishing a European quantum infrastructure. Our topological research
+      also gains fresh impetus, reflecting our original mission.
+    `,
+  },
+  {
+    date: "May 2024",
+    title: "Office in Downtown Oslo & Rigetti Partnership",
+    description: `
+      We secure our new headquarters in downtown Oslo. Together with Rigetti Computing,
+      we unveil plans to launch the Novera QPU. This milestone positions us at the forefront
+      of quantum computing in Norway while solidifying a strong local presence.
+    `,
+  },
+  {
+    date: "June 2024",
+    title: "IQT Nordics",
+    description: `
+      We participate in IQT 2024 Nordics in Espoo (Helsinki), including an exclusive tour
+      of the Bluefors facility and its cutting-edge dilution refrigerators.
+    `,
+  },
+  {
+    date: "October 2024",
+    title: "IQT New York 2024 Conference",
+    description: `
+      Our CEO serves as a speaker at IQT 2024 in New York—the first-ever Q+AI conference.
+      This event highlights Norway's quantum potential on a global platform, showcasing our
+      progress and reaffirming our role in the worldwide quantum ecosystem.
+    `,
+  },
+  {
+    date: "January 2025",
+    title: "Davos Innovation Week 2025",
+    description: `
+      We have been invited to present at the prestigious Davos Innovation Week, having been
+      recognized among the top 25 most promising startups worldwide and top 5 in Europe by a
+      committee of global executives, bankers, and the World Economic Forum. Our CEO is set
+      to deliver a keynote and moderate panel discussions at this exclusive, invitation-only event.
+    `,
+  },
+  {
+    date: "November 2025",
+    title: "Zipminator v1.0.0 Release (Cybersecurity)",
+    description: `
+      We anticipate launching Zipminator v1.0.0, our quantum-safe cybersecurity platform designed
+      for data scientists, enterprises, governments, and academic institutions. It will integrate
+      NIST's post-quantum cryptography standards (CRYSTALS-Kyber, CRYSTALS-Dilithium, Sphincs+,
+      and FALCON) to safeguard sensitive data against tomorrow's quantum threats.
+    `,
+  },
+  {
+    date: "December 2025",
+    title: "Qm9 v1.0.0 Release (Fin-Tech)",
+    description: `
+      We will introduce Qm9, our quantum-based toolkit for financial modeling, high-speed market
+      data processing, and portfolio optimization. By leveraging advanced algorithms, Qm9 aims
+      to transform investment strategies and risk analysis for hedge funds, trading desks, and exchanges.
+    `,
+  },
+  {
+    date: "January 2026",
+    title: "QDiana Release (Educational Platform)",
+    description: `
+      We plan to roll out QDiana, an immersive platform for accelerated quantum learning.
+      It will feature interactive virtual labs, personalized learning paths, and VR/MR-based
+      experimental quantum mechanics modules. We aim to collaborate with universities and
+      research institutions to prepare the next generation of quantum experts.
+    `,
+  },
+  {
+    date: "January 2026",
+    title: "QNilaya (Health-Tech)",
+    description: `
+      We will unveil QNilaya, leveraging quantum algorithms to accelerate drug discovery
+      and personalized medicine. This platform will offer rapid molecular simulations and
+      AI-driven treatments for pharmaceutical companies, hospitals, and biotech firms,
+      revolutionizing healthcare outcomes.
+    `,
+  },
+  {
+    date: "March 2026",
+    title: "Novera QPU Launch",
+    description: `
+      We are finalizing our initial commitment with Rigetti and Bluefors to launch Novera QPU
+      as the first commercially available quantum computer in Norway, demonstrating the power
+      of quantum technology to the public and industry. This strategic system elevates our
+      near-term market visibility while we continue developing our flagship topological
+      quantum computer with Fibonacci anyons.
+    `,
+  },
+  {
+    date: "March 2026",
+    title: "TeHaA v1.0 — Quantum-Enhanced LLM",
+    description: `
+      We expect to release TeHaA v1.0, a large language model enhanced by quantum-inspired
+      methods running on the Novera QPU. By combining quantum hardware with cutting-edge NLP,
+      we aim for improved language understanding and faster model training using LPU inference
+      and a high-performance programming language like Mojo.
+    `,
+  },
+  {
+    date: "May 2026",
+    title: "Novera QPU Second Rollout",
+    description: `
+      We plan a follow-up release of the Novera QPU featuring refined qubit stability and
+      improved error-correction. While this PR-focused platform garners attention, our
+      topological quantum computer under development promises even more robust, fault-tolerant
+      operations for the future.
+    `,
+  },
+  {
+    date: "June 2026",
+    title: "Topological Quantum Computer with Fibonacci Anyons",
+    description: `
+      We will ramp up hardware engineering for our signature topological quantum computer,
+      leveraging non-Abelian Fibonacci anyons for superior fault-tolerance. This flagship
+      system paves the way for breakthroughs in research and industrial applications alike.
+    `,
+  },
+  {
+    date: "August 2026",
+    title: "Damon v1.0 — Q-Robotics Platform",
+    description: `
+      We intend to launch Damon, a quantum robotics platform optimizing control algorithms
+      and AI-driven automation through quantum computing. Targeted at manufacturing, logistics,
+      and R&D, Damon will enable high-precision robotics solutions for modern industries.
+    `,
+  },
+  {
+    date: "September 2026",
+    title: "QMikeAI — Quantum-Enhanced CFD & Weather Forecasting",
+    description: `
+      We plan to unveil QMikeAI, a groundbreaking approach to computational fluid dynamics
+      (CFD) and direct numerical simulation using topological quantum resources. By applying
+      quantum-enhanced Navier-Stokes solvers to highly dense meshes, we aim to capture the
+      smallest eddies at the Kolmogorov scale without approximations, exploring the limits of
+      the continuum hypothesis. This milestone will push turbulence modeling, extreme weather
+      forecasting, and climate research into new frontiers where quantum effects might take over.
+    `,
+  },
+  {
+    date: "January 2027",
+    title: "Lillian — Quantum HPC Center Launch",
+    description: `
+      We plan to open Lillian, a Quantum High-Performance Computing (HPC) Center in Norway
+      integrating topological qubits with classical supercomputing. This hub will grant
+      enterprises and researchers secure, cloud-based access to powerful quantum hardware,
+      propelling innovation across multiple sectors.
+    `,
+  },
+  {
+    date: "May 2027",
+    title: "Novera QPU v2 — Higher Qubit Count & Topological Stability",
+    description: `
+      We aim to collaborate further with Rigetti and Bluefors on Novera QPU v2, featuring
+      increased qubit capacity and improved stability. While Novera remains our commercial
+      showpiece, we continue parallel development of our topological system, ensuring deeper
+      fault-tolerance and cutting-edge performance.
+    `,
+  },
+  {
+    date: "August 2027",
+    title: "Global Expansion & APAC Partnerships",
+    description: `
+      We intend to establish regional bases in Singapore, the Middle East, Africa, Australia,
+      and both North and South America to engage with burgeoning quantum ecosystems worldwide.
+      By partnering with leading research institutes and tech firms, we plan to broaden our
+      global footprint and foster quantum innovation on every continent.
+    `,
+  },
+  {
+    date: "March 2028",
+    title: "QChaos v1.0 — Advanced Quantum Cryptography",
+    description: `
+      We plan to introduce QChaos, a next-generation cryptography framework rooted in
+      topological quantum principles. QChaos aims to secure financial, governmental,
+      and healthcare infrastructures against emerging cyber threats, pushing the boundaries
+      of data protection.
+    `,
+  },
+  {
+    date: "August 2028",
+    title: "Novera QPU v3 & Topological Fault-Tolerance Breakthrough",
+    description: `
+      We expect to roll out Novera QPU v3 with significantly reduced error rates and
+      notable advancements in topological error correction. These developments will drive
+      broader adoption of quantum technologies across a spectrum of industries.
+    `,
+  },
+  {
+    date: "December 2028",
+    title: "QPortal — Next-Gen Quantum Cloud Platform",
+    description: `
+      We plan to release QPortal, merging classical HPC with quantum resources for a
+      seamless cloud-based experience. Enterprises, researchers, and developers will be
+      able to deploy quantum applications more quickly, leveraging both our topological
+      hardware and the Novera QPU.
+    `,
+  },
+  {
+    date: "July 2029",
+    title: "European Quantum Data Center (EQDC)",
+    description: `
+      We aim to establish the EQDC in Oslo, consolidating quantum hardware, HPC infrastructure,
+      and advanced analytics under one roof. Supported by the EU Commission, EQDC will drive
+      pan-European quantum research, innovation, and educational programs on an unprecedented scale.
+    `,
+  },
+  {
+    date: "February 2030",
+    title: "Topological Quantum Supremacy Demonstration",
+    description: `
+      We intend to demonstrate quantum supremacy using topological qubits, solving a highly
+      complex problem beyond classical capabilities. This breakthrough will confirm the
+      exceptional stability and performance of our non-Abelian Fibonacci anyon architecture.
+    `,
+  },
+  {
+    date: "September 2030",
+    title: "GrailQ — Fully Fault-Tolerant Topological Quantum Computer",
+    description: `
+      We plan to launch GrailQ, our first fully fault-tolerant topological quantum computer
+      offering industry-leading qubit coherence and hardware-level error correction. GrailQ
+      will usher in a new era of possibilities in AI, finance, healthcare, and beyond,
+      underscoring our global leadership in topological quantum computing.
+    `,
+  },
+];
+---
+
+<BaseLayout
+  title="QDaria History & Roadmap - The Journey to Quantum Supremacy"
+  description="Explore the history of QDaria, from our origins in DariaSH to our roadmap for building the world's first fault-tolerant topological quantum computer."
+>
+  <main class="relative bg-dark-bg">
+    <div class="absolute inset-0 z-0 overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl opacity-20 pointer-events-none">
+            <div class="absolute top-0 left-0 w-96 h-96 bg-primary-500/30 rounded-full blur-3xl mix-blend-screen animate-pulse-slow"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/30 rounded-full blur-3xl mix-blend-screen animate-pulse-slow" style="animation-delay: 2s;"></div>
+        </div>
+    </div>
+
+    <section class="relative z-10 py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center mb-16">
+          <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl mb-6">
+            Our <span class="text-gradient-blue">Journey</span>
+          </h1>
+          <p class="text-lg leading-8 text-base-300">
+            From the theoretical foundations of topological matter to the engineering of fault-tolerant quantum systems.
+          </p>
+        </div>
+
+        <div class="relative" role="list" aria-label="Company timeline and milestones">
+          <!-- Timeline Line -->
+          <div class="timeline-line" aria-hidden="true"></div>
+
+          <!-- Timeline Items -->
+          <div class="space-y-12 md:space-y-24">
+            {
+              timeline.map((item, index) => (
+                <article
+                  class="reveal-element"
+                  data-animation="fade"
+                  data-delay={index * 0.1}
+                  role="listitem"
+                >
+                  <div class="relative flex flex-col md:flex-row items-center justify-between">
+                    <div
+                      class={`w-full md:w-5/12 ${index % 2 === 0 ? "" : "md:order-last"}`}
+                    >
+                      <div class="feature-card rounded-xl p-6 md:p-8 transition-transform duration-300 hover:scale-105">
+                        <time datetime={item.date} class="font-semibold text-primary-400">
+                          {item.date}
+                        </time>
+                        <h3 class="mb-4 mt-2 text-xl md:text-2xl font-bold text-white" id={`timeline-title-${index}`}>
+                          {item.title}
+                        </h3>
+                        <div class="text-base-300" id={`timeline-description-${index}`} aria-labelledby={`timeline-title-${index}`}>
+                          {item.description}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="timeline-dot hidden md:block" aria-hidden="true" />
+                    <div class="hidden md:block md:w-5/12" aria-hidden="true" />
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-[#04a3ff] via-[#00ffd3] to-[#65ff00] bg-clip-text text-transparent;
+    filter: brightness(1.8) saturate(1.4);
+    text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    animation: pulse-gradient 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-gradient {
+    0%,
+    100% {
+      filter: brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 30px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      filter: brightness(2) saturate(1.6);
+      text-shadow: 0 0 40px rgba(4, 163, 255, 0.5);
+    }
+  }
+
+  .feature-card {
+    @apply relative rounded-2xl border border-primary-500/30 bg-dark-bg/80 backdrop-blur-sm transition-all duration-500 overflow-visible;
+    box-shadow: 0 0 25px rgba(4, 163, 255, 0.4);
+
+    &:hover {
+      box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      @apply border-primary-500/50 bg-dark-bg/90;
+      animation: pulse-card 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-card {
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(4, 163, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 70px rgba(4, 163, 255, 0.8);
+      }
+    }
+
+    &::before {
+      content: "";
+      @apply absolute inset-0 rounded-2xl;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+        rgba(4, 163, 255, 0.15),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .timeline-line {
+    @apply absolute left-1/2 top-0 h-full w-0.5 bg-primary-500/30;
+    box-shadow: 0 0 20px rgba(4, 163, 255, 0.4);
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .timeline-dot {
+    @apply absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border-4 border-dark-bg bg-primary-500;
+    box-shadow: 0 0 15px rgba(4, 163, 255, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(4, 163, 255, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(4, 163, 255, 0.6);
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: translate(-50%, 0) scale(1);
+      box-shadow: 0 0 15px rgba(4, 163, 255, 0.5);
+    }
+    50% {
+      transform: translate(-50%, 0) scale(1.1);
+      box-shadow: 0 0 25px rgba(4, 163, 255, 0.7);
+    }
+  }
+
+  .reveal-element {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hide timeline line on mobile for cleaner look */
+  @media (max-width: 768px) {
+    .timeline-line {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // SSR Guard: Only execute on client-side
+  if (typeof window !== 'undefined') {
+    import('gsap').then(({ gsap }) => {
+      import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Check if user prefers reduced motion
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Optimized mouse position update with requestAnimationFrame
+        let rafId: number | null = null;
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentTarget: HTMLElement | null = null;
+
+        function updateMousePosition(e: Event) {
+          const target = e.currentTarget as HTMLElement;
+          const mouseEvent = e as MouseEvent;
+
+          mouseX = mouseEvent.clientX;
+          mouseY = mouseEvent.clientY;
+          currentTarget = target;
+
+          // Cancel previous animation frame if it exists
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+          }
+
+          // Use requestAnimationFrame to throttle updates
+          rafId = requestAnimationFrame(() => {
+            if (!currentTarget) return;
+
+            const rect = currentTarget.getBoundingClientRect();
+            const x = mouseX - rect.left;
+            const y = mouseY - rect.top;
+
+            currentTarget.style.setProperty("--mouse-x", `${x}px`);
+            currentTarget.style.setProperty("--mouse-y", `${y}px`);
+
+            rafId = null;
+          });
+        }
+
+        function initCards() {
+          const cards = document.querySelectorAll(".feature-card");
+
+          // Only add mouse tracking if motion is allowed
+          if (!prefersReducedMotion) {
+            cards.forEach((el) => {
+              el.removeEventListener("mousemove", updateMousePosition as EventListener);
+              el.addEventListener("mousemove", updateMousePosition as EventListener);
+
+              // Clean up on mouse leave
+              el.addEventListener("mouseleave", () => {
+                if (rafId !== null) {
+                  cancelAnimationFrame(rafId);
+                  rafId = null;
+                }
+                currentTarget = null;
+              });
+            });
+          }
+        }
+
+        // Initialize
+        initCards();
+      });
+    });
+  }
+</script>
