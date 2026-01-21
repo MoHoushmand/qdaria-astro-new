@@ -3,7 +3,7 @@ title: "The Fundamental Tension in Topological Quantum Reservoir Computing"
 description: "We prove that unitarity and the Echo State Property are mathematically incompatible in Fibonacci anyon systems, establishing a no-go theorem for TQRC with rigorous 30-trial statistical validation."
 authors: ["daniel-mo-houshmand"]
 pubDate: "2026-01-06"
-updatedDate: "2026-01-06"
+updatedDate: "2026-01-21"
 heroImage: "/images/research/tqrc/fig_tqrc_architecture_pro.png"
 categories: ["Research", "Quantum Computing", "Theory"]
 tags: ["TQRC", "Fibonacci Anyons", "Echo State Property", "No-Go Theorem", "Topological Computing", "Statistical Validation"]
@@ -24,7 +24,11 @@ Nothing good, as it turns out. In this paper, we prove a fundamental no-go theor
 
 This is not an engineering problem to be solved with better technology. It is a mathematical incompatibility rooted in the foundations of quantum mechanics.
 
-**Version 2 Update (January 2026):** This article reflects the revised paper with 30-trial statistical validation, bootstrap 95% confidence intervals, new quantum state evolution visualizations (Figure 9), NARMA-10 benchmark results, and updated literature through 2025 including Google and Quantinuum Fibonacci anyon demonstrations.
+**Version 3.1 Update (January 21, 2026):** Comprehensive language revision following rigorous peer review. Removed amateur terminology ("Honest Assessment" → "Performance Comparison"), reframed TQRC vs ESN comparison as baseline demonstration rather than competition (ESN satisfies ESP by design; TQRC cannot due to unitarity), and improved scientific neutrality throughout. Repository reorganized with proper archival structure. See [GitHub commit](https://github.com/QDaria/tqrc/commit/bab39aa).
+
+**Version 3 Update (January 21, 2026):** Enhanced repository infrastructure including GitHub Actions CI/CD, CITATION.cff for proper attribution, and comprehensive reproducibility improvements. The paper now includes explicit limitations discussion in Section 5.5, complete figure cross-references throughout, and additional QRC comparison literature. All scientific claims have been fact-checked against current literature.
+
+**Version 2 Update (January 2026):** Added 30-trial statistical validation, bootstrap 95% confidence intervals, quantum state evolution visualizations (Figure 9), NARMA-10 benchmark results, and updated literature through 2025 including Google and Quantinuum Fibonacci anyon demonstrations.
 
 ## What Are Anyons?
 
@@ -633,9 +637,12 @@ This addresses a common weakness in quantum ML papers that report single-run res
 
 The complete paper with all mathematical proofs is available:
 
-- [TechRxiv (v2)](https://doi.org/10.22541/au.176549133.31550916/v2) - Primary preprint with statistical validation
-- [Zenodo](https://doi.org/10.5281/zenodo.17889778) - Code and data archive
-- [GitHub](https://github.com/QDaria/tqrc) - Reproducible source code with Docker
+- [TechRxiv (v3)](https://doi.org/10.22541/au.176549133.31550916/v3) - Latest preprint with complete revisions
+- [Zenodo](https://doi.org/10.5281/zenodo.17889778) - Code and data archive (use concept DOI for latest version)
+- [GitHub](https://github.com/QDaria/tqrc) - Reproducible source code with Docker, CI/CD, and proper citation metadata
+
+**Citing this work:** Use the CITATION.cff file in the GitHub repository or cite as:
+> Houshmand, D. M. (2026). Fundamental Limitations of Topological Quantum Reservoir Computing: A No-Go Theorem for Fibonacci Anyonic Systems. TechRxiv. https://doi.org/10.22541/au.176549133.31550916/v3
 
 This research establishes fundamental boundaries for topological quantum reservoir computing. Questions and collaboration inquiries welcome at mo@qdaria.com.
 
