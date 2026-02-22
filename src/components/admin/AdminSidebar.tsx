@@ -57,9 +57,7 @@ export default function AdminSidebar({ collapsed, onToggle, currentPath = '' }: 
       {/* Logo area */}
       <div className="flex h-16 items-center border-b border-gray-800 px-4">
         <a href="/admin/dashboard" className="flex items-center gap-3 overflow-hidden">
-          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-cyan-500/10">
-            <span className="text-sm font-bold text-cyan-400">QD</span>
-          </div>
+          <img src="/icons/qdaria/QDlogomark.svg" alt="QDaria" className="h-8 w-8 flex-shrink-0" />
           {!collapsed && (
             <span className="whitespace-nowrap text-lg font-semibold text-white">
               QDaria

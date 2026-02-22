@@ -88,7 +88,7 @@ const SYSTEM_PRESETS = [
 const DEFAULT_SETTINGS: PlaygroundSettings = {
   model: 'gemini-3.1-pro',
   systemPrompt: SYSTEM_PRESETS[4].prompt,
-  temperature: 0.7,
+  temperature: 1.0,
   maxTokens: 4096,
   thinkingMode: false,
   deepResearch: false,

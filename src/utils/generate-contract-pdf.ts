@@ -35,6 +35,19 @@ const EMPLOYMENT_TYPE_LABELS: Record<string, string> = {
   intern: 'Intern',
 };
 
+const BOARD_MEMBERS: Record<string, 'chair' | 'member'> = {
+  'Daniel Mo Houshmand': 'chair',
+  'Svein-Erik Nilsen': 'member',
+  'Sharareh M. Shariat Panahi': 'member',
+  'Caroline Woie': 'member',
+  'Rajesh Chavan': 'member',
+  'John Kristiansen': 'member',
+  'Lindsay Sanner': 'member',
+  'Lillian Kristiansen': 'member',
+  'Yulia Ginzburg': 'member',
+  'Daria Houshmand': 'member',
+};
+
 // Market salary benchmark data by tier: [qdaria, marketLow, marketMedian, marketHigh]
 const MARKET_SALARY_BY_TIER: Record<string, { stage: string; values: [number, number, number, number] }[]> = {
   founder: [
@@ -727,6 +740,10 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
   } else if (tier && roleAppendices[tier]) {
     tocEntries.push('Appendix C: Equity & Compensation Rationale');
   }
+  const boardRole = BOARD_MEMBERS[employeeName];
+  if (boardRole) {
+    tocEntries.push('Board of Directors Appointment');
+  }
   tocEntries.push('Signatures');
 
   doc.setFontSize(9);
@@ -1204,6 +1221,96 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
     y += 5;
   }
   y += 6;
+
+  // ===== BOARD OF DIRECTORS APPOINTMENT (conditional) =====
+  if (boardRole) {
+    checkPageBreak(90);
+    y += 4;
+    doc.setDrawColor(200, 210, 220);
+    doc.line(margin, y, pageWidth - margin, y);
+    y += 8;
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(NAVY.r, NAVY.g, NAVY.b);
+    doc.text('BOARD OF DIRECTORS APPOINTMENT', margin, y);
+    y += 3;
+    doc.setDrawColor(CYAN.r, CYAN.g, CYAN.b);
+    doc.setLineWidth(0.8);
+    doc.line(margin, y, margin + 60, y);
+    doc.setLineWidth(0.2);
+    y += 8;
+
+    const boardTitle = boardRole === 'chair'
+      ? 'Chair of the Board of Directors'
+      : 'Member of the Board of Directors';
+
+    // Appointment statement
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(DARK.r, DARK.g, DARK.b);
+    const appointmentText = `In addition to the employment terms set forth in this Agreement, ${employeeName} is hereby appointed as ${boardTitle} of QDaria Holdings AS, effective March 1, 2026.`;
+    for (const wl of doc.splitTextToSize(appointmentText, contentWidth)) {
+      checkPageBreak(5);
+      doc.text(wl, margin, y);
+      y += 4.5;
+    }
+    y += 4;
+
+    // Board Responsibilities sub-header
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(DARK.r, DARK.g, DARK.b);
+    doc.text('Board Responsibilities', margin, y);
+    y += 6;
+
+    const responsibilities = [
+      'Fiduciary Duty: The Board Member shall exercise their duties with the care, diligence, and skill that a reasonably prudent person would exercise in comparable circumstances, acting in the best interests of QDaria Holdings AS and its shareholders at all times.',
+      'Attendance at Board Meetings: The Board Member shall attend all scheduled board meetings, whether in person or via electronic communication. The Board shall convene at least four (4) times per calendar year, with additional meetings as required by company affairs.',
+      'Voting Rights: The Board Member shall have full voting rights on all matters brought before the Board, including but not limited to strategic direction, annual budgets, major investments, executive appointments, and corporate governance policies.',
+    ];
+
+    doc.setFontSize(9);
+    for (const resp of responsibilities) {
+      checkPageBreak(18);
+      doc.setTextColor(MID_GRAY.r, MID_GRAY.g, MID_GRAY.b);
+      doc.text('\u2022', margin + 4, y);
+      doc.setTextColor(DARK.r, DARK.g, DARK.b);
+      doc.setFont('helvetica', 'normal');
+      for (const wl of doc.splitTextToSize(resp, contentWidth - 12)) {
+        checkPageBreak(5);
+        doc.text(wl, margin + 10, y);
+        y += 4.5;
+      }
+      y += 2;
+    }
+    y += 3;
+
+    // Concurrent with Employment
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(DARK.r, DARK.g, DARK.b);
+    doc.text('Terms of Board Membership', margin, y);
+    y += 6;
+
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(DARK.r, DARK.g, DARK.b);
+    const concurrentText = 'Board membership is concurrent with and contingent upon the continued employment of the Board Member with QDaria Holdings AS. Should the employment relationship terminate for any reason, the Board membership shall be subject to review by the remaining Board members in accordance with applicable Norwegian corporate law (Aksjeloven).';
+    for (const wl of doc.splitTextToSize(concurrentText, contentWidth)) {
+      checkPageBreak(5);
+      doc.text(wl, margin, y);
+      y += 4.5;
+    }
+    y += 4;
+
+    const compensationText = 'Compensation for Board membership duties is included in the employment compensation package detailed in this Agreement. No separate board fees shall be payable unless otherwise resolved by the General Meeting of Shareholders.';
+    for (const wl of doc.splitTextToSize(compensationText, contentWidth)) {
+      checkPageBreak(5);
+      doc.text(wl, margin, y);
+      y += 4.5;
+    }
+    y += 6;
+  }
 
   // ===== SIGNATURES =====
   checkPageBreak(60);

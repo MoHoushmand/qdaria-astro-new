@@ -109,7 +109,7 @@ export default function AdminSettings() {
 
   const [profile, setProfile] = useState<ProfileSettings>({
     name: 'Daniel Mo Houshmand',
-    email: 'daniel@qdaria.com',
+    email: 'mo@qdaria.com',
     role: 'CEO & Founder',
     company: 'QDaria Holdings AS',
     timezone: 'Europe/Oslo',

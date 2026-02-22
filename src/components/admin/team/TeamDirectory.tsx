@@ -22,6 +22,8 @@ const DEPARTMENTS = [
 
 const TIERS = ['All', 'Founder', 'C-Suite', 'Leadership', 'Specialist', 'Intern/Board'] as const;
 
+const BOARD_FILTERS = ['All', 'Board Only', 'Non-Board'] as const;
+
 const TIER_COLORS: Record<string, string> = {
   Founder: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
   'C-Suite': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
@@ -29,6 +31,13 @@ const TIER_COLORS: Record<string, string> = {
   Specialist: 'bg-green-500/20 text-green-400 border-green-500/30',
   'Intern/Board': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
 };
+
+const BOARD_BADGE = 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+
+function getBoardLabel(member: TeamMember): string | null {
+  if (!member.is_board_member) return null;
+  return member.title.toLowerCase().includes('ceo') ? 'Chair' : 'Board';
+}
 
 const STATUS_COLORS: Record<string, string> = {
   active: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
@@ -55,6 +64,7 @@ export default function TeamDirectory({ onSelectMember }: TeamDirectoryProps) {
   const [search, setSearch] = useState('');
   const [department, setDepartment] = useState('All');
   const [tier, setTier] = useState('All');
+  const [boardFilter, setBoardFilter] = useState<(typeof BOARD_FILTERS)[number]>('All');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const filtered = useMemo(() => {
@@ -67,9 +77,13 @@ export default function TeamDirectory({ onSelectMember }: TeamDirectoryProps) {
         (m.department || '').toLowerCase().includes(q);
       const matchDept = department === 'All' || m.department === department;
       const matchTier = tier === 'All' || m.tier === tier;
-      return matchSearch && matchDept && matchTier;
+      const matchBoard =
+        boardFilter === 'All' ||
+        (boardFilter === 'Board Only' && m.is_board_member) ||
+        (boardFilter === 'Non-Board' && !m.is_board_member);
+      return matchSearch && matchDept && matchTier && matchBoard;
     });
-  }, [members, search, department, tier]);
+  }, [members, search, department, tier, boardFilter]);
 
   if (isLoading) {
     return (
@@ -148,6 +162,17 @@ export default function TeamDirectory({ onSelectMember }: TeamDirectoryProps) {
             </option>
           ))}
         </select>
+        <select
+          value={boardFilter}
+          onChange={(e) => setBoardFilter(e.target.value as (typeof BOARD_FILTERS)[number])}
+          className="rounded-lg border border-gray-800 bg-[#111827] px-4 py-2.5 text-sm text-gray-200 outline-none transition-colors focus:border-amber-500/50"
+        >
+          {BOARD_FILTERS.map((b) => (
+            <option key={b} value={b}>
+              {b === 'All' ? 'Board Status' : b}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Grid View */}
@@ -166,6 +191,7 @@ export default function TeamDirectory({ onSelectMember }: TeamDirectoryProps) {
                 <th className="px-4 py-3 font-medium text-gray-400">Title</th>
                 <th className="px-4 py-3 font-medium text-gray-400 hidden md:table-cell">Department</th>
                 <th className="px-4 py-3 font-medium text-gray-400 hidden lg:table-cell">Tier</th>
+                <th className="px-4 py-3 font-medium text-gray-400 hidden lg:table-cell">Board</th>
                 <th className="px-4 py-3 font-medium text-gray-400 hidden lg:table-cell">Equity</th>
                 <th className="px-4 py-3 font-medium text-gray-400">Status</th>
                 <th className="px-4 py-3" />
@@ -194,6 +220,17 @@ export default function TeamDirectory({ onSelectMember }: TeamDirectoryProps) {
                     >
                       {m.tier}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 hidden lg:table-cell">
+                    {getBoardLabel(m) ? (
+                      <span
+                        className={`inline-block rounded-full border px-2 py-0.5 text-xs ${BOARD_BADGE}`}
+                      >
+                        {getBoardLabel(m)}
+                      </span>
+                    ) : (
+                      <span className="text-gray-600">-</span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-gray-400 hidden lg:table-cell">
                     {m.equity_percentage != null ? `${m.equity_percentage}%` : '-'}
@@ -234,11 +271,20 @@ function MemberCard({ member: m, onClick }: { member: TeamMember; onClick: () =>
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cyan-500/20 text-sm font-bold text-cyan-400">
           {getInitials(m.name)}
         </div>
-        <span
-          className={`rounded-full border px-2 py-0.5 text-xs ${TIER_COLORS[m.tier] || 'text-gray-400'}`}
-        >
-          {m.tier}
-        </span>
+        <div className="flex flex-col items-end gap-1">
+          <span
+            className={`rounded-full border px-2 py-0.5 text-xs ${TIER_COLORS[m.tier] || 'text-gray-400'}`}
+          >
+            {m.tier}
+          </span>
+          {getBoardLabel(m) && (
+            <span
+              className={`rounded-full border px-2 py-0.5 text-xs ${BOARD_BADGE}`}
+            >
+              {getBoardLabel(m)}
+            </span>
+          )}
+        </div>
       </div>
       <div className="mt-4">
         <h3 className="font-semibold text-white group-hover:text-cyan-400 transition-colors">

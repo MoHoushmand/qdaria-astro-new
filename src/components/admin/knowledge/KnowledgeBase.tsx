@@ -80,6 +80,7 @@ const DEMO_DOCS: KBDocument[] = [
     size: 2_400_000,
     uploadDate: '2026-01-15',
     tags: ['handbook', 'policy', 'hr'],
+    content: '# QDaria Employee Handbook 2026\n\n## Table of Contents\n- Company Mission & Values\n- Code of Conduct\n- Working Hours (30h/week)\n- Benefits & Compensation\n- Leave Policy (6 weeks vacation)\n- Remote Work Policy\n- Professional Development\n- Health & Safety\n- Termination Procedures',
   },
   {
     id: 'd2',
@@ -89,6 +90,7 @@ const DEMO_DOCS: KBDocument[] = [
     size: 340_000,
     uploadDate: '2026-01-10',
     tags: ['nda', 'legal', 'template'],
+    content: '# Non-Disclosure Agreement\n\nThis NDA is between QDaria Holdings AS (Org. Nr. 932 163 378) and the Receiving Party.\n\n## Confidential Information\nAll proprietary quantum computing IP, trade secrets, customer data, financial projections, and business strategies.\n\n## Duration\n5 years from date of execution.\n\n## Governing Law\nNorwegian law, Oslo District Court.',
   },
   {
     id: 'd3',
@@ -98,6 +100,7 @@ const DEMO_DOCS: KBDocument[] = [
     size: 5_100_000,
     uploadDate: '2026-02-05',
     tags: ['quantum', 'reservoir computing', 'paper'],
+    content: '# Quantum Reservoir Computing: Depth Optimization\n\nResearch paper on optimal circuit depth for quantum reservoir computing using FakeCepheus simulator.\n\n## Key Results\n- Optimal depth: 5-7 layers for financial time series\n- Walk-forward validation: Sharpe ratio improvement 23%\n- Topology comparison: heavy-hex outperforms linear\n\nAuthors: Daniel Mo Houshmand et al.',
   },
   {
     id: 'd4',
@@ -147,6 +150,27 @@ const DEMO_DOCS: KBDocument[] = [
     size: 1_100_000,
     uploadDate: '2025-12-01',
     tags: ['security', 'policy', 'compliance'],
+    content: '# QDaria Security Policy v3\n\n## Scope\nAll employees, contractors, and systems handling QDaria data.\n\n## Classification Levels\n- Public\n- Internal\n- Confidential\n- Restricted (Quantum IP)\n\n## Access Control\nRole-based access with MFA required for all systems.\n\n## Incident Response\n24-hour notification to CISO. 72-hour notification to Datatilsynet (GDPR).',
+  },
+  {
+    id: 'd9',
+    name: '48-Month Implementation Plan.docx',
+    category: 'policies',
+    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    size: 156_000,
+    uploadDate: '2026-02-15',
+    tags: ['implementation', 'strategy', '48-month', 'roadmap'],
+    url: '/contracts/implementeringsplan-48-month.docx',
+  },
+  {
+    id: 'd10',
+    name: 'Meeting Agenda & Structure Template.docx',
+    category: 'policies',
+    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    size: 89_000,
+    uploadDate: '2026-02-15',
+    tags: ['meetings', 'agenda', 'template', 'structure'],
+    url: '/contracts/meeting-agenda-and-structure.docx',
   },
 ];
 

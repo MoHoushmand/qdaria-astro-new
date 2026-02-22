@@ -34,18 +34,13 @@ const contractEntries: ContractSeedEntry[] = [
   { team_member_name: 'Daria Houshmand', file_name: 'QDaria_Employment_Agreement_Daria_Houshmand.pdf', title: 'Dev Intern & Board Member Agreement', type: 'employment', status: 'draft', signed_date: '', file_size: 0, start_date: '2026-03-01' },
 ];
 
-const supplementaryDocs: ContractSeedEntry[] = [
-  { team_member_name: '', file_name: 'implementeringsplan-48-month.docx', title: '48-Month Implementation Plan', type: 'other', status: 'draft', signed_date: '', file_size: 0 },
-  { team_member_name: '', file_name: 'meeting-agenda-and-structure.docx', title: 'Meeting Agenda & Structure Template', type: 'other', status: 'draft', signed_date: '', file_size: 0 },
-];
-
 /**
  * Generate Contract objects with stable IDs from seed data.
  * Downloads served from /contracts/{file_name} via Astro's public directory.
  */
 export function getContractsSeed(): Contract[] {
   const now = new Date().toISOString();
-  const allEntries = [...contractEntries, ...supplementaryDocs];
+  const allEntries = contractEntries;
 
   return allEntries.map((entry, i) => ({
     id: `contract-seed-${i}`,
