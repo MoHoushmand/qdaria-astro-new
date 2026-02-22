@@ -1,0 +1,143 @@
+---
+import BaseHead from './BaseHead.astro';
+import AdminHeader from '../components/admin/AdminHeader';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'Admin - QDaria', description = 'QDaria Internal Portal' } = Astro.props;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+
+interface NavItem {
+  label: string;
+  href: string;
+  icon: string;
+}
+
+const navItems: NavItem[] = [
+  { label: 'Dashboard', href: '/admin/dashboard', icon: 'layout-dashboard' },
+  { label: 'Team', href: '/admin/team', icon: 'users' },
+  { label: 'Contracts', href: '/admin/contracts', icon: 'file-text' },
+  { label: 'Equity', href: '/admin/equity', icon: 'pie-chart' },
+  { label: 'Meetings', href: '/admin/meetings', icon: 'calendar' },
+  { label: 'Chat', href: '/admin/chat', icon: 'message-square' },
+  { label: 'Playground', href: '/admin/playground', icon: 'bot' },
+  { label: 'Knowledge Base', href: '/admin/knowledge', icon: 'book-open' },
+  { label: 'Fine-tuning', href: '/admin/finetuning', icon: 'cpu' },
+  { label: 'Settings', href: '/admin/settings', icon: 'settings' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/admin/dashboard') {
+    return currentPath === '/admin/dashboard' || currentPath === '/admin' || currentPath === '/admin/';
+  }
+  return currentPath.startsWith(href);
+}
+
+// SVG icon paths for lucide icons (avoiding React dependency for static sidebar)
+const iconPaths: Record<string, string> = {
+  'layout-dashboard': '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+  'users': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  'file-text': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  'pie-chart': '<path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>',
+  'calendar': '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+  'message-square': '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  'settings': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+  'bot': '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+  'book-open': '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  'cpu': '<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>',
+  'chevron-left': '<path d="m15 18-6-6 6-6"/>',
+};
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body class="min-h-screen bg-[#0a0e1a] font-sans antialiased dark">
+    <div class="flex h-screen overflow-hidden bg-[#0a0e1a]">
+      <!-- Sidebar: pure Astro HTML, no React needed -->
+      <aside id="admin-sidebar" class="relative flex flex-col border-r border-gray-800 bg-[#070b14] transition-all duration-300 w-64">
+        <!-- Logo -->
+        <div class="flex h-16 items-center border-b border-gray-800 px-4">
+          <a href="/admin/dashboard" class="flex items-center gap-3 overflow-hidden">
+            <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-cyan-500/10">
+              <span class="text-sm font-bold text-cyan-400">QD</span>
+            </div>
+            <span class="sidebar-label whitespace-nowrap text-lg font-semibold text-white">QDaria</span>
+          </a>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 space-y-1 px-2 py-4">
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <a
+                href={item.href}
+                class:list={[
+                  'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                  active
+                    ? 'bg-cyan-500/10 text-cyan-400'
+                    : 'text-gray-400 hover:bg-gray-800/50 hover:text-white',
+                ]}
+              >
+                <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <Fragment set:html={iconPaths[item.icon]} />
+                </svg>
+                <span class="sidebar-label">{item.label}</span>
+              </a>
+            );
+          })}
+        </nav>
+
+        <!-- Collapse toggle -->
+        <div class="border-t border-gray-800 p-2">
+          <button
+            id="sidebar-toggle"
+            class="flex w-full items-center justify-center rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-800/50 hover:text-white"
+            aria-label="Collapse sidebar"
+          >
+            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <Fragment set:html={iconPaths['chevron-left']} />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <div class="flex flex-1 flex-col overflow-hidden">
+        <!-- Header: React island for user menu (needs client-side session fetch) -->
+        <AdminHeader client:load />
+
+        <!-- Page content: direct Astro slot, no React wrapper -->
+        <main class="flex-1 overflow-y-auto p-6">
+          <slot />
+        </main>
+      </div>
+    </div>
+
+    <!-- Sidebar collapse/expand (vanilla JS, no React needed) -->
+    <script>
+      const sidebar = document.getElementById('admin-sidebar');
+      const toggle = document.getElementById('sidebar-toggle');
+      if (sidebar && toggle) {
+        toggle.addEventListener('click', () => {
+          const collapsed = sidebar.classList.toggle('w-16');
+          sidebar.classList.toggle('w-64', !collapsed);
+          // Hide labels when collapsed
+          sidebar.querySelectorAll('.sidebar-label').forEach((el) => {
+            (el as HTMLElement).style.display = collapsed ? 'none' : '';
+          });
+          toggle.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+          // Flip chevron
+          const svg = toggle.querySelector('svg');
+          if (svg) svg.style.transform = collapsed ? 'rotate(180deg)' : '';
+        });
+      }
+    </script>
+  </body>
+</html>

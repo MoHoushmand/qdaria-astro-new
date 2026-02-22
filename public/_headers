@@ -1,12 +1,12 @@
 /*
-  X-Frame-Options: ALLOW-FROM https://www.beautiful.ai
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net; frame-ancestors 'self' https://www.beautiful.ai; connect-src 'self' https://www.google-analytics.com;
-  # REMOVED: Clear-Site-Data was causing MIME type errors by clearing cache on every request
-  # REMOVED: Aggressive cache-busting headers that prevented proper module loading
-  # Allow browser caching for better performance and module loading
-  Cache-Control: public, max-age=3600, must-revalidate
-  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  # NOTE: CSP, X-Content-Type-Options, and Cache-Control are set in netlify.toml
+  # They are NOT set here because Netlify's dev emulator applies public/_headers
+  # to ALL requests (including Vite's internal /src/ and /node_modules/ module paths),
+  # which breaks local development when nosniff and restrictive CSP are applied.
 
 # Homepage - allow normal caching for better performance
 /

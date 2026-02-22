@@ -11,6 +11,43 @@ import rehypeKatex from 'rehype-katex';
 
 import sentry from '@sentry/astro';
 
+// Workaround: @netlify/vite-plugin's dev middleware (netlifyPreMiddleware) intercepts
+// ALL requests including Vite-internal routes (/@vite/*, /@fs/*, /@id/*, /src/*, /node_modules/*)
+// and either responds with 404 (bypassing Vite entirely) or applies netlify.toml headers
+// (CSP, nosniff) that break ES module loading. This plugin wraps the Netlify middleware
+// to skip it for Vite-internal routes.
+function netlifyDevBypass() {
+  return {
+    name: 'netlify-dev-bypass',
+    configureServer(server) {
+      // Return a post-hook -- runs after all plugins have set up their middlewares
+      return () => {
+        const stack = server.middlewares.stack;
+        for (let i = 0; i < stack.length; i++) {
+          const layer = stack[i];
+          if (layer.handle && layer.handle.name === 'netlifyPreMiddleware') {
+            const originalHandler = layer.handle;
+            layer.handle = function wrappedNetlifyMiddleware(req, res, next) {
+              const url = req.url || '';
+              // Skip Netlify middleware for Vite-internal and source module routes
+              if (url.startsWith('/@') || url.startsWith('/src/') ||
+                  url.startsWith('/node_modules/') || url.startsWith('/api/') ||
+                  url.includes('?v=') ||
+                  url.includes('&t=') || url.endsWith('.ts') ||
+                  url.endsWith('.tsx') || url.endsWith('.jsx') ||
+                  url.includes('astro&type=')) {
+                return next();
+              }
+              return originalHandler(req, res, next);
+            };
+            break;
+          }
+        }
+      };
+    },
+  };
+}
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [
@@ -87,6 +124,7 @@ export default defineConfig({
   site: 'https://qdaria.com',
   output: 'server',
   vite: {
+    plugins: [netlifyDevBypass()],
     build: {
       // Target modern browsers for smaller bundles (es2022 supports top-level await)
       target: 'es2022',
@@ -138,15 +176,16 @@ export default defineConfig({
     port: 4321, // Explicitly set the default port
     // Disable compression in dev mode to prevent double encoding (gzip+br)
     compress: false,
-    headers: {
+    // CSP headers only in production (Vite dev server needs unrestricted module loading)
+    headers: process.env.NODE_ENV === 'production' ? {
       'Content-Security-Policy': `
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com;
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
         img-src 'self' data: https:;
         font-src 'self' data: https://fonts.gstatic.com;
         connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
       `.replace(/\s+/g, ' ').trim()
-    }
+    } : {}
   }
 });
