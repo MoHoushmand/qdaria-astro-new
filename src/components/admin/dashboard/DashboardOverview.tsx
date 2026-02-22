@@ -59,38 +59,38 @@ export default function DashboardOverview() {
           href="/admin/team"
         />
         <KpiCard
-          label="Active Contracts"
+          label="Draft Contracts"
           value={14}
           icon={<FileText size={20} />}
-          change="0 pending review"
+          change="Ready for distribution"
           href="/admin/contracts"
         />
         <KpiCard
           label="Upcoming Meetings"
-          value={3}
+          value={0}
           icon={<Calendar size={20} />}
-          change="This week"
+          change="None scheduled"
           href="/admin/meetings"
         />
         <KpiCard
-          label="Unread Messages"
-          value={7}
+          label="Messages"
+          value={0}
           icon={<MessageSquare size={20} />}
-          change="2 channels active"
+          change="No channels yet"
           href="/admin/chat"
         />
         <KpiCard
-          label="AI Conversations"
-          value={24}
+          label="AI Playground"
+          value={'--'}
           icon={<Bot size={20} />}
-          change="This week"
+          change="Gemini 3.1 Pro available"
           href="/admin/playground"
         />
         <KpiCard
           label="Knowledge Docs"
-          value={18}
+          value={8}
           icon={<BookOpen size={20} />}
-          change="3 new this week"
+          change="Seed documents"
           href="/admin/knowledge"
         />
       </div>
@@ -106,24 +106,24 @@ export default function DashboardOverview() {
           <div className="space-y-4">
             {[
               {
-                action: 'Contract signed',
-                detail: 'Svein-Erik Nilsen - COO Employment Agreement',
-                time: '2 hours ago',
-              },
-              {
-                action: 'Team member added',
-                detail: 'Fredrik Krey Stubberud joined Engineering',
-                time: '1 day ago',
-              },
-              {
-                action: 'Equity restructured',
-                detail: 'Founder allocation set to 51%, investor pool 35%, employee pool 14%',
+                action: 'Contracts generated',
+                detail: '14 employment contract PDFs created (Draft status)',
                 time: 'Today',
               },
               {
-                action: 'Meeting scheduled',
-                detail: 'Board meeting - Q1 2026 Review',
-                time: '5 days ago',
+                action: 'Equity allocations set',
+                detail: 'CEO 70%, C-Suite 5%, Leadership 5%, Specialists 5%, Intern 5%',
+                time: 'Today',
+              },
+              {
+                action: 'Team roster finalized',
+                detail: '14 team members across Holdings and 8 subsidiaries',
+                time: 'This week',
+              },
+              {
+                action: 'Start date confirmed',
+                detail: 'All employment agreements effective March 1, 2026',
+                time: 'This week',
               },
             ].map((item, i) => (
               <div
@@ -153,41 +153,16 @@ export default function DashboardOverview() {
             </a>
           </div>
           <div className="space-y-3">
-            {[
-              {
-                title: 'Weekly Standup',
-                type: 'standup',
-                time: 'Tomorrow, 09:00',
-                attendees: 14,
-              },
-              {
-                title: 'Board Meeting - Q1 Review',
-                type: 'board',
-                time: 'Feb 20, 14:00',
-                attendees: 4,
-              },
-              {
-                title: '1:1 with COO',
-                type: 'one_on_one',
-                time: 'Feb 21, 10:00',
-                attendees: 2,
-              },
-            ].map((meeting, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between rounded-lg border border-gray-800/50 bg-[#0a0e1a] px-4 py-3"
+            <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-800/50 bg-[#0a0e1a] px-4 py-8 text-center">
+              <Calendar size={28} className="text-gray-700" />
+              <p className="text-sm text-gray-500">No meetings scheduled yet</p>
+              <a
+                href="/admin/meetings"
+                className="text-xs text-cyan-400 hover:text-cyan-300"
               >
-                <div>
-                  <p className="text-sm font-medium text-white">{meeting.title}</p>
-                  <p className="text-xs text-gray-500">{meeting.time}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-gray-800 px-2.5 py-0.5 text-xs text-gray-400">
-                    {meeting.attendees} attendees
-                  </span>
-                </div>
-              </div>
-            ))}
+                Schedule a meeting
+              </a>
+            </div>
           </div>
         </div>
       </div>

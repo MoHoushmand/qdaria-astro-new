@@ -322,12 +322,23 @@ export default function KnowledgeBase() {
       link.click();
       document.body.removeChild(link);
     } else if (doc.content) {
-      // For documents with text content but no URL (demo docs)
       const blob = new Blob([doc.content], { type: doc.type });
       const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = blobUrl;
       link.download = doc.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+    } else {
+      // Seed doc without file - generate a placeholder text download
+      const placeholder = `${doc.name}\n\nThis is a placeholder for: ${doc.name}\nCategory: ${doc.category}\nOriginal size: ${formatFileSize(doc.size)}\nDate: ${doc.uploadDate}\n\nUpload the actual file to replace this placeholder.`;
+      const blob = new Blob([placeholder], { type: 'text/plain' });
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = doc.name.replace(/\.[^.]+$/, '.txt');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -559,7 +570,7 @@ export default function KnowledgeBase() {
                         className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-gray-400 transition-colors hover:bg-gray-800 hover:text-cyan-400"
                       >
                         <Download size={13} />
-                        Download
+                        {doc.url || doc.content ? 'Download' : 'Export Info'}
                       </button>
                       <button
                         onClick={() => handleDelete(doc.id)}
@@ -616,14 +627,45 @@ export default function KnowledgeBase() {
                       className="h-[60vh] w-full rounded-xl border border-gray-800"
                     />
                   ) : (
-                    <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-gray-800 bg-[#111827] py-16">
-                      <FileText size={48} className="text-red-400/60" />
-                      <p className="text-sm font-medium text-gray-300">PDF Preview</p>
-                      <p className="text-xs text-gray-500">
-                        {previewDoc.name} &mdash; {formatFileSize(previewDoc.size)}
-                      </p>
-                      <p className="text-xs text-gray-600">
-                        Upload a file to enable inline preview
+                    <div className="rounded-xl border border-gray-800 bg-[#111827] p-6">
+                      <div className="mb-4 flex items-center gap-3">
+                        <FileText size={32} className="text-red-400/60" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-200">{previewDoc.name}</p>
+                          <p className="text-xs text-gray-500">{formatFileSize(previewDoc.size)}</p>
+                        </div>
+                      </div>
+                      <h3 className="mb-3 text-sm font-semibold text-white">Document Info</h3>
+                      <dl className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <dt className="text-gray-500">Type</dt>
+                          <dd className="text-gray-300">PDF Document</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-gray-500">Size</dt>
+                          <dd className="text-gray-300">{formatFileSize(previewDoc.size)}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-gray-500">Uploaded</dt>
+                          <dd className="text-gray-300">{formatDate(previewDoc.uploadDate)}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-gray-500">Category</dt>
+                          <dd className="text-gray-300">{CATEGORY_DEFS.find((c) => c.id === previewDoc.category)?.name || previewDoc.category}</dd>
+                        </div>
+                        {previewDoc.tags.length > 0 && (
+                          <div className="flex justify-between">
+                            <dt className="text-gray-500">Tags</dt>
+                            <dd className="flex flex-wrap gap-1">
+                              {previewDoc.tags.map((tag) => (
+                                <span key={tag} className="rounded bg-gray-800 px-1.5 py-0.5 text-xs text-gray-400">{tag}</span>
+                              ))}
+                            </dd>
+                          </div>
+                        )}
+                      </dl>
+                      <p className="mt-4 rounded-lg bg-cyan-500/5 border border-cyan-500/20 px-3 py-2 text-xs text-cyan-400">
+                        Upload the actual file via drag-and-drop to enable inline PDF preview.
                       </p>
                     </div>
                   )}
@@ -741,8 +783,7 @@ export default function KnowledgeBase() {
             <div className="flex items-center justify-end gap-3 border-t border-gray-800 px-6 py-4">
               <button
                 onClick={() => handleDocumentDownload(previewDoc)}
-                disabled={!previewDoc.url && !previewDoc.content}
-                className="flex items-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-2 text-sm text-cyan-400 transition-colors hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-2 rounded-lg bg-cyan-500/10 px-4 py-2 text-sm text-cyan-400 transition-colors hover:bg-cyan-500/20"
               >
                 <Download size={14} />
                 Download

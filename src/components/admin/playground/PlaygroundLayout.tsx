@@ -51,11 +51,11 @@ interface PlaygroundSettings {
 // ---------------------------------------------------------------------------
 
 const MODELS = [
+  { value: 'gemini-3.1-pro', label: 'Gemini 3.1 Pro (Latest)' },
+  { value: 'gemini-3-flash', label: 'Gemini 3 Flash' },
   { value: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash (Default)' },
   { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
   { value: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash Lite' },
-  { value: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash' },
-  { value: 'gemini-2.0-flash-lite', label: 'Gemini 2.0 Flash Lite' },
 ];
 
 const SYSTEM_PRESETS = [
@@ -86,7 +86,7 @@ const SYSTEM_PRESETS = [
 ];
 
 const DEFAULT_SETTINGS: PlaygroundSettings = {
-  model: 'gemini-2.5-flash',
+  model: 'gemini-3.1-pro',
   systemPrompt: SYSTEM_PRESETS[4].prompt,
   temperature: 0.7,
   maxTokens: 4096,

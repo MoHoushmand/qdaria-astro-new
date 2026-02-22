@@ -1,11 +1,11 @@
 import type { APIRoute } from 'astro';
 
 const MODEL_MAP: Record<string, string> = {
+  'gemini-3.1-pro': 'gemini-3.1-pro-preview',
+  'gemini-3-flash': 'gemini-3-flash-preview',
   'gemini-2.5-flash': 'gemini-2.5-flash',
   'gemini-2.5-pro': 'gemini-2.5-pro',
   'gemini-2.5-flash-lite': 'gemini-2.5-flash-lite',
-  'gemini-2.0-flash': 'gemini-2.0-flash',
-  'gemini-2.0-flash-lite': 'gemini-2.0-flash-lite',
 };
 
 export const POST: APIRoute = async ({ request }) => {
@@ -13,7 +13,7 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json();
     const {
       messages,
-      model = 'gemini-2.5-flash',
+      model = 'gemini-3.1-pro',
       systemPrompt = 'You are a helpful AI assistant.',
       temperature = 0.7,
       maxTokens = 4096,
@@ -41,7 +41,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Resolve model name
-    const geminiModel = MODEL_MAP[model] || import.meta.env.GEMINI_MODEL || 'gemini-2.5-flash';
+    const geminiModel = MODEL_MAP[model] || import.meta.env.GEMINI_MODEL || 'gemini-2.5-flash-latest';
 
     // Map messages to Gemini format
     const contents = messages.map((msg) => ({
