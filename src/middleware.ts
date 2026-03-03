@@ -10,21 +10,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
     '/invest/whitepaper',
   ];
 
-  // Admin routes (except the login page itself)
-  const isAdminRoute = pathname.startsWith('/admin') && pathname !== '/admin/login';
-  const isInvestProtected = protectedInvestRoutes.some(route => pathname.startsWith(route));
+  // Admin routes (except login page and auth API routes)
+  const isAdminRoute =
+    pathname.startsWith('/admin') &&
+    pathname !== '/admin/login' &&
+    !pathname.startsWith('/api/auth/');
+  const isInvestProtected = protectedInvestRoutes.some((route) => pathname.startsWith(route));
 
   if (isAdminRoute || isInvestProtected) {
-    // No OAuth providers configured — skip auth entirely
-    const hasOAuth =
-      !!import.meta.env.GITHUB_ID ||
-      !!import.meta.env.GOOGLE_ID ||
-      !!import.meta.env.LINKEDIN_CLIENT_ID;
-
-    if (!hasOAuth) {
-      return next();
-    }
-
     try {
       const { getSession } = await import('auth-astro/server');
       // Timeout: don't let getSession hang forever
@@ -33,10 +26,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
         new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000)),
       ]);
 
-      if (!session) {
-        if (!import.meta.env.PROD && isAdminRoute) {
-          return next();
-        }
+      if (!session?.user) {
+        // No session — redirect to login (dev bypass removed for security)
         const loginPath = isAdminRoute ? '/admin/login' : '/login';
         return context.redirect(`${loginPath}?callbackUrl=${encodeURIComponent(pathname)}`);
       }
@@ -49,10 +40,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
         }
       }
     } catch {
-      // Auth check failed — allow through in non-production
-      if (!import.meta.env.PROD) {
-        return next();
-      }
+      // Auth check failed — redirect to login
+      const loginPath = isAdminRoute ? '/admin/login' : '/login';
+      return context.redirect(`${loginPath}?callbackUrl=${encodeURIComponent(pathname)}`);
     }
   }
 

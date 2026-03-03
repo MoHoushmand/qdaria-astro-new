@@ -1,19 +1,5 @@
 import type { APIRoute } from 'astro';
-import { teamEmailRoles, teamMembersSeed } from '../../../data/admin/team-seed';
-
-function demoAdminResponse() {
-  const ceo = teamMembersSeed.find((m) => m.role === 'admin') || teamMembersSeed[0];
-  return json({
-    user: {
-      id: 'dev-admin',
-      name: ceo.name,
-      email: ceo.email,
-      image: null,
-      role: 'admin',
-    },
-    dev: true,
-  });
-}
+import { teamEmailRoles } from '../../../data/admin/team-seed';
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -28,22 +14,10 @@ function json(data: unknown, status = 200) {
 /**
  * GET /api/admin/session
  *
- * If OAuth providers are configured, tries auth-astro session (with timeout).
- * Otherwise returns demo admin user so the dashboard is usable without OAuth.
+ * Always tries auth-astro session (works with both OAuth and Credentials providers).
+ * Never returns a demo/fake admin in production.
  */
 export const GET: APIRoute = async ({ request }) => {
-  // Check if any OAuth provider is actually configured
-  const hasOAuth =
-    !!import.meta.env.GITHUB_ID ||
-    !!import.meta.env.GOOGLE_ID ||
-    !!import.meta.env.LINKEDIN_CLIENT_ID;
-
-  if (!hasOAuth) {
-    // No OAuth configured — return demo user immediately, no hanging
-    return demoAdminResponse();
-  }
-
-  // OAuth is configured — try to get session with a safety timeout
   try {
     const { getSession } = await import('auth-astro/server');
     const session = await Promise.race([
@@ -68,6 +42,6 @@ export const GET: APIRoute = async ({ request }) => {
     // getSession failed
   }
 
-  // Fallback: no session found
-  return import.meta.env.PROD ? json({ user: null }) : demoAdminResponse();
+  // No session found — return null user
+  return json({ user: null });
 };

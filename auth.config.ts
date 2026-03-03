@@ -11,6 +11,100 @@ import type { UserRole } from './src/types/admin';
 // by setting AUTH_SECRET environment variable
 const AUTH_SECRET_FALLBACK = 'build-time-placeholder-secret-do-not-use-in-production';
 
+/**
+ * Per-employee credentials for staff login.
+ * Username = email prefix (before @qdaria.com). Password is unique per employee.
+ */
+const staffCredentials: Record<
+  string,
+  { password: string; name: string; email: string; role: 'admin' | 'employee' }
+> = {
+  'daniel.mo.houshmand': {
+    password: 'QD-ceo-Mh2026!',
+    name: 'Daniel Mo Houshmand',
+    email: 'daniel.mo.houshmand@qdaria.com',
+    role: 'admin',
+  },
+  'svein-erik.nilsen': {
+    password: 'QD-coo-Se2026!',
+    name: 'Svein-Erik Nilsen',
+    email: 'svein-erik.nilsen@qdaria.com',
+    role: 'employee',
+  },
+  'gaspar.alvarado': {
+    password: 'QD-fin-Ga2026!',
+    name: 'Gaspar Alvarado',
+    email: 'gaspar.alvarado@qdaria.com',
+    role: 'employee',
+  },
+  'sharareh.panahi': {
+    password: 'QD-legal-Sp2026!',
+    name: 'Sharareh M. Shariat Panahi',
+    email: 'sharareh.panahi@qdaria.com',
+    role: 'employee',
+  },
+  'caroline.woie': {
+    password: 'QD-content-Cw2026!',
+    name: 'Caroline Woie',
+    email: 'caroline.woie@qdaria.com',
+    role: 'employee',
+  },
+  'rajesh.chavan': {
+    password: 'QD-strat-Rc2026!',
+    name: 'Rajesh Chavan',
+    email: 'rajesh.chavan@qdaria.com',
+    role: 'employee',
+  },
+  'nick.saaf': {
+    password: 'QD-sales-Ns2026!',
+    name: 'Nick Saaf',
+    email: 'nick.saaf@qdaria.com',
+    role: 'employee',
+  },
+  'fredrik.stubberud': {
+    password: 'QD-eng-Fs2026!',
+    name: 'Fredrik Krey Stubberud',
+    email: 'fredrik.stubberud@qdaria.com',
+    role: 'employee',
+  },
+  'yulia.ginzburg': {
+    password: 'QD-data-Yg2026!',
+    name: 'Yulia Ginzburg',
+    email: 'yulia.ginzburg@qdaria.com',
+    role: 'employee',
+  },
+  'john.kristiansen': {
+    password: 'QD-biz-Jk2026!',
+    name: 'John Kristiansen',
+    email: 'john.kristiansen@qdaria.com',
+    role: 'employee',
+  },
+  'nils.gronvold': {
+    password: 'QD-culture-Ng2026!',
+    name: 'Nils Bjelland Gronvold',
+    email: 'nils.gronvold@qdaria.com',
+    role: 'employee',
+  },
+  'lindsay.sanner': {
+    password: 'QD-csr-Ls2026!',
+    name: 'Lindsay Sanner',
+    email: 'lindsay.sanner@qdaria.com',
+    role: 'employee',
+  },
+  'lillian.kristiansen': {
+    password: 'QD-cadmin-Lk2026!',
+    name: 'Lillian Kristiansen',
+    email: 'lillian.kristiansen@qdaria.com',
+    role: 'employee',
+  },
+  'daria.houshmand': {
+    password: 'QD-intern-Dh2026!',
+    name: 'Daria Houshmand',
+    email: 'daria.houshmand@qdaria.com',
+    role: 'employee',
+  },
+};
+
 function getSupabaseAdmin() {
   const url = import.meta.env.SUPABASE_URL;
   const key = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -33,54 +127,68 @@ async function getUserRole(email: string): Promise<UserRole> {
   return (data?.role as UserRole) || 'investor';
 }
 
-export default defineConfig({
-  // Use env var if available, otherwise fallback for build
-  secret: import.meta.env.AUTH_SECRET || AUTH_SECRET_FALLBACK,
-  providers: [
+// Build providers list — only include OAuth providers when env vars are set
+const providers: any[] = [];
+
+if (import.meta.env.GITHUB_ID && import.meta.env.GITHUB_SECRET) {
+  providers.push(
     GitHub({
       clientId: import.meta.env.GITHUB_ID,
       clientSecret: import.meta.env.GITHUB_SECRET,
-    }),
+    })
+  );
+}
+
+if (import.meta.env.GOOGLE_ID && import.meta.env.GOOGLE_SECRET) {
+  providers.push(
     Google({
       clientId: import.meta.env.GOOGLE_ID,
       clientSecret: import.meta.env.GOOGLE_SECRET,
-    }),
+    })
+  );
+}
+
+if (import.meta.env.LINKEDIN_CLIENT_ID && import.meta.env.LINKEDIN_CLIENT_SECRET) {
+  providers.push(
     LinkedIn({
       clientId: import.meta.env.LINKEDIN_CLIENT_ID,
       clientSecret: import.meta.env.LINKEDIN_CLIENT_SECRET,
-    }),
-    Credentials({
-      name: 'QDaria Staff',
-      credentials: {
-        username: { label: 'Username', type: 'text' },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials) {
-        const username = credentials?.username as string;
-        const password = credentials?.password as string;
+    })
+  );
+}
 
-        if (username === 'admin' && password === 'qdaria-admin-2026') {
-          return {
-            id: 'admin-cred',
-            name: 'Daniel Mo Houshmand',
-            email: 'daniel.mo.houshmand@qdaria.com',
-            role: 'admin',
-          };
-        }
+// Credentials provider always available — this is the primary login method
+providers.push(
+  Credentials({
+    name: 'QDaria Staff',
+    credentials: {
+      username: { label: 'Username', type: 'text' },
+      password: { label: 'Password', type: 'password' },
+    },
+    async authorize(credentials) {
+      const username = credentials?.username as string;
+      const password = credentials?.password as string;
+      if (!username || !password) return null;
 
-        if (username === 'qdaria-staff' && password === 'qdaria-2026') {
-          return {
-            id: 'staff-cred',
-            name: 'QDaria Staff',
-            email: 'staff@qdaria.com',
-            role: 'employee',
-          };
-        }
+      const staff = staffCredentials[username];
+      if (staff && staff.password === password) {
+        return {
+          id: `staff-${username}`,
+          name: staff.name,
+          email: staff.email,
+          role: staff.role,
+        };
+      }
 
-        return null;
-      },
-    }),
-  ],
+      return null;
+    },
+  })
+);
+
+export default defineConfig({
+  // Use env var if available, otherwise fallback for build
+  secret: import.meta.env.AUTH_SECRET || AUTH_SECRET_FALLBACK,
+  providers,
   // Environment-aware secure cookies
   useSecureCookies: import.meta.env.PROD,
   // Trust host for OAuth redirects
