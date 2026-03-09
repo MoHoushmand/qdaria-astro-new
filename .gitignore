@@ -50,6 +50,7 @@ Thumbs.db
 !/package-lock.json
 !/tsconfig.json
 !/astro.config.mjs
+!/vercel.json
 !/tailwind.config.cjs
 !/README.md
 !/.prettierrc.mjs

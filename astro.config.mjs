@@ -3,7 +3,7 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import compress from "astro-compress";
-import netlify from '@astrojs/netlify';
+import vercel from '@astrojs/vercel';
 import auth from 'auth-astro';
 import icon from "astro-icon";
 import remarkMath from 'remark-math';
@@ -89,7 +89,7 @@ export default defineConfig({
         })]
     )
   ],
-  adapter: netlify(),
+  adapter: vercel(),
   build: {
     inlineStylesheets: 'never', // Never inline for better caching
     assetsInlineLimit: 1024, // Inline only very small assets (1KB threshold)
