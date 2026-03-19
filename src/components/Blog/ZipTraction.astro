@@ -1,0 +1,150 @@
+---
+/**
+ * ZipTraction - Stats bar showing key traction metrics
+ * Displays 6 key metrics in a responsive horizontal bar
+ */
+interface Props {
+  title?: string;
+}
+
+const { title = "Traction" } = Astro.props;
+
+const stats = [
+  { label: 'Lines of Code', value: '300K+' },
+  { label: 'Platforms', value: '5' },
+  { label: 'Technologies', value: '26' },
+  { label: 'Languages', value: '7' },
+  { label: 'Security Modules', value: '8' },
+  { label: 'NIST Algorithms', value: '3' },
+];
+---
+
+<section class="traction-section">
+  <div class="traction-header">
+    <h3 class="traction-title">{title}</h3>
+  </div>
+  <div class="stats-grid">
+    {stats.map((s) => (
+      <div class="stat-item">
+        <span class="stat-value">{s.value}</span>
+        <span class="stat-label">{s.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .traction-section {
+    position: relative;
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 2, 18, 0.4);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .traction-section:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow:
+      0 0 25px rgba(4, 163, 255, 0.15),
+      0 6px 30px rgba(4, 163, 255, 0.12);
+  }
+
+  .traction-section::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(4, 163, 255, 0.5), rgba(0, 206, 209, 0.3), rgba(4, 163, 255, 0.5));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .traction-section:hover::before {
+    opacity: 1;
+  }
+
+  .traction-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .traction-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #04a3ff 0%, #00ced1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1rem 0.5rem;
+    background: rgba(4, 163, 255, 0.05);
+    border: 1px solid rgba(4, 163, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .stat-item:hover {
+    background: rgba(4, 163, 255, 0.1);
+    border-color: rgba(4, 163, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #04a3ff 0%, #65ff00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-item { transition: none; }
+    .stat-item:hover { transform: none; }
+  }
+</style>

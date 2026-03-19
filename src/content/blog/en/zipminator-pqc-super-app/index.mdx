@@ -1,0 +1,284 @@
+---
+title: "Zipminator: The First Unified Post-Quantum Security Super-App"
+description: "Eight security modules. One unified platform. Powered by NIST-approved post-quantum cryptography and real 156-qubit quantum entropy. The only super-app integrating PQC across messaging, VoIP, VPN, browser, email, QRNG, PII protection, and AI."
+authors: ["daniel-mo-houshmand"]
+pubDate: "2026-03-09"
+heroImage: "/images/products/zipminator/hero-zipminator.svg"
+categories: ["Product", "Cybersecurity", "Quantum Computing"]
+tags: ["Zipminator", "PQC", "Post-Quantum Cryptography", "Kyber768", "NIST FIPS 203", "Super-App", "Cybersecurity"]
+---
+
+import FAQ from '@components/Blog/FAQ.astro';
+import Figure from '@components/Blog/Figure.astro';
+import ZipPillars from '@components/Blog/ZipPillars.astro';
+import ZipCompetitive from '@components/Blog/ZipCompetitive.astro';
+import ZipMarketChart from '@components/Blog/ZipMarketChart.astro';
+import ZipThreatGrid from '@components/Blog/ZipThreatGrid.astro';
+import ZipTraction from '@components/Blog/ZipTraction.astro';
+import ZipRoadmap from '@components/Blog/ZipRoadmap.astro';
+import ZipPricing from '@components/Blog/ZipPricing.astro';
+import ZipFinancialCharts from '@components/Blog/charts/ZipFinancialCharts';
+
+Every message you send today travels through infrastructure designed in the 1990s. Your bank credentials, your medical records, your private conversations, your company's trade secrets: all of them are protected by RSA and elliptic curve cryptography. Algorithms that a sufficiently powerful quantum computer will break in minutes.
+
+This is not a theoretical risk. It is happening now.
+
+Nation-state actors are already harvesting encrypted data at scale, storing it for the day quantum decryption becomes feasible. The intelligence community calls this "Harvest Now, Decrypt Later" (HNDL), and multiple agencies, including DHS, UK NCSC, ENISA, and the US Federal Reserve, have issued formal warnings about it.
+
+We built <img src="/images/products/zipminator/zipminator-wordmark.svg" alt="Zipminator" style="display:inline;height:1.4em;vertical-align:middle" /> to solve this problem. Not partially. Not for one use case. Completely.
+
+## The Quantum Threat Is No Longer Theoretical
+
+The cybersecurity landscape changed fundamentally in 2024-2025. What was once a distant concern became an operational reality.
+
+<ZipThreatGrid />
+
+The Salt Typhoon campaign compromised over 200 companies across 80 countries. Telecom infrastructure built on SS7, a protocol with no encryption layer, continues to be exploited by at least four nation-states. And in 2025, multiple research groups independently demonstrated that the qubit requirements for breaking RSA-2048 dropped by 95%, from 20 million physical qubits to under 1 million.
+
+The timeline for quantum-capable attacks just collapsed by a decade.
+
+### The CNSA 2.0 Mandate
+
+The NSA's Commercial National Security Algorithm Suite 2.0 establishes a hard deadline: all new National Security Systems equipment must be CNSA 2.0-compliant by 2027. All existing systems must transition by 2033. This is not a recommendation. It is a mandate affecting every government contractor, defense supplier, and critical infrastructure operator.
+
+The private sector is next. NIST finalized its post-quantum cryptography standards in August 2024 with FIPS 203 (ML-KEM/Kyber), FIPS 204 (ML-DSA/Dilithium), and FIPS 205 (SLH-DSA/SPHINCS+). The migration window is open. Organizations that wait will find themselves on the wrong side of regulatory requirements and, more urgently, on the wrong side of physics.
+
+## Why Now
+
+Three forces converged to make 2026 the inflection point for post-quantum security:
+
+**Quantum hardware is accelerating faster than predicted.** IBM's 1,121-qubit Condor processor, Google's Willow chip demonstrating quantum error correction below threshold, and Microsoft's topological qubit breakthrough in 2025 all signal that fault-tolerant quantum computing is closer than the most optimistic projections from five years ago.
+
+**Standards are finalized.** NIST published the first three post-quantum cryptography standards in 2024. The cryptographic community has clear algorithms to implement. The guessing game is over; the engineering race has begun.
+
+**The threat is active, not hypothetical.** HNDL attacks mean that data encrypted today with classical algorithms is already compromised for future decryption. Every day of delay increases the volume of vulnerable data in adversary hands.
+
+## The Solution: One Platform to Secure Everything
+
+<div style="text-align:center;margin:2rem 0">
+  <img src="/images/products/zipminator/Z-light.svg" alt="Zipminator logomark" style="height:140px;display:inline-block;margin-bottom:0.5rem" />
+  <br />
+  <img src="/images/products/zipminator/zipminator-wordmark.svg" alt="Zipminator" style="height:48px;display:inline-block" />
+</div>
+
+<img src="/images/products/zipminator/zipminator-wordmark.svg" alt="Zipminator" style="display:inline;height:1.4em;vertical-align:middle" /> is the first unified post-quantum security super-app: eight security modules in a single platform, all powered by NIST-approved post-quantum cryptography with real quantum entropy from IBM's 156-qubit processors. No other product integrates PQC messaging, VoIP, VPN, browser, email, QRNG, PII protection, and AI into one coherent cryptographic layer.
+
+Today, achieving comprehensive post-quantum security requires cobbling together five or more separate tools: Signal for messaging, ProtonMail for email, NordVPN for network privacy, Brave for browser security, and custom integrations for everything else. None of them offer full PQC. None of them share a unified encryption layer. None of them provide quantum-grade entropy.
+
+Zipminator replaces all of them with one coherent, cryptographically unified platform.
+
+<ZipPillars />
+
+### PQC Messenger
+
+The Zipminator messenger implements a post-quantum Double Ratchet protocol, the same architecture Signal uses for forward secrecy, but with Kyber768 key encapsulation replacing X25519 at every ratchet step. This means every message gets a fresh quantum-resistant key. Even if a future quantum computer compromises one key, all other messages remain secure.
+
+The protocol uses X3DH (Extended Triple Diffie-Hellman) for initial key agreement, upgraded with ML-KEM for quantum resistance, then transitions into continuous ratcheting for ongoing conversation security.
+
+### Quantum VoIP
+
+Voice and video calls run through PQ-SRTP (Post-Quantum Secure Real-time Transport Protocol). The call setup uses ML-KEM for key exchange, then encrypts the media stream with AES-256-GCM derived from quantum-resistant session keys. Latency overhead from the PQC handshake is under 15ms, imperceptible to users.
+
+### Q-VPN
+
+The Zipminator VPN extends WireGuard with Kyber768 key exchange. WireGuard's lean codebase (roughly 4,000 lines of code, compared to 400,000+ for OpenVPN) makes it the ideal foundation for post-quantum extension. Our implementation adds hybrid key exchange: classical X25519 combined with Kyber768, so security is guaranteed even if one algorithm is compromised.
+
+The kill switch activates automatically if the VPN tunnel drops, preventing any unencrypted traffic from leaking.
+
+### ZipBrowser
+
+A privacy-first browser with native PQC TLS inspection. ZipBrowser negotiates ML-KEM TLS 1.3 connections where supported, providing quantum-resistant HTTPS without requiring server-side changes. For sites that do not yet support PQC, it tunnels traffic through the Q-VPN layer.
+
+Built-in tracker blocking, fingerprint protection, and zero-knowledge DNS resolution complete the privacy stack.
+
+### Quantum Mail
+
+Self-destructing emails with automatic PII scanning before send. Every email is encrypted with Kyber768, and the recipient's client decrypts locally. The PII scanner detects 18 categories of sensitive data (SSN, credit cards, medical IDs, passport numbers, and more) and warns the sender before transmission.
+
+Secure deletion follows DoD 5220.22-M standards: multiple overwrite passes ensuring forensic unrecoverability.
+
+### QRNG Engine
+
+This is where Zipminator diverges from every competitor. Instead of relying on pseudo-random number generators (PRNGs) seeded by system entropy, Zipminator sources true quantum randomness from IBM's 156-qubit Heron r2 processors, the same hardware our research team used for the world's largest quantum reservoir computing experiment.
+
+Quantum random numbers are generated by preparing qubits in superposition and measuring the collapse. The outcome is fundamentally unpredictable, not merely computationally hard to predict, but physically impossible to predict. This entropy feeds every cryptographic operation in the platform: key generation, nonce creation, salt derivation, and session token generation.
+
+### PII Anonymizer
+
+Automatic detection and redaction of personally identifiable information across all Zipminator modules. The engine uses a hybrid approach: NLP models for contextual understanding combined with regex patterns for structured data formats. It catches information that pattern matching alone would miss ("my social is 123-45-6789" in free text) while maintaining the speed of regex for structured formats.
+
+Supports 18 data types across 12 regulatory frameworks including GDPR, HIPAA, PCI-DSS, and SOX.
+
+### AI Assistant
+
+A security-aware AI assistant with full context of the Zipminator platform. It can explain threat assessments, recommend security configurations, audit encryption settings, and help users understand their exposure. Unlike general-purpose AI assistants, it understands post-quantum cryptography natively and will never suggest insecure configurations.
+
+## Technology Stack
+
+Zipminator's cryptographic core is written in Rust for constant-time execution, memory safety without garbage collection, and performance that matches C while eliminating entire categories of vulnerabilities. The Rust engine compiles to native code for server and desktop platforms, and to WebAssembly for browser deployment.
+
+**Cryptography layer:** NIST FIPS 203 ML-KEM (Kyber768) for key encapsulation, NIST FIPS 204 ML-DSA (Dilithium) for digital signatures, X25519 hybrid key exchange for defense-in-depth, AES-256-GCM and ChaCha20-Poly1305 for symmetric encryption.
+
+**Platform coverage:** React Native for iOS and Android, Next.js for web, Tauri for desktop (macOS, Windows, Linux), FastAPI for backend services, PostgreSQL and Redis for data persistence and caching.
+
+**Standards compliance:** NIST SP 800-208, CNSA 2.0, ETSI QSC, IETF RFC 9180 (HPKE), DoD 5220.22-M for secure deletion.
+
+The entire stack spans 7 programming languages (Rust, Python, TypeScript, Swift, Kotlin, Go, C) and 26 integrated technologies.
+
+<ZipTraction />
+
+## Market Opportunity
+
+The global cybersecurity market reaches $562-700 billion by 2034 ([Fortune Business Insights](https://www.fortunebusinessinsights.com/industry-reports/cyber-security-market-101165), [Roots Analysis](https://www.rootsanalysis.com/cyber-security-market)). Within that, the post-quantum cryptography segment is the fastest-growing at 30-46% CAGR, projected to reach $17-30 billion by 2034 ([Precedence Research](https://www.precedenceresearch.com/post-quantum-cryptography-market), [MarketsandMarkets](https://www.marketsandmarkets.com/Market-Reports/post-quantum-cryptography-market-126986626.html), [Grand View Research](https://www.grandviewresearch.com/industry-analysis/post-quantum-cryptography-market-report), [Mordor Intelligence](https://www.mordorintelligence.com/industry-reports/post-quantum-cryptography-market)). McKinsey and BCG project quantum computing will unlock a cumulative $1 trillion in value creation for end users by 2035 ([McKinsey Quantum Technology Monitor 2024](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/quantum-technology-monitor-2024)).
+
+<ZipMarketChart />
+
+The convergence of regulatory mandates (CNSA 2.0, NIST PQC standards), active threats (HNDL, Salt Typhoon), and quantum hardware acceleration creates a market that is not merely growing but is being forced into existence by physics and policy simultaneously. The NSA's National Security Memorandum 10 establishes a hard 2035 deadline for federal agencies to transition to PQC; this alone drives hundreds of billions in procurement.
+
+<img src="/images/products/zipminator/zipminator-wordmark.svg" alt="Zipminator" style="display:inline;height:1.4em;vertical-align:middle" /> targets the consumer and SMB segment of this market, the segment that has zero viable solutions today. Enterprise PQC vendors like SandboxAQ and PQShield serve large organizations with custom integrations. Nobody is building PQC for the other 99% of users and businesses.
+
+## Competitive Landscape
+
+No existing product combines all eight security capabilities with post-quantum cryptography. The market is fragmented into single-purpose tools, none of which offer a complete PQC solution.
+
+<ZipCompetitive />
+
+Signal has begun experimenting with post-quantum key exchange (PQXDH) but only for its messenger. ProtonMail offers PQC for email but not for its VPN or calendar products. No competitor offers quantum random number generation. No competitor offers PII anonymization. And no competitor integrates all capabilities into a single, unified platform.
+
+Zipminator is the only product that checks every box. That is not an incremental advantage; it is a category definition.
+
+## Traction and Progress
+
+Zipminator is not a concept. It is a 300,000+ line codebase spanning five platforms, built by a team that has already published quantum computing research on 156-qubit hardware.
+
+The core cryptographic engine is complete: Kyber768, Dilithium, and SPHINCS+ implementations in Rust, with Python bindings via PyO3/Maturin. The QRNG pipeline to IBM Quantum hardware is operational. The PII detection engine covers 18 data types. The messenger protocol is in active development.
+
+## Development Roadmap
+
+<ZipRoadmap />
+
+The roadmap follows a module-by-module strategy, shipping the most critical security components first and expanding to the full super-app by Q4 2027. Each phase produces a usable, deployable product, not just a milestone toward a future release.
+
+## Why Norway
+
+QDaria is headquartered in Oslo, Norway. This is a strategic choice, not a geographic accident.
+
+**Renewable energy infrastructure.** Norway's power grid runs on 98% renewable energy (primarily hydropower). Data centers and compute-intensive cryptographic operations run on clean energy at 40-68% lower cost than Silicon Valley equivalents. This is not just an ESG talking point; it is a structural cost advantage.
+
+**Quantum funding ecosystem.** The Norwegian government committed NOK 1.75 billion ($175M) to its Quantum Initiative starting in 2025, with an additional NOK 150M/year confirmed in the 2026 National Budget. The Research Council of Norway funds NOK 70M/year in industry R&D. NATO DIANA accepts applications from Norwegian companies for dual-use defense technology grants. Horizon Europe and Digital Europe offer additional EU funding channels.
+
+**Talent and trust.** Norway consistently ranks among the top 5 countries globally for digital trust, transparency, and data protection. The regulatory environment (aligned with GDPR and the upcoming EU Cyber Resilience Act) provides a framework that security-conscious customers demand.
+
+**Strategic positioning.** Located between the US and European markets, with NATO membership and strong Five Eyes intelligence-sharing relationships, Norway offers a credible jurisdiction for security products serving both government and private sector customers.
+
+## The Investment Case
+
+Zipminator pursues a grant-first funding strategy that reduces dilution while validating the technology through rigorous government and institutional review processes.
+
+**Grant opportunities total over $500M** across Norwegian, EU, and NATO programs specifically targeting quantum technology and post-quantum cryptography. QDaria is eligible for multiple overlapping programs:
+
+- Norwegian Quantum Initiative: NOK 1.75B ($175M) total, active from 2025
+- Research Council of Norway: NOK 70M/year, annual calls
+- National Budget 2026: NOK 150M/year for 5 years, confirmed
+- NATO DIANA 2026: EUR 100K/company, applications open
+- Horizon Europe PQC: EUR 16M across three open topics
+- Digital Europe: EUR 15M for post-quantum PKI transition
+
+**Comparable raises in the PQC space** demonstrate strong investor appetite. SandboxAQ (spun out from Google) raised $500M at a $5.6B valuation. PQShield raised $37M Series B. Quantinuum raised $300M. The PQC market is attracting significant capital, and Zipminator's super-app approach occupies a unique position none of these companies have addressed.
+
+## Financial Projections
+
+<ZipFinancialCharts client:visible />
+
+The financial model spans three scenarios across five years. The base case projects $40M ARR by 2030 with 500,000 users, driven by the PQC Messenger as the primary acquisition channel (25% of revenue) followed by Q-VPN (20%) and Enterprise API (20%). The upside scenario reaches $80M ARR with 1M users, factoring in accelerated government mandates and enterprise adoption. Even the conservative scenario projects $20M ARR with 250,000 users.
+
+Revenue diversification across six modules reduces concentration risk. No single module exceeds 25% of total revenue.
+
+## Pricing
+
+<img src="/images/products/zipminator/zipminator-wordmark.svg" alt="Zipminator" style="display:inline;height:1.4em;vertical-align:middle" /> follows a freemium model with four tiers designed to capture users at every level: from privacy-conscious individuals to government and military organizations requiring the highest security standards.
+
+<ZipPricing />
+
+The GitHub Star program offers a unique growth hack: star the repository and unlock Developer-tier features (normally $9/month) for free, turning open-source community engagement into user acquisition.
+
+<FAQ items={[
+  {
+    question: "What makes Zipminator different from Signal or ProtonMail?",
+    answer: "Signal and ProtonMail are single-purpose tools. Signal handles messaging; ProtonMail handles email. Neither offers a VPN, browser, QRNG, or PII anonymization. More critically, their PQC implementations are partial: Signal's PQXDH is messenger-only, and ProtonMail's PQC covers email but not their VPN product. Zipminator integrates all eight security modules with consistent PQC across the entire platform."
+  },
+  {
+    question: "Is post-quantum cryptography actually necessary today?",
+    answer: "Yes, because of Harvest Now, Decrypt Later (HNDL) attacks. Adversaries are actively collecting encrypted data today with the intention of decrypting it once quantum computers are capable. Data encrypted with RSA or ECC today will be readable by quantum computers within 5-10 years. If you are protecting information that needs to remain confidential beyond that horizon (medical records, financial data, trade secrets, national security information), you need PQC now."
+  },
+  {
+    question: "How does the QRNG work?",
+    answer: "Zipminator sources true quantum randomness from IBM's 156-qubit Heron r2 processors. Qubits are prepared in superposition states and measured. The measurement outcomes are fundamentally unpredictable due to quantum mechanics, not merely computationally difficult to predict. This quantum entropy feeds key generation, nonce creation, and all cryptographic operations. When quantum hardware is unavailable, the system falls back to NIST SP 800-90B compliant entropy sources."
+  },
+  {
+    question: "What NIST standards does Zipminator implement?",
+    answer: "Zipminator implements all three finalized NIST post-quantum standards: FIPS 203 (ML-KEM/Kyber768) for key encapsulation, FIPS 204 (ML-DSA/Dilithium) for digital signatures, and FIPS 205 (SLH-DSA/SPHINCS+) for hash-based signatures. The implementation follows NIST SP 800-208 guidelines and meets CNSA 2.0 requirements."
+  },
+  {
+    question: "Why is the cryptographic core written in Rust?",
+    answer: "Cryptographic code requires constant-time execution (to prevent timing side-channel attacks), memory safety (to prevent buffer overflows and use-after-free vulnerabilities), and high performance. Rust provides all three: its ownership system guarantees memory safety at compile time without garbage collection pauses, its type system enables constant-time abstractions, and its performance matches C. These properties make Rust the ideal language for production cryptography."
+  },
+  {
+    question: "When will Zipminator be available?",
+    answer: "The PQC Messenger MVP targets Q2 2026. Subsequent modules ship quarterly through Q4 2027, when the full super-app launches across all five platforms (Web, iOS, Android, Desktop, API). Early access is available through the Developer and Pro tier waitlists."
+  },
+  {
+    question: "How does the hybrid encryption approach work?",
+    answer: "Zipminator uses hybrid key exchange: classical X25519 combined with Kyber768. Both algorithms must be broken for an attacker to compromise the session key. This provides defense-in-depth: if Kyber768 is found to have a vulnerability (unlikely given NIST's evaluation process but not impossible), X25519 provides classical security. If a quantum computer breaks X25519, Kyber768 provides quantum resistance. This belt-and-suspenders approach follows NIST and CNSA 2.0 recommendations."
+  },
+  {
+    question: "What regulatory frameworks does the PII Anonymizer support?",
+    answer: "The PII Anonymizer detects 18 categories of sensitive data and supports 12 regulatory frameworks including GDPR (EU), HIPAA (US healthcare), PCI-DSS (payment cards), SOX (financial reporting), CCPA (California), and more. It operates at the application layer, scanning content before encryption and transmission, ensuring sensitive data never leaves the device unprotected."
+  }
+]} />
+
+---
+
+<img src="/images/products/zipminator/zipminator-wordmark.svg" alt="Zipminator" style="display:inline;height:1.4em;vertical-align:middle" /> is built by QDaria AS, the same team that conducted the world's largest quantum reservoir computing experiment on IBM's 156-qubit Heron r2 processor. We do not just talk about quantum computing. We run experiments on real quantum hardware.
+
+The quantum threat to encryption is real, it is active, and it is accelerating. The question is not whether organizations need post-quantum security, but whether they will have it before their data is compromised.
+
+We are building the answer.
+
+**Learn more at [qdaria.com](https://qdaria.com) or [zipminator.zip](https://zipminator.zip).**
+
+## References
+
+1. **NIST Post-Quantum Cryptography Standards (2024)**. FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), FIPS 205 (SLH-DSA). [csrc.nist.gov/projects/post-quantum-cryptography](https://csrc.nist.gov/projects/post-quantum-cryptography)
+
+2. **NSA CNSA 2.0 Algorithm Suite (2022)**. Commercial National Security Algorithm Suite 2.0. [media.defense.gov](https://media.defense.gov/2022/Sep/07/2003071834/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS_.PDF)
+
+3. **FBI/CISA Joint Advisory: Salt Typhoon (2024-2025)**. People's Republic of China-Linked Actors Compromise Networks of Global Telecommunications Providers. [cisa.gov/news-events/alerts](https://www.cisa.gov/news-events/alerts)
+
+4. **Fortune Business Insights**. Cyber Security Market Size & Growth Report 2024-2032. [fortunebusinessinsights.com](https://www.fortunebusinessinsights.com/industry-reports/cyber-security-market-101165)
+
+5. **Precedence Research**. Post-Quantum Cryptography Market, $29.9B by 2034 at 38% CAGR. [precedenceresearch.com](https://www.precedenceresearch.com/post-quantum-cryptography-market)
+
+6. **MarketsandMarkets**. Post Quantum Cryptography Market Report. [marketsandmarkets.com](https://www.marketsandmarkets.com/Market-Reports/post-quantum-cryptography-market-126986626.html)
+
+7. **Grand View Research**. Post-Quantum Cryptography Market Analysis, $20.1B by 2034. [grandviewresearch.com](https://www.grandviewresearch.com/industry-analysis/post-quantum-cryptography-market-report)
+
+8. **Mordor Intelligence**. Post-Quantum Cryptography Market, $18.7B by 2034 at 32% CAGR. [mordorintelligence.com](https://www.mordorintelligence.com/industry-reports/post-quantum-cryptography-market)
+
+9. **McKinsey & Company**. Quantum Technology Monitor 2024: $1 trillion in value creation by 2035. [mckinsey.com](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/quantum-technology-monitor-2024)
+
+10. **IBM**. Cost of a Data Breach Report 2024: $4.88M average breach cost. [ibm.com/reports/data-breach](https://www.ibm.com/reports/data-breach)
+
+11. **National Security Memorandum 10 (NSM-10)**. Promoting United States Leadership in Quantum Computing While Mitigating Risks to Vulnerable Cryptographic Systems. [whitehouse.gov](https://www.whitehouse.gov/briefing-room/statements-releases/2022/05/04/national-security-memorandum-on-promoting-united-states-leadership-in-quantum-computing-while-mitigating-risks-to-vulnerable-cryptographic-systems/)
+
+12. **SandboxAQ**. Raised $500M at $5.6B valuation (2024). Spun out from Alphabet/Google.
+
+13. **PQShield**. Raised $37M Series B (June 2024) for hardware PQC IP licensing.
+
+14. **Quantinuum**. Raised $300M (2024) for trapped-ion quantum computing and PQC.
+
+15. **Norwegian Government**. National Budget 2026: NOK 150M/year for quantum technology. Norwegian Quantum Initiative: NOK 1.75B total allocation from 2025.
+
+16. **Roots Analysis**. Cyber Security Market 2024-2035. [rootsanalysis.com](https://www.rootsanalysis.com/cyber-security-market)
+
+17. **Trusted Computing Group (2025)**. Survey: 91% of businesses lack a quantum-safe migration roadmap.

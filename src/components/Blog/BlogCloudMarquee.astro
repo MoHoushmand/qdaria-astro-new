@@ -1,15 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
+import { removeLocaleFromSlug } from '@js/localeUtils';
 
-const posts = await getCollection('blog');
-const recentPosts = posts
-  .filter(post => post.slug.startsWith('en/'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 10); // Get top 10 recent posts
+// Only show the three flagship posts in the marquee
+const allowedSlugs = [
+  'en/zipminator-pqc-super-app',
+  'en/qrc-sample-efficiency-crisis',
+  'en/tqrc-unitarity-echo-state',
+];
+
+const posts = await getCollection('blog', ({ data }) => data.draft !== true);
+const featuredPosts = posts
+  .filter(post => allowedSlugs.includes(post.slug))
+  .sort((a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf());
 
 // Duplicate posts to ensure smooth infinite scroll
-const marqueePosts = [...recentPosts, ...recentPosts];
+const marqueePosts = [...featuredPosts, ...featuredPosts, ...featuredPosts];
 ---
 
 <section class="relative z-20 overflow-hidden bg-dark-bg py-12 border-y border-primary-500/10">
@@ -19,17 +25,17 @@ const marqueePosts = [...recentPosts, ...recentPosts];
         {
           marqueePosts.map((post) => (
             <a 
-              href={`/blog/${post.slug}`}
+              href={`/company/blog/${removeLocaleFromSlug(post.slug)}`}
               class="flex flex-col gap-4 group min-w-[320px] max-w-[320px] p-4 rounded-2xl border border-primary-500/20 bg-dark-bg/50 hover:bg-primary-500/10 hover:border-primary-500/50 transition-all duration-300"
             >
               {post.data.heroImage && (
                 <div class="w-full h-48 rounded-xl overflow-hidden border border-primary-500/30 shadow-[0_0_15px_rgba(4,163,255,0.3)] group-hover:shadow-[0_0_25px_rgba(4,163,255,0.5)] transition-all duration-300">
-                  <Image 
-                    src={post.data.heroImage} 
-                    alt={post.data.title} 
+                  <img
+                    src={post.data.heroImage}
+                    alt={post.data.title}
                     class="w-full h-full object-cover"
-                    width={600}
-                    height={400}
+                    width="600"
+                    height="400"
                   />
                 </div>
               )}
@@ -51,18 +57,18 @@ const marqueePosts = [...recentPosts, ...recentPosts];
       <div class="marquee-content flex items-stretch gap-8" aria-hidden="true">
         {
           marqueePosts.map((post) => (
-            <a 
-              href={`/blog/${post.slug}`}
+            <a
+              href={`/company/blog/${removeLocaleFromSlug(post.slug)}`}
               class="flex flex-col gap-4 group min-w-[320px] max-w-[320px] p-4 rounded-2xl border border-primary-500/20 bg-dark-bg/50 hover:bg-primary-500/10 hover:border-primary-500/50 transition-all duration-300"
             >
               {post.data.heroImage && (
                 <div class="w-full h-48 rounded-xl overflow-hidden border border-primary-500/30 shadow-[0_0_15px_rgba(4,163,255,0.3)] group-hover:shadow-[0_0_25px_rgba(4,163,255,0.5)] transition-all duration-300">
-                  <Image 
-                    src={post.data.heroImage} 
-                    alt={post.data.title} 
+                  <img
+                    src={post.data.heroImage}
+                    alt={post.data.title}
                     class="w-full h-full object-cover"
-                    width={600}
-                    height={400}
+                    width="600"
+                    height="400"
                   />
                 </div>
               )}

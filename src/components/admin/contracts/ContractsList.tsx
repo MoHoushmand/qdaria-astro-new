@@ -53,6 +53,7 @@ function formatFileSize(bytes?: number): string {
 
 interface ContractsListProps {
   isAdmin?: boolean;
+  userName?: string;
   onGenerateClick?: () => void;
   onGenerateAllClick?: () => void;
   isBatchGenerating?: boolean;
@@ -61,12 +62,22 @@ interface ContractsListProps {
 
 export default function ContractsList({
   isAdmin = false,
+  userName,
   onGenerateClick,
   onGenerateAllClick,
   isBatchGenerating = false,
   batchProgress = '',
 }: ContractsListProps) {
-  const { contracts, isLoading, refetch } = useContracts();
+  const { contracts: allContracts, isLoading, refetch } = useContracts();
+
+  // Employees only see their own contracts; admins see all
+  const contracts = useMemo(() => {
+    if (isAdmin || !userName) return allContracts;
+    const nameLower = userName.toLowerCase();
+    return allContracts.filter(
+      (c) => c.team_member_name?.toLowerCase() === nameLower
+    );
+  }, [allContracts, isAdmin, userName]);
   const { members } = useTeamMembers();
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('All');

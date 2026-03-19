@@ -1,0 +1,245 @@
+---
+/**
+ * ZipMarketChart - Interactive TAM/SAM/SOM charts with analyst data
+ * Combines static analyst table with interactive Recharts visualizations
+ */
+import ZipMarketCharts from './charts/ZipMarketCharts';
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Market Opportunity" } = Astro.props;
+
+const analysts = [
+  { firm: 'Precedence Research', tam2025: '$2.3B', tam2034: '$29.9B', cagr: '38%' },
+  { firm: 'Market.us', tam2025: '$0.6B', tam2034: '$17.7B', cagr: '41%' },
+  { firm: 'MarketsandMarkets', tam2025: '$0.5B', tam2034: '$2.8B (2030)', cagr: '39%' },
+  { firm: 'BIS Research', tam2025: '$0.6B', tam2034: '$13.3B', cagr: '36%' },
+  { firm: 'Business Research Insights', tam2025: '$0.6B', tam2034: '$30.7B', cagr: '38%' },
+  { firm: 'Grand View Research', tam2025: '$0.6B', tam2034: '$20.1B', cagr: '41%' },
+  { firm: 'SPER Research', tam2025: '$1.2B', tam2034: '$18.7B', cagr: '32%' },
+];
+---
+
+<!-- Interactive Charts (React Island) -->
+<ZipMarketCharts client:visible />
+
+<section class="market-section">
+  <div class="market-header">
+    <h3 class="market-title">Analyst Consensus</h3>
+  </div>
+
+  <div class="analysts-table-wrapper">
+    <table class="analysts-table">
+      <thead>
+        <tr>
+          <th>Analyst Firm</th>
+          <th>2025 TAM</th>
+          <th>2034 TAM</th>
+          <th>CAGR</th>
+        </tr>
+      </thead>
+      <tbody>
+        {analysts.map((a) => (
+          <tr>
+            <td class="firm-name">{a.firm}</td>
+            <td>{a.tam2025}</td>
+            <td class="tam-highlight">{a.tam2034}</td>
+            <td class="cagr-val">{a.cagr}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .market-section {
+    position: relative;
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 2, 18, 0.4);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .market-section:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow:
+      0 0 25px rgba(4, 163, 255, 0.15),
+      0 6px 30px rgba(4, 163, 255, 0.12);
+  }
+
+  .market-section::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(4, 163, 255, 0.5), rgba(0, 206, 209, 0.3), rgba(4, 163, 255, 0.5));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .market-section:hover::before {
+    opacity: 1;
+  }
+
+  .market-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .market-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #04a3ff 0%, #00ced1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .tam-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tam-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .tam-total {
+    background: linear-gradient(90deg, rgba(4, 163, 255, 0.2) 0%, rgba(4, 163, 255, 0.05) 100%);
+    border: 1px solid rgba(4, 163, 255, 0.3);
+    width: 100%;
+  }
+
+  .tam-sam {
+    background: linear-gradient(90deg, rgba(0, 206, 209, 0.2) 0%, rgba(0, 206, 209, 0.05) 100%);
+    border: 1px solid rgba(0, 206, 209, 0.3);
+    width: 75%;
+  }
+
+  .tam-som {
+    background: linear-gradient(90deg, rgba(101, 255, 0, 0.15) 0%, rgba(101, 255, 0, 0.03) 100%);
+    border: 1px solid rgba(101, 255, 0, 0.3);
+    width: 45%;
+  }
+
+  .tam-bar:hover {
+    transform: translateX(4px);
+  }
+
+  .tam-label {
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.6);
+    min-width: 2.5rem;
+  }
+
+  .tam-value {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #04a3ff;
+    min-width: 7rem;
+  }
+
+  .tam-sam .tam-value {
+    color: #00ced1;
+  }
+
+  .tam-som .tam-value {
+    color: #65ff00;
+  }
+
+  .tam-desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .analysts-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .analysts-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .analysts-table th {
+    padding: 0.75rem;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .analysts-table td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .firm-name {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .tam-highlight {
+    color: #04a3ff !important;
+    font-weight: 700;
+  }
+
+  .cagr-val {
+    color: #65ff00 !important;
+    font-weight: 700;
+  }
+
+  .analysts-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    .tam-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+    .tam-sam, .tam-som {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tam-bar {
+      transition: none;
+    }
+    .tam-bar:hover {
+      transform: none;
+    }
+  }
+</style>

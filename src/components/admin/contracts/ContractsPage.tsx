@@ -1,8 +1,11 @@
 import { useState, useCallback } from 'react';
 import ContractsList from './ContractsList';
 import ContractGenerator from './ContractGenerator';
+import { useAdminAuth } from '../../../hooks/use-admin-auth';
 
-export default function ContractsPage({ isAdmin = true }: { isAdmin?: boolean }) {
+export default function ContractsPage() {
+  const { user, isAdmin, isLoading: authLoading } = useAdminAuth();
+  const userName = user?.name;
   const [showGenerator, setShowGenerator] = useState(false);
   const [isBatchGenerating, setIsBatchGenerating] = useState(false);
   const [batchProgress, setBatchProgress] = useState('');
@@ -30,10 +33,19 @@ export default function ContractsPage({ isAdmin = true }: { isAdmin?: boolean })
     }
   }, []);
 
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center py-20 text-gray-400">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <>
       <ContractsList
         isAdmin={isAdmin}
+        userName={userName}
         onGenerateClick={() => setShowGenerator(true)}
         onGenerateAllClick={isAdmin ? handleGenerateAll : undefined}
         isBatchGenerating={isBatchGenerating}

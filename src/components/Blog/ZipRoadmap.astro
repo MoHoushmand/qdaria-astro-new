@@ -1,0 +1,193 @@
+---
+/**
+ * ZipRoadmap - 8-phase development timeline with progress indicators
+ * Visual timeline from MVP to full super-app launch
+ */
+interface Props {
+  title?: string;
+}
+
+const { title = "Development Roadmap" } = Astro.props;
+
+const phases = [
+  { phase: 'Phase 1', name: 'Core Crypto Engine', period: 'Q1 2026', status: 'done' },
+  { phase: 'Phase 2', name: 'PQC Messenger MVP', period: 'Q2 2026', status: 'in-progress' },
+  { phase: 'Phase 3', name: 'QRNG Integration', period: 'Q3 2026', status: 'planned' },
+  { phase: 'Phase 4', name: 'Q-VPN + Browser', period: 'Q4 2026', status: 'planned' },
+  { phase: 'Phase 5', name: 'Quantum Mail + PII', period: 'Q1 2027', status: 'planned' },
+  { phase: 'Phase 6', name: 'VoIP + AI Assistant', period: 'Q2 2027', status: 'planned' },
+  { phase: 'Phase 7', name: 'Mobile Apps (iOS/Android)', period: 'Q3 2027', status: 'planned' },
+  { phase: 'Phase 8', name: 'Full Super-App Launch', period: 'Q4 2027', status: 'planned' },
+];
+
+const statusMap: Record<string, { label: string; color: string }> = {
+  done: { label: 'Complete', color: '#65ff00' },
+  'in-progress': { label: 'In Progress', color: '#04a3ff' },
+  planned: { label: 'Planned', color: 'rgba(255,255,255,0.4)' },
+};
+---
+
+<section class="roadmap-section">
+  <div class="roadmap-header">
+    <h3 class="roadmap-title">{title}</h3>
+  </div>
+  <div class="timeline">
+    {phases.map((p, i) => (
+      <div class={`timeline-item ${p.status}`}>
+        <div class="timeline-dot" style={`background: ${statusMap[p.status].color}; box-shadow: 0 0 12px ${statusMap[p.status].color}40;`} />
+        {i < phases.length - 1 && <div class="timeline-line" />}
+        <div class="timeline-content">
+          <div class="timeline-meta">
+            <span class="phase-label">{p.phase}</span>
+            <span class="phase-period">{p.period}</span>
+            <span class="phase-status" style={`color: ${statusMap[p.status].color}; border-color: ${statusMap[p.status].color}44; background: ${statusMap[p.status].color}11;`}>
+              {statusMap[p.status].label}
+            </span>
+          </div>
+          <h4 class="phase-name">{p.name}</h4>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .roadmap-section {
+    position: relative;
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 2, 18, 0.4);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .roadmap-section:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow:
+      0 0 25px rgba(4, 163, 255, 0.15),
+      0 6px 30px rgba(4, 163, 255, 0.12);
+  }
+
+  .roadmap-section::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(4, 163, 255, 0.5), rgba(0, 206, 209, 0.3), rgba(4, 163, 255, 0.5));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .roadmap-section:hover::before {
+    opacity: 1;
+  }
+
+  .roadmap-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .roadmap-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #04a3ff 0%, #00ced1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    position: relative;
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.75rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    z-index: 2;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 5px;
+    top: 1.75rem;
+    width: 2px;
+    height: calc(100% - 0.5rem);
+    background: rgba(4, 163, 255, 0.15);
+  }
+
+  .done .timeline-line {
+    background: rgba(101, 255, 0, 0.3);
+  }
+
+  .in-progress .timeline-line {
+    background: linear-gradient(to bottom, rgba(4, 163, 255, 0.4), rgba(4, 163, 255, 0.1));
+  }
+
+  .timeline-content {
+    flex: 1;
+  }
+
+  .timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .phase-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #04a3ff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .phase-period {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .phase-status {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+
+  .phase-name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .planned .phase-name {
+    color: rgba(255, 255, 255, 0.5);
+  }
+</style>

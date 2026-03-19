@@ -1,0 +1,225 @@
+---
+/**
+ * ZipCompetitive - Competitive comparison matrix with interactive charts
+ * Shows Zipminator vs competitors across 8 capability dimensions
+ */
+import ZipCompetitiveCharts from './charts/ZipCompetitiveCharts';
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Competitive Landscape" } = Astro.props;
+
+const features = ['Messenger', 'VoIP', 'VPN', 'Browser', 'Email', 'QRNG', 'PQC', 'Super-App'];
+
+const competitors = [
+  { name: 'Zipminator', vals: [true, true, true, true, true, true, true, true], highlight: true },
+  { name: 'Signal', vals: [true, true, false, false, false, false, 'partial', false] },
+  { name: 'ProtonMail', vals: [false, false, true, false, true, false, 'partial', false] },
+  { name: 'NordVPN', vals: [false, false, true, false, false, false, false, false] },
+  { name: 'Brave', vals: [false, false, true, true, false, false, false, false] },
+  { name: 'Wire', vals: [true, true, false, false, false, false, false, false] },
+  { name: 'SandboxAQ', vals: [false, false, false, false, false, false, true, false] },
+  { name: 'PQShield', vals: [false, false, false, false, false, false, true, false] },
+];
+---
+
+<section class="competitive-section">
+  <div class="competitive-header">
+    <h3 class="competitive-title">{title}</h3>
+  </div>
+  <div class="table-wrapper">
+    <table class="competitive-table">
+      <thead>
+        <tr>
+          <th class="name-col">Platform</th>
+          {features.map((f) => <th class="feature-col">{f}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {competitors.map((c) => (
+          <tr class={c.highlight ? 'highlight-row' : ''}>
+            <td class="name-cell">
+              {c.highlight && <span class="highlight-dot" />}
+              {c.name}
+            </td>
+            {c.vals.map((v) => (
+              <td class="val-cell">
+                {v === true ? (
+                  <span class="check">&#10003;</span>
+                ) : v === 'partial' ? (
+                  <span class="partial">~</span>
+                ) : (
+                  <span class="cross">&#10007;</span>
+                )}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <!-- Interactive Charts (React Island) -->
+  <ZipCompetitiveCharts client:visible />
+</section>
+
+<style>
+  .competitive-section {
+    position: relative;
+    margin: 2.5rem 0;
+    background: rgba(0, 2, 18, 0.4);
+    border: 1px solid rgba(4, 163, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(4, 163, 255, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .competitive-section:hover {
+    border-color: rgba(4, 163, 255, 0.4);
+    box-shadow:
+      0 0 25px rgba(4, 163, 255, 0.15),
+      0 6px 30px rgba(4, 163, 255, 0.12);
+  }
+
+  .competitive-section::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      rgba(4, 163, 255, 0.5),
+      rgba(0, 206, 209, 0.3),
+      rgba(4, 163, 255, 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .competitive-section:hover::before {
+    opacity: 1;
+  }
+
+  .competitive-header {
+    padding: 1.25rem 1.5rem 0.75rem;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.2);
+  }
+
+  .competitive-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #04a3ff 0%, #00ced1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    padding: 0.5rem;
+  }
+
+  .competitive-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .competitive-table th {
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(4, 163, 255, 0.15);
+  }
+
+  .name-col {
+    text-align: left !important;
+    padding-left: 1.25rem !important;
+  }
+
+  .competitive-table td {
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .name-cell {
+    text-align: left !important;
+    padding-left: 1.25rem !important;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .highlight-row {
+    background: rgba(4, 163, 255, 0.08);
+  }
+
+  .highlight-row .name-cell {
+    color: #04a3ff;
+    font-weight: 700;
+  }
+
+  .highlight-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #04a3ff;
+    box-shadow: 0 0 8px rgba(4, 163, 255, 0.6);
+  }
+
+  .check {
+    color: #65ff00;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .cross {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+  }
+
+  .partial {
+    color: #ffa500;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .competitive-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    .competitive-table {
+      font-size: 0.8rem;
+    }
+    .competitive-table th,
+    .competitive-table td {
+      padding: 0.5rem 0.35rem;
+    }
+    .feature-col {
+      font-size: 0.7rem !important;
+    }
+  }
+</style>
