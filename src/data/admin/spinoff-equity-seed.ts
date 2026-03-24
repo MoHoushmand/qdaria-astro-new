@@ -53,21 +53,43 @@ export const spinoffFundingTargets: Record<string, { seed: number; seriesA: numb
   'qdiana': { seed: 5_000_000, seriesA: 15_000_000, seriesB: 40_000_000, seriesC: 100_000_000, ipo: 300_000_000 },
 };
 
-/** All employees — flat 0.5% per spinoff (Seed trigger) */
-const allEmployees: SpinoffEmployee[] = [
-  { name: 'Svein-Erik Nilsen', role: 'COO', milestonePct: 0.5, triggerRound: 'Seed' },
+/** Tiered spinoff equity allocations (Seed trigger) */
+// C-Suite: 0.5% per spinoff
+const cSuiteEmployees: SpinoffEmployee[] = [
   { name: 'Sharareh M. Shariat Panahi', role: 'Asst. CEO', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Caroline Woie', role: 'Chief Content Officer', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Rajesh Chavan', role: 'Chief Strategy & Growth Officer', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Lillian Kristiansen', role: 'Chief Admin Officer', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'John Kristiansen', role: 'Head of Networking', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Lindsay Sanner', role: 'Chief Social Responsibility Officer', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Gaspar Alvarado', role: 'Finance Director', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Nick Saaf', role: 'Sales Director', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Fredrik Krey Stubberud', role: 'Test Engineer', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Yulia Ginzburg', role: 'Chief Data Officer', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Nils Bjelland Gronvold', role: 'Head of Culture & Events', milestonePct: 0.5, triggerRound: 'Seed' },
-  { name: 'Daria Houshmand', role: 'Dev Intern & Board', milestonePct: 0.5, triggerRound: 'Seed' },
+];
+
+// Senior: 0.375% per spinoff
+const seniorEmployees: SpinoffEmployee[] = [
+  { name: 'Caroline Woie', role: 'Chief Content Officer', milestonePct: 0.375, triggerRound: 'Seed' },
+  { name: 'Rajesh Chavan', role: 'Chief Strategy & Growth Officer', milestonePct: 0.375, triggerRound: 'Seed' },
+  { name: 'Lillian Kristiansen', role: 'Chief Admin Officer', milestonePct: 0.375, triggerRound: 'Seed' },
+  { name: 'John Kristiansen', role: 'Head of Networking', milestonePct: 0.375, triggerRound: 'Seed' },
+  { name: 'Lindsay Sanner', role: 'Chief Social Responsibility Officer', milestonePct: 0.375, triggerRound: 'Seed' },
+];
+
+// Mid: 0.25% per spinoff
+const midEmployees: SpinoffEmployee[] = [
+  { name: 'Gaspar Alvarado', role: 'Finance Director', milestonePct: 0.25, triggerRound: 'Seed' },
+  { name: 'Nick Saaf', role: 'Sales Director', milestonePct: 0.25, triggerRound: 'Seed' },
+  { name: 'Yulia Ginzburg', role: 'Chief Data Officer', milestonePct: 0.25, triggerRound: 'Seed' },
+  { name: 'Nils Bjelland Gronvold', role: 'Head of Culture & Events', milestonePct: 0.25, triggerRound: 'Seed' },
+];
+
+// Junior/Board: 0.25% per spinoff
+const juniorBoardEmployees: SpinoffEmployee[] = [
+  { name: 'Daria Houshmand', role: 'Dev Intern & Board', milestonePct: 0.25, triggerRound: 'Seed' },
+];
+
+// Fredrik Krey Stubberud: NO spinoff equity — performance-only at Holdings level.
+// Future spinoff grants require verified milestones and Board approval.
+
+/** Combined spinoff employee list (all tiers, Fredrik excluded) */
+const allEmployees: SpinoffEmployee[] = [
+  ...cSuiteEmployees,
+  ...seniorEmployees,
+  ...midEmployees,
+  ...juniorBoardEmployees,
 ];
 
 export const spinoffCompanies: SpinoffCompany[] = [
@@ -120,7 +142,7 @@ export const spinoffCompanies: SpinoffCompany[] = [
     investorPoolPct: 30,
     fundingRounds: [...standardFundingRounds],
     employees: allEmployees,
-    specialConditions: 'Svein-Erik Nilsen is CEO candidate. If he secures funding for large-scale topological quantum computer with Fibonacci anyons, conditional 20% equity at holding level subject to 5-6 year milestone vesting. Must resolve Naoris Protocol conflict of interest (cessation of all advisory, promotional, and financial interests in competing quantum cybersecurity ventures). Norwegian law: non-compete max 12 months with mandatory compensation per Arbeidsmiljoloven Chapter 14A.',
+    specialConditions: 'CEO candidate TBD. Conditional 20% equity at holding level subject to 5-6 year milestone vesting for securing large-scale topological quantum computer funding.',
   },
   {
     id: 'qiot',
@@ -168,16 +190,16 @@ export interface EmployeeEquityMap {
   allocations: Record<string, number>; // company id -> percentage
 }
 
-/** Flat 5.0% per employee: 1.0% QDaria Holdings + 0.5% in each of 8 spinoffs */
+/**
+ * Tiered equity allocations across all companies.
+ * C-Suite: 1.0% Holdings + 0.5% x 8 spinoffs = 5.0%
+ * Senior:  0.75% Holdings + 0.375% x 8 spinoffs = 3.75%
+ * Mid:     0.5% Holdings + 0.25% x 8 spinoffs = 2.5%
+ * Fredrik: 0.25% Holdings only = 0.25% (performance-only, no spinoffs)
+ * Junior:  0.5% Holdings + 0.25% x 8 spinoffs = 2.5%
+ */
 export const employeeEquityAllocations: EmployeeEquityMap[] = [
-  {
-    name: 'Svein-Erik Nilsen',
-    totalPct: 5.0,
-    allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
-    },
-  },
+  // C-Suite
   {
     name: 'Sharareh M. Shariat Panahi',
     totalPct: 5.0,
@@ -186,92 +208,96 @@ export const employeeEquityAllocations: EmployeeEquityMap[] = [
       'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
     },
   },
+  // Senior
   {
     name: 'Caroline Woie',
-    totalPct: 5.0,
+    totalPct: 3.75,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.75, 'zipminator': 0.375, 'qm9': 0.375, 'qmikeai': 0.375,
+      'thqai': 0.375, 'qnilaya': 0.375, 'qdiana': 0.375, 'qiot': 0.375, 'lillian-research': 0.375,
     },
   },
   {
     name: 'Rajesh Chavan',
-    totalPct: 5.0,
+    totalPct: 3.75,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.75, 'zipminator': 0.375, 'qm9': 0.375, 'qmikeai': 0.375,
+      'thqai': 0.375, 'qnilaya': 0.375, 'qdiana': 0.375, 'qiot': 0.375, 'lillian-research': 0.375,
     },
   },
   {
     name: 'Lillian Kristiansen',
-    totalPct: 5.0,
+    totalPct: 3.75,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.75, 'zipminator': 0.375, 'qm9': 0.375, 'qmikeai': 0.375,
+      'thqai': 0.375, 'qnilaya': 0.375, 'qdiana': 0.375, 'qiot': 0.375, 'lillian-research': 0.375,
     },
   },
   {
     name: 'John Kristiansen',
-    totalPct: 5.0,
+    totalPct: 3.75,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.75, 'zipminator': 0.375, 'qm9': 0.375, 'qmikeai': 0.375,
+      'thqai': 0.375, 'qnilaya': 0.375, 'qdiana': 0.375, 'qiot': 0.375, 'lillian-research': 0.375,
     },
   },
   {
     name: 'Lindsay Sanner',
-    totalPct: 5.0,
+    totalPct: 3.75,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.75, 'zipminator': 0.375, 'qm9': 0.375, 'qmikeai': 0.375,
+      'thqai': 0.375, 'qnilaya': 0.375, 'qdiana': 0.375, 'qiot': 0.375, 'lillian-research': 0.375,
     },
   },
+  // Mid
   {
     name: 'Gaspar Alvarado',
-    totalPct: 5.0,
+    totalPct: 2.5,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.5, 'zipminator': 0.25, 'qm9': 0.25, 'qmikeai': 0.25,
+      'thqai': 0.25, 'qnilaya': 0.25, 'qdiana': 0.25, 'qiot': 0.25, 'lillian-research': 0.25,
     },
   },
   {
     name: 'Nick Saaf',
-    totalPct: 5.0,
+    totalPct: 2.5,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.5, 'zipminator': 0.25, 'qm9': 0.25, 'qmikeai': 0.25,
+      'thqai': 0.25, 'qnilaya': 0.25, 'qdiana': 0.25, 'qiot': 0.25, 'lillian-research': 0.25,
     },
   },
+  // Performance-only (Holdings only, no spinoffs)
   {
     name: 'Fredrik Krey Stubberud',
-    totalPct: 5.0,
+    totalPct: 0.25,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.25,
+      // No spinoff equity. Future grants require verified milestones + Board approval.
     },
   },
   {
     name: 'Yulia Ginzburg',
-    totalPct: 5.0,
+    totalPct: 2.5,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.5, 'zipminator': 0.25, 'qm9': 0.25, 'qmikeai': 0.25,
+      'thqai': 0.25, 'qnilaya': 0.25, 'qdiana': 0.25, 'qiot': 0.25, 'lillian-research': 0.25,
     },
   },
   {
     name: 'Nils Bjelland Gronvold',
-    totalPct: 5.0,
+    totalPct: 2.5,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.5, 'zipminator': 0.25, 'qm9': 0.25, 'qmikeai': 0.25,
+      'thqai': 0.25, 'qnilaya': 0.25, 'qdiana': 0.25, 'qiot': 0.25, 'lillian-research': 0.25,
     },
   },
+  // Junior/Board
   {
     name: 'Daria Houshmand',
-    totalPct: 5.0,
+    totalPct: 2.5,
     allocations: {
-      'qdaria-holding': 1.0, 'zipminator': 0.5, 'qm9': 0.5, 'qmikeai': 0.5,
-      'thqai': 0.5, 'qnilaya': 0.5, 'qdiana': 0.5, 'qiot': 0.5, 'lillian-research': 0.5,
+      'qdaria-holding': 0.5, 'zipminator': 0.25, 'qm9': 0.25, 'qmikeai': 0.25,
+      'thqai': 0.25, 'qnilaya': 0.25, 'qdiana': 0.25, 'qiot': 0.25, 'lillian-research': 0.25,
     },
   },
 ];

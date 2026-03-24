@@ -3,7 +3,7 @@ SECTION 1: SALARY PROGRESSION BY EMPLOYEE AND FUNDING ROUND (EUR Annual Gross)
 =====================================================================================================
 Employee,Title,Department,Tier,Salary Tier,Pre-Seed (EUR),Seed (EUR),Round A (EUR),Round B (EUR),Round C (EUR),IPO (EUR)
 Daniel Mo Houshmand,CEO & Founder,Executive,Founder,ceo,160000,240000,600000,900000,1200000,2200000
-Svein-Erik Nilsen,COO,Operations,C-Suite,coo,100000,150000,300000,450000,600000,1100000
+COO,Vacant — to be hired post-seed,,,,,,,,,
 Sharareh M. Shariat Panahi,Asst. CEO,Legal,C-Suite,senior,100000,140000,280000,420000,560000,1000000
 Caroline Woie,Chief Content Officer,Content,Leadership,senior,100000,140000,280000,420000,560000,1000000
 Rajesh Chavan,Chief Strategy & Growth Officer,Strategy,Leadership,senior,100000,140000,280000,420000,560000,1000000
@@ -93,7 +93,6 @@ SECTION 8: INDIVIDUAL EQUITY - QDARIA HOLDING PER EMPLOYEE
 =====================================================================================================
 Employee,Holding %,Share Type,Vesting (months),Cliff (months),Board Member,Tier
 Daniel Mo Houshmand,70.0%,Common (Class A),48,0,Yes,Founder
-Svein-Erik Nilsen,1.0%,Preferred (Class B),48,12,Yes,C-Suite
 Sharareh M. Shariat Panahi,1.0%,Preferred (Class B),48,12,Yes,C-Suite
 Caroline Woie,1.0%,Preferred (Class B),48,12,Yes,Leadership
 Rajesh Chavan,1.0%,Preferred (Class B),48,12,Yes,Leadership
@@ -112,7 +111,6 @@ TOTAL INDIVIDUAL,83.0%,,,,13 employees + founder,
 SECTION 9: EQUITY ALLOCATIONS - PER EMPLOYEE ACROSS ALL 9 COMPANIES (%)
 =====================================================================================================
 Employee,QDaria Holding,Qm9,Zipminator,QMikeAI,THQAI,QNilaya,QDiana,QIoT,Lillian Research,TOTAL
-Svein-Erik Nilsen,1.0,0.5,1.5,1.5,1.5,1.5,1.0,1.0,0.5,10.0
 Sharareh M. Shariat Panahi,1.0,0.5,1.5,1.0,1.5,1.5,1.0,1.0,1.0,10.0
 Lillian Kristiansen,1.0,0.5,1.0,1.0,1.0,1.0,1.5,1.0,2.0,10.0
 John Kristiansen,1.0,0.5,1.0,1.0,1.0,1.0,1.0,2.0,1.5,10.0
@@ -256,7 +254,7 @@ SECTION 19: COMPLETE EMPLOYEE SUMMARY (ALL KEY NUMBERS PER PERSON)
 =====================================================================================================
 Employee,Title,Tier,Pre-Seed Salary (EUR),Holding Equity %,Total Equity (9 cos) %,Share Type,Severance (months),Cliff (months),Bonus Range,Board,Employment Type
 Daniel Mo Houshmand,CEO & Founder,Founder,160000,70.0%,70% each company,Common (Class A),12,0,0-15%,Yes,Full-time
-Svein-Erik Nilsen,COO,C-Suite,100000,1.0%,10.0%,Preferred (Class B),6,12,0-15%,Yes,Full-time
+COO,Vacant — to be hired post-seed,,,,,,,,,,
 Sharareh M. Shariat Panahi,Asst. CEO,C-Suite,100000,1.0%,10.0%,Preferred (Class B),6,12,0-15%,Yes,Full-time
 Caroline Woie,Chief Content Officer,Leadership,100000,1.0%,10.0%,Preferred (Class B),4,12,0-15%,Yes,Full-time
 Rajesh Chavan,Chief Strategy & Growth Officer,Leadership,100000,1.0%,10.0%,Preferred (Class B),4,12,0-15%,Yes,Full-time

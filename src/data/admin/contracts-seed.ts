@@ -19,7 +19,6 @@ interface ContractSeedEntry {
 
 const contractEntries: ContractSeedEntry[] = [
   { team_member_name: 'Daniel Mo Houshmand', file_name: 'QDaria_Employment_Agreement_Daniel_Mo_Houshmand.pdf', title: 'CEO & Founder Employment Agreement', type: 'employment', status: 'draft', signed_date: '', file_size: 0, start_date: '2026-03-01' },
-  { team_member_name: 'Svein-Erik Nilsen', file_name: 'QDaria_Employment_Agreement_Svein-Erik_Nilsen.pdf', title: 'COO Employment Agreement', type: 'employment', status: 'draft', signed_date: '', file_size: 0, start_date: '2026-03-01' },
   { team_member_name: 'Gaspar Alvarado', file_name: 'QDaria_Employment_Agreement_Gaspar_Alvarado.pdf', title: 'Finance Director Employment Agreement', type: 'employment', status: 'draft', signed_date: '', file_size: 0, start_date: '2026-03-01' },
   { team_member_name: 'Sharareh M. Shariat Panahi', file_name: 'QDaria_Employment_Agreement_Sharareh_M._Shariat_Panahi.pdf', title: 'Asst. CEO Employment Agreement', type: 'employment', status: 'draft', signed_date: '', file_size: 0, start_date: '2026-03-01' },
   { team_member_name: 'Caroline Woie', file_name: 'QDaria_Employment_Agreement_Caroline_Woie.pdf', title: 'Chief Content Officer Employment Agreement', type: 'employment', status: 'draft', signed_date: '', file_size: 0, start_date: '2026-03-01' },

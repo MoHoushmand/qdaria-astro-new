@@ -19,12 +19,18 @@ import {
   spinoffCompanies,
   employeeEquityAllocations,
   fundingMilestoneBonuses,
+  spinoffFundingTargets,
 } from '../data/admin/spinoff-equity-seed';
 import {
   salaryProgression,
   fundingRounds,
   fundingRoundLabels,
 } from '../data/admin/salary-seed';
+import {
+  seedBudgetBreakdown,
+  seedFundingTarget,
+  seedRunwayMonths,
+} from '../data/admin/funding-budget-seed';
 
 const EUR_TO_NOK = 11.76;
 
@@ -37,7 +43,7 @@ const EMPLOYMENT_TYPE_LABELS: Record<string, string> = {
 
 const BOARD_MEMBERS: Record<string, 'chair' | 'member'> = {
   'Daniel Mo Houshmand': 'chair',
-  'Svein-Erik Nilsen': 'member',
+
   'Sharareh M. Shariat Panahi': 'member',
   'Caroline Woie': 'member',
   'Rajesh Chavan': 'member',
@@ -171,6 +177,7 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
     seriesCSalary: salaryEntry ? formatNok(salaryEntry.salaries['round-c']) : formatNok(Math.round(salaryEur * 2.5)),
     ipoSalary: salaryEntry ? formatNok(salaryEntry.salaries['ipo']) : formatNok(Math.round(salaryEur * 3.0)),
     roleDuties: getRoleDuties(title),
+    seedBonus: formatNok(Math.round(salaryEur * 0.1)),
     equityTable: '[EQUITY_TABLE_PLACEHOLDER]',
     totalEquityPct: equityTotal.toFixed(2),
   };
@@ -735,9 +742,7 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
   tocEntries.push('Appendix B: Salary Progression');
   tocEntries.push('Appendix D: Funding Milestone Bonuses');
   tocEntries.push('Appendix E: References & Market Benchmarks');
-  if (employeeName === 'Svein-Erik Nilsen' && getCooAppendixForEmployee) {
-    tocEntries.push('Appendix C: COO-Specific Terms');
-  } else if (tier && roleAppendices[tier]) {
+  if (tier && roleAppendices[tier]) {
     tocEntries.push('Appendix C: Equity & Compensation Rationale');
   }
   const boardRole = BOARD_MEMBERS[employeeName];
@@ -908,6 +913,54 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
       ];
       renderTable('Benefits and Additional Compensation', benHeaders, benData, benColWidths);
       remaining = benParts[1] || '';
+    }
+
+    // Handle BUDGET_TABLE_PLACEHOLDER
+    const budParts = remaining.split('[BUDGET_TABLE_PLACEHOLDER]');
+    if (budParts.length > 1) {
+      if (budParts[0].trim()) {
+        y = renderRichText(budParts[0], margin, y, contentWidth);
+      }
+      const budHeaders = ['Category', '24-Month Total', '% of Budget'];
+      const budColWidths = [70, 40, 30];
+      const budData = seedBudgetBreakdown.map((b) => [
+        b.label,
+        `EUR ${formatNok(b.totalEur)}`,
+        `${b.pctOfTotal.toFixed(1)}%`,
+      ]);
+      budData.push(['TOTAL', `EUR ${formatNok(seedBudgetBreakdown.reduce((s, b) => s + b.totalEur, 0))}`, '100%']);
+      renderTable(`Seed Budget Allocation — €${(seedFundingTarget / 1_000_000).toFixed(0)}M over ${seedRunwayMonths} months`, budHeaders, budData, budColWidths);
+
+      // Budget stacked bar
+      renderStackedBar(
+        'Budget Distribution',
+        seedBudgetBreakdown.map((b, i) => ({
+          label: b.label,
+          value: b.pctOfTotal,
+          color: SEGMENT_COLORS[i % SEGMENT_COLORS.length],
+        })),
+      );
+
+      remaining = budParts[1] || '';
+    }
+
+    // Handle SPINOFF_FUNDING_TABLE_PLACEHOLDER
+    const sfParts = remaining.split('[SPINOFF_FUNDING_TABLE_PLACEHOLDER]');
+    if (sfParts.length > 1) {
+      if (sfParts[0].trim()) {
+        y = renderRichText(sfParts[0], margin, y, contentWidth);
+      }
+      const sfHeaders = ['Company', 'Seed', 'Series A', 'Series B', 'IPO'];
+      const sfColWidths = [40, 25, 25, 25, 25];
+      const sfData = Object.entries(spinoffFundingTargets).map(([id, t]) => [
+        id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, ' '),
+        `€${(t.seed / 1_000_000).toFixed(0)}M`,
+        `€${(t.seriesA / 1_000_000).toFixed(0)}M`,
+        `€${(t.seriesB / 1_000_000).toFixed(0)}M`,
+        `€${(t.ipo / 1_000_000).toFixed(0)}M`,
+      ]);
+      renderTable('Spinoff Company Funding Targets', sfHeaders, sfData, sfColWidths);
+      remaining = sfParts[1] || '';
     }
 
     // Handle CAP_TABLE_PLACEHOLDER
@@ -1351,8 +1404,9 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
   y += 20;
 
   // ===== APPENDIX C: ROLE-SPECIFIC TERMS =====
-  if (employeeName === 'Svein-Erik Nilsen' && getCooAppendixForEmployee) {
-    const cooText = getCooAppendixForEmployee(employeeName);
+  if (false) {
+    // COO appendix removed — position vacant
+    const cooText: string | null = null;
     if (cooText) {
       addPageNumber();
       doc.addPage();
@@ -1366,7 +1420,7 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(MID_GRAY.r, MID_GRAY.g, MID_GRAY.b);
-      doc.text('Competitive Analysis & Equity Justification - Svein-Erik Nilsen', margin, y + 4);
+      doc.text('Competitive Analysis & Equity Justification', margin, y + 4);
       y += 12;
 
       // Split COO appendix on table sentinels and render proper tables
@@ -1434,6 +1488,64 @@ export async function generateContractPdfForEmployee(opts: PdfOptions): Promise<
     doc.text(`Compensation rationale for ${employeeName} — ${tier} tier`, margin, y + 4);
     y += 12;
     y = renderRichText(roleAppendices[tier], margin, y, contentWidth);
+  }
+
+  // ===== APPENDIX F: CEO JUSTIFICATION (CEO only) =====
+  if (employeeName === 'Daniel Mo Houshmand') {
+    checkPageBreak(30);
+    y += 4;
+    doc.setDrawColor(200, 210, 220);
+    doc.line(margin, y, pageWidth - margin, y);
+    y += 8;
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(NAVY.r, NAVY.g, NAVY.b);
+    doc.text('APPENDIX F: CEO & FOUNDER JUSTIFICATION', margin, y);
+    y += 3;
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(MID_GRAY.r, MID_GRAY.g, MID_GRAY.b);
+    doc.text('Multi-role compensation rationale — Daniel Mo Houshmand', margin, y + 4);
+    y += 12;
+
+    const ceoText = `The CEO tier compensation (EUR 160,000 pre-seed to EUR 400,000 at IPO) covers responsibilities that would typically require 4-6 separate hires.
+
+**Education:**
+  - MSc Applied Mathematics
+  - BSc Civil Engineering
+  - BA Design
+
+**Certifications:**
+  - Quantum Hardware Engineering (QHE)
+  - Quantum Machine Learning (QML)
+  - Machine Learning (ML)
+
+**Roles Held Simultaneously:**
+  - CEO & Founder
+  - CTO (interim)
+  - Lead Data Scientist
+  - Full-Stack Architect
+  - Principal Researcher
+
+**Technical Scope:**
+  - Backend: Rust, Python, FastAPI
+  - Middleware: API design, MCP servers, agent orchestration
+  - Frontend: React, Next.js, Astro
+  - Data Engineering: ML pipelines, quantum circuits
+  - Quantum: Circuit design, Fibonacci anyon protocols, IBM Heron r2
+
+**Speaking Engagements:**
+  - IQT NYC 2024 — Panel speaker
+  - Keynote at Davos 2025
+
+**Key Achievements:**
+  - Founded QDaria (2013/2017/2019 — three iterations)
+  - World's largest 156-qubit quantum reservoir computing experiment on IBM Heron r2
+  - Architected and leads 8 subsidiary companies
+
+At pre-seed, EUR 160,000 is positioned approximately 10% above the Norwegian tech CEO median of EUR 145,000, which is modest given the multi-role breadth.`;
+
+    y = renderRichText(ceoText, margin, y, contentWidth);
   }
 
   addPageNumber();

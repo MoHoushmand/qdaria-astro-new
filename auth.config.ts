@@ -25,12 +25,6 @@ const staffCredentials: Record<
     email: 'daniel.mo.houshmand@qdaria.com',
     role: 'admin',
   },
-  'svein-erik.nilsen': {
-    password: 'QD-coo-Se2026!',
-    name: 'Svein-Erik Nilsen',
-    email: 'svein-erik.nilsen@qdaria.com',
-    role: 'employee',
-  },
   'gaspar.alvarado': {
     password: 'QD-fin-Ga2026!',
     name: 'Gaspar Alvarado',
@@ -41,7 +35,7 @@ const staffCredentials: Record<
     password: 'QD-legal-Sp2026!',
     name: 'Sharareh M. Shariat Panahi',
     email: 'sharareh.panahi@qdaria.com',
-    role: 'employee',
+    role: 'admin',
   },
   'caroline.woie': {
     password: 'QD-content-Cw2026!',
@@ -95,7 +89,7 @@ const staffCredentials: Record<
     password: 'QD-cadmin-Lk2026!',
     name: 'Lillian Kristiansen',
     email: 'lillian.kristiansen@qdaria.com',
-    role: 'employee',
+    role: 'admin',
   },
   'daria.houshmand': {
     password: 'QD-intern-Dh2026!',

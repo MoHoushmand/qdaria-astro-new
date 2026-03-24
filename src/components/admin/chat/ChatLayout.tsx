@@ -10,7 +10,6 @@ import type { ChatChannel } from '../../../types/admin';
 // Mock members for the sidebar
 const MEMBERS = [
   { id: '1', name: 'Daniel Mo Houshmand', online: true },
-  { id: '2', name: 'Svein-Erik Nilsen', online: true },
   { id: '3', name: 'Gaspar Alvarado', online: true },
   { id: '4', name: 'Sharareh M. Shariat Panahi', online: false },
   { id: '5', name: 'Caroline Woie', online: true },

@@ -24,22 +24,6 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     linkedin: 'https://linkedin.com/in/mohoushmand',
   },
   {
-    name: 'Svein-Erik Nilsen',
-    email: 'svein-erik.nilsen@qdaria.com',
-    title: 'COO',
-    department: 'Operations',
-    tier: 'C-Suite',
-    salary_eur: 108_000,
-    salary_tier: 'coo',
-    equity_percentage: 5.0,
-    vesting_cliff_months: 12,
-    vesting_total_months: 48,
-    contract_status: 'pending',
-    employment_type: 'full-time',
-    is_board_member: true,
-    bio: 'Infrastructure & Org Design. Senior / 15+ yrs experience. Operational KPIs focus.',
-  },
-  {
     name: 'Gaspar Alvarado',
     email: 'gaspar.alvarado@qdaria.com',
     title: 'Finance Director',
@@ -47,7 +31,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'Specialist',
     salary_eur: 84_000,
     salary_tier: 'mid',
-    equity_percentage: 5.0,
+    equity_percentage: 2.5,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -79,7 +63,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'C-Suite',
     salary_eur: 97_000,
     salary_tier: 'senior',
-    equity_percentage: 5.0,
+    equity_percentage: 3.75,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -95,7 +79,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'C-Suite',
     salary_eur: 97_000,
     salary_tier: 'senior',
-    equity_percentage: 5.0,
+    equity_percentage: 3.75,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -111,7 +95,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'Specialist',
     salary_eur: 84_000,
     salary_tier: 'mid',
-    equity_percentage: 5.0,
+    equity_percentage: 2.5,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -127,7 +111,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'Specialist',
     salary_eur: 84_000,
     salary_tier: 'mid',
-    equity_percentage: 5.0,
+    equity_percentage: 0.25,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -143,7 +127,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'C-Suite',
     salary_eur: 84_000,
     salary_tier: 'mid',
-    equity_percentage: 5.0,
+    equity_percentage: 2.5,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -159,7 +143,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'Specialist',
     salary_eur: 97_000,
     salary_tier: 'senior',
-    equity_percentage: 5.0,
+    equity_percentage: 3.75,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -175,7 +159,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'Specialist',
     salary_eur: 84_000,
     salary_tier: 'mid',
-    equity_percentage: 5.0,
+    equity_percentage: 2.5,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -191,7 +175,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'C-Suite',
     salary_eur: 97_000,
     salary_tier: 'senior',
-    equity_percentage: 5.0,
+    equity_percentage: 3.75,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -207,7 +191,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'C-Suite',
     salary_eur: 97_000,
     salary_tier: 'senior',
-    equity_percentage: 5.0,
+    equity_percentage: 3.75,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -223,7 +207,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
     tier: 'Intern/Board',
     salary_eur: 55_000,
     salary_tier: 'junior',
-    equity_percentage: 5.0,
+    equity_percentage: 2.5,
     vesting_cliff_months: 12,
     vesting_total_months: 48,
     contract_status: 'pending',
@@ -244,7 +228,7 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
 export const oauthAliases: Record<string, string> = {
   // === EXAMPLE — replace with real emails ===
   // 'mo.houshmand@gmail.com': 'daniel.mo.houshmand@qdaria.com',
-  // 'svein.erik.nilsen@gmail.com': 'svein-erik.nilsen@qdaria.com',
+  // (COO removed — position vacant, to be hired post-seed)
 };
 
 /**
@@ -257,7 +241,12 @@ export const teamEmailRoles: Record<string, 'admin' | 'employee'> = (() => {
 
   // Add @qdaria.com emails
   for (const m of teamMembersSeed) {
-    roles[m.email] = m.email === 'daniel.mo.houshmand@qdaria.com' ? 'admin' : 'employee';
+    const adminEmails = [
+      'daniel.mo.houshmand@qdaria.com',
+      'lillian.kristiansen@qdaria.com',
+      'sharareh.panahi@qdaria.com',
+    ];
+    roles[m.email] = adminEmails.includes(m.email) ? 'admin' : 'employee';
   }
 
   // Add credentials-based staff login

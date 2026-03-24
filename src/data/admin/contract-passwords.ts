@@ -5,7 +5,7 @@
  */
 export const contractPasswords: Record<string, string> = {
   'Daniel Mo Houshmand': 'QD-CEO-7X9mK2',
-  'Svein-Erik Nilsen': 'QD-COO-4R8nL5',
+
   'Sharareh M. Shariat Panahi': 'QD-ACE-6W3pQ9',
   'Lillian Kristiansen': 'QD-CAO-2T5vM7',
   'John Kristiansen': 'QD-NET-8K1wN4',

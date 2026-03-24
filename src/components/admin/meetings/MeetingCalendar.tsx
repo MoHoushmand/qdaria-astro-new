@@ -177,7 +177,6 @@ function CalendarGrid({ meetings, month, year }: {
 // Mock team members for CreateMeetingForm
 const TEAM_MEMBERS = [
   { id: '1', name: 'Daniel Mo Houshmand' },
-  { id: '2', name: 'Svein-Erik Nilsen' },
   { id: '3', name: 'Gaspar Alvarado' },
   { id: '4', name: 'Sharareh M. Shariat Panahi' },
   { id: '5', name: 'Caroline Woie' },

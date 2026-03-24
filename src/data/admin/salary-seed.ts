@@ -43,18 +43,6 @@ export const salaryProgression: SalaryEntry[] = [
     },
   },
   {
-    name: 'Svein-Erik Nilsen',
-    tier: 'coo',
-    salaries: {
-      'pre-seed': 108_000,
-      'seed': 120_000,
-      'round-a': 175_000,
-      'round-b': 200_000,
-      'round-c': 245_000,
-      'ipo': 300_000,
-    },
-  },
-  {
     name: 'Lillian Kristiansen',
     tier: 'senior',
     salaries: {
@@ -209,4 +197,31 @@ export function getCurrentSalary(name: string): number | undefined {
 /** Helper: get salary tier for a given name */
 export function getSalaryTier(name: string): SalaryTier | undefined {
   return salaryProgression.find((e) => e.name === name)?.tier;
+}
+
+/** Norwegian median salaries by tier (2025 data, EUR) */
+export const norwegianMedianSalaries: Record<SalaryTier, number> = {
+  ceo: 145_000,
+  coo: 100_000,
+  senior: 88_000,
+  mid: 75_000,
+  junior: 45_000,
+};
+
+/** EU median salaries by tier (2025 data, EUR) */
+export const euMedianSalaries: Record<SalaryTier, number> = {
+  ceo: 120_000,
+  coo: 85_000,
+  senior: 72_000,
+  mid: 60_000,
+  junior: 35_000,
+};
+
+/** Helper: get percentage above Norwegian median for an employee */
+export function getPctAboveNorwegianMedian(name: string): number | undefined {
+  const entry = salaryProgression.find((e) => e.name === name);
+  if (!entry) return undefined;
+  const currentSalary = entry.salaries['pre-seed'];
+  const median = norwegianMedianSalaries[entry.tier];
+  return Math.round(((currentSalary - median) / median) * 100);
 }

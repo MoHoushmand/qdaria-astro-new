@@ -1,20 +1,18 @@
 /**
- * COO-specific contract appendix for Svein-Erik Nilsen.
+ * COO-specific contract appendix (archived).
  *
- * This appendix is appended ONLY to Svein-Erik Nilsen's employment contract
- * and provides competitive analysis, conflict-of-interest disclosure,
- * and rationale supporting QDaria's equity and compensation offer.
- *
- * Sections C.1–C.5 are intended as a formal legal appendix, not internal commentary.
+ * Previously used for COO employment contract.
+ * COO position is now vacant — to be hired post-seed.
+ * Retained for reference only; getCooAppendixForEmployee always returns null.
  */
 
 // ---------------------------------------------------------------------------
 // Appendix C — Full Text
 // ---------------------------------------------------------------------------
 
-export const cooAppendixContent = `APPENDIX C: COO EQUITY PROPOSAL - COMPETITIVE ANALYSIS & TERMS
+export const cooAppendixContent = `APPENDIX C: COO EQUITY PROPOSAL - COMPETITIVE ANALYSIS & TERMS (ARCHIVED)
 
-This Appendix forms an integral part of the Employment Agreement between QDaria Holdings AS (Org. Nr. 932 163 378) and Svein-Erik Nilsen ("the Employee"), dated as of the Effective Date stated in Section 1.
+This Appendix was part of a previous Employment Agreement between QDaria Holdings AS (Org. Nr. 932 163 378) and the former COO ("the Employee"). COO position is now vacant — to be hired post-seed.
 
 
 C.1  MARKET BENCHMARK FOR PRE-SEED COO EQUITY
@@ -252,7 +250,7 @@ This Appendix is acknowledged and agreed to by both parties as part of the Emplo
 **Employee:**
 
 ________________________________
-Svein-Erik Nilsen
+[Position Vacant]
 Chief Operating Officer
 
 Date: _______________
@@ -272,18 +270,9 @@ Date: _______________`;
 // ---------------------------------------------------------------------------
 
 /**
- * Returns the COO appendix content if the given employee name matches
- * Svein-Erik Nilsen. Returns `null` for all other employees.
- *
- * Usage in the PDF contract generator:
- * ```ts
- * const appendix = getCooAppendixForEmployee(employee.name);
- * if (appendix) {
- *   // Append to generated contract PDF
- * }
- * ```
+ * Returns null — COO position is vacant; no appendix is generated.
+ * Retained for API compatibility with generate-contract-pdf.ts.
  */
-export function getCooAppendixForEmployee(name: string): string | null {
-  if (name === 'Svein-Erik Nilsen') return cooAppendixContent;
+export function getCooAppendixForEmployee(_name: string): string | null {
   return null;
 }

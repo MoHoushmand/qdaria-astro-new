@@ -15,7 +15,6 @@ const SEED_MEETINGS: Meeting[] = [
     organizer_name: 'Daniel Mo Houshmand',
     attendees: [
       { meeting_id: 'mtg-1', team_member_id: '1', team_member_name: 'Daniel Mo Houshmand', status: 'accepted' },
-      { meeting_id: 'mtg-1', team_member_id: '2', team_member_name: 'Svein-Erik Nilsen', status: 'accepted' },
       { meeting_id: 'mtg-1', team_member_id: '3', team_member_name: 'Gaspar Alvarado', status: 'accepted' },
       { meeting_id: 'mtg-1', team_member_id: '7', team_member_name: 'Nick Saaf', status: 'tentative' },
     ],

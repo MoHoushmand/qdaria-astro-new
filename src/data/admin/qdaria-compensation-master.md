@@ -1,7 +1,7 @@
 # QDaria Compensation, Equity & Contract Master Reference
 
 > Last updated: February 2026 | Currency: EUR unless noted | Current round: **Pre-Seed**
-> Flat equity model: every employee holds 1.0% in QDaria Holdings + 0.5% in each of 8 spin-offs = 5.0% total.
+> Tiered equity model: C-Suite 5.0% | Senior 3.75% | Mid 2.5% | Performance-only (Fredrik) 0.25% | Junior/Board 2.5%
 
 ---
 
@@ -10,7 +10,7 @@
 | Employee | Title | Tier | Pre-Seed | Seed | Round A | Round B | Round C | IPO |
 |----------|-------|------|----------|------|---------|---------|---------|-----|
 | Daniel Mo Houshmand | CEO & Founder | CEO | 160,000 | 185,000 | 220,000 | 260,000 | 310,000 | 400,000 |
-| Svein-Erik Nilsen | COO | COO | 108,000 | 120,000 | 175,000 | 200,000 | 245,000 | 300,000 |
+| COO | Vacant — to be hired post-seed | — | — | — | — | — | — | — |
 | Sharareh M. Shariat Panahi | Asst. CEO | COO | 108,000 | 120,000 | 175,000 | 200,000 | 245,000 | 300,000 |
 | Caroline Woie | Chief Content Officer | Senior | 97,000 | 105,000 | 135,000 | 155,000 | 180,000 | 220,000 |
 | Rajesh Chavan | Chief Strategy & Growth | Senior | 97,000 | 105,000 | 135,000 | 155,000 | 180,000 | 220,000 |
@@ -121,20 +121,21 @@
 | Employee | Holding % | Share Type | Vesting | Cliff | Board | Notes |
 |----------|----------|-----------|---------|-------|-------|-------|
 | Daniel Mo Houshmand | **70.0%** | Common (Class A) | 48 mo | 0 mo | Yes | Founder shares, no cliff |
-| Svein-Erik Nilsen | 1.0% | Options (ESOP) | 48 mo | 12 mo | Yes | COO |
 | Sharareh M. Shariat Panahi | 1.0% | Options (ESOP) | 48 mo | 12 mo | Yes | Asst. CEO |
-| Caroline Woie | 1.0% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Content Officer |
-| Rajesh Chavan | 1.0% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Strategy & Growth |
-| Lillian Kristiansen | 1.0% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Admin Officer |
-| John Kristiansen | 1.0% | Options (ESOP) | 48 mo | 12 mo | Yes | Head of Networking |
-| Lindsay Sanner | 1.0% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Social Responsibility |
-| Gaspar Alvarado | 1.0% | Options (ESOP) | 48 mo | 12 mo | No | Finance Director |
-| Nick Saaf | 1.0% | Options (ESOP) | 48 mo | 12 mo | No | Sales Director |
-| Fredrik Krey Stubberud | 1.0% | Options (ESOP) | 48 mo | 12 mo | No | Test Engineer |
-| Yulia Ginzburg | 1.0% | Options (ESOP) | 48 mo | 12 mo | No | Chief Data Officer |
-| Nils Bjelland Gronvold | 1.0% | Options (ESOP) | 48 mo | 12 mo | No | Head of Culture & Events |
-| Daria Houshmand | 1.0% | Phantom | 48 mo | 12 mo | Yes | Dev Intern & Board |
-| **TOTAL INDIVIDUAL** | **83.0%** | | | | 9 board + 5 non-board | |
+| Caroline Woie | 0.75% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Content Officer — Senior tier |
+| Rajesh Chavan | 0.75% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Strategy & Growth — Senior tier |
+| Lillian Kristiansen | 0.75% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Admin Officer — Senior tier |
+| John Kristiansen | 0.75% | Options (ESOP) | 48 mo | 12 mo | Yes | Head of Networking — Senior tier |
+| Lindsay Sanner | 0.75% | Options (ESOP) | 48 mo | 12 mo | Yes | Chief Social Responsibility — Senior tier |
+| Gaspar Alvarado | 0.50% | Options (ESOP) | 48 mo | 12 mo | No | Finance Director — Mid tier |
+| Nick Saaf | 0.50% | Options (ESOP) | 48 mo | 12 mo | No | Sales Director — Mid tier |
+| Fredrik Krey Stubberud | 0.25% | Options (ESOP) | 48 mo | 12 mo | No | Test Engineer — Performance-only. No spinoffs. Further grants require Board approval. |
+| Yulia Ginzburg | 0.50% | Options (ESOP) | 48 mo | 12 mo | No | Chief Data Officer — Mid tier |
+| Nils Bjelland Gronvold | 0.50% | Options (ESOP) | 48 mo | 12 mo | No | Head of Culture & Events — Mid tier |
+| Daria Houshmand | 0.50% | Phantom | 48 mo | 12 mo | Yes | Dev Intern & Board — Junior/Board tier |
+| **TOTAL INDIVIDUAL** | **78.5%** | | | | 9 board + 5 non-board | |
+
+> Remaining 4.5% of ESOP pool (total ESOP 13%) is reserved for future key hires.
 
 > Remaining 17%: Investor Pool 12%, Advisory 3%, Reserve 2%.
 
@@ -146,22 +147,22 @@ All employees receive a flat 0.5% in each of the 8 spin-off companies, plus 1.0%
 
 | Employee | Holding | Qm9 | Zipminator | QMikeAI | THQAI | QNilaya | QDiana | QIoT | Lillian Research | **TOTAL** |
 |----------|---------|-----|-----------|---------|-------|---------|--------|------|-----------------|----------|
-| Svein-Erik Nilsen | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
 | Sharareh M. Shariat Panahi | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Caroline Woie | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Rajesh Chavan | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Lillian Kristiansen | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| John Kristiansen | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Lindsay Sanner | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Gaspar Alvarado | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Nick Saaf | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Fredrik Krey Stubberud | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Yulia Ginzburg | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Nils Bjelland Gronvold | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Daria Houshmand | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
+| Caroline Woie | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
+| Rajesh Chavan | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
+| Lillian Kristiansen | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
+| John Kristiansen | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
+| Lindsay Sanner | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
+| Gaspar Alvarado | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
+| Nick Saaf | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
+| Fredrik Krey Stubberud | 0.25 | — | — | — | — | — | — | — | — | **0.25** |
+| Yulia Ginzburg | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
+| Nils Bjelland Gronvold | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
+| Daria Houshmand | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
 
 > CEO (Daniel Mo Houshmand) holds 70% in each company. All spin-offs follow a 70% CEO / 30% Investor Pool structure.
 > Spin-off equity triggers at Seed round closure for each respective company.
+> Fredrik Krey Stubberud: Holdings only (performance-only). Additional grants require verified milestones + Board approval.
 
 ---
 
@@ -354,19 +355,19 @@ All employees receive a flat 0.5% in each of the 8 spin-off companies, plus 1.0%
 | Employee | Title | Tier | Salary (Pre-Seed) | Holding % | Spinoff (8 x 0.5%) | Total Equity | Share Type | Severance | Cliff | Bonus | Board |
 |----------|-------|------|-------------------|----------|-------------------|-------------|-----------|-----------|-------|-------|-------|
 | Daniel Mo Houshmand | CEO & Founder | CEO | 160K | 70.0% | 70% each co. | 70% each co. | Common A | 12 mo | 0 mo | 0-15% | Yes |
-| Svein-Erik Nilsen | COO | COO | 108K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 6 mo | 12 mo | 0-15% | Yes |
+| COO | Vacant — to be hired post-seed | — | — | — | — | — | — | — | — | — | — |
 | Sharareh M. Shariat Panahi | Asst. CEO | COO | 108K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 6 mo | 12 mo | 0-15% | Yes |
-| Caroline Woie | Chief Content Officer | Senior | 97K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 4 mo | 12 mo | 0-15% | Yes |
-| Rajesh Chavan | Chief Strategy & Growth | Senior | 97K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 4 mo | 12 mo | 0-15% | Yes |
-| Lillian Kristiansen | Chief Admin Officer | Senior | 97K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | Yes |
-| John Kristiansen | Head of Networking | Senior | 97K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | Yes |
-| Lindsay Sanner | Chief Social Resp. | Senior | 97K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | Yes |
-| Gaspar Alvarado | Finance Director | Mid | 84K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
-| Nick Saaf | Sales Director | Mid | 84K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
-| Fredrik Krey Stubberud | Test Engineer | Mid | 84K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
-| Yulia Ginzburg | Chief Data Officer | Mid | 84K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
-| Nils Bjelland Gronvold | Head of Culture & Events | Mid | 84K | 1.0% | 4.0% | 5.0% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
-| Daria Houshmand | Dev Intern & Board | Junior | 55K | 1.0% | 4.0% | 5.0% | Phantom | 2 mo | 12 mo | 0-15% | Yes |
+| Caroline Woie | Chief Content Officer | Senior | 97K | 0.75% | 3.0% | 3.75% | Options (ESOP) | 4 mo | 12 mo | 0-15% | Yes |
+| Rajesh Chavan | Chief Strategy & Growth | Senior | 97K | 0.75% | 3.0% | 3.75% | Options (ESOP) | 4 mo | 12 mo | 0-15% | Yes |
+| Lillian Kristiansen | Chief Admin Officer | Senior | 97K | 0.75% | 3.0% | 3.75% | Options (ESOP) | 6 mo | 12 mo | 0-15% | Yes |
+| John Kristiansen | Head of Networking | Senior | 97K | 0.75% | 3.0% | 3.75% | Options (ESOP) | 3 mo | 12 mo | 0-15% | Yes |
+| Lindsay Sanner | Chief Social Resp. | Senior | 97K | 0.75% | 3.0% | 3.75% | Options (ESOP) | 3 mo | 12 mo | 0-15% | Yes |
+| Gaspar Alvarado | Finance Director | Mid | 84K | 0.50% | 2.0% | 2.5% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
+| Nick Saaf | Sales Director | Mid | 84K | 0.50% | 2.0% | 2.5% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
+| Fredrik Krey Stubberud | Test Engineer | Mid | 84K | 0.25% | — | 0.25% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
+| Yulia Ginzburg | Chief Data Officer | Mid | 84K | 0.50% | 2.0% | 2.5% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
+| Nils Bjelland Gronvold | Head of Culture & Events | Mid | 84K | 0.50% | 2.0% | 2.5% | Options (ESOP) | 3 mo | 12 mo | 0-15% | No |
+| Daria Houshmand | Dev Intern & Board | Junior | 55K | 0.50% | 2.0% | 2.5% | Phantom | 2 mo | 12 mo | 0-15% | Yes |
 
 ---
 
