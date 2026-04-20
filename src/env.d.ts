@@ -3,10 +3,19 @@
 
 interface ImportMetaEnv {
   readonly PUBLIC_SITE_URL: string;
+  readonly PUBLIC_SUPABASE_URL: string;
+  readonly PUBLIC_SUPABASE_ANON_KEY: string;
+  readonly AUTH_COOKIE_DOMAIN?: string;
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
+}
+
+declare namespace App {
+  interface Locals {
+    user: import("@qdaria/auth/types").AuthUser | null;
+  }
 }
 
 declare module 'astro:content' {
