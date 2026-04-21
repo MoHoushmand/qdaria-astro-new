@@ -1,6 +1,6 @@
 /// <reference types="astro/astro-jsx" />
 
-declare module 'astro/jsx-runtime' {
+declare module "astro/jsx-runtime" {
   export namespace JSX {
     type Element = any;
     interface ElementClass {
@@ -16,10 +16,17 @@ declare module 'astro/jsx-runtime' {
 
   export function jsx(type: any, props: any, key?: string): any;
   export function jsxs(type: any, props: any, key?: string): any;
-  export function jsxDEV(type: any, props: any, key?: string, isStaticChildren?: boolean, source?: any, self?: any): any;
+  export function jsxDEV(
+    type: any,
+    props: any,
+    key?: string,
+    isStaticChildren?: boolean,
+    source?: any,
+    self?: any,
+  ): any;
 }
 
-declare module '*.astro' {
+declare module "*.astro" {
   const component: (props: any) => any;
   export default component;
 }
