@@ -74,8 +74,12 @@ export const handleAstroCallback = async (ctx: APIContext): Promise<Response> =>
 };
 
 export const signOutAstro = async (ctx: APIContext, redirectTo = "/"): Promise<Response> => {
-  const sb = supabaseAstro(ctx);
-  await sb.auth.signOut();
+  try {
+    const sb = supabaseAstro(ctx);
+    await sb.auth.signOut();
+  } catch {
+    // Missing session cookie or unreachable Supabase; proceed with redirect anyway.
+  }
   return ctx.redirect(redirectTo);
 };
 
