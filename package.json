@@ -1,5 +1,5 @@
 {
-  "name": "amplify",
+  "name": "@qdaria/astro-landing",
   "type": "module",
   "version": "0.1.1",
   "scripts": {
@@ -64,7 +64,6 @@
     "@astrojs/rss": "^4.0.13",
     "@astrojs/sitemap": "^3.6.0",
     "@astrojs/tailwind": "^6.0.2",
-    "@auth/core": "^0.37.4",
     "@base-ui/react": "^1.0.0",
     "@codebuff/sdk": "^0.3.3",
     "@fontsource-variable/roboto": "^5.2.9",
@@ -134,11 +133,9 @@
     "@visx/zoom": "^3.12.0",
     "ai-labs-claude-skills": "^2.0.1",
     "animejs": "^3.2.2",
-    "astro-auto-import": "^0.4.2",
     "astro-compress": "^2.3.8",
     "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
-    "auth-astro": "^4.2.0",
     "better-sqlite3": "^12.4.1",
     "chart.js": "^4.5.0",
     "class-variance-authority": "^0.7.1",

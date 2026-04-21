@@ -4,7 +4,6 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import compress from "astro-compress";
 import netlify from '@astrojs/netlify';
-import auth from 'auth-astro';
 import icon from "astro-icon";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -51,7 +50,6 @@ function netlifyDevBypass() {
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    auth(),
     tailwind({
       applyBaseStyles: true,
     }),

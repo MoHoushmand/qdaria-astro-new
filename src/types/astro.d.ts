@@ -25,7 +25,3 @@ declare module '*.astro' {
   const component: (props: any) => any;
   export default component;
 }
-
-declare module 'astro' {
-  export * from 'astro/types';
-}
