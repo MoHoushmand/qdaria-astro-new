@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { supabaseAstro } from "@qdaria/auth/adapters/astro";
+import { supabaseAstro } from "../../lib/qdaria-auth/adapters/astro";
 
 export const POST = async (ctx: APIContext): Promise<Response> => {
   const sb = supabaseAstro(ctx);

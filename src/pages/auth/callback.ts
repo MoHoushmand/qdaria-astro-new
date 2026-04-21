@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { supabaseAstro } from "@qdaria/auth/adapters/astro";
+import { supabaseAstro } from "../../lib/qdaria-auth/adapters/astro";
 
 const safeNext = (raw: string | null): string => {
   if (!raw) return "/";

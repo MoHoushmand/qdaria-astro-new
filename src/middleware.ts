@@ -1,7 +1,7 @@
 import {
   createAstroAuthMiddleware,
   type AstroAuthGuard,
-} from "@qdaria/auth/adapters/astro";
+} from "./lib/qdaria-auth/adapters/astro";
 import { teamEmailRoles } from "./data/admin/team-seed";
 
 const isStaff = (email: string | null): boolean => {

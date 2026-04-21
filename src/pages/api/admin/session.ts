@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { getAstroUser } from "@qdaria/auth/adapters/astro";
+import { getAstroUser } from "../../../lib/qdaria-auth/adapters/astro";
 import { teamEmailRoles } from "../../../data/admin/team-seed";
 
 function json(data: unknown, status = 200) {

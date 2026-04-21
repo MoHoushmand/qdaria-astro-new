@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import SiteLogoSquare from '@components/SiteLogo/SiteLogoSquare.astro';
-import { OAuthButtons } from '@qdaria/auth/components/OAuthButtons';
-import { EmailMagicLinkForm } from '@qdaria/auth/components/EmailMagicLinkForm';
+import { OAuthButtons } from '../../lib/qdaria-auth/components/OAuthButtons';
+import { EmailMagicLinkForm } from '../../lib/qdaria-auth/components/EmailMagicLinkForm';
 
 const safeNext = (raw: string | null): string => {
   if (!raw) return '/invest/business-plan';

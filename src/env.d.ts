@@ -14,7 +14,7 @@ interface ImportMeta {
 
 declare namespace App {
   interface Locals {
-    user: import("@qdaria/auth/types").AuthUser | null;
+    user: import("./lib/qdaria-auth/types").AuthUser | null;
   }
 }
 
