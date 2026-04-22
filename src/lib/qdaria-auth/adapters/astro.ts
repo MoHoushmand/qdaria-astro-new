@@ -24,8 +24,9 @@ const readEnv = (locals?: Record<string, unknown>) => {
     typeof process !== "undefined" && process.env ? process.env : undefined;
   let metaEnv: Record<string, string | undefined> | undefined;
   try {
-    metaEnv = (import.meta as unknown as { env?: Record<string, string | undefined> })
-      .env;
+    metaEnv = (
+      import.meta as unknown as { env?: Record<string, string | undefined> }
+    ).env;
   } catch {
     metaEnv = undefined;
   }

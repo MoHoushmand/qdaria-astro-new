@@ -12,14 +12,17 @@ const errorRedirect = (ctx: Parameters<APIRoute>[0], reason: string) =>
 
 export const GET: APIRoute = async (ctx) => {
   const code = ctx.url.searchParams.get("code");
-  const next = safeNext(ctx.url.searchParams.get("next"));
+  const cookieNext = ctx.cookies.get("sb-next-dest")?.value;
+  const next = safeNext(cookieNext ?? ctx.url.searchParams.get("next"));
   const providerError = ctx.url.searchParams.get("error");
   const errorDescription = ctx.url.searchParams.get("error_description");
 
   if (providerError) {
     return errorRedirect(
       ctx,
-      errorDescription ? `${providerError}: ${errorDescription}` : providerError,
+      errorDescription
+        ? `${providerError}: ${errorDescription}`
+        : providerError,
     );
   }
   if (!code) return errorRedirect(ctx, "missing_code");
@@ -31,6 +34,7 @@ export const GET: APIRoute = async (ctx) => {
       console.error("[auth/callback] exchange failed:", error.message);
       return errorRedirect(ctx, error.message);
     }
+    ctx.cookies.delete("sb-next-dest", { path: "/" });
     return ctx.redirect(next);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

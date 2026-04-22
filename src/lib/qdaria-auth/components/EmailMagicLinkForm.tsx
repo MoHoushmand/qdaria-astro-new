@@ -12,10 +12,12 @@ export const EmailMagicLinkForm = ({ redirectTo = "/dashboard" }: EmailMagicLink
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus("sending");
+    const isHttps = window.location.protocol === "https:";
+    document.cookie = `sb-next-dest=${encodeURIComponent(redirectTo)}; path=/; max-age=600; SameSite=Lax${isHttps ? "; Secure" : ""}`;
     const { error } = await sb.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
     setStatus(error ? "error" : "sent");
