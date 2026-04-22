@@ -1,7 +1,14 @@
 /// <reference types="astro/client" />
-import { createServerClient as createSSR, type CookieOptions } from "@supabase/ssr";
+import {
+  createServerClient as createSSR,
+  type CookieOptions,
+} from "@supabase/ssr";
 import type { APIContext, MiddlewareHandler } from "astro";
-import { SUPABASE_PROVIDER_MAP, type AuthProvider, type AuthUser } from "../types";
+import {
+  SUPABASE_PROVIDER_MAP,
+  type AuthProvider,
+  type AuthUser,
+} from "../types";
 
 declare global {
   namespace App {
@@ -12,17 +19,32 @@ declare global {
 }
 
 const readEnv = (locals?: Record<string, unknown>) => {
-  const meta = import.meta as unknown as { env: Record<string, string | undefined> };
   const runtimeEnv = (locals?.runtime as { env?: Record<string, string> })?.env;
-  const url = runtimeEnv?.PUBLIC_SUPABASE_URL ?? meta.env.PUBLIC_SUPABASE_URL;
-  const anonKey = runtimeEnv?.PUBLIC_SUPABASE_ANON_KEY ?? meta.env.PUBLIC_SUPABASE_ANON_KEY;
-  const domain = runtimeEnv?.AUTH_COOKIE_DOMAIN ?? meta.env.AUTH_COOKIE_DOMAIN;
-  if (!url || !anonKey) throw new Error("@qdaria/auth: missing Supabase env (Astro)");
+  const processEnv =
+    typeof process !== "undefined" && process.env ? process.env : undefined;
+  let metaEnv: Record<string, string | undefined> | undefined;
+  try {
+    metaEnv = (import.meta as unknown as { env?: Record<string, string | undefined> })
+      .env;
+  } catch {
+    metaEnv = undefined;
+  }
+  const pick = (key: string): string | undefined =>
+    runtimeEnv?.[key] ?? processEnv?.[key] ?? metaEnv?.[key];
+  const url = pick("PUBLIC_SUPABASE_URL");
+  const anonKey = pick("PUBLIC_SUPABASE_ANON_KEY");
+  const domain = pick("AUTH_COOKIE_DOMAIN");
+  if (!url || !anonKey)
+    throw new Error(
+      "@qdaria/auth: missing Supabase env (Astro) — set PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY",
+    );
   return { url, anonKey, domain };
 };
 
 export const supabaseAstro = (ctx: APIContext) => {
-  const { url, anonKey, domain } = readEnv(ctx.locals as unknown as Record<string, unknown>);
+  const { url, anonKey, domain } = readEnv(
+    ctx.locals as unknown as Record<string, unknown>,
+  );
   const isHttps = ctx.url.protocol === "https:";
   const cookieDomain = isHttps ? domain : undefined;
   return createSSR(url, anonKey, {
@@ -37,7 +59,11 @@ export const supabaseAstro = (ctx: APIContext) => {
           path: options.path ?? "/",
         }),
       remove: (name: string, options: CookieOptions) =>
-        ctx.cookies.delete(name, { ...options, domain: cookieDomain, path: options.path ?? "/" }),
+        ctx.cookies.delete(name, {
+          ...options,
+          domain: cookieDomain,
+          path: options.path ?? "/",
+        }),
     },
   });
 };
@@ -60,20 +86,29 @@ const safeNext = (raw: string | null | undefined, fallback = "/"): string => {
   return raw;
 };
 
-export const handleAstroCallback = async (ctx: APIContext): Promise<Response> => {
+export const handleAstroCallback = async (
+  ctx: APIContext,
+): Promise<Response> => {
   const url = new URL(ctx.request.url);
   const code = url.searchParams.get("code");
   const next = safeNext(url.searchParams.get("next"));
   const errorParam = url.searchParams.get("error");
-  if (errorParam) return ctx.redirect(`/auth/error?reason=${encodeURIComponent(errorParam)}`);
+  if (errorParam)
+    return ctx.redirect(`/auth/error?reason=${encodeURIComponent(errorParam)}`);
   if (!code) return ctx.redirect("/auth/error?reason=missing_code");
   const sb = supabaseAstro(ctx);
   const { error } = await sb.auth.exchangeCodeForSession(code);
-  if (error) return ctx.redirect(`/auth/error?reason=${encodeURIComponent(error.message)}`);
+  if (error)
+    return ctx.redirect(
+      `/auth/error?reason=${encodeURIComponent(error.message)}`,
+    );
   return ctx.redirect(next);
 };
 
-export const signOutAstro = async (ctx: APIContext, redirectTo = "/"): Promise<Response> => {
+export const signOutAstro = async (
+  ctx: APIContext,
+  redirectTo = "/",
+): Promise<Response> => {
   try {
     const sb = supabaseAstro(ctx);
     await sb.auth.signOut();
@@ -86,7 +121,8 @@ export const signOutAstro = async (ctx: APIContext, redirectTo = "/"): Promise<R
 const originFromCtx = (ctx: APIContext): string => {
   const forwardedProto = ctx.request.headers.get("x-forwarded-proto");
   const forwardedHost = ctx.request.headers.get("x-forwarded-host");
-  if (forwardedProto && forwardedHost) return `${forwardedProto}://${forwardedHost}`;
+  if (forwardedProto && forwardedHost)
+    return `${forwardedProto}://${forwardedHost}`;
   return ctx.url.origin;
 };
 
@@ -96,7 +132,8 @@ export const startAstroOAuth = async (
   redirectTo: string = "/",
 ): Promise<Response> => {
   const supabaseProvider = SUPABASE_PROVIDER_MAP[provider];
-  if (!supabaseProvider) return ctx.redirect(`/auth/error?reason=unsupported_provider`);
+  if (!supabaseProvider)
+    return ctx.redirect(`/auth/error?reason=unsupported_provider`);
   const sb = supabaseAstro(ctx);
   const origin = originFromCtx(ctx);
   const emailRedirectTo = `${origin}/auth/callback?next=${encodeURIComponent(safeNext(redirectTo))}`;
@@ -104,7 +141,10 @@ export const startAstroOAuth = async (
     provider: supabaseProvider,
     options: { redirectTo: emailRedirectTo },
   });
-  if (error || !data?.url) return ctx.redirect(`/auth/error?reason=${encodeURIComponent(error?.message ?? "oauth_failed")}`);
+  if (error || !data?.url)
+    return ctx.redirect(
+      `/auth/error?reason=${encodeURIComponent(error?.message ?? "oauth_failed")}`,
+    );
   return ctx.redirect(data.url);
 };
 
@@ -137,7 +177,12 @@ export const createAstroAuthMiddleware = (
 ): MiddlewareHandler => {
   const timeoutMs = options.timeoutMs ?? 3000;
   const withTimeout = <T>(p: Promise<T>, fallback: T): Promise<T> =>
-    Promise.race([p, new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))]);
+    Promise.race([
+      p,
+      new Promise<T>((resolve) =>
+        setTimeout(() => resolve(fallback), timeoutMs),
+      ),
+    ]);
   return async (ctx, next) => {
     const { pathname } = ctx.url;
     ctx.locals.user = null;
@@ -146,10 +191,9 @@ export const createAstroAuthMiddleware = (
     if (hasSessionCookie) {
       try {
         const sb = supabaseAstro(ctx);
-        const { data } = await withTimeout(
-          sb.auth.getUser(),
-          { data: { user: null } } as Awaited<ReturnType<typeof sb.auth.getUser>>,
-        );
+        const { data } = await withTimeout(sb.auth.getUser(), {
+          data: { user: null },
+        } as Awaited<ReturnType<typeof sb.auth.getUser>>);
         ctx.locals.user = data.user ?? null;
       } catch {
         ctx.locals.user = null;
@@ -164,7 +208,9 @@ export const createAstroAuthMiddleware = (
         return ctx.redirect(`${loginPath}?next=${cb}`);
       }
       if (guard.requireRole && !guard.requireRole(email)) {
-        return ctx.redirect(guard.unauthorizedPath ?? "/auth/error?reason=unauthorized");
+        return ctx.redirect(
+          guard.unauthorizedPath ?? "/auth/error?reason=unauthorized",
+        );
       }
     }
     return next();
