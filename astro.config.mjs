@@ -120,7 +120,6 @@ export default defineConfig({
       noExternal: [
         'chart.js',
         'react-chartjs-2',
-        'recharts',
         '@nivo/core',
         '@nivo/pie',
         '@nivo/sunburst',
@@ -128,7 +127,13 @@ export default defineConfig({
         '@nivo/line',
         '@nivo/radar'
       ],
-      external: ['echarts-gl', 'echarts']
+      // recharts + victory-vendor must stay external: vite's SSR bundler
+      // collapses victory-vendor's package.json `exports` field and strips
+      // named exports like `area`/`line`, breaking SSR with
+      // "does not provide an export named 'area'" on /invest/business-plan
+      // and /invest/pitch. Letting Node resolve them at runtime preserves
+      // the conditional ESM exports.
+      external: ['echarts-gl', 'echarts', 'recharts', 'victory-vendor']
     },
     optimizeDeps: {
       include: ['react', 'react-dom'],
