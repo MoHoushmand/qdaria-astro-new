@@ -163,8 +163,8 @@ const hasAnyOAuth = hasGitHub || hasGoogle || hasLinkedIn;
 
         if (!username || !password) return;
 
-        // Accept either "daniel.mo.houshmand" or "daniel.mo.houshmand@qdaria.com" —
-        // strip the domain so the auth.config.ts staffCredentials lookup key matches.
+        // Accept either "daniel.mo.houshmand" or "daniel.mo.houshmand@qdaria.com";
+        // strip the domain so the STAFF_CREDENTIALS_JSON username key matches.
         const shortUsername = username.includes('@')
           ? username.split('@')[0].toLowerCase()
           : username.toLowerCase();

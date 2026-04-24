@@ -4,6 +4,7 @@ import LinkedIn from "@auth/core/providers/linkedin";
 import Credentials from "@auth/core/providers/credentials";
 import { defineConfig } from "auth-astro";
 import { createClient } from "@supabase/supabase-js";
+import bcrypt from "bcryptjs";
 import { teamEmailRoles } from "./src/data/admin/team-seed";
 import type { UserRole } from "./src/types/admin";
 
@@ -12,93 +13,56 @@ import type { UserRole } from "./src/types/admin";
 const AUTH_SECRET_FALLBACK =
   "build-time-placeholder-secret-do-not-use-in-production";
 
-/**
- * Per-employee credentials for staff login.
- * Username = email prefix (before @qdaria.com). Password is unique per employee.
- */
-const staffCredentials: Record<
-  string,
-  { password: string; name: string; email: string; role: "admin" | "employee" }
-> = {
-  "daniel.mo.houshmand": {
-    password: "QD-ceo-Mh2026!",
-    name: "Daniel Mo Houshmand",
-    email: "daniel.mo.houshmand@qdaria.com",
-    role: "admin",
-  },
-  "gaspar.alvarado": {
-    password: "QD-fin-Ga2026!",
-    name: "Gaspar Alvarado",
-    email: "gaspar.alvarado@qdaria.com",
-    role: "employee",
-  },
-  "sharareh.panahi": {
-    password: "QD-legal-Sp2026!",
-    name: "Sharareh M. Shariat Panahi",
-    email: "sharareh.panahi@qdaria.com",
-    role: "admin",
-  },
-  "caroline.woie": {
-    password: "QD-content-Cw2026!",
-    name: "Caroline Woie",
-    email: "caroline.woie@qdaria.com",
-    role: "employee",
-  },
-  "rajesh.chavan": {
-    password: "QD-strat-Rc2026!",
-    name: "Rajesh Chavan",
-    email: "rajesh.chavan@qdaria.com",
-    role: "employee",
-  },
-  "nick.saaf": {
-    password: "QD-sales-Ns2026!",
-    name: "Nick Saaf",
-    email: "nick.saaf@qdaria.com",
-    role: "employee",
-  },
-  "fredrik.stubberud": {
-    password: "QD-eng-Fs2026!",
-    name: "Fredrik Krey Stubberud",
-    email: "fredrik.stubberud@qdaria.com",
-    role: "employee",
-  },
-  "yulia.ginzburg": {
-    password: "QD-data-Yg2026!",
-    name: "Yulia Ginzburg",
-    email: "yulia.ginzburg@qdaria.com",
-    role: "employee",
-  },
-  "john.kristiansen": {
-    password: "QD-biz-Jk2026!",
-    name: "John Kristiansen",
-    email: "john.kristiansen@qdaria.com",
-    role: "employee",
-  },
-  "nils.gronvold": {
-    password: "QD-culture-Ng2026!",
-    name: "Nils Bjelland Gronvold",
-    email: "nils.gronvold@qdaria.com",
-    role: "employee",
-  },
-  "lindsay.sanner": {
-    password: "QD-csr-Ls2026!",
-    name: "Lindsay Sanner",
-    email: "lindsay.sanner@qdaria.com",
-    role: "employee",
-  },
-  "lillian.kristiansen": {
-    password: "QD-cadmin-Lk2026!",
-    name: "Lillian Kristiansen",
-    email: "lillian.kristiansen@qdaria.com",
-    role: "admin",
-  },
-  "daria.houshmand": {
-    password: "QD-intern-Dh2026!",
-    name: "Daria Houshmand",
-    email: "daria.houshmand@qdaria.com",
-    role: "employee",
-  },
+type StaffEntry = {
+  passwordHash: string;
+  name: string;
+  email: string;
+  role: "admin" | "employee";
 };
+
+let _staffCache: Record<string, StaffEntry> | null = null;
+
+/**
+ * Parse STAFF_CREDENTIALS_JSON once at first lookup.
+ * The env var is a JSON object keyed by username; each value carries a
+ * bcrypt hash plus display metadata. Fails loud if missing or malformed.
+ */
+function loadStaffCredentials(): Record<string, StaffEntry> {
+  if (_staffCache) return _staffCache;
+  const raw = process.env.STAFF_CREDENTIALS_JSON;
+  if (!raw) {
+    throw new Error(
+      "STAFF_CREDENTIALS_JSON is not set; staff credentials provider cannot authorize logins.",
+    );
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (err) {
+    throw new Error(
+      `STAFF_CREDENTIALS_JSON is not valid JSON: ${(err as Error).message}`,
+    );
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("STAFF_CREDENTIALS_JSON must be a JSON object keyed by username.");
+  }
+  for (const [username, entry] of Object.entries(parsed as Record<string, unknown>)) {
+    const e = entry as Partial<StaffEntry> | null;
+    if (
+      !e ||
+      typeof e.passwordHash !== "string" ||
+      typeof e.name !== "string" ||
+      typeof e.email !== "string" ||
+      (e.role !== "admin" && e.role !== "employee")
+    ) {
+      throw new Error(
+        `STAFF_CREDENTIALS_JSON entry for ${username} is missing required fields (passwordHash, name, email, role).`,
+      );
+    }
+  }
+  _staffCache = parsed as Record<string, StaffEntry>;
+  return _staffCache;
+}
 
 function getSupabaseAdmin() {
   const url = process.env.SUPABASE_URL;
@@ -165,17 +129,18 @@ providers.push(
       const password = credentials?.password as string;
       if (!username || !password) return null;
 
-      const staff = staffCredentials[username];
-      if (staff && staff.password === password) {
-        return {
-          id: `staff-${username}`,
-          name: staff.name,
-          email: staff.email,
-          role: staff.role,
-        };
-      }
+      const staff = loadStaffCredentials()[username];
+      if (!staff) return null;
 
-      return null;
+      const ok = await bcrypt.compare(password, staff.passwordHash);
+      if (!ok) return null;
+
+      return {
+        id: `staff-${username}`,
+        name: staff.name,
+        email: staff.email,
+        role: staff.role,
+      };
     },
   }),
 );
