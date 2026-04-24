@@ -110,7 +110,6 @@
     "@sentry/astro": "^10.18.0",
     "@shadcn/ui": "^0.0.4",
     "@auth/core": "^0.37.4",
-    "@qdaria/auth": "workspace:*",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.98.0",
     "auth-astro": "^4.2.0",
