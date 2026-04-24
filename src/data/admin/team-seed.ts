@@ -226,9 +226,9 @@ export const teamMembersSeed: Omit<TeamMember, 'id' | 'created_at' | 'updated_at
  * GitHub, Google, or LinkedIn. One person can have multiple aliases.
  */
 export const oauthAliases: Record<string, string> = {
-  // === EXAMPLE — replace with real emails ===
-  // 'mo.houshmand@gmail.com': 'daniel.mo.houshmand@qdaria.com',
-  // (COO removed — position vacant, to be hired post-seed)
+  'mo.houshmand@gmail.com': 'daniel.mo.houshmand@qdaria.com',
+  'dmo.houshmand@gmail.com': 'daniel.mo.houshmand@qdaria.com',
+  'daniel.mo.houshmand@gmail.com': 'daniel.mo.houshmand@qdaria.com',
 };
 
 /**

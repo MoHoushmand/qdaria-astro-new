@@ -11,7 +11,15 @@ import DevelopmentWarningModal from "./DevelopmentWarningModal.astro";
 import type { navItem } from "../../config/types/configDataTypes";
 
 const user = Astro.locals.user as any;
-const displayName = user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? user?.name ?? user?.email ?? null;
+const fullName = user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? user?.name ?? null;
+// Username = email prefix (e.g. "lillian.kristiansen" from "lillian.kristiansen@qdaria.com").
+// This is what gets pre-filled on the contract page password gate.
+const userEmail: string | null = user?.email ?? null;
+const username = userEmail ? userEmail.split("@")[0].toLowerCase() : null;
+const displayName = fullName ?? username ?? userEmail ?? null;
+// Build a callbackUrl so Sign In returns the user to where they came from.
+const currentPath = Astro.url.pathname || "/";
+const signInHref = `/admin/login?callbackUrl=${encodeURIComponent(currentPath)}`;
 
 const navData: navItem[] = [
   {
@@ -226,8 +234,11 @@ const navData: navItem[] = [
           <!-- Auth UI -->
           {user ? (
             <div class="hidden md:flex items-center gap-3">
-              <div class="text-sm text-base-200">
-                {displayName}
+              <div class="flex flex-col items-end leading-tight">
+                <span class="text-sm text-base-200">{displayName}</span>
+                {username && fullName && (
+                  <span class="text-xs text-base-400">@{username}</span>
+                )}
               </div>
               <a
                 href="/api/auth/signout"
@@ -240,7 +251,7 @@ const navData: navItem[] = [
             <Button
               variant="primary"
               class="nav-button hidden rounded-lg border border-primary-500 bg-transparent px-4 py-1.5 text-primary-500 transition-all hover:bg-primary-500 hover:text-white md:flex"
-              href="/admin/login"
+              href={signInHref}
             >
               Sign In
             </Button>

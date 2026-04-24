@@ -43,6 +43,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
     pathname.startsWith(route),
   );
 
+  // Populate locals.user on every page when a session cookie exists,
+  // so Nav.astro can show username/Sign Out site-wide. Cheap: cookie sniff
+  // gates the network call.
+  if (!isAdminRoute && !isInvestProtected && hasAuthAstroCookie(cookieHeader)) {
+    const session = await getAuthAstroSession(context.request);
+    if (session?.user) {
+      context.locals.user = session.user as unknown as App.Locals["user"];
+    }
+  }
+
   if (isAdminRoute) {
     const session = await getAuthAstroSession(context.request);
     const role = (session?.user as { role?: string } | undefined)?.role;
