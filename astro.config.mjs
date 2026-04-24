@@ -114,7 +114,7 @@ export default defineConfig({
       cssMinify: true,
       // Chunk size warnings
       chunkSizeWarningLimit: 500,
-      // Note: Custom rollupOptions output removed - interferes with Netlify adapter's internal SSR files
+      // Note: Custom rollupOptions output removed - interfered with legacy Netlify SSR adapter (now on @astrojs/vercel)
     },
     ssr: {
       noExternal: [

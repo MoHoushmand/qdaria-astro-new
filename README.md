@@ -73,7 +73,6 @@ The source files have the following setup. Note that not all files are included 
 ├── .gitignore
 ├── .prettierrc.mjs
 ├── astro.config.mjs
-├── netlify.toml
 ├── package.json
 ├── package-lock.json
 ├── README.md
