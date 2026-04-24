@@ -10,8 +10,8 @@ import DevelopmentWarningModal from "./DevelopmentWarningModal.astro";
 /** Example navData (customize to your needs) */
 import type { navItem } from "../../config/types/configDataTypes";
 
-const user = Astro.locals.user;
-const displayName = user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? user?.email ?? null;
+const user = Astro.locals.user as any;
+const displayName = user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? user?.name ?? user?.email ?? null;
 
 const navData: navItem[] = [
   {
@@ -230,7 +230,7 @@ const navData: navItem[] = [
                 {displayName}
               </div>
               <a
-                href="/auth/signout"
+                href="/api/auth/signout"
                 class="nav-button rounded-lg border border-primary-500/30 bg-dark-bg px-4 py-1.5 text-sm text-base-200 transition-all hover:bg-primary-500/10"
               >
                 Sign Out
@@ -240,7 +240,7 @@ const navData: navItem[] = [
             <Button
               variant="primary"
               class="nav-button hidden rounded-lg border border-primary-500 bg-transparent px-4 py-1.5 text-primary-500 transition-all hover:bg-primary-500 hover:text-white md:flex"
-              href="/auth/login"
+              href="/admin/login"
             >
               Sign In
             </Button>
