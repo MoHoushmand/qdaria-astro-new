@@ -3,53 +3,31 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import compress from "astro-compress";
-import netlify from '@astrojs/netlify';
+import vercel from '@astrojs/vercel/serverless';
 import icon from "astro-icon";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import sentry from '@sentry/astro';
+import auth from 'auth-astro';
 
-// Workaround: @netlify/vite-plugin's dev middleware (netlifyPreMiddleware) intercepts
-// ALL requests including Vite-internal routes (/@vite/*, /@fs/*, /@id/*, /src/*, /node_modules/*)
-// and either responds with 404 (bypassing Vite entirely) or applies netlify.toml headers
-// (CSP, nosniff) that break ES module loading. This plugin wraps the Netlify middleware
-// to skip it for Vite-internal routes.
-function netlifyDevBypass() {
-  return {
-    name: 'netlify-dev-bypass',
-    configureServer(server) {
-      // Return a post-hook -- runs after all plugins have set up their middlewares
-      return () => {
-        const stack = server.middlewares.stack;
-        for (let i = 0; i < stack.length; i++) {
-          const layer = stack[i];
-          if (layer.handle && layer.handle.name === 'netlifyPreMiddleware') {
-            const originalHandler = layer.handle;
-            layer.handle = function wrappedNetlifyMiddleware(req, res, next) {
-              const url = req.url || '';
-              // Skip Netlify middleware for Vite-internal and source module routes
-              if (url.startsWith('/@') || url.startsWith('/src/') ||
-                  url.startsWith('/node_modules/') || url.startsWith('/api/') ||
-                  url.includes('?v=') ||
-                  url.includes('&t=') || url.endsWith('.ts') ||
-                  url.endsWith('.tsx') || url.endsWith('.jsx') ||
-                  url.includes('astro&type=')) {
-                return next();
-              }
-              return originalHandler(req, res, next);
-            };
-            break;
-          }
-        }
-      };
-    },
-  };
-}
+// Load root monorepo .env into process.env so SSR code (auth.config.ts, etc.)
+// reads values via process.env.AUTH_GITHUB_ID (Auth.js v5 convention).
+// Vite's envDir still loads PUBLIC_* vars into import.meta.env for client bundles.
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const monorepoRoot = path.resolve(__dirname, '../..');
+dotenv.config({ path: path.join(monorepoRoot, '.env') });
+dotenv.config({ path: path.join(monorepoRoot, '.env.local'), override: true });
+
+
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    auth(),
     tailwind({
       applyBaseStyles: true,
     }),
@@ -87,7 +65,7 @@ export default defineConfig({
         })]
     )
   ],
-  adapter: netlify(),
+  adapter: vercel(),
   build: {
     inlineStylesheets: 'never', // Never inline for better caching
     assetsInlineLimit: 1024, // Inline only very small assets (1KB threshold)
@@ -122,7 +100,13 @@ export default defineConfig({
   site: 'https://qdaria.com',
   output: 'server',
   vite: {
-    plugins: [netlifyDevBypass()],
+    envDir: '../..',
+    define: {
+      // Client-side Supabase aliases (Astro needs PUBLIC_ prefix for client access)
+      'import.meta.env.PUBLIC_SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL),
+      'import.meta.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(process.env.SUPABASE_ANON_KEY),
+    },
+    plugins: [],
     build: {
       // Target modern browsers for smaller bundles (es2022 supports top-level await)
       target: 'es2022',

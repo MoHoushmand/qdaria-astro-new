@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { supabase, type WaitlistSubmission } from '../../lib/supabase/client';
 import { waitlistSchema } from '../../lib/validation/waitlist';
-import { sendUserConfirmation, sendSalesAlert, isEmailServiceReady, getEmailServiceStatus } from '../../lib/email/sendgrid';
+import { sendUserConfirmation, sendSalesAlert, isEmailServiceReady, getEmailServiceStatus } from '../../lib/email/resend';
 import { z } from 'zod';
 
 // Note: API routes work in dev mode and with server adapters (Netlify/Vercel)
@@ -15,7 +15,7 @@ const RATE_LIMIT_MAX = 3; // Max 3 submissions per minute per IP
 // Environment variable validation
 const ENV_VALIDATED = {
   supabase: Boolean(import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY),
-  sendgrid: Boolean(import.meta.env.SENDGRID_API_KEY),
+  resend: Boolean(import.meta.env.RESEND_API_KEY),
 };
 
 /**
@@ -213,6 +213,16 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     // Insert into Supabase
+    if (!supabase) {
+      console.error(`[${requestId}] Supabase client is not initialized`);
+      return new Response(
+        JSON.stringify({
+          error: 'Internal service error',
+          code: 'SUPABASE_NOT_INITIALIZED',
+        }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
     const { data: submission, error: dbError } = await supabase
       .from('waitlist')
       .insert([insertData])

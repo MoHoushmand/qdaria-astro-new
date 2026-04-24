@@ -1,32 +1,73 @@
-import {
-  createAstroAuthMiddleware,
-  type AstroAuthGuard,
-} from "./lib/qdaria-auth/adapters/astro";
-import { teamEmailRoles } from "./data/admin/team-seed";
+import { defineMiddleware } from "astro:middleware";
 
-const isStaff = (email: string | null): boolean => {
-  if (!email) return false;
-  const role = teamEmailRoles[email.toLowerCase()] ?? teamEmailRoles[email];
-  return role === "admin" || role === "employee";
+const AUTH_TIMEOUT_MS = 3000;
+
+const withTimeout = <T>(p: Promise<T>, fallback: T): Promise<T> =>
+  Promise.race([
+    p,
+    new Promise<T>((resolve) =>
+      setTimeout(() => resolve(fallback), AUTH_TIMEOUT_MS),
+    ),
+  ]);
+
+const hasAuthAstroCookie = (cookieHeader: string | null): boolean =>
+  !!cookieHeader &&
+  /(?:^|;\s*)(?:__Secure-)?authjs\.session-token/.test(cookieHeader);
+
+const getAuthAstroSession = async (request: Request) => {
+  try {
+    const { getSession } = await import("auth-astro/server");
+    return await withTimeout(getSession(request), null);
+  } catch {
+    return null;
+  }
 };
 
-const INVEST_PROTECTED = [
-  "/invest/business-plan",
-  "/invest/pitch",
-  "/invest/whitepaper",
-];
+export const onRequest = defineMiddleware(async (context, next) => {
+  const { pathname } = context.url;
+  const cookieHeader = context.request.headers.get("cookie");
 
-const guards: AstroAuthGuard[] = [
-  {
-    matches: (p) => p.startsWith("/admin"),
-    requireRole: isStaff,
-    loginPath: "/auth/login",
-    unauthorizedPath: "/auth/error?reason=unauthorized",
-  },
-  {
-    matches: (p) => INVEST_PROTECTED.some((r) => p.startsWith(r)),
-    loginPath: "/auth/login",
-  },
-];
+  context.locals.user = null;
 
-export const onRequest = createAstroAuthMiddleware(guards);
+  const isAdminRoute =
+    pathname.startsWith("/admin") &&
+    pathname !== "/admin/login" &&
+    !pathname.startsWith("/api/auth/");
+
+  const protectedInvestRoutes = [
+    "/invest/business-plan",
+    "/invest/pitch",
+    "/invest/whitepaper",
+  ];
+  const isInvestProtected = protectedInvestRoutes.some((route) =>
+    pathname.startsWith(route),
+  );
+
+  if (isAdminRoute) {
+    const session = await getAuthAstroSession(context.request);
+    const role = (session?.user as { role?: string } | undefined)?.role;
+    if (!session?.user || (role !== "admin" && role !== "employee")) {
+      const target = session?.user
+        ? "/admin/login?error=unauthorized"
+        : `/admin/login?callbackUrl=${encodeURIComponent(pathname)}`;
+      return context.redirect(target);
+    }
+    context.locals.user = session.user as unknown as App.Locals["user"];
+    return next();
+  }
+
+  if (isInvestProtected) {
+    if (hasAuthAstroCookie(cookieHeader)) {
+      const session = await getAuthAstroSession(context.request);
+      if (session?.user) {
+        context.locals.user = session.user as unknown as App.Locals["user"];
+        return next();
+      }
+    }
+    return context.redirect(
+      `/admin/login?callbackUrl=${encodeURIComponent(pathname)}`,
+    );
+  }
+
+  return next();
+});
