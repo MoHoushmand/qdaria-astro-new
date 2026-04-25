@@ -44,9 +44,13 @@ function loadStaffCredentials(): Record<string, StaffEntry> {
     );
   }
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-    throw new Error("STAFF_CREDENTIALS_JSON must be a JSON object keyed by username.");
+    throw new Error(
+      "STAFF_CREDENTIALS_JSON must be a JSON object keyed by username.",
+    );
   }
-  for (const [username, entry] of Object.entries(parsed as Record<string, unknown>)) {
+  for (const [username, entry] of Object.entries(
+    parsed as Record<string, unknown>,
+  )) {
     const e = entry as Partial<StaffEntry> | null;
     if (
       !e ||

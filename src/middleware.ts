@@ -75,7 +75,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       }
     }
     return context.redirect(
-      `/admin/login?callbackUrl=${encodeURIComponent(pathname)}`,
+      `/auth/login?callbackUrl=${encodeURIComponent(pathname)}`,
     );
   }
 

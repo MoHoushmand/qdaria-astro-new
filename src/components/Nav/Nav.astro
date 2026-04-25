@@ -19,7 +19,7 @@ const username = userEmail ? userEmail.split("@")[0].toLowerCase() : null;
 const displayName = fullName ?? username ?? userEmail ?? null;
 // Build a callbackUrl so Sign In returns the user to where they came from.
 const currentPath = Astro.url.pathname || "/";
-const signInHref = `/admin/login?callbackUrl=${encodeURIComponent(currentPath)}`;
+const signInHref = `/auth/login?callbackUrl=${encodeURIComponent(currentPath)}`;
 
 const navData: navItem[] = [
   {
