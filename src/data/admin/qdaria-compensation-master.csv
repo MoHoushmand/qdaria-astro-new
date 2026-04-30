@@ -2,52 +2,55 @@
 SECTION 1: SALARY PROGRESSION BY EMPLOYEE AND FUNDING ROUND (EUR Annual Gross)
 =====================================================================================================
 Employee,Title,Department,Tier,Salary Tier,Pre-Seed (EUR),Seed (EUR),Round A (EUR),Round B (EUR),Round C (EUR),IPO (EUR)
-Daniel Mo Houshmand,CEO & Founder,Executive,Founder,ceo,160000,240000,600000,900000,1200000,2200000
-COO,Vacant — to be hired post-seed,,,,,,,,,
-Sharareh M. Shariat Panahi,Asst. CEO,Legal,C-Suite,senior,100000,140000,280000,420000,560000,1000000
-Caroline Woie,Chief Content Officer,Content,Leadership,senior,100000,140000,280000,420000,560000,1000000
-Rajesh Chavan,Chief Strategy & Growth Officer,Strategy,Leadership,senior,100000,140000,280000,420000,560000,1000000
-Lillian Kristiansen,Chief Admin Officer,Administration,Specialist,senior,100000,140000,280000,420000,560000,1000000
-John Kristiansen,Head of Networking,Business Development,Specialist,senior,100000,140000,280000,420000,560000,1000000
-Lindsay Sanner,Chief Social Responsibility Officer,CSR,Specialist,senior,100000,140000,280000,420000,560000,1000000
-Gaspar Alvarado,Finance Director,Finance,Specialist,mid,85000,120000,240000,360000,480000,880000
-Nick Saaf,Sales Director,Sales & Business Development,Specialist,mid,85000,120000,240000,360000,480000,880000
-Fredrik Krey Stubberud,Test Engineer,Engineering,Specialist,mid,85000,120000,240000,360000,480000,880000
-Yulia Ginzburg,Chief Data Officer,Data,Specialist,mid,85000,120000,240000,360000,480000,880000
-Nils Bjelland Gronvold,Head of Culture & Events,Culture & Events,Specialist,mid,85000,120000,240000,360000,480000,880000
-Daria Houshmand,Dev Intern & Board Member,Engineering,Intern/Board,junior,55000,80000,160000,240000,320000,580000
+Daniel Mo Houshmand,CEO & Founder,Executive,Founder,ceo,160000,185000,220000,260000,310000,400000
+COO,Vacant to be hired post-seed,,,,,,,,,
+Sharareh M. Shariat Panahi,Asst. CEO,Legal,Founding Supporter,coo,112000,124500,181500,207500,254000,311000
+Lillian Kristiansen,Chief Admin Officer,Administration,Founding Supporter,senior,98560,106500,137000,157500,183000,223500
+John Kristiansen,Head of Networking,Business Development,Senior,senior,95040,103000,132500,152000,176500,215500
+Caroline Woie,Chief Content Officer,Content,Senior,senior,92400,100000,128500,147500,171000,209000
+Rajesh Chavan,Chief Strategy & Growth Officer,Strategy,Senior,senior,92400,100000,128500,147500,171000,209000
+Lindsay Sanner,Chief Social Responsibility Officer,CSR,Senior,senior,92400,100000,128500,147500,171000,209000
+Gaspar Alvarado,Finance Director,Finance,Mid,mid,78750,86000,104500,119500,140000,170000
+Nick Saaf,Sales Director,Sales & Business Development,Mid,mid,78750,86000,104500,119500,140000,170000
+Yulia Ginzburg,Chief Data Officer,Data,Mid,mid,78750,86000,104500,119500,140000,170000
+Nils Bjelland Gronvold,Head of Culture & Events,Culture & Events,Mid,mid,78750,86000,104500,119500,140000,170000
+Fredrik Krey Stubberud,Test Engineer,Engineering,Performance-only,mid,78750,86000,104500,119500,140000,170000
+Daria S. Houshmand,Dev Intern & Board Member,Engineering,Founding Supporter,junior,47250,51500,62500,72000,84000,103000
 
 =====================================================================================================
 SECTION 2: SALARY INCREASE PERCENTAGES BETWEEN QDARIA FUNDING ROUNDS
+Reference: CEO=Daniel; COO=Sharareh; Senior=Caroline (median Senior +5%); Mid=Gaspar; Junior=Daria.
 =====================================================================================================
 Transition,CEO % Increase,COO % Increase,Senior % Increase,Mid % Increase,Junior % Increase,Market Typical %
-Pre-Seed to Seed,+50%,+50%,+40%,+41%,+45%,+25-40%
-Seed to Round A,+150%,+100%,+100%,+100%,+100%,+30-45%
-Round A to Round B,+50%,+50%,+50%,+50%,+50%,+5-15%
-Round B to Round C,+33%,+33%,+33%,+33%,+33%,+8-15%
-Round C to IPO,+83%,+83%,+79%,+83%,+81%,+15-30%
-Pre-Seed to IPO (total),+1275%,+1000%,+900%,+935%,+955%,n/a
+Pre-Seed to Seed,+15.6%,+11.2%,+8.2%,+9.2%,+9.0%,+25-40%
+Seed to Round A,+18.9%,+45.8%,+28.5%,+21.5%,+21.4%,+30-45%
+Round A to Round B,+18.2%,+14.3%,+14.8%,+14.4%,+15.2%,+5-15%
+Round B to Round C,+19.2%,+22.4%,+15.9%,+17.2%,+16.7%,+8-15%
+Round C to IPO,+29.0%,+22.4%,+22.2%,+21.4%,+22.6%,+15-30%
+Pre-Seed to IPO (total),+150.0%,+177.7%,+126.2%,+115.9%,+118.0%,n/a
 
 =====================================================================================================
 SECTION 3: MARKET SALARY BENCHMARKS - CEO / FOUNDER (EUR Annual)
 =====================================================================================================
 Stage,QDaria CEO,Market Low (EUR),Market Median (EUR),Market High (EUR),QDaria vs Market Median,Source
 Pre-Seed,160000,55000,71000,85000,+125% above median,Creandum/OpenVC 2025
-Seed,240000,90000,115000,140000,+109% above median,Sifted/Kruze 2025
-Round A,600000,140000,163000,200000,+268% above median,Sifted 2025
-Round B,900000,170000,207000,260000,+335% above median,Sifted UK data 2025
-Round C,1200000,200000,258000,340000,+365% above median,Sifted 2025
-IPO,2200000,280000,365000,450000,+503% above median,Various 2025
-Note:,Nordic founder median across all stages is 95000 EUR — 27% below DACH median of 130000 EUR,,,,Sifted/OpenVC
+Seed,185000,90000,115000,140000,+61% above median,Sifted/Kruze 2025
+Round A,220000,140000,163000,200000,+35% above median,Sifted 2025
+Round B,260000,170000,207000,260000,+26% above median,Sifted UK data 2025
+Round C,310000,200000,258000,340000,+20% above median,Sifted 2025
+IPO,400000,280000,365000,450000,+10% above median,Various 2025
+Note,Nordic founder median across all stages is 95000 EUR 27% below DACH median of 130000 EUR,,,,Sifted/OpenVC
 
 =====================================================================================================
 SECTION 4: MARKET SALARY BENCHMARKS - COO / C-SUITE (EUR Annual)
 =====================================================================================================
 Stage,QDaria COO,Market COO Low,Market COO Median,Market COO High,QDaria vs Market,Source
-Seed,150000,85000,110000,115000,+36% above median,Sifted 2025
-Round A,300000,130000,161000,175000,+86% above median,Sifted 2025
-Round B+,450000,155000,184000,230000,+145% above median,Sifted UK 2025
-Late-Stage,600000,184000,227000,270000,+164% above median,Sifted 2025
+Pre-Seed,112000,70000,85000,100000,+32% above median,Sifted 2025
+Seed,124500,85000,110000,115000,+13% above median,Sifted 2025
+Round A,181500,130000,161000,175000,+13% above median,Sifted 2025
+Round B+,207500,155000,184000,230000,+13% above median,Sifted UK 2025
+Round C,254000,175000,210000,260000,+21% above median,Sifted 2025
+Late-Stage / IPO,311000,184000,227000,270000,+37% above median,Sifted 2025
 ,,,,,
 Role,Seed (Market EUR),Series A (Market EUR),Series B+ (Market EUR),Late-Stage (Market EUR),,
 CTO,95000-130000,140000-210000,170000-260000,207000-300000,,Sifted 2025
@@ -58,15 +61,15 @@ CFO,90000-120000,140000-190000,165000-250000,210000-310000,,Sifted 2025
 SECTION 5: MARKET SALARY BENCHMARKS - MID-LEVEL / SPECIALIST (EUR Annual)
 =====================================================================================================
 Role,Seed-Stage (EUR),Growth A-B (EUR),Late-Stage C+ (EUR),QDaria Pre-Seed,QDaria vs Market,Note
-Software Engineer (P3),68000-80000,75000-90000,80000-100000,85000,Above seed median,Ravio 2026
-Quantum Software Engineer,78000-100000,90000-115000,100000-130000,85000,Within seed range,+15-25% premium over general SW
+Software Engineer (P3),68000-80000,75000-90000,80000-100000,78750,Within seed range,Ravio 2026
+Quantum Software Engineer,78000-100000,90000-115000,100000-130000,78750,Low end of premium band,+15-25% premium over general SW
 Quantum Algorithm Researcher,82000-105000,95000-120000,105000-140000,n/a,,
 Product Manager (P3),67000-78000,73000-86000,77000-95000,n/a,,
-Data Scientist / ML Engineer,70000-90000,80000-105000,90000-120000,85000,Within seed range,Ravio 2026
+Data Scientist / ML Engineer,70000-90000,80000-105000,90000-120000,78750,Within seed range,Ravio 2026
 ,,,,,
 Junior / Entry-Level,EUR Range,,,QDaria Junior,,
-Junior Engineer (P1),38000-55000,,,55000,Top of range,Ravio 2026
-Junior Quantum Researcher,42000-60000,,,55000,Within range,
+Junior Engineer (P1),38000-55000,,,47250,Within range,Ravio 2026
+Junior Quantum Researcher,42000-60000,,,47250,Within range,
 PhD Student (Norway),40000-55000,,,n/a,NOK 530K-600K typical,Tariff agreements
 
 =====================================================================================================
@@ -93,76 +96,75 @@ SECTION 8: INDIVIDUAL EQUITY - QDARIA HOLDING PER EMPLOYEE
 =====================================================================================================
 Employee,Holding %,Share Type,Vesting (months),Cliff (months),Board Member,Tier
 Daniel Mo Houshmand,70.0%,Common (Class A),48,0,Yes,Founder
-Sharareh M. Shariat Panahi,1.0%,Preferred (Class B),48,12,Yes,C-Suite
-Caroline Woie,1.0%,Preferred (Class B),48,12,Yes,Leadership
-Rajesh Chavan,1.0%,Preferred (Class B),48,12,Yes,Leadership
-Lillian Kristiansen,1.0%,Options (ESOP),48,12,Yes,Specialist
-John Kristiansen,1.0%,Options (ESOP),48,12,Yes,Specialist
-Lindsay Sanner,1.0%,Options (ESOP),48,12,Yes,Specialist
-Gaspar Alvarado,1.0%,Options (ESOP),48,12,No,Specialist
-Nick Saaf,1.0%,Options (ESOP),48,12,No,Specialist
-Fredrik Krey Stubberud,1.0%,Options (ESOP),48,12,No,Specialist
-Yulia Ginzburg,1.0%,Options (ESOP),48,12,No,Specialist
-Nils Bjelland Gronvold,1.0%,Options (ESOP),48,12,No,Specialist
-Daria Houshmand,1.0%,Phantom,48,12,Yes,Intern/Board
-TOTAL INDIVIDUAL,83.0%,,,,13 employees + founder,
+Daria S. Houshmand,0.75%,Options (ESOP),48,12,Yes,Founding Supporter
+Sharareh M. Shariat Panahi,0.75%,Options (ESOP),48,12,Yes,Founding Supporter
+Lillian Kristiansen,0.75%,Options (ESOP),48,12,Yes,Founding Supporter
+Caroline Woie,0.50%,Options (ESOP),48,12,Yes,Senior
+Rajesh Chavan,0.50%,Options (ESOP),48,12,Yes,Senior
+John Kristiansen,0.50%,Options (ESOP),48,12,Yes,Senior
+Lindsay Sanner,0.50%,Options (ESOP),48,12,Yes,Senior
+Gaspar Alvarado,0.30%,Options (ESOP),48,12,No,Mid
+Nick Saaf,0.30%,Options (ESOP),48,12,No,Mid
+Yulia Ginzburg,0.30%,Options (ESOP),48,12,No,Mid
+Nils Bjelland Gronvold,0.30%,Options (ESOP),48,12,No,Mid
+Fredrik Krey Stubberud,0.15%,Options (ESOP),48,12,No,Performance-only
+TOTAL INDIVIDUAL,75.60%,,,,8 board + 5 non-board,
 
 =====================================================================================================
 SECTION 9: EQUITY ALLOCATIONS - PER EMPLOYEE ACROSS ALL 7 COMPANIES (%)
-Updated 2026-04-28: 8 spinoffs -> 6 (dropped THQAI/QIoT/Lillian Research; added QLillian).
-Lillian Kristiansen promoted to Founding Supporter tier (5.00% total). Other employee TOTALS unchanged.
+Updated 2026-04-30 equity restructure: 5% reserved for Founding Supporter inner circle (3 members).
+C-Suite tier removed; Senior/Mid scaled toward industry medians; Junior/Board tier currently empty.
 =====================================================================================================
-Employee,QDaria Holding,Zipminator,Qm9,QMikeAI,QNilaya,QDiana,QLillian,TOTAL
-Sharareh M. Shariat Panahi,1.0,0.6667,0.6667,0.6667,0.6667,0.6667,0.6667,5.00
-Caroline Woie,0.75,0.5000,0.5000,0.5000,0.5000,0.5000,0.5000,3.75
-Rajesh Chavan,0.75,0.5000,0.5000,0.5000,0.5000,0.5000,0.5000,3.75
+Employee,Holding,Zipminator,Qm9,QMikeAI,QNilaya,QDiana,QLillian,TOTAL
+Daria S. Houshmand,0.75,0.7083,0.7083,0.7083,0.7083,0.7083,0.7083,5.00
+Sharareh M. Shariat Panahi,0.75,0.7083,0.7083,0.7083,0.7083,0.7083,0.7083,5.00
 Lillian Kristiansen,0.75,0.7083,0.7083,0.7083,0.7083,0.7083,0.7083,5.00
-John Kristiansen,0.75,0.5000,0.5000,0.5000,0.5000,0.5000,0.5000,3.75
-Lindsay Sanner,0.75,0.5000,0.5000,0.5000,0.5000,0.5000,0.5000,3.75
-Gaspar Alvarado,0.5,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
-Nick Saaf,0.5,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
-Fredrik Krey Stubberud,0.25,—,—,—,—,—,—,0.25
-Yulia Ginzburg,0.5,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
-Nils Bjelland Gronvold,0.5,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
-Daria Houshmand,0.5,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
-NOTE: CEO (Daniel Mo Houshmand) holds 70% in EACH company. All spin-offs: 70% CEO / 30% Investor Pool.
-NOTE: Lillian Kristiansen is on the Founding Supporter tier. Holding allocation unchanged at 0.75%; +1.25% delta vs. Senior baseline spread evenly across 6 spinoffs.
-NOTE: Contingent Reallocation (Section 5.5 of all contracts): if any of the 6 spinoffs fails to incorporate by 2029-12-31, per-employee allocation in that entity redistributes pro-rata across surviving spinoffs. Holding allocation never affected. Each employee's TOTAL preserved.
+Caroline Woie,0.50,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
+Rajesh Chavan,0.50,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
+John Kristiansen,0.50,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
+Lindsay Sanner,0.50,0.3333,0.3333,0.3333,0.3333,0.3333,0.3333,2.50
+Gaspar Alvarado,0.30,0.2000,0.2000,0.2000,0.2000,0.2000,0.2000,1.50
+Nick Saaf,0.30,0.2000,0.2000,0.2000,0.2000,0.2000,0.2000,1.50
+Yulia Ginzburg,0.30,0.2000,0.2000,0.2000,0.2000,0.2000,0.2000,1.50
+Nils Bjelland Gronvold,0.30,0.2000,0.2000,0.2000,0.2000,0.2000,0.2000,1.50
+Fredrik Krey Stubberud,0.15,0.0167,0.0167,0.0167,0.0167,0.0167,0.0167,0.25
+NOTE,CEO (Daniel Mo Houshmand) holds 70% in EACH company. All spin-offs: 70% CEO / 30% Investor Pool.
+NOTE,Founding Supporter tier has 3 members at 5.00% each. 5% reserved for the founding inner circle, all under the 5% NSO Tax Incentive cap.
+NOTE,Contingent Reallocation (Section 5.5 of all contracts): if any of the 6 spinoffs fails to incorporate by 2029-12-31, per-employee allocation in that entity redistributes pro-rata across surviving spinoffs. Holding never affected. Each employee's TOTAL preserved.
 
 =====================================================================================================
 SECTION 10: SPIN-OFF COMPANIES - STRUCTURE
 =====================================================================================================
 Company,ID,Description,CEO %,Investor Pool %
 Zipminator,zipminator,Quantum-secure encryption platform,70%,30%
-Qm9,qm9,Quantum fintech — HFDT / portfolio optimization / algo trading,70%,30%
-QMikeAI,qmikeai,Quantum-enhanced HPC — weather / climate / scientific computing,70%,30%
-QNilaya,qnilaya,Quantum health tech — precision medicine / drug discovery,70%,30%
+Qm9,qm9,Quantum fintech HFDT / portfolio optimization / algo trading,70%,30%
+QMikeAI,qmikeai,Quantum-enhanced HPC weather / climate / scientific computing,70%,30%
+QNilaya,qnilaya,Quantum health tech precision medicine / drug discovery,70%,30%
 QDiana,qdiana,Quantum-enhanced educational platform,70%,30%
-QLillian,qlillian,Founder-support and portfolio operations — admin / governance / people-ops / cross-subsidiary coordination,70%,30%
+QLillian,qlillian,Founder-support and portfolio operations admin / governance / people-ops / cross-subsidiary coordination,70%,30%
 
 =====================================================================================================
 SECTION 11: FUNDING ROUND DETAILS (Standard Across All Spin-Offs)
 =====================================================================================================
 Round,Funding Target (EUR),Investor Pool (% of 30%),Employee Pool Trigger (%),Cumulative Investor %,Cumulative Employee Trigger %
-Seed,2000000,10%,2%,10%,2%
-Series A,10000000,8%,3%,18%,5%
-Series B,30000000,6%,2%,24%,7%
-Series C,80000000,4%,1.5%,28%,8.5%
-IPO,250000000,2%,1%,30%,9.5%
+Seed,12000000,10%,2%,10%,2%
+Series A,40000000,8%,3%,18%,5%
+Series B,120000000,6%,2%,24%,7%
+Series C,300000000,4%,1.5%,28%,8.5%
+IPO,1000000000,2%,1%,30%,9.5%
 
 =====================================================================================================
 SECTION 12: MARKET EQUITY BENCHMARKS (% of Fully Diluted Equity)
 =====================================================================================================
-Role / Employee #,Seed-Stage Grant %,Series A Grant %,QDaria Grant (Holding),QDaria vs Market,Source
-Solo Founder CEO,60-100% (pre-funding),25-40% (post-Series A),70.0%,Within range (pre-dilution),Index Ventures
-Non-Founder CEO,2.5-7.0%,2.0-5.0%,n/a,,Sifted
-C-Suite (CTO/COO/CFO),0.8-2.5%,0.8-1.5%,1.0% (holding only),Within range,Index Ventures
-VP Level,0.3-2.0%,0.3-0.8%,n/a,,Index Ventures
-Senior Engineer (#1-3),0.5-1.5%,0.3-0.7%,1.0% (holding only),Within range,Index Ventures
-Mid-Level Engineer (#5-10),0.1-0.45%,0.05-0.2%,1.0% (holding only),Above market,Index Ventures
-Junior Engineer (#8-15),0.05-0.15%,0.02-0.1%,1.0% (holding only),Well above market,Carta 2025
-Typical ESOP pool at Seed,10-15%,,13.0%,Within range,Balderton/Index Ventures
-NOTE: QDaria uses a tiered equity model across 7 cap tables (1 holding + 6 spinoffs). Tier totals: C-Suite 5.00%, Senior 3.75%, Founding Supporter 5.00% (Lillian only), Mid 2.50%, Junior/Board 2.50%, Performance-only 0.25% (Fredrik). Market benchmarks count single-company equity only.
+Role / Employee #,Seed-Stage Grant %,Series A Grant %,QDaria Grant (Holding),QDaria Total,QDaria vs Market,Source
+Solo Founder CEO,60-100% (pre-funding),25-40% (post-Series A),70.0%,70% each co.,Within range,Index Ventures
+Founding Supporter inner circle,n/a custom tier,n/a,0.75%,5.00%,Bespoke at NSO 5% cap,QDaria policy
+Senior (#3-7),0.5-1.5%,0.3-0.7%,0.50%,2.50%,At top end (total),Carta 2025
+Mid (#8-11),0.1-0.45%,0.05-0.2%,0.30%,1.50%,Above top-end (total),Carta 2025
+Performance-only (Fredrik),n/a (gated),n/a,0.15%,0.25%,Below market perf-gated,QDaria policy
+Junior/Board (empty tier),0.05-0.15%,0.02-0.1%,0.15%,0.25%,Within range,Carta 2025
+Typical ESOP pool at Seed,10-15%,,13.0%,n/a,Within range,Balderton/Index Ventures
+NOTE,QDaria uses a tiered equity model across 7 cap tables (1 holding + 6 spinoffs). Tier totals: Founding Supporter 5.00% (3 members) Senior 2.50% Mid 1.50% Performance-only 0.25% (Fredrik) Junior/Board 0.25% (empty). All under the 5% Norwegian Stock Option Tax Incentive cap.
 
 =====================================================================================================
 SECTION 13: PERFORMANCE BONUS AND KPI STRUCTURE
@@ -170,7 +172,7 @@ SECTION 13: PERFORMANCE BONUS AND KPI STRUCTURE
 Category,QDaria Policy,Market Norm (Early-Stage),Market Norm (Series B+),Source
 Bonus Range,0-15% of annual base,0-10% (if any),10-25%,Oyster HR 2025
 Evaluation Frequency,Quarterly,Annual or none,Annual,
-KPI Criteria,"Milestones delivery, cross-functional collaboration, innovation, culture alignment",,,,
+KPI Criteria,"Milestones delivery cross-functional collaboration innovation culture alignment",,,,
 ,,,,,
 Level,QDaria Bonus Range,Market Typical Bonus %,,,
 Junior / Entry-Level,0-15%,0-5%,,,
@@ -199,12 +201,13 @@ SECTION 15: SEVERANCE AND TERMINATION TERMS
 =====================================================================================================
 Tier,Severance (months of base salary),Notice Period (probation),Notice Period (post-probation),Change of Control Additional,Share Type
 Founder,12 months,1 month,3 months (standard),+3 months,Common (Class A)
-C-Suite,6 months,1 month,3 months (standard),+3 months,Preferred (Class B)
-Leadership,4 months,1 month,3 months (standard),+3 months,Preferred (Class B)
-Specialist,3 months,1 month,3 months (standard),+3 months,Options (ESOP)
-Intern/Board,2 months,1 month,1 month,+3 months,Phantom
+Founding Supporter,6 months,1 month,3 months (standard),+3 months,Options (ESOP)
+Senior,4 months,1 month,3 months (standard),+3 months,Options (ESOP)
+Mid,3 months,1 month,3 months (standard),+3 months,Options (ESOP)
+Performance-only,3 months,1 month,3 months (standard),+3 months,Options (ESOP)
+Intern/Board,2 months,1 month,1 month,+3 months,Options (ESOP)
 ,,,,,
-Norwegian Law Statutory:,No statutory severance,Notice by tenure:,,
+Norwegian Law Statutory,No statutory severance,Notice by tenure,,
 0-5 years tenure,,,1 month,,
 5-10 years tenure,,,2 months,,
 10+ years tenure,,,3 months,,
@@ -226,7 +229,7 @@ Deduction for new employment,Up to 50% of income earned during restriction,
 12G cap,NOK 1561920 (~135819 EUR),
 Non-solicitation max duration,12 months,No compensation required
 Non-solicitation scope,Customers contacted in last 12 months,
-Written requirement,Must be in writing with "particular need",
+Written requirement,"Must be in writing with particular need",
 
 =====================================================================================================
 SECTION 17: NORWEGIAN STOCK OPTION TAX INCENTIVE (Expanded March 2025)
@@ -236,9 +239,9 @@ Company age,Max 12 years (expanded from 10),QDaria qualifies (founded 2013/2017/
 Employee count,Max 150 FTEs (expanded from 50),QDaria qualifies (14 employees)
 Balance sheet,Max NOK 200 million (expanded from 80M),QDaria qualifies (early-stage)
 Revenue cap,Max NOK 80 million,QDaria qualifies (pre-revenue)
-Max employee ownership,5% direct/indirect,All employees at 1% holding — qualifies
+Max employee ownership,5% direct/indirect,Qualifies (max 0.75% holding 5.00% total per Founding Supporter)
 Minimum hours,25 hours/week from grant to exercise,Full-time employees qualify
-Tax treatment,Deferred until sale — capital gains 37.84%,~10% cheaper than salary income tax (up to 47%)
+Tax treatment,Deferred until sale capital gains 37.84%,~10% cheaper than salary income tax (up to 47%)
 Employer NIC,No employer national insurance contributions,Major cost saving on equity grants
 
 =====================================================================================================
@@ -249,43 +252,43 @@ Vesting period,48 months (4 years),4 years,~90% of startups,Ravio 2025
 Cliff period,12 months (except CEO: 0),1 year,~80% of startups,Ravio 2025
 Vesting frequency,Monthly after cliff,Monthly,62% of European tech,Ravio 2025
 Acceleration,Single-trigger on Change of Control,Single-trigger: 15-20% / Double-trigger: 40-50%,,Carta 2025
-CEO cliff,0 months (immediate vesting),Unusual — most founders have no cliff,,,
+CEO cliff,0 months (immediate vesting),Unusual most founders have no cliff,,,
 
 =====================================================================================================
 SECTION 19: COMPLETE EMPLOYEE SUMMARY (ALL KEY NUMBERS PER PERSON)
 =====================================================================================================
-Employee,Title,Tier,Pre-Seed Salary (EUR),Holding Equity %,Total Equity (9 cos) %,Share Type,Severance (months),Cliff (months),Bonus Range,Board,Employment Type
+Employee,Title,Tier,Pre-Seed Salary (EUR),Holding Equity %,Total Equity (7 cos) %,Share Type,Severance (months),Cliff (months),Bonus Range,Board,Employment Type
 Daniel Mo Houshmand,CEO & Founder,Founder,160000,70.0%,70% each company,Common (Class A),12,0,0-15%,Yes,Full-time
-COO,Vacant — to be hired post-seed,,,,,,,,,,
-Sharareh M. Shariat Panahi,Asst. CEO,C-Suite,100000,1.0%,10.0%,Preferred (Class B),6,12,0-15%,Yes,Full-time
-Caroline Woie,Chief Content Officer,Leadership,100000,1.0%,10.0%,Preferred (Class B),4,12,0-15%,Yes,Full-time
-Rajesh Chavan,Chief Strategy & Growth Officer,Leadership,100000,1.0%,10.0%,Preferred (Class B),4,12,0-15%,Yes,Full-time
-Lillian Kristiansen,Chief Admin Officer,Specialist,100000,1.0%,10.0%,Options (ESOP),3,12,0-15%,Yes,Full-time
-John Kristiansen,Head of Networking,Specialist,100000,1.0%,10.0%,Options (ESOP),3,12,0-15%,Yes,Full-time
-Lindsay Sanner,Chief Social Responsibility Officer,Specialist,100000,1.0%,10.0%,Options (ESOP),3,12,0-15%,Yes,Full-time
-Gaspar Alvarado,Finance Director,Specialist,85000,1.0%,10.0%,Options (ESOP),3,12,0-15%,No,Full-time
-Nick Saaf,Sales Director,Specialist,85000,1.0%,10.0%,Options (ESOP),3,12,0-15%,No,Full-time
-Fredrik Krey Stubberud,Test Engineer,Specialist,85000,1.0%,10.0%,Options (ESOP),3,12,0-15%,No,Full-time
-Yulia Ginzburg,Chief Data Officer,Specialist,85000,1.0%,10.0%,Options (ESOP),3,12,0-15%,No,Full-time
-Nils Bjelland Gronvold,Head of Culture & Events,Specialist,85000,1.0%,10.0%,Options (ESOP),3,12,0-15%,No,Full-time
-Daria Houshmand,Dev Intern & Board Member,Intern/Board,55000,1.0%,10.0%,Phantom,2,12,0-15%,Yes,Intern
+COO,Vacant to be hired post-seed,,,,,,,,,,
+Sharareh M. Shariat Panahi,Asst. CEO,Founding Supporter,112000,0.75%,5.00%,Options (ESOP),6,12,0-15%,Yes,Full-time
+Lillian Kristiansen,Chief Admin Officer,Founding Supporter,98560,0.75%,5.00%,Options (ESOP),6,12,0-15%,Yes,Full-time
+Daria S. Houshmand,Dev Intern & Board Member,Founding Supporter,47250,0.75%,5.00%,Options (ESOP),6,12,0-15%,Yes,Intern
+Caroline Woie,Chief Content Officer,Senior,92400,0.50%,2.50%,Options (ESOP),4,12,0-15%,Yes,Full-time
+Rajesh Chavan,Chief Strategy & Growth Officer,Senior,92400,0.50%,2.50%,Options (ESOP),4,12,0-15%,Yes,Full-time
+John Kristiansen,Head of Networking,Senior,95040,0.50%,2.50%,Options (ESOP),4,12,0-15%,Yes,Full-time
+Lindsay Sanner,Chief Social Responsibility Officer,Senior,92400,0.50%,2.50%,Options (ESOP),4,12,0-15%,Yes,Full-time
+Gaspar Alvarado,Finance Director,Mid,78750,0.30%,1.50%,Options (ESOP),3,12,0-15%,No,Full-time
+Nick Saaf,Sales Director,Mid,78750,0.30%,1.50%,Options (ESOP),3,12,0-15%,No,Full-time
+Yulia Ginzburg,Chief Data Officer,Mid,78750,0.30%,1.50%,Options (ESOP),3,12,0-15%,No,Full-time
+Nils Bjelland Gronvold,Head of Culture & Events,Mid,78750,0.30%,1.50%,Options (ESOP),3,12,0-15%,No,Full-time
+Fredrik Krey Stubberud,Test Engineer,Performance-only,78750,0.15%,0.25%,Options (ESOP),3,12,0-15%,No,Full-time
 
 =====================================================================================================
 SECTION 20: KEY SOURCES
 =====================================================================================================
 Source,URL,Data Used
-Ravio - Startup salaries 2026,ravio.com/blog/startup-salaries,Mid-level and junior salary ranges; annual increase norms
-Sifted - AI founder salaries 2025,sifted.eu/articles/founder-salaries-2025,CEO and founder salary benchmarks
-Sifted - C-suite pay at European startups,sifted.eu/articles/c-suite-pay-startups-europe,COO/CTO/CFO salary data
-Sifted - Equity at early-stage startups,sifted.eu/articles/how-much-equity-early-stage-startup,Employee equity benchmarks
-Index Ventures - Rewarding Talent,indexventures.com/rewarding-talent/,ESOP pool sizing and allocation benchmarks
-Carta - Startup Compensation H1 2025,carta.com/data/startup-compensation-h1-2025/,Equity grant trends and vesting norms
-Kruze Consulting - CEO salary report 2025,kruzeconsulting.com/blog/startup-ceo-salary-report/,US CEO salary by funding stage
-OpenVC - Founder salary 2026,openvc.app/blog/startup-founder-salary,European founder salary data
-Quantum Jobs List - Salary guide,quantumjobslist.com,Quantum-specific role premiums
-Oyster HR - Bonus percentages 2025,oysterhr.com/library/what-is-a-good-bonus-percentage,Bonus norms by level
-WTW - Nordic talent economics 2025,wtwco.com,Norway salary budget increase data
-Schjoedt - Norway expanded option scheme March 2025,schjodt.com,Norwegian stock option tax incentive
-Norwegian Tax Administration - Grunnbelopet 2025,skatteetaten.no,1G = NOK 130160
-Tekna - Non-competition clauses,tekna.no,Norwegian non-compete law details
-ICLG - Employment Norway 2025-2026,iclg.com,Norwegian labor law overview
+Ravio Startup salaries 2026,ravio.com/blog/startup-salaries,Mid-level and junior salary ranges; annual increase norms
+Sifted AI founder salaries 2025,sifted.eu/articles/founder-salaries-2025,CEO and founder salary benchmarks
+Sifted C-suite pay at European startups,sifted.eu/articles/c-suite-pay-startups-europe,COO/CTO/CFO salary data
+Sifted Equity at early-stage startups,sifted.eu/articles/how-much-equity-early-stage-startup,Employee equity benchmarks
+Index Ventures Rewarding Talent,indexventures.com/rewarding-talent/,ESOP pool sizing and allocation benchmarks
+Carta Startup Compensation H1 2025,carta.com/data/startup-compensation-h1-2025/,Equity grant trends and vesting norms
+Kruze Consulting CEO salary report 2025,kruzeconsulting.com/blog/startup-ceo-salary-report/,US CEO salary by funding stage
+OpenVC Founder salary 2026,openvc.app/blog/startup-founder-salary,European founder salary data
+Quantum Jobs List Salary guide,quantumjobslist.com,Quantum-specific role premiums
+Oyster HR Bonus percentages 2025,oysterhr.com/library/what-is-a-good-bonus-percentage,Bonus norms by level
+WTW Nordic talent economics 2025,wtwco.com,Norway salary budget increase data
+Schjoedt Norway expanded option scheme March 2025,schjodt.com,Norwegian stock option tax incentive
+Norwegian Tax Administration Grunnbelopet 2025,skatteetaten.no,1G = NOK 130160
+Tekna Non-competition clauses,tekna.no,Norwegian non-compete law details
+ICLG Employment Norway 2025-2026,iclg.com,Norwegian labor law overview

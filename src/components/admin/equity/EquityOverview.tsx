@@ -74,9 +74,9 @@ const ALL_COMPANIES = [
 /** CEO row data for the cross-company grid */
 const CEO_ROW = {
   name: "Daniel Mo Houshmand",
-  totalPct: 51 + spinoffCompanies.reduce((s, c) => s + c.ceoPct, 0),
+  totalPct: 70 + spinoffCompanies.reduce((s, c) => s + c.ceoPct, 0),
   allocations: {
-    "qdaria-holding": 51,
+    "qdaria-holding": 70,
     ...Object.fromEntries(spinoffCompanies.map((c) => [c.id, c.ceoPct])),
   } as Record<string, number>,
 };
@@ -222,7 +222,6 @@ function CrossCompanyEquityGrid({
             {/* CEO row */}
             {renderRow(CEO_ROW, 0, true)}
 
-            {/* All employees — everyone at 10% */}
             {employeeEquityAllocations.map((emp, i) => renderRow(emp, i))}
           </tbody>
           <tfoot>
@@ -750,14 +749,20 @@ export default function EquityOverview() {
             </h4>
             <ul className="list-disc space-y-1 pl-5 text-sm text-gray-400">
               <li>
-                Founder holds 51% equity in QDaria Holdings with 35% reserved
-                for investors and 14% employee option pool, maintaining founder
-                control through all funding rounds
+                Founder holds 70% in QDaria Holdings; 13% Employee Option Pool,
+                12% Investor Pool, 3% Advisory, 2% Reserve. 5.60% of holding is
+                allocated to current employees; 7.40% reserved for future hires
               </li>
               <li>
-                Standard non-founder COO equity ranges 1&ndash;5% at seed stage
-                (Hunt Club benchmark); the 2% allocation reflects market
-                positioning
+                Tier totals (holding + 6 spinoffs): Founding Supporter 5.00%
+                (Daria, Sharareh, Lillian), Senior 2.50%, Mid 1.50%,
+                Performance-only 0.25% (Fredrik), Junior/Board 0.25% (currently
+                empty)
+              </li>
+              <li>
+                All employees stay under the 5% Norwegian Stock Option Tax
+                Incentive cap. Founding Supporter sits at 5.00% exactly,
+                anchored to the inner founding circle
               </li>
               <li>
                 Employee equity vests over 48 months with a 12-month cliff,
@@ -775,13 +780,17 @@ export default function EquityOverview() {
             </h4>
             <ul className="list-disc space-y-1 pl-5 text-sm text-gray-400">
               <li>
-                Pre-seed base salaries are benchmarked against XAnge/Coulter
-                Partners 2024 European Deep-Tech Compensation Survey
+                Pre-seed base salaries are anchored to Norwegian medians
+                (ceo&nbsp;145K, coo&nbsp;100K, senior&nbsp;88K, mid&nbsp;75K,
+                junior&nbsp;45K) plus a per-employee premium N: +12% for Lillian
+                Kristiansen and Sharareh M. Shariat Panahi, +8% for John
+                Kristiansen, +5% for everyone else. CEO 160K is founder-set
               </li>
               <li>
-                European deep-tech COOs at seed/Series&nbsp;A stage earn median
-                &euro;80,000; our &euro;100K reflects Norwegian cost-of-living
-                premium (Numbeo index 69.0, highest in Nordics)
+                Sharareh COO base of &euro;112K = 100K &times; 1.12, sitting
+                +32% above the European deep-tech COO seed median of &euro;85K
+                and reflecting Norwegian cost-of-living (Numbeo index 69.0,
+                highest in Nordics)
               </li>
               <li>
                 Salary progression is tied to funding milestones: each round
@@ -789,8 +798,9 @@ export default function EquityOverview() {
                 based on individual KPIs
               </li>
               <li>
-                CEO-to-COO ratio of ~62% aligns with European early-stage norms
-                (~83% CEO-relative for COOs at funded startups)
+                Per-tier growth multiplier from Pre-Seed to IPO is preserved
+                from the prior schedule: CEO &times;2.50, COO &times;2.78,
+                Senior &times;2.26, Mid &times;2.16, Junior &times;2.18
               </li>
             </ul>
 
@@ -826,7 +836,8 @@ export default function EquityOverview() {
             </h4>
             <ul className="list-disc space-y-1 pl-5 text-sm text-gray-400">
               <li>
-                QDaria operates as a holding company with 8 subsidiaries, each
+                QDaria operates as a holding company with 6 subsidiaries
+                (Zipminator, Qm9, QMikeAI, QNilaya, QDiana, QLillian), each
                 focused on a distinct quantum technology vertical
               </li>
               <li>
@@ -838,6 +849,12 @@ export default function EquityOverview() {
               <li>
                 Employee equity in subsidiaries triggers upon specific funding
                 milestones, incentivising contribution to portfolio-wide growth
+              </li>
+              <li>
+                Contingent reallocation (Section 5.5 of every contract): if any
+                of the 6 spinoffs fails to incorporate by 31 December 2029, its
+                per-employee allocation redistributes pro-rata across the
+                registered survivors. Holding allocation is never affected
               </li>
             </ul>
           </div>

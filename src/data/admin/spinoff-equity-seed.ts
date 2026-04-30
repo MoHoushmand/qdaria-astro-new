@@ -2,11 +2,14 @@
  * Spin-off company equity structures for QDaria Holdings portfolio.
  * Each spin-off follows a 70/30 CEO/Investor split with milestone-based employee triggers.
  *
- * Updated 2026-04-28 — Holding restructure:
- *   - Removed: THQAI, QIoT, Lillian Research Center (8 spinoffs -> 6)
- *   - Added: QLillian (founder-support and portfolio operations entity)
- *   - Lillian Kristiansen promoted to "Founding Supporter" tier (5.00% total, 0.75% holding + 6 x 0.7083% spinoffs)
- *   - Other employee TOTALS unchanged; per-spinoff rates rebalanced upward to absorb 8->6 reduction
+ * Updated 2026-04-30, equity restructure:
+ *   - 5% reserved for Founding Supporter inner circle: Daria S. Houshmand, Sharareh M. Shariat Panahi, Lillian Kristiansen
+ *   - C-Suite tier removed (no current members; Sharareh promoted to Founding Supporter)
+ *   - Senior tier scaled down from 3.75% to 2.50% total (0.50% holding + 6 x 0.3333% spinoffs)
+ *   - Mid tier scaled down from 2.50% to 1.50% total (0.30% holding + 6 x 0.2000% spinoffs)
+ *   - Performance-only (Fredrik) gains spinoff slice: 0.15% holding + 6 x 0.0167% = 0.25% total
+ *   - Junior/Board tier kept at 0.25% total (currently empty; Daria moved up to Founding Supporter)
+ *   - Total employee holding allocation: 5.60% (3 x 0.75 + 4 x 0.50 + 4 x 0.30 + 0.15)
  *   - Contingent Reallocation: per-spinoff equity for unregistered subsidiaries (as of 2029-12-31)
  *     redistributes pro-rata across registered survivors. Holding allocation never affected.
  *     See `getEffectiveAllocations()` below.
@@ -130,35 +133,47 @@ export const spinoffFundingTargets: Record<
 };
 
 // =============================================================================
-// Tier rates (post-rebalance, 6 spinoffs)
+// Tier rates (post-restructure 2026-04-30, 6 spinoffs)
 // Per-spinoff rates expressed as exact fractions to preserve precision.
 // Total = holdingPct + 6 * perSpinoffPct
 // =============================================================================
 
-/** C-Suite: 1.0% holding + 6 x 0.6667% spinoffs = 5.00% total */
-const C_SUITE_PER_SPINOFF = 4.0 / 6; // 0.6667%
-
-/** Senior: 0.75% holding + 6 x 0.5000% spinoffs = 3.75% total */
-const SENIOR_PER_SPINOFF = 3.0 / 6; // 0.5000%
-
-/** Founding Supporter (Lillian only): 0.75% holding + 6 x 0.7083% spinoffs = 5.00% total */
+/** Founding Supporter (Daria, Sharareh, Lillian): 0.75% holding + 6 x 0.7083% spinoffs = 5.00% total */
 const FOUNDING_SUPPORTER_PER_SPINOFF = 4.25 / 6; // 0.7083%
 
-/** Mid: 0.5% holding + 6 x 0.3333% spinoffs = 2.50% total */
-const MID_PER_SPINOFF = 2.0 / 6; // 0.3333%
+/** Senior: 0.50% holding + 6 x 0.3333% spinoffs = 2.50% total */
+const SENIOR_PER_SPINOFF = 2.0 / 6; // 0.3333%
 
-/** Junior/Board: 0.5% holding + 6 x 0.3333% spinoffs = 2.50% total */
-const JUNIOR_PER_SPINOFF = 2.0 / 6; // 0.3333%
+/** Mid: 0.30% holding + 6 x 0.2000% spinoffs = 1.50% total */
+const MID_PER_SPINOFF = 1.2 / 6; // 0.2000%
+
+/** Performance-only (Fredrik): 0.15% holding + 6 x 0.0167% spinoffs = 0.25% total. Additional grants require Board approval. */
+const PERFORMANCE_PER_SPINOFF = 0.1 / 6; // 0.0167%
+
+/** Junior/Board: 0.15% holding + 6 x 0.0167% spinoffs = 0.25% total (tier currently empty; reserved for future hires) */
+export const JUNIOR_PER_SPINOFF = 0.1 / 6; // 0.0167%
 
 // =============================================================================
 // Per-spinoff seed-trigger employee lists (used inside spinoffCompanies)
 // =============================================================================
 
-const cSuiteEmployees: SpinoffEmployee[] = [
+const foundingSupporterEmployees: SpinoffEmployee[] = [
+  {
+    name: "Daria S. Houshmand",
+    role: "Dev Intern & Board (Founding Supporter)",
+    milestonePct: FOUNDING_SUPPORTER_PER_SPINOFF,
+    triggerRound: "Seed",
+  },
   {
     name: "Sharareh M. Shariat Panahi",
-    role: "Asst. CEO",
-    milestonePct: C_SUITE_PER_SPINOFF,
+    role: "Asst. CEO (Founding Supporter)",
+    milestonePct: FOUNDING_SUPPORTER_PER_SPINOFF,
+    triggerRound: "Seed",
+  },
+  {
+    name: "Lillian Kristiansen",
+    role: "Chief Admin Officer (Founding Supporter)",
+    milestonePct: FOUNDING_SUPPORTER_PER_SPINOFF,
     triggerRound: "Seed",
   },
 ];
@@ -190,15 +205,6 @@ const seniorEmployees: SpinoffEmployee[] = [
   },
 ];
 
-const foundingSupporterEmployees: SpinoffEmployee[] = [
-  {
-    name: "Lillian Kristiansen",
-    role: "Chief Admin Officer (Founding Supporter)",
-    milestonePct: FOUNDING_SUPPORTER_PER_SPINOFF,
-    triggerRound: "Seed",
-  },
-];
-
 const midEmployees: SpinoffEmployee[] = [
   {
     name: "Gaspar Alvarado",
@@ -226,28 +232,27 @@ const midEmployees: SpinoffEmployee[] = [
   },
 ];
 
-const juniorBoardEmployees: SpinoffEmployee[] = [
+const performanceOnlyEmployees: SpinoffEmployee[] = [
   {
-    name: "Daria Houshmand",
-    role: "Dev Intern & Board",
-    milestonePct: JUNIOR_PER_SPINOFF,
+    name: "Fredrik Krey Stubberud",
+    role: "Test Engineer (Performance-only)",
+    milestonePct: PERFORMANCE_PER_SPINOFF,
     triggerRound: "Seed",
   },
 ];
 
-// Fredrik Krey Stubberud: NO spinoff equity — performance-only at Holdings level (0.25%).
-// Future spinoff grants require verified milestones and Board approval.
+const juniorBoardEmployees: SpinoffEmployee[] = [];
 
 const allEmployees: SpinoffEmployee[] = [
-  ...cSuiteEmployees,
-  ...seniorEmployees,
   ...foundingSupporterEmployees,
+  ...seniorEmployees,
   ...midEmployees,
+  ...performanceOnlyEmployees,
   ...juniorBoardEmployees,
 ];
 
 // =============================================================================
-// Spinoff company definitions (6 entities, post-restructure 2026-04-28)
+// Spinoff company definitions (6 entities, post-restructure 2026-04-30)
 // =============================================================================
 
 export const spinoffCompanies: SpinoffCompany[] = [
@@ -266,7 +271,7 @@ export const spinoffCompanies: SpinoffCompany[] = [
     id: "qm9",
     name: "Qm9",
     description:
-      "Quantum fintech — HFDT, portfolio optimisation, risk assessment, algorithmic day trading",
+      "Quantum fintech, HFDT, portfolio optimisation, risk assessment, algorithmic day trading",
     ceoName: "Daniel Mo Houshmand",
     ceoPct: 70,
     investorPoolPct: 30,
@@ -277,7 +282,7 @@ export const spinoffCompanies: SpinoffCompany[] = [
     id: "qmikeai",
     name: "QMikeAI",
     description:
-      "Quantum-enhanced HPC research institution — weather forecasting, climate modelling, scientific computing",
+      "Quantum-enhanced HPC research institution, weather forecasting, climate modelling, scientific computing",
     ceoName: "Daniel Mo Houshmand",
     ceoPct: 70,
     investorPoolPct: 30,
@@ -288,7 +293,7 @@ export const spinoffCompanies: SpinoffCompany[] = [
     id: "qnilaya",
     name: "QNilaya",
     description:
-      "Quantum health tech — precision medicine, drug discovery, genomics, and clinical AI",
+      "Quantum health tech, precision medicine, drug discovery, genomics, and clinical AI",
     ceoName: "Daniel Mo Houshmand",
     ceoPct: 70,
     investorPoolPct: 30,
@@ -301,7 +306,7 @@ export const spinoffCompanies: SpinoffCompany[] = [
     id: "qdiana",
     name: "QDiana",
     description:
-      "Quantum-enhanced educational platform — adaptive learning, curriculum design, and knowledge assessment",
+      "Quantum-enhanced educational platform, adaptive learning, curriculum design, and knowledge assessment",
     ceoName: "Daniel Mo Houshmand",
     ceoPct: 70,
     investorPoolPct: 30,
@@ -312,7 +317,7 @@ export const spinoffCompanies: SpinoffCompany[] = [
     id: "qlillian",
     name: "QLillian",
     description:
-      "Founder-support and portfolio operations entity — admin, governance, people-ops, and cross-subsidiary coordination across QDaria Holdings.",
+      "Founder-support and portfolio operations entity, admin, governance, people-ops, and cross-subsidiary coordination across QDaria Holdings.",
     ceoName: "Daniel Mo Houshmand",
     ceoPct: 70,
     investorPoolPct: 30,
@@ -347,86 +352,44 @@ export interface EmployeeEquityMap {
 }
 
 /**
- * Tiered equity allocations across all companies (post-rebalance).
+ * Tiered equity allocations across all companies (post-restructure 2026-04-30).
  *
- *   C-Suite:            1.00% Holdings + 6 x 0.6667% spinoffs = 5.00%
- *   Senior:             0.75% Holdings + 6 x 0.5000% spinoffs = 3.75%
- *   Founding Supporter: 0.75% Holdings + 6 x 0.7083% spinoffs = 5.00%   (Lillian Kristiansen only)
- *   Mid:                0.50% Holdings + 6 x 0.3333% spinoffs = 2.50%
- *   Junior/Board:       0.50% Holdings + 6 x 0.3333% spinoffs = 2.50%
- *   Performance-only:   0.25% Holdings only                   = 0.25%   (Fredrik, no spinoffs)
+ *   Founding Supporter: 0.75% Holdings + 6 x 0.7083% spinoffs = 5.00%   (Daria, Sharareh, Lillian)
+ *   Senior:             0.50% Holdings + 6 x 0.3333% spinoffs = 2.50%
+ *   Mid:                0.30% Holdings + 6 x 0.2000% spinoffs = 1.50%
+ *   Performance-only:   0.15% Holdings + 6 x 0.0167% spinoffs = 0.25%   (Fredrik; further grants require Board approval)
+ *   Junior/Board:       0.15% Holdings + 6 x 0.0167% spinoffs = 0.25%   (tier currently empty)
  *
- * Totals match the prior 8-spinoff structure (except Lillian, who moves 3.75 -> 5.00).
+ * Total employee holding allocation (excluding founder): 5.60%.
  */
 export const employeeEquityAllocations: EmployeeEquityMap[] = [
-  // C-Suite
+  // Founding Supporter tier (5.00% total each)
+  {
+    name: "Daria S. Houshmand",
+    totalPct: 0.75 + 6 * FOUNDING_SUPPORTER_PER_SPINOFF, // 5.00%
+    allocations: {
+      "qdaria-holding": 0.75,
+      zipminator: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qm9: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qmikeai: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qnilaya: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qdiana: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qlillian: FOUNDING_SUPPORTER_PER_SPINOFF,
+    },
+  },
   {
     name: "Sharareh M. Shariat Panahi",
-    totalPct: 1.0 + 6 * C_SUITE_PER_SPINOFF, // 5.00%
-    allocations: {
-      "qdaria-holding": 1.0,
-      zipminator: C_SUITE_PER_SPINOFF,
-      qm9: C_SUITE_PER_SPINOFF,
-      qmikeai: C_SUITE_PER_SPINOFF,
-      qnilaya: C_SUITE_PER_SPINOFF,
-      qdiana: C_SUITE_PER_SPINOFF,
-      qlillian: C_SUITE_PER_SPINOFF,
-    },
-  },
-  // Senior
-  {
-    name: "Caroline Woie",
-    totalPct: 0.75 + 6 * SENIOR_PER_SPINOFF, // 3.75%
+    totalPct: 0.75 + 6 * FOUNDING_SUPPORTER_PER_SPINOFF, // 5.00%
     allocations: {
       "qdaria-holding": 0.75,
-      zipminator: SENIOR_PER_SPINOFF,
-      qm9: SENIOR_PER_SPINOFF,
-      qmikeai: SENIOR_PER_SPINOFF,
-      qnilaya: SENIOR_PER_SPINOFF,
-      qdiana: SENIOR_PER_SPINOFF,
-      qlillian: SENIOR_PER_SPINOFF,
+      zipminator: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qm9: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qmikeai: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qnilaya: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qdiana: FOUNDING_SUPPORTER_PER_SPINOFF,
+      qlillian: FOUNDING_SUPPORTER_PER_SPINOFF,
     },
   },
-  {
-    name: "Rajesh Chavan",
-    totalPct: 0.75 + 6 * SENIOR_PER_SPINOFF,
-    allocations: {
-      "qdaria-holding": 0.75,
-      zipminator: SENIOR_PER_SPINOFF,
-      qm9: SENIOR_PER_SPINOFF,
-      qmikeai: SENIOR_PER_SPINOFF,
-      qnilaya: SENIOR_PER_SPINOFF,
-      qdiana: SENIOR_PER_SPINOFF,
-      qlillian: SENIOR_PER_SPINOFF,
-    },
-  },
-  {
-    name: "John Kristiansen",
-    totalPct: 0.75 + 6 * SENIOR_PER_SPINOFF,
-    allocations: {
-      "qdaria-holding": 0.75,
-      zipminator: SENIOR_PER_SPINOFF,
-      qm9: SENIOR_PER_SPINOFF,
-      qmikeai: SENIOR_PER_SPINOFF,
-      qnilaya: SENIOR_PER_SPINOFF,
-      qdiana: SENIOR_PER_SPINOFF,
-      qlillian: SENIOR_PER_SPINOFF,
-    },
-  },
-  {
-    name: "Lindsay Sanner",
-    totalPct: 0.75 + 6 * SENIOR_PER_SPINOFF,
-    allocations: {
-      "qdaria-holding": 0.75,
-      zipminator: SENIOR_PER_SPINOFF,
-      qm9: SENIOR_PER_SPINOFF,
-      qmikeai: SENIOR_PER_SPINOFF,
-      qnilaya: SENIOR_PER_SPINOFF,
-      qdiana: SENIOR_PER_SPINOFF,
-      qlillian: SENIOR_PER_SPINOFF,
-    },
-  },
-  // Founding Supporter — Lillian only (5.00% total)
   {
     name: "Lillian Kristiansen",
     totalPct: 0.75 + 6 * FOUNDING_SUPPORTER_PER_SPINOFF, // 5.00%
@@ -440,12 +403,65 @@ export const employeeEquityAllocations: EmployeeEquityMap[] = [
       qlillian: FOUNDING_SUPPORTER_PER_SPINOFF,
     },
   },
-  // Mid
+  // Senior tier (2.50% total each)
   {
-    name: "Gaspar Alvarado",
-    totalPct: 0.5 + 6 * MID_PER_SPINOFF, // 2.50%
+    name: "Caroline Woie",
+    totalPct: 0.5 + 6 * SENIOR_PER_SPINOFF, // 2.50%
     allocations: {
       "qdaria-holding": 0.5,
+      zipminator: SENIOR_PER_SPINOFF,
+      qm9: SENIOR_PER_SPINOFF,
+      qmikeai: SENIOR_PER_SPINOFF,
+      qnilaya: SENIOR_PER_SPINOFF,
+      qdiana: SENIOR_PER_SPINOFF,
+      qlillian: SENIOR_PER_SPINOFF,
+    },
+  },
+  {
+    name: "Rajesh Chavan",
+    totalPct: 0.5 + 6 * SENIOR_PER_SPINOFF,
+    allocations: {
+      "qdaria-holding": 0.5,
+      zipminator: SENIOR_PER_SPINOFF,
+      qm9: SENIOR_PER_SPINOFF,
+      qmikeai: SENIOR_PER_SPINOFF,
+      qnilaya: SENIOR_PER_SPINOFF,
+      qdiana: SENIOR_PER_SPINOFF,
+      qlillian: SENIOR_PER_SPINOFF,
+    },
+  },
+  {
+    name: "John Kristiansen",
+    totalPct: 0.5 + 6 * SENIOR_PER_SPINOFF,
+    allocations: {
+      "qdaria-holding": 0.5,
+      zipminator: SENIOR_PER_SPINOFF,
+      qm9: SENIOR_PER_SPINOFF,
+      qmikeai: SENIOR_PER_SPINOFF,
+      qnilaya: SENIOR_PER_SPINOFF,
+      qdiana: SENIOR_PER_SPINOFF,
+      qlillian: SENIOR_PER_SPINOFF,
+    },
+  },
+  {
+    name: "Lindsay Sanner",
+    totalPct: 0.5 + 6 * SENIOR_PER_SPINOFF,
+    allocations: {
+      "qdaria-holding": 0.5,
+      zipminator: SENIOR_PER_SPINOFF,
+      qm9: SENIOR_PER_SPINOFF,
+      qmikeai: SENIOR_PER_SPINOFF,
+      qnilaya: SENIOR_PER_SPINOFF,
+      qdiana: SENIOR_PER_SPINOFF,
+      qlillian: SENIOR_PER_SPINOFF,
+    },
+  },
+  // Mid tier (1.50% total each)
+  {
+    name: "Gaspar Alvarado",
+    totalPct: 0.3 + 6 * MID_PER_SPINOFF, // 1.50%
+    allocations: {
+      "qdaria-holding": 0.3,
       zipminator: MID_PER_SPINOFF,
       qm9: MID_PER_SPINOFF,
       qmikeai: MID_PER_SPINOFF,
@@ -456,9 +472,9 @@ export const employeeEquityAllocations: EmployeeEquityMap[] = [
   },
   {
     name: "Nick Saaf",
-    totalPct: 0.5 + 6 * MID_PER_SPINOFF,
+    totalPct: 0.3 + 6 * MID_PER_SPINOFF,
     allocations: {
-      "qdaria-holding": 0.5,
+      "qdaria-holding": 0.3,
       zipminator: MID_PER_SPINOFF,
       qm9: MID_PER_SPINOFF,
       qmikeai: MID_PER_SPINOFF,
@@ -467,20 +483,25 @@ export const employeeEquityAllocations: EmployeeEquityMap[] = [
       qlillian: MID_PER_SPINOFF,
     },
   },
-  // Performance-only (Holdings only, no spinoffs)
+  // Performance-only (Fredrik): 0.25% total. Additional grants gated on Board approval.
   {
     name: "Fredrik Krey Stubberud",
-    totalPct: 0.25,
+    totalPct: 0.15 + 6 * PERFORMANCE_PER_SPINOFF, // 0.25%
     allocations: {
-      "qdaria-holding": 0.25,
-      // No spinoff equity. Future grants require verified milestones + Board approval.
+      "qdaria-holding": 0.15,
+      zipminator: PERFORMANCE_PER_SPINOFF,
+      qm9: PERFORMANCE_PER_SPINOFF,
+      qmikeai: PERFORMANCE_PER_SPINOFF,
+      qnilaya: PERFORMANCE_PER_SPINOFF,
+      qdiana: PERFORMANCE_PER_SPINOFF,
+      qlillian: PERFORMANCE_PER_SPINOFF,
     },
   },
   {
     name: "Yulia Ginzburg",
-    totalPct: 0.5 + 6 * MID_PER_SPINOFF,
+    totalPct: 0.3 + 6 * MID_PER_SPINOFF,
     allocations: {
-      "qdaria-holding": 0.5,
+      "qdaria-holding": 0.3,
       zipminator: MID_PER_SPINOFF,
       qm9: MID_PER_SPINOFF,
       qmikeai: MID_PER_SPINOFF,
@@ -491,9 +512,9 @@ export const employeeEquityAllocations: EmployeeEquityMap[] = [
   },
   {
     name: "Nils Bjelland Gronvold",
-    totalPct: 0.5 + 6 * MID_PER_SPINOFF,
+    totalPct: 0.3 + 6 * MID_PER_SPINOFF,
     allocations: {
-      "qdaria-holding": 0.5,
+      "qdaria-holding": 0.3,
       zipminator: MID_PER_SPINOFF,
       qm9: MID_PER_SPINOFF,
       qmikeai: MID_PER_SPINOFF,
@@ -502,24 +523,10 @@ export const employeeEquityAllocations: EmployeeEquityMap[] = [
       qlillian: MID_PER_SPINOFF,
     },
   },
-  // Junior/Board
-  {
-    name: "Daria Houshmand",
-    totalPct: 0.5 + 6 * JUNIOR_PER_SPINOFF, // 2.50%
-    allocations: {
-      "qdaria-holding": 0.5,
-      zipminator: JUNIOR_PER_SPINOFF,
-      qm9: JUNIOR_PER_SPINOFF,
-      qmikeai: JUNIOR_PER_SPINOFF,
-      qnilaya: JUNIOR_PER_SPINOFF,
-      qdiana: JUNIOR_PER_SPINOFF,
-      qlillian: JUNIOR_PER_SPINOFF,
-    },
-  },
 ];
 
 // =============================================================================
-// Contingent Reallocation (Section 6.X of every contract, deadline 2029-12-31)
+// Contingent Reallocation (Section 5.5 of every contract, deadline 2029-12-31)
 // =============================================================================
 
 /**
@@ -536,8 +543,8 @@ export const employeeEquityAllocations: EmployeeEquityMap[] = [
  *
  * Example (Senior tier, QDiana + QMikeAI fail to incorporate):
  *   getEffectiveAllocations(['zipminator', 'qm9', 'qnilaya', 'qlillian'])
- *   -> Senior per-spinoff = 0.5 + (2 * 0.5) / 4 = 0.75% per surviving spinoff
- *   -> Total = 0.75 (holding) + 4 * 0.75 = 3.75% (unchanged)
+ *   -> Senior per-spinoff = 0.3333 + (2 * 0.3333) / 4 = 0.5 per surviving spinoff
+ *   -> Total = 0.50 (holding) + 4 * 0.5 = 2.50% (unchanged)
  */
 export function getEffectiveAllocations(
   registeredIds: ReadonlyArray<string> = ALL_SPINOFF_IDS,
@@ -581,7 +588,7 @@ export function getEffectiveAllocations(
 }
 
 // =============================================================================
-// Funding milestone bonuses (unchanged — apply across all employees)
+// Funding milestone bonuses (unchanged, apply across all employees)
 // =============================================================================
 
 export interface FundingMilestoneBonus {
