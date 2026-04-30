@@ -1,81 +1,103 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
 import {
-  PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
-} from 'recharts';
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import {
-  PieChart as PieChartIcon, Users, Briefcase,
-  ArrowUpDown, ChevronUp, ChevronDown,
-  Building2, Milestone, AlertCircle, Info,
-} from 'lucide-react';
-import { useEquity } from '../../../hooks/use-equity';
-import { spinoffCompanies, employeeEquityAllocations } from '../../../data/admin/spinoff-equity-seed';
-import type { SpinoffCompany } from '../../../data/admin/spinoff-equity-seed';
-import type { EquityDistribution } from '../../../types/admin';
+  PieChart as PieChartIcon,
+  Users,
+  Briefcase,
+  ArrowUpDown,
+  ChevronUp,
+  ChevronDown,
+  Building2,
+  Milestone,
+  AlertCircle,
+  Info,
+} from "lucide-react";
+import { useEquity } from "../../../hooks/use-equity";
+import {
+  spinoffCompanies,
+  employeeEquityAllocations,
+} from "../../../data/admin/spinoff-equity-seed";
+import type { SpinoffCompany } from "../../../data/admin/spinoff-equity-seed";
+import type { EquityDistribution } from "../../../types/admin";
 
 /* ---------- constants ---------- */
 
 const SHARE_TYPE_COLORS: Record<string, string> = {
-  common: '#06b6d4',
-  preferred: '#8b5cf6',
-  options: '#10b981',
-  phantom: '#f59e0b',
+  common: "#06b6d4",
+  preferred: "#8b5cf6",
+  options: "#10b981",
+  phantom: "#f59e0b",
 };
 
 const SHARE_TYPE_LABELS: Record<string, string> = {
-  common: 'Common',
-  preferred: 'Preferred',
-  options: 'Options',
-  phantom: 'Phantom',
+  common: "Common",
+  preferred: "Preferred",
+  options: "Options",
+  phantom: "Phantom",
 };
 
 const ROUND_COLORS: Record<string, string> = {
-  Seed: '#8b5cf6',
-  'Series A': '#06b6d4',
-  'Series B': '#10b981',
-  'Series C': '#f59e0b',
-  IPO: '#ec4899',
+  Seed: "#8b5cf6",
+  "Series A": "#06b6d4",
+  "Series B": "#10b981",
+  "Series C": "#f59e0b",
+  IPO: "#ec4899",
 };
 
-type SortField = 'name' | 'shareType' | 'percentage' | 'cliffMonths' | 'totalMonths';
-type SortDir = 'asc' | 'desc';
+type SortField =
+  | "name"
+  | "shareType"
+  | "percentage"
+  | "cliffMonths"
+  | "totalMonths";
+type SortDir = "asc" | "desc";
 
 /* ---------- Cross-company equity grid constants ---------- */
 
 const ALL_COMPANIES = [
-  { id: 'qdaria-holding', shortName: 'QDaria Holding' },
-  { id: 'zipminator', shortName: 'Zipminator' },
-  { id: 'qm9', shortName: 'Qm9' },
-  { id: 'qmikeai', shortName: 'QMikeAI' },
-  { id: 'thqai', shortName: 'THQAI' },
-  { id: 'qnilaya', shortName: 'QNilaya' },
-  { id: 'qiot', shortName: 'QIoT' },
-  { id: 'lillian-research', shortName: 'Lillian Research' },
-  { id: 'qdiana', shortName: 'QDiana' },
+  { id: "qdaria-holding", shortName: "QDaria Holding" },
+  { id: "zipminator", shortName: "Zipminator" },
+  { id: "qm9", shortName: "Qm9" },
+  { id: "qmikeai", shortName: "QMikeAI" },
+  { id: "qnilaya", shortName: "QNilaya" },
+  { id: "qdiana", shortName: "QDiana" },
+  { id: "qlillian", shortName: "QLillian" },
 ] as const;
 
 /** CEO row data for the cross-company grid */
 const CEO_ROW = {
-  name: 'Daniel Mo Houshmand',
+  name: "Daniel Mo Houshmand",
   totalPct: 51 + spinoffCompanies.reduce((s, c) => s + c.ceoPct, 0),
   allocations: {
-    'qdaria-holding': 51,
+    "qdaria-holding": 51,
     ...Object.fromEntries(spinoffCompanies.map((c) => [c.id, c.ceoPct])),
   } as Record<string, number>,
 };
 
 /** Returns a Tailwind bg-color class based on equity value for heat-map coloring */
 function equityCellBg(value: number): string {
-  if (value >= 50) return 'bg-cyan-500/25';
-  if (value >= 5) return 'bg-cyan-500/20';
-  if (value >= 2) return 'bg-cyan-500/15';
-  if (value >= 1) return 'bg-cyan-500/10';
-  if (value > 0) return 'bg-cyan-500/5';
-  return '';
+  if (value >= 50) return "bg-cyan-500/25";
+  if (value >= 5) return "bg-cyan-500/20";
+  if (value >= 2) return "bg-cyan-500/15";
+  if (value >= 1) return "bg-cyan-500/10";
+  if (value > 0) return "bg-cyan-500/5";
+  return "";
 }
 
 /* ---------- CrossCompanyEquityGrid ---------- */
 
-function CrossCompanyEquityGrid({ highlightCompanyId }: { highlightCompanyId?: string }) {
+function CrossCompanyEquityGrid({
+  highlightCompanyId,
+}: {
+  highlightCompanyId?: string;
+}) {
   // Compute per-company totals (CEO + all employees)
   const companyTotals: Record<string, number> = {};
   ALL_COMPANIES.forEach((c) => {
@@ -89,16 +111,27 @@ function CrossCompanyEquityGrid({ highlightCompanyId }: { highlightCompanyId?: s
   });
 
   function renderRow(
-    emp: { name: string; totalPct: number; allocations: Record<string, number> },
+    emp: {
+      name: string;
+      totalPct: number;
+      allocations: Record<string, number>;
+    },
     idx: number,
     isCeo?: boolean,
   ) {
-    const total = ALL_COMPANIES.reduce((s, c) => s + (emp.allocations[c.id] ?? 0), 0);
+    const total = ALL_COMPANIES.reduce(
+      (s, c) => s + (emp.allocations[c.id] ?? 0),
+      0,
+    );
     return (
       <tr
         key={emp.name}
         className={`border-b border-gray-800/50 transition-colors hover:bg-gray-800/30 ${
-          isCeo ? 'bg-cyan-500/5' : idx % 2 === 0 ? 'bg-transparent' : 'bg-gray-900/20'
+          isCeo
+            ? "bg-cyan-500/5"
+            : idx % 2 === 0
+              ? "bg-transparent"
+              : "bg-gray-900/20"
         }`}
       >
         {/* Sticky name column */}
@@ -115,9 +148,16 @@ function CrossCompanyEquityGrid({ highlightCompanyId }: { highlightCompanyId?: s
         {/* Total column first — meaningful for employees (allocation budget), dash for CEO */}
         <td className="whitespace-nowrap px-3 py-2.5 text-center font-mono text-sm font-semibold text-cyan-400">
           {isCeo ? (
-            <span className="text-xs text-gray-500" title="Independent stakes in separate entities">-</span>
+            <span
+              className="text-xs text-gray-500"
+              title="Independent stakes in separate entities"
+            >
+              -
+            </span>
+          ) : total > 0 ? (
+            `${total.toFixed(total % 1 === 0 ? 0 : 1)}%`
           ) : (
-            total > 0 ? `${total.toFixed(total % 1 === 0 ? 0 : 1)}%` : '-'
+            "-"
           )}
         </td>
         {/* Per-company columns */}
@@ -128,10 +168,16 @@ function CrossCompanyEquityGrid({ highlightCompanyId }: { highlightCompanyId?: s
             <td
               key={c.id}
               className={`whitespace-nowrap px-3 py-2.5 text-center font-mono text-sm ${equityCellBg(val)} ${
-                isHighlighted ? 'font-bold text-cyan-300' : val > 0 ? 'text-white' : 'text-gray-600'
-              } ${isHighlighted ? 'ring-1 ring-inset ring-cyan-500/30' : ''}`}
+                isHighlighted
+                  ? "font-bold text-cyan-300"
+                  : val > 0
+                    ? "text-white"
+                    : "text-gray-600"
+              } ${isHighlighted ? "ring-1 ring-inset ring-cyan-500/30" : ""}`}
             >
-              {val > 0 ? `${val.toFixed(val % 1 === 0 && val >= 1 ? 0 : val >= 0.1 ? 1 : 2)}%` : '-'}
+              {val > 0
+                ? `${val.toFixed(val % 1 === 0 && val >= 1 ? 0 : val >= 0.1 ? 1 : 2)}%`
+                : "-"}
             </td>
           );
         })}
@@ -142,22 +188,29 @@ function CrossCompanyEquityGrid({ highlightCompanyId }: { highlightCompanyId?: s
   return (
     <div className="rounded-xl border border-gray-800 bg-[#111827]">
       <div className="flex items-center justify-between border-b border-gray-800 px-6 py-4">
-        <h3 className="text-lg font-semibold text-white">Cross-Company Equity Grid</h3>
+        <h3 className="text-lg font-semibold text-white">
+          Cross-Company Equity Grid
+        </h3>
         <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-400">
-          {employeeEquityAllocations.length + 1} members &middot; {ALL_COMPANIES.length} companies
+          {employeeEquityAllocations.length + 1} members &middot;{" "}
+          {ALL_COMPANIES.length} companies
         </span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[900px] text-sm">
           <thead>
             <tr className="border-b border-gray-800 text-left text-gray-400">
-              <th className="sticky left-0 z-20 bg-[#111827] px-4 py-3 font-medium">Name</th>
-              <th className="whitespace-nowrap px-3 py-3 text-center font-medium text-cyan-400">Total</th>
+              <th className="sticky left-0 z-20 bg-[#111827] px-4 py-3 font-medium">
+                Name
+              </th>
+              <th className="whitespace-nowrap px-3 py-3 text-center font-medium text-cyan-400">
+                Total
+              </th>
               {ALL_COMPANIES.map((c) => (
                 <th
                   key={c.id}
                   className={`whitespace-nowrap px-3 py-3 text-center font-medium ${
-                    c.id === highlightCompanyId ? 'text-cyan-400' : ''
+                    c.id === highlightCompanyId ? "text-cyan-400" : ""
                   }`}
                 >
                   {c.shortName}
@@ -174,16 +227,25 @@ function CrossCompanyEquityGrid({ highlightCompanyId }: { highlightCompanyId?: s
           </tbody>
           <tfoot>
             <tr className="border-t-2 border-gray-700 bg-gray-900/60">
-              <td className="sticky left-0 z-10 bg-gray-900/60 px-4 py-3 font-bold text-white">Totals</td>
-              <td className="px-3 py-3 text-center font-mono text-sm font-bold text-gray-500">-</td>
+              <td className="sticky left-0 z-10 bg-gray-900/60 px-4 py-3 font-bold text-white">
+                Totals
+              </td>
+              <td className="px-3 py-3 text-center font-mono text-sm font-bold text-gray-500">
+                -
+              </td>
               {ALL_COMPANIES.map((c) => (
                 <td
                   key={c.id}
                   className={`px-3 py-3 text-center font-mono text-sm font-bold ${
-                    c.id === highlightCompanyId ? 'text-cyan-300' : 'text-gray-200'
+                    c.id === highlightCompanyId
+                      ? "text-cyan-300"
+                      : "text-gray-200"
                   }`}
                 >
-                  {companyTotals[c.id]?.toFixed(companyTotals[c.id] % 1 === 0 ? 0 : 1)}%
+                  {companyTotals[c.id]?.toFixed(
+                    companyTotals[c.id] % 1 === 0 ? 0 : 1,
+                  )}
+                  %
                 </td>
               ))}
             </tr>
@@ -194,12 +256,15 @@ function CrossCompanyEquityGrid({ highlightCompanyId }: { highlightCompanyId?: s
   );
 }
 
-const TAB_IDS = ['qdaria', ...spinoffCompanies.map((c) => c.id)] as const;
-type TabId = typeof TAB_IDS[number];
+const TAB_IDS = ["qdaria", ...spinoffCompanies.map((c) => c.id)] as const;
+type TabId = (typeof TAB_IDS)[number];
 
 const TAB_LABELS: Record<TabId, string> = {
-  qdaria: 'QDaria Holding',
-  ...Object.fromEntries(spinoffCompanies.map((c) => [c.id, c.name])) as Record<string, string>,
+  qdaria: "QDaria Holding",
+  ...(Object.fromEntries(spinoffCompanies.map((c) => [c.id, c.name])) as Record<
+    string,
+    string
+  >),
 };
 
 /* ---------- shared sub-components ---------- */
@@ -226,8 +291,14 @@ function SpinoffTooltip({ active, payload }: any) {
   );
 }
 
-function VestingBar({ cliffMonths, totalMonths, vestingStartDate }: {
-  cliffMonths: number; totalMonths: number; vestingStartDate?: string;
+function VestingBar({
+  cliffMonths,
+  totalMonths,
+  vestingStartDate,
+}: {
+  cliffMonths: number;
+  totalMonths: number;
+  vestingStartDate?: string;
 }) {
   const now = new Date();
   let monthsElapsed = 0;
@@ -235,7 +306,8 @@ function VestingBar({ cliffMonths, totalMonths, vestingStartDate }: {
 
   if (vestingStartDate) {
     const start = new Date(vestingStartDate);
-    monthsElapsed = (now.getFullYear() - start.getFullYear()) * 12 +
+    monthsElapsed =
+      (now.getFullYear() - start.getFullYear()) * 12 +
       (now.getMonth() - start.getMonth());
     started = monthsElapsed >= 0;
   }
@@ -244,7 +316,10 @@ function VestingBar({ cliffMonths, totalMonths, vestingStartDate }: {
     return (
       <div className="flex items-center gap-2">
         <div className="h-2 w-24 rounded-full bg-gray-700">
-          <div className="h-2 rounded-full bg-cyan-500" style={{ width: '100%' }} />
+          <div
+            className="h-2 rounded-full bg-cyan-500"
+            style={{ width: "100%" }}
+          />
         </div>
         <span className="text-xs text-cyan-400">Fully vested</span>
       </div>
@@ -255,7 +330,10 @@ function VestingBar({ cliffMonths, totalMonths, vestingStartDate }: {
     return (
       <div className="flex items-center gap-2">
         <div className="h-2 w-24 rounded-full bg-gray-700">
-          <div className="h-2 rounded-full bg-gray-600" style={{ width: '0%' }} />
+          <div
+            className="h-2 rounded-full bg-gray-600"
+            style={{ width: "0%" }}
+          />
         </div>
         <span className="text-xs text-gray-500">Starting soon</span>
       </div>
@@ -269,7 +347,7 @@ function VestingBar({ cliffMonths, totalMonths, vestingStartDate }: {
     <div className="flex items-center gap-2">
       <div className="relative h-2 w-24 rounded-full bg-gray-700">
         <div
-          className={`h-2 rounded-full ${pastCliff ? 'bg-emerald-500' : 'bg-amber-500'}`}
+          className={`h-2 rounded-full ${pastCliff ? "bg-emerald-500" : "bg-amber-500"}`}
           style={{ width: `${pct}%` }}
         />
         <div
@@ -277,9 +355,7 @@ function VestingBar({ cliffMonths, totalMonths, vestingStartDate }: {
           style={{ left: `${(cliffMonths / totalMonths) * 100}%` }}
         />
       </div>
-      <span className="text-xs text-gray-400">
-        {Math.round(pct)}%
-      </span>
+      <span className="text-xs text-gray-400">{Math.round(pct)}%</span>
     </div>
   );
 }
@@ -288,11 +364,15 @@ function VestingBar({ cliffMonths, totalMonths, vestingStartDate }: {
 
 function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
   const donutData = [
-    { name: `CEO (${company.ceoName.split(' ').pop()})`, value: company.ceoPct, color: '#06b6d4' },
+    {
+      name: `CEO (${company.ceoName.split(" ").pop()})`,
+      value: company.ceoPct,
+      color: "#06b6d4",
+    },
     ...company.fundingRounds.map((r) => ({
       name: r.name,
       value: r.investorPoolPct,
-      color: ROUND_COLORS[r.name] ?? '#6b7280',
+      color: ROUND_COLORS[r.name] ?? "#6b7280",
     })),
   ];
 
@@ -312,7 +392,9 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
         {company.specialConditions && (
           <div className="mt-4 flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3">
             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
-            <p className="text-sm text-amber-300">{company.specialConditions}</p>
+            <p className="text-sm text-amber-300">
+              {company.specialConditions}
+            </p>
           </div>
         )}
       </div>
@@ -337,7 +419,9 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
             </div>
             <div>
               <p className="text-sm text-gray-400">Investor Pool</p>
-              <p className="text-2xl font-bold text-white">{company.investorPoolPct}%</p>
+              <p className="text-2xl font-bold text-white">
+                {company.investorPoolPct}%
+              </p>
             </div>
           </div>
         </div>
@@ -348,7 +432,9 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
             </div>
             <div>
               <p className="text-sm text-gray-400">Team Members</p>
-              <p className="text-2xl font-bold text-white">{company.employees.length}</p>
+              <p className="text-2xl font-bold text-white">
+                {company.employees.length}
+              </p>
             </div>
           </div>
         </div>
@@ -391,7 +477,9 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
       {/* Investor Round Breakdown Table */}
       <div className="rounded-xl border border-gray-800 bg-[#111827]">
         <div className="flex items-center justify-between border-b border-gray-800 px-6 py-4">
-          <h3 className="text-lg font-semibold text-white">Investor Round Breakdown</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Investor Round Breakdown
+          </h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -408,24 +496,32 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
                 <tr
                   key={round.name}
                   className={`border-b border-gray-800/50 transition-colors hover:bg-gray-800/30 ${
-                    i % 2 === 0 ? 'bg-transparent' : 'bg-gray-900/20'
+                    i % 2 === 0 ? "bg-transparent" : "bg-gray-900/20"
                   }`}
                 >
                   <td className="px-6 py-3">
                     <span
                       className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
                       style={{
-                        backgroundColor: `${ROUND_COLORS[round.name] ?? '#6b7280'}20`,
-                        color: ROUND_COLORS[round.name] ?? '#6b7280',
+                        backgroundColor: `${ROUND_COLORS[round.name] ?? "#6b7280"}20`,
+                        color: ROUND_COLORS[round.name] ?? "#6b7280",
                       }}
                     >
                       {round.name}
                     </span>
                   </td>
-                  <td className="px-6 py-3 font-mono text-white">{round.investorPoolPct}%</td>
-                  <td className="px-6 py-3 font-mono text-emerald-400">+{round.employeePoolTriggerPct}%</td>
+                  <td className="px-6 py-3 font-mono text-white">
+                    {round.investorPoolPct}%
+                  </td>
+                  <td className="px-6 py-3 font-mono text-emerald-400">
+                    +{round.employeePoolTriggerPct}%
+                  </td>
                   <td className="px-6 py-3 text-gray-300">
-                    {new Intl.NumberFormat('en-EU', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(round.fundingTargetEur)}
+                    {new Intl.NumberFormat("en-EU", {
+                      style: "currency",
+                      currency: "EUR",
+                      maximumFractionDigits: 0,
+                    }).format(round.fundingTargetEur)}
                   </td>
                 </tr>
               ))}
@@ -437,7 +533,9 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
       {/* Employee Milestone Triggers */}
       <div className="rounded-xl border border-gray-800 bg-[#111827]">
         <div className="flex items-center justify-between border-b border-gray-800 px-6 py-4">
-          <h3 className="text-lg font-semibold text-white">Employee Milestone Triggers</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Employee Milestone Triggers
+          </h3>
           <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400">
             {company.employees.length} employees
           </span>
@@ -457,18 +555,22 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
                 <tr
                   key={`${emp.name}-${emp.triggerRound}`}
                   className={`border-b border-gray-800/50 transition-colors hover:bg-gray-800/30 ${
-                    i % 2 === 0 ? 'bg-transparent' : 'bg-gray-900/20'
+                    i % 2 === 0 ? "bg-transparent" : "bg-gray-900/20"
                   }`}
                 >
-                  <td className="px-6 py-3 font-medium text-white">{emp.name}</td>
+                  <td className="px-6 py-3 font-medium text-white">
+                    {emp.name}
+                  </td>
                   <td className="px-6 py-3 text-gray-300">{emp.role}</td>
-                  <td className="px-6 py-3 font-mono text-cyan-400">{emp.milestonePct}%</td>
+                  <td className="px-6 py-3 font-mono text-cyan-400">
+                    {emp.milestonePct}%
+                  </td>
                   <td className="px-6 py-3">
                     <span
                       className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
                       style={{
-                        backgroundColor: `${ROUND_COLORS[emp.triggerRound] ?? '#6b7280'}20`,
-                        color: ROUND_COLORS[emp.triggerRound] ?? '#6b7280',
+                        backgroundColor: `${ROUND_COLORS[emp.triggerRound] ?? "#6b7280"}20`,
+                        color: ROUND_COLORS[emp.triggerRound] ?? "#6b7280",
                       }}
                     >
                       {emp.triggerRound}
@@ -488,7 +590,9 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
       <div className="rounded-xl border border-gray-800 bg-[#111827] p-6">
         <div className="mb-4 flex items-center gap-2">
           <Milestone className="h-5 w-5 text-cyan-400" />
-          <h3 className="text-lg font-semibold text-white">Funding Milestone Tracker</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Funding Milestone Tracker
+          </h3>
         </div>
         <div className="space-y-4">
           {company.fundingRounds.map((round, idx) => {
@@ -500,8 +604,8 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
                   <div
                     className={`h-3 w-3 rounded-full border-2 ${
                       isActive
-                        ? 'border-cyan-400 bg-cyan-400'
-                        : 'border-gray-600 bg-transparent'
+                        ? "border-cyan-400 bg-cyan-400"
+                        : "border-gray-600 bg-transparent"
                     }`}
                   />
                   {idx < company.fundingRounds.length - 1 && (
@@ -509,14 +613,18 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
                   )}
                 </div>
                 {/* Content */}
-                <div className={`flex-1 rounded-lg border px-4 py-3 ${
-                  isActive
-                    ? 'border-cyan-500/30 bg-cyan-500/5'
-                    : 'border-gray-800 bg-gray-900/20'
-                }`}>
+                <div
+                  className={`flex-1 rounded-lg border px-4 py-3 ${
+                    isActive
+                      ? "border-cyan-500/30 bg-cyan-500/5"
+                      : "border-gray-800 bg-gray-900/20"
+                  }`}
+                >
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className={`text-sm font-medium ${isActive ? 'text-cyan-400' : 'text-gray-400'}`}>
+                      <span
+                        className={`text-sm font-medium ${isActive ? "text-cyan-400" : "text-gray-400"}`}
+                      >
                         {round.name}
                       </span>
                       {isActive && (
@@ -526,11 +634,16 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
                       )}
                     </div>
                     <span className="text-sm text-gray-400">
-                      {new Intl.NumberFormat('en-EU', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(round.fundingTargetEur)}
+                      {new Intl.NumberFormat("en-EU", {
+                        style: "currency",
+                        currency: "EUR",
+                        maximumFractionDigits: 0,
+                      }).format(round.fundingTargetEur)}
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-gray-500">
-                    Unlocks {round.investorPoolPct}% investor equity + {round.employeePoolTriggerPct}% employee pool
+                    Unlocks {round.investorPoolPct}% investor equity +{" "}
+                    {round.employeePoolTriggerPct}% employee pool
                   </p>
                 </div>
               </div>
@@ -546,9 +659,9 @@ function SpinoffTabContent({ company }: { company: SpinoffCompany }) {
 
 export default function EquityOverview() {
   const { distribution, individual, totalAllocated, isLoading } = useEquity();
-  const [activeTab, setActiveTab] = useState<TabId>('qdaria');
-  const [sortField, setSortField] = useState<SortField>('percentage');
-  const [sortDir, setSortDir] = useState<SortDir>('desc');
+  const [activeTab, setActiveTab] = useState<TabId>("qdaria");
+  const [sortField, setSortField] = useState<SortField>("percentage");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [showRationale, setShowRationale] = useState<boolean>(false);
 
   const sorted = useMemo(() => {
@@ -556,35 +669,50 @@ export default function EquityOverview() {
     copy.sort((a, b) => {
       let cmp = 0;
       switch (sortField) {
-        case 'name': cmp = a.name.localeCompare(b.name); break;
-        case 'shareType': cmp = a.shareType.localeCompare(b.shareType); break;
-        case 'percentage': cmp = a.percentage - b.percentage; break;
-        case 'cliffMonths': cmp = a.cliffMonths - b.cliffMonths; break;
-        case 'totalMonths': cmp = a.totalMonths - b.totalMonths; break;
+        case "name":
+          cmp = a.name.localeCompare(b.name);
+          break;
+        case "shareType":
+          cmp = a.shareType.localeCompare(b.shareType);
+          break;
+        case "percentage":
+          cmp = a.percentage - b.percentage;
+          break;
+        case "cliffMonths":
+          cmp = a.cliffMonths - b.cliffMonths;
+          break;
+        case "totalMonths":
+          cmp = a.totalMonths - b.totalMonths;
+          break;
       }
-      return sortDir === 'asc' ? cmp : -cmp;
+      return sortDir === "asc" ? cmp : -cmp;
     });
     return copy;
   }, [individual, sortField, sortDir]);
 
   function toggleSort(field: SortField) {
     if (sortField === field) {
-      setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     } else {
       setSortField(field);
-      setSortDir('desc');
+      setSortDir("desc");
     }
   }
 
   function SortIcon({ field }: { field: SortField }) {
-    if (sortField !== field) return <ArrowUpDown className="ml-1 inline h-3 w-3 text-gray-600" />;
-    return sortDir === 'asc'
-      ? <ChevronUp className="ml-1 inline h-3 w-3 text-cyan-400" />
-      : <ChevronDown className="ml-1 inline h-3 w-3 text-cyan-400" />;
+    if (sortField !== field)
+      return <ArrowUpDown className="ml-1 inline h-3 w-3 text-gray-600" />;
+    return sortDir === "asc" ? (
+      <ChevronUp className="ml-1 inline h-3 w-3 text-cyan-400" />
+    ) : (
+      <ChevronDown className="ml-1 inline h-3 w-3 text-cyan-400" />
+    );
   }
 
-  const employeePool = distribution.find(d => d.category.includes('Employee'))?.percentage ?? 0;
-  const investorAlloc = distribution.find(d => d.category.includes('Investor'))?.percentage ?? 0;
+  const employeePool =
+    distribution.find((d) => d.category.includes("Employee"))?.percentage ?? 0;
+  const investorAlloc =
+    distribution.find((d) => d.category.includes("Investor"))?.percentage ?? 0;
 
   if (isLoading) {
     return (
@@ -611,90 +739,105 @@ export default function EquityOverview() {
           </span>
           <ChevronDown
             className={`h-4 w-4 text-gray-400 transition-transform ${
-              showRationale ? 'rotate-180' : ''
+              showRationale ? "rotate-180" : ""
             }`}
           />
         </button>
         {showRationale && (
           <div className="border-t border-gray-800 px-5 pb-5 pt-2 text-gray-300">
-            <h4 className="text-cyan-400 font-semibold text-sm mb-2 mt-4">Equity Structure</h4>
-            <ul className="list-disc pl-5 space-y-1 text-sm text-gray-400">
+            <h4 className="mb-2 mt-4 text-sm font-semibold text-cyan-400">
+              Equity Structure
+            </h4>
+            <ul className="list-disc space-y-1 pl-5 text-sm text-gray-400">
               <li>
-                Founder holds 51% equity in QDaria Holdings with 35% reserved for
-                investors and 14% employee option pool, maintaining founder control through all funding rounds
+                Founder holds 51% equity in QDaria Holdings with 35% reserved
+                for investors and 14% employee option pool, maintaining founder
+                control through all funding rounds
               </li>
               <li>
-                Standard non-founder COO equity ranges 1&ndash;5% at seed stage (Hunt Club
-                benchmark); the 2% allocation reflects market positioning
+                Standard non-founder COO equity ranges 1&ndash;5% at seed stage
+                (Hunt Club benchmark); the 2% allocation reflects market
+                positioning
               </li>
               <li>
-                Employee equity vests over 48 months with a 12-month cliff, following standard
-                4-year vesting with 1-year cliff
+                Employee equity vests over 48 months with a 12-month cliff,
+                following standard 4-year vesting with 1-year cliff
               </li>
               <li>
-                All team members receive equity in every subsidiary (not just the holding), with
-                milestone-based acceleration triggers tied to funding rounds
-              </li>
-            </ul>
-
-            <h4 className="text-cyan-400 font-semibold text-sm mb-2 mt-4">Salary Benchmarks</h4>
-            <ul className="list-disc pl-5 space-y-1 text-sm text-gray-400">
-              <li>
-                Pre-seed base salaries are benchmarked against XAnge/Coulter Partners 2024
-                European Deep-Tech Compensation Survey
-              </li>
-              <li>
-                European deep-tech COOs at seed/Series&nbsp;A stage earn median &euro;80,000; our
-                &euro;100K reflects Norwegian cost-of-living premium (Numbeo index 69.0, highest
-                in Nordics)
-              </li>
-              <li>
-                Salary progression is tied to funding milestones: each round triggers a pre-agreed
-                increase, with 0&ndash;15% bonus potential based on individual KPIs
-              </li>
-              <li>
-                CEO-to-COO ratio of ~62% aligns with European early-stage norms (~83% CEO-relative
-                for COOs at funded startups)
+                All team members receive equity in every subsidiary (not just
+                the holding), with milestone-based acceleration triggers tied to
+                funding rounds
               </li>
             </ul>
 
-            <h4 className="text-cyan-400 font-semibold text-sm mb-2 mt-4">
+            <h4 className="mb-2 mt-4 text-sm font-semibold text-cyan-400">
+              Salary Benchmarks
+            </h4>
+            <ul className="list-disc space-y-1 pl-5 text-sm text-gray-400">
+              <li>
+                Pre-seed base salaries are benchmarked against XAnge/Coulter
+                Partners 2024 European Deep-Tech Compensation Survey
+              </li>
+              <li>
+                European deep-tech COOs at seed/Series&nbsp;A stage earn median
+                &euro;80,000; our &euro;100K reflects Norwegian cost-of-living
+                premium (Numbeo index 69.0, highest in Nordics)
+              </li>
+              <li>
+                Salary progression is tied to funding milestones: each round
+                triggers a pre-agreed increase, with 0&ndash;15% bonus potential
+                based on individual KPIs
+              </li>
+              <li>
+                CEO-to-COO ratio of ~62% aligns with European early-stage norms
+                (~83% CEO-relative for COOs at funded startups)
+              </li>
+            </ul>
+
+            <h4 className="mb-2 mt-4 text-sm font-semibold text-cyan-400">
               Norwegian Legal Compliance
             </h4>
-            <ul className="list-disc pl-5 space-y-1 text-sm text-gray-400">
+            <ul className="list-disc space-y-1 pl-5 text-sm text-gray-400">
               <li>
-                Non-compete clauses capped at 12 months per Arbeidsmilj&oslash;loven Chapter 14A,
-                with mandatory 100% salary compensation up to 8G (NOK&nbsp;1,041,280) and 70%
-                between 8G&ndash;12G
+                Non-compete clauses capped at 12 months per
+                Arbeidsmilj&oslash;loven Chapter 14A, with mandatory 100% salary
+                compensation up to 8G (NOK&nbsp;1,041,280) and 70% between
+                8G&ndash;12G
               </li>
               <li>
-                NDA uses dual-duration structure: perpetual protection for trade secrets (Fibonacci
-                anyon protocols, braiding algorithms, qubit architectures), 3&ndash;5 years for
-                general confidential business information
+                NDA uses dual-duration structure: perpetual protection for trade
+                secrets (Fibonacci anyon protocols, braiding algorithms, qubit
+                architectures), 3&ndash;5 years for general confidential
+                business information
               </li>
               <li>
-                All employment contracts comply with Norwegian Working Environment Act requirements
+                All employment contracts comply with Norwegian Working
+                Environment Act requirements
               </li>
               <li>
-                Professional development expectations (reading program, MBA opportunity) are framed
-                as cultural expectations, not binding contractual terms with breach consequences
+                Professional development expectations (reading program, MBA
+                opportunity) are framed as cultural expectations, not binding
+                contractual terms with breach consequences
               </li>
             </ul>
 
-            <h4 className="text-cyan-400 font-semibold text-sm mb-2 mt-4">Spin-off Structure</h4>
-            <ul className="list-disc pl-5 space-y-1 text-sm text-gray-400">
+            <h4 className="mb-2 mt-4 text-sm font-semibold text-cyan-400">
+              Spin-off Structure
+            </h4>
+            <ul className="list-disc space-y-1 pl-5 text-sm text-gray-400">
               <li>
-                QDaria operates as a holding company with 8 subsidiaries, each focused on a
-                distinct quantum technology vertical
+                QDaria operates as a holding company with 8 subsidiaries, each
+                focused on a distinct quantum technology vertical
               </li>
               <li>
-                70/30 CEO/investor split in each subsidiary protects founder control while
-                reserving a 30% investor pool allocated across Seed through IPO rounds, with
-                milestone-based employee equity triggers
+                70/30 CEO/investor split in each subsidiary protects founder
+                control while reserving a 30% investor pool allocated across
+                Seed through IPO rounds, with milestone-based employee equity
+                triggers
               </li>
               <li>
-                Employee equity in subsidiaries triggers upon specific funding milestones,
-                incentivising contribution to portfolio-wide growth
+                Employee equity in subsidiaries triggers upon specific funding
+                milestones, incentivising contribution to portfolio-wide growth
               </li>
             </ul>
           </div>
@@ -710,8 +853,8 @@ export default function EquityOverview() {
               onClick={() => setActiveTab(tabId)}
               className={`shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
                 activeTab === tabId
-                  ? 'bg-cyan-500/10 text-cyan-400 shadow-sm'
-                  : 'text-gray-400 hover:bg-gray-800/50 hover:text-gray-300'
+                  ? "bg-cyan-500/10 text-cyan-400 shadow-sm"
+                  : "text-gray-400 hover:bg-gray-800/50 hover:text-gray-300"
               }`}
             >
               {TAB_LABELS[tabId]}
@@ -724,7 +867,7 @@ export default function EquityOverview() {
       {activeSpinoff && <SpinoffTabContent company={activeSpinoff} />}
 
       {/* QDaria Holding tab content */}
-      {activeTab === 'qdaria' && (
+      {activeTab === "qdaria" && (
         <>
           {/* Summary Cards */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -735,7 +878,9 @@ export default function EquityOverview() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Total Allocated</p>
-                  <p className="text-2xl font-bold text-white">{totalAllocated.toFixed(2)}%</p>
+                  <p className="text-2xl font-bold text-white">
+                    {totalAllocated.toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>
@@ -746,7 +891,9 @@ export default function EquityOverview() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Employee Pool</p>
-                  <p className="text-2xl font-bold text-white">{employeePool.toFixed(2)}%</p>
+                  <p className="text-2xl font-bold text-white">
+                    {employeePool.toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>
@@ -757,7 +904,9 @@ export default function EquityOverview() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Investor Allocation</p>
-                  <p className="text-2xl font-bold text-white">{investorAlloc.toFixed(2)}%</p>
+                  <p className="text-2xl font-bold text-white">
+                    {investorAlloc.toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>
@@ -765,7 +914,9 @@ export default function EquityOverview() {
 
           {/* Pie Chart */}
           <div className="rounded-xl border border-gray-800 bg-[#111827] p-6">
-            <h3 className="mb-4 text-lg font-semibold text-white">Cap Table Distribution</h3>
+            <h3 className="mb-4 text-lg font-semibold text-white">
+              Cap Table Distribution
+            </h3>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -800,7 +951,9 @@ export default function EquityOverview() {
           {/* Individual Equity Table */}
           <div className="rounded-xl border border-gray-800 bg-[#111827]">
             <div className="flex items-center justify-between border-b border-gray-800 px-6 py-4">
-              <h3 className="text-lg font-semibold text-white">Individual Equity Allocations</h3>
+              <h3 className="text-lg font-semibold text-white">
+                Individual Equity Allocations
+              </h3>
               <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-400">
                 {individual.length} members
               </span>
@@ -809,20 +962,35 @@ export default function EquityOverview() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-800 text-left text-gray-400">
-                    <th className="cursor-pointer px-6 py-3 font-medium hover:text-white" onClick={() => toggleSort('name')}>
+                    <th
+                      className="cursor-pointer px-6 py-3 font-medium hover:text-white"
+                      onClick={() => toggleSort("name")}
+                    >
                       Name <SortIcon field="name" />
                     </th>
-                    <th className="cursor-pointer px-6 py-3 font-medium hover:text-white" onClick={() => toggleSort('shareType')}>
+                    <th
+                      className="cursor-pointer px-6 py-3 font-medium hover:text-white"
+                      onClick={() => toggleSort("shareType")}
+                    >
                       Share Type <SortIcon field="shareType" />
                     </th>
-                    <th className="cursor-pointer px-6 py-3 font-medium hover:text-white" onClick={() => toggleSort('percentage')}>
+                    <th
+                      className="cursor-pointer px-6 py-3 font-medium hover:text-white"
+                      onClick={() => toggleSort("percentage")}
+                    >
                       Equity % <SortIcon field="percentage" />
                     </th>
                     <th className="px-6 py-3 font-medium">Vesting</th>
-                    <th className="cursor-pointer px-6 py-3 font-medium hover:text-white" onClick={() => toggleSort('cliffMonths')}>
+                    <th
+                      className="cursor-pointer px-6 py-3 font-medium hover:text-white"
+                      onClick={() => toggleSort("cliffMonths")}
+                    >
                       Cliff <SortIcon field="cliffMonths" />
                     </th>
-                    <th className="cursor-pointer px-6 py-3 font-medium hover:text-white" onClick={() => toggleSort('totalMonths')}>
+                    <th
+                      className="cursor-pointer px-6 py-3 font-medium hover:text-white"
+                      onClick={() => toggleSort("totalMonths")}
+                    >
                       Total <SortIcon field="totalMonths" />
                     </th>
                     <th className="px-6 py-3 font-medium">Notes</th>
@@ -833,10 +1001,12 @@ export default function EquityOverview() {
                     <tr
                       key={row.name}
                       className={`border-b border-gray-800/50 transition-colors hover:bg-gray-800/30 ${
-                        i % 2 === 0 ? 'bg-transparent' : 'bg-gray-900/20'
+                        i % 2 === 0 ? "bg-transparent" : "bg-gray-900/20"
                       }`}
                     >
-                      <td className="px-6 py-3 font-medium text-white">{row.name}</td>
+                      <td className="px-6 py-3 font-medium text-white">
+                        {row.name}
+                      </td>
                       <td className="px-6 py-3">
                         <span
                           className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
@@ -848,7 +1018,9 @@ export default function EquityOverview() {
                           {SHARE_TYPE_LABELS[row.shareType]}
                         </span>
                       </td>
-                      <td className="px-6 py-3 font-mono text-white">{row.percentage.toFixed(2)}%</td>
+                      <td className="px-6 py-3 font-mono text-white">
+                        {row.percentage.toFixed(2)}%
+                      </td>
                       <td className="px-6 py-3">
                         <VestingBar
                           cliffMonths={row.cliffMonths}
@@ -856,10 +1028,14 @@ export default function EquityOverview() {
                         />
                       </td>
                       <td className="px-6 py-3 text-gray-400">
-                        {row.cliffMonths === 0 ? '-' : `${row.cliffMonths}mo`}
+                        {row.cliffMonths === 0 ? "-" : `${row.cliffMonths}mo`}
                       </td>
-                      <td className="px-6 py-3 text-gray-400">{row.totalMonths}mo</td>
-                      <td className="max-w-[200px] truncate px-6 py-3 text-gray-500">{row.notes}</td>
+                      <td className="px-6 py-3 text-gray-400">
+                        {row.totalMonths}mo
+                      </td>
+                      <td className="max-w-[200px] truncate px-6 py-3 text-gray-500">
+                        {row.notes}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

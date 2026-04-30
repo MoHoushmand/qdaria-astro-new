@@ -1,45 +1,150 @@
-import type { EquityDistribution } from '../../types/admin';
+import type { EquityDistribution } from "../../types/admin";
 
 /**
  * Overall equity distribution for QDaria Holdings (pre-IPO cap table).
- * Updated Feb 2026 — reflects 70% founder allocation + flat 1% per employee.
+ * Updated 2026-04-28 — Holding restructure (8 spinoffs -> 6: dropped THQAI, QIoT, Lillian Research; added QLillian).
+ * Lillian Kristiansen promoted to Founding Supporter tier (5.00% total).
+ * Holding-level percentages and pool sizes UNCHANGED.
  */
 export const equityDistribution: EquityDistribution[] = [
-  { category: 'Founder (CEO)', percentage: 70.0, color: '#06b6d4' },
-  { category: 'Employee Option Pool', percentage: 13.0, color: '#10b981' }, // 8.5% allocated (current team) + 4.5% future hire reserve
-  { category: 'Investor Pool', percentage: 12.0, color: '#8b5cf6' },
-  { category: 'Advisory', percentage: 3.0, color: '#f59e0b' },
-  { category: 'Reserve', percentage: 2.0, color: '#ef4444' },
+  { category: "Founder (CEO)", percentage: 70.0, color: "#06b6d4" },
+  { category: "Employee Option Pool", percentage: 13.0, color: "#10b981" }, // 8.5% allocated (current team) + 4.5% future hire reserve
+  { category: "Investor Pool", percentage: 12.0, color: "#8b5cf6" },
+  { category: "Advisory", percentage: 3.0, color: "#f59e0b" },
+  { category: "Reserve", percentage: 2.0, color: "#ef4444" },
 ];
 
 /**
  * Individual equity allocations by team member (HOLDING level only).
  * All on 4-year vesting with 1-year cliff (except founder).
- * Flat 1.0% holding per employee (5.0% total across all companies).
+ *
+ * Tier totals across HOLDING + 6 spinoffs (post-2026-04-28 rebalance):
+ *   C-Suite            5.00%   (1.00 holding + 6 x 0.6667 spinoffs)
+ *   Senior             3.75%   (0.75 holding + 6 x 0.5000 spinoffs)
+ *   Founding Supporter 5.00%   (0.75 holding + 6 x 0.7083 spinoffs)  -- Lillian only
+ *   Mid                2.50%   (0.50 holding + 6 x 0.3333 spinoffs)
+ *   Junior/Board       2.50%   (0.50 holding + 6 x 0.3333 spinoffs)
+ *   Performance-only   0.25%   (0.25 holding, no spinoffs)            -- Fredrik only
  */
 export const individualEquity = [
-  { name: 'Daniel Mo Houshmand', shareType: 'common' as const, percentage: 70.0, cliffMonths: 0, totalMonths: 48, notes: 'Founder shares, no cliff' },
-  { name: 'Sharareh M. Shariat Panahi', shareType: 'options' as const, percentage: 1.0, cliffMonths: 12, totalMonths: 48, notes: 'Asst. CEO' },
+  {
+    name: "Daniel Mo Houshmand",
+    shareType: "common" as const,
+    percentage: 70.0,
+    cliffMonths: 0,
+    totalMonths: 48,
+    notes: "Founder shares, no cliff",
+  },
+  {
+    name: "Sharareh M. Shariat Panahi",
+    shareType: "options" as const,
+    percentage: 1.0,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Asst. CEO",
+  },
   // Senior tier: 0.75% Holdings + 0.375% per spinoff = 3.75% total
-  { name: 'Caroline Woie', shareType: 'options' as const, percentage: 0.75, cliffMonths: 12, totalMonths: 48, notes: 'Chief Content Officer — Senior tier' },
-  { name: 'Rajesh Chavan', shareType: 'options' as const, percentage: 0.75, cliffMonths: 12, totalMonths: 48, notes: 'Chief Strategy & Growth Officer — Senior tier' },
-  { name: 'Lillian Kristiansen', shareType: 'options' as const, percentage: 0.75, cliffMonths: 12, totalMonths: 48, notes: 'Chief Admin Officer — Senior tier (founding-stage supporter, see contract appendix)' },
-  { name: 'John Kristiansen', shareType: 'options' as const, percentage: 0.75, cliffMonths: 12, totalMonths: 48, notes: 'Head of Networking — Senior tier' },
-  { name: 'Lindsay Sanner', shareType: 'options' as const, percentage: 0.75, cliffMonths: 12, totalMonths: 48, notes: 'Chief Social Responsibility Officer — Senior tier' },
+  {
+    name: "Caroline Woie",
+    shareType: "options" as const,
+    percentage: 0.75,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Chief Content Officer — Senior tier",
+  },
+  {
+    name: "Rajesh Chavan",
+    shareType: "options" as const,
+    percentage: 0.75,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Chief Strategy & Growth Officer — Senior tier",
+  },
+  {
+    name: "Lillian Kristiansen",
+    shareType: "options" as const,
+    percentage: 0.75,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes:
+      "Chief Admin Officer — Founding Supporter tier (5.00% total: 0.75% holding + 6 x 0.7083% spinoffs). Holding allocation unchanged.",
+  },
+  {
+    name: "John Kristiansen",
+    shareType: "options" as const,
+    percentage: 0.75,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Head of Networking — Senior tier",
+  },
+  {
+    name: "Lindsay Sanner",
+    shareType: "options" as const,
+    percentage: 0.75,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Chief Social Responsibility Officer — Senior tier",
+  },
   // Mid tier: 0.5% Holdings + 0.25% per spinoff = 2.5% total
-  { name: 'Gaspar Alvarado', shareType: 'options' as const, percentage: 0.5, cliffMonths: 12, totalMonths: 48, notes: 'Finance Director — Mid tier' },
-  { name: 'Nick Saaf', shareType: 'options' as const, percentage: 0.5, cliffMonths: 12, totalMonths: 48, notes: 'Sales Director — Mid tier' },
+  {
+    name: "Gaspar Alvarado",
+    shareType: "options" as const,
+    percentage: 0.5,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Finance Director — Mid tier",
+  },
+  {
+    name: "Nick Saaf",
+    shareType: "options" as const,
+    percentage: 0.5,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Sales Director — Mid tier",
+  },
   // Performance-only: 0.25% Holdings, no spinoffs. Milestone vesting requires Board approval.
-  { name: 'Fredrik Krey Stubberud', shareType: 'options' as const, percentage: 0.25, cliffMonths: 12, totalMonths: 48, notes: 'Test Engineer — Performance-only. No spinoff equity. Additional grants subject to Board approval upon verified contribution milestones.' },
-  { name: 'Yulia Ginzburg', shareType: 'options' as const, percentage: 0.5, cliffMonths: 12, totalMonths: 48, notes: 'Chief Data Officer — Mid tier' },
-  { name: 'Nils Bjelland Gronvold', shareType: 'options' as const, percentage: 0.5, cliffMonths: 12, totalMonths: 48, notes: 'Head of Culture & Events — Mid tier' },
+  {
+    name: "Fredrik Krey Stubberud",
+    shareType: "options" as const,
+    percentage: 0.25,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes:
+      "Test Engineer — Performance-only. No spinoff equity. Additional grants subject to Board approval upon verified contribution milestones.",
+  },
+  {
+    name: "Yulia Ginzburg",
+    shareType: "options" as const,
+    percentage: 0.5,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Chief Data Officer — Mid tier",
+  },
+  {
+    name: "Nils Bjelland Gronvold",
+    shareType: "options" as const,
+    percentage: 0.5,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Head of Culture & Events — Mid tier",
+  },
   // Junior/Board: 0.5% Holdings + 0.25% per spinoff = 2.5% total
-  { name: 'Daria Houshmand', shareType: 'phantom' as const, percentage: 0.5, cliffMonths: 12, totalMonths: 48, notes: 'Dev Intern & Board — Junior/Board tier' },
+  {
+    name: "Daria Houshmand",
+    shareType: "phantom" as const,
+    percentage: 0.5,
+    cliffMonths: 12,
+    totalMonths: 48,
+    notes: "Dev Intern & Board — Junior/Board tier",
+  },
 ];
 
 /**
- * Total allocated individual equity:
- * CEO 70% + C-Suite 2% + Senior 3.75% + Mid 2% + Fredrik 0.25% + Junior 0.5% = 78.5% allocated
- * Remaining 4.5% of ESOP is future hire reserve (total ESOP remains 13%)
+ * Total allocated individual equity at HOLDING level (unchanged by 2026-04-28 restructure):
+ * CEO 70% + C-Suite 1% + Senior 3.0% (4 x 0.75) + Founding Supporter 0.75% + Mid 2% + Fredrik 0.25% + Junior 0.5% = 77.5% allocated
+ * Remaining 5.5% of ESOP + Reserve is future hire reserve (total ESOP remains 13%, Reserve 2%).
  */
-export const totalIndividualEquity = individualEquity.reduce((sum, e) => sum + e.percentage, 0);
+export const totalIndividualEquity = individualEquity.reduce(
+  (sum, e) => sum + e.percentage,
+  0,
+);

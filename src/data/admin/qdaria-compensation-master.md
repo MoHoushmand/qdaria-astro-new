@@ -141,28 +141,31 @@
 
 ---
 
-## 9. Equity Allocations Per Employee Across All 9 Companies (%)
+## 9. Equity Allocations Per Employee Across All 7 Companies (%)
 
-All employees receive a flat 0.5% in each of the 8 spin-off companies, plus 1.0% in QDaria Holdings = 5.0% total.
+Updated 2026-04-28 — Holding restructure (8 spinoffs -> 6: dropped THQAI, QIoT, Lillian Research; added QLillian).
+Lillian Kristiansen promoted to Founding Supporter tier (5.00% total). All other employee TOTALS unchanged; per-spinoff rates rebalanced upward to absorb the 8->6 reduction.
 
-| Employee | Holding | Qm9 | Zipminator | QMikeAI | THQAI | QNilaya | QDiana | QIoT | Lillian Research | **TOTAL** |
-|----------|---------|-----|-----------|---------|-------|---------|--------|------|-----------------|----------|
-| Sharareh M. Shariat Panahi | 1.0 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | 0.5 | **5.0** |
-| Caroline Woie | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
-| Rajesh Chavan | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
-| Lillian Kristiansen | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
-| John Kristiansen | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
-| Lindsay Sanner | 0.75 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | 0.375 | **3.75** |
-| Gaspar Alvarado | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
-| Nick Saaf | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
-| Fredrik Krey Stubberud | 0.25 | — | — | — | — | — | — | — | — | **0.25** |
-| Yulia Ginzburg | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
-| Nils Bjelland Gronvold | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
-| Daria Houshmand | 0.5 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | 0.25 | **2.5** |
+| Employee | Holding | Zipminator | Qm9 | QMikeAI | QNilaya | QDiana | QLillian | **TOTAL** |
+|----------|---------|------------|-----|---------|---------|--------|----------|----------|
+| Sharareh M. Shariat Panahi | 1.0 | 0.6667 | 0.6667 | 0.6667 | 0.6667 | 0.6667 | 0.6667 | **5.00** |
+| Caroline Woie | 0.75 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | **3.75** |
+| Rajesh Chavan | 0.75 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | **3.75** |
+| **Lillian Kristiansen** | 0.75 | **0.7083** | **0.7083** | **0.7083** | **0.7083** | **0.7083** | **0.7083** | **5.00** |
+| John Kristiansen | 0.75 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | **3.75** |
+| Lindsay Sanner | 0.75 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | 0.5000 | **3.75** |
+| Gaspar Alvarado | 0.5 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | **2.50** |
+| Nick Saaf | 0.5 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | **2.50** |
+| Fredrik Krey Stubberud | 0.25 | — | — | — | — | — | — | **0.25** |
+| Yulia Ginzburg | 0.5 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | **2.50** |
+| Nils Bjelland Gronvold | 0.5 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | **2.50** |
+| Daria Houshmand | 0.5 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | 0.3333 | **2.50** |
 
 > CEO (Daniel Mo Houshmand) holds 70% in each company. All spin-offs follow a 70% CEO / 30% Investor Pool structure.
 > Spin-off equity triggers at Seed round closure for each respective company.
 > Fredrik Krey Stubberud: Holdings only (performance-only). Additional grants require verified milestones + Board approval.
+> **Lillian Kristiansen** is on the Founding Supporter tier (5.00% total). Holding allocation unchanged at 0.75%; the +1.25% delta vs. Senior baseline is spread evenly across the 6 spinoffs at 0.7083% per spinoff.
+> **Contingent Reallocation (Section 5.5 of all contracts):** if any of the 6 named spinoffs fails to incorporate by 31 December 2029, the per-employee allocation in that entity is redistributed pro-rata across the registered survivors. Holding allocation never affected. Each employee's TOTAL equity is preserved.
 
 ---
 
@@ -173,11 +176,9 @@ All employees receive a flat 0.5% in each of the 8 spin-off companies, plus 1.0%
 | Zipminator | Quantum-secure encryption platform | 70% | 30% |
 | Qm9 | Quantum fintech - HFDT / portfolio optimization / algo trading | 70% | 30% |
 | QMikeAI | Quantum-enhanced HPC - weather / climate / scientific computing | 70% | 30% |
-| THQAI | Quantum-enhanced AI - LLMs / reasoning engines | 70% | 30% |
 | QNilaya | Quantum health tech - precision medicine / drug discovery | 70% | 30% |
-| QIoT | Quantum Internet of Things - secure IoT networking | 70% | 30% |
-| Lillian Research Center | Fundamental quantum research | 70% | 30% |
 | QDiana | Quantum-enhanced educational platform | 70% | 30% |
+| QLillian | Founder-support and portfolio operations - admin, governance, people-ops, cross-subsidiary coordination | 70% | 30% |
 
 ---
 
@@ -200,11 +201,9 @@ All employees receive a flat 0.5% in each of the 8 spin-off companies, plus 1.0%
 | Zipminator | 10M | 30M | 100M | 250M | 750M |
 | Qm9 | 12M | 40M | 120M | 300M | 1B |
 | QMikeAI | 8M | 25M | 80M | 200M | 600M |
-| THQAI | 15M | 50M | 150M | 400M | 1.5B |
 | QNilaya | 10M | 35M | 100M | 250M | 800M |
-| QIoT | 8M | 25M | 70M | 180M | 500M |
-| Lillian Research | 5M | 15M | 50M | 120M | 350M |
 | QDiana | 5M | 15M | 40M | 100M | 300M |
+| QLillian | 5M | 15M | 50M | 120M | 350M |
 
 ---
 
@@ -220,7 +219,7 @@ All employees receive a flat 0.5% in each of the 8 spin-off companies, plus 1.0%
 | Junior (#14) | 0.05-0.15% | 0.02-0.1% | 1.0% | 5.0% | Above top-end (total) | Carta 2025 |
 | Typical ESOP at Seed | 10-15% | n/a | 13.0% | n/a | Within range | Balderton/Index |
 
-> QDaria uses a flat equity model: every employee gets 1.0% in the holding company plus 0.5% in each of 8 spin-offs, totaling 5.0% across all companies. Market benchmarks count single-company equity only, so the total package is well above market for all levels.
+> QDaria uses a tiered equity model across 7 cap tables (1 holding + 6 spinoffs). Tier totals: C-Suite 5.00%, Senior 3.75%, Founding Supporter 5.00% (Lillian only), Mid 2.50%, Junior/Board 2.50%, Performance-only 0.25% (Fredrik). Market benchmarks count single-company equity only, so the total package is well above market for all levels.
 
 ---
 

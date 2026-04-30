@@ -4,18 +4,18 @@ export interface ContractClause {
   id: string;
   title: string;
   category:
-    | 'employment'
-    | 'compensation'
-    | 'benefits'
-    | 'duties'
-    | 'equity'
-    | 'nda'
-    | 'non_compete'
-    | 'conflict'
-    | 'professional_dev'
-    | 'termination'
-    | 'severance'
-    | 'norwegian_law';
+    | "employment"
+    | "compensation"
+    | "benefits"
+    | "duties"
+    | "equity"
+    | "nda"
+    | "non_compete"
+    | "conflict"
+    | "professional_dev"
+    | "termination"
+    | "severance"
+    | "norwegian_law";
   content: string; // Template text with {{placeholders}}
   required: boolean;
   enabled: boolean; // default state
@@ -33,7 +33,7 @@ export interface ContractTemplate {
 // ---------------------------------------------------------------------------
 
 export const roleDuties: Record<string, string> = {
-  'CEO & Founder': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "CEO & Founder": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As CEO & Founder, the Employee holds ultimate responsibility for all strategic, operational, and financial aspects of QDaria Holdings AS and its subsidiary companies.
 
@@ -49,7 +49,7 @@ As CEO & Founder, the Employee holds ultimate responsibility for all strategic, 
   - Ensure research output meets academic and commercial quality standards
 
 4.3 Team & Operations:
-  - Build and manage the executive team across 8 subsidiary companies
+  - Build and manage the executive team across 6 subsidiary companies (Zipminator, Qm9, QMikeAI, QNilaya, QDiana, QLillian)
   - Define company culture, values, and professional development standards
   - Approve all hiring decisions, compensation changes, and equity grants
   - Chair Board of Directors meetings and manage governance processes
@@ -59,12 +59,12 @@ As CEO & Founder, the Employee holds ultimate responsibility for all strategic, 
   - Maintain fiduciary responsibility to shareholders and the Board
   - Ensure regulatory compliance across all operating entities`,
 
-  'COO': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  COO: `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Operating Officer, the Employee is responsible for translating the CEO's strategic vision into operational execution across QDaria Holdings and all subsidiary companies.
 
 4.1 Operations Management:
-  - Design and implement operational processes, KPIs, and reporting structures across all 8 subsidiaries
+  - Design and implement operational processes, KPIs, and reporting structures across all 6 subsidiaries (Zipminator, Qm9, QMikeAI, QNilaya, QDiana, QLillian)
   - Manage day-to-day operations including resource allocation, project timelines, and delivery milestones
   - Establish and monitor operational budgets in coordination with the Finance Director
   - Implement quality management systems for quantum hardware development and software delivery
@@ -89,7 +89,7 @@ As Chief Operating Officer, the Employee is responsible for translating the CEO'
 
 IMPORTANT: The COO is expected to fully commit to QDaria's operational framework, adopt company guidelines and culture, and align with the CEO's strategic direction. External advisory roles, board positions, or promotional activities for competing ventures are strictly prohibited per the Conflict of Interest clause.`,
 
-  'CFO': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  CFO: `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Financial Officer, the Employee is responsible for all financial strategy, reporting, and fiscal governance across QDaria Holdings AS and its subsidiary companies.
 
@@ -117,7 +117,7 @@ As Chief Financial Officer, the Employee is responsible for all financial strate
   - Oversee procurement processes, vendor negotiations, and cost optimization initiatives
   - Maintain compliance with the Norwegian Accounting Act, Securities Act, and relevant EU regulations`,
 
-  'Asst. CEO': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Asst. CEO": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Assistant to the CEO, the Employee serves as the CEO's primary strategic partner, handling legal, regulatory, and IP matters while deputizing for the CEO as needed.
 
@@ -143,7 +143,7 @@ As Assistant to the CEO, the Employee serves as the CEO's primary strategic part
   - Ensure workplace policies comply with Norwegian Working Environment Act
   - Manage conflict resolution and employee relations matters`,
 
-  'Chief Content Officer': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Chief Content Officer": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Content Officer, the Employee is responsible for all external and internal communications, brand strategy, and content production across QDaria Holdings and subsidiaries.
 
@@ -169,7 +169,7 @@ As Chief Content Officer, the Employee is responsible for all external and inter
   - Review all external publications for accuracy and brand consistency
   - Manage content calendar and production workflow`,
 
-  'Chief Social Responsibility Officer': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Chief Social Responsibility Officer": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Social Responsibility Officer, the Employee leads QDaria's commitment to social impact, sustainability, and ethical business practices.
 
@@ -196,7 +196,7 @@ As Chief Social Responsibility Officer, the Employee leads QDaria's commitment t
   - Develop responsible technology guidelines and ethical review processes
   - Support whistleblower protection and ethical reporting mechanisms`,
 
-  'Chief Strategy & Growth Officer': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Chief Strategy & Growth Officer": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Strategy & Growth Officer, the Employee drives strategic planning, market expansion, and business growth across the QDaria portfolio.
 
@@ -223,7 +223,7 @@ As Chief Strategy & Growth Officer, the Employee drives strategic planning, mark
   - Produce market intelligence reports and competitive analyses
   - Develop financial projections and business cases for new initiatives`,
 
-  'Chief Admin Officer': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Chief Admin Officer": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Administrative Officer, the Employee manages all administrative operations, HR processes, and organizational support functions.
 
@@ -251,7 +251,7 @@ As Chief Administrative Officer, the Employee manages all administrative operati
   - Manage internal knowledge management systems and documentation
   - Support audit preparation and regulatory compliance documentation`,
 
-  'Head of Networking': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Head of Networking": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Head of Networking, the Employee builds and maintains strategic relationships, business networks, and partnership ecosystems.
 
@@ -278,7 +278,7 @@ As Head of Networking, the Employee builds and maintains strategic relationships
   - Coordinate speaking engagements and panel appearances for leadership team
   - Manage sponsorship and exhibition presence at key industry events`,
 
-  'Test Engineer': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Test Engineer": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Test Engineer, the Employee ensures quality and reliability across all quantum software, AI systems, and product deliveries.
 
@@ -306,7 +306,7 @@ As Test Engineer, the Employee ensures quality and reliability across all quantu
   - Participate in code reviews and architectural design discussions
   - Contribute to technical documentation and developer guidelines`,
 
-  'Chief Data Officer': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Chief Data Officer": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Data Officer, the Employee manages all data assets, analytics infrastructure, and data governance across QDaria subsidiaries.
 
@@ -333,7 +333,7 @@ As Chief Data Officer, the Employee manages all data assets, analytics infrastru
   - Develop benchmark datasets for quantum algorithm evaluation
   - Collaborate with researchers on statistical analysis and results validation`,
 
-  'Finance Director': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Finance Director": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Finance Director, the Employee manages financial operations, budgeting, and financial reporting for QDaria Holdings and subsidiaries.
 
@@ -360,7 +360,7 @@ As Finance Director, the Employee manages financial operations, budgeting, and f
   - Negotiate vendor contracts and payment terms
   - Track and report on cost optimization initiatives`,
 
-  'Chief Sales Officer': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Chief Sales Officer": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief Sales Officer, the Employee drives revenue generation across QDaria's subsidiary products and services.
 
@@ -388,7 +388,7 @@ As Chief Sales Officer, the Employee drives revenue generation across QDaria's s
   - Produce regular sales forecasts and pipeline reports
   - Collaborate with product teams on feature prioritization based on customer needs`,
 
-  'Sales Director': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Sales Director": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Sales Director, the Employee drives revenue generation across QDaria's subsidiary products and services.
 
@@ -416,7 +416,7 @@ As Sales Director, the Employee drives revenue generation across QDaria's subsid
   - Produce regular sales forecasts and pipeline reports
   - Collaborate with product teams on feature prioritization based on customer needs`,
 
-  'Head of Culture & Events': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Head of Culture & Events": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Head of Culture & Events, the Employee shapes QDaria's workplace culture and manages employee experience initiatives.
 
@@ -444,7 +444,7 @@ As Head of Culture & Events, the Employee shapes QDaria's workplace culture and 
   - Manage internal communications and newsletter
   - Coordinate with marketing on external employer brand messaging`,
 
-  'Chief of Agentic Systems': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Chief of Agentic Systems": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Chief of Agentic Systems, the Employee leads the design, development, and deployment of AI agent architectures and autonomous systems across QDaria subsidiaries.
 
@@ -472,7 +472,7 @@ As Chief of Agentic Systems, the Employee leads the design, development, and dep
   - Foster a culture of innovation, experimentation, and continuous learning
   - Collaborate with academic institutions on research partnerships and internship programs`,
 
-  'Dev Intern & Board Member': `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
+  "Dev Intern & Board Member": `4. INDIVIDUAL DUTIES & RESPONSIBILITIES
 
 As Development Intern & Board Member, the Employee combines hands-on quantum computing development with governance responsibilities.
 
@@ -506,7 +506,7 @@ As Development Intern & Board Member, the Employee combines hands-on quantum com
  * Falls back to the Test Engineer template if no match is found.
  */
 export function getRoleDuties(title: string): string {
-  return roleDuties[title] || roleDuties['Test Engineer'] || '';
+  return roleDuties[title] || roleDuties["Test Engineer"] || "";
 }
 
 // ---------------------------------------------------------------------------
@@ -514,18 +514,18 @@ export function getRoleDuties(title: string): string {
 // ---------------------------------------------------------------------------
 
 export const employmentContractTemplate: ContractTemplate = {
-  id: 'employment-standard-v2',
-  name: 'Standard Employment Agreement',
+  id: "employment-standard-v2",
+  name: "Standard Employment Agreement",
   description:
-    'Comprehensive employment contract covering all standard terms for QDaria Holdings AS employees, compliant with Norwegian Working Environment Act (Arbeidsmiljoloven).',
+    "Comprehensive employment contract covering all standard terms for QDaria Holdings AS employees, compliant with Norwegian Working Environment Act (Arbeidsmiljoloven).",
   clauses: [
     // -----------------------------------------------------------------------
     // Section 1 - Employment Terms
     // -----------------------------------------------------------------------
     {
-      id: 'employment-terms',
-      title: '1. Employment Terms',
-      category: 'employment',
+      id: "employment-terms",
+      title: "1. Employment Terms",
+      category: "employment",
       required: true,
       enabled: true,
       content: `1. EMPLOYMENT TERMS
@@ -550,36 +550,47 @@ This agreement is governed by the Norwegian Working Environment Act (arbeidsmilj
     // Section 2 - Compensation
     // -----------------------------------------------------------------------
     {
-      id: 'compensation',
-      title: '2. Compensation',
-      category: 'compensation',
+      id: "compensation",
+      title: "2. Compensation",
+      category: "compensation",
       required: true,
       enabled: true,
       content: `2. COMPENSATION
 
 2.1 Base Salary:
-The Employee shall receive a gross annual base salary of EUR {{salaryEur}} (NOK {{salaryNok}}), paid monthly on the 25th of each calendar month. If the 25th falls on a weekend or public holiday, payment shall be made on the preceding business day.
+The Employee shall receive a gross annual base salary of EUR {{salaryEur}} (NOK {{salaryNok}}), paid monthly on the 25th of each calendar month. If the 25th falls on a weekend or public holiday, payment shall be made on the preceding business day. The accrual and disbursement of the Base Salary is subject to Section 2.2 below (Pre-Funding Salary Deferral).
 
-2.2 Salary Progression by Funding Round:
-The Employee's base salary is expected to increase as the Company achieves successive funding milestones. The following salary progression schedule is indicative and subject to Board approval at each stage:
+2.2 Pre-Funding Salary Deferral:
+Notwithstanding Section 2.1, no Base Salary, performance bonus, occupational pension contribution (OTP) under Section 3.3, wellness bonus under Section 3.4, or salary-day allowance under Section 3.8 shall accrue or be paid to the Employee until the first calendar month following the close of QDaria Holdings AS's first qualified equity funding round.
+
+For purposes of this Section, a "qualified funding round" means a Seed round (or any subsequent round) closed by binding subscription agreement with aggregate gross proceeds of EUR 5,000,000 or more, evidenced by counter-signed subscription documentation and confirmed transfer of funds into the Company's designated escrow or operating account.
+
+Upon close of the qualified funding round, Base Salary commences on the next regular pay date (the 25th of the following calendar month) at the gross annual rate set forth in Section 2.1. The Employee's vesting under Section 5 (Equity), seniority, accrued holiday entitlement (feriepenger), and statutory employment protections under arbeidsmiljøloven begin on the Employee's nominal Start Date and are unaffected by this deferral.
+
+The Employee acknowledges that they work at risk during the pre-funding period and that the Company has no obligation to retroactively pay Base Salary, bonuses, or pension contributions for time worked prior to the qualified funding round close. Reasonable, pre-approved out-of-pocket business expenses (travel, software licences, hardware) remain reimbursable per Section 3.5 throughout the pre-funding period.
+
+If a qualified funding round has not closed by 31 December 2027, the parties shall meet in good faith to revise the salary terms in this Agreement. Failure to reach revised terms shall not constitute breach by either party; the Employee retains the right to terminate at will under Section 8 without penalty during such review period.
+
+2.3 Salary Progression by Funding Round:
+Once Base Salary commences under Section 2.2, the Employee's Base Salary is expected to increase as the Company achieves successive funding milestones. The following salary progression schedule is indicative and subject to Board approval at each stage:
 
 [SALARY_TABLE_PLACEHOLDER]
 
 Salary adjustments take effect within thirty (30) days of confirmed funding round closure, subject to formal Board approval. The Company reserves the right to adjust these projections based on business performance and market conditions.
 
-2.3 Annual Review:
-Salary is reviewed annually each January. A cost-of-living adjustment of 3-5% applies independently of funding round milestones, benchmarked against Norwegian Consumer Price Index (KPI) published by Statistics Norway (SSB). Additional merit-based increases may be awarded at the Board's discretion.
+2.4 Annual Review:
+Salary is reviewed annually each January, beginning the first January following Base Salary commencement under Section 2.2. A cost-of-living adjustment of 3-5% applies independently of funding round milestones, benchmarked against Norwegian Consumer Price Index (KPI) published by Statistics Norway (SSB). Additional merit-based increases may be awarded at the Board's discretion.
 
-2.4 Performance Bonus:
+2.5 Performance Bonus:
 The Employee is eligible for a performance bonus of 0-15% of annual base salary, evaluated quarterly by the CEO and Board of Directors. Bonus criteria include:
   (a) Delivery of assigned milestones and KPIs on time and to quality standards
   (b) Cross-functional collaboration and measurable contribution to team objectives
   (c) Innovation, initiative, and proactive problem-solving within area of responsibility
   (d) Alignment with company culture, values, and the QDaria Way
 
-Bonus payments are discretionary and contingent on both individual performance and the Company's financial position. Bonuses are paid within 30 days of the end of each evaluation quarter.
+Bonus payments are discretionary and contingent on both individual performance and the Company's financial position. Bonuses are paid within 30 days of the end of each evaluation quarter, and accrue only after the qualified funding round close per Section 2.2.
 
-2.5 Funding Milestone Bonuses:
+2.6 Funding Milestone Bonuses:
 The Employee is entitled to the following one-time bonuses upon the Company's successful completion of each funding round:
 
 [FUNDING_BONUS_TABLE_PLACEHOLDER]
@@ -590,20 +601,20 @@ Milestone bonuses are paid within thirty (30) days of the triggering event. Equi
 
 [BENEFITS_TABLE_PLACEHOLDER]
 
-2.6 Tax & Social Contributions:
-The Employee is responsible for all personal taxes and social contributions as required by Norwegian law. The Employer shall withhold and remit statutory contributions (arbeidsgiveravgift) on behalf of the Employee in accordance with the National Insurance Act (folketrygdloven).
+2.7 Tax & Social Contributions:
+The Employee is responsible for all personal taxes and social contributions as required by Norwegian law. The Employer shall withhold and remit statutory contributions (arbeidsgiveravgift) on behalf of the Employee in accordance with the National Insurance Act (folketrygdloven), beginning with the first Base Salary payment under Section 2.2.
 
-2.7 Performance-Based Equity Increases:
-Employees who materially contribute to securing funding rounds may receive additional equity grants, increasing total equity from the base 5.0% up to a maximum of 20.0% across all QDaria companies. Such grants are subject to Board approval and determined based on the employee's direct contribution to investor relations, due diligence support, fundraising activities, and strategic value creation. Performance equity is granted as additional spinoff shares and follows the same vesting schedule as the base equity grant.`,
+2.8 Performance-Based Equity Increases:
+Employees who materially contribute to securing funding rounds may receive additional equity grants, increasing total equity above their base tier allocation under Section 5 up to a maximum of 20.0% across all QDaria companies. Such grants are subject to Board approval and determined based on the employee's direct contribution to investor relations, due diligence support, fundraising activities, and strategic value creation. Performance equity is granted as additional spinoff shares and follows the same vesting schedule as the base equity grant.`,
     },
 
     // -----------------------------------------------------------------------
     // Section 3 - Benefits & Perks
     // -----------------------------------------------------------------------
     {
-      id: 'benefits',
-      title: '3. Benefits & Perks',
-      category: 'benefits',
+      id: "benefits",
+      title: "3. Benefits & Perks",
+      category: "benefits",
       required: false,
       enabled: true,
       content: `3. BENEFITS & PERKS
@@ -657,9 +668,9 @@ The Company provides the following insurance coverage in accordance with Norwegi
     // Section 4 - Individual Duties & Responsibilities
     // -----------------------------------------------------------------------
     {
-      id: 'duties',
-      title: '4. Individual Duties & Responsibilities',
-      category: 'duties',
+      id: "duties",
+      title: "4. Individual Duties & Responsibilities",
+      category: "duties",
       required: true,
       enabled: true,
       content: `{{roleDuties}}
@@ -689,50 +700,88 @@ All QDaria employees, regardless of role or seniority, share the following respo
     // Section 5 - Equity & Share Vesting
     // -----------------------------------------------------------------------
     {
-      id: 'equity',
-      title: '5. Equity & Share Vesting',
-      category: 'equity',
+      id: "equity",
+      title: "5. Equity & Share Vesting",
+      category: "equity",
       required: false,
       enabled: true,
       content: `5. EQUITY & SHARE VESTING
 
-5.1 Equity Grant:
-The Employee is granted {{equityPercentage}}% equity in QDaria Holdings AS via {{shareType}} shares, subject to the vesting schedule described below. This equity grant is made pursuant to the QDaria Equity Incentive Plan and the Company's Shareholders' Agreement.
+5.1 How Your Equity Is Structured:
+The Employee's equity grant consists of multiple separate ownership stakes, one in QDaria Holdings AS and one in each registered spinoff (Zipminator AS, Qm9 AS, QMikeAI AS, QNilaya AS, QDiana AS, QLillian AS). These are legally distinct equity instruments in legally distinct companies. They are not aggregated into a single cap table.
 
-5.2 Vesting Schedule:
+The "Total" percentage shown in Section 5.4 is the SUM of the Employee's stakes across all entities, presented for compensation transparency only - it is not a single grant on a single cap table. Each stake vests independently per the schedule in Section 5.3.
+
+Liquidity events flow as follows:
+  (a) If a single spinoff has a liquidity event (acquisition, IPO, secondary), payout flows from that spinoff's cap table to the Employee for that spinoff's stake only. The Employee's holding stake and other spinoff stakes are unaffected.
+  (b) If QDaria Holdings AS itself has a liquidity event, payout flows from the holding's cap table for the Employee's holding stake. Spinoff stakes remain in their respective entities.
+  (c) The holding stake does NOT add to the individual spinoff cap tables. The "Total" is a sum across separate entities, not a single equity instrument.
+
+The holding stake represents the Employee's "skin in the parent" - it pays out when the parent itself has a liquidity event or distributes profits. Each spinoff stake represents the Employee's "skin in that specific company" - it pays out when that company has its own liquidity event.
+
+5.2 Equity Grant:
+The Employee is granted {{equityPercentage}}% equity in QDaria Holdings AS via {{shareType}} shares (the "Holding Stake") and the per-spinoff stakes set forth in Section 5.4, all subject to the vesting schedule described below. This equity grant is made pursuant to the QDaria Equity Incentive Plan and the Company's Shareholders' Agreement.
+
+5.3 Vesting Schedule:
   - Total Vesting Period: 48 months (4 years) from the Start Date
   - Cliff Period: {{cliffMonths}} months from the Start Date
   - Vesting Frequency: Monthly, pro rata, after successful completion of the cliff period
   - Acceleration: Standard single-trigger acceleration applies upon a Change of Control event (defined as acquisition of more than 50% of voting shares by a third party, or a merger where existing shareholders hold less than 50% of the surviving entity)
 
-No shares shall vest prior to the completion of the cliff period. Upon termination of employment prior to full vesting, all unvested shares shall be forfeited automatically and returned to the Company's equity pool.
+No shares shall vest prior to the completion of the cliff period. Upon termination of employment prior to full vesting, all unvested shares shall be forfeited automatically and returned to the Company's equity pool. Vesting begins on the Employee's nominal Start Date and is independent of the salary deferral in Section 2.2.
 
-5.3 Equity Allocation Across QDaria Companies:
+5.4 Equity Allocation Across QDaria Companies:
 The Employee's equity allocation across QDaria companies is as follows:
 
 [EQUITY_TABLE_PLACEHOLDER]
 
-Total equity across all companies: {{totalEquityPct}}%
+Total equity across all companies: {{totalEquityPct}}% (sum across separate cap tables, see Section 5.1).
 
 [CAP_TABLE_PLACEHOLDER]
 
-5.4 CEO First-Refusal Right:
-The CEO/Founder retains the right of first refusal to purchase any shares the Employee wishes to sell, at fair market value determined by the most recent independent valuation or the price per share established in the most recent funding round. This right applies for thirty (30) calendar days from written notice of the Employee's intended sale. If the CEO/Founder does not exercise this right within 30 days, the Company (QDaria Holdings AS) shall have a secondary right of first refusal for an additional 15 days.
+5.5 Contingent Spinoff Reallocation:
+The Employee's per-spinoff equity grants in Section 5.4 are conditional upon QDaria Holdings AS incorporating each named subsidiary (Zipminator AS, Qm9 AS, QMikeAI AS, QNilaya AS, QDiana AS, QLillian AS) as a distinct legal entity registered with Brønnøysundregistrene (Foretaksregisteret) on or before 31 December 2029.
 
-5.5 Transfer Restrictions:
-The Employee shall not sell, transfer, pledge, or otherwise dispose of any vested shares without first offering them to the CEO/Founder and the Company as described above. Any transfer to a third party must be approved by the Board of Directors and comply with existing pre-emption rights in the Shareholders' Agreement.
+If, by 1 January 2030, one or more named spinoffs has not been formally registered, the per-spinoff equity grant allocated to each non-registered entity shall be REDISTRIBUTED PRO-RATA across the remaining registered spinoffs as of that date. The Employee's holding-level equity grant in QDaria Holdings AS (Section 5.2) shall not be affected by this redistribution under any circumstances.
 
-5.6 Regulatory Compliance:
-Share issuance, vesting, and transfer are subject to the QDaria Shareholders' Agreement, the Norwegian Limited Liability Companies Act (aksjeloven), and applicable Norwegian securities regulations. The Employee acknowledges that shares may be subject to lock-up periods in connection with future financing rounds or an initial public offering.`,
+The Employee's vesting schedule, cliff, and total cumulative equity grant remain unchanged following redistribution. Redistribution is computed as:
+
+  bonus_per_survivor = (sum of lapsed per-spinoff grants) / (number of registered spinoffs as of 2030-01-01)
+
+and added to each registered spinoff's existing per-employee grant. The cap table of each surviving spinoff shall be updated to reflect the new per-employee allocation, subject to Board approval and Shareholders' Agreement compliance.
+
+Worked examples (Senior tier baseline 0.50% per spinoff, 0.75% holding, 3.75% total):
+
+  - All 6 spinoffs incorporated by 2029-12-31:
+    Holding 0.75% + 6 x 0.500% = 3.75% total
+
+  - 1 spinoff fails to incorporate (5 surviving):
+    Lapsed: 0.500% / 5 = +0.100% per survivor
+    Holding 0.75% + 5 x 0.600% = 3.75% total (unchanged)
+
+  - 2 spinoffs fail to incorporate (4 surviving):
+    Lapsed: 1.000% / 4 = +0.250% per survivor
+    Holding 0.75% + 4 x 0.750% = 3.75% total (unchanged)
+
+The Employee's TOTAL equity is preserved across all reallocation scenarios. Reallocation takes effect on 1 January 2030.
+
+5.6 CEO First-Refusal Right:
+The CEO/Founder retains the right of first refusal to purchase any shares the Employee wishes to sell, at fair market value determined by the most recent independent valuation or the price per share established in the most recent funding round. This right applies for thirty (30) calendar days from written notice of the Employee's intended sale. If the CEO/Founder does not exercise this right within 30 days, the Company (QDaria Holdings AS) shall have a secondary right of first refusal for an additional 15 days. This right applies independently to the Holding Stake and to each per-spinoff stake.
+
+5.7 Transfer Restrictions:
+The Employee shall not sell, transfer, pledge, or otherwise dispose of any vested shares (whether in the holding or in any spinoff) without first offering them to the CEO/Founder and the Company as described above. Any transfer to a third party must be approved by the Board of Directors of the relevant entity and comply with existing pre-emption rights in the Shareholders' Agreement.
+
+5.8 Regulatory Compliance:
+Share issuance, vesting, and transfer in QDaria Holdings AS and each spinoff are subject to the relevant Shareholders' Agreement, the Norwegian Limited Liability Companies Act (aksjeloven), and applicable Norwegian securities regulations. The Employee acknowledges that shares may be subject to lock-up periods in connection with future financing rounds or an initial public offering of any QDaria entity.`,
     },
 
     // -----------------------------------------------------------------------
     // Section 6 - Confidentiality & Non-Disclosure
     // -----------------------------------------------------------------------
     {
-      id: 'nda',
-      title: '6. Confidentiality & Non-Disclosure',
-      category: 'nda',
+      id: "nda",
+      title: "6. Confidentiality & Non-Disclosure",
+      category: "nda",
       required: true,
       enabled: true,
       content: `6. CONFIDENTIALITY & NON-DISCLOSURE
@@ -777,9 +826,9 @@ Upon termination of employment, or at any time upon the Company's request, the E
     // Section 7 - Non-Compete
     // -----------------------------------------------------------------------
     {
-      id: 'non-compete',
-      title: '7. Non-Compete',
-      category: 'non_compete',
+      id: "non-compete",
+      title: "7. Non-Compete",
+      category: "non_compete",
       required: false,
       enabled: true,
       content: `7. NON-COMPETE
@@ -820,9 +869,9 @@ If any provision of this non-compete clause is found to be unenforceable by a co
     // Section 8 - Conflict of Interest
     // -----------------------------------------------------------------------
     {
-      id: 'conflict-of-interest',
-      title: '8. Conflict of Interest',
-      category: 'conflict',
+      id: "conflict-of-interest",
+      title: "8. Conflict of Interest",
+      category: "conflict",
       required: true,
       enabled: true,
       content: `8. CONFLICT OF INTEREST
@@ -858,9 +907,9 @@ Violations of this clause may constitute grounds for immediate termination for c
     // Section 9 - Professional Development
     // -----------------------------------------------------------------------
     {
-      id: 'professional-development',
-      title: '9. Professional Development',
-      category: 'professional_dev',
+      id: "professional-development",
+      title: "9. Professional Development",
+      category: "professional_dev",
       required: false,
       enabled: true,
       content: `9. PROFESSIONAL DEVELOPMENT
@@ -917,9 +966,9 @@ The Company encourages participation in relevant conferences and academic public
     // Section 10 - Termination
     // -----------------------------------------------------------------------
     {
-      id: 'termination',
-      title: '10. Termination',
-      category: 'termination',
+      id: "termination",
+      title: "10. Termination",
+      category: "termination",
       required: true,
       enabled: true,
       content: `10. TERMINATION
@@ -967,9 +1016,9 @@ Upon termination, the Employee shall:
     // Section 11 - Severance
     // -----------------------------------------------------------------------
     {
-      id: 'severance',
-      title: '11. Severance',
-      category: 'severance',
+      id: "severance",
+      title: "11. Severance",
+      category: "severance",
       required: false,
       enabled: true,
       content: `11. SEVERANCE
@@ -1005,9 +1054,9 @@ In the event of a Change of Control (as defined in Section 5.2) followed by invo
     // Section 12 - Norwegian Law Specifics
     // -----------------------------------------------------------------------
     {
-      id: 'norwegian-law',
-      title: '12. Norwegian Law & Employment Specifics',
-      category: 'norwegian_law',
+      id: "norwegian-law",
+      title: "12. Norwegian Law & Employment Specifics",
+      category: "norwegian_law",
       required: true,
       enabled: true,
       content: `12. NORWEGIAN LAW & EMPLOYMENT SPECIFICS
@@ -1061,9 +1110,9 @@ If any provision of this Agreement is found to be invalid, illegal, or unenforce
 [VESTING_NORMS_TABLE_PLACEHOLDER]`,
     },
     {
-      id: 'references',
-      title: '13. References & Market Benchmarks',
-      category: 'norwegian_law',
+      id: "references",
+      title: "13. References & Market Benchmarks",
+      category: "norwegian_law",
       required: false,
       enabled: true,
       content: `13. REFERENCES & MARKET BENCHMARKS
@@ -1103,7 +1152,7 @@ The compensation structure in this Agreement has been benchmarked against the fo
  */
 export function fillTemplatePlaceholders(
   template: string,
-  values: Record<string, string>
+  values: Record<string, string>,
 ): string {
   return template.replace(/\{\{(\w+)\}\}/g, (match, key) => {
     return values[key] !== undefined ? values[key] : match;
@@ -1120,8 +1169,8 @@ const NOK_TO_EUR = 0.085;
  * Format NOK amount to a readable string.
  */
 export function formatNok(amount: number): string {
-  return new Intl.NumberFormat('nb-NO', {
-    style: 'decimal',
+  return new Intl.NumberFormat("nb-NO", {
+    style: "decimal",
     maximumFractionDigits: 0,
   }).format(amount);
 }
@@ -1138,18 +1187,18 @@ export function nokToEur(nok: number): number {
  */
 export function getShareTypeLabel(tier: string): string {
   switch (tier) {
-    case 'Founder':
-      return 'Common (Class A)';
-    case 'C-Suite':
-      return 'Preferred (Class B)';
-    case 'Leadership':
-      return 'Preferred (Class B)';
-    case 'Specialist':
-      return 'Options (ESOP)';
-    case 'Intern/Board':
-      return 'Phantom';
+    case "Founder":
+      return "Common (Class A)";
+    case "C-Suite":
+      return "Preferred (Class B)";
+    case "Leadership":
+      return "Preferred (Class B)";
+    case "Specialist":
+      return "Options (ESOP)";
+    case "Intern/Board":
+      return "Phantom";
     default:
-      return 'Common';
+      return "Common";
   }
 }
 
@@ -1158,15 +1207,15 @@ export function getShareTypeLabel(tier: string): string {
  */
 export function getSeveranceMonths(tier: string): number {
   switch (tier) {
-    case 'Founder':
+    case "Founder":
       return 12;
-    case 'C-Suite':
+    case "C-Suite":
       return 6;
-    case 'Leadership':
+    case "Leadership":
       return 4;
-    case 'Specialist':
+    case "Specialist":
       return 3;
-    case 'Intern/Board':
+    case "Intern/Board":
       return 2;
     default:
       return 3;
@@ -1178,7 +1227,7 @@ export function getSeveranceMonths(tier: string): number {
  * Each tier gets tailored appendix text about their equity rationale.
  */
 export const roleAppendices: Record<string, string> = {
-  'C-Suite': `APPENDIX C: EQUITY & COMPENSATION RATIONALE
+  "C-Suite": `APPENDIX C: EQUITY & COMPENSATION RATIONALE
 
 C.1 Market Benchmark
 This Agreement provides the Employee with a total equity allocation of 5.0% across QDaria Holdings and eight subsidiary companies (1.0% holding + 0.5% x 8 spinoffs). This allocation is positioned well above the market top-end of 2.5% for non-founder C-Suite executives at seed-stage deep-tech companies, reflecting the early-stage risk premium and the Employee's senior leadership responsibilities across the QDaria portfolio.
@@ -1186,7 +1235,7 @@ This Agreement provides the Employee with a total equity allocation of 5.0% acro
 C.2 Total Compensation Value
 When considering base salary (EUR 108,000 at pre-seed, progressing to EUR 300,000 at IPO), equity (5.0% total), funding milestone bonuses, performance bonuses (0-15%), and benefits (6 weeks vacation, 30-hour work week, wellness bonus, professional development), the total compensation package is well above market for a hired C-Suite executive at a pre-seed deep-tech company.`,
 
-  'Leadership': `APPENDIX C: EQUITY & COMPENSATION RATIONALE
+  Leadership: `APPENDIX C: EQUITY & COMPENSATION RATIONALE
 
 C.1 Market Benchmark
 This Agreement provides the Employee with a total equity allocation of 2.0% across QDaria Holdings and eight subsidiary companies. This allocation is positioned at approximately 33% above the market top-end of 1.5% for non-founder leadership roles at seed-stage deep-tech companies, reflecting the early-stage risk premium and the Employee's leadership responsibilities.
@@ -1194,7 +1243,7 @@ This Agreement provides the Employee with a total equity allocation of 2.0% acro
 C.2 Total Compensation Value
 When considering base salary (EUR 97,000 at pre-seed, progressing to EUR 1,000,000 at IPO), equity (2.0% total), funding milestone bonuses, performance bonuses (0-15%), and benefits (6 weeks vacation, 30-hour work week, wellness bonus, professional development), the total compensation package is well above market for a leadership role at a pre-seed deep-tech company.`,
 
-  'Specialist': `APPENDIX C: EQUITY & COMPENSATION RATIONALE
+  Specialist: `APPENDIX C: EQUITY & COMPENSATION RATIONALE
 
 C.1 Market Benchmark
 This Agreement provides the Employee with a total equity allocation of 1.5% (Senior) or 0.6% (Mid-level) across QDaria Holdings and eight subsidiary companies. These allocations are positioned at approximately 50% above the respective market top-ends, reflecting the early-stage risk premium and QDaria's commitment to rewarding early team members.
@@ -1202,7 +1251,7 @@ This Agreement provides the Employee with a total equity allocation of 1.5% (Sen
 C.2 Total Compensation Value
 When considering base salary, equity, funding milestone bonuses, performance bonuses (0-15%), and benefits (6 weeks vacation, 30-hour work week, wellness bonus, professional development), the total compensation package is competitive for specialist roles at a pre-seed deep-tech company.`,
 
-  'Intern/Board': `APPENDIX C: EQUITY & COMPENSATION RATIONALE
+  "Intern/Board": `APPENDIX C: EQUITY & COMPENSATION RATIONALE
 
 C.1 Market Benchmark
 This Agreement provides the Employee with a total equity allocation of 0.2% across QDaria Holdings and eight subsidiary companies, plus Board membership responsibilities. This allocation reflects the early-stage nature of the role combined with governance duties.
