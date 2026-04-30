@@ -1,6 +1,13 @@
 ---
+import { getSession } from "auth-astro/server";
 import BaseHead from './BaseHead.astro';
 import AdminHeader from '../components/admin/AdminHeader';
+
+const session = await getSession(Astro.request);
+if (!session?.user) {
+  const next = Astro.url.pathname + Astro.url.search;
+  return Astro.redirect(`/admin/login?next=${encodeURIComponent(next)}`);
+}
 
 export interface Props {
   title?: string;
