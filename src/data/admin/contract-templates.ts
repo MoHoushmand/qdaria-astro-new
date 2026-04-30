@@ -609,6 +609,22 @@ Employees who materially contribute to securing funding rounds may receive addit
     },
 
     // -----------------------------------------------------------------------
+    // Section 2.5 - Compensation Philosophy
+    // -----------------------------------------------------------------------
+    {
+      id: "compensation-philosophy",
+      title: "2.5 Compensation Philosophy",
+      category: "compensation",
+      required: true,
+      enabled: true,
+      content: `2.5 Compensation Philosophy:
+This compensation has been determined according to the QDaria Compensation Philosophy. The Employer evaluates each individual base salary against the following factors: (a) education and credentials, (b) prior professional experience, (c) demonstrable contribution to QDaria to date, (d) tenure with the Company and date of joining, (e) domain expertise relevant to the role, (f) market benchmarking against Norwegian and EU medians for equivalent roles, (g) role criticality and direct revenue or fundraising impact, (h) funding stage of the Company at the time of offer, (i) geographic anchor (Oslo/Norway cost-of-living and statutory benefits framework), (j) performance history during probation and after, (k) board approval at material thresholds. Norwegian medians are sourced from publicly available wage statistics published by Statistics Norway (SSB) and cross-referenced with Ravio, Sifted, Carta, and WTW Nordic compensation surveys; the underlying values used by QDaria are documented in QDaria Compensation, Equity and Contract Master Reference, Section 2.0a.
+
+{{compensationPhilosophyParagraph}}
+This Section 2.5 is informational and does not modify the base salary set forth in Section 2.1, the deferral terms in Section 2.2, the progression schedule in Section 2.3, the bonus framework in Section 2.4, or any other compensation-related provision of this Agreement. Annual review under Section 2.3 may revise the percentage above median assigned to the Employee, subject to Board approval.`,
+    },
+
+    // -----------------------------------------------------------------------
     // Section 3 - Benefits & Perks
     // -----------------------------------------------------------------------
     {

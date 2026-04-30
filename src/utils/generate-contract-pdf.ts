@@ -25,6 +25,8 @@ import {
   salaryProgression,
   fundingRounds,
   fundingRoundLabels,
+  getCompensationPhilosophy,
+  compensationFactors,
 } from "../data/admin/salary-seed";
 import {
   seedBudgetBreakdown,
@@ -173,6 +175,25 @@ export async function generateContractPdfForEmployee(
     enabledIds.has(c.id),
   );
 
+  // Compute per-employee compensation philosophy paragraph for Section 2.5.
+  // If the employee is not in the philosophy map (TODO: edge case is intentional;
+  // the static lead-in still renders alone), the placeholder collapses to empty.
+  const philosophy = getCompensationPhilosophy(employeeName);
+  let compensationPhilosophyParagraph = "";
+  if (philosophy) {
+    if (philosophy.pctOverMedian === null) {
+      compensationPhilosophyParagraph =
+        "The Employee is the founder of QDaria Holdings AS. Base salary is set independently of the median + N% formula and reflects the founder's pre-funding company-building obligations.\n\n";
+    } else {
+      const factorLabels = philosophy.factors
+        .map(
+          (key) => (compensationFactors as Record<string, string>)[key] ?? key,
+        )
+        .join(", ");
+      compensationPhilosophyParagraph = `For the Employee, the factors that materially shaped this base salary are: ${factorLabels}. ${philosophy.rationale}\n\n`;
+    }
+  }
+
   const templateValues = {
     employeeName,
     title,
@@ -203,6 +224,7 @@ export async function generateContractPdfForEmployee(
     seedBonus: formatNok(Math.round(salaryEur * 0.1)),
     equityTable: "[EQUITY_TABLE_PLACEHOLDER]",
     totalEquityPct: equityTotal.toFixed(2),
+    compensationPhilosophyParagraph,
   };
 
   const filledClauses = activeClauses.map((c) => ({
