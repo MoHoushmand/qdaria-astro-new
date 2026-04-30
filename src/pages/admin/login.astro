@@ -33,8 +33,14 @@ const hasAnyOAuth = hasGitHub || hasGoogle || hasLinkedIn;
       {error && error !== 'unauthorized' && (
         <div class="mb-4 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {error === 'MissingCSRF' && 'Authentication error. Please try again.'}
-          {error === 'Configuration' && 'Authentication service is not configured properly.'}
-          {error !== 'MissingCSRF' && error !== 'Configuration' && error !== 'unauthorized' && `Error: ${error}`}
+          {error === 'Configuration' && 'Authentication service is not configured properly. Contact your administrator.'}
+          {error === 'AccessDenied' && 'Access was denied by the provider.'}
+          {error === 'OAuthCallback' && 'OAuth provider rejected the redirect. The callback URL is not whitelisted in the provider’s OAuth app settings.'}
+          {error === 'OAuthCallbackError' && 'OAuth provider rejected the redirect. The callback URL is not whitelisted in the provider’s OAuth app settings.'}
+          {error === 'OAuthSignin' && 'Could not start sign-in with this provider.'}
+          {error === 'Callback' && 'Sign-in failed at the callback step. The provider client ID/secret may be wrong.'}
+          {error === 'CallbackRouteError' && 'Sign-in failed at the callback step. The provider client ID/secret may be wrong.'}
+          {!['MissingCSRF','Configuration','AccessDenied','OAuthCallback','OAuthCallbackError','OAuthSignin','Callback','CallbackRouteError','unauthorized'].includes(error) && `Error: ${error}`}
         </div>
       )}
 

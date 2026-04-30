@@ -157,6 +157,12 @@ export default defineConfig({
   useSecureCookies: import.meta.env.PROD,
   // Trust host for OAuth redirects
   trustHost: true,
+  // Route Auth.js errors back to /admin/login (which renders friendly text per error code).
+  // Without this, /api/auth/error returns 500 on CallbackRouteError / OAuthCallbackError.
+  pages: {
+    signIn: "/admin/login",
+    error: "/admin/login",
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user?.email) {
