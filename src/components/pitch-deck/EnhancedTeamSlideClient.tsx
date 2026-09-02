@@ -20,7 +20,7 @@ const EnhancedTeamSlideClient: React.FC = () => {
       experience: 'Quantum+AI Pioneer with interdisciplinary expertise',
       bio: 'Daniel Mo Houshmand leads QDaria with a distinctive fusion of scientific expertise and visionary leadership. His strong background in Applied Mathematics, Physics, Engineering, Fine Art, and Design underpins his ability to navigate the complexities of quantum computing through an interdisciplinary lens. Specializing in Quantum Machine Learning and "AI Whispering," Daniel aims to steer QDaria\'s research in Topological Quantum Hardware, Q-AI integration, and Experimental Quantum Mechanics.',
       specialties: ['Quantum Machine Learning', 'AI Whispering', 'Topological Quantum Hardware', 'Q-AI Integration', 'Experimental Quantum Mechanics'],
-      achievements: ['QDaria among top 25 startups worldwide (top 5 in Europe)', 'Global Impact Award Nominee', 'IQT New York Speaker', 'Davos Innovation Week 2025 Speaker'],
+      achievements: ['3 Norwegian patent applications filed, 46 claims', 'IQT New York Speaker', 'Davos Innovation Week 2025 Speaker'],
       skills: [
         { name: 'Quantum Computing', level: 95, fullMark: 100 },
         { name: 'AI & Machine Learning', level: 92, fullMark: 100 },

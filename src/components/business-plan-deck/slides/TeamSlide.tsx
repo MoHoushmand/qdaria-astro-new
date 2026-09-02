@@ -16,7 +16,6 @@ export const TeamSlide: React.FC = () => {
       initials: 'DH',
       bio: 'Quantum+AI Pioneer with interdisciplinary expertise in Applied Mathematics, Physics, Engineering, and Q-AI integration. Keynote speaker at Davos Innovation Week 2025.',
       achievements: [
-        'Top 5 in Europe, Top 25 Globally',
         'Davos Innovation Week 2025 Speaker',
         'IQT New York Speaker'
       ]
@@ -49,7 +48,6 @@ export const TeamSlide: React.FC = () => {
 
   const achievements = [
     { title: 'Top 5 Startup in Europe', year: '2024-2025', icon: <Award /> },
-    { title: 'Top 25 Startup Globally', year: '2024-2025', icon: <Globe /> },
     { title: 'Davos Innovation Week 2025', description: 'Keynote Speaker', icon: <Users /> },
     { title: 'IQT Nordics 2026', description: 'Host Candidate Oslo', icon: <Briefcase /> }
   ];
@@ -190,7 +188,7 @@ export const TeamSlide: React.FC = () => {
             <MetricCard
               value="4"
               label="Strategic Partnerships"
-              description="Rigetti, NTNU, UiO, Bluefors"
+              description="NTNU, UiO"
             />
           </motion.div>
         </div>

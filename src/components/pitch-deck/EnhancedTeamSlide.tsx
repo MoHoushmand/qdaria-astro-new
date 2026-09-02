@@ -13,7 +13,6 @@ const EnhancedTeamSlide: React.FC = () => {
   const companyAchievements = {
     recognition: [
       { title: 'Top 5 Startup in Europe', year: '2024-2025', icon: 'Award' },
-      { title: 'Top 25 Startup Globally', year: '2024-2025', icon: 'Globe' },
       { title: 'Davos Innovation Week 2025 Keynote', speaker: 'CEO Daniel Mo Houshmand', icon: 'Star' }
     ],
     partnerships: [
@@ -50,10 +49,10 @@ const EnhancedTeamSlide: React.FC = () => {
       initials: 'DH',
       location: 'Norway',
       experience: 'Quantum+AI Pioneer with interdisciplinary expertise',
-      bio: 'Daniel Mo Houshmand leads QDaria with a distinctive fusion of scientific expertise and visionary leadership. His strong background in Applied Mathematics, Physics, Engineering, Fine Art, and Design underpins his ability to navigate the complexities of quantum computing through an interdisciplinary lens. Specializing in Quantum Machine Learning and "AI Whispering," Daniel aims to steer QDaria\'s research in Topological Quantum Hardware, Q-AI integration, and Experimental Quantum Mechanics. As keynote speaker at Davos Innovation Week 2025, Daniel represents QDaria\'s position among the top 5 startups in Europe and top 25 globally.',
+      bio: 'Daniel Mo Houshmand leads QDaria with a distinctive fusion of scientific expertise and visionary leadership. His strong background in Applied Mathematics, Physics, Engineering, Fine Art, and Design underpins his ability to navigate the complexities of quantum computing through an interdisciplinary lens. Specializing in Quantum Machine Learning and "AI Whispering," Daniel aims to steer QDaria\'s research in Topological Quantum Hardware, Q-AI integration, and Experimental Quantum Mechanics. He was billed among the keynote speakers at Davos Innovation Week 2025 and led its quantum computing panel.',
       specialties: ['Quantum Machine Learning', 'AI Whispering', 'Topological Quantum Hardware', 'Q-AI Integration', 'Experimental Quantum Mechanics'],
       achievements: [
-        'Led QDaria to Top 5 in Europe, Top 25 Globally recognition',
+        'Filed 3 Norwegian patent applications, 46 claims',
         'Keynote Speaker at Davos Innovation Week 2025',
         'IQT New York Speaker',
         'Secured €15.6M Management Events partnership (406x ROI)',

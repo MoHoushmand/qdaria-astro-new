@@ -10,7 +10,6 @@ import { Icon } from "astro-icon/components";
 import Badge from "@components/Badge/Badge.astro";
 
 // Import partner logos
-import blueforsLogo from "../../assets/QD-logo/bluefors.png";
 import rigettiLogo from "../../assets/QD-logo/rigetti-logo.svg";
 import typeOneSystemsLogo from "../../assets/QD-logo/type_one_systems_logo.jpeg";
 
@@ -53,17 +52,6 @@ const { class: Classname, ...rest } = Astro.props as Props;
           width={200}
         />
         <p class="mt-2 text-center text-sm">Advanced Quantum Hardware Partner</p>
-      </div>
-
-      <div class="partner-logo flex items-center justify-center px-8">
-        <Image
-          src={blueforsLogo}
-          alt="Bluefors"
-          class="logo"
-          height={60}
-          width={200}
-        />
-        <p class="mt-2 text-center text-sm">Cryogenic Systems Partner</p>
       </div>
 
       <div class="partner-logo flex items-center justify-center px-8">

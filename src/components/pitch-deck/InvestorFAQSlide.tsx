@@ -164,11 +164,11 @@ const InvestorFAQSlide: React.FC = () => {
       id: 'team-1',
       category: 'team',
       question: 'Why is this team uniquely qualified?',
-      answer: 'CEO Daniel Mo Houshmand: Applied Mathematics + Physics background, Quantum ML expert, secured Norway\'s first commercial QPU, delivered 406x ROI Management Events partnership. COO Rajesh Chavan: 12+ years Novartis pharma operations, $80M+ deal experience, MBA IIM Bangalore. Team combines: Quantum computing R&D (45 publications), Enterprise SaaS scaling (Novartis, Capgemini), Media/communications (Emmy-nominated CCO), Norwegian market access. Top 5 European quantum startup (Startup Genome ranking).',
+      answer: 'CEO Daniel Mo Houshmand: Applied Mathematics + Physics background, Quantum ML expert, secured Norway\'s first commercial QPU, delivered 406x ROI Management Events partnership. COO Rajesh Chavan: 12+ years Novartis pharma operations, $80M+ deal experience, MBA IIM Bangalore. Team combines: Quantum computing R&D (45 publications), Enterprise SaaS scaling (Novartis, Capgemini), Media/communications (Emmy-nominated CCO), Norwegian market access.',
       supportingData: [
         { label: 'CEO Credentials', value: 'Applied Math + Physics + Quantum ML', icon: <Users className="w-4 h-4" /> },
         { label: 'COO Experience', value: '12yrs Novartis, $80M+ deals', icon: <Building2 className="w-4 h-4" /> },
-        { label: 'Team Ranking', value: 'Top 5 European quantum startup', icon: <Award className="w-4 h-4" /> }
+        { label: 'Patents', value: '3 filed, 46 claims', icon: <Award className="w-4 h-4" /> }
       ],
       relatedSlides: ['Team', 'About Us']
     },

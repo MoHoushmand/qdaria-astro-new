@@ -76,7 +76,7 @@ As Chief Operating Officer, the Employee is responsible for translating the CEO'
   - Implement tools and systems for project management, communication, and knowledge sharing
 
 4.3 Partnership & Business Development:
-  - Identify and negotiate strategic partnerships with quantum hardware providers (Rigetti, IBM, Bluefors)
+  - Identify and negotiate strategic partnerships with quantum hardware providers
   - Manage relationships with government agencies for quantum technology grants and contracts
   - Develop go-to-market strategies for subsidiary products and services
   - Coordinate with the Sales Director on pipeline management and revenue targets
