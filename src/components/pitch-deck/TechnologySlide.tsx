@@ -335,7 +335,7 @@ const TechnologySlide: React.FC = () => {
                 <div className="p-4 bg-orange-500/10 rounded-lg border border-orange-500/30">
                   <div className="flex items-center gap-2 text-orange-300 font-semibold mb-2">
                     <Settings className="w-5 h-5" />
-                    Norway's First Commercial QPU
+                    A Commercial QPU in Norway
                   </div>
                   <p className="text-sm text-slate-400 font-light">
                     Breaking the quantum computing barrier in Northern Europe with enterprise-grade hardware

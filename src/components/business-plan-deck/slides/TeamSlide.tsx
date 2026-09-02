@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '../../pitch-deck/ui/card';
 import { Badge } from '../../pitch-deck/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../../pitch-deck/ui/avatar';
-import { Users, Award, Briefcase, Globe } from 'lucide-react';
+import { Users, Briefcase, Globe } from 'lucide-react';
 import { MetricCard } from '../cards/MetricCard';
 import '../styles/index.css';
 
@@ -47,7 +47,6 @@ export const TeamSlide: React.FC = () => {
   ];
 
   const achievements = [
-    { title: 'Top 5 Startup in Europe', year: '2024-2025', icon: <Award /> },
     { title: 'Davos Innovation Week 2025', description: 'Keynote Speaker', icon: <Users /> },
     { title: 'IQT Nordics 2026', description: 'Host Candidate Oslo', icon: <Briefcase /> }
   ];

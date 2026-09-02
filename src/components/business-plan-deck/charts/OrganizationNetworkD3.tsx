@@ -22,8 +22,8 @@ export const OrganizationNetworkD3 = () => {
     if (!svgRef.current) return;
 
     const nodes: NetworkNode[] = [
-      { id: 'ceo', name: 'Mo Sharif', role: 'CEO & Co-Founder', type: 'leadership' },
-      { id: 'cto', name: 'Daria Sharif', role: 'CTO & Co-Founder', type: 'leadership' },
+      { id: 'ceo', name: 'Daniel Mo Houshmand', role: 'Founder & CEO', type: 'leadership' },
+      { id: 'cto', name: 'CTO (open role)', role: 'CTO', type: 'leadership' },
       { id: 'cso', name: 'Dr. Gaspar Ramalho', role: 'CSO', type: 'leadership' },
       { id: 'eng1', name: 'Engineering Team', role: '8 PhDs', type: 'team' },
       { id: 'research', name: 'Research Team', role: 'Quantum AI', type: 'team' },
@@ -35,7 +35,7 @@ export const OrganizationNetworkD3 = () => {
     ];
 
     const links: NetworkLink[] = [
-      { source: 'ceo', target: 'cto', relationship: 'Co-Founders' },
+      { source: 'ceo', target: 'cto', relationship: 'Reports To' },
       { source: 'ceo', target: 'cso', relationship: 'Reports To' },
       { source: 'cto', target: 'eng1', relationship: 'Manages' },
       { source: 'cto', target: 'research', relationship: 'Manages' },

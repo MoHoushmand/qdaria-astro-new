@@ -25,7 +25,7 @@ const TitleSlide: React.FC = () => {
             />
           </div>
           <Badge className="px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-lg bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 border border-cyan-400/50 mb-3 md:mb-4">
-            Norway's First Commercial Quantum Computer Company
+            Post-Quantum Security Software from Oslo
           </Badge>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-400 mb-3 md:mb-4 px-2">
             Norway's Quantum Computing Gap Crisis

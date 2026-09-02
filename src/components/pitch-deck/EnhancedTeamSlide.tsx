@@ -12,11 +12,9 @@ const EnhancedTeamSlide: React.FC = () => {
   // Company Achievements & Milestones (from Business Plan)
   const companyAchievements = {
     recognition: [
-      { title: 'Top 5 Startup in Europe', year: '2024-2025', icon: 'Award' },
       { title: 'Davos Innovation Week 2025 Keynote', speaker: 'CEO Daniel Mo Houshmand', icon: 'Star' }
     ],
     partnerships: [
-      { name: 'Rigetti Computing', focus: 'Quantum Hardware (Novera QPU)', status: 'Active' },
       { name: 'Management Events', focus: 'Executive Access & Strategic Network', status: 'Active' }
     ],
     milestones: [
