@@ -1,5 +1,5 @@
 ---
-title: "156-Qubit Quantum Reservoir Computing: The Largest Demonstration on Real Hardware"
+title: "156-Qubit Quantum Reservoir Computing on Real Hardware: A Sample Efficiency Crisis"
 description: "We pushed quantum reservoir computing to 156 qubits on IBM's Heron processor, revealing a critical sample efficiency crisis that reshapes our understanding of quantum machine learning scalability."
 authors: ["daniel-mo-houshmand"]
 pubDate: "2025-12-13"
@@ -17,7 +17,7 @@ import FAQ from '@components/Blog/FAQ.astro';
 import Equation from '@components/Blog/Equation.astro';
 import Figure from '@components/Blog/Figure.astro';
 
-We have completed what is, to our knowledge, the largest quantum reservoir computing experiment on gate-based superconducting hardware. Using IBM's 156-qubit Heron r2 processor (ibm_fez, open plan), we went beyond the 120-qubit and 108-qubit demonstrations reported before. But the most important discovery was not about scale. It was about a fundamental crisis that changes how we must think about quantum machine learning.
+We ran quantum reservoir computing across all 156 qubits of IBM's Heron r2 processor (ibm_fez, open plan), which, to our knowledge, is a larger qubit count than any previously reported QRC hardware experiment. The larger reservoir did not predict better. But the most important discovery was not about scale. It was about a fundamental crisis that changes how we must think about quantum machine learning.
 
 ## What is Quantum Reservoir Computing?
 
@@ -113,19 +113,19 @@ We designed our experiment to systematically compare quantum reservoirs across d
 
 Our first system used just 4 qubits on IBM hardware with 50 training samples. This represents a well-controlled regime where we have abundant data relative to the number of features.
 
-With 4 qubits producing 9 features (after our feature engineering), we achieve 5.56 samples per feature. This is a comfortable operating point. The classical readout layer has plenty of examples to learn from.
+With 4 qubits producing 10 features (after our feature engineering), we achieve 5.0 samples per feature. This is a comfortable operating point. The classical readout layer has plenty of examples to learn from.
 
 ### System 2: Large-Scale IBM Heron r2 (156 Qubits)
 
-Our second system scaled to IBM's full 156-qubit Heron r2 processor with 200 training samples. To our knowledge this is the largest quantum reservoir computing experiment on gate-based hardware reported so far.
+Our second system scaled to IBM's full 156-qubit Heron r2 processor with 200 training samples. 
 
-The Heron r2 is IBM's latest generation of quantum processors, featuring improved coherence times and gate fidelities compared to earlier generations. We chose this system specifically to push the boundaries of what is possible on current hardware.
+The Heron r2 is IBM's 156-qubit Heron generation of processors, featuring improved coherence times and gate fidelities compared to earlier generations. We chose this system specifically to push the boundaries of what is possible on current hardware.
 
 With 156 qubits, we generate 156 raw features. The samples-per-feature ratio drops to just 1.28. This is dangerously low.
 
 ### System 3: Simulated Rigetti Novera (9 Qubits)
 
-Our third system used a high-fidelity simulation of Rigetti's Novera processor with 640 training samples. We applied the full Steinegger-Räth feature engineering methodology, expanding the 9-qubit measurements to 3,375 features.
+Our third system used a high-fidelity simulation of Rigetti's Novera processor with 800 training samples. We applied the full Steinegger-Räth feature engineering methodology, expanding the 9-qubit measurements to 3,375 features.
 
 Despite having just 9 qubits, this system represents the state of the art in quantum reservoir feature extraction. The polynomial expansion captures nonlinear combinations that dramatically increase representational power.
 
@@ -167,7 +167,7 @@ $$
 
 Here are the $R^2$ scores (a measure of prediction accuracy, where $1.0$ is perfect):
 
-The 4-qubit system achieved $R^2 = 0.784$. This is solid performance. The quantum reservoir successfully captures the dynamics of the spectral data and produces accurate forecasts.
+The 4-qubit system achieved $R^2 = 0.764$. This is solid performance. The quantum reservoir successfully captures the dynamics of the spectral data and produces accurate forecasts.
 
 The 156-qubit system achieved $R^2 = 0.723$. Despite having $39\times$ more qubits, performance actually decreased. More quantum resources led to worse results.
 
@@ -179,7 +179,7 @@ The 9-qubit Rigetti simulation achieved $R^2 = 0.959$. The smallest qubit count 
 
 | System | Qubits | $R^2$ Score | Training Error | Validation Error | Overfitting |
 |--------|--------|-------------|----------------|------------------|-------------|
-| IBM Small | 4 | 0.784 | 0.18 | 0.22 | Low |
+| IBM Small | 4 | 0.764 | 0.18 | 0.22 | Low |
 | IBM Heron r2 | 156 | 0.723 | 0.02 | 0.28 | **Severe** |
 | Rigetti Novera | 9 | **0.959** | 0.04 | 0.04 | Minimal |
 
@@ -422,7 +422,7 @@ Real quantum hardware is noisy. Understanding how noise affects our results is e
 <Figure
   number={9}
   src="/images/research/qrc/figure11_noise_characterization.png"
-  caption="Noise characterization across the IBM Heron r2 processor. Gate errors and decoherence vary significantly across the chip, affecting different qubit subsets differently."
+  caption="Illustrative noise-variation map for a Heron-class processor. Calibration was not recorded during our runs; this figure is schematic, not measured."
 />
 
 The noise model includes depolarizing errors:
@@ -585,7 +585,7 @@ Hardware-aware circuit design could optimize topologies for specific quantum pro
 
 ## Conclusion
 
-We have presented what is, to our knowledge, the largest quantum reservoir computing experiment on gate-based hardware: 156 qubits on IBM's Heron r2 processor, ibm_fez, with job identifiers published alongside the code. But our key contribution is not the scale. It is the discovery of a fundamental sample efficiency crisis.
+We have presented a full-processor 156-qubit QRC experiment on IBM Heron r2 hardware (ibm_fez), with job identifiers and reservoir states published alongside the code. But our key contribution is not the scale. It is the discovery of a fundamental sample efficiency crisis.
 
 More qubits do not automatically mean better results. Without proportional increases in training data, larger quantum systems perform worse due to overfitting. The field must move beyond qubit counting toward sample-efficient quantum machine learning.
 
@@ -615,7 +615,7 @@ This research was conducted as part of QDaria's quantum machine learning program
   { number: 6, caption: "Forecast trajectories comparing predictions vs ground truth" },
   { number: 7, caption: "QRC performance across chaotic systems with different Lyapunov exponents" },
   { number: 8, caption: "Steinegger-Räth feature engineering pipeline" },
-  { number: 9, caption: "Noise characterization across IBM Heron r2 processor" },
+  { number: 9, caption: "Illustrative noise-variation map (schematic, not measured)" },
   { number: 10, caption: "Correlation matrix of quantum reservoir features" },
   { number: 11, caption: "Ablation study results" },
   { number: 12, caption: "Performance comparison across circuit topologies" },

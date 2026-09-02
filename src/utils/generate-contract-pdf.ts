@@ -1894,7 +1894,7 @@ export async function generateContractPdfForEmployee(
 
 **Key Achievements:**
   - Founded QDaria (2013/2017/2019 — three iterations)
-  - World's largest 156-qubit quantum reservoir computing experiment on IBM Heron r2
+  - 156-qubit quantum reservoir computing experiment on IBM Heron r2 hardware
   - Architected and leads 6 subsidiary companies (Zipminator, Qm9, QMikeAI, QNilaya, QDiana, QLillian)
 
 At pre-seed, EUR 160,000 is positioned approximately 10% above the Norwegian tech CEO median of EUR 145,000, which is modest given the multi-role breadth.`;
