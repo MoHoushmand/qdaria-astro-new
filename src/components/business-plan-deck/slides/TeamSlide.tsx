@@ -185,9 +185,9 @@ export const TeamSlide: React.FC = () => {
             transition={{ delay: 1.0 }}
           >
             <MetricCard
-              value="4"
-              label="Strategic Partnerships"
-              description="NTNU, UiO"
+              value="3"
+              label="Patent Applications Filed"
+              description="46 claims, Patentstyret 2026 (pending)"
             />
           </motion.div>
         </div>

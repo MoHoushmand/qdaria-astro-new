@@ -125,7 +125,7 @@ With 156 qubits, we generate 156 raw features. The samples-per-feature ratio dro
 
 ### System 3: Simulated Rigetti Novera (9 Qubits)
 
-Our third system used a high-fidelity simulation of Rigetti's Novera processor with 800 training samples. We applied the full Steinegger-Räth feature engineering methodology, expanding the 9-qubit measurements to 3,375 features.
+Our third system used a high-fidelity simulation of Rigetti's Novera processor with 800 samples, 640 of them for training. We applied the full Steinegger-Räth feature engineering methodology, expanding the 9-qubit measurements to 3,375 features.
 
 Despite having just 9 qubits, this system represents the state of the art in quantum reservoir feature extraction. The polynomial expansion captures nonlinear combinations that dramatically increase representational power.
 
@@ -137,7 +137,7 @@ Despite having just 9 qubits, this system represents the state of the art in qua
 
 | System | Qubits | Training Samples | Features | Samples/Feature | Hardware |
 |--------|--------|------------------|----------|-----------------|----------|
-| IBM Small | 4 | 50 | 9 | 5.56 | IBM Quantum |
+| IBM Small | 4 | 50 | 10 | 5.0 | IBM Quantum |
 | IBM Heron r2 | 156 | 200 | 156 | 1.28 | IBM Heron r2 |
 | Rigetti Novera | 9 | 640 | 3,375 | 0.19 | Simulation |
 
@@ -215,7 +215,7 @@ $$
 $$
 </Equation>
 
-Our 4-qubit system: $50 / 9 = 5.56$  -  Safe.
+Our 4-qubit system: $50 / 10 = 5.0$  -  Safe.
 
 Our 156-qubit system: $200 / 156 = 1.28$  -  Dangerous.
 
@@ -433,7 +433,7 @@ $$
 $$
 </Equation>
 
-The Heron r2 processor shows significant variation in noise levels across the chip. Some qubits have error rates below 0.1%, while others exceed 1%. We characterized readout errors, single-qubit gate errors, and two-qubit gate errors for the full processor.
+Calibration data for our run days were not recorded, so we cannot report per-qubit error rates for the circuits we executed. The figure above is a schematic of the kind of variation IBM publishes for Heron-class processors, where some qubits sit below 0.1% error and others above 1%; any such variation affects different qubit subsets differently.
 
 Interestingly, some noise may actually help reservoir computing. Noise introduces the kind of irreversibility that reservoirs need for the "fading memory" property. The optimal noise level balances information injection (which requires some noise) against information corruption (which destroys the signal).
 

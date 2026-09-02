@@ -35,7 +35,7 @@ export const OrganizationNetworkD3 = () => {
     ];
 
     const links: NetworkLink[] = [
-      { source: 'ceo', target: 'cto', relationship: 'Reports To' },
+      { source: 'ceo', target: 'cto', relationship: 'Manages' },
       { source: 'ceo', target: 'cso', relationship: 'Reports To' },
       { source: 'cto', target: 'eng1', relationship: 'Manages' },
       { source: 'cto', target: 'research', relationship: 'Manages' },
