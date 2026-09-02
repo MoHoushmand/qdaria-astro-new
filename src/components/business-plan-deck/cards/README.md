@@ -60,7 +60,7 @@ Color-coded information blocks for categorized content.
 <InfoCard
   type="success"
   title="Competitive Moat"
-  text="Our patented algorithms create a 3-5 year lead..."
+  text="Our patent-pending algorithms create a 3-5 year lead..."
 />
 ```
 

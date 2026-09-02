@@ -131,7 +131,7 @@ export const CompetitiveLandscapeChart = () => {
         { value: '88/100', label: 'Team Quality' },
         { value: '5', label: 'Major Competitors' }
       ]}
-      insight="QDaria leads in Product Portfolio (95) and Technology (92), outperforming competitors with 7 market-ready products and patented topological quantum computing."
+      insight="QDaria leads in Product Portfolio (95) and Technology (92), ahead on product breadth and on three patent-pending entropy technologies."
       height={650}
     >
       <div ref={chartRef} style={{ width: '100%', height: '100%' }} />

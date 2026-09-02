@@ -89,7 +89,7 @@ export const CardExamples: React.FC = () => {
           <InfoCard
             type="success"
             title="Competitive Moat"
-            text="Our patented quantum annealing algorithms create a 3-5 year technology lead, with 12 additional patents pending in key markets across US, EU, and Asia."
+            text="Our patent-pending algorithms create a 3-5 year technology lead, with 12 additional patents pending in key markets across US, EU, and Asia."
           />
           <InfoCard
             type="info"
